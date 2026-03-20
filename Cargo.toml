@@ -1,0 +1,9 @@
+[package]
+name = "arqix"
+version = "0.1.0"
+edition = "2024"
+description = "A Rust CLI for structured technical documentation and Architecture-as-Code workflows."
+license = "SEE LICENSE IN LICENSE"
+publish = false
+
+[dependencies]
