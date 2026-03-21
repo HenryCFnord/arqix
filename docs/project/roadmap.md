@@ -19,7 +19,7 @@ The goal of this phase is to establish a coherent, purposeful starting point wit
 - [x] Repository layout with docs/ tree
 - [x] README, roadmap, AI transparency document
 - [x] Initial blog post
-- [ ] Basic `.gitignore` and project metadata complete
+- [x] Basic `.gitignore` and project metadata complete
 
 ---
 
