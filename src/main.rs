@@ -2,11 +2,12 @@
 // This is the initial skeleton. Commands and subcommands will be added incrementally.
 
 use std::env;
+use std::process;
 
 fn main() {
-    let args: Vec<String> = env::args().skip(1).collect();
+    let mut args = env::args().skip(1);
 
-    if let Some(first) = args.first() {
+    if let Some(first) = args.next() {
         match first.as_str() {
             "--help" | "-h" => {
                 println!("arqix v{}", env!("CARGO_PKG_VERSION"));
@@ -24,8 +25,10 @@ fn main() {
                 println!("arqix v{}", env!("CARGO_PKG_VERSION"));
                 return;
             }
-            _ => {
-                // For now, unknown arguments fall back to the default banner and hint.
+            unknown => {
+                eprintln!("error: unrecognized argument `{unknown}`");
+                eprintln!("Run `arqix --help` for usage.");
+                process::exit(2);
             }
         }
     }

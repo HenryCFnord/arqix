@@ -1,7 +1,6 @@
 [package]
 name = "arqix"
 version = "0.1.0"
-edition = "2021"
 edition = "2024"
 description = "A Rust CLI for structured technical documentation and Architecture-as-Code workflows"
 license = "GPL-3.0-or-later"
