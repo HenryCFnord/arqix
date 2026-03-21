@@ -8,7 +8,6 @@ A Rust CLI for structured technical documentation and Architecture-as-Code workf
 
 arqix is a text-first, Git-friendly tool that works with Markdown documents, YAML frontmatter, modular document units, and deterministic assembly into larger outputs.
 
-The name is a compact blend of *architecture* and *index*: the idea that structured documentation can act as a real index into a software project — not just narrative, but navigable and machine-readable.
 
 arqix is not a wiki engine, a static site generator, or a note-taking app. It is a tool for engineers who want their documentation to be part of the engineering system itself.
 
