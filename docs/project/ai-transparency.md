@@ -9,8 +9,6 @@ status: active
 
 arqix is an early solo open-source project. AI tooling is used deliberately and openly throughout its development. This document explains how, and where the boundaries are.
 
----
-
 ## How AI is used
 
 - **Brainstorming and framing.** Early thinking about what arqix should be, what problem it addresses, and how to frame it clearly involved AI as a thinking partner. The resulting ideas were evaluated and reshaped by the human author.
@@ -25,15 +23,11 @@ arqix is an early solo open-source project. AI tooling is used deliberately and 
 - **Technical correctness.** AI assistants make mistakes. The author is responsible for testing, validating, and correcting code and documentation.
 - **Editorial voice.** The goal is for arqix documentation to be honest, grounded, and non-hyped. When AI drafts drift toward marketing language or vague enthusiasm, that gets edited out.
 
----
-
 ## Why document this?
 
 Because AI tooling in software projects is becoming normal, and pretending otherwise would be dishonest. At the same time, "AI-generated" is not a quality standard on its own — it can be good or poor depending on how it is used and reviewed.
 
 This document exists to be clear about the reality: AI is a tool here, used deliberately, with the author remaining responsible for the result.
-
----
 
 ## What this document does not cover
 

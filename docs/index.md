@@ -13,19 +13,12 @@ arqix is a Rust CLI for structured technical documentation and Architecture-as-C
 
 This `docs/` directory serves two purposes: it is the human-readable documentation for the project, and it is intended to become the first real corpus for arqix itself as features are implemented.
 
----
-
 ## Contents
 
 - [Project documents](project/) — stable, version-controlled project artifacts
-  - [Roadmap](project/roadmap.md)
-  - [AI transparency](project/ai-transparency.md)
 - [Blog](blog/) — reflective posts grounded in project development
-  - [Why arqix had to exist](blog/2026-03-why-arqix-had-to-exist.md)
 - [Notes](notes/) — informal working notes (may be rough or incomplete)
 - [Experiments](experiments/) — documented experiments with explicit scope and outcome
-
----
 
 ## Reading guide
 
@@ -34,8 +27,6 @@ If you are new to the project, start with the [README](../README.md) for a short
 If you want to understand where the project is going, read the [roadmap](project/roadmap.md).
 
 If you are curious about how AI tooling is used in this project, read the [AI transparency document](project/ai-transparency.md).
-
----
 
 ## Documentation conventions
 
