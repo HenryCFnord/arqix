@@ -39,7 +39,7 @@ If you are curious about how AI tooling is used in this project, read the [AI tr
 
 ## Documentation conventions
 
-- All documents use YAML frontmatter with at minimum `title`, `date`, and `status`.
+- All documents in `project/` and `blog/` use YAML frontmatter with at minimum `title`, `date`, and `status`.
 - Links are standard Markdown links, not Obsidian wikilinks, to keep this directory portable and GitHub-friendly.
-- `notes/` and `experiments/` may contain incomplete or exploratory content. This is intentional.
+- `notes/` and `experiments/` are less formal spaces and may contain incomplete or exploratory content, with frontmatter being optional. This is intentional.
 - Documents in `project/` are considered stable and reviewed before update.
