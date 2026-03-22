@@ -2,13 +2,14 @@
 
 ## Summary
 
-Stage 2 adds a `prepare` capability that stays non-executing.
+Stage 2 adds a `prepare` capability that starts with one conservative execution step.
 
 It should:
 
 - validate whether the local repository is ready for the next scoped task
 - read an approved handoff and derive deterministic preparation outputs
-- stop before branch creation, issue creation, or any delivery action
+- create or switch to the task branch derived from the handoff
+- stop before issue creation, PR creation, Codex execution, or any delivery action
 
 This keeps the OpenClaw integration lightweight and aligned with the repository workflow in `AGENTS.md` and `CONTRIBUTING.md`.
 
@@ -24,7 +25,7 @@ The role of stage 2 is to bridge repository inspection and later operational exe
 
 It should consume facts already exposed by the readonly stage, then produce preparation outputs that a human or a later stage-3 workflow can review and execute.
 
-For the first implementation slice, stage 2 stays shell-based and deterministic.
+For the first implementation slice, stage 2 stays shell-based, deterministic, and limited to safe local branch setup.
 
 ## File Plan
 
@@ -34,6 +35,7 @@ The first stage-2 implementation should add:
 - `tools/openclaw/prepare_validate_env.sh`
 - `tools/openclaw/prepare_branch_name.sh`
 - `tools/openclaw/prepare_issue_from_handoff.sh`
+- `tools/openclaw/create_branch_from_handoff.sh`
 
 It may also extend:
 
@@ -92,6 +94,26 @@ Behavior:
 
 The script should not call `gh issue create`.
 
+### `create_branch_from_handoff.sh`
+
+Purpose:
+
+- read a handoff path from the repository
+- select the handoff branch if explicitly provided
+- otherwise derive a deterministic branch name from handoff metadata
+- create the branch if missing
+- switch to the selected branch
+- print a concise machine-friendly summary
+
+Behavior:
+
+- require execution from the `arqix` repository root
+- fail if the worktree is dirty
+- fail if the handoff is missing or does not yield a usable branch name
+- reject `main`
+- reuse `prepare_branch_name.sh` instead of duplicating derivation logic
+- print stable `key=value` output for later OpenClaw summarization
+
 ## Connection to Readonly
 
 Stage 2 should connect to the existing readonly stage in these ways:
@@ -101,14 +123,13 @@ Stage 2 should connect to the existing readonly stage in these ways:
 - treat `docs/handoffs/approved/` as the canonical handoff directory when available
 - preserve skill separation:
   - readonly inspects
-  - prepare validates and drafts
-  - execute performs later actions
+- prepare validates, derives, and performs safe local branch setup
+- execute performs later actions
 
 ## Explicitly Out of Scope
 
 The first stage-2 implementation must not include:
 
-- branch creation
 - issue creation
 - PR creation
 - merge or delivery automation
@@ -120,7 +141,7 @@ The first stage-2 implementation must not include:
 
 - approved handoffs will live under `docs/handoffs/approved/`
 - the current handoff template is stable enough for shell-based extraction
-- a dirty worktree should warn, not block, during prepare
+- a dirty worktree should block branch creation
 - printing preparation outputs to `stdout` is sufficient for the first slice
 
 ## Suggested Implementation Order
@@ -131,11 +152,11 @@ The first stage-2 implementation must not include:
 4. Implement `prepare_validate_env.sh`.
 5. Implement `prepare_branch_name.sh`.
 6. Implement `prepare_issue_from_handoff.sh`.
-7. Update repository docs only where the new prepare capability must be discoverable.
+7. Implement `create_branch_from_handoff.sh`.
+8. Update repository docs only where the new prepare capability must be discoverable.
 
 ## Risks and Open Questions
 
-- `docs/handoffs/approved/` now exists, but it does not yet contain an approved handoff to exercise the flow end to end.
 - Shell parsing will become fragile if the handoff shape drifts significantly.
 - The GitHub issue template may need normalization before future automation uses it directly.
 - Stage 3 should consume stage-2 outputs, but the exact execution interface is intentionally deferred.
@@ -145,6 +166,6 @@ The first stage-2 implementation must not include:
 The smallest useful follow-up after this scaffold is:
 
 - create one approved handoff under `docs/handoffs/approved/`
-- run `prepare_validate_env.sh`
-- run `prepare_issue_from_handoff.sh` against that handoff
-- review the generated issue draft before any `gh` automation is added
+- run `create_branch_from_handoff.sh` against that handoff
+- confirm the branch output and checkout behavior are stable
+- then wire the issue-draft output into later `gh` automation without combining the steps

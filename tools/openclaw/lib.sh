@@ -55,6 +55,11 @@ worktree_is_clean() {
   [ -z "$(git status --short)" ]
 }
 
+local_branch_exists() {
+  local branch_name="$1"
+  git rev-parse --verify --quiet "refs/heads/${branch_name}" >/dev/null
+}
+
 slugify() {
   printf '%s\n' "$1" \
     | tr '[:upper:]' '[:lower:]' \
