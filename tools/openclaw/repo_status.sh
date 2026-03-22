@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd "$(git rev-parse --show-toplevel)"
+# guard: must be run from repo root
+source "$(dirname "$0")/lib.sh"
+ensure_repo_root
+
+# now safe to proceed
 
 echo "Repository: $(basename "$(pwd)")"
 echo "Branch: $(git branch --show-current)"
