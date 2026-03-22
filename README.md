@@ -30,6 +30,13 @@ Requires Rust (stable). Install via [rustup.rs](https://rustup.rs).
 cargo build
 cargo run
 ```
+## OpenClaw skill integration
+
+Project-specific OpenClaw skills are maintained in `.agents/skills/`.
+
+Selected skills are linked into the OpenClaw host skill directory via symlinks so they can be loaded by the running OpenClaw installation.
+
+See [OpenClaw Skill Linking](docs/project/openclaw-skill-linking.md) for the exact process.
 
 ## License
 
