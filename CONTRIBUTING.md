@@ -1,4 +1,4 @@
-# Contributing to Arqix
+## Contributing to Arqix
 
 This repository uses a lightweight solo-development workflow.
 
@@ -8,7 +8,7 @@ The goal is to keep the process:
 - structured enough for AI-assisted work,
 - and strict enough to protect `main`.
 
-## Core Principles
+### Core Principles
 
 - Keep `main` stable.
 - Prefer small, reviewable changes.
@@ -16,9 +16,11 @@ The goal is to keep the process:
 - Use more structure when AI is involved.
 - Do not create issues, branches, or PRs just for ritual.
 
-## Quick Rules
+### Workflow Layers
 
-### Directly Push to `main`
+This repository uses four practical workflow levels.
+
+#### 1. Direct Push to `main`
 
 Allowed only for trivial, low-risk changes such as:
 
@@ -36,47 +38,41 @@ Do not push directly to `main` if the change affects:
 - architecture
 - CI/CD
 - public interfaces
-- generated project structure
+- repository structure in a meaningful way
 
-### Use a Branch without Issue or PR
+#### 2. Branch Only
 
-Use a branch for small changes that are still real work, for example:
-
-- small internal refactorings
-- minor documentation additions
-- small test updates
-- tiny CI or repo maintenance adjustments
-
-Typical branch names:
-
-- `docs/<slug>`
-- `blog/<slug>`
-- `report/<slug>`
-- `fix/<slug>`
-- `refactor/<slug>`
-
-This is appropriate when:
+Use a branch without issue or PR for small but real changes where:
 
 - the scope is small,
 - the intent is obvious,
 - the change can be understood without a tracking artifact,
 - and no formal review checkpoint is needed.
 
-### Use Issue + Branch
+Typical examples:
+
+- small documentation additions
+- blog posts
+- experiment reports
+- minor low-risk cleanup
+- small test updates
+- minor repository maintenance
+
+#### 3. Issue plus Branch
 
 Use an issue when the work benefits from explicit tracking, scope, or acceptance criteria.
 
-Typical cases:
+Typical examples:
 
 - a medium-sized change
 - a feature or bugfix with non-trivial scope
 - work derived from a handoff
 - imports, normalization, or restructuring tasks
-- anything that may spawn follow-up work
+- work that may create follow-up tasks
 
-### Use Issue + Branch + PR
+#### 4. Issue plus Branch plus PR
 
-Use a PR whenever the change should be explicitly reviewed before merge.
+Use a pull request whenever the change should be explicitly reviewed before merge.
 
 This is the default for:
 
@@ -89,11 +85,15 @@ This is the default for:
 - AI-assisted review or restructuring
 - anything with meaningful risk
 
-## Special Guidance by Artifact Type
+### Content versus Implementation
 
-### Blog Posts, Reports, and Documentation Pieces
+Treat content artifacts differently from implementation work.
 
-Usually:
+#### Content Artifacts
+
+Blog posts, reports, and standalone documentation pieces are often the work item itself.
+
+Typical flow:
 
 - use a branch
 - optionally use a PR if the change is large or AI-assisted
@@ -106,22 +106,15 @@ Examples:
 
 An issue is usually not necessary, because the content artifact is the work item.
 
-### Legacy Imports, Story Normalization, Structured Reviews
+#### Implementation Work
 
-Usually:
+Features, bug fixes, refactorings, architecture changes, and structured requirements work usually need:
 
-- use an issue
-- use a branch
-- use a PR if AI is involved or if semantic restructuring happens
+- explicit task context
+- a dedicated branch
+- a PR if AI is involved or the scope is non-trivial
 
-Examples:
-
-- importing old user stories
-- normalizing acceptance criteria
-- unifying terminology
-- restructuring requirements into a new template
-
-## AI-specific Rules
+### AI-specific Rules
 
 If Codex or another coding agent is involved:
 
@@ -136,7 +129,29 @@ For AI-assisted content work:
 - a branch is usually enough for small drafting tasks
 - use a PR if the generated output changes structure, meaning, or interpretation
 
-## Decision Flow
+### Handoffs
+
+For non-trivial work, prefer using a handoff document.
+
+A good handoff should define:
+
+- goal
+- scope
+- out of scope
+- context
+- constraints
+- acceptance criteria
+- test expectations
+- relevant files
+- risks or unknowns
+
+Handoffs are the preferred bridge between:
+
+- design notes
+- repo work
+- AI-assisted implementation
+
+### Decision Flow
 
 ```mermaid
 flowchart TD
@@ -154,56 +169,9 @@ flowchart TD
     K -->|No| M[Issue plus branch may be enough]
 ```
 
-## Practical Heuristics
-
-- Use the smallest viable process
-- Do not open an issue for a typo.
-- Prefer a PR when meaning changes
-- If the change affects semantics, behavior, structure, or interpretation, a PR is usually worth it.
-- Prefer a PR when AI touches implementation
-- AI can be fast and useful, but review remains mandatory.
-- Use issues to preserve context
-
-An issue is useful when future-you would otherwise ask:
-
-“What exactly was the intended scope here?”
-
-## Examples
-
-### Example 1: Fix typo in README
-
-- Direct push to main
-
-### Example 2: Write a new blog article
-
-- Branch: `blog/<slug>`
-- PR optional
-
-### Example 3: Add an experiment **report**
-
-- Branch: `report/<slug>`
-- PR optional
-- PR recommended if AI drafted or restructured major sections
-
-### Example 4: Import old user stories as-is
-
-- Branch is often enough
-- PR recommended if you want a review checkpoint
-
-### Example 5: Normalize old user stories into a new format
-
-- Issue
-- Branch
-- PR
-
-### Example 6: Implement a feature from a handoff
-
-- Issue
-- Branch
-- PR
-- review before merge
-
 ## Branch Naming
+
+Use short, descriptive, lowercase branch names.
 
 Suggested prefixes:
 
@@ -215,7 +183,14 @@ Suggested prefixes:
 - `refactor/`
 - `chore/`
 
-Keep names short, descriptive, and lowercase.
+Examples:
+
+- `blog/why-arqix-had-to-exist`
+- `report/openclaw-evaluation`
+- `docs/contributing-workflow`
+- `feat/handoff-parser`
+- `fix/yaml-validation`
+- `refactor/config-loading`
 
 ## Merging without a PR
 
@@ -252,9 +227,9 @@ This keeps history linear and avoids unnecessary merge commits.
 
 ### If Fast-forward Merge Fails
 
-This usually means that main has moved on and your branch is no longer directly ahead of it.
+This usually means that `main` has moved on and your branch is no longer directly ahead of it.
 
-Rebase the branch onto main, then merge again:
+Rebase the branch onto `main`, then merge again:
 
 ```bash
 git switch <branch>
@@ -304,23 +279,60 @@ Delete the remote branch:
 git push origin --delete <branch>
 ```
 
-### Practical Default
+## Practical Heuristics
 
-For small solo content work, prefer this sequence:
+### Use the Smallest Viable Process
 
-```bash
-git switch main
-git pull
-git merge --ff-only <branch>
-git push
-git branch -d <branch>
-```
+Do not open an issue for a typo.
 
-### Rule of Thumb
+### Prefer a PR when Meaning Changes
 
-- Use `--ff-only` by default.
-- Use a normal merge only when there is a good reason.
-- Open a PR instead if the change is non-trivial, risky, or AI-assisted.
+If the change affects semantics, behavior, structure, or interpretation, a PR is usually worth it.
+
+### Prefer a PR when AI Touches Implementation
+
+AI can be fast and useful, but review remains mandatory.
+
+### Use Issues to Preserve Context
+
+An issue is useful when future-you would otherwise ask:
+
+"What exactly was the intended scope here?"
+
+## Examples
+
+### Example 1: Fix Typo in README
+
+- Direct push to `main`
+
+### Example 2: Write a New Blog Article
+
+- Branch: `blog/<slug>`
+- PR optional
+
+### Example 3: Add an Experiment Report
+
+- Branch: `report/<slug>`
+- PR optional
+- PR recommended if AI drafted or restructured major sections
+
+### Example 4: Import Old User Stories As-is
+
+- Branch is often enough
+- PR recommended if you want a review checkpoint
+
+### Example 5: Normalize Old User Stories into a New Format
+
+- Issue
+- Branch
+- PR
+
+### Example 6: Implement a Feature from a Handoff
+
+- Issue
+- Branch
+- PR
+- review before merge
 
 ## Final Rule
 
