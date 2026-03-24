@@ -1,3 +1,9 @@
+---
+title: "OpenClaw Stage 2: Plan Intake"
+date: 2026-03-24
+status: draft
+---
+
 # OpenClaw Stage 2 Plan Intake
 
 ## Summary
