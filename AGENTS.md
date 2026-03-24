@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository uses a lightweight, handoff-driven workflow for solo development.
+This repository uses a lightweight, planning-driven workflow for solo development.
 
 The goal is to keep work:
 - structured enough for reliable AI-assisted implementation,
@@ -28,18 +28,21 @@ Agents working in this repository must optimize for:
 
 The preferred workflow is:
 
-1. A task is described in a handoff document, issue, or other clearly scoped instruction.
-2. Work happens on a dedicated branch, never on `main`.
-3. Non-trivial AI-assisted work should go through a pull request.
-4. Small, low-risk content work may use a lighter branch-only flow.
-5. Documentation and tests are updated when relevant.
-6. The human reviewer remains the final decision point before merge.
+1. A free-text idea may enter through OpenClaw or another clearly scoped instruction source.
+2. OpenClaw may classify the work and create a dedicated planning branch using the standard branch prefixes.
+3. OpenClaw may create branch-local planning artifacts under `docs/plans/<slug>/`.
+4. The human reviews and refines the plan on that branch before implementation starts.
+5. Codex implements from the reviewed planning artifacts, not from the raw idea alone.
+6. Non-trivial AI-assisted work should go through a pull request.
+7. Documentation and tests are updated when relevant.
+8. The human reviewer remains the final decision point before merge.
 
 ## Task sources
 
 Preferred task sources are:
 
-- approved handoff documents
+- reviewed planning packages under `docs/plans/<slug>/`
+- approved handoff documents where useful
 - scoped GitHub issues
 - explicit direct instructions for trivial work
 
@@ -47,9 +50,21 @@ Do not assume that every note, draft, or loose idea is ready for implementation.
 
 If the input is ambiguous, summarize the ambiguity and propose a narrow interpretation before editing.
 
-## Handoff-driven implementation
+## Planning-driven implementation
 
-For non-trivial work, prefer using a handoff if one exists.
+For non-trivial mobile-first work, prefer using a reviewed planning package if one exists.
+
+The standard planning package lives under:
+
+- `docs/plans/<slug>/IDEA.md`
+- `docs/plans/<slug>/PLANS.md`
+- `docs/plans/<slug>/STATUS.md`
+
+Reviewed `PLANS.md` artifacts are the preferred basis for later Codex implementation work.
+
+OpenClaw may create the initial planning branch and draft planning artifacts before Codex starts.
+
+Handoffs remain supported artifacts where useful, but they are no longer the mandatory first step.
 
 A handoff should define:
 - goal
@@ -64,6 +79,7 @@ A handoff should define:
 
 When a handoff exists:
 - read it before changing files
+- map it to the current branch-local plan when appropriate
 - stay within its scope
 - explicitly mention important ambiguities
 - do not silently broaden the task
@@ -142,7 +158,7 @@ Use an issue when the work benefits from:
 Typical examples:
 - medium-sized tasks
 - structured imports or normalization work
-- tasks derived from handoffs
+- tasks derived from reviewed plans or handoffs
 - non-trivial fixes or improvements
 
 ### Issue plus branch plus PR
@@ -153,7 +169,7 @@ Preferred for:
 - meaningful refactorings
 - architecture changes
 - public behavior changes
-- work derived from handoffs
+- work derived from reviewed planning packages or handoffs
 - AI-assisted implementation
 - AI-assisted semantic restructuring
 - any change that deserves an explicit review checkpoint
@@ -178,7 +194,7 @@ Examples:
 ### Implementation work
 
 Features, bug fixes, refactorings, architectural changes, and structured requirements work typically need:
-- scoped task context
+- scoped task context, ideally from reviewed `PLANS.md`
 - dedicated branch
 - PR for meaningful AI-assisted work
 
@@ -188,6 +204,7 @@ For non-trivial tasks:
 - inspect relevant files first
 - understand the local conventions
 - propose a short plan before large edits
+- follow the reviewed planning artifacts when they exist
 - call out assumptions
 - identify likely risks
 - keep the plan aligned with the stated scope
@@ -256,7 +273,7 @@ Optimize for reviewability.
 
 ## GitHub and review context
 
-When working from an issue, handoff, or PR context:
+When working from an issue, reviewed plan, handoff, or PR context:
 - preserve references where possible
 - keep branch names aligned with the task type
 - keep acceptance criteria visible in the final result
@@ -286,6 +303,8 @@ When in doubt:
 - prefer explicit review notes over implicit assumptions
 
 ## Repository-specific note
+
+OpenClaw orchestrates intake and workflow transitions, Codex implements inside the repository, the human reviews and approves, and GitHub remains the source of truth.
 
 The current project name is `arqix`.
 

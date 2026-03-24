@@ -2,9 +2,9 @@
 
 ## Status
 
-Proposed replacement for the older handoff-first flow.
+Preferred OpenClaw workflow for `arqix`.
 
-This document defines the new preferred OpenClaw workflow for `arqix`.
+This document defines the current preferred OpenClaw workflow for `arqix`.
 
 ## Problem statement
 

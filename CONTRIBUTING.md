@@ -129,9 +129,23 @@ For AI-assisted content work:
 - a branch is usually enough for small drafting tasks
 - use a PR if the generated output changes structure, meaning, or interpretation
 
+### Planning Packages
+
+For mobile-first work, prefer using a planning package under `docs/plans/<slug>/`.
+
+The standard package contains:
+
+- `IDEA.md`
+- `PLANS.md`
+- `STATUS.md`
+
+Reviewed `PLANS.md` artifacts are the preferred bridge between free-text intake and later Codex implementation.
+
+OpenClaw may create the initial planning branch and draft package from a free-text idea before the human refines it.
+
 ### Handoffs
 
-For non-trivial work, prefer using a handoff document.
+Handoffs remain supported where useful, but they are no longer the mandatory first step.
 
 A good handoff should define:
 
@@ -145,11 +159,7 @@ A good handoff should define:
 - relevant files
 - risks or unknowns
 
-Handoffs are the preferred bridge between:
-
-- design notes
-- repo work
-- AI-assisted implementation
+Handoffs are still valid scoped artifacts when a more formal written handoff is useful.
 
 ### Decision Flow
 
@@ -157,16 +167,21 @@ Handoffs are the preferred bridge between:
 flowchart TD
     A[New change] --> B{Is it only a trivial low-risk change?}
     B -->|Yes| C[Push directly to main]
-    B -->|No| D{Is the artifact itself the work?}
-    D -->|Yes| E{Is it small and easy to self-review?}
-    E -->|Yes| F[Use a branch only]
-    E -->|No| G[Use branch plus PR]
-    D -->|No| H{Does it need explicit scope tracking or acceptance criteria?}
-    H -->|No| I[Use a branch only]
-    H -->|Yes| J[Create an issue plus a branch]
-    J --> K{Is AI involved or is the change non-trivial?}
-    K -->|Yes| L[Use issue plus branch plus PR]
-    K -->|No| M[Issue plus branch may be enough]
+    B -->|No| D{Is it entering as a free-text idea?}
+    D -->|Yes| E[Create a planning branch and docs/plans package]
+    D -->|No| F{Is the artifact itself the work?}
+    E --> G{Has the plan been reviewed?}
+    G -->|No| H[Review and refine the planning package]
+    G -->|Yes| I{Is AI involved or is the change non-trivial?}
+    F -->|Yes| J{Is it small and easy to self-review?}
+    J -->|Yes| K[Use a branch only]
+    J -->|No| L[Use branch plus PR]
+    F -->|No| M{Does it need explicit scope tracking or acceptance criteria?}
+    M -->|No| N[Use a branch only]
+    M -->|Yes| O[Create an issue plus a branch]
+    O --> I
+    I -->|Yes| P[Use issue plus branch plus PR]
+    I -->|No| Q[Issue plus branch may be enough]
 ```
 
 ## Branch Naming

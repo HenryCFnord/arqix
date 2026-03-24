@@ -33,19 +33,21 @@ The OpenClaw global skill directory only contains symlinks to selected project s
 Current repository-managed skills include:
 
 - `arqix-repo-readonly`
-- `arqix-repo-prepare`
+- `arqix-plan-intake`
+- `arqix-delivery`
 
 ### Example: Link a Project Skill into OpenClaw
 
 ```bash
 sudo ln -sfn ~/projects/arqix/.agents/skills/arqix-repo-readonly /usr/lib/node_modules/openclaw/skills/arqix-repo-readonly
-sudo ln -sfn ~/projects/arqix/.agents/skills/arqix-repo-prepare /usr/lib/node_modules/openclaw/skills/arqix-repo-prepare
+sudo ln -sfn ~/projects/arqix/.agents/skills/arqix-plan-intake /usr/lib/node_modules/openclaw/skills/arqix-plan-intake
+sudo ln -sfn ~/projects/arqix/.agents/skills/arqix-delivery /usr/lib/node_modules/openclaw/skills/arqix-delivery
 ```
 
 ### Verify the Link
 
 ```bash
-ls -la /usr/lib/node_modules/openclaw/skills | grep arqix-repo-
+ls -la /usr/lib/node_modules/openclaw/skills | grep arqix-
 ```
 
 Expected output should show a symbolic link pointing to the project-local skill directory.

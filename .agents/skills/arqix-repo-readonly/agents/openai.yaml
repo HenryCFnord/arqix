@@ -1,4 +1,4 @@
 interface:
   display_name: "Arqix Repo Readonly"
-  short_description: "Inspect arqix repo state and handoffs"
+  short_description: "Inspect arqix repo state and planning packages"
   default_prompt: "Use $arqix-repo-readonly to inspect the current arqix repository state without making changes."

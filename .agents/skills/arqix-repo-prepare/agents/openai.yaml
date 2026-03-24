@@ -1,4 +1,0 @@
-interface:
-  display_name: "Arqix Repo Prepare"
-  short_description: "Validate arqix prep and draft outputs"
-  default_prompt: "Use $arqix-repo-prepare to validate readiness or draft non-executing task preparation outputs for arqix."

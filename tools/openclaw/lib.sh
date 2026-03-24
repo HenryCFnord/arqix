@@ -55,9 +55,21 @@ worktree_is_clean() {
   [ -z "$(git status --short)" ]
 }
 
+require_clean_worktree() {
+  if ! worktree_is_clean; then
+    echo "Error: worktree has uncommitted changes; refusing to continue." >&2
+    return 12
+  fi
+}
+
 local_branch_exists() {
   local branch_name="$1"
   git rev-parse --verify --quiet "refs/heads/${branch_name}" >/dev/null
+}
+
+ref_exists() {
+  local ref_name="$1"
+  git rev-parse --verify --quiet "$ref_name" >/dev/null
 }
 
 slugify() {
@@ -66,8 +78,25 @@ slugify() {
     | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//; s/-+/-/g'
 }
 
-handoff_frontmatter_value() {
-  local handoff_path="$1"
+branch_prefix_for_category() {
+  case "$1" in
+    feat|feature) echo "feat" ;;
+    fix|bugfix|bug) echo "fix" ;;
+    refactor) echo "refactor" ;;
+    docs|doc) echo "docs" ;;
+    chore) echo "chore" ;;
+    report) echo "report" ;;
+    blog) echo "blog" ;;
+    *) return 20 ;;
+  esac
+}
+
+iso_timestamp_utc() {
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
+frontmatter_value() {
+  local markdown_path="$1"
   local key="$2"
 
   awk -v key="$key" '
@@ -86,7 +115,11 @@ handoff_frontmatter_value() {
       print
       exit
     }
-  ' "$handoff_path"
+  ' "$markdown_path"
+}
+
+handoff_frontmatter_value() {
+  frontmatter_value "$1" "$2"
 }
 
 extract_markdown_section() {

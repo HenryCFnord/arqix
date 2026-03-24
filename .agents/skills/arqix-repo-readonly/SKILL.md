@@ -1,6 +1,6 @@
 ---
 name: arqix-repo-readonly
-description: Read-only repository inspection for arqix. Use when Codex needs to inspect the current branch and worktree, list approved handoffs, or summarize the latest commit without modifying files, creating branches, or running arbitrary shell commands.
+description: Read-only repository inspection for arqix. Use when Codex needs to inspect the current branch and worktree, list planning packages, or summarize the latest commit without modifying files, creating branches, or running arbitrary shell commands.
 ---
 
 # Arqix Repo Readonly
@@ -12,7 +12,7 @@ Inspect the repository without changing it.
 Run these commands from the repository root:
 
 - `./tools/openclaw/repo_status.sh`
-- `./tools/openclaw/list_handoffs.sh`
+- `./tools/openclaw/list_plan_packages.sh`
 - `./tools/openclaw/last_commit.sh`
 
 ## Follow This Workflow
@@ -34,5 +34,5 @@ Run these commands from the repository root:
 
 Prefer:
 - current branch and worktree state
-- approved handoff availability
+- planning package availability
 - latest commit headline and changed files

@@ -16,6 +16,7 @@ This `docs/` directory serves two purposes: it is the human-readable documentati
 ## Contents
 
 - [Project documents](project/) — stable, version-controlled project artifacts
+- [Plans](plans/README.md) — branch-local planning packages for OpenClaw intake
 - [Blog](blog/) — reflective posts grounded in project development
 - [Notes](notes/) — informal working notes (may be rough or incomplete)
 - [Experiments](experiments/) — documented experiments with explicit scope and outcome
