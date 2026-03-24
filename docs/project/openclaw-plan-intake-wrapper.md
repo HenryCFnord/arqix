@@ -1,3 +1,9 @@
+---
+title: "OpenClaw Plan Intake Wrapper Contract"
+date: 2026-03-24
+status: draft
+---
+
 # OpenClaw Plan Intake Wrapper Contract
 
 ## Purpose
