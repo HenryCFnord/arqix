@@ -1,18 +1,18 @@
-—
+---
 name: Task from handoff
 about: Create an implementation task derived from a handoff document
-title: „[Task] „
-labels: [„task“, „needs-triage“]
+title: "[Task] "
+labels: ["task", "needs-triage"]
 assignees: []
-—
+---
 
 ## Summary
 
-<!— One short paragraph. What should be done? —>
+<!-- One short paragraph. What should be done? -->
 
 ## Goal
 
-<!— What outcome should this issue achieve? —>
+<!-- What outcome should this issue achieve? -->
 
 ## Source handoff
 
@@ -54,4 +54,4 @@ assignees: []
 
 ## Notes for implementation
 
-<!— Anything the coding agent or reviewer must not miss —>
+<!-- Anything the coding agent or reviewer must not miss -->
