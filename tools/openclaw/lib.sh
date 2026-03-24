@@ -118,6 +118,38 @@ frontmatter_value() {
   ' "$markdown_path"
 }
 
+trim_whitespace() {
+  printf '%s' "$1" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'
+}
+
+single_line_text() {
+  printf '%s' "$1" | tr '\n' ' ' | sed -E 's/[[:space:]]+/ /g; s/^[[:space:]]+//; s/[[:space:]]+$//'
+}
+
+derive_title_from_idea() {
+  local idea_text="$1"
+  local candidate
+
+  candidate=$(printf '%s\n' "$idea_text" \
+    | awk 'NF { print; exit }' \
+    | sed -E 's/^[[:space:]]*[-*][[:space:]]*//')
+
+  candidate=$(single_line_text "$candidate")
+
+  if [ -z "$candidate" ]; then
+    return 21
+  fi
+
+  candidate=$(printf '%s' "$candidate" | cut -c1-80)
+  candidate=$(trim_whitespace "$candidate")
+
+  if [ -z "$candidate" ]; then
+    return 22
+  fi
+
+  printf '%s\n' "$candidate"
+}
+
 handoff_frontmatter_value() {
   frontmatter_value "$1" "$2"
 }

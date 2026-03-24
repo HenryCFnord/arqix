@@ -30,10 +30,15 @@ Readonly inspects the repository, plan intake creates the planning branch artifa
 
 The first repository-side plan intake slice uses these scripts:
 
+- `tools/openclaw/plan_from_idea.sh`
 - `tools/openclaw/plan_intake_validate_env.sh`
 - `tools/openclaw/plan_branch_name.sh`
 - `tools/openclaw/plan_intake.sh`
 - `tools/openclaw/delivery_validate_plan.sh`
+
+The wrapper contract lives here:
+
+- `docs/project/openclaw-plan-intake-wrapper.md`
 
 The plan package lives here:
 

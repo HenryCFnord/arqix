@@ -37,7 +37,7 @@ Project-specific OpenClaw skills are maintained in `.agents/skills/`.
 Selected skills are linked into the OpenClaw host skill directory via symlinks so they can be loaded by the running OpenClaw installation.
 
 See [OpenClaw Skill Linking](docs/project/openclaw-skill-linking.md) for the exact process.
-The current OpenClaw split is `arqix-repo-readonly` for inspection, `arqix-plan-intake` for branch-local planning intake, and `arqix-delivery` for plan validation before Codex and draft PR steps.
+The current OpenClaw split is `arqix-repo-readonly` for inspection, `arqix-plan-intake` for branch-local planning intake, and `arqix-delivery` for plan validation before Codex and draft PR steps. The intake side now includes a thin free-text wrapper at `tools/openclaw/plan_from_idea.sh`.
 See [OpenClaw mobile-first planning flow](docs/project/openclaw-mobile-first-planning-flow.md) and [OpenClaw Stage 2 Plan Intake](docs/project/openclaw-stage-2-plan-intake.md) for the repository-side design.
 
 ## License
