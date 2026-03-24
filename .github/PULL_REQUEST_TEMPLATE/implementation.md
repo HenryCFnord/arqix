@@ -1,6 +1,6 @@
 ## Summary
 
-<!— What changed and why? Keep this concise. —>
+<!-- What changed and why? Keep this concise. -->
 
 ## Linked work
 
@@ -18,7 +18,7 @@
 
 ## Implementation notes
 
-<!— Key design decisions, trade-offs, or deviations from the original plan —>
+<!-- Key design decisions, trade-offs, or deviations from the original plan -->
 
 ## Validation
 
@@ -39,4 +39,4 @@
 
 ## Reviewer focus
 
-<!— What should the review pay special attention to? —>
+<!-- What should the review pay special attention to? -->
