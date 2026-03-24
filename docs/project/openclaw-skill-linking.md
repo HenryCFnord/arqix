@@ -1,3 +1,9 @@
+---
+title: "OpenClaw Skill Linking"
+date: 2026-03-24
+status: draft
+---
+
 ## OpenClaw Skill Linking
 
 This repository keeps project-specific agent skills in:
