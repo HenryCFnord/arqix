@@ -40,8 +40,13 @@ check_required_command codex
 branch=$(current_branch)
 echo "Current branch: ${branch}"
 
-ensure_not_main_branch || exit 11
-echo "OK: branch is not main"
+# Relax strict exit on main: plan_intake.sh itself creates/switches branches.
+if ! ensure_not_main_branch; then
+  echo "WARNING: running on 'main' branch — continuing. plan_intake.sh will create/switch to a planning branch as needed." >&2
+  warnings=$((warnings + 1))
+else
+  echo "OK: branch is not main"
+fi
 
 if worktree_is_clean; then
   echo "OK: worktree is clean"
