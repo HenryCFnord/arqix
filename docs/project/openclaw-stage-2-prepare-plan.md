@@ -27,6 +27,14 @@ It should consume facts already exposed by the readonly stage, then produce prep
 
 For the first implementation slice, stage 2 stays shell-based, deterministic, and limited to safe local branch setup.
 
+The first concrete repository lifecycle for handoffs is:
+
+- `docs/handoffs/draft/`
+- `docs/handoffs/approved/`
+- `docs/handoffs/archived/`
+
+OpenClaw stage-2 scripts should continue to treat `docs/handoffs/approved/` as the execution-ready source of truth.
+
 ## File Plan
 
 The first stage-2 implementation should add:
@@ -44,6 +52,10 @@ It may also extend:
 Documentation should live here:
 
 - `docs/project/openclaw-stage-2-prepare-plan.md`
+
+The first approved sample handoff for branch creation lives here:
+
+- `docs/handoffs/approved/2026-03-22-initialize-handoff-lifecycle-directories.md`
 
 ## Script Breakdown
 
@@ -114,6 +126,22 @@ Behavior:
 - reuse `prepare_branch_name.sh` instead of duplicating derivation logic
 - print stable `key=value` output for later OpenClaw summarization
 
+Example:
+
+```bash
+./tools/openclaw/create_branch_from_handoff.sh \
+  docs/handoffs/approved/2026-03-22-initialize-handoff-lifecycle-directories.md
+```
+
+Expected success output:
+
+```text
+handoff=docs/handoffs/approved/2026-03-22-initialize-handoff-lifecycle-directories.md
+branch=chore/handoff-lifecycle-directories
+branch_existed=false
+checkout_succeeded=true
+```
+
 ## Connection to Readonly
 
 Stage 2 should connect to the existing readonly stage in these ways:
@@ -140,6 +168,7 @@ The first stage-2 implementation must not include:
 ## Assumptions That Need Validation
 
 - approved handoffs will live under `docs/handoffs/approved/`
+- the minimal tracked handoff lifecycle is `draft`, `approved`, and `archived`
 - the current handoff template is stable enough for shell-based extraction
 - a dirty worktree should block branch creation
 - printing preparation outputs to `stdout` is sufficient for the first slice
