@@ -6,7 +6,8 @@ set -euo pipefail
 # Exits with non-zero codes and clear messages on failure.
 
 ensure_repo_root() {
-  # resolve git top-level
+  # resolve git top-level (use local temporaries to avoid leaking variables)
+  local repo_top repo_name
   repo_top=$(git rev-parse --show-toplevel 2>/dev/null || true)
   if [ -z "$repo_top" ]; then
     echo "Error: not inside a git repository." >&2
