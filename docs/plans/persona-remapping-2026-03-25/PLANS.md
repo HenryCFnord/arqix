@@ -19,7 +19,6 @@ Automate renumbering and reclassification of existing User Stories and Requireme
 5. Commit grouped per persona and push to branch.
 
 ## Acceptance criteria
-- All existing US/REQ files have been remapped and renamed (ids updated). 
+- All existing US/REQ files have been remapped and renamed (IDs updated).
 - A mapping report exists under docs/processes and is linked from this plan.
 - Supplemental US drafts are present for uncovered persona gaps.
-

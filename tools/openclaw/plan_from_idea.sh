@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# shellcheck source=tools/openclaw/lib.sh
 source "$(dirname "$0")/lib.sh"
 
 ensure_repo_root
