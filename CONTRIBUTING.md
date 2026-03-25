@@ -143,24 +143,6 @@ Reviewed `PLANS.md` artifacts are the preferred bridge between free-text intake 
 
 OpenClaw may create the initial planning branch and draft package from a free-text idea before the human refines it.
 
-### Handoffs
-
-Handoffs remain supported where useful, but they are no longer the mandatory first step.
-
-A good handoff should define:
-
-- goal
-- scope
-- out of scope
-- context
-- constraints
-- acceptance criteria
-- test expectations
-- relevant files
-- risks or unknowns
-
-Handoffs are still valid scoped artifacts when a more formal written handoff is useful.
-
 ### Decision Flow
 
 ```mermaid
