@@ -22,9 +22,8 @@ translation_of: US-4001
 translation_status: draft
 generated: false
 source:
-persona: PER-0004
-old_id: US-0015
 ---
+
 # CI gates
 
 ## Story

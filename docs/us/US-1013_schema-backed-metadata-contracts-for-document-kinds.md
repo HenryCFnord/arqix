@@ -3,7 +3,6 @@ id: US-1013
 kind: user_story
 title: Schema-backed metadata contracts for document kinds
 status: draft
-persona: PER-0001
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Schema-backed metadata contracts for document kinds
 
 ## Story

@@ -3,7 +3,6 @@ id: US-5004
 kind: user_story
 title: Read structured document sections with stable selectors
 status: draft
-persona: PER-0005
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Read structured document sections with stable selectors
 
 ## Story

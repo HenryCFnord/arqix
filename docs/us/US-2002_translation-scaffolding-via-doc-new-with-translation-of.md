@@ -10,6 +10,7 @@ tags:
 owner: Hendrik
 created: 2026-02-27
 updated: 2026-02-27
+priority: 
 related:
   personas:
   - PER-0002
@@ -28,16 +29,22 @@ translation_of:
 translation_status:
 generated: false
 source:
-persona: PER-0002
-old_id: US-8204
 ---
+
 # Translation scaffolding via doc new with --translation-of
 
 ## Story
 
 As a Developer, I want to create a translation document by referencing its source document ID using `doc new --lang <target> --translation-of <ID>`, so that translations are created with correct routing, metadata, and structure without manual setup.
 
-## Scope
+## Acceptance Criteria
+- The command creates the translation file at the correct location for the chosen i18n layout.
+- The translation file contains correct metadata linking it to the source ID.
+- `--dry-run` reports the planned target path and metadata without writing.
+- The operation fails with a clear diagnostic if the source document cannot be found.
+- The created translation preserves arqix markup directives and structural elements according to the scaffold strategy.
+
+## Notes
 
 ### In scope
 - `arqix doc new <kind> --lang <target> --translation-of <ID>`:
@@ -52,12 +59,4 @@ As a Developer, I want to create a translation document by referencing its sourc
 - Automatic translation of prose
 - Automatic rewriting of existing translations
 
-## Acceptance Criteria
-- The command creates the translation file at the correct location for the chosen i18n layout.
-- The translation file contains correct metadata linking it to the source ID.
-- `--dry-run` reports the planned target path and metadata without writing.
-- The operation fails with a clear diagnostic if the source document cannot be found.
-- The created translation preserves arqix markup directives and structural elements according to the scaffold strategy.
-
-## Notes
 This is intentionally not a separate top-level i18n command.

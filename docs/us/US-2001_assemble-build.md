@@ -23,9 +23,8 @@ translation_of: US-2001
 translation_status: draft
 generated: false
 source:
-persona: PER-0002
-old_id: US-0004
 ---
+
 # Assemble build
 
 ## Story

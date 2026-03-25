@@ -23,8 +23,6 @@ translation_of: US-1007
 translation_status: draft
 generated: false
 source:
-persona: PER-0001
-old_id: US-0008
 ---
 
 ## Templates

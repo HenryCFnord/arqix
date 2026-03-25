@@ -3,7 +3,6 @@ id: US-1012
 kind: user_story
 title: Configuration validation and effective config output
 status: draft
-persona: PER-0001
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Configuration validation and effective config output
 
 ## Story

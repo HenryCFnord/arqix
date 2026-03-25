@@ -22,8 +22,6 @@ translation_of: US-1003
 translation_status: draft
 generated: false
 source:
-persona: PER-0001
-old_id: US-0003
 ---
 
 ## Units Erstellen

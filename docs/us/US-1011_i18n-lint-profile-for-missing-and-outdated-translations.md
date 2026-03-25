@@ -10,6 +10,7 @@ tags:
 owner: hcf
 created: 2026-02-27
 updated: 2026-02-27
+priority: 
 related:
   personas:
     - PER-0001
@@ -29,8 +30,6 @@ translation_of:
 translation_status:
 generated: false
 source:
-persona: PER-0001
-old_id: US-8203
 ---
 
 ## i18n Lint Profile for Missing and Outdated Translations

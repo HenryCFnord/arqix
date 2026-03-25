@@ -3,7 +3,6 @@ id: US-7001
 kind: user_story
 title: Generate audit evidence bundles by requirement scope
 status: draft
-persona: PER-0007
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Generate audit evidence bundles by requirement scope
 
 ## Story

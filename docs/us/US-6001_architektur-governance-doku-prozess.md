@@ -25,9 +25,8 @@ translation_of: US-6001
 translation_status: draft
 generated: false
 source:
-persona: PER-0006
-old_id: US-0022
 ---
+
 # Architektur/Governance/Doku-Prozess
 
 ## Story

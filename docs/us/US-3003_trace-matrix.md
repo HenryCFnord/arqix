@@ -21,9 +21,8 @@ translation_of: US-3003
 translation_status: draft
 generated: false
 source:
-persona: PER-0003
-old_id: US-0012
 ---
+
 # Trace matrix
 
 ## Story

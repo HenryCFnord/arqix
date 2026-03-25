@@ -3,16 +3,20 @@ id: US-1010
 kind: user_story
 title: Guardrails to keep agent changes within a declared scope
 status: draft
-workflows:
-  - WF-0008
-  - WF-0001
-story_type: governance
-persona: PER-0001
-old_id: US-8005
+tags: []
+owner: 
+created: 
+updated: 
+priority: 
 related:
   requirements: []
   personas:
   - PER-0001
+lang: 
+translation_of: 
+translation_status: 
+generated: 
+source: 
 ---
 
 ## Guardrails to Keep Agent Changes within a Declared Scope

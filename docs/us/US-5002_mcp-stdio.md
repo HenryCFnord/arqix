@@ -22,9 +22,8 @@ translation_of: US-5002
 translation_status: draft
 generated: false
 source:
-persona: PER-0005
-old_id: US-0014
 ---
+
 # MCP stdio
 
 ## Story

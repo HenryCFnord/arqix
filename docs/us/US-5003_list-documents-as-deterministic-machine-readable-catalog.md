@@ -3,7 +3,6 @@ id: US-5003
 kind: user_story
 title: List documents as deterministic machine-readable catalog
 status: draft
-persona: PER-0005
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # List documents as deterministic machine-readable catalog
 
 ## Story

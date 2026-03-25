@@ -3,7 +3,6 @@ id: US-7002
 kind: user_story
 title: Filter traceability reports for audit review views
 status: draft
-persona: PER-0007
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Filter traceability reports for audit review views
 
 ## Story

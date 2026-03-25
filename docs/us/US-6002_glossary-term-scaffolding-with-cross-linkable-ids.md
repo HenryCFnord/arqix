@@ -3,7 +3,6 @@ id: US-6002
 kind: user_story
 title: Glossary term scaffolding with cross-linkable IDs
 status: draft
-persona: PER-0006
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Glossary term scaffolding with cross-linkable IDs
 
 ## Story

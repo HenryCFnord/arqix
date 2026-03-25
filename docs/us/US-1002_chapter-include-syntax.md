@@ -23,8 +23,6 @@ translation_of: US-1002
 translation_status: draft
 generated: false
 source:
-persona: PER-0001
-old_id: US-0002
 ---
 
 ## Chapter/Include Syntax

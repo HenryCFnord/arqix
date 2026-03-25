@@ -3,7 +3,6 @@ id: US-6003
 kind: user_story
 title: Architecture narrative assembly with navigable outputs
 status: draft
-persona: PER-0006
 tags:
 - user-story
 - supplemental-draft
@@ -25,6 +24,7 @@ translation_status: ''
 generated: false
 source: ''
 ---
+
 # Architecture narrative assembly with navigable outputs
 
 ## Story

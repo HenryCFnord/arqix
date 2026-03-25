@@ -24,9 +24,8 @@ translation_of: US-3001
 translation_status: draft
 generated: false
 source:
-persona: PER-0003
-old_id: US-0010
 ---
+
 # Trace scan
 
 ## Story

@@ -28,9 +28,8 @@ translation_of: US-4002
 translation_status: draft
 generated: false
 source:
-persona: PER-0004
-old_id: US-0016
 ---
+
 # Publish
 
 ## Story

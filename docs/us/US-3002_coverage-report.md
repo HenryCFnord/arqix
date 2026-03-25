@@ -23,9 +23,8 @@ translation_of: US-3002
 translation_status: draft
 generated: false
 source:
-persona: PER-0003
-old_id: US-0011
 ---
+
 # Coverage report
 
 ## Story
