@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arqix Plan Intake"
+  short_description: "Create draft planning branches and plan packages"
+  default_prompt: "Use $arqix-plan-intake to validate readiness, derive a branch name, or create a draft planning package for arqix."

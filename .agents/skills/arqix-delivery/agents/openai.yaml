@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arqix Delivery"
+  short_description: "Validate reviewed plans before Codex and draft PR steps"
+  default_prompt: "Use $arqix-delivery to confirm that an arqix planning package is ready for Codex and later delivery steps."
