@@ -106,7 +106,7 @@ if [ -z "$task_category" ]; then
   exit 0
 fi
 
-branch_name=$(./tools/openclaw/plan_branch_name.sh --category "$task_category" --slug "$task_slug")
+# branch name is intentionally resolved in the downstream plan_intake implementation; no local use required here
 
 printf 'needs_category=false\n'
 printf 'suggested_title=%s\n' "$task_title"
