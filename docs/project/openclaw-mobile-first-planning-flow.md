@@ -47,5 +47,3 @@ The new flow should allow:
 - OpenClaw orchestrates
 - Codex implements
 - GitHub remains the source of truth
-
-(remaining content unchanged)
