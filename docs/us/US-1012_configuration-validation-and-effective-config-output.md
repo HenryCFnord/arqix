@@ -4,8 +4,8 @@ kind: user_story
 title: Configuration validation and effective config output
 status: draft
 tags:
-- user-story
-- supplemental-draft
+  - user-story
+  - supplemental-draft
 owner: codex
 created: '2026-03-25'
 updated: '2026-03-25'
@@ -25,15 +25,18 @@ generated: false
 source: ''
 ---
 
-# Configuration validation and effective config output
+## Configuration Validation and effective Config Output
 
-## Story
+### Story
+
 As a maintainer, I want to validate repository configuration and inspect the effective config, so that documentation rules stay consistent and automation has a deterministic baseline.
 
-## Acceptance Criteria
+### Acceptance Criteria
+
 - `config validate` reports schema and contract violations deterministically.
 - `config show` renders the effective config after defaults and overrides are applied.
 - Diagnostics identify the failing key and source file when possible.
 
-## Notes
+### Notes
+
 Draft gap-fill for Mara Maintainer open needs around diagnostics contracts and baseline configuration management.

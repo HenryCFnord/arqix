@@ -4,8 +4,8 @@ kind: requirement
 title: doc init Standardstruktur anlegen
 status: draft
 tags:
-- requirement
-owner: hendrik
+  - requirement
+owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
 priority: medium
@@ -23,16 +23,21 @@ generated: false
 source:
 old_id: REQ-0001
 ---
-# doc init Standardstruktur anlegen
 
-## Statement
+## Doc Init Standardstruktur Anlegen
+
+### Statement
+
 When `arqix doc init <path>` is executed, the system MUST create a standard structure with `index.md`, `units/`, `pages/`, `artifacts/`, `logs/`, and `.arqix/`.
 
-## Rationale
+### Rationale
+
 TODO
 
-## Acceptance Criteria
+### Acceptance Criteria
+
 - TODO
 
-## Verification
+### Verification
+
 - TODO

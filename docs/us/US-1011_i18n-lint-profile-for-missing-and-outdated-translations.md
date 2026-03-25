@@ -50,8 +50,7 @@ As a maintainer, I want an i18n lint profile that detects missing translations, 
 
 ### Notes
 
-
-#### In Scope
+ In Scope:
 
 - `arqix lint run --profile i18n` checks:
   - Missing translations for configured target languages and required kinds/domains
@@ -61,10 +60,9 @@ As a maintainer, I want an i18n lint profile that detects missing translations, 
   - Optional: markup safety checks (arqix markers unchanged across languages)
 - Diagnostics are machine-readable (`--format json`) and deterministic.
 
-#### Out of Scope
+Out of Scope:
 
 - Enforcing linguistic quality of translations
 - Cross-language semantic equivalence checks
-
 
 This story depends on the i18n mapping (US-8201) and metadata contract (US-8202).

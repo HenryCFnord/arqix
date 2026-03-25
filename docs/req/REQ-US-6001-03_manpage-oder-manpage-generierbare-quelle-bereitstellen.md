@@ -5,7 +5,7 @@ title: Manpage oder manpage-generierbare Quelle bereitstellen
 status: draft
 tags:
 - requirement
-owner: hendrik
+owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
 priority: medium

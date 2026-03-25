@@ -7,7 +7,7 @@ tags:
 - user_story
 - i18n
 - templates
-owner: Hendrik
+owner: hcf
 created: 2026-02-27
 updated: 2026-02-27
 priority: 

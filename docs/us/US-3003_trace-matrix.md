@@ -5,7 +5,7 @@ title: Trace matrix
 status: draft
 tags:
 - user-story
-owner: hendrik
+owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
 priority: medium
