@@ -36,24 +36,7 @@ source:
 
 ### Story
 
-As a maintainer, I want an i18n lint profile that detects missing translations, outdated translations (drift), and translation metadata mismatches, so that bilingual documentation quality can be enforced in CI and used reliably by agents.
-
-### Scope
-
-#### In Scope
-
-- `arqix lint run --profile i18n` checks:
-  - Missing translation for configured target languages and required kinds/domains
-  - Outdated translation when `translation.source_updated != source.updated`
-  - Mismatched or missing `translation_of`
-  - Wrong `lang` fields
-  - Optional: markup safety checks (arqix markers unchanged across languages)
-- Diagnostics are machine-readable (`--format json`) and deterministic.
-
-#### Out of Scope
-
-- Enforcing linguistic quality of translations
-- Cross-language semantic equivalence checks
+As a maintainer, I want an i18n lint profile that detects missing translations, outdated translations (drift), and translation metadata mismatches, so bilingual documentation quality can be enforced in CI and used reliably by agents.
 
 ### Acceptance Criteria
 
@@ -66,5 +49,22 @@ As a maintainer, I want an i18n lint profile that detects missing translations, 
 - i18n lint can be used as a CI gate (exit code 1 on violations).
 
 ### Notes
+
+
+#### In Scope
+
+- `arqix lint run --profile i18n` checks:
+  - Missing translations for configured target languages and required kinds/domains
+  - Outdated translation when `translation.source_updated != source.updated`
+  - Mismatched or missing `translation_of`
+  - Wrong `lang` fields
+  - Optional: markup safety checks (arqix markers unchanged across languages)
+- Diagnostics are machine-readable (`--format json`) and deterministic.
+
+#### Out of Scope
+
+- Enforcing linguistic quality of translations
+- Cross-language semantic equivalence checks
+
 
 This story depends on the i18n mapping (US-8201) and metadata contract (US-8202).
