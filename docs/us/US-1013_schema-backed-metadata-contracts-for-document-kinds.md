@@ -29,7 +29,12 @@ source: ''
 
 ### Story
 
+<<<<<<< Updated upstream
 As a maintainer, I want schema-backed metadata contracts for each document kind, so that frontmatter drift is caught early and templates remain enforceable over time.
+=======
+## Story
+As a maintainer, I want schema-backed metadata contracts for each document kind, so frontmatter drift is caught early and templates remain enforceable over time.
+>>>>>>> Stashed changes
 
 ### Acceptance Criteria
 
@@ -37,6 +42,11 @@ As a maintainer, I want schema-backed metadata contracts for each document kind,
 - Lint surfaces missing, extra, and type-invalid fields deterministically.
 - Templates and validation use the same contract source.
 
+<<<<<<< Updated upstream
 ### Notes
 
 Draft gap-fill for long-term maintainability and scalable documentation governance.
+=======
+## Notes
+Draft gap fill for long-term maintainability and scalable documentation governance.
+>>>>>>> Stashed changes

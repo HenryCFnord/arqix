@@ -30,12 +30,12 @@ source:
 # Architektur/Governance/Doku-Prozess
 
 ## Story
-As a maintainer, I want to maintain architecture and governance documentation (arc42, ADRs, handbook) consistently, so that arqix applies its own Documentation-as-Code principles.
+As a maintainer, I want to maintain architecture and governance documentation (arc42, ADRs, handbook) consistently, so arqix applies its own Documentation-as-Code principles.
 
 ## Acceptance Criteria
 - The arc42 architecture document is structured into units per chapter and can be assembled.
 - ADRs are maintained using the path model with a canonical governance language.
-- A multi-layer documentation strategy is used (handbook, CLI help, man page, rustdoc).
+- A multi-layer documentation strategy is used (handbook, CLI help, man page, and rustdoc).
 - Mermaid diagrams are used in a C4-oriented way for views.
 - A future documentation consistency check is planned as an extension path.
 

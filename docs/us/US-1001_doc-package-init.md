@@ -29,7 +29,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to initialize a new doc package with a standardized directory structure, so that I can build documentation consistently and reproducibly.
+As a maintainer, I want to initialize a new doc package with a standardized directory structure, so I can build documentation consistently and reproducibly.
 
 ### Acceptance Criteria
 

@@ -35,7 +35,7 @@ source:
 
 ## Story
 
-As a Developer, I want to create a translation document by referencing its source document ID using `doc new --lang <target> --translation-of <ID>`, so that translations are created with correct routing, metadata, and structure without manual setup.
+As a Developer, I want to create a translation document by referencing its source document ID using `doc new --lang <target> --translation-of <ID>`, so translations are created with correct routing, metadata, and structure without manual setup.
 
 ## Acceptance Criteria
 - The command creates the translation file at the correct location for the chosen i18n layout.

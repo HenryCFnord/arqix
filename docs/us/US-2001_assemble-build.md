@@ -28,7 +28,7 @@ source:
 # Assemble build
 
 ## Story
-As a maintainer, I want to assemble a doc package into pages, so that publishable chapters are produced from units.
+As a maintainer, I want to assemble a doc package into pages, so publishable chapters are produced from units.
 
 ## Acceptance Criteria
 - `assemble build <doc-package>` generates `pages/*`.

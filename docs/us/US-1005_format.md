@@ -28,7 +28,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to format documents canonically, so that diffs stay small and conventions are applied automatically.
+As a maintainer, I want to format documents canonically, so diffs stay small and conventions are applied automatically.
 
 ### Acceptance Criteria
 

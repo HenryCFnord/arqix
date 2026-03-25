@@ -36,4 +36,4 @@ As an automation engineer, I want to read specific sections of a document using 
 - Failures identify whether the document or selector was not found.
 
 ## Notes
-Draft gap-fill for precise downstream retrieval workflows.
+Draft gap fill for precise downstream retrieval workflows.

@@ -33,7 +33,7 @@ source:
 # Publish
 
 ## Story
-As a maintainer, I want to generate publishing outputs, so that documentation can be published as PDF and/or a website.
+As a maintainer, I want to generate publishing outputs, so documentation can be published as PDF or a website.
 
 ## Acceptance Criteria
 - Assembled pages are artifact-ready; optionally `site build` is orchestrated.
@@ -44,4 +44,4 @@ As a maintainer, I want to generate publishing outputs, so that documentation ca
 - GitHub Pages deployment is supported (including optional `.nojekyll`).
 
 ## Notes
-Acceptance should cover both successful artifact generation and clean failure forwarding when Pandoc or site generation returns an error. Add integration-style tests for defaults handling, per-package overrides, and artifact placement under the configured mode. Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end.
+Acceptance should cover both successful artifact generation and clean error forwarding when Pandoc or site generation returns an error. Add integration-style tests for defaults handling, per-package overrides, and artifact placement under the configured mode. Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end.

@@ -26,7 +26,7 @@ source:
 
 ### Story
 
-As a maintainer, I want a documented, Codex-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
+As a maintainer, I want a documented, Codex-friendly release process using SemVer, so releases can be prepared traceably and executed safely.
 
 ### Acceptance Criteria
 

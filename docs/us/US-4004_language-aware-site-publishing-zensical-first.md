@@ -34,7 +34,7 @@ source:
 
 ## Story
 
-As a DevOps Engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
+As a DevOps Engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so bilingual documentation can be built and deployed deterministically in CI.
 
 ## Acceptance Criteria
 - `arqix publish site --lang en` builds a site from the EN root and writes outputs to the EN artifact target.

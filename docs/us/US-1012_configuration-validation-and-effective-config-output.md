@@ -29,7 +29,12 @@ source: ''
 
 ### Story
 
+<<<<<<< Updated upstream
 As a maintainer, I want to validate repository configuration and inspect the effective config, so that documentation rules stay consistent and automation has a deterministic baseline.
+=======
+## Story
+As a maintainer, I want to validate repository configuration and inspect the effective config, so documentation rules stay consistent and automation has a deterministic baseline.
+>>>>>>> Stashed changes
 
 ### Acceptance Criteria
 
@@ -37,6 +42,11 @@ As a maintainer, I want to validate repository configuration and inspect the eff
 - `config show` renders the effective config after defaults and overrides are applied.
 - Diagnostics identify the failing key and source file when possible.
 
+<<<<<<< Updated upstream
 ### Notes
 
 Draft gap-fill for Mara Maintainer open needs around diagnostics contracts and baseline configuration management.
+=======
+## Notes
+Draft gap-fill for Mara Maintainer's open needs around diagnostics contracts and baseline configuration management.
+>>>>>>> Stashed changes

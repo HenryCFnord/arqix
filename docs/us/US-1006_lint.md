@@ -29,7 +29,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to lint documents, so that errors (includes, metadata, IDs) are found early and deterministically.
+As a maintainer, I want to lint documents, so errors in includes, metadata, and IDs are found early and deterministically.
 
 ### Acceptance Criteria
 

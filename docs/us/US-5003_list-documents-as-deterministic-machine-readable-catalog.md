@@ -36,4 +36,4 @@ As an automation engineer, I want a deterministic document catalog export, so th
 - Filtering by kind and language is supported.
 
 ## Notes
-Draft gap-fill for Alex AIOps workflows that treat documentation as a dataset.
+Draft gap fill for Alex AIOps workflows that treat documentation as a dataset.

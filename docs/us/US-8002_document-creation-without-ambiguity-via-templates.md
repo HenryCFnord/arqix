@@ -21,7 +21,7 @@ source:
 
 # US-8002 — Document creation without ambiguity via templates
 
-As an Automation Agent, I want to create documents via `doc new <kind>` using deterministic defaults for ID generation and target paths, so that I can generate conforming documents without guessing where they belong or how they should be structured.
+As an Automation Agent, I want to create documents via `doc new <kind>` using deterministic defaults for ID generation and target paths, so I can generate conforming documents without guessing where they belong or how they should be structured.
 
 ## Acceptance Criteria
 
@@ -42,4 +42,3 @@ In scope:
 Out of scope:
 - Interactive prompts
 - Arbitrary free-form template engines
-

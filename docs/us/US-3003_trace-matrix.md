@@ -26,11 +26,11 @@ source:
 # Trace matrix
 
 ## Story
-As a maintainer, I want to export a trace matrix, so that I can analyze relationships (REQ×Test, US×REQ) in tabular form.
+As a maintainer, I want to export a trace matrix, so I can analyze relationships (REQ×Test, US×REQ) in tabular form.
 
 ## Acceptance Criteria
 - `report trace-matrix` can export CSV.
 - At least `REQ×Test` and `US×REQ` are supported.
 
 ## Notes
-Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.
+Acceptance should confirm that the exported CSV has stable headers and one row model for each supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.

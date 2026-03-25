@@ -28,7 +28,7 @@ source: ''
 # Generate audit evidence bundles by requirement scope
 
 ## Story
-As an auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so that audits can review a reproducible package of requirements, implementation evidence, and verification links.
+As an auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so audits can review a reproducible package of requirements, implementation evidence, and verification links.
 
 ## Acceptance Criteria
 - A command exports an evidence bundle for one or more selected IDs.
@@ -36,4 +36,4 @@ As an auditor, I want to generate an evidence bundle for a chosen requirement or
 - Bundle contents are deterministic for identical inputs.
 
 ## Notes
-Draft gap-fill for Avery Auditor evidence-chain review workflows.
+Draft gap fill for Avery Auditor evidence-chain review workflows.

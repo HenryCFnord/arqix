@@ -27,7 +27,7 @@ source:
 # MCP stdio
 
 ## Story
-As a maintainer, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
+As a maintainer, I want to expose arqix via MCP over stdio, so agents can use standardized tools to access documentation.
 
 ## Acceptance Criteria
 - `mcp serve` supports stdio transport.

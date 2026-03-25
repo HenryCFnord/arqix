@@ -27,7 +27,7 @@ source:
 # Search/read
 
 ## Story
-As a maintainer, I want to search and read documentation, so that I can quickly retrieve content via CLI (and later via MCP).
+As a maintainer, I want to search and read documentation, so I can quickly retrieve content via the CLI, and later via MCP.
 
 ## Acceptance Criteria
 - Search is available (v0: full-text is sufficient).

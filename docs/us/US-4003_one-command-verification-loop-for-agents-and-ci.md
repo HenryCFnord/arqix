@@ -21,7 +21,7 @@ source:
 
 # US-4003 — One-command verification loop for agents and CI
 
-As an Automation Agent (and DevOps Engineer), I want a single arqix command to run the standard verification loop (format, lint, trace, coverage) and return a consolidated result, so that automation and CI can validate changes with one deterministic invocation.
+As an Automation Agent (and DevOps Engineer), I want a single arqix command to run the standard verification loop (format, lint, trace, coverage) and return a consolidated result, so automation and CI can validate changes with one deterministic invocation.
 
 ## Acceptance Criteria
 
@@ -43,4 +43,3 @@ In scope:
 Out of scope:
 - Rendering (PDF/site) in the default check loop
 - Auto-fix beyond formatting
-

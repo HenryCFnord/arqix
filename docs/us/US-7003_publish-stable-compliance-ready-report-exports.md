@@ -28,7 +28,7 @@ source: ''
 # Publish stable compliance-ready report exports
 
 ## Story
-As an auditor, I want stable compliance-ready report exports, so that review packages can be attached to audits without manual cleanup or reformatting.
+As an auditor, I want stable compliance-ready report exports, so review packages can be attached to audits without manual cleanup or reformatting.
 
 ## Acceptance Criteria
 - Audit-oriented exports support at least Markdown, CSV, and JSON where applicable.
@@ -36,4 +36,4 @@ As an auditor, I want stable compliance-ready report exports, so that review pac
 - Report metadata records generation time, scope, and source inputs.
 
 ## Notes
-Draft gap-fill for reproducible external review packages.
+Draft gap fill for reproducible external review packages.

@@ -28,7 +28,7 @@ source: ''
 # Glossary term scaffolding with cross-linkable IDs
 
 ## Story
-As an architect, I want to create glossary terms from a template with stable IDs, so that architecture vocabulary stays consistent across ADRs, handbooks, and requirements.
+As an architect, I want to create glossary terms from a template with stable IDs, so architecture vocabulary stays consistent across ADRs, handbooks, and requirements.
 
 ## Acceptance Criteria
 - `doc new glossary` creates a glossary term with required metadata and deterministic routing.
@@ -36,4 +36,4 @@ As an architect, I want to create glossary terms from a template with stable IDs
 - Lint detects duplicate or malformed glossary IDs.
 
 ## Notes
-Draft gap-fill for Aria Architect terminology governance.
+Draft gap fill for Aria Architect terminology governance.

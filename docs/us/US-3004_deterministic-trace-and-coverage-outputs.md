@@ -21,7 +21,7 @@ source:
 
 # US-3004 — Deterministic trace and coverage outputs
 
-As an Automation Agent, I want trace graphs, matrices, and coverage reports to be deterministic (stable ordering and stable formatting), so that I can produce clean diffs and reliably detect meaningful changes.
+As an Automation Agent, I want trace graphs, matrices, and coverage reports to be deterministic (stable ordering and stable formatting), so I can produce clean diffs and reliably detect meaningful changes.
 
 ## Acceptance Criteria
 
@@ -39,4 +39,3 @@ In scope:
 Out of scope:
 - Semantic diffing or change explanations
 - Performance optimizations
-

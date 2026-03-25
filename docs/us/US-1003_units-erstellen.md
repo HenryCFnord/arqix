@@ -28,7 +28,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to create units quickly, so that I can maintain documentation modularly and consistently in small building blocks.
+As a maintainer, I want to create units quickly, so I can maintain documentation modularly in small, consistent building blocks.
 
 ### Acceptance Criteria
 

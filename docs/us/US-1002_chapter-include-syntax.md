@@ -29,7 +29,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to use chapter and include directives in Markdown, so that I can structure documents declaratively and include units deterministically.
+As a maintainer, I want to use chapter and include directives in Markdown, so I can structure documents declaratively and include units deterministically.
 
 ### Acceptance Criteria
 
@@ -39,4 +39,4 @@ As a maintainer, I want to use chapter and include directives in Markdown, so th
 
 ### Notes
 
-Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic. Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files. Keep the directive grammar small and document unsupported attributes rather than inferring behavior implicitly.
+Treat directive parsing as complete only when valid chapter and include markers survive formatting, and invalid forms fail with a clear diagnostic. Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files. Keep the directive grammar small and document unsupported attributes rather than inferring behavior implicitly.

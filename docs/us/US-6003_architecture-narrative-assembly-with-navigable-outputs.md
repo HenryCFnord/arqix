@@ -28,12 +28,12 @@ source: ''
 # Architecture narrative assembly with navigable outputs
 
 ## Story
-As an architect, I want architecture narratives to assemble into a navigable documentation view, so that decision records, glossary terms, and handbook chapters remain coherent as the system evolves.
+As an architect, I want architecture narratives to assemble into a navigable documentation view, so decision records, glossary terms, and handbook chapters remain coherent as the system evolves.
 
 ## Acceptance Criteria
 - Architecture source units assemble into a predictable chapter order.
 - Cross-links between ADRs, glossary terms, and architecture pages resolve consistently.
-- Publish validation reports broken architecture navigation paths.
+- Publish validation reports for broken architecture navigation paths.
 
 ## Notes
-Draft gap-fill for modular and publishable architecture documentation.
+Draft gap fill for modular and publishable architecture documentation.

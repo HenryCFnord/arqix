@@ -27,7 +27,7 @@ source:
 # CI gates
 
 ## Story
-As a maintainer, I want consistent exit codes and CI support, so that automation can react to arqix reliably.
+As a maintainer, I want consistent exit codes and CI support, so automation can react to arqix reliably.
 
 ## Acceptance Criteria
 - Exit codes are consistent: `0` ok, `1` lint fail, `2` usage.

@@ -28,7 +28,7 @@ source: ''
 # Filter traceability reports for audit review views
 
 ## Story
-As an auditor, I want filtered traceability report views, so that I can focus on high-risk gaps without manually reshaping raw exports.
+As an auditor, I want filtered traceability report views, so I can focus on high-risk gaps without manually reshaping raw exports.
 
 ## Acceptance Criteria
 - Trace and coverage reports support filtering by document kind, status, and missing-link category.
@@ -36,4 +36,4 @@ As an auditor, I want filtered traceability report views, so that I can focus on
 - Each finding links back to the originating document or file location.
 
 ## Notes
-Draft gap-fill for quick risk-oriented audit review.
+Draft gap fill for quick risk-oriented audit review.

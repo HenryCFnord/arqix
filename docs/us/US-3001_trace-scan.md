@@ -29,7 +29,7 @@ source:
 # Trace scan
 
 ## Story
-As a maintainer, I want to scan traceability information, so that a graph of documentation, code, and test references can be built.
+As a maintainer, I want to scan traceability information, so a graph of documentation, code, and test references can be built.
 
 ## Acceptance Criteria
 - `trace scan` detects markers in Rust comments (markers configurable).

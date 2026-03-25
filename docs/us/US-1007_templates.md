@@ -29,7 +29,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to create documents from templates, so that new artifacts (glossary/REQ/US/ADR) are compliant from the start.
+As a maintainer, I want to create documents from templates, so new artifacts (glossary/REQ/US/ADR) are compliant from the start.
 
 ### Acceptance Criteria
 

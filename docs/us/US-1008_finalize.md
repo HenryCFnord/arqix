@@ -28,7 +28,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to mechanically finalize metadata, so that `updated` is set consistently without rewriting content.
+As a maintainer, I want to mechanically finalize metadata, so `updated` is set consistently without rewriting content.
 
 ### Acceptance Criteria
 

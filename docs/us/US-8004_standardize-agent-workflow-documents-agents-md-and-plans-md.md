@@ -21,7 +21,7 @@ source:
 
 # US-8004 — Standardize agent workflow documents (AGENTS.md and PLANS.md)
 
-As an Automation Agent, I want AGENTS.md and PLANS.md to follow a standardized structure and clear editing rules, so that I can reliably execute tasks story-by-story without rewriting planning documents or guessing process constraints.
+As an Automation Agent, I want AGENTS.md and PLANS.md to follow a standardized structure and clear editing rules, so I can reliably execute tasks story by story without rewriting planning documents or guessing process constraints.
 
 ## Acceptance Criteria
 
@@ -45,4 +45,3 @@ In scope:
 
 Out of scope:
 - Tooling that automatically enforces or generates these documents (may come later)
-
