@@ -165,22 +165,22 @@ Handoffs are still valid scoped artifacts when a more formal written handoff is 
 
 ```mermaid
 flowchart TD
-    A[New change] --> B{Is it only a trivial low-risk change?}
-    B -->|Yes| C[Push directly to main]
-    B -->|No| D{Is it entering as a free-text idea?}
-    D -->|Yes| E[Create a planning branch and docs/plans package]
-    D -->|No| F{Is the artifact itself the work?}
-    E --> G{Has the plan been reviewed?}
-    G -->|No| H[Review and refine the planning package]
-    G -->|Yes| I{Is AI involved or is the change non-trivial?}
-    F -->|Yes| J{Is it small and easy to self-review?}
-    J -->|Yes| K[Use a branch only]
-    J -->|No| L[Use branch plus PR]
-    F -->|No| M{Does it need explicit scope tracking or acceptance criteria?}
-    M -->|No| N[Use a branch only]
-    M -->|Yes| O[Create an issue plus a branch]
-    O --> I
-    I -->|Yes| P[Use issue plus branch plus PR]
+    A[New change] --> B{Is it only a trivial low-risk change?}
+    B -->|Yes| C[Push directly to main]
+    B -->|No| D{Is it entering as a free-text idea?}
+    D -->|Yes| E[Create a planning branch and docs/plans package]
+    D -->|No| F{Is the artifact itself the work?}
+    E --> G{Has the plan been reviewed?}
+    G -->|No| H[Review and refine the planning package]
+    G -->|Yes| I{Is AI involved or is the change non-trivial?}
+    F -->|Yes| J{Is it small and easy to self-review?}
+    J -->|Yes| K[Use a branch only]
+    J -->|No| L[Use branch plus PR]
+    F -->|No| M{Does it need explicit scope tracking or acceptance criteria?}
+    M -->|No| N[Use a branch only]
+    M -->|Yes| O[Create an issue plus a branch]
+    O --> I
+    I -->|Yes| P[Use issue plus branch plus PR]
     I -->|No| Q[Issue plus branch may be enough]
 ```
 
