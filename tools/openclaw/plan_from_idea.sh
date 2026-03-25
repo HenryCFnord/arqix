@@ -111,7 +111,6 @@ branch_name=$(./tools/openclaw/plan_branch_name.sh --category "$task_category" -
 printf 'needs_category=false\n'
 printf 'suggested_title=%s\n' "$task_title"
 printf 'suggested_slug=%s\n' "$task_slug"
-printf 'branch=%s\n' "$branch_name"
 
 plan_intake_args=(
   --category "$task_category"
