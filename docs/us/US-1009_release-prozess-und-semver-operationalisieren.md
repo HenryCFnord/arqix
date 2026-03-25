@@ -35,4 +35,4 @@ As a maintainer, I want a documented, Codex-friendly release process using SemVe
 - Breaking changes require migration notes and changelog entries.
 
 ## Notes
-TODO
+Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps. Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently. Keep the process explicit about the final manual approval points for tagging and publishing.

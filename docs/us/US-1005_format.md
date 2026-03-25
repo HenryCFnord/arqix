@@ -35,4 +35,4 @@ As a maintainer, I want to format documents canonically, so that diffs stay smal
 - `fmt` normalizes directives (attribute order, whitespace) without semantic changes.
 
 ## Notes
-TODO
+Acceptance should prove that formatting is idempotent and does not change document meaning beyond canonical ordering and whitespace normalization. Add snapshot-style tests for frontmatter key ordering and directive normalization on realistic inputs. Any fields or directives intentionally left untouched should be called out explicitly to avoid accidental scope growth.

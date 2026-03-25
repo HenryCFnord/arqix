@@ -37,4 +37,4 @@ As a maintainer, I want to assemble a doc package into pages, so that publishabl
 - Include cycles are detected and fail with a clear error message.
 
 ## Notes
-TODO
+The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace. Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs. The first implementation should optimize for clear diagnostics over aggressive assembly features.

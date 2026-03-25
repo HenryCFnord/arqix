@@ -34,4 +34,4 @@ As a maintainer, I want to export a trace matrix, so that I can analyze relation
 - At least `REQ×Test` and `US×REQ` are supported.
 
 ## Notes
-TODO
+Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.

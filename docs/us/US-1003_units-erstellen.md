@@ -35,4 +35,4 @@ As a maintainer, I want to create units quickly, so that I can maintain document
 - Units can carry a global `id` (frontmatter or directive) that is linted for uniqueness.
 
 ## Notes
-TODO
+Acceptance should cover both the default unit creation path and the configured variant without frontmatter. Add tests for unique ID validation across multiple units and for the generated file shape when optional metadata is disabled. The command help should make clear where units are created and how IDs are supplied.

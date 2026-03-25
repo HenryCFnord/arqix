@@ -35,4 +35,4 @@ As a maintainer, I want to expose arqix via MCP over stdio, so that agents can u
 - MCP provides at least the tools `search`, `read`, `list`.
 
 ## Notes
-TODO
+Acceptance should prove that an MCP client can start the server over stdio, discover the declared tools, and execute `search`, `read`, and `list` successfully. Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers. Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently.

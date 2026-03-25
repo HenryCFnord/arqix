@@ -37,4 +37,4 @@ As a maintainer, I want to generate coverage reports, so that I can detect gaps 
 - Output supports at least Markdown and JSON.
 
 ## Notes
-TODO
+This report is useful only if missing links are easy to spot and identical inputs produce identical output ordering. Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering. A good next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones.

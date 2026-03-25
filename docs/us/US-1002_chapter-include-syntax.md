@@ -37,4 +37,4 @@ As a maintainer, I want to use chapter and include directives in Markdown, so th
 - Glob includes are expanded deterministically (sorting via config).
 
 ## Notes
-TODO
+Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic. Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files. Keep the directive grammar small and document unsupported attributes rather than inferring behavior implicitly.

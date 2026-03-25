@@ -35,4 +35,4 @@ As a maintainer, I want consistent exit codes and CI support, so that automation
 - Optionally, a GitHub Actions template exists for typical gates.
 
 ## Notes
-TODO
+This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging. Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors. If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only.

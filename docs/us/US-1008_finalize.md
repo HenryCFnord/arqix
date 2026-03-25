@@ -35,4 +35,4 @@ As a maintainer, I want to mechanically finalize metadata, so that `updated` is 
 - `finalize` performs only mechanical changes (no rewriting of body text).
 
 ## Notes
-TODO
+This should be treated as a narrow metadata operation, not a content rewrite step. Add tests showing that `updated` is written in `YYYY-MM-DD` format and that repeated runs only touch metadata when the value changes. If files without frontmatter are unsupported, fail clearly and document that boundary.

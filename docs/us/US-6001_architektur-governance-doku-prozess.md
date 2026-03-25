@@ -41,4 +41,4 @@ As a maintainer, I want to maintain architecture and governance documentation (a
 - A future documentation consistency check is planned as an extension path.
 
 ## Notes
-TODO
+This story is complete when the governance documents follow the same assembly and maintenance rules expected from product documentation. Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs. Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery.

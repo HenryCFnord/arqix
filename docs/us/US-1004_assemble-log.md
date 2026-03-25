@@ -34,4 +34,4 @@ As a maintainer, I want a machine-readable log during assembly, so that I can tr
 - Log contains at least: `doc`, `chapter_id`, `out`, `include`, `sha256`, `bytes`, `at_line`.
 
 ## Notes
-TODO
+This is done when each assembly step emits one stable JSONL record that downstream tooling can parse without guessing field names. Add a test that checks the required keys and verifies the logged hash and byte count against a known include. If logging can be disabled or redirected, capture that behavior in CLI help and examples.

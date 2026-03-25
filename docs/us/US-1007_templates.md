@@ -37,4 +37,4 @@ As a maintainer, I want to create documents from templates, so that new artifact
 - Templates support placeholders `{title}`, `{slug}`, `{id}`.
 
 ## Notes
-TODO
+Acceptance should verify that every configured template kind renders the expected file skeleton with placeholders resolved consistently. Add tests for supported aliases, unknown kinds, and deterministic `{slug}` and `{id}` substitution from the same title. The next step is to keep template configuration as the single source of truth so command behavior and docs stay aligned.

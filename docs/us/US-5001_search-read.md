@@ -35,4 +35,4 @@ As a maintainer, I want to search and read documentation, so that I can quickly 
 - `read` supports `doc-id` and optionally `section/anchor`.
 
 ## Notes
-TODO
+The first version is sufficient if maintainers can reliably find a document by text query and read a full document or anchored section without extra tooling. Add tests for exact and partial matches, ambiguous search results, and missing anchors. Keep CLI output concise because the same behavior will likely be reused by MCP later.

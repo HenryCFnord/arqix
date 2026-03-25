@@ -37,4 +37,4 @@ As a maintainer, I want to lint documents, so that errors (includes, metadata, I
 - `lint` reports duplicate IDs globally (units/REQ/US/ADR/glossary).
 
 ## Notes
-TODO
+The lint pass is ready when all configured checks report precise file and line context and return a failing status for invalid input. Add targeted fixtures for missing includes, forbidden unit metadata keys, and duplicate IDs across document types. Keep the output deterministic so CI failures are easy to compare and review.

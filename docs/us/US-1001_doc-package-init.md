@@ -38,4 +38,4 @@ As a maintainer, I want to initialize a new doc package with a standardized dire
 - Existing files are not overwritten without explicit approval.
 
 ## Notes
-TODO
+Acceptance is met when initialization works in an empty target path and produces the expected scaffold without manual cleanup. Add tests for deterministic `id` and `slug` generation from the same title input and for the refusal path when files already exist. Document any prompt or force behavior explicitly if overwrite protection is configurable.
