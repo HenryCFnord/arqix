@@ -109,6 +109,15 @@ else
   git switch --quiet -c "$branch_name" "$base_branch"
 fi
 
+# Re-check plan package existence on the checked-out branch to avoid accidental overwrite
+if [ -d "$plan_dir" ]; then
+  echo "Error: planning package already exists on target branch: $plan_dir" >&2
+  if [ "$branch_existed" = true ]; then
+    git switch --quiet -
+  fi
+  exit 26
+fi
+
 mkdir -p "$plan_dir"
 
 created_at=$(iso_timestamp_utc)
