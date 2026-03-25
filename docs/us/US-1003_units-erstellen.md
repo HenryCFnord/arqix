@@ -4,19 +4,19 @@ kind: user_story
 title: Units erstellen
 status: draft
 tags:
-- user-story
-owner: hendrik
+  - user-story
+owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
 priority: medium
 related:
   requirements:
-  - REQ-US-1003-01
-  - REQ-US-1003-02
+    - REQ-US-1003-01
+    - REQ-US-1003-02
   docs: []
   adrs: []
   personas:
-  - PER-0001
+    - PER-0001
 lang: en
 translation_of: US-1003
 translation_status: draft
@@ -25,14 +25,18 @@ source:
 persona: PER-0001
 old_id: US-0003
 ---
-# Units erstellen
 
-## Story
+## Units Erstellen
+
+### Story
+
 As a maintainer, I want to create units quickly, so that I can maintain documentation modularly and consistently in small building blocks.
 
-## Acceptance Criteria
+### Acceptance Criteria
+
 - `unit new` creates a unit file (frontmatter optional, configurable).
 - Units can carry a global `id` (frontmatter or directive) that is linted for uniqueness.
 
-## Notes
+### Notes
+
 Acceptance should cover both the default unit creation path and the configured variant without frontmatter. Add tests for unique ID validation across multiple units and for the generated file shape when optional metadata is disabled. The command help should make clear where units are created and how IDs are supplied.
