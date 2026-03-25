@@ -181,7 +181,7 @@ flowchart TD
     M -->|Yes| O[Create an issue plus a branch]
     O --> I
     I -->|Yes| P[Use issue plus branch plus PR]
-Â  Â  I -->|No| Q[Issue plus branch may be enough]
+Â  Â  I -->|No| Q[Issue plus branch may be enough]
 ```
 
 ## Branch Naming
