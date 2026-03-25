@@ -116,7 +116,8 @@ latest_commit=$(git rev-parse --short HEAD)
 
 cat > "${plan_dir}/IDEA.md" <<EOF
 ---
-title: "${task_title}"
+title: |
+  ${task_title}
 date: ${created_at}
 status: draft-created
 category: ${task_category}
@@ -140,7 +141,8 @@ EOF
 
 cat > "${plan_dir}/PLANS.md" <<EOF
 ---
-title: "${task_title} plan"
+title: |
+  ${task_title} plan
 date: ${created_at}
 status: draft-created
 category: ${task_category}
@@ -192,7 +194,8 @@ EOF
 
 cat > "${plan_dir}/STATUS.md" <<EOF
 ---
-title: "${task_title} status"
+title: |
+  ${task_title} status
 date: ${created_at}
 status: awaiting-human-review
 branch: ${branch_name}
