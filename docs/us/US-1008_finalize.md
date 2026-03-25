@@ -1,0 +1,38 @@
+---
+id: US-1008
+kind: user_story
+title: Finalize
+status: draft
+tags:
+- user-story
+owner: hendrik
+created: 2026-02-22
+updated: 2026-02-22
+priority: medium
+related:
+  requirements:
+  - REQ-US-1008-01
+  - REQ-US-1008-02
+  docs: []
+  adrs: []
+  personas:
+  - PER-0001
+lang: en
+translation_of: US-1008
+translation_status: draft
+generated: false
+source:
+persona: PER-0001
+old_id: US-0009
+---
+# Finalize
+
+## Story
+As a maintainer, I want to mechanically finalize metadata, so that `updated` is set consistently without rewriting content.
+
+## Acceptance Criteria
+- `finalize` sets `updated` as an ISO-8601 date (`YYYY-MM-DD`).
+- `finalize` performs only mechanical changes (no rewriting of body text).
+
+## Notes
+TODO
