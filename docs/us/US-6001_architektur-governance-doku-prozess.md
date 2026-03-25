@@ -31,7 +31,7 @@ old_id: US-0022
 # Architektur/Governance/Doku-Prozess
 
 ## Story
-As a maintainer, I want to maintain architecture and governance documentation (arc42, ADRs, handbook) consistently, so that darcy applies its own Documentation-as-Code principles.
+As a maintainer, I want to maintain architecture and governance documentation (arc42, ADRs, handbook) consistently, so that arqix applies its own Documentation-as-Code principles.
 
 ## Acceptance Criteria
 - The arc42 architecture document is structured into units per chapter and can be assembled.

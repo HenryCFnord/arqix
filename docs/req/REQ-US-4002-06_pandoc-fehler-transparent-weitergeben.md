@@ -26,7 +26,7 @@ old_id: REQ-0042
 # Pandoc-Fehler transparent weitergeben
 
 ## Statement
-darcy MUST forward Pandoc errors cleanly with exit code and `stderr` so that CI and agents can react reliably.
+arqix MUST forward Pandoc errors cleanly with exit code and `stderr` so that CI and agents can react reliably.
 
 ## Rationale
 TODO

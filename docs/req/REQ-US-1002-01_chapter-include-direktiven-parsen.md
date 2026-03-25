@@ -26,7 +26,7 @@ old_id: REQ-0004
 # chapter/include Direktiven parsen
 
 ## Statement
-When a Markdown file contains darcy directives, the system MUST parse `<!-- darcy:chapter ... -->` and `<!-- darcy:include ... -->`.
+When a Markdown file contains arqix directives, the system MUST parse `<!-- arqix:chapter ... -->` and `<!-- arqix:include ... -->`.
 
 ## Rationale
 TODO

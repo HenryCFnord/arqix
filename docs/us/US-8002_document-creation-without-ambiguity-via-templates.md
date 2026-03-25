@@ -33,6 +33,6 @@ Out of scope:
 ## Acceptance Criteria
 
 - `doc new <kind> --title "<t>"` creates a new document in the configured location for that kind.
-- If no `--id` is provided, darcy generates an ID using configured policy and verifies uniqueness.
+- If no `--id` is provided, arqix generates an ID using configured policy and verifies uniqueness.
 - The created document uses the configured template and has required frontmatter fields present.
 - `--dry-run` reports planned ID and target path without writing files.

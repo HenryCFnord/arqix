@@ -26,7 +26,7 @@ old_id: REQ-0049
 # Rustdoc für öffentliche APIs pflegen
 
 ## Statement
-darcy SHOULD document public Rust APIs for ADR, docs, and traceability with rustdoc.
+arqix SHOULD document public Rust APIs for ADR, docs, and traceability with rustdoc.
 
 ## Rationale
 TODO

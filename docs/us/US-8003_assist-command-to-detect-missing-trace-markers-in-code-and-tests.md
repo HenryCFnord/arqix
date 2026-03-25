@@ -15,7 +15,7 @@ related:
 ---
 # US-8003 — Assist command to detect missing trace markers in code and tests
 
-As an Automation Agent, I want darcy to detect missing `implements` and `verifies` markers for a given requirement across code and tests, so that I can add only the missing annotations and avoid unnecessary edits.
+As an Automation Agent, I want arqix to detect missing `implements` and `verifies` markers for a given requirement across code and tests, so that I can add only the missing annotations and avoid unnecessary edits.
 
 ## Scope
 
@@ -29,7 +29,7 @@ Out of scope:
 
 ## Acceptance Criteria
 
-- A command exists, e.g. `darcy trace check --req REQ-xxxx`, that reports:
+- A command exists, e.g. `arqix trace check --req REQ-xxxx`, that reports:
   - whether any `implements` markers exist
   - whether any `verifies` markers exist
   - locations of existing markers (path + line)

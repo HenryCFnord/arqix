@@ -34,7 +34,7 @@ Out of scope:
   - scope rules (one story at a time)
   - no opportunistic refactors
   - editing constraints for PLANS.md
-  - required darcy command loop (fmt/lint/trace/coverage)
+  - required arqix command loop (fmt/lint/trace/coverage)
 - PLANS.md includes story tasks with:
   - scope in/out
   - acceptance criteria

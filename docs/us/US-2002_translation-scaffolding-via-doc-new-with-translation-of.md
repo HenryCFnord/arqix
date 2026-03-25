@@ -40,7 +40,7 @@ As a Developer, I want to create a translation document by referencing its sourc
 ## Scope
 
 ### In scope
-- `darcy doc new <kind> --lang <target> --translation-of <ID>`:
+- `arqix doc new <kind> --lang <target> --translation-of <ID>`:
   - resolves the source document in `source_lang`
   - routes the translation file deterministically using the configured i18n layout
   - writes translation metadata:
@@ -57,7 +57,7 @@ As a Developer, I want to create a translation document by referencing its sourc
 - The translation file contains correct metadata linking it to the source ID.
 - `--dry-run` reports the planned target path and metadata without writing.
 - The operation fails with a clear diagnostic if the source document cannot be found.
-- The created translation preserves darcy markup directives and structural elements according to the scaffold strategy.
+- The created translation preserves arqix markup directives and structural elements according to the scaffold strategy.
 
 ## Notes
 This is intentionally not a separate top-level i18n command.

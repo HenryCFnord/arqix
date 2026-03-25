@@ -26,7 +26,7 @@ old_id: REQ-0043
 # Lokale Render-Konfiguration pro Doc-Package erlauben
 
 ## Statement
-darcy SHOULD allow local render configuration per doc package, for example via `docs/<pkg>/pandoc/*.yaml` or `docs/<pkg>/darcy.toml` overrides.
+arqix SHOULD allow local render configuration per doc package, for example via `docs/<pkg>/pandoc/*.yaml` or `docs/<pkg>/arqix.toml` overrides.
 
 ## Rationale
 TODO

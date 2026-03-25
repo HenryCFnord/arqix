@@ -26,7 +26,7 @@ old_id: REQ-0014
 # fmt Direktiven normalisieren
 
 ## Statement
-`fmt` MUST normalize darcy directives regarding attribute order and whitespace without changing semantics.
+`fmt` MUST normalize arqix directives regarding attribute order and whitespace without changing semantics.
 
 ## Rationale
 TODO

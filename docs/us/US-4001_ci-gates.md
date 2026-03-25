@@ -28,7 +28,7 @@ old_id: US-0015
 # CI gates
 
 ## Story
-As a maintainer, I want consistent exit codes and CI support, so that automation can react to darcy reliably.
+As a maintainer, I want consistent exit codes and CI support, so that automation can react to arqix reliably.
 
 ## Acceptance Criteria
 - Exit codes are consistent: `0` ok, `1` lint fail, `2` usage.

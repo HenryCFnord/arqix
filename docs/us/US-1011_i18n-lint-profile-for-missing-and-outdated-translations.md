@@ -41,12 +41,12 @@ As a Maintainer, I want an i18n lint profile that detects missing translations, 
 ## Scope
 
 ### In scope
-- `darcy lint run --profile i18n` checks:
+- `arqix lint run --profile i18n` checks:
   - Missing translation for configured target languages and required kinds/domains
   - Outdated translation when `translation.source_updated != source.updated`
   - Mismatched or missing `translation_of`
   - Wrong `lang` fields
-  - Optional: markup safety checks (darcy markers unchanged across languages)
+  - Optional: markup safety checks (arqix markers unchanged across languages)
 - Diagnostics are machine-readable (`--format json`) and deterministic.
 
 ### Out of scope
@@ -58,7 +58,7 @@ As a Maintainer, I want an i18n lint profile that detects missing translations, 
   - an EN source doc without required DE translation
   - a DE translation doc whose `translation_of` cannot be resolved
   - a DE translation doc whose `source_updated` is older than source `updated`
-- The set of required kinds/domains is configurable (policy in `darcy.toml`).
+- The set of required kinds/domains is configurable (policy in `arqix.toml`).
 - Diagnostics include stable codes and source locations.
 - i18n lint can be used as a CI gate (exit code 1 on violations).
 

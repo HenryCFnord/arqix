@@ -32,7 +32,7 @@ old_id: US-0002
 As a maintainer, I want to use chapter and include directives in Markdown, so that I can structure documents declaratively and include units deterministically.
 
 ## Acceptance Criteria
-- Directives `<!-- darcy:chapter ... -->` and `<!-- darcy:include ... -->` are parsed.
+- Directives `<!-- arqix:chapter ... -->` and `<!-- arqix:include ... -->` are parsed.
 - Include targets are restricted to allowed roots via configuration.
 - Glob includes are expanded deterministically (sorting via config).
 

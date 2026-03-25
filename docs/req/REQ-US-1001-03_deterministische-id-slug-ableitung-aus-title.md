@@ -26,7 +26,7 @@ old_id: REQ-0003
 # Deterministische id/slug Ableitung aus title
 
 ## Statement
-When `darcy doc init` processes a `title`, the system MUST derive `id` and `slug` deterministically according to configurable slug rules.
+When `arqix doc init` processes a `title`, the system MUST derive `id` and `slug` deterministically according to configurable slug rules.
 
 ## Rationale
 TODO

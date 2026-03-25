@@ -26,7 +26,7 @@ old_id: REQ-0044
 # HTML-Deployment für GitHub Pages unterstützen
 
 ## Statement
-darcy SHOULD support HTML deployment for GitHub Pages, where static content can be deployed directly and `.nojekyll` can be added when needed.
+arqix SHOULD support HTML deployment for GitHub Pages, where static content can be deployed directly and `.nojekyll` can be added when needed.
 
 ## Rationale
 TODO

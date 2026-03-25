@@ -1,7 +1,7 @@
 ---
 id: US-8001
 kind: user_story
-title: Machine-readable diagnostics for darcy commands
+title: Machine-readable diagnostics for arqix commands
 status: draft
 workflows:
 - WF-0008
@@ -13,9 +13,9 @@ related:
   personas:
   - PER-0008
 ---
-# US-8001 — Machine-readable diagnostics for darcy commands
+# US-8001 — Machine-readable diagnostics for arqix commands
 
-As an Automation Agent, I want darcy commands to emit machine-readable diagnostics (JSON) with stable fields and source locations, so that I can automatically interpret failures, localize issues, and either fix them deterministically or stop with actionable output.
+As an Automation Agent, I want arqix commands to emit machine-readable diagnostics (JSON) with stable fields and source locations, so that I can automatically interpret failures, localize issues, and either fix them deterministically or stop with actionable output.
 
 ## Scope
 

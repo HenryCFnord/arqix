@@ -26,7 +26,7 @@ old_id: REQ-0050
 # Doku-Konsistenzcheck später unterstützen
 
 ## Statement
-darcy SHOULD later support a documentation consistency check that can verify, for example, whether a process exists in the handbook, CLI help, and rustdoc.
+arqix SHOULD later support a documentation consistency check that can verify, for example, whether a process exists in the handbook, CLI help, and rustdoc.
 
 ## Rationale
 TODO

@@ -26,7 +26,7 @@ old_id: REQ-0002
 # index.md Frontmatter im doc init erzeugen
 
 ## Statement
-When `darcy doc init` creates an `index.md`, the file MUST contain frontmatter with `id`, `kind=doc_index`, and `title`.
+When `arqix doc init` creates an `index.md`, the file MUST contain frontmatter with `id`, `kind=doc_index`, and `title`.
 
 ## Rationale
 TODO

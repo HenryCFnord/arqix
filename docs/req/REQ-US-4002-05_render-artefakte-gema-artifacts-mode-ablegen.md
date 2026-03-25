@@ -26,7 +26,7 @@ old_id: REQ-0041
 # Render-Artefakte gemäß artifacts.mode ablegen
 
 ## Statement
-darcy MUST store render artifacts such as PDFs and logs according to `artifacts.mode`.
+arqix MUST store render artifacts such as PDFs and logs according to `artifacts.mode`.
 
 ## Rationale
 TODO

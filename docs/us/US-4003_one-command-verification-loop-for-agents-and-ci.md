@@ -16,12 +16,12 @@ related:
 ---
 # US-4003 — One-command verification loop for agents and CI
 
-As an Automation Agent (and DevOps Engineer), I want a single darcy command to run the standard verification loop (format, lint, trace, coverage) and return a consolidated result, so that automation and CI can validate changes with one deterministic invocation.
+As an Automation Agent (and DevOps Engineer), I want a single arqix command to run the standard verification loop (format, lint, trace, coverage) and return a consolidated result, so that automation and CI can validate changes with one deterministic invocation.
 
 ## Scope
 
 In scope:
-- A `darcy check` or `darcy verify` command that runs:
+- A `arqix check` or `arqix verify` command that runs:
   - formatting (optionally check-only)
   - lint
   - trace scan
@@ -35,6 +35,6 @@ Out of scope:
 
 ## Acceptance Criteria
 
-- `darcy check` runs the configured sub-steps and fails fast or aggregates results (configurable).
+- `arqix check` runs the configured sub-steps and fails fast or aggregates results (configurable).
 - Exit code reflects overall status using the standard contract.
 - A JSON mode emits the per-step results and diagnostics references.

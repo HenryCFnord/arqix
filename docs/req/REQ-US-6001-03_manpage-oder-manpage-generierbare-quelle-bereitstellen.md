@@ -26,7 +26,7 @@ old_id: REQ-0048
 # Manpage oder manpage-generierbare Quelle bereitstellen
 
 ## Statement
-darcy SHOULD provide a manpage or a manpage-generatable source for CLI commands.
+arqix SHOULD provide a manpage or a manpage-generatable source for CLI commands.
 
 ## Rationale
 TODO

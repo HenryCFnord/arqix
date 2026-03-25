@@ -26,7 +26,7 @@ old_id: REQ-0047
 # ADR-CLI-Commands mit guten Help-Texten
 
 ## Statement
-darcy SHOULD provide meaningful help texts for ADR-related CLI commands.
+arqix SHOULD provide meaningful help texts for ADR-related CLI commands.
 
 ## Rationale
 TODO

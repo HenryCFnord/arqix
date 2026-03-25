@@ -26,7 +26,7 @@ old_id: REQ-0046
 # ADR-Workflow im Handbuch dokumentieren
 
 ## Statement
-darcy MUST document the ADR workflow in the user/maintainer handbook as a structured Markdown source.
+arqix MUST document the ADR workflow in the user/maintainer handbook as a structured Markdown source.
 
 ## Rationale
 TODO

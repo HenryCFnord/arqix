@@ -49,7 +49,7 @@ Generated on 2026-03-25 for branch `docs/add-personas-user-stories`.
 | PER-0007 | - | US-7001 | draft | `docs/us/US-7001_generate-audit-evidence-bundles-by-requirement-scope.md` |
 | PER-0007 | - | US-7002 | draft | `docs/us/US-7002_filter-traceability-reports-for-audit-review-views.md` |
 | PER-0007 | - | US-7003 | draft | `docs/us/US-7003_publish-stable-compliance-ready-report-exports.md` |
-| PER-0008 | US-8001 | US-8001 | existing | `docs/us/US-8001_machine-readable-diagnostics-for-darcy-commands.md` |
+| PER-0008 | US-8001 | US-8001 | existing | `docs/us/US-8001_machine-readable-diagnostics-for-arqix-commands.md` |
 | PER-0008 | US-8003 | US-8002 | existing | `docs/us/US-8002_document-creation-without-ambiguity-via-templates.md` |
 | PER-0008 | US-8004 | US-8003 | existing | `docs/us/US-8003_assist-command-to-detect-missing-trace-markers-in-code-and-tests.md` |
 | PER-0008 | US-8006 | US-8004 | existing | `docs/us/US-8004_standardize-agent-workflow-documents-agents-md-and-plans-md.md` |

@@ -32,7 +32,7 @@ old_id: US-0001
 As a maintainer, I want to initialize a new doc package with a standardized directory structure, so that I can build documentation consistently and reproducibly.
 
 ## Acceptance Criteria
-- `darcy doc init <path>` creates `index.md`, `units/`, `pages/`, `artifacts/`, `logs/`, and `.darcy/`.
+- `arqix doc init <path>` creates `index.md`, `units/`, `pages/`, `artifacts/`, `logs/`, and `.arqix/`.
 - `index.md` contains frontmatter with `id`, `kind=doc_index`, and `title`.
 - `id`/`slug` are derived deterministically from `title` based on configurable slug rules.
 - Existing files are not overwritten without explicit approval.

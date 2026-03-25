@@ -26,7 +26,7 @@ old_id: REQ-0036
 # GitHub Actions Vorlage optional liefern
 
 ## Statement
-The system SHOULD optionally provide a GitHub Actions template for typical darcy CI gates.
+The system SHOULD optionally provide a GitHub Actions template for typical arqix CI gates.
 
 ## Rationale
 TODO

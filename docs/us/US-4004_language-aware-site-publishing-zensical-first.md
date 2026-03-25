@@ -34,12 +34,12 @@ old_id: US-8205
 
 ## Story
 
-As a DevOps Engineer, I want to publish documentation sites per language using darcy, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
+As a DevOps Engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
 
 ## Scope
 
 ### In scope
-- `darcy publish site --lang <lang>` selects the correct language root based on i18n configuration
+- `arqix publish site --lang <lang>` selects the correct language root based on i18n configuration
 - Zensical is invoked as the first site builder integration
 - Outputs are written to deterministic artifact locations (e.g. `doc/artifacts/site/<lang>/...`)
 - Machine-readable diagnostics for failures (`--format json`)
@@ -49,10 +49,10 @@ As a DevOps Engineer, I want to publish documentation sites per language using d
 - Additional site builders beyond Zensical
 
 ## Acceptance Criteria
-- `darcy publish site --lang en` builds a site from the EN root and writes outputs to the EN artifact target.
-- `darcy publish site --lang de` builds a site from the DE root and writes outputs to the DE artifact target.
-- The resolved roots come from `darcy.toml` i18n configuration and are visible in effective config.
-- If Zensical fails, darcy returns exit code 2 and diagnostics that identify the failing tool invocation context.
+- `arqix publish site --lang en` builds a site from the EN root and writes outputs to the EN artifact target.
+- `arqix publish site --lang de` builds a site from the DE root and writes outputs to the DE artifact target.
+- The resolved roots come from `arqix.toml` i18n configuration and are visible in effective config.
+- If Zensical fails, arqix returns exit code 2 and diagnostics that identify the failing tool invocation context.
 
 ## Notes
 This story validates that the chosen i18n layout is practical for CI and automation.

@@ -28,7 +28,7 @@ old_id: US-0014
 # MCP stdio
 
 ## Story
-As a maintainer, I want to expose darcy via MCP over stdio, so that agents can use standardized tools to access documentation.
+As a maintainer, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
 
 ## Acceptance Criteria
 - `mcp serve` supports stdio transport.

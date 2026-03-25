@@ -22,7 +22,7 @@ As a Maintainer, I want enforceable guardrails for automation agents that limit 
 
 In scope:
 - A policy definition mechanism (file-based) for allowed paths and allowed operations per story/task
-- A check command suitable for CI, e.g. `darcy policy check ...`
+- A check command suitable for CI, e.g. `arqix policy check ...`
 
 Out of scope:
 - Full sandboxing of execution
@@ -31,6 +31,6 @@ Out of scope:
 ## Acceptance Criteria
 
 - A policy file format is defined (minimal YAML or TOML).
-- `darcy policy check` can evaluate a list of changed files against a policy.
+- `arqix policy check` can evaluate a list of changed files against a policy.
 - Violations produce structured diagnostics.
 - The mechanism is optional and can be introduced as warn-only first.
