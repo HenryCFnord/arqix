@@ -15,7 +15,7 @@ This `docs/` directory serves two purposes: it is the human-readable documentati
 
 ## Contents
 
-- [Project documents](project/) — stable, version-controlled project artifacts
+- [Project documents](project/) — stable, version-controlled project artefacts
 - [Plans](plans/README.md) — branch-local planning packages for OpenClaw intake
 - [Blog](blog/) — reflective posts grounded in project development
 - [Notes](notes/) — informal working notes (may be rough or incomplete)
@@ -23,11 +23,11 @@ This `docs/` directory serves two purposes: it is the human-readable documentati
 
 ## Reading guide
 
-If you are new to the project, start with the [README](../README.md) for a short overview, then read [why arqix had to exist](blog/2026-03-why-arqix-had-to-exist.md) for the reasoning behind it.
+If you are new to the project, start with the [README](README.md) for a short overview, then read [why arqix had to exist](2026-03-why-arqix-had-to-exist.md) for the reasoning behind it.
 
-If you want to understand where the project is going, read the [roadmap](project/roadmap.md).
+If you want to understand where the project is going, read the [roadmap](roadmap.md).
 
-If you are curious about how AI tooling is used in this project, read the [AI transparency document](project/ai-transparency.md).
+If you are curious about how AI tooling is used in this project, read the [AI transparency document](ai-transparency.md).
 
 ## Documentation conventions
 

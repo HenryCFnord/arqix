@@ -182,7 +182,7 @@ Content guidance:
 - avoid pretending the project is more mature than it is
 - make the writing thoughtful, technically grounded, and honest
 - reflect the real tension between useful structure and excessive process
-- reflect that temporary fixes, documentation drift, and disconnected artifacts are normal project failure modes  
+- reflect that temporary fixes, documentation drift, and disconnected artefacts are normal project failure modes  
 
 Rust guidance:
 

@@ -17,9 +17,10 @@ related:
   docs: []
   adrs: []
   personas:
-    - PER-0001
+    - PER-0002
+    - PER-0006
 lang: en
-translation_of: US-1002
+translation_of: 
 translation_status: draft
 generated: false
 source:
@@ -29,7 +30,7 @@ source:
 
 ### Story
 
-As a maintainer, I want to use chapter and include directives in Markdown, so that I can structure documents declaratively and include units deterministically.
+As a developer, I want to use chapter and include directives in Markdown, so that I can create documentation incrementally during development and assemble it reliably into larger documents.
 
 ### Acceptance Criteria
 

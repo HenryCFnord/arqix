@@ -94,7 +94,7 @@ Generated on 2026-03-25 for branch `docs/add-personas-user-stories`.
 | PER-0004 | REQ-0038 | REQ-US-4002-02 | US-4002 | `docs/req/REQ-US-4002-02_render-pdf-command-mit-pandoc-bereitstellen.md` |
 | PER-0004 | REQ-0039 | REQ-US-4002-03 | US-4002 | `docs/req/REQ-US-4002-03_pandoc-defaults-dateien-unterstutzen.md` |
 | PER-0004 | REQ-0040 | REQ-US-4002-04 | US-4002 | `docs/req/REQ-US-4002-04_eisvogel-als-template-option-unterstutzen.md` |
-| PER-0004 | REQ-0041 | REQ-US-4002-05 | US-4002 | `docs/req/REQ-US-4002-05_render-artefakte-gema-artifacts-mode-ablegen.md` |
+| PER-0004 | REQ-0041 | REQ-US-4002-05 | US-4002 | `docs/req/REQ-US-4002-05_render-artefakte-gema-artefacts-mode-ablegen.md` |
 | PER-0004 | REQ-0042 | REQ-US-4002-06 | US-4002 | `docs/req/REQ-US-4002-06_pandoc-fehler-transparent-weitergeben.md` |
 | PER-0004 | REQ-0043 | REQ-US-4002-07 | US-4002 | `docs/req/REQ-US-4002-07_lokale-render-konfiguration-pro-doc-package-erlauben.md` |
 | PER-0004 | REQ-0044 | REQ-US-4002-08 | US-4002 | `docs/req/REQ-US-4002-08_html-deployment-fur-github-pages-unterstutzen.md` |

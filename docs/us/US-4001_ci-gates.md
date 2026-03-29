@@ -4,7 +4,7 @@ kind: user_story
 title: CI gates
 status: draft
 tags:
-- user-story
+  - user-story
 owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
@@ -24,14 +24,17 @@ generated: false
 source:
 ---
 
-# CI gates
+## CI Gates
 
-## Story
+### Story
+
 As a maintainer, I want consistent exit codes and CI support, so that automation can react to arqix reliably.
 
-## Acceptance Criteria
-- Exit codes are consistent: `0` ok, `1` lint fail, `2` usage.
+### Acceptance Criteria
+
+- Exit codes are consistent: `0` ok, `1` lint fail, `2` usage error.
 - Optionally, a GitHub Actions template exists for typical gates.
 
-## Notes
+### Notes
+
 This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging. Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors. If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only.

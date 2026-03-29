@@ -6,9 +6,9 @@ status: draft
 tags:
   - user-story
 owner: hcf
-created: 
-updated: 
-priority: 
+created: 2026-03-26
+updated: 2026-03-26
+priority: low
 related:
   requirements: []
   docs: [ADR-0012]
@@ -35,20 +35,6 @@ As a maintainer, I want enforceable guardrails for automation agents that limit 
 
 ### Notes
 
-Scope:
+In scope, the work should define a file-based policy mechanism that specifies allowed paths and allowed operations per story or task, and it should also provide a check command suitable for CI, for example `arqix policy check ...`.
 
-In scope:
-
-- A policy definition mechanism (file-based) for allowed paths and allowed operations per story/task
-- A check command suitable for CI, e.g. `arqix policy check ...`
-
-Out of scope:
-
-- Full sandboxing of execution
-- Fine-grained AST-level modification constraints
-
-Meta:
-
-- Workflows: WF-0008; WF-0001
-- Story type: governance
-- Old ID: US-8005
+Out of scope are full sandboxing of execution and fine-grained AST-level modification constraints.

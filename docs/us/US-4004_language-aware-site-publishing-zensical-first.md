@@ -37,8 +37,8 @@ source:
 As a DevOps Engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
 
 ## Acceptance Criteria
-- `arqix publish site --lang en` builds a site from the EN root and writes outputs to the EN artifact target.
-- `arqix publish site --lang de` builds a site from the DE root and writes outputs to the DE artifact target.
+- `arqix publish site --lang en` builds a site from the EN root and writes outputs to the EN artefact target.
+- `arqix publish site --lang de` builds a site from the DE root and writes outputs to the DE artefact target.
 - The resolved roots come from `arqix.toml` i18n configuration and are visible in effective config.
 - If Zensical fails, arqix returns exit code 2 and diagnostics that identify the failing tool invocation context.
 
@@ -47,7 +47,7 @@ As a DevOps Engineer, I want to publish documentation sites per language using a
 ### In scope
 - `arqix publish site --lang <lang>` selects the correct language root based on i18n configuration
 - Zensical is invoked as the first site builder integration
-- Outputs are written to deterministic artifact locations (e.g. `doc/artifacts/site/<lang>/...`)
+- Outputs are written to deterministic artefact locations (e.g. `doc/artefacts/site/<lang>/...`)
 - Machine-readable diagnostics for failures (`--format json`)
 
 ### Out of scope

@@ -26,7 +26,7 @@ old_id: REQ-0037
 # site build orchestrieren oder artefaktfähige Pages ausgeben
 
 ## Statement
-The system SHOULD orchestrate `site build` or at least emit assembled pages in an artifact-ready form.
+The system SHOULD orchestrate `site build` or at least emit assembled pages in an artefact-ready form.
 
 ## Rationale
 TODO

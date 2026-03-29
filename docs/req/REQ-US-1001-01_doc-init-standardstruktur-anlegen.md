@@ -28,7 +28,7 @@ old_id: REQ-0001
 
 ### Statement
 
-When `arqix doc init <path>` is executed, the system MUST create a standard structure with `index.md`, `units/`, `pages/`, `artifacts/`, `logs/`, and `.arqix/`.
+When `arqix doc init <path>` is executed, the system MUST create a standard structure with `index.md`, `units/`, `pages/`, `artefacts/`, `logs/`, and `.arqix/`.
 
 ### Rationale
 

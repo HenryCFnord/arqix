@@ -50,19 +50,8 @@ As a maintainer, I want an i18n lint profile that detects missing translations, 
 
 ### Notes
 
- In Scope:
+The i18n lint profile should focus on repository metadata and translation state rather than translation quality. In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document. This includes detecting outdated translations when `translation.source_updated` is older than `source.updated`, identifying missing or mismatched `translation_of` references, and flagging incorrect `lang` values. Optional markup safety checks can also help ensure that `arqix` markers remain unchanged across languages.
 
-- `arqix lint run --profile i18n` checks:
-  - Missing translations for configured target languages and required kinds/domains
-  - Outdated translation when `translation.source_updated != source.updated`
-  - Mismatched or missing `translation_of`
-  - Wrong `lang` fields
-  - Optional: markup safety checks (arqix markers unchanged across languages)
-- Diagnostics are machine-readable (`--format json`) and deterministic.
+For CI and agent workflows, the diagnostics should remain machine-readable through `--format json` and deterministic so that results are stable across repeated runs. The profile is intended as a gate for structural translation hygiene, not for enforcing linguistic style or semantic equivalence across languages.
 
-Out of Scope:
-
-- Enforcing linguistic quality of translations
-- Cross-language semantic equivalence checks
-
-This story depends on the i18n mapping (US-8201) and metadata contract (US-8202).
+This story depends on the i18n mapping (US-8201) and the metadata contract (US-8202), so those foundations should be considered part of the implementation context for this profile.

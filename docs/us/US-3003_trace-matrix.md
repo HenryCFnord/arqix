@@ -4,7 +4,7 @@ kind: user_story
 title: Trace matrix
 status: draft
 tags:
-- user-story
+  - user-story
 owner: hcf
 created: 2026-02-22
 updated: 2026-02-22
@@ -17,20 +17,23 @@ related:
   personas:
   - PER-0003
 lang: en
-translation_of: US-3003
+translation_of: 
 translation_status: draft
 generated: false
 source:
 ---
 
-# Trace matrix
+## Trace Matrix
 
-## Story
+### Story
+
 As a maintainer, I want to export a trace matrix, so that I can analyze relationships (REQ×Test, US×REQ) in tabular form.
 
-## Acceptance Criteria
+### Acceptance Criteria
+
 - `report trace-matrix` can export CSV.
 - At least `REQ×Test` and `US×REQ` are supported.
 
-## Notes
+### Notes
+
 Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.

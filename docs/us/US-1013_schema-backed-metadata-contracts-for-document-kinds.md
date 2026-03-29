@@ -6,7 +6,7 @@ status: draft
 tags:
   - user-story
   - supplemental-draft
-owner: codex
+owner: hcf
 created: '2026-03-25'
 updated: '2026-03-25'
 priority: medium

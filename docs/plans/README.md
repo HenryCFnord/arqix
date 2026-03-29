@@ -20,4 +20,4 @@ The preferred mobile-first flow is:
 4. the human reviews and edits the plan on that branch
 5. Codex implements only after the reviewed plan is ready
 
-Handoffs remain supported where useful, but they are no longer the default intake artifact for mobile-first work.
+Handoffs remain supported where useful, but they are no longer the default intake artefact for mobile-first work.
