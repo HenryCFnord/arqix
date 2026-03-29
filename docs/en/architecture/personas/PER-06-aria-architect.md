@@ -1,39 +1,32 @@
 ---
-id: PER-0006
-kind: persona
+id: PER-06
 title: Aria Architect
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0006
-  stories:
-  - US-6001
-  - US-6002
-  - US-6003
-  requirements:
-  - REQ-US-6001-01
-  - REQ-US-6001-02
-  - REQ-US-6001-03
-  - REQ-US-6001-04
-  - REQ-US-6001-05
-  docs: []
-source:
----
-## Aria Architect
+slug: aria-architect
+iri: arqix:personas/per-06
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: Architect documenting system decisions and terminology
+  description: Documents architecture, ADRs, glossary terms, and architectural narratives with a focus on clarity, structure, and traceable reasoning.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-03-05
+  updated: 2026-03-28
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Aria Architect
 
 Aria documents architecture, decisions, and vocabulary. She cares about clarity, structure, and traceable reasoning. Aria wants documentation to remain useful as the system evolves.
 
@@ -71,7 +64,7 @@ Aria creates ADRs and glossary terms from templates, links them to relevant requ
 - `lint run`
 - `publish site` (to verify docs are navigable)
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - ADRs and architectural documents
 - Glossary term files

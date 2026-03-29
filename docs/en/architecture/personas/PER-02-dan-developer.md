@@ -1,36 +1,32 @@
 ---
-id: PER-0002
-kind: persona
-title: Dev Dan
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0002
-  stories:
-  - US-2001
-  - US-2002
-  requirements:
-  - REQ-US-2001-01
-  - REQ-US-2001-02
-  - REQ-US-2001-03
-  docs: []
-source:
----
-## Dev Dan
+id: PER-02
+title: Dan Developer
+slug: dan-developer
+iri: arqix:personas/per-02
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: developer and documentation contributor
+  description: Writes code and documentation in the same flow. Values speed, low-friction tooling, and predictable local checks that match CI.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-03-05
+  updated: 2026-03-28
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Dan Developer
 
 Dan is a developer who writes code and documentation in the same flow. He values speed and low-friction tooling. If documentation feels like a separate project, it will not happen reliably.
 
@@ -68,7 +64,7 @@ Dan creates or updates docs while implementing a feature. He uses assemble to pr
 - `trace scan` and `trace coverage` (when required)
 - Taskfile workflows for local “CI dry runs”
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - Feature documentation pages
 - Requirements, user stories, and ADR links

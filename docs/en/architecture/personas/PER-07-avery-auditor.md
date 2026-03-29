@@ -1,34 +1,32 @@
 ---
-id: PER-0007
-kind: persona
+id: PER-07
 title: Avery Auditor
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0007
-  stories:
-  - US-7001
-  - US-7002
-  - US-7003
-  requirements: []
-  docs: []
-source:
----
-## Avery Auditor
+slug: avery-auditor
+iri: arqix:personas/per-07
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: Auditor focused on traceability and compliance evidence
+  description: Evaluates reproducible evidence chains from requirements to implementation and verification, relying on deterministic reports and stable IDs.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-03-05
+  updated: 2026-03-28
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Avery Auditor
 
 Avery evaluates evidence chains for audits and compliance reviews. Avery is not interested in tooling details, but in reproducible proof: what was required, what was decided, what was implemented, and what was verified.
 
@@ -62,10 +60,10 @@ Avery starts with trace matrices and coverage reports, then drills down via stab
 - `trace scan`
 - `trace matrix`
 - `trace coverage`
-- `publish artifacts` (later)
+- `publish artefacts` (later)
 - Deterministic exports (CSV and JSON)
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - Trace matrices
 - Coverage reports

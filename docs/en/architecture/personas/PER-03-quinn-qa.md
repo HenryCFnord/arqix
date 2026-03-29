@@ -1,43 +1,32 @@
 ---
-id: PER-0003
-kind: persona
+id: PER-03
 title: Quinn QA
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0003
-  stories:
-  - US-3001
-  - US-3002
-  - US-3003
-  - US-3004
-  requirements:
-  - REQ-US-3001-01
-  - REQ-US-3001-02
-  - REQ-US-3001-03
-  - REQ-US-3001-04
-  - REQ-US-3002-01
-  - REQ-US-3002-02
-  - REQ-US-3002-03
-  - REQ-US-3003-01
-  docs: []
-source:
----
-## Quinn QA
+slug: quinn-qa
+iri: arqix:personas/per-03
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: Quality assurance and traceability analyst
+  description: Ensures deterministic quality signals by tracing requirements, implementation, and tests, then surfacing gaps with machine-readable reports.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner:
+  created: 2026-03-05
+  updated: 2026-03-28
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Quinn QA
 
 Quinn ensures traceability and measurable quality. Quinn wants evidence, not opinions. For Quinn, arqix is valuable when it produces deterministic reports that reveal gaps between requirements, implementation, and tests.
 
@@ -74,7 +63,7 @@ Quinn runs trace scanning, creates coverage reports, and checks matrices for mis
 - `lint run` (including i18n profile when needed)
 - JSON diagnostics for CI consumption
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - Trace graph JSON
 - Coverage reports

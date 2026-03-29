@@ -1,63 +1,32 @@
 ---
-id: PER-0001
-kind: persona
+id: PER-01
 title: Mara Maintainer
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0001
-  stories:
-  - US-1001
-  - US-1002
-  - US-1003
-  - US-1004
-  - US-1005
-  - US-1006
-  - US-1007
-  - US-1008
-  - US-1009
-  - US-1010
-  - US-1011
-  - US-1012
-  - US-1013
-  requirements:
-  - REQ-US-1001-01
-  - REQ-US-1001-02
-  - REQ-US-1001-03
-  - REQ-US-1002-01
-  - REQ-US-1002-02
-  - REQ-US-1002-03
-  - REQ-US-1003-01
-  - REQ-US-1003-02
-  - REQ-US-1004-01
-  - REQ-US-1005-01
-  - REQ-US-1005-02
-  - REQ-US-1006-01
-  - REQ-US-1006-02
-  - REQ-US-1006-03
-  - REQ-US-1007-01
-  - REQ-US-1007-02
-  - REQ-US-1007-03
-  - REQ-US-1008-01
-  - REQ-US-1008-02
-  docs: []
-source:
----
-## Mara Maintainer
+slug: mara-maintainer
+iri: arqix:personas/per-01
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: Documentation maintainer
+  description: Maintains documentation standards, templates, schemas, and tooling to keep docs consistent, lintable, and safe for long-term automation.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-03-05
+  updated: 2026-03-27
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Mara Maintainer
 
 Mara owns the repository’s documentation standards. She cares about consistency, long-term maintainability, and predictable tooling. For Mara, arqix is not a Markdown generator. It is a process enforcer for documentation-as-code.
 
@@ -95,7 +64,7 @@ Mara defines the baseline configuration, sets up templates, and documents conven
 - `trace scan` (as a quality baseline)
 - `agent verify` (later) or Taskfile workflows
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - `arqix.toml`
 - Templates and schema definitions

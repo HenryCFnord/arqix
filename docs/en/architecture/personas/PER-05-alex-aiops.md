@@ -1,39 +1,32 @@
 ---
-id: PER-0005
-kind: persona
+id: PER-05
 title: Alex AIOps
-status: draft
-tags:
-- persona
-owner: hcf
-created: 2026-03-05
-updated: 2026-03-05
-lang: en
-translation_of:
-translation_status:
-generated: false
-supersedes: []
-superseded_by: []
-related:
-  personas: []
-  workflows:
-  - WF-0005
-  stories:
-  - US-5001
-  - US-5002
-  - US-5003
-  - US-5004
-  requirements:
-  - REQ-US-5001-01
-  - REQ-US-5001-02
-  - REQ-US-5002-01
-  - REQ-US-5002-02
-  docs: []
-source:
----
-## Alex AIOps
+slug: alex-aiops
+iri: arqix:personas/per-05
 
-### Summary
+rdf:
+  type:
+    - arqix:classes/persona
+
+triples: []
+
+properties:
+  role: Automation and RAG workflows engineer
+  description: Builds machine-readable documentation workflows, stable identifiers, and predictable interfaces for agentic tooling.
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-03-05
+  updated: 2026-03-28
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Alex AIOps
 
 Alex builds automation and RAG-friendly workflows. Alex cares about structure, stable identifiers, and machine-readable access to documentation. For Alex, documentation is a dataset.
 
@@ -70,7 +63,7 @@ Alex relies on stable doc creation and consistent metadata. He uses search and r
 - `mcp serve` (later)
 - Deterministic JSON outputs
 
-### Artifacts They Care About
+### artefacts They Care About
 
 - Trace graph exports
 - Machine-readable diagnostics
