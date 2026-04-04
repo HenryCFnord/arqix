@@ -1,28 +1,31 @@
 ---
-title: "Story normalization session intake"
+title: "User story normalization session"
 date: 2026-04-04
-status: intake-preserved
+status: draft-created
 category: docs
 branch: docs/add-personas-user-stories
-source: codex
+source: chatgpt
 ---
 
-# Story normalization session - IDEA
+# User story normalization session - IDEA
 
-This package preserves the intake for the April 4, 2026 story-normalization session on `docs/add-personas-user-stories`.
+This planning package preserves the intake for the story-normalization session focused on `docs/en/architecture/stories` on branch `docs/add-personas-user-stories`.
 
-## Original intake summary
+## Raw intake
 
-- Document the normalization session for `docs/en/architecture/stories`.
-- Keep this package mobile-reviewable and aligned with `docs/plans/README.md`.
-- Capture branch context, scope, identified issues, normalization rules, validation expectations, risks, and suggested execution strategy.
-- Record that three Codex prompts were prepared during the session:
-  1. filename, `id`, `iri`, and `meta.updated` normalization
-  2. frontmatter title and first-heading alignment
-  3. named-persona replacement in the leading user-story sentence
+Normalize the user stories in `docs/en/architecture/stories` so that filenames, IDs, IRIs, metadata, headings, and persona references become consistent. The session includes identifying duplicate user story IDs, normalizing filenames to `US-XX-YY-ZZ-slug.md`, aligning frontmatter `id` and `iri`, updating `meta.updated`, enforcing Title Case in frontmatter titles, aligning the first Markdown heading to the frontmatter title, and replacing named persona references in user story sentences with generic role labels.
 
-## Intake notes
+## Intake metadata
 
-- This `IDEA.md` is preserved as the intake snapshot for the package.
-- The detailed execution plan lives in [PLANS.md](PLANS.md).
-- The current operational state lives in [STATUS.md](STATUS.md).
+- Intake source: `chatgpt`
+- Created: `2026-04-04`
+- Chosen branch: `docs/add-personas-user-stories`
+- Category: `docs`
+- Scope: `docs/en/architecture/stories`
+- Related topic: `user story normalization`
+
+## Package notes
+
+- `IDEA.md` remains the intake artefact for this package.
+- Execution detail lives in [PLANS.md](PLANS.md).
+- Current operational state lives in [STATUS.md](STATUS.md).
