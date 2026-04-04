@@ -30,7 +30,7 @@ The preferred workflow is:
 
 1. A free-text idea may enter through OpenClaw or another clearly scoped instruction source.
 2. OpenClaw may classify the work and create a dedicated planning branch using the standard branch prefixes.
-3. OpenClaw may create branch-local planning artefacts under `docs/plans/<slug>/`.
+3. OpenClaw may create branch-local planning artefacts under `docs/en/plans/<slug>/`.
 4. The human reviews and refines the plan on that branch before implementation starts.
 5. Codex implements from the reviewed planning artefacts, not from the raw idea alone.
 6. Non-trivial AI-assisted work should go through a pull request.
@@ -41,7 +41,7 @@ The preferred workflow is:
 
 Preferred task sources are:
 
-- reviewed planning packages under `docs/plans/<slug>/`
+- reviewed planning packages under `docs/en/plans/<slug>/`
 - approved handoff documents where useful
 - scoped GitHub issues
 - explicit direct instructions for trivial work
@@ -56,9 +56,9 @@ For non-trivial mobile-first work, prefer using a reviewed planning package if o
 
 The standard planning package lives under:
 
-- `docs/plans/<slug>/IDEA.md`
-- `docs/plans/<slug>/PLANS.md`
-- `docs/plans/<slug>/STATUS.md`
+- `docs/en/plans/<slug>/IDEA.md`
+- `docs/en/plans/<slug>/PLANS.md`
+- `docs/en/plans/<slug>/STATUS.md`
 
 Reviewed `PLANS.md` artefacts are the preferred basis for later Codex implementation work.
 

@@ -1,6 +1,6 @@
 ---
 name: arqix-delivery
-description: Validate that an arqix planning branch is ready for Codex and later delivery steps. Use when Codex needs to confirm that docs/plans/<slug>/ is complete and in a reviewed state before implementation work proceeds.
+description: Validate that an arqix planning branch is ready for Codex and later delivery steps. Use when Codex needs to confirm that docs/en/plans/<slug>/ is complete and in a reviewed state before implementation work proceeds.
 ---
 
 # Arqix Delivery

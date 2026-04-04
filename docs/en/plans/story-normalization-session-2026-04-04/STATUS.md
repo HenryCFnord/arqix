@@ -3,7 +3,7 @@ title: "Story normalization session status"
 date: 2026-04-04
 status: awaiting-human-review
 branch: docs/add-personas-user-stories
-plan_dir: docs/plans/story-normalization-session-2026-04-04
+plan_dir: docs/en/plans/story-normalization-session-2026-04-04
 ---
 
 # Story normalization session status
@@ -14,7 +14,7 @@ plan_dir: docs/plans/story-normalization-session-2026-04-04
 
 ## Current state
 
-- Planning package created for the session under `docs/plans/story-normalization-session-2026-04-04/`
+- Planning package created for the session under `docs/en/plans/story-normalization-session-2026-04-04/`
 - Story-normalization implementation is already present on this branch in three focused commits:
   - `3f87aaa` filename, `id`, `iri`, and `meta.updated` normalization
   - `cb79104` title and first-heading alignment

@@ -131,7 +131,7 @@ For AI-assisted content work:
 
 ### Planning Packages
 
-For mobile-first work, prefer using a planning package under `docs/plans/<slug>/`.
+For mobile-first work, prefer using a planning package under `docs/en/plans/<slug>/`.
 
 The standard package contains:
 

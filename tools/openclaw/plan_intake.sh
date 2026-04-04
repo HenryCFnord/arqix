@@ -78,7 +78,7 @@ require_clean_worktree || exit 12
 
 branch_name=$(./tools/openclaw/plan_branch_name.sh --category "$task_category" --slug "$task_slug")
 plan_slug=$(slugify "$task_slug")
-plan_dir="docs/plans/${plan_slug}"
+plan_dir="docs/en/plans/${plan_slug}"
 
 if [ -d "$plan_dir" ]; then
   echo "Error: planning package already exists: $plan_dir" >&2
