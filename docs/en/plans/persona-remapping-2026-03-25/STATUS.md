@@ -15,10 +15,10 @@ awaiting-human-review
 `docs/add-personas-user-stories`
 
 ## Latest commit reference
-`$(git rev-parse --short HEAD)`
+`48ca459`
 
 ## Related files
 - [IDEA.md](IDEA.md)
 - [PLANS.md](PLANS.md)
-- [persona_us_req_mapping_report.md](../../processes/persona_us_req_mapping_report.md)
+- [persona_us_req_mapping_report.md](docs/en/processes/persona_us_req_mapping_report.md)
 

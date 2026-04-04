@@ -1,0 +1,22 @@
+You are Codex. Working directory: /home/hop/projects/arqix on branch docs/add-personas-user-stories.
+
+Task: Re-cluster and renumber User Stories and Requirements based on Personas (docs/personas). Apply changes in-place, commit grouped by persona (one commit per persona containing its renamed/updated US files and mapped REQs), and push to the current branch.
+
+Numbering scheme:
+- Persona PER-000N -> user story block = N * 1000. User stories should be numbered US-<block+xx> starting at block+1.
+  Example: PER-0003 -> US-3001, US-3002, ...
+- Requirements: REQ-<USID>-<nn>, with nn starting at 01 per story.
+
+Actions (automate where safe):
+1. Parse all persona files under docs/personas, extract PER IDs and persona short descriptions.
+2. Parse all user stories under docs/us and requirements under docs/req.
+3. For each user story, determine the best matching persona (semantic match of story text to persona). If no clear match, place into a 'general' persona bucket (use persona PER-0001 if exists as fallback).
+4. Assign new US IDs according to persona block; update frontmatter id and add persona: PER-000N and old_id: US-xxxx for traceability.
+5. Rename files to new names: US-<id>_<short-slug>.md (slug derived from title, lowercased, hyphenated). Use git mv for renames.
+6. For each requirement in docs/req, map it to the most relevant new US ID; rename file to REQ-<USID>-<nn>_slug.md and update frontmatter to reference related story id.
+7. Where gaps are detected (persona responsibilities not covered by any US), propose 2–4 supplemental user stories per persona. Create draft US files with frontmatter (status: draft) but do not commit more than 4 per persona without human confirmation.
+8. Create commits grouped per persona: commit message "chore(docs): map US & REQ for PER-000N (X stories, Y reqs)". Push after all commits.
+9. Produce a summary file docs/processes/persona_us_req_mapping_report.md listing old→new mappings, added drafts, and any ambiguous items requiring human review.
+
+Safety rules: stop and print HUMAN_QUESTION if a required decision cannot be made automatically (e.g., two personas equally match a story). For every commit, echo the commit sha and the affected files. At the end, print a JSON summary with mappings and created commits.
+

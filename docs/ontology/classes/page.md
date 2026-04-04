@@ -1,7 +1,7 @@
 ---
 id: class-page
-label: page
-iri: arqix:classes/page
+label: document-page
+iri: arqix:classes/document-page
 
 rdf:
   type:

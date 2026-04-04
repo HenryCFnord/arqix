@@ -5,7 +5,7 @@ Generated on 2026-03-25 for branch `docs/add-personas-user-stories`.
 ## Persona Summaries
 - `PER-0001`: Mara owns the repository’s documentation standards. She cares about consistency, long-term maintainability, and predictable tooling. For Mara, arqix is not a Markdown generator. It is a process enforcer for documentation-as-code.
 - `PER-0002`: Dan is a developer who writes code and documentation in the same flow. He values speed and low-friction tooling. If documentation feels like a separate project, it will not happen reliably.
-- `PER-0003`: Quinn ensures traceability and measurable quality. Quinn wants evidence, not opinions. For Quinn, arqix is valuable when it produces deterministic reports that reveal gaps between requirements, Implementation, and tests.
+- `PER-0003`: Quinn ensures traceability and measurable quality. Quinn wants evidence, not opinions. For Quinn, arqix is valuable when it produces deterministic reports that reveal gaps between requirements, implementation, and tests.
 - `PER-0004`: Daria owns CI and publishing. She values reproducibility, clear exit codes, and workflows that behave the same locally and in CI. If a tool cannot be automated, it will not scale.
 - `PER-0005`: Alex builds automation and RAG-friendly workflows. Alex cares about structure, stable identifiers, and machine-readable access to documentation. For Alex, documentation is a dataset.
 - `PER-0006`: Aria documents architecture, decisions, and vocabulary. She cares about clarity, structure, and traceable reasoning. Aria wants documentation to remain useful as the system evolves.
