@@ -24,9 +24,9 @@ This plan distinguishes the reviewed execution intent from the implementation wo
 - Branch: `docs/add-personas-user-stories`
 - Session scope: `docs/en/architecture/stories`
 - Branch evidence of implementation work already present:
-  - `5e40e97` `Normalize user story IDs and filenames`
-  - `051b8ea` `Normalize non-compliant user story metadata and headings`
-  - `3cfccd9` `Normalize persona references in user story sentences`
+  - `3f87aaa` `Normalize user story IDs and filenames`
+  - `cb79104` `Normalize non-compliant user story metadata and headings`
+  - `91ca72d` `Normalize persona references in user story sentences`
 
 ## Identified issues
 
