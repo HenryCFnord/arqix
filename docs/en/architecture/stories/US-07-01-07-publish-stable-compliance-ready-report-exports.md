@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-07-01-07
 title: Publish Stable Compliance-Ready Report Exports
 slug: publish-stable-compliance-ready-report-exports
@@ -37,7 +38,7 @@ meta:
 
 ## Publish Stable Compliance-Ready Report Exports
 
-As a Avery Auditor, I want stable compliance-ready report exports, so that review packages can be attached to audits without manual cleanup or reformatting.
+As an auditor, I want stable compliance-ready report exports, so that review packages can be attached to audits without manual cleanup or reformatting.
 
 ### Acceptance Criteria
 

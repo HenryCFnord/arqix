@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-03
 title: Expose Machine-Usable Metadata Contracts
 slug: expose-machine-usable-metadata-contracts
@@ -37,7 +38,7 @@ meta:
 
 ## Expose Machine-Usable Metadata Contracts
 
-As a Alex AIOps, I want schema-backed metadata contracts for each document kind, so that tooling and agents can rely on stable, machine-readable metadata expectations.
+As an AIOps engineer, I want schema-backed metadata contracts for each document kind, so that tooling and agents can rely on stable, machine-readable metadata expectations.
 
 ### Acceptance Criteria
 

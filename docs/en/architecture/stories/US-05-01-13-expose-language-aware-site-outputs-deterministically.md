@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-13
 title: Expose Language-Aware Site Outputs Deterministically
 slug: expose-language-aware-site-outputs-deterministically
@@ -37,7 +38,7 @@ meta:
 
 ## Expose Language-Aware Site Outputs Deterministically
 
-As a Alex AIOps, I want language-aware site publishing to produce deterministic outputs per language, so that downstream indexing and agent-facing retrieval can rely on a stable bilingual site structure.
+As an AIOps engineer, I want language-aware site publishing to produce deterministic outputs per language, so that downstream indexing and agent-facing retrieval can rely on a stable bilingual site structure.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-22
 title: Make Trace and Coverage Outputs Deterministic
 slug: make-trace-and-coverage-outputs-deterministic
@@ -37,7 +38,7 @@ meta:
 
 ## Make Trace and Coverage Outputs Deterministic
 
-As a Casey Coding Agent, I want trace graphs, matrices, and coverage reports to be deterministic, so that I can produce clean diffs and reliably detect meaningful changes.
+As a coding agent, I want trace graphs, matrices, and coverage reports to be deterministic, so that I can produce clean diffs and reliably detect meaningful changes.
 
 ### Acceptance Criteria
 

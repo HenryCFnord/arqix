@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-09
 title: Read Precise Document Sections for Scoped Execution
 slug: read-precise-document-sections-for-scoped-execution
@@ -37,7 +38,7 @@ meta:
 
 ## Read Precise Document Sections for Scoped Execution
 
-As a Casey Coding Agent, I want to read specific document sections using stable selectors, so that I can retrieve only the context needed for the current story without reparsing whole files.
+As a coding agent, I want to read specific document sections using stable selectors, so that I can retrieve only the context needed for the current story without reparsing whole files.
 
 ### Acceptance Criteria
 

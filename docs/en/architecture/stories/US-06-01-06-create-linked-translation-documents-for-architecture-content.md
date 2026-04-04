@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-06-01-06
 title: Create Linked Translation Documents for Architecture Content
 slug: create-linked-translation-documents-for-architecture-content
@@ -37,7 +38,7 @@ meta:
 
 ## Create Linked Translation Documents for Architecture Content
 
-As a Aria Architect, I want to create a translation document by referencing its source document ID, so that ADRs and other architecture artefacts can be translated with correct structure and linkage from the start.
+As an architect, I want to create a translation document by referencing its source document ID, so that ADRs and other architecture artefacts can be translated with correct structure and linkage from the start.
 
 ### Acceptance Criteria
 

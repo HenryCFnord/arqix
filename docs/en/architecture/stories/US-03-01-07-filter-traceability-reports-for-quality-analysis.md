@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-03-01-07
 title: Filter Traceability Reports for Quality Analysis
 slug: filter-traceability-reports-for-quality-analysis
@@ -37,7 +38,7 @@ meta:
 
 ## Filter Traceability Reports for Quality Analysis
 
-As a Quinn QA, I want filtered traceability report views, so that I can focus on relevant structural gaps and assign fixes without manually reshaping exports.
+As a QA engineer, I want filtered traceability report views, so that I can focus on relevant structural gaps and assign fixes without manually reshaping exports.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-07
 title: Build Machine-Readable Trace Graphs
 slug: build-machine-readable-trace-graphs
@@ -37,7 +38,7 @@ meta:
 
 ## Build Machine-Readable Trace Graphs
 
-As a Alex AIOps, I want to scan traceability information, so that documentation, code, and test references can be exposed as a machine-readable graph for downstream tooling.
+As an AIOps engineer, I want to scan traceability information, so that documentation, code, and test references can be exposed as a machine-readable graph for downstream tooling.
 
 ### Acceptance Criteria
 

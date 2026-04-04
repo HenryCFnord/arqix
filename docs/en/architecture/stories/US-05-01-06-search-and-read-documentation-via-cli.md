@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-06
 title: Search and Read Documentation via CLI
 slug: search-and-read-documentation-via-cli
@@ -37,7 +38,7 @@ meta:
 
 ## Search and Read Documentation via CLI
 
-As a Alex AIOps, I want to search and read documentation, so that I can quickly retrieve structured content via CLI and later through MCP.
+As an AIOps engineer, I want to search and read documentation, so that I can quickly retrieve structured content via CLI and later through MCP.
 
 ### Acceptance Criteria
 

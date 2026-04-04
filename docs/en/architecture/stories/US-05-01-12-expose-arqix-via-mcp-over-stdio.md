@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-12
 title: Expose Arqix via MCP over STDIO
 slug: expose-arqix-via-mcp-over-stdio
@@ -37,7 +38,7 @@ meta:
 
 ## Expose Arqix via MCP over STDIO
 
-As a Alex AIOps, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
+As an AIOps engineer, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
 
 ### Acceptance Criteria
 

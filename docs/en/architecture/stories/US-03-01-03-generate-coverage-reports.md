@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-03-01-03
 title: Generate Coverage Reports
 slug: generate-coverage-reports
@@ -37,7 +38,7 @@ meta:
 
 ## Generate Coverage Reports
 
-As a Quinn QA, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
+As a QA engineer, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
 
 ### Acceptance Criteria
 

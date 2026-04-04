@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-17
 title: Prepare Releases within Explicit Automation Boundaries
 slug: prepare-releases-within-explicit-automation-boundaries
@@ -37,7 +38,7 @@ meta:
 
 ## Prepare Releases within Explicit Automation Boundaries
 
-As a Casey Coding Agent, I want a documented, Codex-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
+As a coding agent, I want a documented, Codex-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
 
 ### Acceptance Criteria
 

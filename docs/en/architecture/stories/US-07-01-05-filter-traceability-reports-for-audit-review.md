@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-07-01-05
 title: Filter Traceability Reports for Audit Review
 slug: filter-traceability-reports-for-audit-review
@@ -37,7 +38,7 @@ meta:
 
 ## Filter Traceability Reports for Audit Review
 
-As a Avery Auditor, I want filtered traceability report views, so that I can focus on high-risk gaps without manually reshaping raw exports.
+As an auditor, I want filtered traceability report views, so that I can focus on high-risk gaps without manually reshaping raw exports.
 
 ### Acceptance Criteria
 

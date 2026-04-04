@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-03-01-06
 title: Detect Missing Trace Markers for Quality Gaps
 slug: detect-missing-trace-markers-for-quality-gaps
@@ -37,7 +38,7 @@ meta:
 
 ## Detect Missing Trace Markers for Quality Gaps
 
-As a Quinn QA, I want arqix to detect missing `implements` and `verifies` markers for a given requirement, so that structural traceability gaps can be identified objectively before review or audit.
+As a QA engineer, I want arqix to detect missing `implements` and `verifies` markers for a given requirement, so that structural traceability gaps can be identified objectively before review or audit.
 
 ### Acceptance Criteria
 

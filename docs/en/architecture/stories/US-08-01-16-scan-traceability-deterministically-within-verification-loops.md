@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-16
 title: Scan Traceability Deterministically within Verification Loops
 slug: scan-traceability-deterministically-within-verification-loops
@@ -37,7 +38,7 @@ meta:
 
 ## Scan Traceability Deterministically within Verification Loops
 
-As a Casey Coding Agent, I want to scan traceability information, so that I can verify requirement links across documentation, code, and tests without ambiguity.
+As a coding agent, I want to scan traceability information, so that I can verify requirement links across documentation, code, and tests without ambiguity.
 
 ### Acceptance Criteria
 

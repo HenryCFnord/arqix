@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-09
 title: Observe Assembled Outputs for Downstream Tooling
 slug: observe-assembled-outputs-for-downstream-tooling
@@ -37,7 +38,7 @@ meta:
 
 ## Observe Assembled Outputs for Downstream Tooling
 
-As a Alex AIOps, I want to assemble a doc package into pages, so that downstream tools can consume stable, deterministically produced outputs from modular source units.
+As an AIOps engineer, I want to assemble a doc package into pages, so that downstream tools can consume stable, deterministically produced outputs from modular source units.
 
 ### Acceptance Criteria
 

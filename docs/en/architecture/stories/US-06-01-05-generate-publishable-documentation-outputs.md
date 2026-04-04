@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-06-01-05
 title: Generate Publishable Documentation Outputs
 slug: generate-publishable-documentation-outputs
@@ -37,7 +38,7 @@ meta:
 
 ## Generate Publishable Documentation Outputs
 
-As a Aria Architect, I want to generate publishing outputs, so that architecture and handbook documentation can be reviewed in publishable forms such as PDF and website output.
+As an architect, I want to generate publishing outputs, so that architecture and handbook documentation can be reviewed in publishable forms such as PDF and website output.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-06-01-09
 title: Retrieve Architecture Documentation Quickly
 slug: retrieve-architecture-documentation-quickly
@@ -37,7 +38,7 @@ meta:
 
 ## Retrieve Architecture Documentation Quickly
 
-As a Aria Architect, I want to search and read documentation, so that I can quickly retrieve architecture decisions, glossary terms, and handbook content while maintaining the documentation narrative.
+As an architect, I want to search and read documentation, so that I can quickly retrieve architecture decisions, glossary terms, and handbook content while maintaining the documentation narrative.
 
 ### Acceptance Criteria
 

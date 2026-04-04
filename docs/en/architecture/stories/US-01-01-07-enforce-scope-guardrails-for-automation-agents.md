@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-07
 title: Enforce Scope Guardrails for Automation Agents
 slug: enforce-scope-guardrails-for-automation-agents
@@ -37,7 +38,7 @@ meta:
 
 ## Enforce Scope Guardrails for Automation Agents
 
-As a Mara Maintainer, I want enforceable guardrails for automation agents that limit modifications to a declared scope such as files, directories, and story boundaries, so that agent contributions remain reviewable and do not cause opportunistic repository-wide churn.
+As a maintainer, I want enforceable guardrails for automation agents that limit modifications to a declared scope such as files, directories, and story boundaries, so that agent contributions remain reviewable and do not cause opportunistic repository-wide churn.
 
 ### Acceptance Criteria
 

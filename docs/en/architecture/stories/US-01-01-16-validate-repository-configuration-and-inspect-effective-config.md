@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-16
 title: Validate Repository Configuration and Inspect Effective Config
 slug: validate-repository-configuration-and-inspect-effective-config
@@ -37,7 +38,7 @@ meta:
 
 ## Validate Repository Configuration and Inspect Effective Config
 
-As a Mara Maintainer, I want to validate repository configuration and inspect the effective config, so that documentation rules stay consistent and automation has a deterministic baseline.
+As a maintainer, I want to validate repository configuration and inspect the effective config, so that documentation rules stay consistent and automation has a deterministic baseline.
 
 ### Acceptance Criteria
 

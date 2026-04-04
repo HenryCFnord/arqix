@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-05
 title: Detect Translation Drift for Automation
 slug: detect-translation-drift-for-automation
@@ -37,7 +38,7 @@ meta:
 
 ## Detect Translation Drift for Automation
 
-As a Alex AIOps, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation can be used reliably by agents and downstream tooling.
+As an AIOps engineer, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation can be used reliably by agents and downstream tooling.
 
 ### Acceptance Criteria
 

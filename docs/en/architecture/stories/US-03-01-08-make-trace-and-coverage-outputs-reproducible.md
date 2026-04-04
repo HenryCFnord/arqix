@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-03-01-08
 title: Make Trace and Coverage Outputs Reproducible
 slug: make-trace-and-coverage-outputs-reproducible
@@ -37,7 +38,7 @@ meta:
 
 ## Make Trace and Coverage Outputs Reproducible
 
-As a Quinn QA, I want trace graphs, matrices, and coverage reports to be deterministic, so that repeated runs produce reproducible quality evidence and reviewer-friendly comparisons.
+As a QA engineer, I want trace graphs, matrices, and coverage reports to be deterministic, so that repeated runs produce reproducible quality evidence and reviewer-friendly comparisons.
 
 ### Acceptance Criteria
 

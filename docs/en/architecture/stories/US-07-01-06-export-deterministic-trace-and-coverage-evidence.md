@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-07-01-06
 title: Export Deterministic Trace and Coverage Evidence
 slug: export-deterministic-trace-and-coverage-evidence
@@ -37,7 +38,7 @@ meta:
 
 ## Export Deterministic Trace and Coverage Evidence
 
-As a Avery Auditor, I want trace graphs, matrices, and coverage reports to be deterministic, so that audit evidence remains stable across repeated runs and review packages stay comparable.
+As an auditor, I want trace graphs, matrices, and coverage reports to be deterministic, so that audit evidence remains stable across repeated runs and review packages stay comparable.
 
 ### Acceptance Criteria
 

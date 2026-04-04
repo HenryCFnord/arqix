@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-18
 title: Standardize Agent Workflow Documents
 slug: standardize-agent-workflow-documents
@@ -37,7 +38,7 @@ meta:
 
 ## Standardize Agent Workflow Documents
 
-As a Casey Coding Agent, I want AGENTS.md and PLANS.md to follow a standardized structure and clear editing rules, so that I can execute tasks story-by-story without rewriting planning documents or guessing process constraints.
+As a coding agent, I want AGENTS.md and PLANS.md to follow a standardized structure and clear editing rules, so that I can execute tasks story-by-story without rewriting planning documents or guessing process constraints.
 
 ### Acceptance Criteria
 

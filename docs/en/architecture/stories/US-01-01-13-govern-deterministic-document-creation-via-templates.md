@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-13
 title: Govern Deterministic Document Creation via Templates
 slug: govern-deterministic-document-creation-via-templates
@@ -37,7 +38,7 @@ meta:
 
 ## Govern Deterministic Document Creation via Templates
 
-As a Mara Maintainer, I want document creation to use deterministic template, ID, and routing rules, so that new artefacts remain compliant from the moment they are created.
+As a maintainer, I want document creation to use deterministic template, ID, and routing rules, so that new artefacts remain compliant from the moment they are created.
 
 ### Acceptance Criteria
 

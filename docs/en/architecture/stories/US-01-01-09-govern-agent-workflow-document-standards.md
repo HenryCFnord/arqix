@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-09
 title: Govern Agent Workflow Document Standards
 slug: govern-agent-workflow-document-standards
@@ -37,7 +38,7 @@ meta:
 
 ## Govern Agent Workflow Document Standards
 
-As a Mara Maintainer, I want AGENTS.md and PLANS.md to follow a standardized structure and editing policy, so that automation workflows remain predictable, reviewable, and aligned with repository standards.
+As a maintainer, I want AGENTS.md and PLANS.md to follow a standardized structure and editing policy, so that automation workflows remain predictable, reviewable, and aligned with repository standards.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-20
 title: Read Effective Config Deterministically Before Execution
 slug: read-effective-config-deterministically-before-execution
@@ -37,7 +38,7 @@ meta:
 
 ## Read Effective Config Deterministically Before Execution
 
-As a Casey Coding Agent, I want to validate repository configuration and inspect the effective config, so that I can execute work against the actual active rules without guessing defaults or overrides.
+As a coding agent, I want to validate repository configuration and inspect the effective config, so that I can execute work against the actual active rules without guessing defaults or overrides.
 
 ### Acceptance Criteria
 

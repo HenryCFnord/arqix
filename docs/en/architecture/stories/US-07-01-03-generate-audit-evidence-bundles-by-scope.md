@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-07-01-03
 title: Generate Audit Evidence Bundles by Scope
 slug: generate-audit-evidence-bundles-by-scope
@@ -37,7 +38,7 @@ meta:
 
 ## Generate Audit Evidence Bundles by Scope
 
-As a Avery Auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so that audits can review a reproducible package of requirements, implementation evidence, and verification links.
+As an auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so that audits can review a reproducible package of requirements, implementation evidence, and verification links.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-03-01-04
 title: Export Scoped Evidence Bundles for Quality Review
 slug: export-scoped-evidence-bundles-for-quality-review
@@ -37,7 +38,7 @@ meta:
 
 ## Export Scoped Evidence Bundles for Quality Review
 
-As a Quinn QA, I want to generate a scoped evidence bundle for selected requirements or stories, so that I can review traceability gaps and verification evidence reproducibly.
+As a QA engineer, I want to generate a scoped evidence bundle for selected requirements or stories, so that I can review traceability gaps and verification evidence reproducibly.
 
 ### Acceptance Criteria
 

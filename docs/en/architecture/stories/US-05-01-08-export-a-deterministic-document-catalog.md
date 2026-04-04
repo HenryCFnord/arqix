@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-08
 title: Export a Deterministic Document Catalog
 slug: export-a-deterministic-document-catalog
@@ -37,7 +38,7 @@ meta:
 
 ## Export a Deterministic Document Catalog
 
-As a Alex AIOps, I want a deterministic document catalog export, so that downstream indexing and retrieval systems can consume arqix content without scraping Markdown.
+As an AIOps engineer, I want a deterministic document catalog export, so that downstream indexing and retrieval systems can consume arqix content without scraping Markdown.
 
 ### Acceptance Criteria
 

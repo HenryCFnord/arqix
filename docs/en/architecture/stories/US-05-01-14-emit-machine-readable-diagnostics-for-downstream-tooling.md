@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-14
 title: Emit Machine-Readable Diagnostics for Downstream Tooling
 slug: emit-machine-readable-diagnostics-for-downstream-tooling
@@ -37,7 +38,7 @@ meta:
 
 ## Emit Machine-Readable Diagnostics for Downstream Tooling
 
-As a Alex AIOps, I want arqix commands to emit machine-readable diagnostics, so that automation and retrieval tooling can consume failures and warnings through a stable contract.
+As an AIOps engineer, I want arqix commands to emit machine-readable diagnostics, so that automation and retrieval tooling can consume failures and warnings through a stable contract.
 
 ### Acceptance Criteria
 

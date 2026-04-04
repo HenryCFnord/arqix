@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-07-01-04
 title: Review Trace Graphs as Audit Evidence
 slug: review-trace-graphs-as-audit-evidence
@@ -37,7 +38,7 @@ meta:
 
 ## Review Trace Graphs as Audit Evidence
 
-As a Avery Auditor, I want to scan traceability information, so that evidence chains between requirements, implementation, and verification can be reviewed reproducibly.
+As an auditor, I want to scan traceability information, so that evidence chains between requirements, implementation, and verification can be reviewed reproducibly.
 
 ### Acceptance Criteria
 

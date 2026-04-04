@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-07
 title: List Documents Deterministically for Automation
 slug: list-documents-deterministically-for-automation
@@ -37,7 +38,7 @@ meta:
 
 ## List Documents Deterministically for Automation
 
-As a Casey Coding Agent, I want to list documents deterministically, so that I can discover repository content without guessing file structure or parsing raw Markdown.
+As a coding agent, I want to list documents deterministically, so that I can discover repository content without guessing file structure or parsing raw Markdown.
 
 ### Acceptance Criteria
 

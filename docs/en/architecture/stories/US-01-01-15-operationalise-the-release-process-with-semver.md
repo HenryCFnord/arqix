@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-15
 title: Operationalise the Release Process with SemVer
 slug: operationalise-the-release-process-with-semver
@@ -37,7 +38,7 @@ meta:
 
 ## Operationalise the Release Process with SemVer
 
-As a Mara Maintainer, I want a documented, Codex-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
+As a maintainer, I want a documented, Codex-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
 
 ### Acceptance Criteria
 

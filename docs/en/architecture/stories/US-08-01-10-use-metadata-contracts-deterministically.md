@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-10
 title: Use Metadata Contracts Deterministically
 slug: use-metadata-contracts-deterministically
@@ -37,7 +38,7 @@ meta:
 
 ## Use Metadata Contracts Deterministically
 
-As a Casey Coding Agent, I want schema-backed metadata contracts for each document kind, so that I can create and validate compliant artefacts without guessing required fields or allowed shapes.
+As a coding agent, I want schema-backed metadata contracts for each document kind, so that I can create and validate compliant artefacts without guessing required fields or allowed shapes.
 
 ### Acceptance Criteria
 

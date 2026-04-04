@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-10
 title: Read Structured Document Sections with Stable Selectors
 slug: read-structured-document-sections-with-stable-selectors
@@ -37,7 +38,7 @@ meta:
 
 ## Read Structured Document Sections with Stable Selectors
 
-As a Alex AIOps, I want to read specific sections of a document using stable selectors, so that agents can cite the right context without reparsing whole files.
+As an AIOps engineer, I want to read specific sections of a document using stable selectors, so that agents can cite the right context without reparsing whole files.
 
 ### Acceptance Criteria
 

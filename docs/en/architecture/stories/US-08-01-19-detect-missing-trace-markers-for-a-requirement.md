@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-19
 title: Detect Missing Trace Markers for a Requirement
 slug: detect-missing-trace-markers-for-a-requirement
@@ -37,7 +38,7 @@ meta:
 
 ## Detect Missing Trace Markers for a Requirement
 
-As a Casey Coding Agent, I want arqix to detect missing `implements` and `verifies` markers for a given requirement across code and tests, so that I can add only the missing annotations and avoid unnecessary edits.
+As a coding agent, I want arqix to detect missing `implements` and `verifies` markers for a given requirement across code and tests, so that I can add only the missing annotations and avoid unnecessary edits.
 
 ### Acceptance Criteria
 

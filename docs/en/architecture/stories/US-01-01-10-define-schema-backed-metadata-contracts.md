@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-10
 title: Define Schema-Backed Metadata Contracts
 slug: define-schema-backed-metadata-contracts
@@ -37,7 +38,7 @@ meta:
 
 ## Define Schema-Backed Metadata Contracts
 
-As a Mara Maintainer, I want schema-backed metadata contracts for each document kind, so that frontmatter drift is caught early and templates remain enforceable over time.
+As a maintainer, I want schema-backed metadata contracts for each document kind, so that frontmatter drift is caught early and templates remain enforceable over time.
 
 ### Acceptance Criteria
 

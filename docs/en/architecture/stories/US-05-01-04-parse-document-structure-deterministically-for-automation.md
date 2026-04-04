@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-05-01-04
 title: Parse Document Structure Deterministically for Automation
 slug: parse-document-structure-deterministically-for-automation
@@ -37,7 +38,7 @@ meta:
 
 ## Parse Document Structure Deterministically for Automation
 
-As a Alex AIOps, I want to use chapter and include directives in Markdown, so that document structure can be interpreted reliably by tooling and downstream automation.
+As an AIOps engineer, I want to use chapter and include directives in Markdown, so that document structure can be interpreted reliably by tooling and downstream automation.
 
 ### Acceptance Criteria
 

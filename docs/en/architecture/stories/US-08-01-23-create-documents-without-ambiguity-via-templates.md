@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-08-01-23
 title: Create Documents without Ambiguity via Templates
 slug: create-documents-without-ambiguity-via-templates
@@ -37,7 +38,7 @@ meta:
 
 ## Create Documents without Ambiguity via Templates
 
-As a Casey Coding Agent, I want to create documents via `doc new <kind>` using deterministic defaults for ID generation and target paths, so that I can generate conforming documents without guessing where they belong or how they should be structured.
+As a coding agent, I want to create documents via `doc new <kind>` using deterministic defaults for ID generation and target paths, so that I can generate conforming documents without guessing where they belong or how they should be structured.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,7 @@
 ---
 
 
+
 id: US-01-01-12
 title: Govern Glossary Term Metadata and IDs
 slug: govern-glossary-term-metadata-and-ids
@@ -37,7 +38,7 @@ meta:
 
 ## Govern Glossary Term Metadata and IDs
 
-As a Mara Maintainer, I want glossary terms to be scaffolded with stable IDs and linted metadata, so that terminology artefacts remain compliant and traceable across the repository.
+As a maintainer, I want glossary terms to be scaffolded with stable IDs and linted metadata, so that terminology artefacts remain compliant and traceable across the repository.
 
 ### Acceptance Criteria
 
