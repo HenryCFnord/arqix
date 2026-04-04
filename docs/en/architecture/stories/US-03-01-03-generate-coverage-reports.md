@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-03
-title: Generate coverage reports
+title: Generate Coverage Reports
 slug: generate-coverage-reports
 iri: arqix:user-stories/us-03-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Generate Coverage Reports
 
 As a Quinn QA, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
 

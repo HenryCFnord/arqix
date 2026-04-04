@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-03
-title: Create architecture documents from templates
+title: Create Architecture Documents from Templates
 slug: create-architecture-documents-from-templates
 iri: arqix:user-stories/us-06-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Architecture Documents from Templates
 
 As an architect, I want to create documents from templates, so that ADRs and related documentation artefacts are structured correctly from the start.
 

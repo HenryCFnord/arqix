@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-06
-title: Find and read documentation during implementation
+title: Find and Read Documentation During Implementation
 slug: find-and-read-documentation-during-implementation
 iri: arqix:user-stories/us-02-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Find and Read Documentation During Implementation
 
 As a Dev Dan, I want to search and read documentation, so that I can quickly find relevant requirements, ADRs, and handbook content while implementing changes.
 

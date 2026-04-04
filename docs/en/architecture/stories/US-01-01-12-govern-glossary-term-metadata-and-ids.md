@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-12
-title: Govern glossary term metadata and IDs
+title: Govern Glossary Term Metadata and IDs
 slug: govern-glossary-term-metadata-and-ids
 iri: arqix:user-stories/us-01-01-12
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Govern Glossary Term Metadata and IDs
 
 As a Mara Maintainer, I want glossary terms to be scaffolded with stable IDs and linted metadata, so that terminology artefacts remain compliant and traceable across the repository.
 

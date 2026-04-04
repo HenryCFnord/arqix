@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-08
-title: Stay within declared change scope
+title: Stay within Declared Change Scope
 slug: stay-within-declared-change-scope
 iri: arqix:user-stories/us-08-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Stay within Declared Change Scope
 
 As a Casey Coding Agent, I want enforceable guardrails for automation agents that limit modifications to a declared scope such as files, directories, and story boundaries, so that I can execute work predictably without causing out-of-scope repository churn.
 

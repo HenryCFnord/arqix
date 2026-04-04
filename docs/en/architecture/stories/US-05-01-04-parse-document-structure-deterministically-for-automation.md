@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-04
-title: Parse document structure deterministically for automation
+title: Parse Document Structure Deterministically for Automation
 slug: parse-document-structure-deterministically-for-automation
 iri: arqix:user-stories/us-05-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Parse Document Structure Deterministically for Automation
 
 As a Alex AIOps, I want to use chapter and include directives in Markdown, so that document structure can be interpreted reliably by tooling and downstream automation.
 

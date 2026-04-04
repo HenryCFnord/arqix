@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-01
-title: Initialize a doc package deterministically and safely
+title: Initialize a Doc Package Deterministically and Safely
 slug: initialize-doc-package-deterministically-and-safely
 iri: arqix:user-stories/us-08-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Initialize a Doc Package Deterministically and Safely
 
 As a coding agent, I want to initialise a new doc package deterministically and without unsafe overwrites, so that I can create repository artefacts within scope and without ambiguity.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-04
-title: Gate bilingual documentation quality in CI
+title: Gate Bilingual Documentation Quality in CI
 slug: gate-bilingual-documentation-quality-in-ci
 iri: arqix:user-stories/us-04-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Gate Bilingual Documentation Quality in CI
 
 As a DevOps Daria, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation quality can be enforced as a CI gate.
 

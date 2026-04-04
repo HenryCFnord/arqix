@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-01
-title: Create units for retrieval and automation
+title: Create Units for Retrieval and Automation
 slug: create-units-for-retrieval-and-automation
 iri: arqix:user-stories/us-05-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Units for Retrieval and Automation
 
 As an AIOps engineer, I want to create units quickly, so that I can maintain documentation as modular, metadata-aware building blocks for retrieval and downstream automation.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-01
-title: Create modular document units
+title: Create Modular Document Units
 slug: create-modular-document-units
 iri: arqix:user-stories/us-06-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Modular Document Units
 
 As an architect, I want to create units quickly, so that I can maintain documentation modularly and consistently in small building blocks.
 

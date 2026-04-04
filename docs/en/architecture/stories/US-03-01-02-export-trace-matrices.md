@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-02
-title: Export trace matrices
+title: Export Trace Matrices
 slug: export-trace-matrices
 iri: arqix:user-stories/us-03-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Export Trace Matrices
 
 As a Quinn QA, I want to export a trace matrix, so that I can analyze relationships such as REQ×Test and US×REQ in tabular form.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-09
-title: Run governed release preparation workflows
+title: Run Governed Release Preparation Workflows
 slug: run-governed-release-preparation-workflows
 iri: arqix:user-stories/us-04-01-09
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Run Governed Release Preparation Workflows
 
 As a DevOps Daria, I want a documented, Codex-friendly release process using SemVer, so that release preparation steps can be executed consistently and safely around automation boundaries.
 

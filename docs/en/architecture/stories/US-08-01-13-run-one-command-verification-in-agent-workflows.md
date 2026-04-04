@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-13
-title: Run one-command verification in agent workflows
+title: Run One-Command Verification in Agent Workflows
 slug: run-one-command-verification-in-agent-workflows
 iri: arqix:user-stories/us-08-01-13
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Run One-Command Verification in Agent Workflows
 
 As a Casey Coding Agent, I want a single arqix command to run the standard verification loop, so that I can validate story-scoped changes with one deterministic invocation and one consolidated result.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-03
-title: Generate audit evidence bundles by scope
+title: Generate Audit Evidence Bundles by Scope
 slug: generate-audit-evidence-bundles-by-scope
 iri: arqix:user-stories/us-07-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Generate Audit Evidence Bundles by Scope
 
 As a Avery Auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so that audits can review a reproducible package of requirements, implementation evidence, and verification links.
 

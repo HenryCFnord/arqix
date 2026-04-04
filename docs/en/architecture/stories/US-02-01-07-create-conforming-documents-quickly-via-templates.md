@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-07
-title: Create conforming documents quickly via templates
+title: Create Conforming Documents Quickly via Templates
 slug: create-conforming-documents-quickly-via-templates
 iri: arqix:user-stories/us-02-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Conforming Documents Quickly via Templates
 
 As a Dev Dan, I want to create documents via `doc new <kind>` using deterministic defaults, so that I can add conforming artefacts quickly without manual setup or routing guesswork.
 

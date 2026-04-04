@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-02
-title: Create units quickly during implementation
+title: Create Units Quickly During Implementation
 slug: create-units-quickly-during-implementation
 iri: arqix:user-stories/us-02-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Units Quickly During Implementation
 
 As a developer, I want to create units quickly, so that I can add modular documentation while implementing a feature without breaking my flow.
 

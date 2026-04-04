@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-07
-title: List documents deterministically for automation
+title: List Documents Deterministically for Automation
 slug: list-documents-deterministically-for-automation
 iri: arqix:user-stories/us-08-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## List Documents Deterministically for Automation
 
 As a Casey Coding Agent, I want to list documents deterministically, so that I can discover repository content without guessing file structure or parsing raw Markdown.
 

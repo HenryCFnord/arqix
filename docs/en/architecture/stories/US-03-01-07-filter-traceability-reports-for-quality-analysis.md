@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-07
-title: Filter traceability reports for quality analysis
+title: Filter Traceability Reports for Quality Analysis
 slug: filter-traceability-reports-for-quality-analysis
 iri: arqix:user-stories/us-03-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Filter Traceability Reports for Quality Analysis
 
 As a Quinn QA, I want filtered traceability report views, so that I can focus on relevant structural gaps and assign fixes without manually reshaping exports.
 

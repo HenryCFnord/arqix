@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-11
-title: Inspect effective config for CI reproducibility
+title: Inspect Effective Config for CI Reproducibility
 slug: inspect-effective-config-for-ci-reproducibility
 iri: arqix:user-stories/us-04-01-11
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Inspect Effective Config for CI Reproducibility
 
 As a DevOps Daria, I want to validate repository configuration and inspect the effective config, so that CI workflows use a deterministic baseline and configuration problems fail clearly.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-07
-title: Build machine-readable trace graphs
+title: Build Machine-Readable Trace Graphs
 slug: build-machine-readable-trace-graphs
 iri: arqix:user-stories/us-05-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Build Machine-Readable Trace Graphs
 
 As a Alex AIOps, I want to scan traceability information, so that documentation, code, and test references can be exposed as a machine-readable graph for downstream tooling.
 

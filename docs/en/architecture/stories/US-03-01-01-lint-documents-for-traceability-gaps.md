@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-01
-title: Lint documents for traceability gaps
+title: Lint Documents for Traceability Gaps
 slug: lint-documents-for-traceability-gaps
 iri: arqix:user-stories/us-03-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Lint Documents for Traceability Gaps
 
 As a QA, I want to lint documents, so that include, metadata, and ID errors are detected early as objective quality findings.
 

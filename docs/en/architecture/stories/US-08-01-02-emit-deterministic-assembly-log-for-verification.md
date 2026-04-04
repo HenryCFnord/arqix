@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-02
-title: Emit a deterministic assembly log for verification
+title: Emit a Deterministic Assembly Log for Verification
 slug: emit-deterministic-assembly-log-for-verification
 iri: arqix:user-stories/us-08-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Emit a Deterministic Assembly Log for Verification
 
 As a coding agent, I want a machine-readable log during assembly, so that I can verify include structure and outputs without ambiguity.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-10
-title: Emit machine-readable diagnostics for CI
+title: Emit Machine-Readable Diagnostics for CI
 slug: emit-machine-readable-diagnostics-for-ci
 iri: arqix:user-stories/us-04-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Emit Machine-Readable Diagnostics for CI
 
 As a DevOps Daria, I want arqix commands to emit machine-readable diagnostics, so that CI can classify failures reliably and surface actionable build feedback without scraping human-oriented output.
 

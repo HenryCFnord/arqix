@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-04
-title: Review trace graphs as audit evidence
+title: Review Trace Graphs as Audit Evidence
 slug: review-trace-graphs-as-audit-evidence
 iri: arqix:user-stories/us-07-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Review Trace Graphs as Audit Evidence
 
 As a Avery Auditor, I want to scan traceability information, so that evidence chains between requirements, implementation, and verification can be reviewed reproducibly.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-11
-title: Interpret i18n lint results deterministically
+title: Interpret i18n Lint Results Deterministically
 slug: interpret-i18n-lint-results-deterministically
 iri: arqix:user-stories/us-08-01-11
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Interpret i18n Lint Results Deterministically
 
 As a Casey Coding Agent, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that I can act on bilingual documentation issues without guesswork.
 

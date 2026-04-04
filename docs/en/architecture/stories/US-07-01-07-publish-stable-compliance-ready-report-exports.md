@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-07
-title: Publish stable compliance-ready report exports
+title: Publish Stable Compliance-Ready Report Exports
 slug: publish-stable-compliance-ready-report-exports
 iri: arqix:user-stories/us-07-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Publish Stable Compliance-Ready Report Exports
 
 As a Avery Auditor, I want stable compliance-ready report exports, so that review packages can be attached to audits without manual cleanup or reformatting.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-01
-title: Review coverage evidence
+title: Review Coverage Evidence
 slug: review-coverage-evidence
 iri: arqix:user-stories/us-07-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Review Coverage Evidence
 
 As a Avery Auditor, I want to generate coverage reports, so that I can review evidence chains quickly and identify missing implementation or verification links.
 

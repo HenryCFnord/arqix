@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-17
-title: Prepare releases within explicit automation boundaries
+title: Prepare Releases within Explicit Automation Boundaries
 slug: prepare-releases-within-explicit-automation-boundaries
 iri: arqix:user-stories/us-08-01-17
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Prepare Releases within Explicit Automation Boundaries
 
 As a Casey Coding Agent, I want a documented, Codex-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
 

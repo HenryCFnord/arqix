@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-14
-title: Lint translation metadata and drift
+title: Lint Translation Metadata and Drift
 slug: lint-translation-metadata-and-drift
 iri: arqix:user-stories/us-01-01-14
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Lint Translation Metadata and Drift
 
 As a Mara Maintainer, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation quality can be enforced consistently.
 

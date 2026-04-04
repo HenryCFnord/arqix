@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-02
-title: Emit a machine-readable assembly log
+title: Emit a Machine-Readable Assembly Log
 slug: emit-machine-readable-assembly-log
 iri: arqix:user-stories/us-05-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Emit a Machine-Readable Assembly Log
 
 As an AIOps engineer, I want a machine-readable log during assembly, so that I can trace include structure and outputs.
 

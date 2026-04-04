@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-10
-title: Use metadata contracts deterministically
+title: Use Metadata Contracts Deterministically
 slug: use-metadata-contracts-deterministically
 iri: arqix:user-stories/us-08-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Use Metadata Contracts Deterministically
 
 As a Casey Coding Agent, I want schema-backed metadata contracts for each document kind, so that I can create and validate compliant artefacts without guessing required fields or allowed shapes.
 

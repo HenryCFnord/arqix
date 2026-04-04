@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-08
-title: Assemble modular document packages into pages
+title: Assemble Modular Document Packages into Pages
 slug: assemble-modular-document-packages-into-pages
 iri: arqix:user-stories/us-06-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Assemble Modular Document Packages into Pages
 
 As a Aria Architect, I want to assemble a doc package into pages, so that publishable chapters are produced from units.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-04
-title: Lint documents before commit
+title: Lint Documents Before Commit
 slug: lint-documents-before-commit
 iri: arqix:user-stories/us-02-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Lint Documents Before Commit
 
 As a developer , I want to lint documents, so that I can catch include, metadata, and ID errors before opening a PR.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-03
-title: Format documents during implementation
+title: Format Documents During Implementation
 slug: format-documents-during-implementation
 iri: arqix:user-stories/us-02-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Format Documents During Implementation
 
 As a developer , I want to format documents canonically, so that I can keep documentation clean during implementation without wasting time on formatting debates.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-10
-title: Create glossary terms with stable IDs
+title: Create Glossary Terms with Stable IDs
 slug: create-glossary-terms-with-stable-ids
 iri: arqix:user-stories/us-06-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Glossary Terms with Stable IDs
 
 As a Aria Architect, I want to create glossary terms from a template with stable IDs, so that architecture vocabulary stays consistent across ADRs, handbooks, and requirements.
 

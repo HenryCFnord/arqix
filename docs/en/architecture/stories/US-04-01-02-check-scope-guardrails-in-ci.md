@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-02
-title: Check scope guardrails in CI
+title: Check Scope Guardrails in CI
 slug: check-scope-guardrails-in-ci
 iri: arqix:user-stories/us-04-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Check Scope Guardrails in CI
 
 As a DevOps Daria, I want enforceable guardrails for automation agents that limit modifications to a declared scope such as files, directories, and story boundaries, so that policy violations can be surfaced automatically in CI before unsafe changes are merged.
 

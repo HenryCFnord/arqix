@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-06
-title: Export deterministic trace and coverage evidence
+title: Export Deterministic Trace and Coverage Evidence
 slug: export-deterministic-trace-and-coverage-evidence
 iri: arqix:user-stories/us-07-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Export Deterministic Trace and Coverage Evidence
 
 As a Avery Auditor, I want trace graphs, matrices, and coverage reports to be deterministic, so that audit evidence remains stable across repeated runs and review packages stay comparable.
 

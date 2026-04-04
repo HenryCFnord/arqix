@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-06
-title: Finalise metadata safely and deterministically
+title: Finalise Metadata Safely and Deterministically
 slug: finalise-metadata-safely-and-deterministically
 iri: arqix:user-stories/us-08-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Finalise Metadata Safely and Deterministically
 
 As a coding agent , I want to mechanically finalise metadata, so that `updated` is set consistently without rewriting content outside my scope.
 

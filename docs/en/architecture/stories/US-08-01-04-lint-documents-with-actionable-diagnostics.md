@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-04
-title: Lint documents with actionable diagnostics
+title: Lint Documents with Actionable Diagnostics
 slug: lint-documents-with-actionable-diagnostics
 iri: arqix:user-stories/us-08-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Lint Documents with Actionable Diagnostics
 
 As a coding agent, I want to lint documents, so that I can detect include, metadata, and ID errors deterministically and stop with actionable diagnostics.
 

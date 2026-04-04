@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-01
-title: Emit a CI-friendly assembly log
+title: Emit a CI-Friendly Assembly Log
 slug: emit-ci-friendly-assembly-log
 iri: arqix:user-stories/us-04-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Emit a CI-Friendly Assembly Log
 
 As a DevOps engineer, I want a machine-readable log during assembly, so that I can capture deterministic build evidence and diagnose include-related failures in CI.
 

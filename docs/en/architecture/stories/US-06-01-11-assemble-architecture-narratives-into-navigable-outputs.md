@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-11
-title: Assemble architecture narratives into navigable outputs
+title: Assemble Architecture Narratives into Navigable Outputs
 slug: assemble-architecture-narratives-into-navigable-outputs
 iri: arqix:user-stories/us-06-01-11
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Assemble Architecture Narratives into Navigable Outputs
 
 As a Aria Architect, I want architecture narratives to assemble into a navigable documentation view, so that decision records, glossary terms, and handbook chapters remain coherent as the system evolves.
 

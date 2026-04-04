@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-10
-title: Define schema-backed metadata contracts
+title: Define Schema-Backed Metadata Contracts
 slug: define-schema-backed-metadata-contracts
 iri: arqix:user-stories/us-01-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Define Schema-Backed Metadata Contracts
 
 As a Mara Maintainer, I want schema-backed metadata contracts for each document kind, so that frontmatter drift is caught early and templates remain enforceable over time.
 

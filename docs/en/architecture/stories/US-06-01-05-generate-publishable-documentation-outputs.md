@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-05
-title: Generate publishable documentation outputs
+title: Generate Publishable Documentation Outputs
 slug: generate-publishable-documentation-outputs
 iri: arqix:user-stories/us-06-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Generate Publishable Documentation Outputs
 
 As a Aria Architect, I want to generate publishing outputs, so that architecture and handbook documentation can be reviewed in publishable forms such as PDF and website output.
 

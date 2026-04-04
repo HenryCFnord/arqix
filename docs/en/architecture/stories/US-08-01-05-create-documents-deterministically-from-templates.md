@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-05
-title: Create documents deterministically from templates
+title: Create Documents Deterministically from Templates
 slug: create-documents-deterministically-from-templates
 iri: arqix:user-stories/us-08-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Documents Deterministically from Templates
 
 As a coding agent, I want to create documents from templates, so that I can generate compliant artefacts deterministically without guessing kinds, placeholders, or file structure.
 

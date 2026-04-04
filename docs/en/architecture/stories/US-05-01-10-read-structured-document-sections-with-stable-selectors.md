@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-10
-title: Read structured document sections with stable selectors
+title: Read Structured Document Sections with Stable Selectors
 slug: read-structured-document-sections-with-stable-selectors
 iri: arqix:user-stories/us-05-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Read Structured Document Sections with Stable Selectors
 
 As a Alex AIOps, I want to read specific sections of a document using stable selectors, so that agents can cite the right context without reparsing whole files.
 

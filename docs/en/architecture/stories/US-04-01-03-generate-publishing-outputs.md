@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-03
-title: Generate publishing outputs
+title: Generate Publishing Outputs
 slug: generate-publishing-outputs
 iri: arqix:user-stories/us-04-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Generate Publishing Outputs
 
 As a DevOps Daria, I want to generate publishing outputs, so that documentation can be published as PDF and/or a website through deterministic automation.
 

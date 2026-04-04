@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-06
-title: Finalise document metadata mechanically
+title: Finalise Document Metadata Mechanically
 slug: finalise-document-metadata-mechanically
 iri: arqix:user-stories/us-01-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Finalise Document Metadata Mechanically
 
 As a maintainer, I want to mechanically finalise metadata, so that `updated` is set consistently without rewriting content.
 

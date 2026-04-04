@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-18
-title: Standardize agent workflow documents
+title: Standardize Agent Workflow Documents
 slug: standardize-agent-workflow-documents
 iri: arqix:user-stories/us-08-01-18
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Standardize Agent Workflow Documents
 
 As a Casey Coding Agent, I want AGENTS.md and PLANS.md to follow a standardized structure and clear editing rules, so that I can execute tasks story-by-story without rewriting planning documents or guessing process constraints.
 

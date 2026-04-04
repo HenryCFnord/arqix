@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-08
-title: Provide consistent exit codes for CI gates
+title: Provide Consistent Exit Codes for CI Gates
 slug: provide-consistent-exit-codes-for-ci-gates
 iri: arqix:user-stories/us-04-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Provide Consistent Exit Codes for CI Gates
 
 As a DevOps Daria, I want consistent exit codes and CI support, so that automation can react to arqix reliably.
 

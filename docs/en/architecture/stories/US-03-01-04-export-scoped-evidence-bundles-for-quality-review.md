@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-04
-title: Export scoped evidence bundles for quality review
+title: Export Scoped Evidence Bundles for Quality Review
 slug: export-scoped-evidence-bundles-for-quality-review
 iri: arqix:user-stories/us-03-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Export Scoped Evidence Bundles for Quality Review
 
 As a Quinn QA, I want to generate a scoped evidence bundle for selected requirements or stories, so that I can review traceability gaps and verification evidence reproducibly.
 

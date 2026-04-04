@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-05
-title: Run a one-command verification loop
+title: Run a One-Command Verification Loop
 slug: run-a-one-command-verification-loop
 iri: arqix:user-stories/us-04-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Run a One-Command Verification Loop
 
 As a DevOps Daria, I want a single arqix command to run the standard verification loop, so that automation and CI can validate changes with one deterministic invocation.
 

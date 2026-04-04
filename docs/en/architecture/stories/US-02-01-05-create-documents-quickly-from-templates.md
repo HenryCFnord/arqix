@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-05
-title: Create documents quickly from templates
+title: Create Documents Quickly from Templates
 slug: create-documents-quickly-from-templates
 iri: arqix:user-stories/us-02-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Create Documents Quickly from Templates
 
 As a developer , I want to create documents from templates, so that I can add compliant requirements, user stories, and ADRs without manual boilerplate.
 

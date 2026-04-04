@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-09
-title: Retrieve architecture documentation quickly
+title: Retrieve Architecture Documentation Quickly
 slug: retrieve-architecture-documentation-quickly
 iri: arqix:user-stories/us-06-01-09
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Retrieve Architecture Documentation Quickly
 
 As a Aria Architect, I want to search and read documentation, so that I can quickly retrieve architecture decisions, glossary terms, and handbook content while maintaining the documentation narrative.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-08
-title: Finalise metadata without touching content
+title: Finalise Metadata without Touching Content
 slug: finalise-metadata-without-touching-content
 iri: arqix:user-stories/us-02-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Finalise Metadata without Touching Content
 
 As a developer , I want to mechanically finalise metadata, so that `updated` is set consistently without touching the content I just wrote.
 

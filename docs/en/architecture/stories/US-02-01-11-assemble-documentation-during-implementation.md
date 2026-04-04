@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-11
-title: Assemble documentation during implementation
+title: Assemble Documentation During Implementation
 slug: assemble-documentation-during-implementation
 iri: arqix:user-stories/us-02-01-11
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Assemble Documentation During Implementation
 
 As a Dev Dan, I want to assemble a doc package into pages, so that I can preview publishable documentation built from units while implementing changes.
 

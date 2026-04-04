@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-07
-title: Maintain architecture and governance documentation consistently
+title: Maintain Architecture and Governance Documentation Consistently
 slug: maintain-architecture-and-governance-documentation-consistently
 iri: arqix:user-stories/us-06-01-07
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Maintain Architecture and Governance Documentation Consistently
 
 As a Aria Architect, I want to maintain architecture and governance documentation consistently, so that arqix applies its own Documentation-as-Code principles to arc42, ADRs, and the handbook.
 

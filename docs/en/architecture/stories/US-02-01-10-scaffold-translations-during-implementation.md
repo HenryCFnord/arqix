@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-10
-title: Scaffold translations during implementation
+title: Scaffold Translations During Implementation
 slug: scaffold-translations-during-implementation
 iri: arqix:user-stories/us-02-01-10
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Scaffold Translations During Implementation
 
 As a Dev Dan, I want to create a translation document by referencing its source document ID, so that translations are created with correct routing, metadata, and structure without manual setup.
 

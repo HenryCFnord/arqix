@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-05
-title: Scan traceability information
+title: Scan Traceability Information
 slug: scan-traceability-information
 iri: arqix:user-stories/us-03-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Scan Traceability Information
 
 As a Quinn QA, I want to scan traceability information, so that a graph of documentation, code, and test references can be built and analysed objectively.
 

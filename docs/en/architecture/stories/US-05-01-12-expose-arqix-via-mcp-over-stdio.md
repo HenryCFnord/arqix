@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-12
-title: Expose arqix via MCP over stdio
+title: Expose Arqix via MCP over STDIO
 slug: expose-arqix-via-mcp-over-stdio
 iri: arqix:user-stories/us-05-01-12
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Expose Arqix via MCP over STDIO
 
 As a Alex AIOps, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
 

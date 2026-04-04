@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-13
-title: Expose language-aware site outputs deterministically
+title: Expose Language-Aware Site Outputs Deterministically
 slug: expose-language-aware-site-outputs-deterministically
 iri: arqix:user-stories/us-05-01-13
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Expose Language-Aware Site Outputs Deterministically
 
 As a Alex AIOps, I want language-aware site publishing to produce deterministic outputs per language, so that downstream indexing and agent-facing retrieval can rely on a stable bilingual site structure.
 

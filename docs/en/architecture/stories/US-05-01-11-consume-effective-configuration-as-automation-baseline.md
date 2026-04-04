@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-11
-title: Consume effective configuration as automation baseline
+title: Consume Effective Configuration as Automation Baseline
 slug: consume-effective-configuration-as-automation-baseline
 iri: arqix:user-stories/us-05-01-11
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Consume Effective Configuration as Automation Baseline
 
 As a Alex AIOps, I want to validate repository configuration and inspect the effective config, so that downstream automation can rely on the active documentation rules as a deterministic baseline.
 

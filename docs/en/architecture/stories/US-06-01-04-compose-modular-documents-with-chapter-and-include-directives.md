@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-04
-title: Compose modular documents with chapter and include directives
+title: Compose Modular Documents with Chapter and Include Directives
 slug: compose-modular-documents-with-chapter-and-include-directives
 iri: arqix:user-stories/us-06-01-04
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Compose Modular Documents with Chapter and Include Directives
 
 As a Aria Architect, I want to use chapter and include directives in Markdown, so that architecture documentation can be composed modularly and assembled into coherent larger documents.
 

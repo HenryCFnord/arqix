@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-15
-title: Interpret verification outcomes through stable exit codes
+title: Interpret Verification Outcomes through Stable Exit Codes
 slug: interpret-verification-outcomes-through-stable-exit-codes
 iri: arqix:user-stories/us-08-01-15
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Interpret Verification Outcomes through Stable Exit Codes
 
 As a Casey Coding Agent, I want consistent exit codes and stable error signaling, so that I can react to arqix outcomes deterministically without guessing whether a failure is a usage problem or a quality-gate result.
 

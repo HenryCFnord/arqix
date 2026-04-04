@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-22
-title: Make trace and coverage outputs deterministic
+title: Make Trace and Coverage Outputs Deterministic
 slug: make-trace-and-coverage-outputs-deterministic
 iri: arqix:user-stories/us-08-01-22
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Make Trace and Coverage Outputs Deterministic
 
 As a Casey Coding Agent, I want trace graphs, matrices, and coverage reports to be deterministic, so that I can produce clean diffs and reliably detect meaningful changes.
 

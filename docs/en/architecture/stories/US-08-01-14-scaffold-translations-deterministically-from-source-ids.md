@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-14
-title: Scaffold translations deterministically from source IDs
+title: Scaffold Translations Deterministically from Source IDs
 slug: scaffold-translations-deterministically-from-source-ids
 iri: arqix:user-stories/us-08-01-14
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Scaffold Translations Deterministically from Source IDs
 
 As a Casey Coding Agent, I want to create a translation document by referencing its source document ID, so that I can generate correctly linked translation artefacts without guessing routing, metadata, or document shape.
 

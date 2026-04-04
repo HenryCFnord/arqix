@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-09
-title: Use chapter and include directives during implementation
+title: Use Chapter and Include Directives During Implementation
 slug: use-chapter-and-include-directives-during-implementation
 iri: arqix:user-stories/us-02-01-09
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Use Chapter and Include Directives During Implementation
 
 As a Dev Dan, I want to use chapter and include directives in Markdown, so that I can create documentation incrementally during development and assemble it reliably into larger documents.
 

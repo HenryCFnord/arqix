@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-12
-title: Use MCP tools deterministically in agent workflows
+title: Use MCP Tools Deterministically in Agent Workflows
 slug: use-mcp-tools-deterministically-in-agent-workflows
 iri: arqix:user-stories/us-08-01-12
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Use MCP Tools Deterministically in Agent Workflows
 
 As a Casey Coding Agent, I want arqix to expose MCP tools over stdio, so that I can use standardized search, read, and list operations in automation workflows without custom integration code.
 

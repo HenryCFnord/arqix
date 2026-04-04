@@ -1,7 +1,8 @@
 ---
 
+
 id: US-07-01-02
-title: Review evidence chains through trace matrices
+title: Review Evidence Chains through Trace Matrices
 slug: review-evidence-chains-through-trace-matrices
 iri: arqix:user-stories/us-07-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Review Evidence Chains through Trace Matrices
 
 As a Avery Auditor, I want to export a trace matrix, so that I can review evidence chains such as requirements to tests and user stories to requirements in a reproducible tabular form.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-15
-title: Operationalise the release process with SemVer
+title: Operationalise the Release Process with SemVer
 slug: operationalise-the-release-process-with-semver
 iri: arqix:user-stories/us-01-01-15
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Operationalise the Release Process with SemVer
 
 As a Mara Maintainer, I want a documented, Codex-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
 

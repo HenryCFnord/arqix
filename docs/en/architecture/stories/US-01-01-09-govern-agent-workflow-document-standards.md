@@ -1,7 +1,8 @@
 ---
 
+
 id: US-01-01-09
-title: Govern agent workflow document standards
+title: Govern Agent Workflow Document Standards
 slug: govern-agent-workflow-document-standards
 iri: arqix:user-stories/us-01-01-09
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Govern Agent Workflow Document Standards
 
 As a Mara Maintainer, I want AGENTS.md and PLANS.md to follow a standardized structure and editing policy, so that automation workflows remain predictable, reviewable, and aligned with repository standards.
 

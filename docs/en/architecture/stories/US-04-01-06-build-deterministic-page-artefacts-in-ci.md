@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-06
-title: Build deterministic page artefacts in CI
+title: Build Deterministic Page Artefacts in CI
 slug: build-deterministic-page-artefacts-in-ci
 iri: arqix:user-stories/us-04-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Build Deterministic Page Artefacts in CI
 
 As a DevOps Daria, I want to assemble a doc package into pages, so that stable publishable artefacts can be produced automatically in CI.
 

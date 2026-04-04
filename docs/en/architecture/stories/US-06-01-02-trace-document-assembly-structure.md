@@ -1,7 +1,8 @@
 ---
 
+
 id: US-06-01-02
-title: Trace document assembly structure
+title: Trace Document Assembly Structure
 slug: trace-document-assembly-structure
 iri: arqix:user-stories/us-06-01-02
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Trace Document Assembly Structure
 
 As an architect, I want a machine-readable log during assembly, so that I can trace how modular documents are composed from includes and outputs.
 

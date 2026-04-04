@@ -1,7 +1,8 @@
 ---
 
+
 id: US-03-01-08
-title: Make trace and coverage outputs reproducible
+title: Make Trace and Coverage Outputs Reproducible
 slug: make-trace-and-coverage-outputs-reproducible
 iri: arqix:user-stories/us-03-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Make Trace and Coverage Outputs Reproducible
 
 As a Quinn QA, I want trace graphs, matrices, and coverage reports to be deterministic, so that repeated runs produce reproducible quality evidence and reviewer-friendly comparisons.
 

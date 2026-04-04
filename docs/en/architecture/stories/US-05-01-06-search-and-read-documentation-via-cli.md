@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-06
-title: Search and read documentation via CLI
+title: Search and Read Documentation via CLI
 slug: search-and-read-documentation-via-cli
 iri: arqix:user-stories/us-05-01-06
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Search and Read Documentation via CLI
 
 As a Alex AIOps, I want to search and read documentation, so that I can quickly retrieve structured content via CLI and later through MCP.
 

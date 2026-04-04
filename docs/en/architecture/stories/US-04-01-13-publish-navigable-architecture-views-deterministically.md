@@ -1,7 +1,8 @@
 ---
 
+
 id: US-04-01-13
-title: Publish navigable architecture views deterministically
+title: Publish Navigable Architecture Views Deterministically
 slug: publish-navigable-architecture-views-deterministically
 iri: arqix:user-stories/us-04-01-13
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Publish Navigable Architecture Views Deterministically
 
 As a DevOps Daria, I want architecture narratives to assemble into a navigable documentation view, so that publish automation can validate and ship coherent architecture outputs deterministically.
 

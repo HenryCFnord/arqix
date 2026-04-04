@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-05
-title: Detect translation drift for automation
+title: Detect Translation Drift for Automation
 slug: detect-translation-drift-for-automation
 iri: arqix:user-stories/us-05-01-05
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Detect Translation Drift for Automation
 
 As a Alex AIOps, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation can be used reliably by agents and downstream tooling.
 

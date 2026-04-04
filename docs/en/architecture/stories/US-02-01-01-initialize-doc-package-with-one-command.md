@@ -1,7 +1,8 @@
 ---
 
+
 id: US-02-01-01
-title: Initialize a doc package with one command
+title: Initialize a Doc Package with One Command
 slug: initialize-doc-package-with-one-command
 iri: arqix:user-stories/us-02-01-01
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Initialize a Doc Package with One Command
 
 As a developer, I want to initialize a new doc package with one command, so that I can start documenting a feature without manual setup.
 

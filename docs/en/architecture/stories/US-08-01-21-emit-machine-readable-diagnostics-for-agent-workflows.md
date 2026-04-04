@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-21
-title: Emit machine-readable diagnostics for agent workflows
+title: Emit Machine-Readable Diagnostics for Agent Workflows
 slug: emit-machine-readable-diagnostics-for-agent-workflows
 iri: arqix:user-stories/us-08-01-21
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Emit Machine-Readable Diagnostics for Agent Workflows
 
 As a Casey Coding Agent, I want arqix commands to emit machine-readable diagnostics, so that I can interpret failures automatically, localize issues, and either fix them deterministically or stop with actionable output.
 

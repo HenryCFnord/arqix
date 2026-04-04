@@ -1,7 +1,8 @@
 ---
 
+
 id: US-08-01-03
-title: Format documents deterministically within scope
+title: Format Documents Deterministically within Scope
 slug: format-documents-deterministically-within-scope
 iri: arqix:user-stories/us-08-01-03
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Format Documents Deterministically within Scope
 
 As a coding agent, I want to format documents canonically, so that I can apply repository conventions automatically without causing unnecessary churn outside my scope.
 

@@ -1,7 +1,8 @@
 ---
 
+
 id: US-05-01-08
-title: Export a deterministic document catalog
+title: Export a Deterministic Document Catalog
 slug: export-a-deterministic-document-catalog
 iri: arqix:user-stories/us-05-01-08
 
@@ -33,7 +34,8 @@ meta:
   generated: false
 ---
 
-## User-story
+
+## Export a Deterministic Document Catalog
 
 As a Alex AIOps, I want a deterministic document catalog export, so that downstream indexing and retrieval systems can consume arqix content without scraping Markdown.
 
