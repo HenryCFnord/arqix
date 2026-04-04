@@ -1,4 +1,5 @@
 ---
+
 id: US-08-01-02
 title: Emit a deterministic assembly log for verification
 slug: emit-deterministic-assembly-log-for-verification
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-03-29
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

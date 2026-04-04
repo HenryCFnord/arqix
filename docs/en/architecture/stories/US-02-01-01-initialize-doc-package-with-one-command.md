@@ -1,8 +1,9 @@
 ---
+
 id: US-02-01-01
 title: Initialize a doc package with one command
 slug: initialize-doc-package-with-one-command
-iri: arqix:stories/us-02-01-01
+iri: arqix:user-stories/us-02-01-01
 
 rdf:
   type:
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-28
-  updated: 2026-03-28
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

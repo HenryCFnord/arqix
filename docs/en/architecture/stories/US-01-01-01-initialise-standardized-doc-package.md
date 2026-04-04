@@ -1,8 +1,9 @@
 ---
+
 id: US-01-01-01
 title: Initialise Standardised Doc Package
 slug: initialise-standardized-doc-package
-iri: arqix:stories/us-01-01-01
+iri: arqix:user-stories/us-01-01-01
 
 rdf:
   type:
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-02-22
-  updated: 2026-03-27
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

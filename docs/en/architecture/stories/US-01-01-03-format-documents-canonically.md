@@ -1,4 +1,5 @@
 ---
+
 id: US-01-01-03
 title: Format Documents Canonically
 slug: format-documents-canonically
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-03-29
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

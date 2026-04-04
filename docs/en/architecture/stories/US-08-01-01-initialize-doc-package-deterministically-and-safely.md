@@ -1,4 +1,5 @@
 ---
+
 id: US-08-01-01
 title: Initialize a doc package deterministically and safely
 slug: initialize-doc-package-deterministically-and-safely
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-28
-  updated: 2026-03-28
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

@@ -1,4 +1,5 @@
 ---
+
 id: US-08-01-06
 title: Finalise metadata safely and deterministically
 slug: finalise-metadata-safely-and-deterministically
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-03-30
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

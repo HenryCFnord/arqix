@@ -1,4 +1,5 @@
 ---
+
 id: US-04-01-01
 title: Emit a CI-friendly assembly log
 slug: emit-ci-friendly-assembly-log
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-03-29
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

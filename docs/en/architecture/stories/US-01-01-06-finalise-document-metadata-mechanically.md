@@ -1,4 +1,5 @@
 ---
+
 id: US-01-01-06
 title: Finalise document metadata mechanically
 slug: finalise-document-metadata-mechanically
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-03-30
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

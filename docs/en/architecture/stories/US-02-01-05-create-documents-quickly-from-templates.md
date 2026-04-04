@@ -1,4 +1,5 @@
 ---
+
 id: US-02-01-05
 title: Create documents quickly from templates
 slug: create-documents-quickly-from-templates
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-03-30
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

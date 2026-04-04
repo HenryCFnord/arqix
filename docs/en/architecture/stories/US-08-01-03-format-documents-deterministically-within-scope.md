@@ -1,4 +1,5 @@
 ---
+
 id: US-08-01-03
 title: Format documents deterministically within scope
 slug: format-documents-deterministically-within-scope
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-03-29
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false

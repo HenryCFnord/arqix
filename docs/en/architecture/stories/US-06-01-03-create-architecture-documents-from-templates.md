@@ -1,4 +1,5 @@
 ---
+
 id: US-06-01-03
 title: Create architecture documents from templates
 slug: create-architecture-documents-from-templates
@@ -26,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-03-30
+  updated: 2026-04-04
   lang: en
   translation-of:
   generated: false
