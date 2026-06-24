@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-02
 title: Export Trace Matrices
 slug: export-trace-matrices
@@ -29,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Export Trace Matrices
 
-As a QA engineer, I want to export a trace matrix, so that I can analyze relationships such as REQ×Test and US×REQ in tabular form.
+As a QA manager, I want to export a trace matrix, so that I can analyze relationships such as REQ×Test and US×REQ in tabular form.
 
 ### Acceptance Criteria
 
@@ -49,4 +45,7 @@ As a QA engineer, I want to export a trace matrix, so that I can analyze relatio
 
 ### Notes
 
-Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable. This is the canonical traceability analysis view.
+Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type.
+Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form.
+Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.
+This is the canonical traceability analysis view.

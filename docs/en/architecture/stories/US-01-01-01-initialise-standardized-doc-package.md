@@ -1,5 +1,4 @@
 ---
-
 id: US-01-01-01
 title: Initialise Standardised Doc Package
 slug: initialise-standardized-doc-package
@@ -27,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-02-22
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
@@ -46,4 +45,6 @@ As a maintainer, I want to initialise a new doc package with a standardised dire
 
 ### Notes
 
-Acceptance is met when initialisation works in an empty target path and produces the expected scaffold without manual cleanup. Add tests for deterministic `id` and `slug` generation from the same title input and for the refusal path when files already exist. Document any prompt or force behaviour explicitly if overwrite protection is configurable.
+Acceptance is met when initialisation works in an empty target path and produces the expected scaffold without manual cleanup.
+Add tests for deterministic `id` and `slug` generation from the same title input and for the refusal path when files already exist.
+Document any prompt or force behaviour explicitly if overwrite protection is configurable.

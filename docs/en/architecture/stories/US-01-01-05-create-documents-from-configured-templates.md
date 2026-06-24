@@ -1,5 +1,4 @@
 ---
-
 id: US-01-01-05
 title: Create Documents from Configured Templates
 slug: create-documents-from-configured-templates
@@ -27,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
@@ -48,9 +47,6 @@ As a maintainer, I want to create documents from templates, so that new artefact
 ### Notes
 
 Acceptance should verify that every configured template kind renders the expected file skeleton with placeholders resolved consistently.
-
 Add tests for supported aliases, unknown kinds, and deterministic `{slug}` and `{id}` substitution from the same title.
-
 Template configuration should remain the single source of truth so command behavior and documentation stay aligned.
-
 This is a core standards and repository hygiene capability.

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-11
 title: Assemble Documentation During Implementation
 slug: assemble-documentation-during-implementation
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Assemble Documentation During Implementation
 
-As a Dev Dan, I want to assemble a doc package into pages, so that I can preview publishable documentation built from units while implementing changes.
+As a developer, I want to assemble a doc package into pages, so that I can preview publishable documentation built from units while implementing changes.
 
 ### Acceptance Criteria
 
@@ -48,4 +45,7 @@ As a Dev Dan, I want to assemble a doc package into pages, so that I can preview
 
 ### Notes
 
-The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace. Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs. The first implementation should optimise for clear diagnostics over aggressive assembly features. The main value for Dan is fast feedback on document structure during normal development.
+The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace.
+Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs.
+The first implementation should optimise for clear diagnostics over aggressive assembly features.
+The main value for a developer is fast feedback on document structure during normal development.

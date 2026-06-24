@@ -1,5 +1,4 @@
 ---
-
 id: US-01-01-11
 title: Govern Architecture Documentation Standards
 slug: govern-architecture-documentation-standards
@@ -27,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
@@ -47,4 +46,7 @@ As a maintainer, I want architecture and governance documentation to follow the 
 
 ### Notes
 
-This story is complete when the governance documents follow the same assembly and maintenance rules expected from product documentation. Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs. Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery. The main value for a maintainer is consistent repository-wide documentation standards.
+This story is complete when the governance documents follow the same assembly and maintenance rules expected from product documentation.
+Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs.
+Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery.
+The main value for a maintainer is consistent repository-wide documentation standards.

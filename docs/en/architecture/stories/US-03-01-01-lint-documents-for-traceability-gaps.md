@@ -1,6 +1,4 @@
 ---
-
-
 id: US-03-01-01
 title: Lint Documents for Traceability Gaps
 slug: lint-documents-for-traceability-gaps
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Lint Documents for Traceability Gaps
 
-As a QA, I want to lint documents, so that include, metadata, and ID errors are detected early as objective quality findings.
+As a QA manager, I want to lint documents, so that include, metadata, and ID errors are detected early as objective quality findings.
 
 ### Acceptance Criteria
 

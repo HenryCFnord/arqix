@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-01
 title: Initialize a Doc Package with One Command
 slug: initialize-doc-package-with-one-command
@@ -28,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-28
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Initialize a Doc Package with One Command
 

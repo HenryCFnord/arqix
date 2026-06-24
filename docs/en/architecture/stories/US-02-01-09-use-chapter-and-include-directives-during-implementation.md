@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-09
 title: Use Chapter and Include Directives During Implementation
 slug: use-chapter-and-include-directives-during-implementation
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Use Chapter and Include Directives During Implementation
 
-As a Dev Dan, I want to use chapter and include directives in Markdown, so that I can create documentation incrementally during development and assemble it reliably into larger documents.
+As a developer, I want to use chapter and include directives in Markdown, so that I can create documentation incrementally during development and assemble it reliably into larger documents.
 
 ### Acceptance Criteria
 
@@ -47,4 +44,7 @@ As a Dev Dan, I want to use chapter and include directives in Markdown, so that 
 
 ### Notes
 
-Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic. Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files. Keep the directive grammar small and document unsupported attributes rather than inferring behaviour implicitly. The main value for Dan is low-friction modular documentation in the implementation flow.
+Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic.
+Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files.
+Keep the directive grammar small and document unsupported attributes rather than inferring behaviour implicitly.
+The main value for a developer is low-friction modular documentation in the implementation flow.

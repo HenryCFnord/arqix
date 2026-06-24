@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-13
 title: Govern Deterministic Document Creation via Templates
 slug: govern-deterministic-document-creation-via-templates
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Govern Deterministic Document Creation via Templates
 
@@ -49,4 +45,6 @@ As a maintainer, I want document creation to use deterministic template, ID, and
 
 ### Notes
 
-In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`. Out of scope are interactive prompts and arbitrary free-form template engines. The main value for Mara is configuration-driven compliance from the start.
+In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`.
+Out of scope are interactive prompts and arbitrary free-form template engines.
+The main value for a maintainer is configuration-driven compliance from the start.

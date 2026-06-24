@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-03
 title: Format Documents During Implementation
 slug: format-documents-during-implementation
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Format Documents During Implementation
 
-As a developer , I want to format documents canonically, so that I can keep documentation clean during implementation without wasting time on formatting debates.
+As a developer, I want to format documents canonically, so that I can keep documentation clean during implementation without wasting time on formatting debates.
 
 ### Acceptance Criteria
 

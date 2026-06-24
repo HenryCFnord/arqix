@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-12
 title: Govern Glossary Term Metadata and IDs
 slug: govern-glossary-term-metadata-and-ids
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Govern Glossary Term Metadata and IDs
 
@@ -48,4 +44,4 @@ As a maintainer, I want glossary terms to be scaffolded with stable IDs and lint
 
 ### Notes
 
-The main value for Mara is metadata governance and uniqueness enforcement for glossary artefacts.
+The main value for a maintainer is metadata governance and uniqueness enforcement for glossary artefacts.

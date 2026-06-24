@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-03
 title: Generate Coverage Reports
 slug: generate-coverage-reports
@@ -29,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Generate Coverage Reports
 
-As a QA engineer, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
+As a QA manager, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
 
 ### Acceptance Criteria
 
@@ -49,4 +45,7 @@ As a QA engineer, I want to generate coverage reports, so that I can detect gaps
 
 ### Notes
 
-Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering. Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering. A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones. The main value for Quinn is measurable quality evidence and actionable review findings.
+Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering.
+Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering.
+A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones.
+The main value for QA is measurable quality evidence and actionable review findings.

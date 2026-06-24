@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-09
 title: Govern Agent Workflow Document Standards
 slug: govern-agent-workflow-document-standards
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Govern Agent Workflow Document Standards
 
@@ -49,4 +45,5 @@ As a maintainer, I want AGENTS.md and PLANS.md to follow a standardized structur
 
 ### Notes
 
-In scope are the minimal structures for `AGENTS.md` and `PLANS.md`, clear editing constraints for agents, and a workflow contract for story-by-story execution. Out of scope are automatic enforcement or generation of these documents. The main value for Mara is governed process documentation and predictable automation conventions.
+In scope are the minimal structures for `AGENTS.md` and `PLANS.md`, clear editing constraints for agents, and a workflow contract for story-by-story execution.
+Out of scope are automatic enforcement or generation of these documents. The main value for a maintainer is governed process documentation and predictable automation conventions.

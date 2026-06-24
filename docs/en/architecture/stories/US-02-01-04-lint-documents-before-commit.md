@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-04
 title: Lint Documents Before Commit
 slug: lint-documents-before-commit
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Lint Documents Before Commit
 
-As a developer , I want to lint documents, so that I can catch include, metadata, and ID errors before opening a PR.
+As a developer, I want to lint documents, so that I can catch include, metadata, and ID errors before opening a PR.
 
 ### Acceptance Criteria
 

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-15
 title: Operationalise the Release Process with SemVer
 slug: operationalise-the-release-process-with-semver
@@ -29,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Operationalise the Release Process with SemVer
 
-As a maintainer, I want a documented, Codex-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
+As a maintainer, I want a documented, coding-agent-friendly release process using SemVer, so that releases can be prepared traceably and executed safely.
 
 ### Acceptance Criteria
 
@@ -49,4 +45,7 @@ As a maintainer, I want a documented, Codex-friendly release process using SemVe
 
 ### Notes
 
-Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps. Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently. Keep the process explicit about final manual approval points for tagging and publishing. The main value for Mara is governed, reviewable release preparation.
+Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps.
+Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently.
+Keep the process explicit about final manual approval points for tagging and publishing.
+The main value for a maintainer is governed, reviewable release preparation.

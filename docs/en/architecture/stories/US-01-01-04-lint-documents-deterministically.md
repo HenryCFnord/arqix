@@ -1,5 +1,4 @@
 ---
-
 id: US-01-01-04
 title: Lint Documents Deterministically
 slug: lint-documents-deterministically
@@ -27,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-29
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false

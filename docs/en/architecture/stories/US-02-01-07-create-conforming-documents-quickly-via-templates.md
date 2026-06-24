@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-07
 title: Create Conforming Documents Quickly via Templates
 slug: create-conforming-documents-quickly-via-templates
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Create Conforming Documents Quickly via Templates
 
-As a Dev Dan, I want to create documents via `doc new <kind>` using deterministic defaults, so that I can add conforming artefacts quickly without manual setup or routing guesswork.
+As a developer, I want to create documents via `doc new <kind>` using deterministic defaults, so that I can add conforming artefacts quickly without manual setup or routing guesswork.
 
 ### Acceptance Criteria
 
@@ -48,4 +45,6 @@ As a Dev Dan, I want to create documents via `doc new <kind>` using deterministi
 
 ### Notes
 
-In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`. Out of scope are interactive prompts and arbitrary free-form template engines. The main value for Dan is low-friction creation of compliant artefacts during implementation.
+In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`.
+Out of scope are interactive prompts and arbitrary free-form template engines.
+The main value for a developer is low-friction creation of compliant artefacts during implementation.

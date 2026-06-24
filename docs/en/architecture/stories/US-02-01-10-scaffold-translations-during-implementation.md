@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-10
 title: Scaffold Translations During Implementation
 slug: scaffold-translations-during-implementation
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Scaffold Translations During Implementation
 
-As a Dev Dan, I want to create a translation document by referencing its source document ID, so that translations are created with correct routing, metadata, and structure without manual setup.
+As a developer, I want to create a translation document by referencing its source document ID, so that translations are created with correct routing, metadata, and structure without manual setup.
 
 ### Acceptance Criteria
 
@@ -49,4 +46,7 @@ As a Dev Dan, I want to create a translation document by referencing its source 
 
 ### Notes
 
-The `arqix doc new <kind> --lang <target> --translation-of <ID>` workflow should provide a deterministic and low-friction way to scaffold translation documents from an existing source note. It should resolve the source document using `source_lang`, derive the destination path from the configured i18n layout, and create the translation with the metadata needed to keep source and translation linked over time. A `--dry-run` mode should let contributors and automation agents inspect the planned id, path, and metadata without mutating the repository. Out of scope is any automatic translation of prose. The main value for Dan is low-friction creation of compliant translation artefacts in the normal authoring flow.
+The `arqix doc new <kind> --lang <target> --translation-of <ID>` workflow should provide a deterministic and low-friction way to scaffold translation documents from an existing source note.
+It should resolve the source document using `source_lang`, derive the destination path from the configured i18n layout, and create the translation with the metadata needed to keep source and translation linked over time.
+A `--dry-run` mode should let contributors and automation agents inspect the planned id, path, and metadata without mutating the repository.
+Out of scope is any automatic translation of prose. The main value for a developer is low-friction creation of compliant translation artefacts in the normal authoring flow.

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-10
 title: Define Schema-Backed Metadata Contracts
 slug: define-schema-backed-metadata-contracts
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Define Schema-Backed Metadata Contracts
 
@@ -48,4 +44,7 @@ As a maintainer, I want schema-backed metadata contracts for each document kind,
 
 ### Notes
 
-Acceptance should verify that metadata contracts are authoritative for document kinds and that templates and validation stay aligned over time. Add fixtures for missing fields, extra fields, and type-invalid values across multiple document kinds. Keep the contract source singular so frontmatter drift is caught early and templates remain enforceable. The main value for Mara is scalable documentation governance.
+Acceptance should verify that metadata contracts are authoritative for document kinds and that templates and validation stay aligned over time.
+Add fixtures for missing fields, extra fields, and type-invalid values across multiple document kinds.
+Keep the contract source singular so frontmatter drift is caught early and templates remain enforceable.
+The main value for a maintainer is scalable documentation governance.

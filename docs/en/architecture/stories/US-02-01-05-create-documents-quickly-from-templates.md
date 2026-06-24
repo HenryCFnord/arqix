@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-05
 title: Create Documents Quickly from Templates
 slug: create-documents-quickly-from-templates
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Create Documents Quickly from Templates
 
-As a developer , I want to create documents from templates, so that I can add compliant requirements, user stories, and ADRs without manual boilerplate.
+As a developer, I want to create documents from templates, so that I can add compliant requirements, user stories, and ADRs without manual boilerplate.
 
 ### Acceptance Criteria
 

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-14
 title: Lint Translation Metadata and Drift
 slug: lint-translation-metadata-and-drift
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Lint Translation Metadata and Drift
 
@@ -51,4 +47,8 @@ As a maintainer, I want an i18n lint profile that detects missing translations, 
 
 ### Notes
 
-The i18n lint profile should focus on repository metadata and translation state rather than translation quality. In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document. Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages. Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs. The main value for Mara is structural translation hygiene and enforceable repository rules.
+The i18n lint profile should focus on repository metadata and translation state rather than translation quality.
+In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document.
+Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages.
+Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs.
+The main value for a maintainer is structural translation hygiene and enforceable repository rules.

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-06
 title: Find and Read Documentation During Implementation
 slug: find-and-read-documentation-during-implementation
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Find and Read Documentation During Implementation
 
-As a Dev Dan, I want to search and read documentation, so that I can quickly find relevant requirements, ADRs, and handbook content while implementing changes.
+As a developer, I want to search and read documentation, so that I can quickly find relevant requirements, ADRs, and handbook content while implementing changes.
 
 ### Acceptance Criteria
 
@@ -48,4 +45,7 @@ As a Dev Dan, I want to search and read documentation, so that I can quickly fin
 
 ### Notes
 
-The first version is sufficient if users can reliably find a document by text query and read a full document or anchored section without extra tooling. Add tests for exact and partial matches, ambiguous search results, and missing anchors. Keep CLI output concise because the same behavior will likely be reused by MCP later. The main value for Dan is low-friction lookup in the implementation flow.
+The first version is sufficient if users can reliably find a document by text query and read a full document or anchored section without extra tooling.
+Add tests for exact and partial matches, ambiguous search results, and missing anchors.
+Keep CLI output concise because the same behavior will likely be reused by MCP later.
+The main value for a developer is low-friction lookup in the implementation flow.

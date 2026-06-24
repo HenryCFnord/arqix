@@ -1,6 +1,4 @@
 ---
-
-
 id: US-02-01-08
 title: Finalise Metadata without Touching Content
 slug: finalise-metadata-without-touching-content
@@ -28,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Finalise Metadata without Touching Content
 
-As a developer , I want to mechanically finalise metadata, so that `updated` is set consistently without touching the content I just wrote.
+As a developer, I want to mechanically finalise metadata, so that `updated` is set consistently without touching the content I just wrote.
 
 ### Acceptance Criteria
 
@@ -51,4 +48,4 @@ As a developer , I want to mechanically finalise metadata, so that `updated` is 
 This should be treated as a narrow metadata operation, not a content rewrite step.
 Add tests showing that `updated` is written in `YYYY-MM-DD` format and that repeated runs only touch metadata when the value changes.
 If files without frontmatter are unsupported, fail clearly and document that boundary.
-The main value for Dan is safe metadata maintenance in the normal implementation flow without creating noisy diffs.
+The main value for a developer is safe metadata maintenance in the normal implementation flow without creating noisy diffs.

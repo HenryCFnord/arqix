@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-01-01-16
 title: Validate Repository Configuration and Inspect Effective Config
 slug: validate-repository-configuration-and-inspect-effective-config
@@ -29,12 +26,11 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
 ---
-
 
 ## Validate Repository Configuration and Inspect Effective Config
 
@@ -48,4 +44,7 @@ As a maintainer, I want to validate repository configuration and inspect the eff
 
 ### Notes
 
-Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides. Add tests for invalid keys, invalid values, and precedence resolution. Keep diagnostics stable so automation and CI can compare failures reliably. The main value for Mara is baseline governance and deterministic configuration management.
+Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides.
+Add tests for invalid keys, invalid values, and precedence resolution.
+Keep diagnostics stable so automation and CI can compare failures reliably.
+The main value for a maintainer is baseline governance and deterministic configuration management.

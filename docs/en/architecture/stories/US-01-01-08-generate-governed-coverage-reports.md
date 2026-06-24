@@ -1,5 +1,4 @@
 ---
-
 id: US-01-01-08
 title: Generate Governed Coverage Reports
 slug: generate-governed-coverage-reports
@@ -27,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-05
   lang: en
   translation-of:
   generated: false
@@ -46,4 +45,7 @@ As a maintainer, I want to generate coverage reports, so that missing links are 
 
 ### Notes
 
-Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering. Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering. A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones. The main value for a maintainer is deterministic repository hygiene and standards enforcement.
+Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering.
+Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering.
+A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones.
+The main value for a maintainer is deterministic repository hygiene and standards enforcement.

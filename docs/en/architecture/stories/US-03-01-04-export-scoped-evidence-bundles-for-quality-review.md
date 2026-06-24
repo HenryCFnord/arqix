@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-04
 title: Export Scoped Evidence Bundles for Quality Review
 slug: export-scoped-evidence-bundles-for-quality-review
@@ -29,16 +26,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-04-06
   lang: en
   translation-of:
   generated: false
 ---
 
-
 ## Export Scoped Evidence Bundles for Quality Review
 
-As a QA engineer, I want to generate a scoped evidence bundle for selected requirements or stories, so that I can review traceability gaps and verification evidence reproducibly.
+As a QA manager, I want to generate a scoped evidence bundle for selected requirements or stories, so that I can review traceability gaps and verification evidence reproducibly.
 
 ### Acceptance Criteria
 

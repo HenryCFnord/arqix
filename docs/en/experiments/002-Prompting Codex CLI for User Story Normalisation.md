@@ -187,7 +187,7 @@ This prompt explicitly targeted the story sentence rather than the full body tex
 
 ### The chat was more useful for diagnosis than direct implementation
 
-The interaction was particularly strong at identifying classes of inconsistency and turning them into rules. It was less useful as a direct implementation channel because repository-wide document changes still benefited from running Codex in the actual CLI environment.
+I used OpenAI ChatGPT in thinking mode with GPT 5.4 and the GitHub App to access the repository in combination with a local Codex CLI. The interaction via chat was particularly strong at identifying classes of inconsistency and turning them into rules. It was less useful as a direct implementation channel because repository-wide document changes still benefited from running Codex in the actual CLI environment.
 
 ### Prompt decomposition was the key improvement
 
