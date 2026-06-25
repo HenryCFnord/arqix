@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-11
 title: Inspect Effective Config for CI Reproducibility
 slug: inspect-effective-config-for-ci-reproducibility
@@ -37,7 +35,7 @@ meta:
 
 ## Inspect Effective Config for CI Reproducibility
 
-As a DevOps Daria, I want to validate repository configuration and inspect the effective config, so that CI workflows use a deterministic baseline and configuration problems fail clearly.
+As a DevOps engineer, I want to validate repository configuration and inspect the effective config, so that CI workflows use a deterministic baseline and configuration problems fail clearly.
 
 ### Acceptance Criteria
 

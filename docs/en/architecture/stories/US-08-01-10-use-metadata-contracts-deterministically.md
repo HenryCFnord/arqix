@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-10
 title: Use Metadata Contracts Deterministically
 slug: use-metadata-contracts-deterministically

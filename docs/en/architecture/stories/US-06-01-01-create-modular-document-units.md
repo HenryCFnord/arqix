@@ -1,6 +1,4 @@
 ---
-
-
 id: US-06-01-01
 title: Create Modular Document Units
 slug: create-modular-document-units

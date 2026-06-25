@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-04
 title: Compose Modular Documents with Chapter and Include Directives
 slug: compose-modular-documents-with-chapter-and-include-directives

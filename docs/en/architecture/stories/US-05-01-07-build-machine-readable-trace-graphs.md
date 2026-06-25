@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-07
 title: Build Machine-Readable Trace Graphs
 slug: build-machine-readable-trace-graphs

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-07
 title: Maintain Architecture and Governance Documentation Consistently
 slug: maintain-architecture-and-governance-documentation-consistently

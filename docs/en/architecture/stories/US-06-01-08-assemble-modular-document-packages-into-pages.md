@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-08
 title: Assemble Modular Document Packages into Pages
 slug: assemble-modular-document-packages-into-pages

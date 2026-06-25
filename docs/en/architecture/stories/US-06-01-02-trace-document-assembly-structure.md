@@ -1,6 +1,4 @@
 ---
-
-
 id: US-06-01-02
 title: Trace Document Assembly Structure
 slug: trace-document-assembly-structure

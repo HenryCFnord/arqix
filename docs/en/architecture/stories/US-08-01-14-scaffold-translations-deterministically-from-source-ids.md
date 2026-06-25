@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-14
 title: Scaffold Translations Deterministically from Source IDs
 slug: scaffold-translations-deterministically-from-source-ids

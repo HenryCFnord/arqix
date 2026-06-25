@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-09
 title: Retrieve Architecture Documentation Quickly
 slug: retrieve-architecture-documentation-quickly

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-06-01-03
 title: Create Architecture Documents from Templates
 slug: create-architecture-documents-from-templates

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-09
 title: Observe Assembled Outputs for Downstream Tooling
 slug: observe-assembled-outputs-for-downstream-tooling

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-13
 title: Run One-Command Verification in Agent Workflows
 slug: run-one-command-verification-in-agent-workflows

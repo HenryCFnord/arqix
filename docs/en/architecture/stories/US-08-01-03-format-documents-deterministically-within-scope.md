@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-03
 title: Format Documents Deterministically within Scope
 slug: format-documents-deterministically-within-scope

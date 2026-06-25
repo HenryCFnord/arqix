@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-06
 title: Export Deterministic Trace and Coverage Evidence
 slug: export-deterministic-trace-and-coverage-evidence

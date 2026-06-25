@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-01
 title: Initialize a Doc Package Deterministically and Safely
 slug: initialize-doc-package-deterministically-and-safely

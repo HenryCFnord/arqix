@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-06
 title: Detect Missing Trace Markers for Quality Gaps
 slug: detect-missing-trace-markers-for-quality-gaps

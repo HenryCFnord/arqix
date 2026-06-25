@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-07
 title: Filter Traceability Reports for Quality Analysis
 slug: filter-traceability-reports-for-quality-analysis

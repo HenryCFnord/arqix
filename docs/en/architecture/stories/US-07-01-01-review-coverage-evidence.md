@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-01
 title: Review Coverage Evidence
 slug: review-coverage-evidence

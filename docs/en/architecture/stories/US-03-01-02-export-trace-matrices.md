@@ -34,7 +34,7 @@ meta:
 
 ## Export Trace Matrices
 
-As a QA manager, I want to export a trace matrix, so that I can analyze relationships such as REQ×Test and US×REQ in tabular form.
+As a QA engineer, I want to export a trace matrix, so that I can analyze relationships such as REQ×Test and US×REQ in tabular form.
 
 ### Acceptance Criteria
 

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-07
 title: Publish Language-Aware Sites
 slug: publish-language-aware-sites
@@ -37,7 +35,7 @@ meta:
 
 ## Publish Language-Aware Sites
 
-As a DevOps Daria, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
+As a DevOps engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
 
 ### Acceptance Criteria
 

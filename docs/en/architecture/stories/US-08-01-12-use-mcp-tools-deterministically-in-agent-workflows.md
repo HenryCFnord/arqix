@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-12
 title: Use MCP Tools Deterministically in Agent Workflows
 slug: use-mcp-tools-deterministically-in-agent-workflows

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-02
 title: Review Evidence Chains through Trace Matrices
 slug: review-evidence-chains-through-trace-matrices

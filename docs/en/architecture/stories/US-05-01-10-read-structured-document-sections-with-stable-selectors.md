@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-10
 title: Read Structured Document Sections with Stable Selectors
 slug: read-structured-document-sections-with-stable-selectors

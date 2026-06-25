@@ -34,7 +34,7 @@ meta:
 
 ## Generate Coverage Reports
 
-As a QA manager, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
+As a QA engineer, I want to generate coverage reports, so that I can detect gaps between requirements, code, and tests objectively and reproducibly.
 
 ### Acceptance Criteria
 

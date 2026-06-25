@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-11
 title: Assemble Architecture Narratives into Navigable Outputs
 slug: assemble-architecture-narratives-into-navigable-outputs

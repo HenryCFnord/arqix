@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-03
 title: Expose Machine-Usable Metadata Contracts
 slug: expose-machine-usable-metadata-contracts

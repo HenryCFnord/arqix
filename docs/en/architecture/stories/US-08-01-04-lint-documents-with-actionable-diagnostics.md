@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-04
 title: Lint Documents with Actionable Diagnostics
 slug: lint-documents-with-actionable-diagnostics

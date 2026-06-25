@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-06
 title: Finalise Metadata Safely and Deterministically
 slug: finalise-metadata-safely-and-deterministically

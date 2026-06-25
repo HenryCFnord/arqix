@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-22
 title: Make Trace and Coverage Outputs Deterministic
 slug: make-trace-and-coverage-outputs-deterministic

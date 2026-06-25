@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-09
 title: Run Governed Release Preparation Workflows
 slug: run-governed-release-preparation-workflows
@@ -37,7 +35,7 @@ meta:
 
 ## Run Governed Release Preparation Workflows
 
-As a DevOps Daria, I want a documented, Codex-friendly release process using SemVer, so that release preparation steps can be executed consistently and safely around automation boundaries.
+As a DevOps engineer, I want a documented, Codex-friendly release process using SemVer, so that release preparation steps can be executed consistently and safely around automation boundaries.
 
 ### Acceptance Criteria
 

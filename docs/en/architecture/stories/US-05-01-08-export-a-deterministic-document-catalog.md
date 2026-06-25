@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-08
 title: Export a Deterministic Document Catalog
 slug: export-a-deterministic-document-catalog

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-11
 title: Consume Effective Configuration as Automation Baseline
 slug: consume-effective-configuration-as-automation-baseline

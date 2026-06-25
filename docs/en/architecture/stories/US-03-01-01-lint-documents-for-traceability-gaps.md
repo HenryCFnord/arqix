@@ -34,7 +34,7 @@ meta:
 
 ## Lint Documents for Traceability Gaps
 
-As a QA manager, I want to lint documents, so that include, metadata, and ID errors are detected early as objective quality findings.
+As a QA engineer, I want to lint documents, so that include, metadata, and ID errors are detected early as objective quality findings.
 
 ### Acceptance Criteria
 

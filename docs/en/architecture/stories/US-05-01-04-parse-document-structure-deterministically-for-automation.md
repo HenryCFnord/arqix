@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-04
 title: Parse Document Structure Deterministically for Automation
 slug: parse-document-structure-deterministically-for-automation

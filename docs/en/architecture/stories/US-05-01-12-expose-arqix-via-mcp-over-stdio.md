@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-12
 title: Expose Arqix via MCP over STDIO
 slug: expose-arqix-via-mcp-over-stdio

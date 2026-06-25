@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-07
 title: List Documents Deterministically for Automation
 slug: list-documents-deterministically-for-automation

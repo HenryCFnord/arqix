@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-19
 title: Detect Missing Trace Markers for a Requirement
 slug: detect-missing-trace-markers-for-a-requirement

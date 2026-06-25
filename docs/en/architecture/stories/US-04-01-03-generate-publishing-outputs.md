@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-03
 title: Generate Publishing Outputs
 slug: generate-publishing-outputs
@@ -37,7 +35,7 @@ meta:
 
 ## Generate Publishing Outputs
 
-As a DevOps Daria, I want to generate publishing outputs, so that documentation can be published as PDF and/or a website through deterministic automation.
+As a DevOps engineer, I want to generate publishing outputs, so that documentation can be published as PDF and/or a website through deterministic automation.
 
 ### Acceptance Criteria
 

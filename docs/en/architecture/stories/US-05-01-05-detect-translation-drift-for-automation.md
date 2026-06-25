@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-05
 title: Detect Translation Drift for Automation
 slug: detect-translation-drift-for-automation

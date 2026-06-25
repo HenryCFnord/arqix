@@ -1,6 +1,4 @@
 ---
-
-
 id: US-05-01-02
 title: Emit a Machine-Readable Assembly Log
 slug: emit-machine-readable-assembly-log

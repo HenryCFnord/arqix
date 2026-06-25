@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-13
 title: Expose Language-Aware Site Outputs Deterministically
 slug: expose-language-aware-site-outputs-deterministically

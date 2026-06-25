@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-17
 title: Prepare Releases within Explicit Automation Boundaries
 slug: prepare-releases-within-explicit-automation-boundaries

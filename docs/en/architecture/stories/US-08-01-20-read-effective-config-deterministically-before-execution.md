@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-20
 title: Read Effective Config Deterministically Before Execution
 slug: read-effective-config-deterministically-before-execution

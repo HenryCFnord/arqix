@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-16
 title: Scan Traceability Deterministically within Verification Loops
 slug: scan-traceability-deterministically-within-verification-loops

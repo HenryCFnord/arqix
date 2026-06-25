@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-15
 title: Interpret Verification Outcomes through Stable Exit Codes
 slug: interpret-verification-outcomes-through-stable-exit-codes

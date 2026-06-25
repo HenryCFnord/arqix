@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-04
 title: Review Trace Graphs as Audit Evidence
 slug: review-trace-graphs-as-audit-evidence

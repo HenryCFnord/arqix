@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-03
 title: Generate Audit Evidence Bundles by Scope
 slug: generate-audit-evidence-bundles-by-scope

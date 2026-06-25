@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-01
 title: Emit a CI-Friendly Assembly Log
 slug: emit-ci-friendly-assembly-log

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-02
 title: Emit a Deterministic Assembly Log for Verification
 slug: emit-deterministic-assembly-log-for-verification

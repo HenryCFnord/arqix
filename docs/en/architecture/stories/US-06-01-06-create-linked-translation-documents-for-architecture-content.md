@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-06
 title: Create Linked Translation Documents for Architecture Content
 slug: create-linked-translation-documents-for-architecture-content

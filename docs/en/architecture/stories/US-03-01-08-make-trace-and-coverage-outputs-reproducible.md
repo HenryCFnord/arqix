@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-08
 title: Make Trace and Coverage Outputs Reproducible
 slug: make-trace-and-coverage-outputs-reproducible

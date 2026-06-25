@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-18
 title: Standardize Agent Workflow Documents
 slug: standardize-agent-workflow-documents

@@ -1,6 +1,4 @@
 ---
-
-
 id: US-08-01-05
 title: Create Documents Deterministically from Templates
 slug: create-documents-deterministically-from-templates
@@ -15,7 +13,7 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
-  - predicate: arqix:properties:is-part-of-workflow
+  - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
 properties:

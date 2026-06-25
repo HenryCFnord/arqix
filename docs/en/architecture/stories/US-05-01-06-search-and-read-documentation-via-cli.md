@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-06
 title: Search and Read Documentation via CLI
 slug: search-and-read-documentation-via-cli

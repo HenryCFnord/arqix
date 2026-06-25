@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-06
 title: Build Deterministic Page Artefacts in CI
 slug: build-deterministic-page-artefacts-in-ci
@@ -37,7 +35,7 @@ meta:
 
 ## Build Deterministic Page Artefacts in CI
 
-As a DevOps Daria, I want to assemble a doc package into pages, so that stable publishable artefacts can be produced automatically in CI.
+As a DevOps engineer, I want to assemble a doc package into pages, so that stable publishable artefacts can be produced automatically in CI.
 
 ### Acceptance Criteria
 

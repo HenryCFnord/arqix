@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-08
 title: Stay within Declared Change Scope
 slug: stay-within-declared-change-scope

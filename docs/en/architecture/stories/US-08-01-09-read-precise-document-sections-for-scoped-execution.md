@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-09
 title: Read Precise Document Sections for Scoped Execution
 slug: read-precise-document-sections-for-scoped-execution

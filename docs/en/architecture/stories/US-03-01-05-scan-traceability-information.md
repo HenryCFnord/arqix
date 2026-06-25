@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-03-01-05
 title: Scan Traceability Information
 slug: scan-traceability-information

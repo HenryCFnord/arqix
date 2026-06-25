@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-05
 title: Run a One-Command Verification Loop
 slug: run-a-one-command-verification-loop
@@ -37,7 +35,7 @@ meta:
 
 ## Run a One-Command Verification Loop
 
-As a DevOps Daria, I want a single arqix command to run the standard verification loop, so that automation and CI can validate changes with one deterministic invocation.
+As a DevOps engineer, I want a single arqix command to run the standard verification loop, so that automation and CI can validate changes with one deterministic invocation.
 
 ### Acceptance Criteria
 

@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-05-01-14
 title: Emit Machine-Readable Diagnostics for Downstream Tooling
 slug: emit-machine-readable-diagnostics-for-downstream-tooling

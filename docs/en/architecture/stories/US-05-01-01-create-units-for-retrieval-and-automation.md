@@ -1,6 +1,4 @@
 ---
-
-
 id: US-05-01-01
 title: Create Units for Retrieval and Automation
 slug: create-units-for-retrieval-and-automation

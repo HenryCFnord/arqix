@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-11
 title: Interpret i18n Lint Results Deterministically
 slug: interpret-i18n-lint-results-deterministically

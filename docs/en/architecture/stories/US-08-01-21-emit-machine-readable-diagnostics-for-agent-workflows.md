@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-21
 title: Emit Machine-Readable Diagnostics for Agent Workflows
 slug: emit-machine-readable-diagnostics-for-agent-workflows

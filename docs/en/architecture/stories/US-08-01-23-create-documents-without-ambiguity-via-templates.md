@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-08-01-23
 title: Create Documents without Ambiguity via Templates
 slug: create-documents-without-ambiguity-via-templates

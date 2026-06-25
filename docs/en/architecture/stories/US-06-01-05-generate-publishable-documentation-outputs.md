@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-05
 title: Generate Publishable Documentation Outputs
 slug: generate-publishable-documentation-outputs

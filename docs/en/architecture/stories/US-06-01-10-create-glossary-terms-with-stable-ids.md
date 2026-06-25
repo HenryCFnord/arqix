@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-06-01-10
 title: Create Glossary Terms with Stable IDs
 slug: create-glossary-terms-with-stable-ids

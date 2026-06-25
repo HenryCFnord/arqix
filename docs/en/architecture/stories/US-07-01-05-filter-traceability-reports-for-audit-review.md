@@ -1,7 +1,4 @@
 ---
-
-
-
 id: US-07-01-05
 title: Filter Traceability Reports for Audit Review
 slug: filter-traceability-reports-for-audit-review

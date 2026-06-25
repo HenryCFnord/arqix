@@ -1,6 +1,4 @@
 ---
-
-
 id: US-04-01-12
 title: Publish Stable Report Exports for Automation
 slug: publish-stable-report-exports-for-automation
@@ -37,7 +35,7 @@ meta:
 
 ## Publish Stable Report Exports for Automation
 
-As a DevOps Daria, I want stable compliance-ready report exports, so that CI and release automation can attach reviewable report packages without manual post-processing.
+As a DevOps engineer, I want stable compliance-ready report exports, so that CI and release automation can attach reviewable report packages without manual post-processing.
 
 ### Acceptance Criteria
 
