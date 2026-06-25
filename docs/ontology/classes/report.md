@@ -1,6 +1,6 @@
 ---
 id: class-report
-label: Report
+label: report
 iri: arqix:classes/report
 
 rdf:

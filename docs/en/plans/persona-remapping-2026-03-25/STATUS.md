@@ -3,7 +3,7 @@ title: "Persona remapping status"
 date: 2026-03-25
 status: awaiting-human-review
 branch: docs/add-personas-user-stories
-plan_dir: docs/plans/persona-remapping-2026-03-25
+plan_dir: docs/en/plans/persona-remapping-2026-03-25
 ---
 
 # Persona remapping status
@@ -15,10 +15,10 @@ awaiting-human-review
 `docs/add-personas-user-stories`
 
 ## Latest commit reference
-`$(git rev-parse --short HEAD)`
+`48ca459`
 
 ## Related files
 - [IDEA.md](IDEA.md)
 - [PLANS.md](PLANS.md)
-- [persona_us_req_mapping_report.md](../../processes/persona_us_req_mapping_report.md)
+- [persona_us_req_mapping_report.md](docs/en/processes/persona_us_req_mapping_report.md)
 

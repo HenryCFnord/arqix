@@ -13,9 +13,7 @@ This planning package captures the work performed by Codex to re-cluster User St
 
 ## Raw prompt (used to drive Codex)
 
-```
-$(sed 's/\/\\/g' /home/hop/.openclaw/tmp/codex_persona_map_prompt.txt)
-```
+The original Codex prompt is stored in [codex_persona_map_prompt.txt](codex_persona_map_prompt.txt) alongside this plan file.
 
 ## Intake metadata
 

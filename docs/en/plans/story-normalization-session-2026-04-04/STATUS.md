@@ -3,7 +3,7 @@ title: "Story normalization session status"
 date: 2026-04-04
 status: awaiting-human-review
 branch: docs/add-personas-user-stories
-plan_dir: docs/plans/story-normalization-session-2026-04-04
+plan_dir: docs/en/plans/story-normalization-session-2026-04-04
 ---
 
 # Story normalization session status
@@ -14,12 +14,12 @@ plan_dir: docs/plans/story-normalization-session-2026-04-04
 
 ## Current state
 
-- Planning package created for the session under `docs/plans/story-normalization-session-2026-04-04/`
+- Planning package created for the session under `docs/en/plans/story-normalization-session-2026-04-04/`
 - Story-normalization implementation is already present on this branch in three focused commits:
   - `3f87aaa` filename, `id`, `iri`, and `meta.updated` normalization
   - `cb79104` title and first-heading alignment
   - `91ca72d` persona-reference normalization in leading user-story sentences
-- This package documents the session after those implementation commits, rather than preceding them
+- This package documents the session; some normalization commits are included on this branch, but additional normalization remains planned and has not yet been completed in full.
 
 ## Next recommended action
 
@@ -30,7 +30,7 @@ plan_dir: docs/plans/story-normalization-session-2026-04-04
 ## Blockers
 
 - No implementation blocker remains for this package update
-- OpenClaw intake validation should use `docs/en/project/openclaw-mobile-first-planning-flow.md`
+- OpenClaw intake validation path has been updated to `docs/en/project/openclaw-mobile-first-planning-flow.md` (checkers updated).
 
 ## Notes
 

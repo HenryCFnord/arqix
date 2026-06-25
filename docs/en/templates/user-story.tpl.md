@@ -42,8 +42,8 @@ As a ..., I want ..., so that ...
 
 <!-- Acceptance criteria section: lists the conditions that must be met for the story to be considered complete. -->
 
-- [ ] Acceptance criterium 1
-- [ ] Acceptance criterium 2
+- [ ] Acceptance criterion 1
+- [ ] Acceptance criterion 2
 
 ### Notes
 

@@ -2,7 +2,7 @@
 
 OpenClaw planning packages live under:
 
-`docs/plans/<slug>/`
+`docs/en/plans/<slug>/`
 
 Each package is branch-local and is intended to be easy to review from a phone before Codex starts implementation work.
 
