@@ -1,0 +1,99 @@
+---
+title: "Cross-cutting concern candidates"
+date: 2026-07-02
+status: awaiting-human-review
+branch: docs/add-requirements
+plan_dir: docs/en/plans/requirements-derivation-2026-07-02
+---
+
+# Cross-cutting concern candidates
+
+Candidate requirements for the reserved `REQ-00-00-00-NN` domain, identified by sweeping the acceptance criteria of all 103 user stories in `docs/en/architecture/stories/`. These are the behaviours that recur across persona groups and will form the foundation of arqix itself.
+
+This is a review artefact: no requirement files are created from it until the candidate list is approved. Story lists below are indicative (regex sweep over acceptance criteria); the exact `derived-from` sets are pinned during derivation, and every accepted candidate needs at least two contributing stories (checker rule `REQ-LNK-002`).
+
+All draft sentences below have been validated against `scripts/check_requirements.py` (EARS pattern match, keyword subset, kind matrix).
+
+## Candidates
+
+### REQ-00-00-00-01 — Deterministic outputs
+
+- Kind: constraint
+- Draft: *The arqix CLI SHALL produce byte-identical outputs for identical inputs and configuration.*
+- Evidence: 53 stories across all 8 persona groups mention deterministic, reproducible, or stably ordered outputs in their acceptance criteria.
+- Representative stories: US-01-01-04, US-02-01-11, US-03-01-08, US-04-01-06, US-05-01-08, US-06-01-08, US-07-01-06, US-08-01-22
+
+### REQ-00-00-00-02 — Stable exit codes
+
+- Kind: functional
+- Draft: *The arqix CLI SHALL signal command outcomes through documented, stable exit codes.*
+- Evidence: 13 stories in groups 01, 04, 05, 08.
+- Representative stories: US-04-01-08, US-05-01-14, US-08-01-15
+
+### REQ-00-00-00-03 — Machine-readable diagnostics
+
+- Kind: functional
+- Draft: *When arqix emits a diagnostic, arqix SHALL provide it in a documented machine-readable format.*
+- Evidence: 47 stories across all 8 groups reference machine-readable output, JSON/JSONL, or diagnostics contracts.
+- Representative stories: US-01-01-08, US-03-01-05, US-04-01-10, US-05-01-14, US-08-01-21
+
+### REQ-00-00-00-04 — Deterministic IDs and slugs
+
+- Kind: functional
+- Draft: *The arqix CLI SHALL derive document IDs and slugs deterministically from the configured policy.*
+- Evidence: 22 stories in groups 01, 02, 03, 05, 06, 08 (unique IDs, duplicate detection, stable selectors/anchors).
+- Representative stories: US-01-01-01, US-02-01-02, US-05-01-10, US-06-01-10, US-08-01-05
+
+### REQ-00-00-00-05 — Template-governed document creation
+
+- Kind: functional
+- Draft: *When a document is created, arqix SHALL instantiate the configured template for the requested kind.*
+- Evidence: 14 stories in groups 01, 02, 04, 05, 06, 08.
+- Representative stories: US-01-01-13, US-02-01-07, US-06-01-03, US-08-01-23
+
+### REQ-00-00-00-06 — Effective configuration as baseline
+
+- Kind: functional
+- Draft: *The arqix CLI SHALL resolve every command against the effective configuration.*
+- Evidence: 26 stories in groups 01, 02, 04, 05, 06, 08 (config validation, effective-config inspection, configured policies).
+- Representative stories: US-01-01-16, US-04-01-11, US-05-01-11, US-08-01-20
+
+### REQ-00-00-00-07 — Change-scope guardrails
+
+- Kind: constraint
+- Draft: *The arqix CLI SHALL NOT modify files outside the declared change scope.*
+- Evidence: scope-guardrail behaviour appears in groups 01, 04, 08 (US-01-01-07, US-04-01-02, US-08-01-08) and underpins agent-safe automation throughout group 08.
+- Representative stories: US-01-01-07, US-04-01-02, US-08-01-08
+
+### REQ-00-00-00-08 — No-overwrite safety
+
+- Kind: constraint
+- Draft: *The arqix CLI SHALL NOT overwrite existing files without explicit approval.*
+- Evidence: 6 stories in groups 01, 02, 08 (init refusal paths, mechanical-only finalize).
+- Representative stories: US-01-01-01, US-02-01-08, US-08-01-06
+
+### REQ-00-00-00-09 — Dry-run support
+
+- Kind: functional
+- Draft: *Where a command creates or modifies files, the command SHALL support a dry-run mode that reports planned changes without writing.*
+- Evidence: 6 stories in groups 01, 02, 06, 08.
+- Representative stories: US-01-01-13, US-02-01-10, US-06-01-06, US-08-01-23
+
+### REQ-00-00-00-10 — Translation drift detection
+
+- Kind: functional
+- Draft: *When translations exist for a document, arqix SHALL detect missing and outdated translations deterministically.*
+- Evidence: 13 stories in groups 01, 02, 04, 05, 06, 08.
+- Representative stories: US-01-01-14, US-04-01-04, US-05-01-05, US-08-01-11
+
+## Observations
+
+- Candidates 01, 03, and 06 have the broadest reach and are effectively the tool's core contracts; per-story requirements will frequently be refinements of them. During derivation, a per-story requirement that merely restates one of these SHOULD instead be replaced by a `has-requirement` link to the shared requirement.
+- Candidate 10 (translation drift) sits on the boundary between a cross-cutting concern and an i18n feature cluster. It is included because six of eight groups depend on it; review may decide to keep it story-bound instead.
+- The sweep is regex-based over acceptance criteria; it can over- or under-match. Final `derived-from` sets are fixed manually per candidate during derivation.
+
+## Review decision needed
+
+- Approve, drop, or merge candidates (in particular 04 vs 01, and 10).
+- Confirm the kind assignment per candidate.
+- After approval, the accepted candidates become the first requirement files under `docs/en/architecture/req/`, and derivation of story-bound requirements starts on top of them.
