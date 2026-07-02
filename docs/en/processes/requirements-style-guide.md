@@ -53,6 +53,20 @@ Rules:
 - Clause keywords `When`, `While`, `If`/`then`, and `Where` are capitalized exactly as shown at the start of their clause.
 - Explanatory context, scope notes, and rationale belong in the `### Notes` section, never in the normative sentence.
 
+## Subject conventions
+
+The `<system>` subject of the core clause follows these rules:
+
+- Tool behaviour, ubiquitous pattern: the subject is exactly `The arqix CLI`.
+  - `The arqix CLI SHALL NOT overwrite existing files without explicit approval.`
+- Tool behaviour, triggered patterns (event, state, unwanted, optional): name the command in backticks in the trigger clause and use the bare `arqix` as the core-clause subject.
+  - `When \`arqix fmt\` runs, arqix SHALL sort frontmatter keys according to the configured \`key_order\`.`
+- A backticked command may itself be the subject when the requirement binds exactly that command.
+  - `Where warn-only mode is configured, \`arqix policy check\` SHALL report violations without failing.`
+- Artefact and output subjects are allowed when the requirement constrains the artefact itself rather than tool behaviour (documents, reports, diagnostics, processes, coding agents).
+  - `The agent instruction document SHALL define scope rules for story-by-story execution.`
+- Invented subsystem nouns are forbidden — do not write `the arqix formatter`, `the linter`, or `the exporter`; use `The arqix CLI` or the command-trigger form instead. The checker reports arqix-containing subjects outside the allowed forms (`EARS-006`, warning).
+
 ## Kind ↔ keyword matrix
 
 | Kind | Expected keywords |

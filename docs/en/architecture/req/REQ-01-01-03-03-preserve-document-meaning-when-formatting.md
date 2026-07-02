@@ -32,7 +32,7 @@ meta:
 
 ## Requirement
 
-The arqix formatter SHALL NOT change document meaning beyond canonical ordering and whitespace normalisation.
+The arqix CLI SHALL NOT change document meaning during formatting beyond canonical ordering and whitespace normalisation.
 
 ### Notes
 

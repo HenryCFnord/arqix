@@ -42,6 +42,9 @@ Rule IDs:
                  lowercase shall/should/may in the normative sentence
     EARS-004     not exactly one keyword from the allowed subset
     EARS-005     keyword does not fit the requirement kind (warning)
+    EARS-006     arqix-containing subject outside the allowed forms
+                 ('arqix', 'The arqix CLI', or a backticked command;
+                 no invented subsystem nouns) (warning)
 """
 
 import argparse
@@ -271,17 +274,51 @@ def check_sentence(path, sentence, kind, findings):
                 % (len(found), ", ".join(found) or "none"),
             )
         )
-    elif kind in KIND_KEYWORDS and found[0] not in KIND_KEYWORDS[kind]:
-        findings.append(
-            Finding(
-                path,
-                "EARS-005",
-                "warning",
-                "keyword '%s' unusual for kind '%s' (see style guide matrix)"
-                % (found[0], kind),
+    else:
+        if kind in KIND_KEYWORDS and found[0] not in KIND_KEYWORDS[kind]:
+            findings.append(
+                Finding(
+                    path,
+                    "EARS-005",
+                    "warning",
+                    "keyword '%s' unusual for kind '%s' (see style guide matrix)"
+                    % (found[0], kind),
+                )
             )
-        )
+        subject = core_subject(sentence)
+        if subject is not None and "arqix" in subject.lower():
+            allowed = (
+                subject == "arqix"
+                or subject == "The arqix CLI"
+                or re.fullmatch(r"`arqix[^`]*`", subject)
+            )
+            if not allowed:
+                findings.append(
+                    Finding(
+                        path,
+                        "EARS-006",
+                        "warning",
+                        "subject %r is not an allowed arqix subject form "
+                        "('arqix', 'The arqix CLI', or a backticked command)"
+                        % subject,
+                    )
+                )
     return pattern
+
+
+def core_subject(sentence):
+    """Return the core-clause subject: text between the last clause comma
+    (or sentence start) and the normative keyword, without a leading 'then'."""
+    m = re.search(r"\b(?:%s)\b" % KEYWORD_ALT, sentence)
+    if not m:
+        return None
+    prefix = sentence[: m.start()]
+    if "," in prefix:
+        prefix = prefix.rsplit(",", 1)[1]
+    prefix = prefix.strip()
+    if prefix.startswith("then "):
+        prefix = prefix[5:].strip()
+    return prefix
 
 
 def check_requirement_file(path, text, findings):
@@ -607,6 +644,9 @@ SELFTEST_SENTENCES = [
     ("The tool SHALL do this and SHOULD do that.", "functional", "ubiquitous", ["EARS-004"]),
     ("Renders pages quickly.", "functional", None, ["EARS-002", "EARS-004"]),
     ("The exporter SHOULD emit stable ordering.", "constraint", "ubiquitous", ["EARS-005"]),
+    ("The arqix formatter SHALL NOT emit noise.", "constraint", "ubiquitous", ["EARS-006"]),
+    ("If a value is current, then `arqix finalise` SHALL NOT rewrite it.", "functional", "unwanted-behaviour", []),
+    ("When `arqix fmt` runs, arqix SHALL sort keys deterministically.", "functional", "event-driven", []),
 ]
 
 
