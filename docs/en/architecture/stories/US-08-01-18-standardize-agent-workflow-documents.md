@@ -13,6 +13,12 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
+      - arqix:requirements/req-01-01-09-01
+      - arqix:requirements/req-01-01-09-02
+      - arqix:requirements/req-01-01-09-03
+      - arqix:requirements/req-01-01-09-04
+      - arqix:requirements/req-01-01-09-05
+      - arqix:requirements/req-01-01-09-06
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 

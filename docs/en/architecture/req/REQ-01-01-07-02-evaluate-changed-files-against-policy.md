@@ -10,7 +10,10 @@ rdf:
 
 triples:
   - predicate: arqix:properties/derived-from
-    object: arqix:user-stories/us-01-01-07
+    object:
+      - arqix:user-stories/us-01-01-07
+      - arqix:user-stories/us-04-01-02
+      - arqix:user-stories/us-08-01-08
   - predicate: arqix:properties/has-verification-method
     object:
 
