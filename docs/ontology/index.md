@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-27
-  updated: 2026-03-29
+  updated: 2026-07-02
   lang: en
   generated: false
 ---
@@ -34,6 +34,9 @@ It keeps the planning, implementation, and verification model intentionally smal
 - workflow
 - user-story
 - requirement
+- functional-requirement
+- quality-requirement
+- constraint
 - adr
 - documentation
 - page
