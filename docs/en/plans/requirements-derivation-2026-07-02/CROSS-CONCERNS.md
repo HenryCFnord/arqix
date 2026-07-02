@@ -1,7 +1,7 @@
 ---
 title: "Cross-cutting concern candidates"
 date: 2026-07-02
-status: awaiting-human-review
+status: approved
 branch: docs/add-requirements
 plan_dir: docs/en/plans/requirements-derivation-2026-07-02
 ---
@@ -92,8 +92,15 @@ All draft sentences below have been validated against `scripts/check_requirement
 - Candidate 10 (translation drift) sits on the boundary between a cross-cutting concern and an i18n feature cluster. It is included because six of eight groups depend on it; review may decide to keep it story-bound instead.
 - The sweep is regex-based over acceptance criteria; it can over- or under-match. Final `derived-from` sets are fixed manually per candidate during derivation.
 
-## Review decision needed
+## Review decision (2026-07-02)
 
-- Approve, drop, or merge candidates (in particular 04 vs 01, and 10).
-- Confirm the kind assignment per candidate.
-- After approval, the accepted candidates become the first requirement files under `docs/en/architecture/req/`, and derivation of story-bound requirements starts on top of them.
+All ten candidates were approved by the repository owner as proposed, including the kind assignments. Additionally decided: `derived-from` uses full verified story lists (every story whose acceptance criteria demonstrably demand the behaviour), and story-bound derivation starts with a pilot for persona group 01 before groups 02–08 follow.
+
+The requirement files exist under `docs/en/architecture/req/` as `REQ-00-00-00-01` … `REQ-00-00-00-10`. The final `derived-from` sets were pinned by re-running the acceptance-criteria sweep and manually verifying every matched line; notable curation against the indicative lists above:
+
+- id/slug and placeholder-substitution criteria moved from candidate 01 to 04; exit-code determinism to 02
+- "clear/actionable diagnostics" criteria excluded from 03 (clarity is not machine-readability)
+- Pandoc render templates and CI workflow templates excluded from 05
+- candidate 06 grew to 52 stories: every criterion demanding configuration-driven behaviour derives it
+- candidate 07 pinned manually to US-01-01-07, US-04-01-02, US-08-01-08 (their criteria say `policy check`, so the regex sweep missed them); report-scoping criteria excluded
+- translation scaffolding, language filtering, and i18n publishing configuration excluded from 10
