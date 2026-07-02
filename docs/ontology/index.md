@@ -39,7 +39,7 @@ It keeps the planning, implementation, and verification model intentionally smal
 - constraint
 - adr
 - documentation
-- page
+- document-page
 - unit
 - report
 - code-artefact

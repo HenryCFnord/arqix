@@ -1,5 +1,5 @@
 ---
-id: class-page
+id: class-document-page
 label: document-page
 iri: arqix:classes/document-page
 
@@ -23,7 +23,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-27
-  updated: 2026-03-27
+  updated: 2026-07-02
   lang: en
   generated: false
 ---
