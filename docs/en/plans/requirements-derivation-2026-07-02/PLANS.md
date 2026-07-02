@@ -28,8 +28,7 @@ This plan is written before implementation; it records the intended approach and
 
 ## Branch context
 
-- Branch: `docs/add-requirements`, created from `docs/add-personas-user-stories`
-- Depends on PR #5 (`docs/add-personas-user-stories` → `main`); this branch should be rebased onto `main` once PR #5 merges
+- Branch: `docs/add-requirements`, rebased onto `main` after PR #5 (`docs/add-personas-user-stories` → `main`) merged as `d1efff1`
 - The consistency fixes in commit `7e3a6c8` are the baseline: stable IDs, IRIs, slugs, persona and workflow links across all 115 stories
 
 ## Current state
@@ -79,7 +78,6 @@ This mirrors the `REQ-US-1001-01` idea from the historic report while adopting t
 - The historic report is 2026-03-25 state; stories were renumbered and extended since, so matching by title/slug needs human spot-checks.
 - Deriving requirements from acceptance criteria is judgement work, not mechanical; granularity decisions need review.
 - 115 stories will produce a large file count; the PR should stay requirements-only to remain reviewable.
-- If PR #5 changes before merge, this branch must be rebased and the baseline re-verified.
 
 ## Open questions (decide before execution)
 
