@@ -10,7 +10,7 @@ branch: docs/add-requirements
 
 ## Summary
 
-Derive requirement documents from the 115 user stories in `docs/en/architecture/stories`, place them in a new requirements directory under the architecture documentation layout, and populate the currently empty `has-requirement` triples in the story frontmatter.
+Derive requirement documents from the 103 user stories in `docs/en/architecture/stories`, place them in a new requirements directory under the architecture documentation layout, and populate the currently empty `has-requirement` triples in the story frontmatter.
 
 This plan is written before implementation; it records the intended approach and the open decisions that need human review first.
 
@@ -29,11 +29,11 @@ This plan is written before implementation; it records the intended approach and
 ## Branch context
 
 - Branch: `docs/add-requirements`, rebased onto `main` after PR #5 (`docs/add-personas-user-stories` → `main`) merged as `d1efff1`
-- The consistency fixes in commit `7e3a6c8` are the baseline: stable IDs, IRIs, slugs, persona and workflow links across all 115 stories
+- The consistency fixes in commit `7e3a6c8` are the baseline: stable IDs, IRIs, slugs, persona and workflow links across all 103 stories
 
 ## Current state
 
-- All 115 stories carry an empty `has-requirement` triple (uniform, verified 2026-07-02)
+- All 103 stories carry an empty `has-requirement` triple (uniform, verified 2026-07-02)
 - No requirements directory exists under `docs/en/architecture/`
 - `docs/en/templates/requirement.tpl.md` exists and defines the requirement frontmatter contract (`arqix:classes/requirement`, `has-verification-method` triple, `fit-criterion` property)
 - The historic report `docs/en/processes/persona_us_req_mapping_report.md` maps 50 requirements to stories, but in the superseded schemes:
@@ -56,12 +56,13 @@ This mirrors the `REQ-US-1001-01` idea from the historic report while adopting t
 
 ## Execution steps
 
-1. Derive requirements per story freshly from the current acceptance criteria (one requirement per independently verifiable behaviour; not necessarily one per checkbox).
-2. Identify behaviour shared across stories and lift it into cross-cutting `REQ-00-00-00-NN` requirements instead of duplicating it per story.
+0. Foundations (done 2026-07-02): ontology subclasses, requirements style guide (RFC 2119 subset + EARS), updated requirement template, and the consistency checker `scripts/check_requirements.py`.
+1. Identify behaviour shared across stories and propose cross-cutting `REQ-00-00-00-NN` candidates for review (done 2026-07-02, see [CROSS-CONCERNS.md](CROSS-CONCERNS.md)); create the approved candidates as the first requirement files.
+2. Derive requirements per story freshly from the current acceptance criteria (one requirement per independently verifiable behaviour; not necessarily one per checkbox), written per the style guide and typed as functional, quality, or constraint. Where a story's behaviour is already covered by a cross-cutting requirement, link it instead of duplicating it.
 3. Cross-check granularity against the historic report where old stories map to current ones (e.g. old `US-1001` → 3 requirements), without carrying over content.
 4. Create the requirement files under `docs/en/architecture/req/` from `requirement.tpl.md`, with `fit-criterion` distilled from the story acceptance criteria and `derived-from` pointing at the owning story or stories.
 5. Populate `has-requirement` in each story and refresh `meta.updated` on touched stories.
-6. Extend the mechanical consistency check to cover requirements (ID ↔ filename ↔ IRI ↔ slug, `derived-from` ↔ `has-requirement` symmetry, no orphans, no dangling references).
+6. Run `scripts/check_requirements.py` after each pass; it enforces ID ↔ filename ↔ IRI ↔ slug alignment, `derived-from` ↔ `has-requirement` symmetry, contiguous numbering, subclass typing, and the EARS/RFC 2119 sentence rules.
 7. Keep each pass a focused, reviewable commit.
 
 ## Expected validation checks
@@ -77,7 +78,7 @@ This mirrors the `REQ-US-1001-01` idea from the historic report while adopting t
 
 - The historic report is 2026-03-25 state; stories were renumbered and extended since, so matching by title/slug needs human spot-checks.
 - Deriving requirements from acceptance criteria is judgement work, not mechanical; granularity decisions need review.
-- 115 stories will produce a large file count; the PR should stay requirements-only to remain reviewable.
+- 103 stories will produce a large file count; the PR should stay requirements-only to remain reviewable.
 
 ## Decisions (2026-07-02)
 
@@ -87,4 +88,13 @@ All five open questions from the draft plan have been decided by the repository 
 2. Directory: `docs/en/architecture/req/`.
 3. Backlink predicate: `derived-from`; no new ontology property is introduced.
 4. Shared behaviour across personas becomes a single cross-cutting requirement in the reserved pseudo-story domain `00-00-00` (`REQ-00-00-00-NN`). Linking to the contributing stories is handled by `derived-from` with multiple objects, and each contributing story lists the shared requirement in `has-requirement`.
-5. Requirements are derived freshly from the current acceptance criteria. The historic report is input only, used as a granularity cross-check: its old requirement files no longer exist in the repository, its titles are German while `docs/en/` is English, and it covers only a fraction of the current 115 stories.
+5. Requirements are derived freshly from the current acceptance criteria. The historic report is input only, used as a granularity cross-check: its old requirement files no longer exist in the repository, its titles are German while `docs/en/` is English, and it covers only a fraction of the current 103 stories.
+
+## Tooling decisions (2026-07-02, second round)
+
+Decided by the repository owner before derivation starts:
+
+6. Requirement sentences follow a strict RFC 2119 subset (`SHALL`, `SHALL NOT`, `SHOULD`, `SHOULD NOT`, `MAY`, uppercase) combined with the EARS sentence patterns. The authoring contract lives in `docs/en/processes/requirements-style-guide.md`.
+7. Requirements are typed by verification approach through three ontology subclasses of `arqix:classes/requirement`: `functional-requirement` (directly testable, linked to tests), `quality-requirement` (verified via acceptance criteria and review), and `constraint` (not directly testable, frames other requirements). Each requirement document sets `rdf.type` to exactly one subclass.
+8. A regex-based consistency checker (`scripts/check_requirements.py`, Python 3 stdlib-only) enforces the structure, link symmetry, and sentence rules with stable rule IDs, `--json` output, and `--selftest`. It is the reference specification for the later arqix (Rust) implementation.
+9. Cross-cutting concerns are identified and reviewed before per-story derivation; the candidate list lives in [CROSS-CONCERNS.md](CROSS-CONCERNS.md).
