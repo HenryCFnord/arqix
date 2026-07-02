@@ -17,6 +17,8 @@ triples:
       - arqix:requirements/req-00-00-00-04
       - arqix:requirements/req-00-00-00-06
       - arqix:requirements/req-00-00-00-08
+      - arqix:requirements/req-08-01-01-01
+      - arqix:requirements/req-08-01-01-02
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
