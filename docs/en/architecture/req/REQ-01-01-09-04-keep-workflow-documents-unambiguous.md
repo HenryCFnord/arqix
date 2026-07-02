@@ -32,7 +32,7 @@ meta:
 
 ## Requirement
 
-The AGENTS.md and PLANS.md structures SHOULD be explicit enough that an agent can follow them without guessing process constraints.
+The agent instruction and plan document structures SHOULD be explicit enough that an agent can follow them without guessing process constraints.
 
 ### Notes
 

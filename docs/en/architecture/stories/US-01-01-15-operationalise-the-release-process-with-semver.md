@@ -44,7 +44,7 @@ As a maintainer, I want a documented, coding-agent-friendly release process usin
 
 - [ ] `CHANGELOG.md` and `RELEASING.md` exist and are consistent.
 - [ ] SemVer rules for product version and separate `config_version` and `schema_version` are documented.
-- [ ] Codex is limited to release preparation only, with no tagging or publishing without approval.
+- [ ] Coding agents are limited to release preparation only, with no tagging or publishing without approval.
 - [ ] Breaking changes require migration notes and changelog entries.
 
 ### Notes

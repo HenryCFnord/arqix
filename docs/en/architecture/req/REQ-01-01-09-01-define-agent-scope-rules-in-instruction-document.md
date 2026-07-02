@@ -1,7 +1,7 @@
 ---
 id: REQ-01-01-09-01
-title: Define Agent Scope Rules in AGENTS.md
-slug: define-agent-scope-rules-in-agents-md
+title: Define Agent Scope Rules in Instruction Document
+slug: define-agent-scope-rules-in-instruction-document
 iri: arqix:requirements/req-01-01-09-01
 
 rdf:
@@ -16,7 +16,7 @@ triples:
 
 properties:
   priority: high
-  fit-criterion: AGENTS.md contains explicit story-by-story scope rules that reviews can point to.
+  fit-criterion: The agent instruction document contains explicit story-by-story scope rules that reviews can point to.
 
 external-references: []
 
@@ -32,7 +32,7 @@ meta:
 
 ## Requirement
 
-AGENTS.md SHALL define scope rules for story-by-story execution, including one story at a time and no opportunistic refactors.
+The agent instruction document SHALL define scope rules for story-by-story execution, including one story at a time and no opportunistic refactors.
 
 ### Notes
 

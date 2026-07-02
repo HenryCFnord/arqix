@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-09-03
-title: Structure PLANS.md for Agent Execution
-slug: structure-plans-md-for-agent-execution
-iri: arqix:requirements/req-01-01-09-03
+id: REQ-01-01-09-02
+title: Define Editing Constraints for Plan Document
+slug: define-editing-constraints-for-plan-document
+iri: arqix:requirements/req-01-01-09-02
 
 rdf:
   type:
@@ -16,7 +16,7 @@ triples:
 
 properties:
   priority: high
-  fit-criterion: Each story task in PLANS.md carries scope in/out, acceptance criteria, command checks, and status fields.
+  fit-criterion: The instruction document states which parts of the plan document agents edit and which verification commands must pass.
 
 external-references: []
 
@@ -32,7 +32,7 @@ meta:
 
 ## Requirement
 
-PLANS.md SHALL include story tasks with scope boundaries, acceptance criteria, required command checks, and agent-updatable status fields.
+The agent instruction document SHALL define editing constraints for the plan document and the required arqix verification loop.
 
 ### Notes
 

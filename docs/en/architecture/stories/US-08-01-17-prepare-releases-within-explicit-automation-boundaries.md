@@ -26,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-04-04
+  updated: 2026-07-02
   lang: en
   translation-of:
   generated: false
@@ -35,13 +35,13 @@ meta:
 
 ## Prepare Releases within Explicit Automation Boundaries
 
-As a coding agent, I want a documented, Codex-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
+As a coding agent, I want a documented, coding-agent-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
 
 ### Acceptance Criteria
 
 - [ ] `CHANGELOG.md` and `RELEASING.md` exist and are consistent.
 - [ ] SemVer rules for product version and separate `config_version` and `schema_version` are documented.
-- [ ] Codex is limited to release preparation only, with no tagging or publishing without approval.
+- [ ] Coding agents are limited to release preparation only, with no tagging or publishing without approval.
 - [ ] Breaking changes require migration notes and changelog entries.
 
 ### Notes
