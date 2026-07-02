@@ -1,7 +1,7 @@
 ---
 title: "Requirements derivation plan"
 date: 2026-07-02
-status: draft
+status: reviewed
 category: docs
 branch: docs/add-requirements
 ---
@@ -17,7 +17,7 @@ This plan is written before implementation; it records the intended approach and
 ## Scope
 
 - In scope:
-  - a requirements directory under `docs/en/architecture/` (proposed: `docs/en/architecture/requirements/`)
+  - a requirements directory under `docs/en/architecture/req/`
   - requirement documents created from `docs/en/templates/requirement.tpl.md`
   - populating `has-requirement` triples in the story files
   - remapping the historic mapping report content to the current ID scheme
@@ -42,27 +42,27 @@ This plan is written before implementation; it records the intended approach and
   - paths `docs/us/` and `docs/req/` that no longer exist
 - Relevant ontology properties already exist: `has-requirement`, `implements-requirement`, `verifies-requirement`, `derived-from`
 
-## Proposed ID and layout scheme
+## ID and layout scheme (decided 2026-07-02)
 
-- Directory: `docs/en/architecture/requirements/`
+- Directory: `docs/en/architecture/req/`
 - Requirement ID: `REQ-XX-YY-ZZ-NN`, where `US-XX-YY-ZZ` is the owning story and `NN` numbers the requirements of that story starting at `01`
+- Cross-cutting requirements shared by several stories use the reserved pseudo-story domain `00-00-00`: `REQ-00-00-00-NN`, numbered contiguously starting at `01` (persona groups start at `01`, so `00` cannot collide)
 - Filename: `REQ-XX-YY-ZZ-NN-slug.md`, mirroring the story filename convention
 - IRI: `arqix:requirements/req-xx-yy-zz-nn`
-- Story frontmatter: `has-requirement` lists one object per derived requirement
-- Requirement frontmatter: a `derived-from` triple pointing back to the owning story IRI
+- Story frontmatter: `has-requirement` lists one object per derived requirement (including shared `REQ-00-00-00-NN` requirements)
+- Requirement frontmatter: a `derived-from` triple pointing back to the owning story IRI; cross-cutting requirements carry one `derived-from` object per contributing story
 
-This mirrors the `REQ-US-1001-01` idea from the historic report while adopting the current story ID scheme. The scheme is a proposal and needs confirmation before execution.
+This mirrors the `REQ-US-1001-01` idea from the historic report while adopting the current story ID scheme.
 
 ## Execution steps
 
-1. Confirm the ID scheme, directory, and backlink predicate (open questions below).
-2. Build a remapping table: historic report rows → current `US-XX-YY-ZZ` stories, using the story titles and slugs to match old `US-1001`-style IDs to current files.
-3. For stories covered by the historic report, draft requirements from the mapped historic requirement titles.
-4. For stories without historic requirements, derive requirements from the acceptance criteria (one requirement per independently verifiable behaviour; not necessarily one per checkbox).
-5. Create the requirement files from `requirement.tpl.md`, with `fit-criterion` distilled from the story acceptance criteria.
-6. Populate `has-requirement` in each story and refresh `meta.updated` on touched stories.
-7. Extend the mechanical consistency check to cover requirements (ID ↔ filename ↔ IRI ↔ slug, `derived-from` ↔ `has-requirement` symmetry, no orphans, no dangling references).
-8. Keep each pass a focused, reviewable commit.
+1. Derive requirements per story freshly from the current acceptance criteria (one requirement per independently verifiable behaviour; not necessarily one per checkbox).
+2. Identify behaviour shared across stories and lift it into cross-cutting `REQ-00-00-00-NN` requirements instead of duplicating it per story.
+3. Cross-check granularity against the historic report where old stories map to current ones (e.g. old `US-1001` → 3 requirements), without carrying over content.
+4. Create the requirement files under `docs/en/architecture/req/` from `requirement.tpl.md`, with `fit-criterion` distilled from the story acceptance criteria and `derived-from` pointing at the owning story or stories.
+5. Populate `has-requirement` in each story and refresh `meta.updated` on touched stories.
+6. Extend the mechanical consistency check to cover requirements (ID ↔ filename ↔ IRI ↔ slug, `derived-from` ↔ `has-requirement` symmetry, no orphans, no dangling references).
+7. Keep each pass a focused, reviewable commit.
 
 ## Expected validation checks
 
@@ -79,10 +79,12 @@ This mirrors the `REQ-US-1001-01` idea from the historic report while adopting t
 - Deriving requirements from acceptance criteria is judgement work, not mechanical; granularity decisions need review.
 - 115 stories will produce a large file count; the PR should stay requirements-only to remain reviewable.
 
-## Open questions (decide before execution)
+## Decisions (2026-07-02)
 
-1. Requirement ID scheme: `REQ-XX-YY-ZZ-NN` as proposed, or a story-independent scheme (e.g. `REQ-NNNN`) that survives story renumbering?
-2. Directory: `docs/en/architecture/requirements/` as proposed?
-3. Backlink predicate: `derived-from`, or should the ontology gain a dedicated `derives-from-story` / reuse `realizes-user-story`?
-4. Should shared behaviour across personas (e.g. "deterministic exit codes" appears in groups 04 and 08) produce one shared requirement referenced by several stories, or per-story requirements?
-5. Does the historic report content carry over as-is where it matches, or is it only an input for fresh derivation?
+All five open questions from the draft plan have been decided by the repository owner:
+
+1. Requirement ID scheme: `REQ-XX-YY-ZZ-NN`, bound to the owning story ID.
+2. Directory: `docs/en/architecture/req/`.
+3. Backlink predicate: `derived-from`; no new ontology property is introduced.
+4. Shared behaviour across personas becomes a single cross-cutting requirement in the reserved pseudo-story domain `00-00-00` (`REQ-00-00-00-NN`). Linking to the contributing stories is handled by `derived-from` with multiple objects, and each contributing story lists the shared requirement in `has-requirement`.
+5. Requirements are derived freshly from the current acceptance criteria. The historic report is input only, used as a granularity cross-check: its old requirement files no longer exist in the repository, its titles are German while `docs/en/` is English, and it covers only a fraction of the current 115 stories.
