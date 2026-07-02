@@ -77,6 +77,8 @@ One requirement binds exactly one verifiable contract: one behaviour or one arte
 - Partial-failure localisation lives in the trace model, not in the requirement count: `verifies-requirement` is many-to-one, so several test cases may verify one requirement — one per enumerated aspect. A requirement counts as satisfied only when all linked verification evidence passes; the failing test identifies the missing aspect.
 - Atomicity is a review criterion, not a checker rule: enumeration detection over natural sentences produces too many false positives ("identical inputs and configuration" is one condition, not two features) to be enforced mechanically.
 
+Canonical owner: every behaviour is specified exactly once. When several stories demand the same behaviour, the requirement is owned by the story with the lowest ID that demands it (the requirement ID stays `REQ-<owner>-NN`, and the owner is the first `derived-from` object); all further demanding stories are added to `derived-from` and link the requirement in their `has-requirement` instead of duplicating it. The `00-00-00` domain remains reserved for system-wide contracts, not for shared feature behaviour.
+
 Good — one contract, itemisable fit criterion:
 
 > The `unit new` command help SHOULD explain where units are created, which metadata is optional, and how IDs are supplied.

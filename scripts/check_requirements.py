@@ -23,8 +23,9 @@ Rule IDs:
     REQ-ID-005   duplicate requirement id
     REQ-ID-006   per-story NN sequence has gaps or duplicates
     REQ-KIND-001 rdf.type is not exactly one requirement subclass
-    REQ-LNK-001  story-bound requirement: derived-from must be exactly
-                 the owning story
+    REQ-LNK-001  story-bound requirement: the owning story (from the
+                 ID) must be the first derived-from object; further
+                 stories may follow (canonical-owner model)
     REQ-LNK-002  cross-cutting requirement (00-00-00): needs >= 2
                  derived-from objects
     REQ-LNK-003  derived-from references a story that does not exist
@@ -412,14 +413,14 @@ def check_requirement_file(path, text, findings):
             )
     else:
         owner_iri = "arqix:user-stories/us-%s-%s-%s" % domain
-        if derived != [owner_iri]:
+        if not derived or derived[0] != owner_iri:
             findings.append(
                 Finding(
                     path,
                     "REQ-LNK-001",
                     "error",
-                    "story-bound requirement must have exactly derived-from %r, "
-                    "found %s" % (owner_iri, derived or "none"),
+                    "story-bound requirement must list its owning story %r as the "
+                    "first derived-from object, found %s" % (owner_iri, derived or "none"),
                 )
             )
 
@@ -686,11 +687,35 @@ def selftest():
     if rules != ["REQ-ID-003", "REQ-KIND-001"]:
         failures.append("bad fixture: expected [REQ-ID-003, REQ-KIND-001], got %s" % rules)
 
+    multi = GOOD_REQ.replace(
+        "object: arqix:user-stories/us-01-01-01",
+        "object:\n      - arqix:user-stories/us-01-01-01\n"
+        "      - arqix:user-stories/us-02-01-01",
+    )
+    findings = []
+    check_requirement_file(Path("REQ-01-01-01-01-test-requirement.md"), multi, findings)
+    if findings:
+        failures.append(
+            "canonical-owner fixture: expected clean, got %s"
+            % sorted({f.rule for f in findings})
+        )
+
+    foreign = GOOD_REQ.replace(
+        "object: arqix:user-stories/us-01-01-01",
+        "object:\n      - arqix:user-stories/us-02-01-01\n"
+        "      - arqix:user-stories/us-01-01-01",
+    )
+    findings = []
+    check_requirement_file(Path("REQ-01-01-01-01-test-requirement.md"), foreign, findings)
+    rules = sorted({f.rule for f in findings})
+    if rules != ["REQ-LNK-001"]:
+        failures.append("foreign-owner fixture: expected [REQ-LNK-001], got %s" % rules)
+
     if failures:
         for failure in failures:
             print("selftest FAIL: %s" % failure)
         return 1
-    print("selftest OK: %d sentence cases, 2 document fixtures" % len(SELFTEST_SENTENCES))
+    print("selftest OK: %d sentence cases, 4 document fixtures" % len(SELFTEST_SENTENCES))
     return 0
 
 
