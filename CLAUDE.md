@@ -33,5 +33,8 @@ This is a mapping only; it introduces no new rules.
   - When working on `docs/en/architecture/stories/` or
     `docs/en/architecture/req/`, run
     `python3 scripts/check_requirements.py --allow-unlinked-stories`.
+  - When touching any document under `docs/en/architecture/` or
+    `docs/ontology/`, run
+    `python3 scripts/check_frontmatter.py --allow-undefined-inverse`.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are
     documented in `docs/en/processes/requirements-style-guide.md`.
