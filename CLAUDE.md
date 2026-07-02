@@ -32,7 +32,7 @@ This is a mapping only; it introduces no new rules.
 - Non-normative convenience pointers:
   - When working on `docs/en/architecture/stories/` or
     `docs/en/architecture/req/`, run
-    `python3 scripts/check_requirements.py --allow-unlinked-stories`.
+    `python3 scripts/check_requirements.py`.
   - When touching any document under `docs/en/architecture/` or
     `docs/ontology/`, run
     `python3 scripts/check_frontmatter.py --allow-undefined-inverse`.
