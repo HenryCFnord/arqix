@@ -20,7 +20,7 @@ For background and motivation, see [Why arqix had to exist](docs/blog/2026-03-wh
 
 The repository is being initialized. The CLI currently supports `--help` and `--version`; feature commands are not implemented yet.
 
-See [docs/project/roadmap.md](docs/project/roadmap.md) for planned work.
+See [docs/en/project/roadmap.md](docs/en/project/roadmap.md) for planned work.
 
 ## Building
 
@@ -35,7 +35,7 @@ cargo run
 Project-specific OpenClaw skills are maintained in `.agents/skills/`
 
 The current OpenClaw split is `arqix-repo-readonly` for inspection, `arqix-plan-intake` for branch-local planning intake, and `arqix-delivery` for plan validation before Codex and draft PR steps. The intake side now includes a thin free-text wrapper at `tools/openclaw/plan_from_idea.sh`.
-See [OpenClaw mobile-first planning flow](docs/project/openclaw-mobile-first-planning-flow.md) for the workflow and [OpenClaw Plan Intake Wrapper Contract](docs/project/openclaw-plan-intake-wrapper.md) for the repository-side intake interface.
+See [OpenClaw mobile-first planning flow](docs/en/project/openclaw-mobile-first-planning-flow.md) for the workflow and [OpenClaw Plan Intake Wrapper Contract](docs/en/project/openclaw-plan-intake-wrapper.md) for the repository-side intake interface.
 
 ## License
 

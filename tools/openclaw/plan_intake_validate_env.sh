@@ -56,7 +56,7 @@ else
 fi
 
 check_required_path "docs/plans" "planning package directory"
-check_required_path "docs/project/openclaw-mobile-first-planning-flow.md" "mobile-first planning flow document"
+check_required_path "docs/en/project/openclaw-mobile-first-planning-flow.md" "mobile-first planning flow document"
 
 echo "Validation complete (non-executing)."
 echo "Blockers: $blockers"

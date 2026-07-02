@@ -30,9 +30,9 @@ The preferred workflow is:
 
 1. A free-text idea may enter through OpenClaw or another clearly scoped instruction source.
 2. OpenClaw may classify the work and create a dedicated planning branch using the standard branch prefixes.
-3. OpenClaw may create branch-local planning artifacts under `docs/plans/<slug>/`.
+3. OpenClaw may create branch-local planning artefacts under `docs/en/plans/<slug>/`.
 4. The human reviews and refines the plan on that branch before implementation starts.
-5. Codex implements from the reviewed planning artifacts, not from the raw idea alone.
+5. Codex implements from the reviewed planning artefacts, not from the raw idea alone.
 6. Non-trivial AI-assisted work should go through a pull request.
 7. Documentation and tests are updated when relevant.
 8. The human reviewer remains the final decision point before merge.
@@ -41,7 +41,7 @@ The preferred workflow is:
 
 Preferred task sources are:
 
-- reviewed planning packages under `docs/plans/<slug>/`
+- reviewed planning packages under `docs/en/plans/<slug>/`
 - approved handoff documents where useful
 - scoped GitHub issues
 - explicit direct instructions for trivial work
@@ -56,15 +56,15 @@ For non-trivial mobile-first work, prefer using a reviewed planning package if o
 
 The standard planning package lives under:
 
-- `docs/plans/<slug>/IDEA.md`
-- `docs/plans/<slug>/PLANS.md`
-- `docs/plans/<slug>/STATUS.md`
+- `docs/en/plans/<slug>/IDEA.md`
+- `docs/en/plans/<slug>/PLANS.md`
+- `docs/en/plans/<slug>/STATUS.md`
 
-Reviewed `PLANS.md` artifacts are the preferred basis for later Codex implementation work.
+Reviewed `PLANS.md` artefacts are the preferred basis for later Codex implementation work.
 
-OpenClaw may create the initial planning branch and draft planning artifacts before Codex starts.
+OpenClaw may create the initial planning branch and draft planning artefacts before Codex starts.
 
-Handoffs remain supported artifacts where useful, but they are no longer the mandatory first step.
+Handoffs remain supported artefacts where useful, but they are no longer the mandatory first step.
 
 A handoff should define:
 - goal
@@ -176,9 +176,9 @@ Preferred for:
 
 ## Content versus implementation
 
-Treat content artifacts differently from implementation work.
+Treat content artefacts differently from implementation work.
 
-### Content artifacts
+### Content artefacts
 
 Blog posts, reports, and standalone documentation pieces are often the work item itself.
 
@@ -204,7 +204,7 @@ For non-trivial tasks:
 - inspect relevant files first
 - understand the local conventions
 - propose a short plan before large edits
-- follow the reviewed planning artifacts when they exist
+- follow the reviewed planning artefacts when they exist
 - call out assumptions
 - identify likely risks
 - keep the plan aligned with the stated scope

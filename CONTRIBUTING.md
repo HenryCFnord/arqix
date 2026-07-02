@@ -46,7 +46,7 @@ Use a branch without issue or PR for small but real changes where:
 
 - the scope is small,
 - the intent is obvious,
-- the change can be understood without a tracking artifact,
+- the change can be understood without a tracking artefact,
 - and no formal review checkpoint is needed.
 
 Typical examples:
@@ -87,9 +87,9 @@ This is the default for:
 
 ### Content versus Implementation
 
-Treat content artifacts differently from implementation work.
+Treat content artefacts differently from implementation work.
 
-#### Content Artifacts
+#### Content artefacts
 
 Blog posts, reports, and standalone documentation pieces are often the work item itself.
 
@@ -104,7 +104,7 @@ Examples:
 - `report/codex-vs-copilot-jumpstart`
 - `docs/handoff-workflow`
 
-An issue is usually not necessary, because the content artifact is the work item.
+An issue is usually not necessary, because the content artefact is the work item.
 
 #### Implementation Work
 
@@ -131,7 +131,7 @@ For AI-assisted content work:
 
 ### Planning Packages
 
-For mobile-first work, prefer using a planning package under `docs/plans/<slug>/`.
+For mobile-first work, prefer using a planning package under `docs/en/plans/<slug>/`.
 
 The standard package contains:
 
@@ -139,7 +139,7 @@ The standard package contains:
 - `PLANS.md`
 - `STATUS.md`
 
-Reviewed `PLANS.md` artifacts are the preferred bridge between free-text intake and later Codex implementation.
+Reviewed `PLANS.md` artefacts are the preferred bridge between free-text intake and later Codex implementation.
 
 OpenClaw may create the initial planning branch and draft package from a free-text idea before the human refines it.
 
@@ -151,7 +151,7 @@ flowchart TD
     B -->|Yes| C[Push directly to main]
     B -->|No| D{Is it entering as a free-text idea?}
     D -->|Yes| E[Create a planning branch and docs/plans package]
-    D -->|No| F{Is the artifact itself the work?}
+    D -->|No| F{Is the artefact itself the work?}
     E --> G{Has the plan been reviewed?}
     G -->|No| H[Review and refine the planning package]
     G -->|Yes| I{Is AI involved or is the change non-trivial?}

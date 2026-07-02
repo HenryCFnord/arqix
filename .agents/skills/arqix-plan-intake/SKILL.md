@@ -1,6 +1,6 @@
 ---
 name: arqix-plan-intake
-description: Create or validate a mobile-first OpenClaw planning branch for arqix. Use when Codex needs deterministic branch naming, plan package creation under docs/plans/<slug>/, or a local draft planning commit before later delivery actions.
+description: Create or validate a mobile-first OpenClaw planning branch for arqix. Use when Codex needs deterministic branch naming, plan package creation under docs/en/plans/<slug>/, or a local draft planning commit before later delivery actions.
 ---
 
 # Arqix Plan Intake
