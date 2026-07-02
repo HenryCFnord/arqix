@@ -16,7 +16,7 @@ triples:
 
 properties:
   priority: high
-  fit-criterion: The aliases exist, or their absence is clearly documented in the `doc new` help.
+  fit-criterion: Each of the aliases `req new`, `us new`, and `adr new` exists, or the absence of each missing alias is clearly documented in the `doc new` help.
 
 external-references: []
 

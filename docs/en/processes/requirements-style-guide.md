@@ -67,6 +67,24 @@ The `<system>` subject of the core clause follows these rules:
   - `The agent instruction document SHALL define scope rules for story-by-story execution.`
 - Invented subsystem nouns are forbidden — do not write `the arqix formatter`, `the linter`, or `the exporter`; use `The arqix CLI` or the command-trigger form instead. The checker reports arqix-containing subjects outside the allowed forms (`EARS-006`, warning).
 
+## Atomicity
+
+One requirement binds exactly one verifiable contract: one behaviour or one artefact, one trigger, one verification method.
+
+- Enumerations inside the normative sentence are allowed when they completely specify that single contract — for example the result set of one command invocation, or the mandatory content of one document.
+- When the sentence enumerates, the `fit-criterion` MUST make every enumerated item independently checkable: either by itemising them ("Each violation class (missing, extra, type-invalid) produces a distinct finding.") or by a set quantifier ("produces exactly the standard scaffold").
+- Split into separate requirements when the enumerated items are independently implementable features, could ship separately, or need different verification methods.
+- Partial-failure localisation lives in the trace model, not in the requirement count: `verifies-requirement` is many-to-one, so several test cases may verify one requirement — one per enumerated aspect. A requirement counts as satisfied only when all linked verification evidence passes; the failing test identifies the missing aspect.
+- Atomicity is a review criterion, not a checker rule: enumeration detection over natural sentences produces too many false positives ("identical inputs and configuration" is one condition, not two features) to be enforced mechanically.
+
+Good — one contract, itemisable fit criterion:
+
+> The `unit new` command help SHOULD explain where units are created, which metadata is optional, and how IDs are supplied.
+
+Bad — two independent features hiding in one sentence (split them):
+
+> The arqix CLI SHALL export trace matrices as CSV and serve documentation over MCP.
+
 ## Kind ↔ keyword matrix
 
 | Kind | Expected keywords |
