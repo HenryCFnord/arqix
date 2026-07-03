@@ -28,11 +28,11 @@ Agents working in this repository must optimize for:
 
 The preferred workflow is:
 
-1. A free-text idea may enter through OpenClaw or another clearly scoped instruction source.
-2. OpenClaw may classify the work and create a dedicated planning branch using the standard branch prefixes.
-3. OpenClaw may create branch-local planning artefacts under `docs/en/plans/<slug>/`.
+1. A free-text idea may enter through any clearly scoped instruction source.
+2. An intake step may classify the work and create a dedicated planning branch using the standard branch prefixes.
+3. Branch-local planning artefacts may be created under `docs/en/plans/<slug>/`.
 4. The human reviews and refines the plan on that branch before implementation starts.
-5. Codex implements from the reviewed planning artefacts, not from the raw idea alone.
+5. The coding agent implements from the reviewed planning artefacts, not from the raw idea alone.
 6. Non-trivial AI-assisted work should go through a pull request.
 7. Documentation and tests are updated when relevant.
 8. The human reviewer remains the final decision point before merge.
@@ -60,9 +60,9 @@ The standard planning package lives under:
 - `docs/en/plans/<slug>/PLANS.md`
 - `docs/en/plans/<slug>/STATUS.md`
 
-Reviewed `PLANS.md` artefacts are the preferred basis for later Codex implementation work.
+Reviewed `PLANS.md` artefacts are the preferred basis for later implementation work by a coding agent.
 
-OpenClaw may create the initial planning branch and draft planning artefacts before Codex starts.
+The initial planning branch and draft planning artefacts may be created during intake before implementation starts.
 
 Handoffs remain supported artefacts where useful, but they are no longer the mandatory first step.
 
@@ -110,7 +110,7 @@ Examples:
 - `refactor/config-loading`
 - `docs/contributing-workflow`
 - `blog/why-arqix-had-to-exist`
-- `report/codex-vs-copilot-jumpstart`
+- `report/agent-tooling-evaluation`
 
 ## Process selection
 
@@ -304,7 +304,7 @@ When in doubt:
 
 ## Repository-specific note
 
-OpenClaw orchestrates intake and workflow transitions, Codex implements inside the repository, the human reviews and approves, and GitHub remains the source of truth.
+Intake and planning may be orchestrated by any tool or arrive as direct instructions, a coding agent implements inside the repository, the human reviews and approves, and GitHub remains the source of truth.
 
 The current project name is `arqix`.
 

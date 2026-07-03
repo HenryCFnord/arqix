@@ -47,4 +47,4 @@ plan_dir: docs/en/plans/requirements-derivation-2026-07-02
   - [IDEA.md](IDEA.md)
   - [PLANS.md](PLANS.md)
   - [STATUS.md](STATUS.md)
-- The historic mapping report remains at `docs/en/processes/persona_us_req_mapping_report.md` and is treated as input, not as authoritative current-state
+- The historic mapping report remains at `docs/en/plans/persona-remapping-2026-03-25/persona_us_req_mapping_report.md` and is treated as input, not as authoritative current-state

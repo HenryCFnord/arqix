@@ -36,7 +36,7 @@ This plan is written before implementation; it records the intended approach and
 - All 103 stories carry an empty `has-requirement` triple (uniform, verified 2026-07-02)
 - No requirements directory exists under `docs/en/architecture/`
 - `docs/en/templates/requirement.tpl.md` exists and defines the requirement frontmatter contract (`arqix:classes/requirement`, `has-verification-method` triple, `fit-criterion` property)
-- The historic report `docs/en/processes/persona_us_req_mapping_report.md` maps 50 requirements to stories, but in the superseded schemes:
+- The historic report `docs/en/plans/persona-remapping-2026-03-25/persona_us_req_mapping_report.md` maps 50 requirements to stories, but in the superseded schemes:
   - story IDs like `US-1001` instead of `US-01-01-NN`
   - requirement IDs like `REQ-US-1001-01`
   - paths `docs/us/` and `docs/req/` that no longer exist

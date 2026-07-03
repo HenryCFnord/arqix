@@ -20,5 +20,5 @@ awaiting-human-review
 ## Related files
 - [IDEA.md](IDEA.md)
 - [PLANS.md](PLANS.md)
-- [persona_us_req_mapping_report.md](docs/en/processes/persona_us_req_mapping_report.md)
+- [persona_us_req_mapping_report.md](persona_us_req_mapping_report.md)
 

@@ -13,13 +13,9 @@ never restates or overrides them.
 
 ## Role mapping for Claude Code
 
-Where AGENTS.md names specific tools, the roles map as follows:
-
-- "Codex implements from the reviewed planning artefacts" — the
-  implementer role applies equally to Claude Code.
-- "OpenClaw orchestrates intake and workflow transitions" — intake may
-  also arrive as direct instructions in a Claude Code session; treat
-  such instructions by the same task-source rules defined in AGENTS.md.
+AGENTS.md is written agent-neutrally. Claude Code takes the implementer
+role; intake may arrive as direct instructions in a Claude Code
+session and is treated by the task-source rules defined in AGENTS.md.
 
 This is a mapping only; it introduces no new rules.
 
