@@ -4,6 +4,21 @@ Generated from `docs/en/architecture/req/` — do not edit by hand; regenerate a
 
 Total: 138 requirements (103 functional, 15 quality, 20 constraint). Stories column: canonical owner first, then further demanding stories (`+`).
 
+## Coverage per persona group
+
+Under the canonical-owner model a requirement is *owned* by the lowest-ID story that demands it, so ownership counts fall for later groups by construction. The *demands* column (requirements whose `derived-from` includes a story of the group) is the meaningful coverage view: group 08 owns only 4 requirements but demands 72 — the most of all groups — because nearly everything a coding agent needs was first demanded by lower groups. The story corpus is deliberately a personas-by-features matrix (the normalization session created per-persona views of the same features), which is why 150 of 177 distinct acceptance-criteria behaviours are shared by 2–4 stories.
+
+| Group | Persona | Stories | Owns | Demands |
+| --- | --- | --- | --- | --- |
+| 01 | Mara Maintainer | 16 | 52 | 62 |
+| 02 | Dan Developer | 11 | 14 | 40 |
+| 03 | Quinn QA | 8 | 17 | 29 |
+| 04 | Daria DevOps | 13 | 30 | 47 |
+| 05 | Alex AIOps | 14 | 10 | 35 |
+| 06 | Aria Architect | 11 | 1 | 36 |
+| 07 | Avery Auditor | 7 | 0 | 9 |
+| 08 | Casey Coding Agent | 23 | 4 | 72 |
+
 ## Cross-cutting foundation (REQ-00-00-00-NN)
 
 | ID | Kind | Requirement | Stories |
