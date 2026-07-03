@@ -16,10 +16,8 @@ This `docs/` directory serves two purposes: it is the human-readable documentati
 ## Contents
 
 - [Project documents](project/) — stable, version-controlled project artefacts
-- [Plans](plans/README.md) — branch-local planning packages for OpenClaw intake
+- [Plans](plans/README.md) — branch-local planning packages
 - [Blog](blog/) — reflective posts grounded in project development
-- [Notes](notes/) — informal working notes (may be rough or incomplete)
-- [Experiments](experiments/) — documented experiments with explicit scope and outcome
 
 ## Reading guide
 
@@ -33,5 +31,4 @@ If you are curious about how AI tooling is used in this project, read the [AI tr
 
 - All documents in `project/` and `blog/` use YAML frontmatter with at minimum `title`, `date`, and `status`.
 - Links are standard Markdown links, not Obsidian wikilinks, to keep this directory portable and GitHub-friendly.
-- `notes/` and `experiments/` are less formal spaces and may contain incomplete or exploratory content, with frontmatter being optional. This is intentional.
 - Documents in `project/` are considered stable and reviewed before update.

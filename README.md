@@ -30,13 +30,6 @@ Requires Rust (stable). Install via [rustup.rs](https://rustup.rs).
 cargo build
 cargo run
 ```
-## OpenClaw skill integration
-
-Project-specific OpenClaw skills are maintained in `.agents/skills/`
-
-The current OpenClaw split is `arqix-repo-readonly` for inspection, `arqix-plan-intake` for branch-local planning intake, and `arqix-delivery` for plan validation before Codex and draft PR steps. The intake side now includes a thin free-text wrapper at `tools/openclaw/plan_from_idea.sh`.
-See [OpenClaw mobile-first planning flow](docs/en/project/openclaw-mobile-first-planning-flow.md) for the workflow and [OpenClaw Plan Intake Wrapper Contract](docs/en/project/openclaw-plan-intake-wrapper.md) for the repository-side intake interface.
-
 ## License
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).

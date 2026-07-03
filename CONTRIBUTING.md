@@ -116,7 +116,7 @@ Features, bug fixes, refactorings, architecture changes, and structured requirem
 
 ### AI-specific Rules
 
-If Codex or another coding agent is involved:
+If a coding agent is involved:
 
 - do not work directly on `main`
 - prefer an issue for non-trivial work
@@ -139,9 +139,9 @@ The standard package contains:
 - `PLANS.md`
 - `STATUS.md`
 
-Reviewed `PLANS.md` artefacts are the preferred bridge between free-text intake and later Codex implementation.
+Reviewed `PLANS.md` artefacts are the preferred bridge between free-text intake and later implementation.
 
-OpenClaw may create the initial planning branch and draft package from a free-text idea before the human refines it.
+The initial planning branch and draft package may be created from a free-text idea before the human refines it.
 
 ### Decision Flow
 
