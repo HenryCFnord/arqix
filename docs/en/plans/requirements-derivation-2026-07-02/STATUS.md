@@ -35,7 +35,7 @@ plan_dir: docs/en/plans/requirements-derivation-2026-07-02
 ## Next recommended action
 
 - Open the pull request for `docs/add-requirements` (docs: requirements derivation, tooling, ADR-0001)
-- Follow-ups after merge: populate `has-verification-method`/test links during implementation, define the 8 missing `owl.inverse-of` properties, repo cleanup branch
+- Follow-ups after merge: populate `has-verification-method`/test links during implementation. Done meanwhile: the 8 `owl.inverse-of` properties are defined, the repo cleanup branch is merged (PR #7), and an NFR pass added REQ-00-00-00-11..14 (performance and security)
 
 ## Blockers
 

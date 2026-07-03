@@ -2,22 +2,22 @@
 
 Generated from `docs/en/architecture/req/` — do not edit by hand; regenerate after corpus changes.
 
-Total: 138 requirements (103 functional, 15 quality, 20 constraint). Stories column: canonical owner first, then further demanding stories (`+`).
+Total: 142 requirements (103 functional, 17 quality, 22 constraint). Stories column: canonical owner first, then further demanding stories (`+`).
 
 ## Coverage per persona group
 
-Under the canonical-owner model a requirement is *owned* by the lowest-ID story that demands it, so ownership counts fall for later groups by construction. The *demands* column (requirements whose `derived-from` includes a story of the group) is the meaningful coverage view: group 08 owns only 4 requirements but demands 72 — the most of all groups — because nearly everything a coding agent needs was first demanded by lower groups. The story corpus is deliberately a personas-by-features matrix (the normalization session created per-persona views of the same features), which is why 150 of 177 distinct acceptance-criteria behaviours are shared by 2–4 stories.
+Under the canonical-owner model a requirement is *owned* by the lowest-ID story that demands it, so ownership counts fall for later groups by construction. The *demands* column (requirements whose `derived-from` includes a story of the group) is the meaningful coverage view: group 08 owns only 4 requirements but demands 75 — the most of all groups — because nearly everything a coding agent needs was first demanded by lower groups. The story corpus is deliberately a personas-by-features matrix (the normalization session created per-persona views of the same features), which is why 150 of 177 distinct acceptance-criteria behaviours are shared by 2–4 stories.
 
 | Group | Persona | Stories | Owns | Demands |
 | --- | --- | --- | --- | --- |
-| 01 | Mara Maintainer | 16 | 52 | 62 |
-| 02 | Dan Developer | 11 | 14 | 40 |
+| 01 | Mara Maintainer | 16 | 52 | 64 |
+| 02 | Dan Developer | 11 | 14 | 42 |
 | 03 | Quinn QA | 8 | 17 | 29 |
-| 04 | Daria DevOps | 13 | 30 | 47 |
-| 05 | Alex AIOps | 14 | 10 | 35 |
-| 06 | Aria Architect | 11 | 1 | 36 |
+| 04 | Daria DevOps | 13 | 30 | 50 |
+| 05 | Alex AIOps | 14 | 10 | 37 |
+| 06 | Aria Architect | 11 | 1 | 38 |
 | 07 | Avery Auditor | 7 | 0 | 9 |
-| 08 | Casey Coding Agent | 23 | 4 | 72 |
+| 08 | Casey Coding Agent | 23 | 4 | 75 |
 
 ## Cross-cutting foundation (REQ-00-00-00-NN)
 
@@ -33,6 +33,10 @@ Under the canonical-owner model a requirement is *owned* by the lowest-ID story 
 | REQ-00-00-00-08 | C | The arqix CLI SHALL NOT overwrite existing files without explicit approval. | 01-01-01 +01-01-06 +02-01-01 +02-01-08 +08-01-01 +08-01-06 |
 | REQ-00-00-00-09 | F | Where a command creates or modifies files, the command SHALL support a dry-run mode that reports planned changes without writing. | 01-01-13 +02-01-07 +02-01-10 +06-01-06 +08-01-14 +08-01-23 |
 | REQ-00-00-00-10 | F | When translations exist for a document, arqix SHALL detect missing and outdated translations deterministically. | 01-01-14 +04-01-04 +05-01-05 +08-01-11 |
+| REQ-00-00-00-11 | Q | Search and read commands SHOULD return results within one second on a repository of one thousand documents. | 02-01-06 +05-01-06 +06-01-09 |
+| REQ-00-00-00-12 | Q | The verification loop SHOULD complete within ten seconds on a repository of one thousand documents. | 04-01-05 +08-01-13 |
+| REQ-00-00-00-13 | C | The arqix CLI SHALL NOT access files outside the repository root and the configured allowed roots. | 01-01-07 +02-01-09 +04-01-02 +05-01-04 +06-01-04 +08-01-08 |
+| REQ-00-00-00-14 | C | The arqix CLI SHALL NOT execute code or shell commands embedded in processed documents. | 01-01-07 +04-01-02 +08-01-08 |
 
 ## Owned by group 01 stories
 
