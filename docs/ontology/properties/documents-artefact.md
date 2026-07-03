@@ -13,19 +13,19 @@ rdfs:
   range:
     - arqix:classes/artefact
 
+owl: {}
+
 triples: []
 
 properties: {}
 
 external-references: []
 
-owl: {}
-
 meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-27
-  updated: 2026-03-27
+  updated: 2026-07-02
   lang: en
   generated: false
 ---

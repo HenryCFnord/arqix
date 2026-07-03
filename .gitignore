@@ -25,3 +25,7 @@ target
 copilot
 .copilot
 .codex
+
+# Python bytecode caches (e.g. from scripts/)
+__pycache__/
+*.pyc

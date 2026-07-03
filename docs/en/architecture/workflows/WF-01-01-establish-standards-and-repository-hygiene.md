@@ -1,8 +1,8 @@
 ---
-id: wf-01-01
+id: WF-01-01
 title: Establish Standards and Repository Hygiene
 slug: establish-standards-and-repository-hygiene
-iri: arqix/workflows/wf-01-01
+iri: arqix:workflows/wf-01-01
 
 rdf:
   type:
@@ -10,7 +10,7 @@ rdf:
 
 triples:
   - predicate: arqix:properties/has-primary-persona
-    object: arqix:persona/per-01
+    object: arqix:personas/per-01
   - predicate: arqix:properties/has-relevant-persona
     object:
 
@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-03-27
+  updated: 2026-07-02
   lang: en
   translation-of:
   generated: false

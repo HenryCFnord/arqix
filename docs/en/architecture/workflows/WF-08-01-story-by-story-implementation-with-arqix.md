@@ -1,6 +1,6 @@
 ---
 id: WF-08-01
-title:
+title: "Automation Agent: Story-by-story Implementation with arqix"
 slug: story-by-story-implementation-with-arqix
 iri: arqix:workflows/wf-08-01
 
@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-03-28
+  updated: 2026-07-02
   lang: en
   translation-of:
   generated: false
@@ -81,4 +81,3 @@ loops.
 
 - Taskfile: `task verify` / `task ci:pr`
 - Taskfile module: `taskfiles/wf-0008.yml`
-
