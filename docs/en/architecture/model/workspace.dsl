@@ -55,7 +55,7 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         cliEntry -> linter "Routes lint"
         cliEntry -> assembler "Routes assemble"
         cliEntry -> traceEngine "Routes trace"
-        cliEntry -> reporter "Routes report and export"
+        cliEntry -> reporter "Routes report bundle"
         cliEntry -> publisher "Routes publish and render"
         cliEntry -> verifier "Routes verify"
         cliEntry -> policyChecker "Routes policy check"
