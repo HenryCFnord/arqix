@@ -82,7 +82,7 @@ Each command has exactly one owning component — the component whose tests own 
 | `assemble build` | Assembler | → Parser (directives) → Store (targets) → `pages/` + JSONL log | REQ-02-01-11-*, REQ-04-01-01-* |
 | `trace scan`, `trace check` | Trace Engine | → Parser (markers, links) + code/test files → graph | REQ-03-01-05-*, REQ-03-01-06-* |
 | `trace coverage`, `trace matrix` | Trace Engine | graph projections; serialisation via Report & Export | REQ-01-01-08-*, REQ-03-01-02-* |
-| `report export`, evidence bundles | Report & Export | → Trace Engine (graph) → stable schemas | REQ-03-01-04-*, REQ-04-01-12-* |
+| `report bundle` (evidence bundles) | Report & Export | → Trace Engine (graph) → stable schemas | REQ-03-01-04-*, REQ-04-01-12-* |
 | `publish`, `publish site --lang`, `render pdf` | Publish & Render Orchestrator | → Assembler → external toolchain (errors forwarded) | REQ-04-01-03-*, REQ-04-01-07-* |
 | `policy check` | Policy Checker | changed-file list (external) → policy from config | REQ-01-01-07-* |
 | `verify` | Verification Orchestrator | → fmt/lint/scan/coverage via the command interface ([ADR-0003](../../adr/ADR-0003-verification-orchestrator.md)) | REQ-04-01-05-* |
@@ -90,4 +90,4 @@ Each command has exactly one owning component — the component whose tests own 
 
 This table is the seed for the component test contracts: every row becomes the owning component's command-level test suite, and every flow becomes an integration-test skeleton.
 
-Open naming issue found while building this table: the corpus uses both `trace coverage` and `report coverage` for the coverage report. The command taxonomy must be fixed before implementation (tracked in chapter 11).
+The command taxonomy behind this table — noun–verb scheme, every analysis exists exactly once (coverage is `trace coverage`), `report` reserved for export products, `verify` as the deliberate top-level exception — is fixed in [ADR-0005](../../adr/ADR-0005-command-taxonomy.md); this table is the normative command map.

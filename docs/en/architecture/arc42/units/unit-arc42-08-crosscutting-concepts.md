@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-03
+  updated: 2026-07-04
   lang: en
   translation-of:
   generated: false
@@ -37,3 +37,4 @@ Each concept below is a system-wide contract with its own cross-cutting requirem
 - **i18n model** — source documents with linked translations; missing, unresolved, and outdated translations are lint findings and CI gates (REQ-00-00-00-10).
 - **Guardrails** — declared change scope via policy files, no overwrites without approval, filesystem containment, no content execution (REQ-00-00-00-07/08/13/14).
 - **Performance budgets** — sub-second search/read and a ten-second verification loop on a 1000-document corpus as calibratable budgets (REQ-00-00-00-11/12).
+- **Checker oracle policy** — the Python reference checkers (`scripts/check_requirements.py`, `scripts/check_frontmatter.py`) are the behavioural oracle for the corresponding Rust checks until the port passes a conformance suite: identical inputs (the real corpus plus the selftest fixtures) produce identical JSON findings. After conformance, the scripts are demoted to a CI cross-check and removed after a grace period; the Rust implementation then owns the contract.
