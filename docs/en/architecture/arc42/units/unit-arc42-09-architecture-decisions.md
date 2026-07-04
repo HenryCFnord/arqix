@@ -1,0 +1,40 @@
+---
+id: unit-arc42-09
+title: Architecture Decisions
+slug: architecture-decisions
+iri: arqix:units/unit-arc42-09
+
+rdf:
+  type:
+    - arqix:classes/unit
+
+triples: []
+
+properties:
+  section-kind: arc42-chapter
+
+external-references: []
+
+meta:
+  lifecycle-status: draft
+  owner: hcf
+  created: 2026-07-03
+  updated: 2026-07-04
+  lang: en
+  translation-of:
+  generated: false
+---
+
+## Architecture Decisions
+
+Decisions are kept as ADRs under `../adr/`, maintained per the path model with a canonical governance language (REQ-01-01-11-02).
+
+| ADR | Decision | Status |
+| --- | --- | --- |
+| [ADR-0001](../adr/ADR-0001-agent-instruction-document-layout.md) | AGENTS.md is the canonical agent instruction document; CLAUDE.md is a thin adapter; extension points carry no normative rules | accepted |
+| [ADR-0002](../adr/ADR-0002-c4-model-source-and-rendering.md) | Structurizr DSL is the C4 model source; embedded views are derived Mermaid | accepted |
+| [ADR-0003](../adr/ADR-0003-verification-orchestrator.md) | The verify loop is its own orchestrator component: sequencer over the stable command interface, never a checker | accepted |
+| [ADR-0004](../adr/ADR-0004-finalise-and-the-mechanical-rewriter.md) | finalise lives in the Formatter & Finaliser — the only mutator of existing source documents, mechanical only, with an injected clock | accepted |
+| [ADR-0005](../adr/ADR-0005-command-taxonomy.md) | Noun–verb command scheme; every analysis exists exactly once (coverage is `trace coverage`); `report` reserved for export products; `verify` as top-level exception | accepted |
+
+Decision records predating the ADR directory live in the planning packages under `docs/en/plans/` (ID scheme, canonical-owner model, atomicity, subject conventions).

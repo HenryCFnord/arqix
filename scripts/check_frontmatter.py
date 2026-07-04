@@ -79,6 +79,14 @@ FAMILIES = {
             ["id", "title", "slug", "iri", "rdf", "triples", "properties",
              "external-references", "meta"],
             ["id", "title", "slug", "iri"]),
+    "arc42-unit": ("docs/en/architecture/arc42/units",
+                   ["id", "title", "slug", "iri", "rdf", "triples", "properties",
+                    "external-references", "meta"],
+                   ["id", "title", "slug", "iri"]),
+    "arc42-page": ("docs/en/architecture/arc42",
+                   ["id", "title", "slug", "iri", "rdf", "triples", "properties",
+                    "external-references", "meta"],
+                   ["id", "title", "slug", "iri"]),
     "ont-class": ("docs/ontology/classes",
                   ["id", "label", "iri", "rdf", "rdfs", "triples", "properties",
                    "external-references", "owl", "meta"],
@@ -100,6 +108,8 @@ ARCH_NS = {
     "persona": ("PER-", "arqix:personas/"),
     "workflow": ("WF-", "arqix:workflows/"),
     "adr": ("ADR-", "arqix:adrs/"),
+    "arc42-unit": ("unit-arc42-", "arqix:units/"),
+    "arc42-page": ("page-", "arqix:pages/"),
 }
 ONT_ID_PREFIX = {"ont-class": "class-", "ont-property": "property-",
                  "ont-individual": "individual-"}
@@ -530,6 +540,11 @@ def selftest():
                             "- arqix:classes/undefined\n\ntriples", 1))
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["ONT-003"],
         lambda t: t.replace("object: arqix:classes/widget", "object: arqix:classes/nowhere"))
+    unit = (GOOD_STORY.replace("id: US-01-01-01", "id: unit-arc42-01")
+                      .replace("iri: arqix:user-stories/us-01-01-01", "iri: arqix:units/unit-arc42-01"))
+    run("unit-arc42-01-test-story.md", unit, "arc42-unit", [])
+    run("unit-arc42-01-test-story.md", unit, "arc42-unit", ["FM-003"],
+        lambda t: t.replace("iri: arqix:units/unit-arc42-01", "iri: arqix:pages/unit-arc42-01"))
     run("widget.md", GOOD_CLASS, "ont-class", ["ONT-004"],
         lambda t: t.replace("sub-class-of:\n    - arqix:classes/widget",
                             "sub-class-of:\n    - arqix:classes/nowhere"))
@@ -541,7 +556,7 @@ def selftest():
         for f in failures:
             print("selftest FAIL: %s" % f)
         return 1
-    print("selftest OK: 20 fixture cases")
+    print("selftest OK: 22 fixture cases")
     return 0
 
 

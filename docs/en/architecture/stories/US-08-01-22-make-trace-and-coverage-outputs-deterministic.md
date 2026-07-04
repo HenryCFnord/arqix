@@ -29,7 +29,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-04
   lang: en
   translation-of:
   generated: false
@@ -44,7 +44,7 @@ As a coding agent, I want trace graphs, matrices, and coverage reports to be det
 
 - [ ] `trace scan` JSON output orders nodes and edges deterministically.
 - [ ] `trace matrix` outputs deterministic row and column ordering, with configurable defaults allowed.
-- [ ] `report coverage` output is deterministic.
+- [ ] `trace coverage` output is deterministic.
 - [ ] CSV and JSON outputs use stable field ordering where applicable.
 
 ### Notes

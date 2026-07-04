@@ -16,6 +16,7 @@ This `docs/` directory serves two purposes: it is the human-readable documentati
 ## Contents
 
 - [Project documents](project/) — stable, version-controlled project artefacts
+- [Architecture](architecture/arc42/page-arc42-arqix-architecture.md) — arc42 document, personas, stories, requirements, workflows, ADRs, and the C4 model
 - [Plans](plans/README.md) — branch-local planning packages
 - [Blog](blog/) — reflective posts grounded in project development
 
