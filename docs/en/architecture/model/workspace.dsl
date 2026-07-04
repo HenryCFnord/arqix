@@ -24,6 +24,7 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
                 publisher = component "Publish & Render Orchestrator" "Drives Pandoc and site toolchains per language (REQ-04-01-03-*, REQ-04-01-07-*)."
                 policyChecker = component "Policy Checker" "Evaluates changed files against declared change scope (REQ-01-01-07-*, REQ-00-00-00-07)."
                 mcpServer = component "MCP Server" "Exposes search/read/list over stdio; transport separated from tool logic (REQ-05-01-12-*)."
+                verifier = component "Verification Orchestrator" "Sequences the configured verify sub-steps (format, lint, trace scan, coverage) via the stable command interface; fail-fast/aggregate modes and per-step JSON results; never implements a check itself (REQ-04-01-05-*, ADR-0003)."
                 diagnostics = component "Diagnostics & Exit Codes" "Machine-readable diagnostics and the 0/1/2 exit-code contract (REQ-00-00-00-02/03, REQ-04-01-08-*, REQ-04-01-10-*)."
             }
             config = container "arqix.toml" "Repository configuration: kinds, templates, roots, policies, i18n." "TOML"
@@ -56,8 +57,13 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         cliEntry -> traceEngine "Routes trace"
         cliEntry -> reporter "Routes report and export"
         cliEntry -> publisher "Routes publish and render"
+        cliEntry -> verifier "Routes verify"
         cliEntry -> policyChecker "Routes policy check"
         cliEntry -> mcpServer "Routes mcp serve"
+        verifier -> formatter "Runs the format sub-step in check mode"
+        verifier -> linter "Runs the lint sub-step"
+        verifier -> traceEngine "Runs the trace scan and coverage sub-steps"
+        verifier -> diagnostics "Aggregates per-step results and diagnostic references"
         docStore -> docParser "Parses documents into the semantic model"
         formatter -> docParser "Rewrites via the lossless concrete syntax"
         linter -> docParser "Validates the parsed semantic model"
@@ -82,7 +88,7 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
             include *
             autoLayout lr
         }
-        component cli "Components" "Subsystems of the arqix binary: the entrypoint as composition root, the parser as shared reading layer, and the feature components cut along the requirement clusters." {
+        component cli "Components" "Subsystems of the arqix binary: the entrypoint as composition root, the parser as shared reading layer, the verification orchestrator sequencing the quality gate, and the feature components cut along the requirement clusters." {
             include *
             autoLayout tb
         }
