@@ -11,6 +11,8 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
 
         arqix = softwareSystem "arqix CLI" "Deterministic documentation-as-code toolchain: create, format, lint, assemble, trace, report, publish." {
             cli = container "arqix binary" "Single Rust CLI; all commands resolve against the effective configuration (REQ-00-00-00-06)." "Rust" {
+                cliEntry = component "CLI Entrypoint & Dispatch" "Argument parsing and subcommand routing; composition root wiring config resolution, feature components, and the diagnostics/exit-code contract (REQ-00-00-00-02/03/06)."
+                docParser = component "Document Parser" "Single deterministic parse: lossless concrete syntax for rewriting plus the semantic document model — frontmatter, sections/anchors, directives, trace markers (REQ-02-01-09-*, REQ-05-01-10-*, REQ-01-01-03-03)."
                 configResolver = component "Config Resolver" "Loads arqix.toml, applies defaults and overrides, renders effective config (REQ-01-01-16-*)."
                 docStore = component "Document Store & Catalog" "Discovers documents, derives IDs/slugs (REQ-00-00-00-04), emits the JSON catalog (REQ-05-01-08-*)."
                 templateEngine = component "Template Engine" "Instantiates configured templates per kind with placeholder substitution (REQ-00-00-00-05, REQ-01-01-05-*)."
@@ -44,14 +46,29 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         cli -> config "Resolves at startup into the effective configuration"
         cli -> corpus "Reads, creates, formats, and assembles documents"
 
-        configResolver -> docStore "Provides effective configuration"
-        docStore -> templateEngine "Supplies IDs, slugs, and target paths"
+        cliEntry -> configResolver "Resolves the effective configuration before any command runs"
+        cliEntry -> diagnostics "Maps command results to diagnostics and exit codes"
+        cliEntry -> docStore "Routes doc list/read/search"
+        cliEntry -> templateEngine "Routes doc new"
+        cliEntry -> formatter "Routes fmt"
+        cliEntry -> linter "Routes lint"
+        cliEntry -> assembler "Routes assemble"
+        cliEntry -> traceEngine "Routes trace"
+        cliEntry -> reporter "Routes report and export"
+        cliEntry -> publisher "Routes publish and render"
+        cliEntry -> policyChecker "Routes policy check"
+        cliEntry -> mcpServer "Routes mcp serve"
+        docStore -> docParser "Parses documents into the semantic model"
+        formatter -> docParser "Rewrites via the lossless concrete syntax"
+        linter -> docParser "Validates the parsed semantic model"
+        assembler -> docParser "Reads directives from the parsed model"
+        traceEngine -> docParser "Reads markers and frontmatter links"
+        templateEngine -> docStore "Obtains IDs, slugs, and target paths"
         assembler -> docStore "Resolves include targets"
         linter -> docStore "Validates documents against contracts"
         traceEngine -> docStore "Reads frontmatter links"
         publisher -> assembler "Publishes assembled pages"
         mcpServer -> docStore "Serves search/read/list"
-        formatter -> docStore "Rewrites documents canonically"
         reporter -> traceEngine "Exports graph, matrices, coverage"
         policyChecker -> configResolver "Reads declared policy"
     }
@@ -65,7 +82,7 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
             include *
             autoLayout lr
         }
-        component cli "Components" "Subsystems of the arqix binary, cut along the requirement clusters." {
+        component cli "Components" "Subsystems of the arqix binary: the entrypoint as composition root, the parser as shared reading layer, and the feature components cut along the requirement clusters." {
             include *
             autoLayout tb
         }
