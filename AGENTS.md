@@ -237,6 +237,40 @@ If a task changes behavior and no tests are added, explain why.
 
 Do not claim that tests passed unless they were actually run.
 
+## Test-driven implementation
+
+Rust implementation work on the arqix CLI is test-driven. The command
+skeleton under `tests/cli_*.rs` mirrors the command-ownership table in
+arc42 chapter 5; tests for unimplemented stories are `#[ignore]`d with
+the owning story ID as the reason.
+
+Implementing a story follows this order, and the order is normative:
+
+1. Remove the `#[ignore]` attributes of the story's tests (and refine
+   the test bodies and fixtures where the skeleton was only a contract
+   sketch).
+2. Run the tests and show they fail (red). Include the red output in
+   the PR description as evidence.
+3. Implement until the tests pass (green), then refactor.
+4. Commit the test changes before or together with — never after — the
+   implementation they drive. Reviewers check the commit order.
+
+Additional rules:
+
+- Every test that verifies a requirement carries an
+  `// arqix:verifies REQ-…` marker comment directly above the test
+  function; `scripts/check_trace_markers.py` validates markers against
+  the requirements corpus and must pass before every commit.
+- Every ignored test must name its owning story in the ignore reason
+  (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
+- Tests must be deterministic: no wall clock (dates are injected,
+  see ADR-0004), no network, no dependence on test execution order.
+  Mutating commands run on `scratch_copy` fixtures, never on the
+  shared fixture.
+- Do not delete or weaken a skeleton test to get to green; if a
+  contract turns out wrong, change the requirement first and reference
+  the change in the PR.
+
 ## Documentation
 
 Update documentation when:

@@ -32,5 +32,7 @@ This is a mapping only; it introduces no new rules.
   - When touching any document under `docs/en/architecture/` or
     `docs/ontology/`, run
     `python3 scripts/check_frontmatter.py`.
+  - When touching Rust code under `src/` or `tests/`, run
+    `python3 scripts/check_trace_markers.py` and `cargo test`.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are
     documented in `docs/en/processes/requirements-style-guide.md`.
