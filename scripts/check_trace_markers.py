@@ -19,6 +19,8 @@ Rules:
   TRC-004  error    malformed marker payload (not REQ-XX-YY-ZZ-NN)
   TRC-005  error    test carries both a verifies marker and
                     arqix:no-requirement
+  TRC-006  error    derived-from and has-requirement backlinks are
+                    asymmetric between a requirement and a story
 
 Exit codes: 0 = clean, 1 = findings, 2 = usage/internal error.
 """
@@ -28,6 +30,9 @@ import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from arqix_trace import build_model, read_corpus  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 REQ_DIR = REPO_ROOT / "docs/en/architecture/req"
@@ -170,6 +175,35 @@ def check_marker_targets(text, known_reqs, path):
     return sorted(findings)
 
 
+def check_backlinks(edges):
+    """TRC-006: the canonical-owner model keeps derived-from (REQ -> US)
+    and has-requirement (US -> REQ) as double bookkeeping; the pairs must
+    stay symmetric. Reports the missing counterpart at the location of the
+    existing edge."""
+    derived = {
+        (e["from"], e["to"]): e
+        for e in edges
+        if e["kind"] == "derived-from" and str(e["to"]).startswith("US-")
+    }
+    backlinks = {
+        (e["to"], e["from"]): e
+        for e in edges
+        if e["kind"] == "has-requirement" and str(e["from"]).startswith("US-")
+    }
+    findings = []
+    for pair, e in derived.items():
+        if pair not in backlinks:
+            findings.append((e["file"], e["line"], "TRC-006",
+                             f"{pair[0]} is derived-from {pair[1]}, but the story "
+                             "has no has-requirement backlink"))
+    for pair, e in backlinks.items():
+        if pair not in derived:
+            findings.append((e["file"], e["line"], "TRC-006",
+                             f"{pair[1]} lists {pair[0]} via has-requirement, but the "
+                             "requirement has no derived-from counterpart"))
+    return sorted(findings)
+
+
 def collect_referenced_reqs(paths):
     refs = set()
     for p in paths:
@@ -198,6 +232,8 @@ def run_checks(emit_json):
         rel = str(p.relative_to(REPO_ROOT))
         findings.extend(check_marker_targets(p.read_text(encoding="utf-8"),
                                              known_reqs, rel))
+    _, corpus_edges, _ = build_model(read_corpus(REPO_ROOT))
+    findings.extend(check_backlinks(corpus_edges))
     findings.sort()
 
     referenced = collect_referenced_reqs(test_files) & known_reqs
@@ -312,6 +348,18 @@ fn helper() {
 ]
 
 
+DERIVED_EDGE = {"from": "REQ-01-01-16-01", "to": "US-01-01-16",
+                "kind": "derived-from", "file": "r.md", "line": 5}
+BACKLINK_EDGE = {"from": "US-01-01-16", "to": "REQ-01-01-16-01",
+                 "kind": "has-requirement", "file": "s.md", "line": 7}
+
+BACKLINK_CASES = [
+    ("symmetric backlinks are clean", [DERIVED_EDGE, BACKLINK_EDGE], []),
+    ("missing has-requirement backlink", [DERIVED_EDGE], ["TRC-006"]),
+    ("missing derived-from counterpart", [BACKLINK_EDGE], ["TRC-006"]),
+]
+
+
 def selftest():
     failed = 0
     for name, text, expected_rules in SELFTEST_CASES:
@@ -322,7 +370,15 @@ def selftest():
             failed += 1
         else:
             print(f"ok   {name}")
-    print(f"selftest: {len(SELFTEST_CASES) - failed}/{len(SELFTEST_CASES)} passed")
+    for name, edges, expected_rules in BACKLINK_CASES:
+        rules = [r for _, _, r, _ in check_backlinks(edges)]
+        if rules != expected_rules:
+            print(f"FAIL {name}: expected {expected_rules}, got {rules}")
+            failed += 1
+        else:
+            print(f"ok   {name}")
+    total = len(SELFTEST_CASES) + len(BACKLINK_CASES)
+    print(f"selftest: {total - failed}/{total} passed")
     return 1 if failed else 0
 
 

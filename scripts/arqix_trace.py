@@ -187,14 +187,19 @@ def build_model(corpus):
         for line_no, line in enumerate(lines, start=1):
             if m := marker_re.match(line.strip()):
                 link_kind, target = m.group(1), m.group(2)
+                attached = (
+                    _attached_test(lines, line_no)
+                    if path.endswith(".rs")
+                    else {"ignored": False, "test": None}
+                )
                 edges.append(
                     {
                         "from": path,
                         "to": target,
                         "kind": link_kind,
                         "line": line_no,
-                        "ignored": path.endswith(".rs")
-                        and _attached_test_is_ignored(lines, line_no),
+                        "ignored": attached["ignored"],
+                        "test": attached["test"],
                     }
                 )
     for doc in parsed:
@@ -207,24 +212,31 @@ def build_model(corpus):
                     "line": line_no,
                     "file": doc["file"],
                     "ignored": False,
+                    "test": None,
                 }
             )
     edges.sort(key=lambda e: (e["from"], e["line"], e["to"], e["kind"]))
     return requirements, edges, documents
 
 
-def _attached_test_is_ignored(lines, marker_line_no):
-    """True when the marker's contiguous comment/attribute block ends in an
-    `#[ignore]`d function — a marker on an ignored test plans verification,
-    it does not provide it (red-skeleton lifecycle, ADR-0006)."""
+def _attached_test(lines, marker_line_no):
+    """Inspect the marker's contiguous comment/attribute block up to the
+    function it annotates: whether that function is `#[ignore]`d (a marker
+    on an ignored test plans verification, it does not provide it —
+    red-skeleton lifecycle, ADR-0006) and the function's name (location
+    context on the edge, ADR-0007)."""
+    ignored = False
     for line in lines[marker_line_no:]:
         stripped = line.strip()
         if stripped.startswith("#[ignore"):
-            return True
+            ignored = True
+            continue
         if stripped.startswith(("//", "#[")):
             continue
-        return False
-    return False
+        if m := re.match(r"(?:pub\s+)?fn\s+(\w+)", stripped):
+            return {"ignored": ignored, "test": m.group(1)}
+        break
+    return {"ignored": ignored, "test": None}
 
 
 def story_of(req_id):
@@ -274,7 +286,9 @@ def graph(requirements, edges, documents):
             }
         )
     for source in sorted({e["from"] for e in edges} - known):
-        nodes.append({"id": source, "type": "artefact"})
+        # Node identity rule (ADR-0007): artefacts declare no ID, so their
+        # repository-relative path is both id and file.
+        nodes.append({"id": source, "type": "artefact", "file": source})
     return {"schema_version": SCHEMA_VERSION, "nodes": nodes, "edges": edges}
 
 
@@ -416,7 +430,12 @@ def check(requirements, edges, req_id):
     for e in edges:
         if e["to"] == req_id and e["kind"] in ("verifies", "implements"):
             result[e["kind"]].append(
-                {"file": e["from"], "line": e["line"], "ignored": e["ignored"]}
+                {
+                    "file": e["from"],
+                    "line": e["line"],
+                    "ignored": e["ignored"],
+                    "test": e["test"],
+                }
             )
         elif e["from"] == req_id and e["kind"] == "derived-from":
             result["derived_from"].append(e["to"])
@@ -496,7 +515,11 @@ def run(verb, args, fmt, root="."):
             print(f"{result['requirement']}: {result['error']}")
         else:
             for kind in ("verifies", "implements"):
-                locs = ", ".join(f"{l['file']}:{l['line']}" for l in result[kind]) or "none"
+                locs = ", ".join(
+                    f"{l['file']}:{l['line']}"
+                    + (f" ({l['test']})" if l["test"] else "")
+                    for l in result[kind]
+                ) or "none"
                 print(f"{result['requirement']}: {kind}: {locs}")
             stories = ", ".join(result["derived_from"]) or "none"
             print(f"{result['requirement']}: derived-from: {stories}")
@@ -658,7 +681,10 @@ def _(assert_eq):
     )
     result, code = check(reqs, edges, "REQ-11-11-11-01")
     assert_eq(code, 0)
-    assert_eq(result["verifies"], [{"file": "a.rs", "line": 1, "ignored": False}])
+    assert_eq(
+        result["verifies"],
+        [{"file": "a.rs", "line": 1, "ignored": False, "test": "t"}],
+    )
     assert_eq(result["implements"], [])
 
 
@@ -800,6 +826,24 @@ def _(assert_eq):
     g = graph(reqs, edges, docs)
     story_nodes = [n for n in g["nodes"] if n["id"] == "US-22-22-22"]
     assert_eq(story_nodes[0]["type"], "user-story")
+
+
+@case("marker edge carries the attached test name")
+def _(assert_eq):
+    _, edges, _ = build_model({"a.rs": IGNORED_TEST})
+    assert_eq(edges[0]["test"], "t")
+    _, edges, _ = build_model({"a.md": "<!-- arqix:verifies REQ-11-11-11-01 -->\n"})
+    assert_eq(edges[0]["test"], None)
+
+
+@case("artefact node id is its path, with file per the identity rule")
+def _(assert_eq):
+    reqs, edges, docs = build_model(
+        {"docs/r.md": REQ_DOC, "a.rs": "// arqix:verifies REQ-11-11-11-01\nfn t() {}\n"}
+    )
+    g = graph(reqs, edges, docs)
+    artefacts = [n for n in g["nodes"] if n["type"] == "artefact"]
+    assert_eq(artefacts, [{"id": "a.rs", "type": "artefact", "file": "a.rs"}])
 
 
 @case("model is deterministic regardless of input order")
