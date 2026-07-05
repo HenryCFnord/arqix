@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-04
+  updated: 2026-07-05
   lang: en
   translation-of:
   generated: false
@@ -36,5 +36,6 @@ Decisions are kept as ADRs under `../adr/`, maintained per the path model with a
 | [ADR-0003](../adr/ADR-0003-verification-orchestrator.md) | The verify loop is its own orchestrator component: sequencer over the stable command interface, never a checker | accepted |
 | [ADR-0004](../adr/ADR-0004-finalise-and-the-mechanical-rewriter.md) | finalise lives in the Formatter & Finaliser — the only mutator of existing source documents, mechanical only, with an injected clock | accepted |
 | [ADR-0005](../adr/ADR-0005-command-taxonomy.md) | Noun–verb command scheme; every analysis exists exactly once (coverage is `trace coverage`); `report` reserved for export products; `verify` as top-level exception | accepted |
+| [ADR-0006](../adr/ADR-0006-trace-output-contracts.md) | Trace output is layered — canonical core graph, diagnostics projection, audit products — each with its own stability promise; `schema_version` in every JSON output | accepted |
 
 Decision records predating the ADR directory live in the planning packages under `docs/en/plans/` (ID scheme, canonical-owner model, atomicity, subject conventions).
