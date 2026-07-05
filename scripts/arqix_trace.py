@@ -35,7 +35,13 @@ import sys
 from pathlib import Path
 
 REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$")
-FRONTMATTER_ID_RE = re.compile(r"^id:\s*[\"']?(REQ-\d{2}-\d{2}-\d{2}-\d{2})[\"']?\s*$")
+FRONTMATTER_ID_RE = re.compile(r"^id:\s*[\"']?([\w][\w-]*)[\"']?\s*$")
+FRONTMATTER_IRI_RE = re.compile(r"^iri:\s*(\S+)\s*$")
+TOP_KEY_RE = re.compile(r"^([\w.-]+):")
+TRIPLE_PRED_RE = re.compile(r"^-\s+predicate:\s*arqix:properties/(\S+)\s*$")
+TRIPLE_OBJ_INLINE_RE = re.compile(r"^object:\s*(arqix:\S+)\s*$")
+TRIPLE_OBJ_ITEM_RE = re.compile(r"^-\s+(arqix:\S+)\s*$")
+CLASS_ITEM_RE = re.compile(r"^-\s+arqix:classes/(\S+)\s*$")
 KIND_RE = re.compile(
     r"arqix:classes/(functional-requirement|quality-requirement|constraint)"
 )
@@ -62,6 +68,9 @@ def read_corpus(root):
     for path in sorted(root.rglob("*")):
         if path.suffix not in (".md", ".rs") or not path.is_file():
             continue
+        # Templates are scaffolds with placeholder IDs, not corpus documents.
+        if path.name.endswith(".tpl.md"):
+            continue
         rel = path.relative_to(root)
         if any(part in SKIP_DIRS for part in rel.parts):
             continue
@@ -85,32 +94,91 @@ def frontmatter_lines(text):
     return []
 
 
+def parse_document(path, text):
+    """Parse one Markdown document's frontmatter into a document record.
+
+    Returns None for documents without an `id`. The record carries the
+    ontology triples as (predicate, object-IRI, file line) so every YAML
+    header link — derived-from, has-requirement, is-part-of-workflow,
+    has-persona, guides-implementation-of, … — becomes a graph edge
+    (REQ-03-01-05-03 generalised to the whole corpus).
+    """
+    block = frontmatter_lines(text)
+    if not block:
+        return None
+    doc = {"id": None, "iri": None, "file": path, "classes": [], "triples": []}
+    section = None
+    predicate = None
+    for idx, line in enumerate(block):
+        file_line = idx + 2  # frontmatter body starts on file line 2
+        stripped = line.strip()
+        if line and not line[0].isspace():
+            if m := TOP_KEY_RE.match(line):
+                section = m.group(1)
+                predicate = None
+            if m := FRONTMATTER_ID_RE.match(stripped):
+                doc["id"] = m.group(1)
+            elif m := FRONTMATTER_IRI_RE.match(stripped):
+                doc["iri"] = m.group(1)
+            continue
+        if section == "rdf":
+            if m := CLASS_ITEM_RE.match(stripped):
+                doc["classes"].append(m.group(1))
+        elif section == "triples":
+            if m := TRIPLE_PRED_RE.match(stripped):
+                predicate = m.group(1)
+            elif predicate and (m := TRIPLE_OBJ_INLINE_RE.match(stripped)):
+                doc["triples"].append((predicate, m.group(1), file_line))
+            elif predicate and (m := TRIPLE_OBJ_ITEM_RE.match(stripped)):
+                doc["triples"].append((predicate, m.group(1), file_line))
+    return doc if doc["id"] else None
+
+
+def document_type(doc):
+    for cls in doc["classes"]:
+        if cls in KIND_SHORT:
+            return "requirement"
+        return cls
+    return "requirement" if REQ_ID_RE.match(doc["id"]) else "document"
+
+
 def build_model(corpus):
     """Build the trace model from a {path: text} corpus.
 
-    Returns (requirements, edges):
-      requirements: {req_id: {"kind": short_kind, "file": path}}
-      edges: sorted list of {"from", "to", "kind", "line"}
+    Returns (requirements, edges, documents):
+      requirements: {req_id: {"kind", "file", "kind_declared"}}
+      edges: sorted list of {"from", "to", "kind", "line", "ignored"};
+             marker edges originate from artefact paths, frontmatter-link
+             edges from document IDs (with a "file" field for location)
+      documents: {doc_id: {"file", "iri", "type"}}
     """
+    documents = {}
     requirements = {}
+    iri_map = {}
+    parsed = []
     for path, text in sorted(corpus.items()):
         if not path.endswith(".md"):
             continue
-        block = frontmatter_lines(text)
-        req_id = None
-        for line in block:
-            if m := FRONTMATTER_ID_RE.match(line.strip()):
-                req_id = m.group(1)
-                break
-        if req_id is None:
+        doc = parse_document(path, text)
+        if doc is None:
             continue
-        kind_match = KIND_RE.search("\n".join(block))
-        kind = KIND_SHORT[kind_match.group(1)] if kind_match else "functional"
-        requirements[req_id] = {
-            "kind": kind,
+        parsed.append(doc)
+        documents[doc["id"]] = {
             "file": path,
-            "kind_declared": kind_match is not None,
+            "iri": doc["iri"],
+            "type": document_type(doc),
         }
+        if doc["iri"]:
+            iri_map[doc["iri"]] = doc["id"]
+        if document_type(doc) == "requirement":
+            kind_match = KIND_RE.search(" ".join(
+                f"arqix:classes/{c}" for c in doc["classes"]
+            ))
+            requirements[doc["id"]] = {
+                "kind": KIND_SHORT[kind_match.group(1)] if kind_match else "functional",
+                "file": path,
+                "kind_declared": kind_match is not None,
+            }
 
     edges = []
     for path, text in sorted(corpus.items()):
@@ -129,8 +197,20 @@ def build_model(corpus):
                         and _attached_test_is_ignored(lines, line_no),
                     }
                 )
+    for doc in parsed:
+        for predicate, obj_iri, line_no in doc["triples"]:
+            edges.append(
+                {
+                    "from": doc["id"],
+                    "to": iri_map.get(obj_iri, obj_iri),
+                    "kind": predicate,
+                    "line": line_no,
+                    "file": doc["file"],
+                    "ignored": False,
+                }
+            )
     edges.sort(key=lambda e: (e["from"], e["line"], e["to"], e["kind"]))
-    return requirements, edges
+    return requirements, edges, documents
 
 
 def _attached_test_is_ignored(lines, marker_line_no):
@@ -154,26 +234,46 @@ def story_of(req_id):
     return None if stem == "00-00-00" else f"US-{stem}"
 
 
-def graph(requirements, edges):
+def owner_story(req_id, edges):
+    """The owning story per the canonical-owner model: the first
+    derived-from link in the requirement's frontmatter; falls back to the
+    ID-derived story when no links exist (e.g. fixture corpora)."""
+    for e in edges:
+        if (
+            e["from"] == req_id
+            and e["kind"] == "derived-from"
+            and str(e["to"]).startswith("US-")
+        ):
+            return e["to"]
+    return story_of(req_id)
+
+
+def graph(requirements, edges, documents):
     """The scan result: the canonical core graph (ADR-0006 layer 1) with
-    node and edge collections (REQ-03-01-05-04)."""
+    node and edge collections (REQ-03-01-05-04). Nodes cover every corpus
+    document (stories, workflows, personas, ADRs, units, …), edges cover
+    markers and all frontmatter triples."""
     nodes = []
-    for req_id in sorted(requirements):
-        info = requirements[req_id]
+    for doc_id in sorted(documents):
+        info = documents[doc_id]
+        node = {"id": doc_id, "type": info["type"], "file": info["file"]}
+        if doc_id in requirements:
+            req = requirements[doc_id]
+            node["kind"] = req["kind"]
+            node["kind_declared"] = req["kind_declared"]
+            node["story"] = owner_story(doc_id, edges)
+        nodes.append(node)
+    referenced = {e["to"] for e in edges}
+    known = set(documents)
+    for target in sorted(referenced - known):
         nodes.append(
             {
-                "id": req_id,
-                "type": "requirement",
-                "kind": info["kind"],
-                "kind_declared": info["kind_declared"],
-                "story": story_of(req_id),
-                "file": info["file"],
+                "id": target,
+                "type": "requirement" if REQ_ID_RE.match(str(target)) else "unknown",
+                "unresolved": True,
             }
         )
-    referenced = {e["to"] for e in edges}
-    for target in sorted(referenced - set(requirements)):
-        nodes.append({"id": target, "type": "requirement", "unresolved": True})
-    for source in sorted({e["from"] for e in edges}):
+    for source in sorted({e["from"] for e in edges} - known):
         nodes.append({"id": source, "type": "artefact"})
     return {"schema_version": SCHEMA_VERSION, "nodes": nodes, "edges": edges}
 
@@ -196,7 +296,7 @@ def coverage(requirements, edges):
         for req_id in requirements
     }
     for e in edges:
-        if e["to"] in links:
+        if e["to"] in links and e["kind"] in ("verifies", "implements"):
             bucket = "planned" if e["kind"] == "verifies" and e["ignored"] else e["kind"]
             links[e["to"]][bucket].append(f"{e['from']}:{e['line']}")
 
@@ -213,7 +313,7 @@ def coverage(requirements, edges):
             {
                 "id": req_id,
                 "kind": kind,
-                "story": story_of(req_id),
+                "story": owner_story(req_id, edges),
                 "verified_by": verified_by,
                 "planned_by": planned_by,
                 "implemented_by": implemented_by,
@@ -311,20 +411,38 @@ def check(requirements, edges, req_id):
         "requirement": req_id,
         "verifies": [],
         "implements": [],
+        "derived_from": [],
     }
     for e in edges:
-        if e["to"] == req_id:
+        if e["to"] == req_id and e["kind"] in ("verifies", "implements"):
             result[e["kind"]].append(
                 {"file": e["from"], "line": e["line"], "ignored": e["ignored"]}
             )
+        elif e["from"] == req_id and e["kind"] == "derived-from":
+            result["derived_from"].append(e["to"])
     return result, 0
 
 
-def matrix(requirements, edges):
-    """Requirement/test matrix as CSV with stable headers (REQ-03-01-02-01/-03)."""
-    report, _ = coverage(requirements, edges)
+def matrix(requirements, edges, matrix_type="req-test"):
+    """Traceability matrices as CSV with stable headers per type
+    (REQ-03-01-02-01/-02/-03): req-test links requirements to markers,
+    us-req links stories to their derived requirements."""
     out = io.StringIO()
     writer = csv.writer(out, lineterminator="\n")
+    if matrix_type == "us-req":
+        writer.writerow(["story", "requirement"])
+        pairs = sorted(
+            {
+                (e["to"], e["from"])
+                for e in edges
+                if e["kind"] == "derived-from" and str(e["to"]).startswith("US-")
+            }
+        )
+        for story, req_id in pairs:
+            writer.writerow([story, req_id])
+        return out.getvalue()
+
+    report, _ = coverage(requirements, edges)
     writer.writerow(
         ["requirement", "kind", "verified_markers", "planned_markers", "implements_markers"]
     )
@@ -347,10 +465,10 @@ def emit_json(payload):
 
 def run(verb, args, fmt, root="."):
     corpus = read_corpus(root)
-    requirements, edges = build_model(corpus)
+    requirements, edges, documents = build_model(corpus)
 
     if verb == "scan":
-        payload = graph(requirements, edges)
+        payload = graph(requirements, edges, documents)
         if fmt == "json":
             emit_json(payload)
         else:
@@ -380,10 +498,22 @@ def run(verb, args, fmt, root="."):
             for kind in ("verifies", "implements"):
                 locs = ", ".join(f"{l['file']}:{l['line']}" for l in result[kind]) or "none"
                 print(f"{result['requirement']}: {kind}: {locs}")
+            stories = ", ".join(result["derived_from"]) or "none"
+            print(f"{result['requirement']}: derived-from: {stories}")
         return code
 
     if verb == "matrix":
-        sys.stdout.write(matrix(requirements, edges))
+        matrix_type = "req-test"
+        if args[:1] == ["--type"] and len(args) == 2:
+            matrix_type = args[1]
+        elif args:
+            print("error: `trace matrix` accepts only --type req-test|us-req",
+                  file=sys.stderr)
+            return 2
+        if matrix_type not in ("req-test", "us-req"):
+            print(f"error: unknown matrix type '{matrix_type}'", file=sys.stderr)
+            return 2
+        sys.stdout.write(matrix(requirements, edges, matrix_type))
         return 0
 
     print(f"error: unknown trace verb '{verb}'", file=sys.stderr)
@@ -427,7 +557,7 @@ body
 
 @case("rust marker becomes an edge")
 def _(assert_eq):
-    _, edges = build_model({"a.rs": "// arqix:verifies REQ-11-11-11-01\nfn t() {}\n"})
+    _, edges, _ = build_model({"a.rs": "// arqix:verifies REQ-11-11-11-01\nfn t() {}\n"})
     assert_eq(len(edges), 1)
     assert_eq(edges[0]["to"], "REQ-11-11-11-01")
     assert_eq(edges[0]["kind"], "verifies")
@@ -435,34 +565,34 @@ def _(assert_eq):
 
 @case("markdown html comment becomes an edge")
 def _(assert_eq):
-    _, edges = build_model({"a.md": "<!-- arqix:implements REQ-11-11-11-01 -->\n"})
+    _, edges, _ = build_model({"a.md": "<!-- arqix:implements REQ-11-11-11-01 -->\n"})
     assert_eq(len(edges), 1)
     assert_eq(edges[0]["kind"], "implements")
 
 
 @case("marker inside a string literal is ignored")
 def _(assert_eq):
-    _, edges = build_model({"a.rs": '    "// arqix:verifies REQ-11-11-11-01",\n'})
+    _, edges, _ = build_model({"a.rs": '    "// arqix:verifies REQ-11-11-11-01",\n'})
     assert_eq(edges, [])
 
 
 @case("requirement discovery reads id and kind from frontmatter")
 def _(assert_eq):
-    reqs, _ = build_model({"docs/r.md": REQ_DOC, "docs/q.md": REQ_DOC_QUALITY})
+    reqs, _, _ = build_model({"docs/r.md": REQ_DOC, "docs/q.md": REQ_DOC_QUALITY})
     assert_eq(reqs["REQ-11-11-11-01"]["kind"], "functional")
     assert_eq(reqs["REQ-11-11-11-02"]["kind"], "quality")
 
 
 @case("missing kind defaults to functional")
 def _(assert_eq):
-    reqs, _ = build_model({"docs/r.md": REQ_DOC_NO_KIND})
+    reqs, _, _ = build_model({"docs/r.md": REQ_DOC_NO_KIND})
     assert_eq(reqs["REQ-11-11-11-03"]["kind"], "functional")
 
 
 @case("unresolved reference stays visible in the graph")
 def _(assert_eq):
-    reqs, edges = build_model({"a.rs": "// arqix:verifies REQ-99-88-77-66\nfn t() {}\n"})
-    g = graph(reqs, edges)
+    reqs, edges, docs = build_model({"a.rs": "// arqix:verifies REQ-99-88-77-66\nfn t() {}\n"})
+    g = graph(reqs, edges, docs)
     unresolved = [n for n in g["nodes"] if n.get("unresolved")]
     assert_eq(len(unresolved), 1)
     assert_eq(unresolved[0]["id"], "REQ-99-88-77-66")
@@ -470,7 +600,7 @@ def _(assert_eq):
 
 @case("uncovered functional requirement is a TRC-COV-001 error")
 def _(assert_eq):
-    reqs, edges = build_model({"docs/r.md": REQ_DOC})
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC})
     report, code = coverage(reqs, edges)
     assert_eq(code, 1)
     assert_eq(report["diagnostics"][0]["code"], "TRC-COV-001")
@@ -480,7 +610,7 @@ def _(assert_eq):
 
 @case("undeclared kind is a TRC-KIND-001 warning, not an error")
 def _(assert_eq):
-    reqs, edges = build_model(
+    reqs, edges, docs = build_model(
         {"docs/r.md": REQ_DOC_NO_KIND,
          "a.rs": "// arqix:verifies REQ-11-11-11-03\nfn t() {}\n"}
     )
@@ -493,8 +623,8 @@ def _(assert_eq):
 
 @case("json outputs carry the schema version")
 def _(assert_eq):
-    reqs, edges = build_model({"docs/r.md": REQ_DOC})
-    assert_eq(graph(reqs, edges)["schema_version"], SCHEMA_VERSION)
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC})
+    assert_eq(graph(reqs, edges, docs)["schema_version"], SCHEMA_VERSION)
     report, _ = coverage(reqs, edges)
     assert_eq(report["schema_version"], SCHEMA_VERSION)
     result, _ = check(reqs, edges, "REQ-11-11-11-01")
@@ -503,7 +633,7 @@ def _(assert_eq):
 
 @case("verified functional requirement passes coverage")
 def _(assert_eq):
-    reqs, edges = build_model(
+    reqs, edges, docs = build_model(
         {"docs/r.md": REQ_DOC, "a.rs": "// arqix:verifies REQ-11-11-11-01\nfn t() {}\n"}
     )
     report, code = coverage(reqs, edges)
@@ -516,14 +646,14 @@ def _(assert_eq):
 
 @case("uncovered quality requirement is not a finding")
 def _(assert_eq):
-    reqs, edges = build_model({"docs/q.md": REQ_DOC_QUALITY})
+    reqs, edges, docs = build_model({"docs/q.md": REQ_DOC_QUALITY})
     _, code = coverage(reqs, edges)
     assert_eq(code, 0)
 
 
 @case("check reports locations for a requirement")
 def _(assert_eq):
-    reqs, edges = build_model(
+    reqs, edges, docs = build_model(
         {"docs/r.md": REQ_DOC, "a.rs": "// arqix:verifies REQ-11-11-11-01\nfn t() {}\n"}
     )
     result, code = check(reqs, edges, "REQ-11-11-11-01")
@@ -541,7 +671,7 @@ def _(assert_eq):
 
 @case("matrix header is stable")
 def _(assert_eq):
-    reqs, edges = build_model({"docs/r.md": REQ_DOC})
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC})
     header = matrix(reqs, edges).splitlines()[0]
     assert_eq(
         header,
@@ -559,7 +689,7 @@ IGNORED_TEST = (
 
 @case("marker on an ignored test plans, it does not verify")
 def _(assert_eq):
-    reqs, edges = build_model({"docs/r.md": REQ_DOC, "a.rs": IGNORED_TEST})
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC, "a.rs": IGNORED_TEST})
     assert_eq(edges[0]["ignored"], True)
     report, code = coverage(reqs, edges)
     assert_eq(code, 0)
@@ -574,7 +704,7 @@ def _(assert_eq):
 @case("marker on an active test verifies")
 def _(assert_eq):
     active = "// arqix:verifies REQ-11-11-11-01\n#[test]\nfn t() {}\n"
-    reqs, edges = build_model({"docs/r.md": REQ_DOC, "a.rs": active})
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC, "a.rs": active})
     assert_eq(edges[0]["ignored"], False)
     report, _ = coverage(reqs, edges)
     assert_eq(report["summary"]["functional"]["verified"], 1)
@@ -584,9 +714,92 @@ def _(assert_eq):
 def _(assert_eq):
     assert_eq(story_of("REQ-11-11-11-01"), "US-11-11-11")
     assert_eq(story_of("REQ-00-00-00-05"), None)
-    reqs, edges = build_model({"docs/r.md": REQ_DOC})
+    reqs, edges, docs = build_model({"docs/r.md": REQ_DOC})
     report, _ = coverage(reqs, edges)
     assert_eq(report["requirements"][0]["story"], "US-11-11-11")
+
+
+REQ_DOC_LINKED = """---
+id: REQ-11-11-11-01
+iri: arqix:requirements/req-11-11-11-01
+rdf:
+  type:
+    - arqix:classes/functional-requirement
+triples:
+  - predicate: arqix:properties/derived-from
+    object:
+      - arqix:user-stories/us-22-22-22
+---
+body
+"""
+
+STORY_DOC = """---
+id: US-22-22-22
+iri: arqix:user-stories/us-22-22-22
+rdf:
+  type:
+    - arqix:classes/user-story
+triples:
+  - predicate: arqix:properties/has-requirement
+    object:
+      - arqix:requirements/req-11-11-11-01
+  - predicate: arqix:properties/is-part-of-workflow
+    object: arqix:workflows/wf-22-22
+---
+body
+"""
+
+LINKED_CORPUS = {"docs/r.md": REQ_DOC_LINKED, "docs/s.md": STORY_DOC}
+
+
+@case("frontmatter triples become graph edges, resolved via iri")
+def _(assert_eq):
+    _, edges, _ = build_model(LINKED_CORPUS)
+    kinds = {(e["from"], e["kind"], e["to"]) for e in edges}
+    assert_eq(("REQ-11-11-11-01", "derived-from", "US-22-22-22") in kinds, True)
+    assert_eq(("US-22-22-22", "has-requirement", "REQ-11-11-11-01") in kinds, True)
+
+
+@case("inline object and unresolved workflow iri stay visible")
+def _(assert_eq):
+    reqs, edges, docs = build_model(LINKED_CORPUS)
+    kinds = {(e["kind"], e["to"]) for e in edges}
+    assert_eq(("is-part-of-workflow", "arqix:workflows/wf-22-22") in kinds, True)
+    g = graph(reqs, edges, docs)
+    unresolved = [n for n in g["nodes"] if n.get("unresolved")]
+    assert_eq(unresolved, [
+        {"id": "arqix:workflows/wf-22-22", "type": "unknown", "unresolved": True}
+    ])
+
+
+@case("owner story comes from derived-from, not the id")
+def _(assert_eq):
+    reqs, edges, _ = build_model(LINKED_CORPUS)
+    report, _ = coverage(reqs, edges)
+    assert_eq(report["requirements"][0]["story"], "US-22-22-22")
+
+
+@case("us-req matrix lists derived pairs")
+def _(assert_eq):
+    reqs, edges, _ = build_model(LINKED_CORPUS)
+    lines = matrix(reqs, edges, "us-req").splitlines()
+    assert_eq(lines[0], "story,requirement")
+    assert_eq(lines[1], "US-22-22-22,REQ-11-11-11-01")
+
+
+@case("check reports derived-from stories")
+def _(assert_eq):
+    reqs, edges, _ = build_model(LINKED_CORPUS)
+    result, _ = check(reqs, edges, "REQ-11-11-11-01")
+    assert_eq(result["derived_from"], ["US-22-22-22"])
+
+
+@case("story document becomes a typed node")
+def _(assert_eq):
+    reqs, edges, docs = build_model(LINKED_CORPUS)
+    g = graph(reqs, edges, docs)
+    story_nodes = [n for n in g["nodes"] if n["id"] == "US-22-22-22"]
+    assert_eq(story_nodes[0]["type"], "user-story")
 
 
 @case("model is deterministic regardless of input order")
