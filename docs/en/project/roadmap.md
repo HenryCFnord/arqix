@@ -49,17 +49,16 @@ Goal: run arqix semantics on this repository daily, months before the Rust port 
 
 ## Phase 4 — Rust core, story by story
 
-Test-first per AGENTS.md: un-ignore, show red, implement to green. Rough order, chosen so each story stands on the previous one:
+Test-first per AGENTS.md: un-ignore, show red, implement to green. Rough order, chosen so each story stands on the previous one (the Config Resolver moved ahead of the parser: it is the smallest self-contained story and the parser only becomes observable through the store commands):
 
-1. Document Parser (frontmatter, sections/anchors, directives — the shared reading layer everything else needs)
-2. Config Resolver (`config validate`, `config show`)
-3. Document Store & Catalog (`doc list`, `doc read`, `doc search`)
-4. Linter (`lint run`)
-5. Formatter & Finaliser (`fmt`, `finalise` — the lossless CST layer, single mutator per ADR-0004)
-6. Trace Engine (`trace scan/check/coverage/matrix`) — ported against the Python oracle; the un-ignored skeleton tests are the conformance suite
-7. Verification Orchestrator (`verify`, ADR-0003) — at this point arqix verifies its own corpus
-8. Template Engine (`doc init`, `doc new`, `unit new`)
-9. Assembler (`assemble build`)
+1. ~~Config Resolver (`config validate`, `config show`)~~ — done (US-01-01-16)
+2. Document Parser (frontmatter, sections/anchors, directives — the shared reading layer everything else needs), consumed directly by the Document Store & Catalog (`doc list`, `doc read`, `doc search`)
+3. Linter (`lint run`)
+4. Formatter & Finaliser (`fmt`, `finalise` — the lossless CST layer, single mutator per ADR-0004)
+5. Trace Engine (`trace scan/check/coverage/matrix`) — ported against the Python oracle; the un-ignored skeleton tests are the conformance suite
+6. Verification Orchestrator (`verify`, ADR-0003) — at this point arqix verifies its own corpus
+7. Template Engine (`doc init`, `doc new`, `unit new`)
+8. Assembler (`assemble build`)
 
 ## Phase 5 — Publication and self-hosting
 

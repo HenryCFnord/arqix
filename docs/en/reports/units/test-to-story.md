@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: commit c352e4c, 2026-07-05
+     Snapshot: commit 2470321, 2026-07-05
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -20,6 +20,58 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
 | `config_show_renders_the_effective_configuration_as_json` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-01 | Initialise Standardised Doc Package |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-02 | Create Governed Units |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-03 | Format Documents Canonically |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-04 | Lint Documents Deterministically |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-05 | Create Documents from Configured Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-14 | Lint Translation Metadata and Drift |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-02 | Create Units Quickly During Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-03 | Format Documents During Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-04 | Lint Documents Before Commit |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-05 | Create Documents Quickly from Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-11 | Assemble Documentation During Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-03-01-01 | Lint Documents for Traceability Gaps |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-03-01-05 | Scan Traceability Information |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-03-01-08 | Make Trace and Coverage Outputs Reproducible |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-03 | Generate Publishing Outputs |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-05 | Run a One-Command Verification Loop |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-06 | Build Deterministic Page Artefacts in CI |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-07 | Publish Language-Aware Sites |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-01 | Create Units for Retrieval and Automation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-05 | Detect Translation Drift for Automation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-07 | Build Machine-Readable Trace Graphs |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-09 | Observe Assembled Outputs for Downstream Tooling |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-01 | Create Modular Document Units |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-02 | Trace Document Assembly Structure |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-03 | Create Architecture Documents from Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-06-01-08 | Assemble Modular Document Packages into Pages |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-07-01-04 | Review Trace Graphs as Audit Evidence |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-07-01-06 | Export Deterministic Trace and Coverage Evidence |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-05 | Create Documents Deterministically from Templates |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-11 | Interpret i18n Lint Results Deterministically |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-16 | Scan Traceability Deterministically within Verification Loops |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `config_validate_accepts_a_valid_configuration` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_validate_accepts_a_valid_configuration` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_validate_accepts_a_valid_configuration` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
