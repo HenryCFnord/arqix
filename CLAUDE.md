@@ -34,5 +34,8 @@ This is a mapping only; it introduces no new rules.
     `python3 scripts/check_frontmatter.py`.
   - When touching Rust code under `src/` or `tests/`, run
     `python3 scripts/check_trace_markers.py` and `cargo test`.
+  - Daily gate for any change: `python3 scripts/arqix verify` runs the
+    checkers, the marker gate, an informational coverage report, and
+    `cargo test` in one command.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are
     documented in `docs/en/processes/requirements-style-guide.md`.

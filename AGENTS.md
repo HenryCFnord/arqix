@@ -271,6 +271,17 @@ Additional rules:
   contract turns out wrong, change the requirement first and reference
   the change in the PR.
 
+Conformance runs: the test helpers honour an `ARQIX_BIN` override, so
+the same skeleton tests double as the conformance suite for the Python
+oracle (arc42 chapter 8). Command families implemented in Python are
+exercised with
+
+    ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
+
+The tests stay `#[ignore]`d — the default `cargo test` run measures the
+Rust implementation only. A story counts as ported when its suite is
+green without the override.
+
 ## Documentation
 
 Update documentation when:
