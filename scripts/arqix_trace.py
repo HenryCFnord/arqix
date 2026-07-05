@@ -50,6 +50,10 @@ KIND_SHORT = {
     "constraint": "constraint",
 }
 
+# Bumped on any JSON shape change until the Rust port passes conformance;
+# from then on the layer stability rules of ADR-0006 apply.
+SCHEMA_VERSION = 1
+
 
 def read_corpus(root):
     """Walk `root` and return {relative posix path: text} for .md and .rs files."""
@@ -102,7 +106,11 @@ def build_model(corpus):
             continue
         kind_match = KIND_RE.search("\n".join(block))
         kind = KIND_SHORT[kind_match.group(1)] if kind_match else "functional"
-        requirements[req_id] = {"kind": kind, "file": path}
+        requirements[req_id] = {
+            "kind": kind,
+            "file": path,
+            "kind_declared": kind_match is not None,
+        }
 
     edges = []
     for path, text in sorted(corpus.items()):
@@ -118,25 +126,37 @@ def build_model(corpus):
 
 
 def graph(requirements, edges):
-    """The scan result: node and edge collections (REQ-03-01-05-04)."""
+    """The scan result: the canonical core graph (ADR-0006 layer 1) with
+    node and edge collections (REQ-03-01-05-04)."""
     nodes = []
     for req_id in sorted(requirements):
         info = requirements[req_id]
         nodes.append(
-            {"id": req_id, "type": "requirement", "kind": info["kind"], "file": info["file"]}
+            {
+                "id": req_id,
+                "type": "requirement",
+                "kind": info["kind"],
+                "kind_declared": info["kind_declared"],
+                "file": info["file"],
+            }
         )
     referenced = {e["to"] for e in edges}
     for target in sorted(referenced - set(requirements)):
         nodes.append({"id": target, "type": "requirement", "unresolved": True})
     for source in sorted({e["from"] for e in edges}):
         nodes.append({"id": source, "type": "artefact"})
-    return {"nodes": nodes, "edges": edges}
+    return {"schema_version": SCHEMA_VERSION, "nodes": nodes, "edges": edges}
 
 
 def coverage(requirements, edges):
-    """Coverage report and exit code (REQ-01-01-08-01..03).
+    """Coverage as a diagnostics projection (ADR-0006 layer 2).
 
-    A functional requirement without a verifies link is a finding.
+    A coverage gap is a diagnostic in the tool-wide findings format
+    (severity, stable code, message, location — REQ-00-00-00-03):
+    TRC-COV-001 (error) for a functional requirement without a verifies
+    link (REQ-01-01-08-01), TRC-KIND-001 (warning) for a requirement
+    without a declared kind, treated as functional. Only error
+    diagnostics drive the exit code.
     """
     links = {req_id: {"verifies": [], "implements": []} for req_id in requirements}
     for e in edges:
@@ -145,9 +165,10 @@ def coverage(requirements, edges):
 
     rows = []
     summary = {}
-    findings = 0
+    diagnostics = []
     for req_id in sorted(requirements):
-        kind = requirements[req_id]["kind"]
+        info = requirements[req_id]
+        kind = info["kind"]
         verified_by = sorted(links[req_id]["verifies"])
         implemented_by = sorted(links[req_id]["implements"])
         rows.append(
@@ -163,15 +184,41 @@ def coverage(requirements, edges):
         if verified_by:
             bucket["verified"] += 1
         elif kind == "functional":
-            findings += 1
+            diagnostics.append(
+                {
+                    "severity": "error",
+                    "code": "TRC-COV-001",
+                    "message": f"functional requirement {req_id} has no verifies marker",
+                    "requirement": req_id,
+                    "file": info["file"],
+                }
+            )
+        if not info["kind_declared"]:
+            diagnostics.append(
+                {
+                    "severity": "warning",
+                    "code": "TRC-KIND-001",
+                    "message": f"requirement {req_id} declares no kind; treated as functional",
+                    "requirement": req_id,
+                    "file": info["file"],
+                }
+            )
 
-    report = {"requirements": rows, "summary": summary}
-    return report, (1 if findings else 0)
+    diagnostics.sort(key=lambda d: (d["file"], d["code"], d["requirement"]))
+    report = {
+        "schema_version": SCHEMA_VERSION,
+        "diagnostics": diagnostics,
+        "requirements": rows,
+        "summary": summary,
+    }
+    errors = sum(1 for d in diagnostics if d["severity"] == "error")
+    return report, (1 if errors else 0)
 
 
 def coverage_text(report):
-    lines = ["| requirement | kind | verified by | implemented by |",
-             "| --- | --- | --- | --- |"]
+    lines = [f"{d['file']}: {d['code']}: {d['message']}" for d in report["diagnostics"]]
+    lines += ["| requirement | kind | verified by | implemented by |",
+              "| --- | --- | --- | --- |"]
     for row in report["requirements"]:
         lines.append(
             "| {id} | {kind} | {v} | {i} |".format(
@@ -184,14 +231,26 @@ def coverage_text(report):
     for kind in sorted(report["summary"]):
         s = report["summary"][kind]
         lines.append(f"{kind}: {s['verified']}/{s['total']} verified")
+    errors = sum(1 for d in report["diagnostics"] if d["severity"] == "error")
+    warnings = sum(1 for d in report["diagnostics"] if d["severity"] == "warning")
+    lines.append(f"coverage: {errors} error(s), {warnings} warning(s)")
     return "\n".join(lines)
 
 
 def check(requirements, edges, req_id):
     """Per-requirement marker report (REQ-03-01-06-01..03)."""
     if req_id not in requirements:
-        return {"requirement": req_id, "error": "unknown requirement"}, 1
-    result = {"requirement": req_id, "verifies": [], "implements": []}
+        return {
+            "schema_version": SCHEMA_VERSION,
+            "requirement": req_id,
+            "error": "unknown requirement",
+        }, 1
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "requirement": req_id,
+        "verifies": [],
+        "implements": [],
+    }
     for e in edges:
         if e["to"] == req_id:
             result[e["kind"]].append({"file": e["from"], "line": e["line"]})
@@ -338,11 +397,37 @@ def _(assert_eq):
     assert_eq(unresolved[0]["id"], "REQ-99-88-77-66")
 
 
-@case("uncovered functional requirement is a coverage finding")
+@case("uncovered functional requirement is a TRC-COV-001 error")
 def _(assert_eq):
     reqs, edges = build_model({"docs/r.md": REQ_DOC})
-    _, code = coverage(reqs, edges)
+    report, code = coverage(reqs, edges)
     assert_eq(code, 1)
+    assert_eq(report["diagnostics"][0]["code"], "TRC-COV-001")
+    assert_eq(report["diagnostics"][0]["severity"], "error")
+    assert_eq(report["diagnostics"][0]["file"], "docs/r.md")
+
+
+@case("undeclared kind is a TRC-KIND-001 warning, not an error")
+def _(assert_eq):
+    reqs, edges = build_model(
+        {"docs/r.md": REQ_DOC_NO_KIND,
+         "a.rs": "// arqix:verifies REQ-11-11-11-03\nfn t() {}\n"}
+    )
+    report, code = coverage(reqs, edges)
+    assert_eq(code, 0)
+    assert_eq(len(report["diagnostics"]), 1)
+    assert_eq(report["diagnostics"][0]["code"], "TRC-KIND-001")
+    assert_eq(report["diagnostics"][0]["severity"], "warning")
+
+
+@case("json outputs carry the schema version")
+def _(assert_eq):
+    reqs, edges = build_model({"docs/r.md": REQ_DOC})
+    assert_eq(graph(reqs, edges)["schema_version"], SCHEMA_VERSION)
+    report, _ = coverage(reqs, edges)
+    assert_eq(report["schema_version"], SCHEMA_VERSION)
+    result, _ = check(reqs, edges, "REQ-11-11-11-01")
+    assert_eq(result["schema_version"], SCHEMA_VERSION)
 
 
 @case("verified functional requirement passes coverage")

@@ -60,16 +60,22 @@ KIND_SHORT = {
 
 
 def known_requirement_kinds():
-    """Map requirement ID -> kind (functional/quality/constraint)."""
+    """Map requirement ID -> {kind, declared, file}.
+
+    A requirement without a declared kind is treated as functional (the
+    strictest default, ADR-0006) and reported as a TRC-KIND-001 warning.
+    """
     kinds = {}
     for p in sorted(REQ_DIR.glob("REQ-*.md")):
         m = re.match(r"REQ-\d{2}-\d{2}-\d{2}-\d{2}", p.name)
         if not m:
             continue
         kind_match = KIND_RE.search(p.read_text(encoding="utf-8"))
-        kinds[m.group(0)] = (
-            KIND_SHORT[kind_match.group(1)] if kind_match else "functional"
-        )
+        kinds[m.group(0)] = {
+            "kind": KIND_SHORT[kind_match.group(1)] if kind_match else "functional",
+            "declared": kind_match is not None,
+            "file": str(p.relative_to(REPO_ROOT)),
+        }
     return kinds
 
 
@@ -197,9 +203,16 @@ def run_checks(emit_json):
     referenced = collect_referenced_reqs(test_files) & known_reqs
     coverage = {}
     for kind in ("functional", "quality", "constraint"):
-        total = sum(1 for k in kinds.values() if k == kind)
-        hit = sum(1 for r in referenced if kinds[r] == kind)
+        total = sum(1 for k in kinds.values() if k["kind"] == kind)
+        hit = sum(1 for r in referenced if kinds[r]["kind"] == kind)
         coverage[kind] = {"total": total, "referenced": hit}
+
+    warnings = [
+        (info["file"], "TRC-KIND-001",
+         f"requirement {req_id} declares no kind; treated as functional")
+        for req_id, info in sorted(kinds.items())
+        if not info["declared"]
+    ]
 
     if emit_json:
         print(json.dumps({
@@ -207,17 +220,23 @@ def run_checks(emit_json):
                 {"file": f, "line": l, "rule": r, "message": m}
                 for f, l, r, m in findings
             ],
+            "warnings": [
+                {"file": f, "rule": r, "message": m}
+                for f, r, m in warnings
+            ],
             "tests_files": len(test_files),
             "coverage_by_kind": coverage,
         }, indent=2, sort_keys=True))
     else:
         for f, l, r, m in findings:
             print(f"{f}:{l}: {r}: {m}")
+        for f, r, m in warnings:
+            print(f"{f}: {r}: warning: {m}")
         by_kind = ", ".join(
             f"{kind} {c['referenced']}/{c['total']}"
             for kind, c in coverage.items()
         )
-        print(f"checked: {len(findings)} error(s), 0 warning(s) — "
+        print(f"checked: {len(findings)} error(s), {len(warnings)} warning(s) — "
               f"referenced by verifies markers: {by_kind}")
     return 1 if findings else 0
 
