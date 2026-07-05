@@ -48,9 +48,17 @@ fn copy_dir(src: &Path, dest: &Path) {
     }
 }
 
+/// Path of the arqix implementation under test. Defaults to the compiled
+/// Rust binary; the `ARQIX_BIN` environment variable overrides it so the
+/// same contract tests double as the conformance suite for the Python
+/// oracle (arc42 chapter 8, oracle policy).
+pub fn arqix_bin() -> String {
+    std::env::var("ARQIX_BIN").unwrap_or_else(|_| env!("CARGO_BIN_EXE_arqix").to_string())
+}
+
 /// Run the arqix binary with `args` in the current directory.
 pub fn run_arqix(args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_arqix"))
+    Command::new(arqix_bin())
         .args(args)
         .output()
         .expect("failed to run arqix")
@@ -58,7 +66,7 @@ pub fn run_arqix(args: &[&str]) -> Output {
 
 /// Run the arqix binary with `args` inside `dir` (usually a fixture repo).
 pub fn run_arqix_in(dir: &Path, args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_arqix"))
+    Command::new(arqix_bin())
         .current_dir(dir)
         .args(args)
         .output()
