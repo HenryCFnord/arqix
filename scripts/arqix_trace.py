@@ -37,6 +37,7 @@ from pathlib import Path
 REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$")
 FRONTMATTER_ID_RE = re.compile(r"^id:\s*[\"']?([\w][\w-]*)[\"']?\s*$")
 FRONTMATTER_IRI_RE = re.compile(r"^iri:\s*(\S+)\s*$")
+FRONTMATTER_TITLE_RE = re.compile(r"^title:\s*[\"']?(.+?)[\"']?\s*$")
 TOP_KEY_RE = re.compile(r"^([\w.-]+):")
 TRIPLE_PRED_RE = re.compile(r"^-\s+predicate:\s*arqix:properties/(\S+)\s*$")
 TRIPLE_OBJ_INLINE_RE = re.compile(r"^object:\s*(arqix:\S+)\s*$")
@@ -106,7 +107,8 @@ def parse_document(path, text):
     block = frontmatter_lines(text)
     if not block:
         return None
-    doc = {"id": None, "iri": None, "file": path, "classes": [], "triples": []}
+    doc = {"id": None, "iri": None, "title": None, "file": path,
+           "classes": [], "triples": []}
     section = None
     predicate = None
     for idx, line in enumerate(block):
@@ -120,6 +122,8 @@ def parse_document(path, text):
                 doc["id"] = m.group(1)
             elif m := FRONTMATTER_IRI_RE.match(stripped):
                 doc["iri"] = m.group(1)
+            elif m := FRONTMATTER_TITLE_RE.match(stripped):
+                doc["title"] = m.group(1)
             continue
         if section == "rdf":
             if m := CLASS_ITEM_RE.match(stripped):
@@ -166,6 +170,7 @@ def build_model(corpus):
         documents[doc["id"]] = {
             "file": path,
             "iri": doc["iri"],
+            "title": doc["title"],
             "type": document_type(doc),
         }
         if doc["iri"]:
@@ -761,6 +766,7 @@ body
 
 STORY_DOC = """---
 id: US-22-22-22
+title: Provide a Linked Example
 iri: arqix:user-stories/us-22-22-22
 rdf:
   type:
@@ -826,6 +832,7 @@ def _(assert_eq):
     g = graph(reqs, edges, docs)
     story_nodes = [n for n in g["nodes"] if n["id"] == "US-22-22-22"]
     assert_eq(story_nodes[0]["type"], "user-story")
+    assert_eq(docs["US-22-22-22"]["title"], "Provide a Linked Example")
 
 
 @case("marker edge carries the attached test name")
