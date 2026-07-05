@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Command:  python3 scripts/arqix trace coverage
-     Snapshot: commit 0af51c1, 2026-07-05, schema_version 1 (ADR-0006 layer 2)
+     Snapshot: commit 38d0ec9, 2026-07-05, schema_version 1 (ADR-0006 layer 2)
      Regenerate after any change to requirements, tests, or markers.
      The command exits 1 while uncovered functional requirements exist —
      the expected state during implementation (61 today). -->

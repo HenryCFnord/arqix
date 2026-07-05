@@ -2,8 +2,8 @@
 
 Manually generated snapshots of the human-facing trace projections, taken
 so the outputs can be reviewed exactly as the tool produces them. Snapshot
-commit `0af51c1`, 2026-07-05, produced by the Python oracle
-(`scripts/arqix`, ADR-0006).
+commit `38d0ec9`, 2026-07-05, produced by the Python oracle
+(`scripts/arqix`, ADR-0006/0007).
 
 | File | Layer (ADR-0006) | Regenerate with |
 | --- | --- | --- |
@@ -29,10 +29,10 @@ The per-requirement report is interactive rather than a file; verbatim
 output for the one requirement currently verified by a live test:
 
 ```
-$ python3 scripts/arqix trace check REQ-01-01-08-01
-REQ-01-01-08-01: verifies: tests/cli_trace.rs:50
-REQ-01-01-08-01: implements: none
-REQ-01-01-08-01: derived-from: US-01-01-08, US-03-01-03, US-07-01-01
+$ python3 scripts/arqix trace check REQ-00-00-00-02
+REQ-00-00-00-02: verifies: tests/cli.rs:30 (usage_error_exits_with_code_2)
+REQ-00-00-00-02: implements: none
+REQ-00-00-00-02: derived-from: US-01-01-14, US-04-01-04, US-04-01-05, …
 ```
 
 ## How to read `coverage.md`
