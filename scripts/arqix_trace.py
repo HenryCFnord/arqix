@@ -115,14 +115,43 @@ def build_model(corpus):
     edges = []
     for path, text in sorted(corpus.items()):
         marker_re = RS_MARKER_RE if path.endswith(".rs") else MD_MARKER_RE
-        for line_no, line in enumerate(text.splitlines(), start=1):
+        lines = text.splitlines()
+        for line_no, line in enumerate(lines, start=1):
             if m := marker_re.match(line.strip()):
                 link_kind, target = m.group(1), m.group(2)
                 edges.append(
-                    {"from": path, "to": target, "kind": link_kind, "line": line_no}
+                    {
+                        "from": path,
+                        "to": target,
+                        "kind": link_kind,
+                        "line": line_no,
+                        "ignored": path.endswith(".rs")
+                        and _attached_test_is_ignored(lines, line_no),
+                    }
                 )
     edges.sort(key=lambda e: (e["from"], e["line"], e["to"], e["kind"]))
     return requirements, edges
+
+
+def _attached_test_is_ignored(lines, marker_line_no):
+    """True when the marker's contiguous comment/attribute block ends in an
+    `#[ignore]`d function — a marker on an ignored test plans verification,
+    it does not provide it (red-skeleton lifecycle, ADR-0006)."""
+    for line in lines[marker_line_no:]:
+        stripped = line.strip()
+        if stripped.startswith("#[ignore"):
+            return True
+        if stripped.startswith(("//", "#[")):
+            continue
+        return False
+    return False
+
+
+def story_of(req_id):
+    """Derive the owning story from a requirement ID: REQ-XX-YY-ZZ-NN ->
+    US-XX-YY-ZZ; None for the cross-cutting foundation domain 00-00-00."""
+    stem = req_id[4:12]
+    return None if stem == "00-00-00" else f"US-{stem}"
 
 
 def graph(requirements, edges):
@@ -137,6 +166,7 @@ def graph(requirements, edges):
                 "type": "requirement",
                 "kind": info["kind"],
                 "kind_declared": info["kind_declared"],
+                "story": story_of(req_id),
                 "file": info["file"],
             }
         )
@@ -151,17 +181,24 @@ def graph(requirements, edges):
 def coverage(requirements, edges):
     """Coverage as a diagnostics projection (ADR-0006 layer 2).
 
-    A coverage gap is a diagnostic in the tool-wide findings format
-    (severity, stable code, message, location — REQ-00-00-00-03):
-    TRC-COV-001 (error) for a functional requirement without a verifies
-    link (REQ-01-01-08-01), TRC-KIND-001 (warning) for a requirement
-    without a declared kind, treated as functional. Only error
-    diagnostics drive the exit code.
+    Coverage follows the red-skeleton lifecycle (ADR-0006): a marker on
+    an active test *verifies*, a marker on an `#[ignore]`d test only
+    *plans* verification, no marker at all leaves the requirement
+    *uncovered*. A coverage gap is a diagnostic in the tool-wide findings
+    format (severity, stable code, message, location — REQ-00-00-00-03):
+    TRC-COV-001 (error) for an uncovered functional requirement
+    (REQ-01-01-08-01), TRC-COV-002 (warning) for a planned-only one,
+    TRC-KIND-001 (warning) for a requirement without a declared kind,
+    treated as functional. Only error diagnostics drive the exit code.
     """
-    links = {req_id: {"verifies": [], "implements": []} for req_id in requirements}
+    links = {
+        req_id: {"verifies": [], "planned": [], "implements": []}
+        for req_id in requirements
+    }
     for e in edges:
         if e["to"] in links:
-            links[e["to"]][e["kind"]].append(f"{e['from']}:{e['line']}")
+            bucket = "planned" if e["kind"] == "verifies" and e["ignored"] else e["kind"]
+            links[e["to"]][bucket].append(f"{e['from']}:{e['line']}")
 
     rows = []
     summary = {}
@@ -170,29 +207,49 @@ def coverage(requirements, edges):
         info = requirements[req_id]
         kind = info["kind"]
         verified_by = sorted(links[req_id]["verifies"])
+        planned_by = sorted(links[req_id]["planned"])
         implemented_by = sorted(links[req_id]["implements"])
         rows.append(
             {
                 "id": req_id,
                 "kind": kind,
+                "story": story_of(req_id),
                 "verified_by": verified_by,
+                "planned_by": planned_by,
                 "implemented_by": implemented_by,
             }
         )
-        bucket = summary.setdefault(kind, {"total": 0, "verified": 0})
+        bucket = summary.setdefault(
+            kind, {"total": 0, "verified": 0, "planned": 0, "uncovered": 0}
+        )
         bucket["total"] += 1
         if verified_by:
             bucket["verified"] += 1
-        elif kind == "functional":
-            diagnostics.append(
-                {
-                    "severity": "error",
-                    "code": "TRC-COV-001",
-                    "message": f"functional requirement {req_id} has no verifies marker",
-                    "requirement": req_id,
-                    "file": info["file"],
-                }
-            )
+        elif planned_by:
+            bucket["planned"] += 1
+            if kind == "functional":
+                diagnostics.append(
+                    {
+                        "severity": "warning",
+                        "code": "TRC-COV-002",
+                        "message": f"functional requirement {req_id} is only planned: "
+                        "all verifies markers sit on ignored tests",
+                        "requirement": req_id,
+                        "file": info["file"],
+                    }
+                )
+        else:
+            bucket["uncovered"] += 1
+            if kind == "functional":
+                diagnostics.append(
+                    {
+                        "severity": "error",
+                        "code": "TRC-COV-001",
+                        "message": f"functional requirement {req_id} has no verifies marker",
+                        "requirement": req_id,
+                        "file": info["file"],
+                    }
+                )
         if not info["kind_declared"]:
             diagnostics.append(
                 {
@@ -217,20 +274,24 @@ def coverage(requirements, edges):
 
 def coverage_text(report):
     lines = [f"{d['file']}: {d['code']}: {d['message']}" for d in report["diagnostics"]]
-    lines += ["| requirement | kind | verified by | implemented by |",
-              "| --- | --- | --- | --- |"]
+    lines += ["| requirement | kind | verified by | planned by | implemented by |",
+              "| --- | --- | --- | --- | --- |"]
     for row in report["requirements"]:
         lines.append(
-            "| {id} | {kind} | {v} | {i} |".format(
+            "| {id} | {kind} | {v} | {p} | {i} |".format(
                 id=row["id"],
                 kind=row["kind"],
                 v="; ".join(row["verified_by"]) or "—",
+                p="; ".join(row["planned_by"]) or "—",
                 i="; ".join(row["implemented_by"]) or "—",
             )
         )
     for kind in sorted(report["summary"]):
         s = report["summary"][kind]
-        lines.append(f"{kind}: {s['verified']}/{s['total']} verified")
+        lines.append(
+            f"{kind}: {s['verified']} verified, {s['planned']} planned, "
+            f"{s['uncovered']} uncovered (of {s['total']})"
+        )
     errors = sum(1 for d in report["diagnostics"] if d["severity"] == "error")
     warnings = sum(1 for d in report["diagnostics"] if d["severity"] == "warning")
     lines.append(f"coverage: {errors} error(s), {warnings} warning(s)")
@@ -253,7 +314,9 @@ def check(requirements, edges, req_id):
     }
     for e in edges:
         if e["to"] == req_id:
-            result[e["kind"]].append({"file": e["from"], "line": e["line"]})
+            result[e["kind"]].append(
+                {"file": e["from"], "line": e["line"], "ignored": e["ignored"]}
+            )
     return result, 0
 
 
@@ -262,10 +325,18 @@ def matrix(requirements, edges):
     report, _ = coverage(requirements, edges)
     out = io.StringIO()
     writer = csv.writer(out, lineterminator="\n")
-    writer.writerow(["requirement", "kind", "verifies_markers", "implements_markers"])
+    writer.writerow(
+        ["requirement", "kind", "verified_markers", "planned_markers", "implements_markers"]
+    )
     for row in report["requirements"]:
         writer.writerow(
-            [row["id"], row["kind"], ";".join(row["verified_by"]), ";".join(row["implemented_by"])]
+            [
+                row["id"],
+                row["kind"],
+                ";".join(row["verified_by"]),
+                ";".join(row["planned_by"]),
+                ";".join(row["implemented_by"]),
+            ]
         )
     return out.getvalue()
 
@@ -437,7 +508,10 @@ def _(assert_eq):
     )
     report, code = coverage(reqs, edges)
     assert_eq(code, 0)
-    assert_eq(report["summary"]["functional"], {"total": 1, "verified": 1})
+    assert_eq(
+        report["summary"]["functional"],
+        {"total": 1, "verified": 1, "planned": 0, "uncovered": 0},
+    )
 
 
 @case("uncovered quality requirement is not a finding")
@@ -454,7 +528,7 @@ def _(assert_eq):
     )
     result, code = check(reqs, edges, "REQ-11-11-11-01")
     assert_eq(code, 0)
-    assert_eq(result["verifies"], [{"file": "a.rs", "line": 1}])
+    assert_eq(result["verifies"], [{"file": "a.rs", "line": 1, "ignored": False}])
     assert_eq(result["implements"], [])
 
 
@@ -469,7 +543,50 @@ def _(assert_eq):
 def _(assert_eq):
     reqs, edges = build_model({"docs/r.md": REQ_DOC})
     header = matrix(reqs, edges).splitlines()[0]
-    assert_eq(header, "requirement,kind,verifies_markers,implements_markers")
+    assert_eq(
+        header,
+        "requirement,kind,verified_markers,planned_markers,implements_markers",
+    )
+
+
+IGNORED_TEST = (
+    "// arqix:verifies REQ-11-11-11-01\n"
+    "#[test]\n"
+    '#[ignore = "US-11-11-11: not implemented"]\n'
+    "fn t() {}\n"
+)
+
+
+@case("marker on an ignored test plans, it does not verify")
+def _(assert_eq):
+    reqs, edges = build_model({"docs/r.md": REQ_DOC, "a.rs": IGNORED_TEST})
+    assert_eq(edges[0]["ignored"], True)
+    report, code = coverage(reqs, edges)
+    assert_eq(code, 0)
+    assert_eq(
+        report["summary"]["functional"],
+        {"total": 1, "verified": 0, "planned": 1, "uncovered": 0},
+    )
+    assert_eq(report["diagnostics"][0]["code"], "TRC-COV-002")
+    assert_eq(report["diagnostics"][0]["severity"], "warning")
+
+
+@case("marker on an active test verifies")
+def _(assert_eq):
+    active = "// arqix:verifies REQ-11-11-11-01\n#[test]\nfn t() {}\n"
+    reqs, edges = build_model({"docs/r.md": REQ_DOC, "a.rs": active})
+    assert_eq(edges[0]["ignored"], False)
+    report, _ = coverage(reqs, edges)
+    assert_eq(report["summary"]["functional"]["verified"], 1)
+
+
+@case("story is derived from the requirement id")
+def _(assert_eq):
+    assert_eq(story_of("REQ-11-11-11-01"), "US-11-11-11")
+    assert_eq(story_of("REQ-00-00-00-05"), None)
+    reqs, edges = build_model({"docs/r.md": REQ_DOC})
+    report, _ = coverage(reqs, edges)
+    assert_eq(report["requirements"][0]["story"], "US-11-11-11")
 
 
 @case("model is deterministic regardless of input order")
