@@ -46,11 +46,31 @@ COMMENT_OR_ATTR_RE = re.compile(r"^\s*(//|#\[)")
 
 
 def known_requirement_ids():
-    return {
-        m.group(0)
-        for p in sorted(REQ_DIR.glob("REQ-*.md"))
-        if (m := re.match(r"REQ-\d{2}-\d{2}-\d{2}-\d{2}", p.name))
-    }
+    return set(known_requirement_kinds())
+
+
+KIND_RE = re.compile(
+    r"arqix:classes/(functional-requirement|quality-requirement|constraint)"
+)
+KIND_SHORT = {
+    "functional-requirement": "functional",
+    "quality-requirement": "quality",
+    "constraint": "constraint",
+}
+
+
+def known_requirement_kinds():
+    """Map requirement ID -> kind (functional/quality/constraint)."""
+    kinds = {}
+    for p in sorted(REQ_DIR.glob("REQ-*.md")):
+        m = re.match(r"REQ-\d{2}-\d{2}-\d{2}-\d{2}", p.name)
+        if not m:
+            continue
+        kind_match = KIND_RE.search(p.read_text(encoding="utf-8"))
+        kinds[m.group(0)] = (
+            KIND_SHORT[kind_match.group(1)] if kind_match else "functional"
+        )
+    return kinds
 
 
 def known_story_ids():
@@ -154,7 +174,8 @@ def collect_referenced_reqs(paths):
 
 
 def run_checks(emit_json):
-    known_reqs = known_requirement_ids()
+    kinds = known_requirement_kinds()
+    known_reqs = set(kinds)
     known_stories = known_story_ids()
 
     test_files = sorted(
@@ -173,7 +194,13 @@ def run_checks(emit_json):
                                              known_reqs, rel))
     findings.sort()
 
-    referenced = collect_referenced_reqs(test_files)
+    referenced = collect_referenced_reqs(test_files) & known_reqs
+    coverage = {}
+    for kind in ("functional", "quality", "constraint"):
+        total = sum(1 for k in kinds.values() if k == kind)
+        hit = sum(1 for r in referenced if kinds[r] == kind)
+        coverage[kind] = {"total": total, "referenced": hit}
+
     if emit_json:
         print(json.dumps({
             "findings": [
@@ -181,15 +208,17 @@ def run_checks(emit_json):
                 for f, l, r, m in findings
             ],
             "tests_files": len(test_files),
-            "requirements_total": len(known_reqs),
-            "requirements_referenced": len(referenced & known_reqs),
+            "coverage_by_kind": coverage,
         }, indent=2, sort_keys=True))
     else:
         for f, l, r, m in findings:
             print(f"{f}:{l}: {r}: {m}")
+        by_kind = ", ".join(
+            f"{kind} {c['referenced']}/{c['total']}"
+            for kind, c in coverage.items()
+        )
         print(f"checked: {len(findings)} error(s), 0 warning(s) — "
-              f"{len(referenced & known_reqs)}/{len(known_reqs)} requirements "
-              "referenced by verifies markers")
+              f"referenced by verifies markers: {by_kind}")
     return 1 if findings else 0
 
 
