@@ -1,0 +1,4 @@
+# Minimal fixture configuration for the command-contract test skeleton.
+# The configuration schema is designed with US-01-01-16; tests that depend
+# on specific keys are un-ignored together with that story and extend this
+# file as part of their red phase.

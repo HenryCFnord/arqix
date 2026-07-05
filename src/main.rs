@@ -1,39 +1,243 @@
 // arqix - a CLI for structured technical documentation and Architecture-as-Code workflows.
-// This is the initial skeleton. Commands and subcommands will be added incrementally.
+//
+// Command surface per ADR-0005 (noun-verb scheme, `verify` as top-level
+// exception) and the command-ownership table in arc42 chapter 5, which is
+// the normative command map. Every command is a stub until its story is
+// implemented test-first (see AGENTS.md, "Test-driven implementation").
 
-use std::env;
-use std::process;
+use clap::{Parser, Subcommand, ValueEnum};
+use std::process::ExitCode;
 
-fn main() {
-    let mut args = env::args().skip(1);
+/// Output format for diagnostics and command results (REQ-04-01-10-01).
+#[derive(Clone, Copy, Debug, ValueEnum)]
+enum OutputFormat {
+    Text,
+    Json,
+}
 
-    if let Some(first) = args.next() {
-        match first.as_str() {
-            "--help" | "-h" => {
-                println!("arqix v{}", env!("CARGO_PKG_VERSION"));
-                println!("A CLI for structured technical documentation.");
-                println!();
-                println!("Usage:");
-                println!("  arqix [OPTIONS]");
-                println!();
-                println!("Options:");
-                println!("  -h, --help       Print this help message");
-                println!("  -V, --version    Print version information");
-                return;
-            }
-            "--version" | "-V" => {
-                println!("arqix v{}", env!("CARGO_PKG_VERSION"));
-                return;
-            }
-            unknown => {
-                eprintln!("error: unrecognized argument `{unknown}`");
-                eprintln!("Run `arqix --help` for usage.");
-                process::exit(2);
-            }
-        }
+#[derive(Parser)]
+#[command(
+    name = "arqix",
+    version,
+    about = "Deterministic documentation-as-code toolchain"
+)]
+struct Cli {
+    /// Output format for diagnostics and results
+    #[arg(long, global = true, value_enum, default_value_t = OutputFormat::Text)]
+    format: OutputFormat,
+
+    #[command(subcommand)]
+    command: Command,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    /// Configuration: validate and show the effective configuration
+    Config {
+        #[command(subcommand)]
+        command: ConfigCommand,
+    },
+    /// Documents: scaffold, create, list, read, search
+    Doc {
+        #[command(subcommand)]
+        command: DocCommand,
+    },
+    /// Units: create architecture units
+    Unit {
+        #[command(subcommand)]
+        command: UnitCommand,
+    },
+    /// Rewrite documents into canonical form (mechanical only)
+    Fmt,
+    /// Update mechanical metadata such as `updated` (never body text)
+    Finalise,
+    /// Lint: contract checks over the corpus
+    Lint {
+        #[command(subcommand)]
+        command: LintCommand,
+    },
+    /// Assemble: expand chapter/include directives into pages
+    Assemble {
+        #[command(subcommand)]
+        command: AssembleCommand,
+    },
+    /// Traceability: scan markers, check links, project coverage and matrices
+    Trace {
+        #[command(subcommand)]
+        command: TraceCommand,
+    },
+    /// Export products for audit and compliance
+    Report {
+        #[command(subcommand)]
+        command: ReportCommand,
+    },
+    /// Publish rendered outputs
+    Publish {
+        #[command(subcommand)]
+        command: PublishCommand,
+    },
+    /// Render single-artefact outputs
+    Render {
+        #[command(subcommand)]
+        command: RenderCommand,
+    },
+    /// Policy: evaluate changes against the declared change scope
+    Policy {
+        #[command(subcommand)]
+        command: PolicyCommand,
+    },
+    /// Run the configured verification loop (format, lint, trace scan, coverage)
+    Verify,
+    /// Model Context Protocol server
+    Mcp {
+        #[command(subcommand)]
+        command: McpCommand,
+    },
+}
+
+#[derive(Subcommand)]
+enum ConfigCommand {
+    /// Validate arqix.toml against the configuration contract
+    Validate,
+    /// Render the effective configuration commands act on
+    Show,
+}
+
+#[derive(Subcommand)]
+enum DocCommand {
+    /// Scaffold a documentation package in the current repository
+    Init,
+    /// Create a document of the given kind from its configured template
+    New { kind: String },
+    /// List documents as a machine-readable catalog
+    List,
+    /// Read a document, or a section of it, as structured output
+    Read { id: String },
+    /// Search documents
+    Search { query: String },
+}
+
+#[derive(Subcommand)]
+enum UnitCommand {
+    /// Create an architecture unit from its configured template
+    New,
+}
+
+#[derive(Subcommand)]
+enum LintCommand {
+    /// Run the configured lint checks
+    Run,
+}
+
+#[derive(Subcommand)]
+enum AssembleCommand {
+    /// Build pages from chapter/include directives
+    Build,
+}
+
+#[derive(Subcommand)]
+enum TraceCommand {
+    /// Scan code, tests, and documents for trace markers
+    Scan,
+    /// Check marker links for a requirement
+    Check,
+    /// Report requirements coverage
+    Coverage,
+    /// Project traceability matrices
+    Matrix,
+}
+
+#[derive(Subcommand)]
+enum ReportCommand {
+    /// Produce an evidence bundle
+    Bundle,
+}
+
+#[derive(Subcommand)]
+enum PublishCommand {
+    /// Publish the documentation site
+    Site {
+        /// Language to publish
+        #[arg(long)]
+        lang: Option<String>,
+    },
+}
+
+#[derive(Subcommand)]
+enum RenderCommand {
+    /// Render a PDF artefact
+    Pdf,
+}
+
+#[derive(Subcommand)]
+enum PolicyCommand {
+    /// Evaluate changed files against the declared change scope
+    Check,
+}
+
+#[derive(Subcommand)]
+enum McpCommand {
+    /// Serve search/read/list over stdio
+    Serve,
+}
+
+/// Exit code for commands whose story is not yet implemented. Deliberately
+/// outside the stable 0/1/2 contract (REQ-00-00-00-02) so nothing can
+/// mistake a stub for a real result.
+const EXIT_UNIMPLEMENTED: u8 = 70;
+
+fn unimplemented(command: &str) -> ExitCode {
+    eprintln!("error: `arqix {command}` is not implemented yet");
+    ExitCode::from(EXIT_UNIMPLEMENTED)
+}
+
+fn main() -> ExitCode {
+    let cli = Cli::parse();
+
+    match cli.command {
+        Command::Config { command } => match command {
+            ConfigCommand::Validate => unimplemented("config validate"),
+            ConfigCommand::Show => unimplemented("config show"),
+        },
+        Command::Doc { command } => match command {
+            DocCommand::Init => unimplemented("doc init"),
+            DocCommand::New { .. } => unimplemented("doc new"),
+            DocCommand::List => unimplemented("doc list"),
+            DocCommand::Read { .. } => unimplemented("doc read"),
+            DocCommand::Search { .. } => unimplemented("doc search"),
+        },
+        Command::Unit { command } => match command {
+            UnitCommand::New => unimplemented("unit new"),
+        },
+        Command::Fmt => unimplemented("fmt"),
+        Command::Finalise => unimplemented("finalise"),
+        Command::Lint { command } => match command {
+            LintCommand::Run => unimplemented("lint run"),
+        },
+        Command::Assemble { command } => match command {
+            AssembleCommand::Build => unimplemented("assemble build"),
+        },
+        Command::Trace { command } => match command {
+            TraceCommand::Scan => unimplemented("trace scan"),
+            TraceCommand::Check => unimplemented("trace check"),
+            TraceCommand::Coverage => unimplemented("trace coverage"),
+            TraceCommand::Matrix => unimplemented("trace matrix"),
+        },
+        Command::Report { command } => match command {
+            ReportCommand::Bundle => unimplemented("report bundle"),
+        },
+        Command::Publish { command } => match command {
+            PublishCommand::Site { .. } => unimplemented("publish site"),
+        },
+        Command::Render { command } => match command {
+            RenderCommand::Pdf => unimplemented("render pdf"),
+        },
+        Command::Policy { command } => match command {
+            PolicyCommand::Check => unimplemented("policy check"),
+        },
+        Command::Verify => unimplemented("verify"),
+        Command::Mcp { command } => match command {
+            McpCommand::Serve => unimplemented("mcp serve"),
+        },
     }
-
-    println!("arqix v{}", env!("CARGO_PKG_VERSION"));
-    println!("A CLI for structured technical documentation.");
-    println!("Run `arqix --help` for usage.");
 }

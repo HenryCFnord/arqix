@@ -1,0 +1,3 @@
+# Deliberately invalid configuration for config-validation tests: `roots`
+# must be a list of paths, not a number.
+roots = 42
