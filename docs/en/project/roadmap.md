@@ -37,14 +37,14 @@ What the old phases 1–4 sketched as features is now fully specified and tracea
 - [x] `check_trace_markers.py` gate (TRC-001..005) and the normative TDD workflow in AGENTS.md
 - [x] Glossary seeded: red skeleton, red phase
 
-## Phase 3 — Trace family in Python, harness sharpening (next)
+## Phase 3 — Trace family in Python, harness sharpening (done)
 
 Goal: run arqix semantics on this repository daily, months before the Rust port — and turn the red skeleton into the conformance suite by construction.
 
-- Coverage report by requirement kind in the marker gate (the honest progress number is functional coverage, not total)
-- `ARQIX_BIN` override in the test helpers so the skeleton tests can run against any implementation
-- Extend the marker checker into a Python `trace scan` / `trace coverage` oracle: trace graph as JSON, coverage by kind, matrix as CSV — per the oracle policy in arc42 chapter 8
-- Thin Python `verify` sequencer over the existing checkers
+- [x] Coverage report by requirement kind in the marker gate (the honest progress number is functional coverage, not total)
+- [x] `ARQIX_BIN` override in the test helpers so the skeleton tests can run against any implementation
+- [x] Python trace oracle `scripts/arqix_trace.py` behind the `scripts/arqix` dispatcher: `trace scan/check/coverage/matrix`, graph as JSON, coverage by kind, matrix as CSV — per the oracle policy in arc42 chapter 8; the `cli_trace` skeleton suite passes 7/7 against it
+- [x] Thin Python `verify` sequencer (`scripts/arqix verify`): checkers + marker gate + informational coverage + cargo test
 - Deliberately **not** in Python: parser/fmt/finalise (the lossless-CST machine is built once, in Rust), publish/render, mcp
 
 ## Phase 4 — Rust core, story by story
