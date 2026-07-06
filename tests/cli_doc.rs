@@ -8,7 +8,6 @@ use common::{assert_success, fixture, run_arqix_in, scratch_copy, stdout_json};
 
 // arqix:verifies REQ-01-01-01-01
 #[test]
-#[ignore = "US-01-01-01: not implemented"]
 fn doc_init_creates_the_standard_package_scaffold() {
     let repo = scratch_copy("minimal", "doc_init_creates_the_standard_package_scaffold");
     let out = run_arqix_in(&repo, &["doc", "init"]);
@@ -17,7 +16,6 @@ fn doc_init_creates_the_standard_package_scaffold() {
 
 // arqix:verifies REQ-00-00-00-05
 #[test]
-#[ignore = "US-01-01-13: not implemented"]
 fn doc_new_creates_a_document_from_the_configured_template() {
     let repo = scratch_copy(
         "minimal",
@@ -29,7 +27,6 @@ fn doc_new_creates_a_document_from_the_configured_template() {
 
 // arqix:verifies REQ-01-01-13-01
 #[test]
-#[ignore = "US-01-01-13: not implemented"]
 fn doc_new_generates_a_unique_id_from_the_configured_policy() {
     let repo = scratch_copy(
         "minimal",
@@ -43,7 +40,6 @@ fn doc_new_generates_a_unique_id_from_the_configured_policy() {
 
 // arqix:verifies REQ-01-01-13-02
 #[test]
-#[ignore = "US-01-01-13: not implemented"]
 fn doc_new_writes_into_the_configured_kind_location() {
     let repo = scratch_copy(
         "minimal",

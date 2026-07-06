@@ -7,7 +7,6 @@ use common::{assert_success, run_arqix_in, scratch_copy};
 
 // arqix:verifies REQ-00-00-00-05
 #[test]
-#[ignore = "US-01-01-13: not implemented"]
 fn unit_new_creates_a_unit_from_the_configured_template() {
     let repo = scratch_copy(
         "minimal",
