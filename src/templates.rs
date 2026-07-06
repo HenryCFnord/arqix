@@ -91,11 +91,11 @@ pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
     }
     if let Err(err) = std::fs::create_dir_all(&dir) {
         eprintln!("error: cannot create {}: {err}", dir.display());
-        return ExitCode::from(1);
+        return ExitCode::from(2);
     }
     if let Err(err) = std::fs::write(&path, template(&id, kind, &namespace)) {
         eprintln!("error: cannot write {}: {err}", path.display());
-        return ExitCode::from(1);
+        return ExitCode::from(2);
     }
 
     let path_str = path.to_string_lossy().to_string();
@@ -124,7 +124,7 @@ pub fn init(format: OutputFormat) -> ExitCode {
     for root in crate::config::roots(Path::new(".")) {
         if let Err(err) = std::fs::create_dir_all(&root) {
             eprintln!("error: cannot create {root}: {err}");
-            return ExitCode::from(1);
+            return ExitCode::from(2);
         }
     }
     let config = Path::new("arqix.toml");
@@ -132,7 +132,7 @@ pub fn init(format: OutputFormat) -> ExitCode {
         && let Err(err) = std::fs::write(config, "# arqix configuration (schema v1)\n")
     {
         eprintln!("error: cannot write arqix.toml: {err}");
-        return ExitCode::from(1);
+        return ExitCode::from(2);
     }
     if matches!(format, OutputFormat::Text) {
         println!("initialised documentation package");

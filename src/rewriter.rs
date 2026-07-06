@@ -131,6 +131,7 @@ fn format_text(text: &str) -> Option<String> {
 /// `arqix fmt [--check]`
 pub fn fmt(check: bool, format: OutputFormat) -> ExitCode {
     let mut changed = Vec::new();
+    let mut write_failed = false;
     for doc in crate::store::documents() {
         let text = match fs::read_to_string(&doc.file) {
             Ok(text) => text,
@@ -140,8 +141,12 @@ pub fn fmt(check: bool, format: OutputFormat) -> ExitCode {
             && formatted != text
         {
             changed.push(doc.file.clone());
-            if !check {
-                let _ = fs::write(&doc.file, formatted);
+            if !check && let Err(err) = fs::write(&doc.file, formatted) {
+                // A failed source mutation must never look like success; a
+                // system error is exit 2 (the codebase's I/O convention),
+                // distinct from the exit-1 findings channel.
+                eprintln!("error: cannot write {}: {err}", doc.file);
+                write_failed = true;
             }
         }
     }
@@ -156,6 +161,9 @@ pub fn fmt(check: bool, format: OutputFormat) -> ExitCode {
         return code;
     }
 
+    if write_failed {
+        return ExitCode::from(2);
+    }
     if matches!(format, OutputFormat::Text) {
         println!("formatted {} document(s)", changed.len());
     }
@@ -219,6 +227,7 @@ fn set_updated(text: &str, date: &str) -> (FinaliseResult, Option<String>) {
 /// `arqix finalise --date <iso>`
 pub fn finalise(date: &str, format: OutputFormat) -> ExitCode {
     let mut diagnostics = Vec::new();
+    let mut write_failed = false;
     for doc in crate::store::documents() {
         let text = match fs::read_to_string(&doc.file) {
             Ok(text) => text,
@@ -226,7 +235,10 @@ pub fn finalise(date: &str, format: OutputFormat) -> ExitCode {
         };
         match set_updated(&text, date) {
             (FinaliseResult::Updated, Some(out)) => {
-                let _ = fs::write(&doc.file, out);
+                if let Err(err) = fs::write(&doc.file, out) {
+                    eprintln!("error: cannot write {}: {err}", doc.file);
+                    write_failed = true;
+                }
             }
             (FinaliseResult::AlreadyCurrent, _) | (FinaliseResult::Updated, None) => {}
             (FinaliseResult::Unsupported, _) => diagnostics.push(
@@ -240,9 +252,13 @@ pub fn finalise(date: &str, format: OutputFormat) -> ExitCode {
     }
 
     diagnostics.sort_by(|a, b| a.file.cmp(&b.file));
-    let code = diag::exit_code(&diagnostics);
     diag::emit(&diagnostics, format);
-    code
+    // A failed source mutation is a system error (exit 2), and takes
+    // precedence over the exit-1 findings channel.
+    if write_failed {
+        return ExitCode::from(2);
+    }
+    diag::exit_code(&diagnostics)
 }
 
 #[cfg(test)]
