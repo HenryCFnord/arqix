@@ -44,7 +44,11 @@ fn walk(dir: &Path, docs: &mut Vec<Document>) {
             continue;
         }
         if let Ok(text) = std::fs::read_to_string(&path) {
-            docs.push(parser::parse(&path.to_string_lossy(), &text));
+            // Normalise to forward slashes so the `file` field is identical
+            // across platforms and consistent with the trace engine
+            // (trace.rs) and assembler, which do the same.
+            let rel = path.to_string_lossy().replace('\\', "/");
+            docs.push(parser::parse(&rel, &text));
         }
     }
 }

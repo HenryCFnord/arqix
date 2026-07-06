@@ -121,17 +121,10 @@ fn expand(
         }
     };
 
-    let key = canonical(file);
-    if stack.contains(&key) {
-        let mut chain: Vec<String> = stack.iter().map(|p| rel(p)).collect();
-        chain.push(rel(file));
-        return Err(Diagnostic::error(
-            "ASM-001",
-            format!("include cycle detected: {}", chain.join(" -> ")),
-        )
-        .at_line(doc_rel_from(file, doc_rel), at_line.max(1)));
-    }
-    stack.push(key);
+    // The stack keeps each fragment's relative path; cycle comparison
+    // canonicalises on the fly so aliased paths still match, while the
+    // diagnostic chain stays in consistent relative form.
+    stack.push(file.to_path_buf());
 
     // REQ-04-01-01-04/-05: one stable record per step, carrying the required
     // fields. `include` is the fragment read; `at_line` is where its parent
@@ -152,6 +145,19 @@ fn expand(
         if let Some(target) = include_target(line) {
             let target_path = dir.join(&target);
             if target_path.exists() {
+                // Detect the cycle here, where the re-including directive's
+                // own location (this file at this line) is known, so ASM-001
+                // anchors the real directive rather than the child fragment.
+                let target_key = canonical(&target_path);
+                if stack.iter().any(|p| canonical(p) == target_key) {
+                    let mut chain: Vec<String> = stack.iter().map(|p| rel(p)).collect();
+                    chain.push(rel(&target_path));
+                    return Err(Diagnostic::error(
+                        "ASM-001",
+                        format!("include cycle detected: {}", chain.join(" -> ")),
+                    )
+                    .at_line(rel(file), idx + 1));
+                }
                 let nested = expand(&target_path, idx + 1, doc_rel, out_rel, stack, records)?;
                 out.push_str(&nested);
                 if !nested.ends_with('\n') {
@@ -201,20 +207,6 @@ fn chapter_id(file: &Path, text: &str) -> String {
 /// A stable relative display path (forward slashes) for a fragment.
 fn rel(file: &Path) -> String {
     file.to_string_lossy().replace('\\', "/")
-}
-
-/// Anchor a cycle diagnostic on the owning page when the failing fragment is
-/// the page root, otherwise on the fragment itself.
-fn doc_rel_from(file: &Path, doc_rel: &str) -> String {
-    if at_root(file, doc_rel) {
-        doc_rel.to_string()
-    } else {
-        rel(file)
-    }
-}
-
-fn at_root(file: &Path, doc_rel: &str) -> bool {
-    rel(file) == doc_rel
 }
 
 /// Canonicalise a path for cycle comparison, falling back to the path itself
