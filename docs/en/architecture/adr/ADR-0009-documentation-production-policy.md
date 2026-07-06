@@ -80,6 +80,14 @@ A mapping of the corpus established four facts that shape the decision:
    `owl:inverse-of documents-artefact`. This makes the link traversable
    from the code side and settles Q-08. `documents-artefact` stays
    `unit`-domain (links live on the included units; pages inherit).
+   Symmetrically, doc→doc references may be authored **inline** with a
+   whole-line `<!-- arqix:references-artefact <iri> -->` body marker: the
+   paragraph-anchored analogue of the frontmatter `references-artefact`
+   triple, emitting the same edge but located at the citing line (validated
+   by LNT-003). These form the doc-linking marker family —
+   `documented-by` for code→doc, `references-artefact` inline for doc→doc —
+   with a generic `<!-- arqix:<property> <iri> -->` form as the future
+   generalisation.
 3. **`section-kind` is a controlled vocabulary.** `check_frontmatter.py`
    enforces `properties.section-kind` against a registered set (FM-007), so
    the corpus stays machine-partitionable.

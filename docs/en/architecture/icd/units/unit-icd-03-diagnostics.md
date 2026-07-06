@@ -8,11 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:adrs/adr-0006
-      - arqix:requirements/req-00-00-00-03
+triples: []
 
 properties:
   section-kind: icd-diagnostics
@@ -34,6 +30,8 @@ meta:
 Every command that reports findings emits one shared JSON shape
 (REQ-00-00-00-03, ADR-0006 layer 2), so a consumer parses one format
 across the whole tool. The `--format json` payload is:
+<!-- arqix:references-artefact arqix:adrs/adr-0006 -->
+<!-- arqix:references-artefact arqix:requirements/req-00-00-00-03 -->
 
 ```json
 {
@@ -51,7 +49,7 @@ The `code` is a stable, greppable identifier owned by one component.
 Stable codes carried today (the authored catalog; it becomes generated
 once the diagnostic call sites move to typed DTOs — ADR-0009): `CFG-001`,
 `CFG-002` (config resolver); `DOC-001` (document store); `LNT-001`,
-`LNT-002`, `LNT-010` (linter); `FMT-001` (formatter); `FIN-001`
+`LNT-002`, `LNT-003`, `LNT-010` (linter); `FMT-001` (formatter); `FIN-001`
 (finaliser); `TPL-001` (templates); `ASM-001`, `ASM-002` (assembler);
 `TRC-COV-001`, `TRC-COV-002`, `TRC-KIND-001` (trace coverage). The shared
 struct lives in `src/diag.rs`. The full owner/severity/stability registry

@@ -8,11 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:adrs/adr-0006
-      - arqix:requirements/req-04-01-10-01
+triples: []
 
 properties:
   section-kind: icd-wire-schemas
@@ -34,6 +30,8 @@ meta:
 The machine-readable outputs a consumer parses under `--format json`. Every
 object key is sorted (the JSON is emitted from a sorted map), so byte
 output is stable for a given input.
+<!-- arqix:references-artefact arqix:adrs/adr-0006 -->
+<!-- arqix:references-artefact arqix:requirements/req-04-01-10-01 -->
 
 - **`doc list`** — `{"schema_version", "documents": [{"id", "title",
   "kind", "file", "lang"}]}`.

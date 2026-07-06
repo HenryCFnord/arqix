@@ -8,11 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:requirements/req-00-00-00-02
-      - arqix:requirements/req-04-01-08-01
+triples: []
 
 properties:
   section-kind: icd-exit-codes
@@ -33,6 +29,8 @@ meta:
 
 The stable exit-code contract (REQ-00-00-00-02, REQ-04-01-08-01) is the
 first thing a CI gate or agent reads:
+<!-- arqix:references-artefact arqix:requirements/req-00-00-00-02 -->
+<!-- arqix:references-artefact arqix:requirements/req-04-01-08-01 -->
 
 | Code | Meaning | Example |
 | ---: | --- | --- |

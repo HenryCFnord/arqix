@@ -8,10 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:adrs/adr-0006
+triples: []
 
 properties:
   section-kind: icd-forward-contracts
@@ -34,7 +31,8 @@ Two interfaces are named in the command surface but not yet implemented —
 their commands are stubs that exit `70`. Their wire contract is authored
 here **ahead of the code**, so the shape is fixed before it ships and
 consumers can build against it. This is deliberate: an interface designed
-after its callers appear drifts.
+after its callers appear drifts (ADR-0006).
+<!-- arqix:references-artefact arqix:adrs/adr-0006 -->
 
 ### `report bundle`
 

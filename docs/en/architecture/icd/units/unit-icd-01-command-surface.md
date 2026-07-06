@@ -8,10 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:adrs/adr-0005
+triples: []
 
 properties:
   section-kind: icd-command-surface
@@ -37,6 +34,7 @@ scheme decided in ADR-0005 (`config`, `doc`, `unit`, `fmt`, `finalise`,
 normative command-ownership map is the arc42 chapter-5 table; this section
 is the machine-interface view of the same surface, defined by the clap
 tree in `src/main.rs`.
+<!-- arqix:references-artefact arqix:adrs/adr-0005 -->
 
 Every command accepts the global `--format {text,json}` flag (default
 `text`); `--format json` is the contract for machine consumers. Only

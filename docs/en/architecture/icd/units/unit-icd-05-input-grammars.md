@@ -8,11 +8,7 @@ rdf:
   type:
     - arqix:classes/unit
 
-triples:
-  - predicate: arqix:properties/references-artefact
-    object:
-      - arqix:adrs/adr-0009
-      - arqix:adrs/adr-0006
+triples: []
 
 properties:
   section-kind: icd-input-grammars
@@ -64,6 +60,21 @@ Composition directives are whole-line HTML comments in a document body:
 
 The path must be a single token; prose that merely mentions the directive
 is not matched.
+
+### Reference markers
+
+A document body can also carry paragraph-level references — the doc-side
+analogue of a frontmatter `references-artefact` triple (ADR-0009):
+
+- `<!-- arqix:references-artefact <arqix-iri> -->` — a whole-line HTML
+  comment with a single `arqix:` IRI. It emits a `references-artefact` edge
+  from the enclosing document to the referenced document, anchored at the
+  marker's **body line**, so the reference points at the sentence that makes
+  it rather than the whole document. The target must resolve to a known
+  document (LNT-003). The grammar is designed to extend to any ontology
+  property (`<!-- arqix:<property> <iri> -->`) as a later generalisation.
+<!-- arqix:references-artefact arqix:adrs/adr-0009 -->
+<!-- arqix:references-artefact arqix:adrs/adr-0006 -->
 
 ### Frontmatter triples
 
