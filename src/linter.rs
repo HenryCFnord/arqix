@@ -19,6 +19,7 @@ pub fn run(format: OutputFormat) -> ExitCode {
     let mut diagnostics = Vec::new();
     check_duplicate_ids(&docs, &mut diagnostics);
     check_includes(&docs, &mut diagnostics);
+    check_references(&docs, &mut diagnostics);
     check_translations(&docs, &mut diagnostics);
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
@@ -80,6 +81,29 @@ fn check_includes(docs: &[Document], diags: &mut Vec<Diagnostic>) {
     }
 }
 
+/// LNT-003: an inline `<!-- arqix:references-artefact <iri> -->` body marker
+/// must resolve to a known document IRI. Frontmatter triple targets are
+/// guarded by the frontmatter checker (ONT-003); this extends the same
+/// safety to the body markers the trace engine reads (ADR-0009).
+fn check_references(docs: &[Document], diags: &mut Vec<Diagnostic>) {
+    let known: HashSet<&str> = docs.iter().filter_map(|d| d.iri.as_deref()).collect();
+    for d in docs {
+        for (idx, line) in d.body.lines().enumerate() {
+            if let Some(target) = crate::trace::md_reference_marker(line)
+                && !known.contains(target.as_str())
+            {
+                diags.push(
+                    Diagnostic::error(
+                        "LNT-003",
+                        format!("reference target does not resolve: {target}"),
+                    )
+                    .at_line(&d.file, d.body_offset + idx),
+                );
+            }
+        }
+    }
+}
+
 /// LNT-010: a declared translation source must exist (REQ-00-00-00-10). The
 /// full i18n drift model (missing, unresolved, outdated) lands with the i18n
 /// story; v1 checks the source link.
@@ -116,4 +140,32 @@ pub(crate) fn include_target(line: &str) -> Option<String> {
         return None;
     }
     Some(path.to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::parser::parse;
+
+    #[test]
+    fn unresolved_reference_marker_is_lnt_003() {
+        let target = parse(
+            "docs/adr.md",
+            "---\nid: ADR-0005\niri: arqix:adrs/adr-0005\n---\nbody\n",
+        );
+        let good = parse(
+            "docs/u1.md",
+            "---\nid: unit-a\niri: arqix:units/unit-a\n---\n\n<!-- arqix:references-artefact arqix:adrs/adr-0005 -->\n",
+        );
+        let bad = parse(
+            "docs/u2.md",
+            "---\nid: unit-b\niri: arqix:units/unit-b\n---\n\n<!-- arqix:references-artefact arqix:adrs/adr-9999 -->\n",
+        );
+        let docs = vec![target, good, bad];
+        let mut diags = Vec::new();
+        check_references(&docs, &mut diags);
+        assert_eq!(diags.len(), 1, "only the unknown target is flagged");
+        assert_eq!(diags[0].code, "LNT-003");
+        assert!(diags[0].message.contains("adr-9999"));
+    }
 }
