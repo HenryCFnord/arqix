@@ -9,6 +9,7 @@ mod config;
 mod diag;
 mod linter;
 mod parser;
+mod rewriter;
 mod store;
 
 use clap::{Parser, Subcommand, ValueEnum};
@@ -54,9 +55,17 @@ enum Command {
         command: UnitCommand,
     },
     /// Rewrite documents into canonical form (mechanical only)
-    Fmt,
+    Fmt {
+        /// Report unformatted documents without writing (exit 1 if any)
+        #[arg(long)]
+        check: bool,
+    },
     /// Update mechanical metadata such as `updated` (never body text)
-    Finalise,
+    Finalise {
+        /// The date to stamp as `updated` (injected, never the wall clock)
+        #[arg(long)]
+        date: String,
+    },
     /// Lint: contract checks over the corpus
     Lint {
         #[command(subcommand)]
@@ -219,8 +228,8 @@ fn main() -> ExitCode {
         Command::Unit { command } => match command {
             UnitCommand::New => unimplemented("unit new"),
         },
-        Command::Fmt => unimplemented("fmt"),
-        Command::Finalise => unimplemented("finalise"),
+        Command::Fmt { check } => rewriter::fmt(check, cli.format),
+        Command::Finalise { date } => rewriter::finalise(&date, cli.format),
         Command::Lint { command } => match command {
             LintCommand::Run => linter::run(cli.format),
         },
