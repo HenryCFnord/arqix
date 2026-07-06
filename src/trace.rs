@@ -308,7 +308,10 @@ fn owner_story(req_id: &str, edges: &[Edge]) -> Value {
 }
 
 fn story_of(req_id: &str) -> Value {
-    let stem = &req_id[4..12.min(req_id.len())];
+    // Mirror the oracle's lenient codepoint slice `req_id[4:12]`: byte-indexing
+    // (`&req_id[4..12]`) would panic on ids shorter than four bytes or on a
+    // multibyte char boundary, and valid_id admits arbitrary word ids.
+    let stem: String = req_id.chars().skip(4).take(8).collect();
     if stem == "00-00-00" {
         Value::Null
     } else {
@@ -747,5 +750,24 @@ fn dash(value: &Value) -> String {
         "—".to_string()
     } else {
         joined
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn story_of_matches_the_oracle_and_never_panics() {
+        // Canonical requirement id.
+        assert_eq!(story_of("REQ-01-01-08-01"), json!("US-01-01-08"));
+        // Cross-cutting foundation domain has no owning story.
+        assert_eq!(story_of("REQ-00-00-00-04"), Value::Null);
+        // Short and multibyte ids that valid_id admits must not panic and
+        // must match the oracle's lenient `req_id[4:12]` codepoint slice.
+        assert_eq!(story_of("REQ"), json!("US-"));
+        assert_eq!(story_of("PII"), json!("US-"));
+        assert_eq!(story_of(""), json!("US-"));
+        assert_eq!(story_of("äöüßabcdefgh"), json!("US-abcdefgh"));
     }
 }

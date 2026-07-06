@@ -103,6 +103,47 @@ fn after<'a>(line: &'a str, prefix: &str) -> Option<&'a str> {
     line.strip_prefix(prefix).map(str::trim)
 }
 
+/// The single non-whitespace token of `s`, or None if there is not exactly
+/// one (mirrors the oracle's trailing `(\S+)\s*$`).
+fn single_token(s: &str) -> Option<String> {
+    let mut it = s.split_whitespace();
+    let token = it.next()?;
+    if it.next().is_some() {
+        return None;
+    }
+    Some(token.to_string())
+}
+
+/// `- <ws> predicate: <ws> arqix:properties/<PRED>` with the oracle's
+/// whitespace tolerance (TRIPLE_PRED_RE). Returns the bare predicate name.
+fn triple_predicate(line: &str) -> Option<String> {
+    let rest = line.strip_prefix('-')?;
+    if !rest.starts_with(char::is_whitespace) {
+        return None; // `\s+` requires at least one space after the dash
+    }
+    let rest = rest
+        .trim_start()
+        .strip_prefix("predicate:")?
+        .trim_start()
+        .strip_prefix("arqix:properties/")?;
+    single_token(rest)
+}
+
+/// `object: <ws> arqix:<OBJ>` (TRIPLE_OBJ_INLINE_RE). Returns the full IRI.
+fn triple_object_inline(line: &str) -> Option<String> {
+    let rest = line.strip_prefix("object:")?.trim_start();
+    single_token(rest).filter(|token| token.starts_with("arqix:"))
+}
+
+/// `- <ws> arqix:<OBJ>` (TRIPLE_OBJ_ITEM_RE). Returns the full IRI.
+fn triple_object_item(line: &str) -> Option<String> {
+    let rest = line.strip_prefix('-')?;
+    if !rest.starts_with(char::is_whitespace) {
+        return None;
+    }
+    single_token(rest.trim_start()).filter(|token| token.starts_with("arqix:"))
+}
+
 fn unquote(value: &str) -> String {
     let bytes = value.as_bytes();
     if value.len() >= 2
@@ -169,16 +210,15 @@ pub fn parse(file: &str, text: &str) -> Document {
                 }
             }
             "triples" => {
-                if let Some(pred) = after(stripped, "- predicate: arqix:properties/") {
-                    predicate = Some(pred.to_string());
+                if let Some(pred) = triple_predicate(stripped) {
+                    predicate = Some(pred);
                 } else if let Some(pred) = predicate.clone() {
-                    let object = after(stripped, "object: ")
-                        .or_else(|| after(stripped, "- "))
-                        .filter(|obj| obj.starts_with("arqix:"));
+                    let object =
+                        triple_object_inline(stripped).or_else(|| triple_object_item(stripped));
                     if let Some(obj) = object {
                         doc.triples.push(Triple {
                             predicate: pred,
-                            object: obj.to_string(),
+                            object: obj,
                             line: file_line,
                         });
                     }
@@ -238,5 +278,25 @@ mod tests {
         assert!(is_requirement_id("REQ-01-02-03-04"));
         assert!(!is_requirement_id("US-01-02-03"));
         assert!(!is_requirement_id("REQ-1-2-3"));
+    }
+
+    #[test]
+    fn triples_tolerate_variable_whitespace_like_the_oracle() {
+        // Extra spaces after the dash, after the colon, and an inline object
+        // with no space are all accepted by the oracle's `\s+`/`\s*` regexes.
+        let doc = "---\nid: REQ-01-01-08-01\ntriples:\n  -   predicate:  arqix:properties/derived-from\n    object:arqix:user-stories/us-01-01-08\n---\nbody\n";
+        let d = parse("r.md", doc);
+        assert_eq!(d.triples.len(), 1);
+        assert_eq!(d.triples[0].predicate, "derived-from");
+        assert_eq!(d.triples[0].object, "arqix:user-stories/us-01-01-08");
+    }
+
+    #[test]
+    fn triples_reject_trailing_tokens_like_the_oracle() {
+        // The oracle anchors on `\s*$`, so a stray trailing token is not a
+        // predicate/object line.
+        let doc = "---\nid: REQ-01-01-08-01\ntriples:\n  - predicate: arqix:properties/derived-from oops\n---\nbody\n";
+        let d = parse("r.md", doc);
+        assert!(d.triples.is_empty());
     }
 }
