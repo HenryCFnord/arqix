@@ -48,6 +48,12 @@ KIND_RE = re.compile(
 )
 RS_MARKER_RE = re.compile(r"^//\s*arqix:(verifies|implements)\s+(\S+)\s*$")
 MD_MARKER_RE = re.compile(r"^<!--\s*arqix:(verifies|implements)\s+(\S+)\s*-->\s*$")
+# Paragraph-anchored document reference (ADR-0009): the body-level analogue of
+# a frontmatter references-artefact triple. Kept separate from MD_MARKER_RE so
+# it never widens the shared verifies/implements alternation.
+MD_REF_MARKER_RE = re.compile(
+    r"^<!--\s*arqix:references-artefact\s+(arqix:\S+)\s*-->\s*$"
+)
 
 SKIP_DIRS = {".git", "target", "node_modules", "__pycache__", "fixtures"}
 
@@ -220,6 +226,24 @@ def build_model(corpus):
                     "test": None,
                 }
             )
+        # Body-level reference markers: paragraph-anchored references-artefact
+        # edges (triple-shaped, located at the body line).
+        text = corpus[doc["file"]]
+        body_start = len(frontmatter_lines(text)) + 3  # ---, block, ---, body
+        for offset, line in enumerate(text.splitlines()[body_start - 1:]):
+            if m := MD_REF_MARKER_RE.match(line.strip()):
+                target = m.group(1)
+                edges.append(
+                    {
+                        "from": doc["id"],
+                        "to": iri_map.get(target, target),
+                        "kind": "references-artefact",
+                        "line": body_start + offset,
+                        "file": doc["file"],
+                        "ignored": False,
+                        "test": None,
+                    }
+                )
     edges.sort(key=lambda e: (e["from"], e["line"], e["to"], e["kind"]))
     return requirements, edges, documents
 
@@ -602,6 +626,30 @@ def _(assert_eq):
 def _(assert_eq):
     _, edges, _ = build_model({"a.rs": '    "// arqix:verifies REQ-11-11-11-01",\n'})
     assert_eq(edges, [])
+
+
+@case("body reference marker becomes a resolved edge")
+def _(assert_eq):
+    target = "---\nid: ADR-0005\niri: arqix:adrs/adr-0005\n---\n## t\n"
+    src = ("---\nid: unit-icd-01\niri: arqix:units/unit-icd-01\n---\n"
+           "## t\n\ntext\n<!-- arqix:references-artefact arqix:adrs/adr-0005 -->\n")
+    _, edges, _ = build_model({"docs/adr.md": target, "docs/unit.md": src})
+    ref = [e for e in edges if e["kind"] == "references-artefact"]
+    assert_eq(len(ref), 1)
+    assert_eq(ref[0]["from"], "unit-icd-01")
+    assert_eq(ref[0]["to"], "ADR-0005")           # resolved via iri_map
+    assert_eq(ref[0]["file"], "docs/unit.md")
+    assert_eq(ref[0]["line"], 8)                  # the body line of the marker
+
+
+@case("body reference to an unknown target stays visible")
+def _(assert_eq):
+    src = ("---\nid: unit-icd-01\niri: arqix:units/unit-icd-01\n---\n"
+           "## t\n<!-- arqix:references-artefact arqix:adrs/adr-9999 -->\n")
+    _, edges, _ = build_model({"docs/unit.md": src})
+    ref = [e for e in edges if e["kind"] == "references-artefact"]
+    assert_eq(len(ref), 1)
+    assert_eq(ref[0]["to"], "arqix:adrs/adr-9999")  # unresolved: raw IRI kept
 
 
 @case("requirement discovery reads id and kind from frontmatter")

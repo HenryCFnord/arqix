@@ -214,6 +214,23 @@ fn build_model(corpus: &[(String, String)]) -> Model {
                 file: Some(doc.file.clone()),
             });
         }
+        // Body-level reference markers: paragraph-anchored `references-artefact`
+        // edges. Triple-shaped (document id `from`, resolved `to`, `file`),
+        // located at the body line so the reference points at the sentence.
+        for (idx, line) in doc.body.lines().enumerate() {
+            if let Some(target) = md_reference_marker(line) {
+                let to = iri_map.get(&target).cloned().unwrap_or(target);
+                edges.push(Edge {
+                    from: from.clone(),
+                    to,
+                    kind: "references-artefact".to_string(),
+                    line: doc.body_offset + idx,
+                    ignored: false,
+                    test: None,
+                    file: Some(doc.file.clone()),
+                });
+            }
+        }
     }
     edges.sort_by(|a, b| (&a.from, a.line, &a.to, &a.kind).cmp(&(&b.from, b.line, &b.to, &b.kind)));
 
@@ -235,6 +252,30 @@ fn md_marker(line: &str) -> Option<(String, String)> {
         .strip_suffix("-->")?
         .trim();
     marker_body(inner)
+}
+
+/// Parse a whole-line `<!-- arqix:references-artefact <arqix-iri> -->` body
+/// marker into its single IRI target — the document-side, paragraph-anchored
+/// analogue of a frontmatter `references-artefact` triple (ADR-0009). Kept
+/// separate from `marker_body` so it never touches `.rs` verifies/implements
+/// parsing or oracle conformance. Shared with the linter so its resolution
+/// check (LNT-003) validates exactly what the engine parses.
+pub(crate) fn md_reference_marker(line: &str) -> Option<String> {
+    let inner = line
+        .trim()
+        .strip_prefix("<!--")?
+        .strip_suffix("-->")?
+        .trim();
+    let after = inner.strip_prefix("arqix:references-artefact")?;
+    if !after.starts_with(char::is_whitespace) {
+        return None;
+    }
+    let mut tokens = after.split_whitespace();
+    let target = tokens.next()?;
+    if tokens.next().is_some() {
+        return None;
+    }
+    target.starts_with("arqix:").then(|| target.to_string())
 }
 
 /// Parse `arqix:(verifies|implements)\s+<token>` with only trailing space.
@@ -769,5 +810,29 @@ mod tests {
         assert_eq!(story_of("PII"), json!("US-"));
         assert_eq!(story_of(""), json!("US-"));
         assert_eq!(story_of("äöüßabcdefgh"), json!("US-abcdefgh"));
+    }
+
+    #[test]
+    fn body_reference_marker_becomes_a_resolved_edge() {
+        // A `<!-- arqix:references-artefact <iri> -->` body marker is the
+        // paragraph-anchored analogue of a frontmatter references-artefact
+        // triple: an edge from the enclosing document to the resolved target,
+        // carrying the body line and the document file.
+        let target = "---\nid: ADR-0005\niri: arqix:adrs/adr-0005\n---\n## t\n";
+        let src = "---\nid: unit-icd-01\niri: arqix:units/unit-icd-01\n---\n## t\n\ntext\n<!-- arqix:references-artefact arqix:adrs/adr-0005 -->\n";
+        let corpus = vec![
+            ("docs/adr.md".to_string(), target.to_string()),
+            ("docs/unit.md".to_string(), src.to_string()),
+        ];
+        let model = build_model(&corpus);
+        let edge = model
+            .edges
+            .iter()
+            .find(|e| e.kind == "references-artefact")
+            .expect("a references-artefact edge is emitted");
+        assert_eq!(edge.from, "unit-icd-01");
+        assert_eq!(edge.to, "ADR-0005"); // resolved via iri_map
+        assert_eq!(edge.file.as_deref(), Some("docs/unit.md"));
+        assert_eq!(edge.line, 8); // the body line of the marker
     }
 }
