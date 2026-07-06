@@ -1,7 +1,7 @@
 # Trace audit matrices
 
 Machine/audit artefacts per ADR-0006 layer 3 — stable CSV snapshots of
-the traceability matrices, commit `c352e4c`, 2026-07-05. Human-readable
+the traceability matrices, commit `a6588b1`, 2026-07-06. Human-readable
 answers live in the [question units](../units/) (ADR-0008); the live
 answer is always the command.
 
