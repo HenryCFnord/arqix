@@ -60,7 +60,6 @@ fn doc_new_writes_into_the_configured_kind_location() {
 
 // arqix:verifies REQ-05-01-08-01
 #[test]
-#[ignore = "US-05-01-08: not implemented"]
 fn doc_list_emits_a_json_document_catalog() {
     let out = run_arqix_in(&fixture("minimal"), &["doc", "list", "--format", "json"]);
     assert_success(&out);
@@ -73,7 +72,6 @@ fn doc_list_emits_a_json_document_catalog() {
 
 // arqix:verifies REQ-05-01-08-03
 #[test]
-#[ignore = "US-05-01-08: not implemented"]
 fn doc_list_filters_the_catalog_by_kind() {
     let out = run_arqix_in(
         &fixture("minimal"),
@@ -84,7 +82,6 @@ fn doc_list_filters_the_catalog_by_kind() {
 
 // arqix:verifies REQ-05-01-10-01
 #[test]
-#[ignore = "US-05-01-10: not implemented"]
 fn doc_read_retrieves_a_document_by_id() {
     let out = run_arqix_in(
         &fixture("minimal"),
@@ -97,7 +94,6 @@ fn doc_read_retrieves_a_document_by_id() {
 
 // arqix:verifies REQ-05-01-10-03
 #[test]
-#[ignore = "US-05-01-10: not implemented"]
 fn doc_read_distinguishes_a_document_miss_from_a_selector_miss() {
     let missing_doc = run_arqix_in(
         &fixture("minimal"),
@@ -112,7 +108,6 @@ fn doc_read_distinguishes_a_document_miss_from_a_selector_miss() {
 
 // arqix:verifies REQ-02-01-06-01
 #[test]
-#[ignore = "US-02-01-06: not implemented"]
 fn doc_search_finds_documents_by_full_text() {
     let out = run_arqix_in(
         &fixture("minimal"),
