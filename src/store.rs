@@ -13,7 +13,9 @@ use std::process::ExitCode;
 /// Directories never descended into during discovery (mirrors the oracle).
 const SKIP_DIRS: [&str; 5] = [".git", "target", "node_modules", "__pycache__", "fixtures"];
 
-fn discover() -> Vec<Document> {
+/// Discover and parse every document under the configured roots, sorted by
+/// path for determinism. Shared by the linter, trace engine, and verifier.
+pub fn documents() -> Vec<Document> {
     let mut docs = Vec::new();
     for root in crate::config::roots(Path::new(".")) {
         walk(Path::new(&root), &mut docs);
@@ -74,7 +76,7 @@ fn document_json(d: &Document) -> Value {
 // arqix:implements REQ-05-01-08-03
 /// `arqix doc list [--kind <kind>]`
 pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
-    let docs = discover();
+    let docs = documents();
     let entries: Vec<Value> = docs
         .iter()
         .filter(|d| d.id.is_some())
@@ -108,7 +110,7 @@ pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-05-01-10-03
 /// `arqix doc read <id>`
 pub fn read(id: &str, format: OutputFormat) -> ExitCode {
-    let docs = discover();
+    let docs = documents();
     match docs.iter().find(|d| d.id.as_deref() == Some(id)) {
         Some(d) => {
             match format {
@@ -139,7 +141,7 @@ pub fn read(id: &str, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-02-01-06-01
 /// `arqix doc search <query>`
 pub fn search(query: &str, format: OutputFormat) -> ExitCode {
-    let docs = discover();
+    let docs = documents();
     let mut hits = Vec::new();
     for d in &docs {
         if let Ok(text) = std::fs::read_to_string(&d.file) {

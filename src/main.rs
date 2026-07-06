@@ -7,6 +7,7 @@
 
 mod config;
 mod diag;
+mod linter;
 mod parser;
 mod store;
 
@@ -221,7 +222,7 @@ fn main() -> ExitCode {
         Command::Fmt => unimplemented("fmt"),
         Command::Finalise => unimplemented("finalise"),
         Command::Lint { command } => match command {
-            LintCommand::Run => unimplemented("lint run"),
+            LintCommand::Run => linter::run(cli.format),
         },
         Command::Assemble { command } => match command {
             AssembleCommand::Build => unimplemented("assemble build"),

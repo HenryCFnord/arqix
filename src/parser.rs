@@ -24,12 +24,15 @@ pub struct Document {
     pub title: Option<String>,
     pub iri: Option<String>,
     pub lang: Option<String>,
+    pub translation_of: Option<String>,
     pub classes: Vec<String>,
     pub triples: Vec<Triple>,
     pub has_frontmatter: bool,
     /// Raw frontmatter lines between the `---` markers (for the rewriter).
     pub frontmatter: Vec<String>,
     pub body: String,
+    /// 1-based file line of the first body line (after the closing `---`).
+    pub body_offset: usize,
     pub file: String,
 }
 
@@ -40,13 +43,24 @@ impl Document {
             title: None,
             iri: None,
             lang: None,
+            translation_of: None,
             classes: Vec::new(),
             triples: Vec::new(),
             has_frontmatter: false,
             frontmatter: Vec::new(),
             body: String::new(),
+            body_offset: 1,
             file: file.to_string(),
         }
+    }
+
+    /// The 1-based file line of the `id:` frontmatter entry, or 1.
+    pub fn id_line(&self) -> usize {
+        self.frontmatter
+            .iter()
+            .position(|l| l.trim_start().starts_with("id:"))
+            .map(|i| i + 2)
+            .unwrap_or(1)
     }
 
     /// The coarse document type (matches the oracle's `document_type`):
@@ -125,6 +139,7 @@ pub fn parse(file: &str, text: &str) -> Document {
     doc.has_frontmatter = true;
     doc.frontmatter = lines[1..end].iter().map(|s| s.to_string()).collect();
     doc.body = lines[end + 1..].join("\n");
+    doc.body_offset = end + 2; // file line after the closing "---"
 
     let mut section = String::new();
     let mut predicate: Option<String> = None;
@@ -172,6 +187,8 @@ pub fn parse(file: &str, text: &str) -> Document {
             "meta" => {
                 if let Some(v) = scalar(stripped, "lang") {
                     doc.lang = Some(v);
+                } else if let Some(v) = scalar(stripped, "translation-of") {
+                    doc.translation_of = Some(v);
                 }
             }
             _ => {}
