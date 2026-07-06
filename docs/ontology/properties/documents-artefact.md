@@ -13,7 +13,8 @@ rdfs:
   range:
     - arqix:classes/artefact
 
-owl: {}
+owl:
+  inverse-of: arqix:properties/documented-by
 
 triples: []
 
@@ -25,11 +26,12 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-27
-  updated: 2026-07-02
+  updated: 2026-07-06
   lang: en
   generated: false
 ---
 
 ## Documents-artefact
 
-Relates a unit to an artefact it primarily documents.
+Relates a unit to an artefact it primarily documents. Inverse of
+`documented-by`.
