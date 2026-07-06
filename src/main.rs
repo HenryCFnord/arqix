@@ -5,12 +5,14 @@
 // the normative command map. Every command is a stub until its story is
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
+mod config;
+
 use clap::{Parser, Subcommand, ValueEnum};
 use std::process::ExitCode;
 
 /// Output format for diagnostics and command results (REQ-04-01-10-01).
 #[derive(Clone, Copy, Debug, ValueEnum)]
-enum OutputFormat {
+pub enum OutputFormat {
     Text,
     Json,
 }
@@ -196,8 +198,8 @@ fn main() -> ExitCode {
 
     match cli.command {
         Command::Config { command } => match command {
-            ConfigCommand::Validate => unimplemented("config validate"),
-            ConfigCommand::Show => unimplemented("config show"),
+            ConfigCommand::Validate => config::validate(cli.format),
+            ConfigCommand::Show => config::show(cli.format),
         },
         Command::Doc { command } => match command {
             DocCommand::Init => unimplemented("doc init"),

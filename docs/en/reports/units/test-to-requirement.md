@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: commit c352e4c, 2026-07-05
+     Snapshot: commit 2470321, 2026-07-05
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -11,10 +11,12 @@
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:17 | REQ-02-01-11-03 | planned (ignored) |
 | `assemble_build_generates_outputs_under_pages` | tests/cli_assemble.rs:8 | REQ-02-01-11-01 | planned (ignored) |
 | `assemble_build_writes_a_jsonl_log` | tests/cli_assemble.rs:46 | REQ-04-01-01-02 | planned (ignored) |
-| `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:33 | REQ-01-01-16-02 | planned (ignored) |
-| `config_validate_accepts_a_valid_configuration` | tests/cli_config.rs:8 | REQ-01-01-16-01 | planned (ignored) |
-| `config_validate_identifies_the_failing_key` | tests/cli_config.rs:16 | REQ-01-01-16-01 | planned (ignored) |
-| `config_validate_identifies_the_failing_key` | tests/cli_config.rs:17 | REQ-01-01-16-03 | planned (ignored) |
+| `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
+| `config_validate_accepts_a_valid_configuration` | tests/cli_config.rs:8 | REQ-01-01-16-01 | active |
+| `config_validate_identifies_the_failing_key` | tests/cli_config.rs:28 | REQ-01-01-16-01 | active |
+| `config_validate_identifies_the_failing_key` | tests/cli_config.rs:29 | REQ-01-01-16-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | planned (ignored) |
 | `doc_list_emits_a_json_document_catalog` | tests/cli_doc.rs:61 | REQ-05-01-08-01 | planned (ignored) |
 | `doc_list_filters_the_catalog_by_kind` | tests/cli_doc.rs:74 | REQ-05-01-08-03 | planned (ignored) |

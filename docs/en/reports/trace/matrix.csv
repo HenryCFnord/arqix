@@ -4,7 +4,7 @@ REQ-00-00-00-02,functional,tests/cli.rs:30,,
 REQ-00-00-00-03,functional,,,
 REQ-00-00-00-04,functional,,,
 REQ-00-00-00-05,functional,,tests/cli_doc.rs:18;tests/cli_unit.rs:8,
-REQ-00-00-00-06,functional,,,
+REQ-00-00-00-06,functional,tests/cli_config.rs:16,,src/config.rs:69
 REQ-00-00-00-07,constraint,,,
 REQ-00-00-00-08,constraint,,,
 REQ-00-00-00-09,functional,,,
@@ -62,9 +62,9 @@ REQ-01-01-15-01,constraint,,,
 REQ-01-01-15-02,constraint,,,
 REQ-01-01-15-03,constraint,,,
 REQ-01-01-15-04,constraint,,,
-REQ-01-01-16-01,functional,,tests/cli_config.rs:16;tests/cli_config.rs:8,
-REQ-01-01-16-02,functional,,tests/cli_config.rs:33,
-REQ-01-01-16-03,quality,,tests/cli_config.rs:17,
+REQ-01-01-16-01,functional,tests/cli_config.rs:15;tests/cli_config.rs:28;tests/cli_config.rs:8,,src/config.rs:185;src/config.rs:70
+REQ-01-01-16-02,functional,tests/cli_config.rs:49,,src/config.rs:197
+REQ-01-01-16-03,quality,tests/cli_config.rs:29,,src/config.rs:71
 REQ-02-01-03-01,quality,,,
 REQ-02-01-06-01,functional,,tests/cli_doc.rs:113,
 REQ-02-01-06-02,functional,,,

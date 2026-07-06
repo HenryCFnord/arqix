@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: commit c352e4c, 2026-07-05
+     Snapshot: commit 2470321, 2026-07-05
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -20,6 +20,14 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `config_show_renders_the_effective_configuration_as_json` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-05-01 | Use Documentation for Agents and RAG |
 | `config_show_renders_the_effective_configuration_as_json` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-02-01 | Write Docs Alongside Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-03-01 | Validate Traceability and Coverage |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-05-01 | Use Documentation for Agents and RAG |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-07-01 | Review Evidence Chains and Exports |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `config_validate_accepts_a_valid_configuration` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `config_validate_accepts_a_valid_configuration` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_validate_accepts_a_valid_configuration` | WF-05-01 | Use Documentation for Agents and RAG |
