@@ -11,6 +11,7 @@ mod linter;
 mod parser;
 mod rewriter;
 mod store;
+mod trace;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use std::process::ExitCode;
@@ -159,11 +160,15 @@ enum TraceCommand {
     /// Scan code, tests, and documents for trace markers
     Scan,
     /// Check marker links for a requirement
-    Check,
+    Check { requirement: String },
     /// Report requirements coverage
     Coverage,
     /// Project traceability matrices
-    Matrix,
+    Matrix {
+        /// Matrix type: req-test (default) or us-req
+        #[arg(long = "type", default_value = "req-test")]
+        matrix_type: String,
+    },
 }
 
 #[derive(Subcommand)]
@@ -237,10 +242,10 @@ fn main() -> ExitCode {
             AssembleCommand::Build => unimplemented("assemble build"),
         },
         Command::Trace { command } => match command {
-            TraceCommand::Scan => unimplemented("trace scan"),
-            TraceCommand::Check => unimplemented("trace check"),
-            TraceCommand::Coverage => unimplemented("trace coverage"),
-            TraceCommand::Matrix => unimplemented("trace matrix"),
+            TraceCommand::Scan => trace::scan(cli.format),
+            TraceCommand::Check { requirement } => trace::check_command(&requirement, cli.format),
+            TraceCommand::Coverage => trace::coverage_command(cli.format),
+            TraceCommand::Matrix { matrix_type } => trace::matrix_command(&matrix_type, cli.format),
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle => unimplemented("report bundle"),

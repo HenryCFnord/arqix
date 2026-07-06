@@ -60,8 +60,9 @@ fn format_option_is_accepted_globally() {
 #[test]
 fn unimplemented_commands_exit_outside_the_stable_contract() {
     // Stubs must never be mistaken for a real result: exit code 70 is
-    // deliberately outside the stable 0/1/2 contract.
-    let output = run_arqix(&["trace", "coverage"]);
+    // deliberately outside the stable 0/1/2 contract. `mcp serve` is a
+    // phase-5 command still stubbed at this point.
+    let output = run_arqix(&["mcp", "serve"]);
     assert_eq!(output.status.code(), Some(70));
     assert!(String::from_utf8_lossy(&output.stderr).contains("not implemented"));
 }
