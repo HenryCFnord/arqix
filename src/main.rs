@@ -6,6 +6,9 @@
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
 mod config;
+mod diag;
+mod parser;
+mod store;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use std::process::ExitCode;
@@ -112,7 +115,11 @@ enum DocCommand {
     /// Create a document of the given kind from its configured template
     New { kind: String },
     /// List documents as a machine-readable catalog
-    List,
+    List {
+        /// Filter the catalog by document kind
+        #[arg(long)]
+        kind: Option<String>,
+    },
     /// Read a document, or a section of it, as structured output
     Read { id: String },
     /// Search documents
@@ -204,9 +211,9 @@ fn main() -> ExitCode {
         Command::Doc { command } => match command {
             DocCommand::Init => unimplemented("doc init"),
             DocCommand::New { .. } => unimplemented("doc new"),
-            DocCommand::List => unimplemented("doc list"),
-            DocCommand::Read { .. } => unimplemented("doc read"),
-            DocCommand::Search { .. } => unimplemented("doc search"),
+            DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
+            DocCommand::Read { id } => store::read(&id, cli.format),
+            DocCommand::Search { query } => store::search(&query, cli.format),
         },
         Command::Unit { command } => match command {
             UnitCommand::New => unimplemented("unit new"),
