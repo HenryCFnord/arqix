@@ -8,7 +8,6 @@ use common::{assert_success, fixture, run_arqix_in, stdout_json};
 
 // arqix:verifies REQ-03-01-05-01
 #[test]
-#[ignore = "US-03-01-05: not implemented"]
 fn trace_scan_detects_markers_in_rust_comments() {
     let repo = common::scratch_copy("minimal", "trace_scan_detects_markers_in_rust_comments");
     std::fs::write(
@@ -24,7 +23,6 @@ fn trace_scan_detects_markers_in_rust_comments() {
 
 // arqix:verifies REQ-03-01-05-04
 #[test]
-#[ignore = "US-03-01-05: not implemented"]
 fn trace_scan_outputs_the_trace_graph_as_json() {
     let out = run_arqix_in(&fixture("minimal"), &["trace", "scan", "--format", "json"]);
     assert_success(&out);
@@ -37,7 +35,6 @@ fn trace_scan_outputs_the_trace_graph_as_json() {
 
 // arqix:verifies REQ-03-01-06-02
 #[test]
-#[ignore = "US-03-01-06: not implemented"]
 fn trace_check_reports_verifies_markers_per_requirement() {
     let out = run_arqix_in(
         &fixture("minimal"),
@@ -49,7 +46,6 @@ fn trace_check_reports_verifies_markers_per_requirement() {
 
 // arqix:verifies REQ-01-01-08-01
 #[test]
-#[ignore = "US-01-01-08: not implemented"]
 fn trace_coverage_identifies_requirements_without_verifying_tests() {
     let out = run_arqix_in(
         &fixture("minimal"),
@@ -62,7 +58,6 @@ fn trace_coverage_identifies_requirements_without_verifying_tests() {
 
 // arqix:verifies REQ-01-01-08-03
 #[test]
-#[ignore = "US-01-01-08: not implemented"]
 fn trace_coverage_supports_json_output() {
     let out = run_arqix_in(
         &fixture("minimal"),
@@ -74,7 +69,6 @@ fn trace_coverage_supports_json_output() {
 
 // arqix:verifies REQ-00-00-00-01
 #[test]
-#[ignore = "US-03-01-08: not implemented"]
 fn trace_coverage_output_is_deterministic() {
     let first = run_arqix_in(
         &fixture("minimal"),
@@ -92,7 +86,6 @@ fn trace_coverage_output_is_deterministic() {
 
 // arqix:verifies REQ-03-01-02-01
 #[test]
-#[ignore = "US-03-01-02: not implemented"]
 fn trace_matrix_exports_csv() {
     let out = run_arqix_in(&fixture("minimal"), &["trace", "matrix"]);
     assert_success(&out);
