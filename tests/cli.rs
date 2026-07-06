@@ -45,14 +45,15 @@ fn usage_error_exits_with_code_2() {
 #[test]
 fn format_option_is_accepted_globally() {
     // The option must parse on any command (exit code 2 would mean a usage
-    // error); the stub exit code 70 proves parsing succeeded.
-    let output = run_arqix(&["--format", "json", "verify"]);
+    // error); the stub exit code 70 proves parsing succeeded. `mcp serve` is
+    // a phase-5 command still stubbed at this point.
+    let output = run_arqix(&["--format", "json", "mcp", "serve"]);
     assert_eq!(output.status.code(), Some(70));
 
-    let after_subcommand = run_arqix(&["verify", "--format", "json"]);
+    let after_subcommand = run_arqix(&["mcp", "serve", "--format", "json"]);
     assert_eq!(after_subcommand.status.code(), Some(70));
 
-    let invalid_value = run_arqix(&["--format", "yaml", "verify"]);
+    let invalid_value = run_arqix(&["--format", "yaml", "mcp", "serve"]);
     assert_eq!(invalid_value.status.code(), Some(2));
 }
 

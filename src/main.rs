@@ -12,6 +12,7 @@ mod parser;
 mod rewriter;
 mod store;
 mod trace;
+mod verifier;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use std::process::ExitCode;
@@ -103,7 +104,14 @@ enum Command {
         command: PolicyCommand,
     },
     /// Run the configured verification loop (format, lint, trace scan, coverage)
-    Verify,
+    Verify {
+        /// Stop at the first failing sub-step
+        #[arg(long)]
+        fail_fast: bool,
+        /// Run every sub-step and aggregate results (default)
+        #[arg(long)]
+        aggregate: bool,
+    },
     /// Model Context Protocol server
     Mcp {
         #[command(subcommand)]
@@ -259,7 +267,10 @@ fn main() -> ExitCode {
         Command::Policy { command } => match command {
             PolicyCommand::Check => unimplemented("policy check"),
         },
-        Command::Verify => unimplemented("verify"),
+        Command::Verify {
+            fail_fast,
+            aggregate: _,
+        } => verifier::verify(fail_fast, cli.format),
         Command::Mcp { command } => match command {
             McpCommand::Serve => unimplemented("mcp serve"),
         },
