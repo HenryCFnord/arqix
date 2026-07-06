@@ -11,6 +11,7 @@ mod linter;
 mod parser;
 mod rewriter;
 mod store;
+mod templates;
 mod trace;
 mod verifier;
 
@@ -232,14 +233,14 @@ fn main() -> ExitCode {
             ConfigCommand::Show => config::show(cli.format),
         },
         Command::Doc { command } => match command {
-            DocCommand::Init => unimplemented("doc init"),
-            DocCommand::New { .. } => unimplemented("doc new"),
+            DocCommand::Init => templates::init(cli.format),
+            DocCommand::New { kind } => templates::new_document(&kind, cli.format),
             DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
             DocCommand::Read { id } => store::read(&id, cli.format),
             DocCommand::Search { query } => store::search(&query, cli.format),
         },
         Command::Unit { command } => match command {
-            UnitCommand::New => unimplemented("unit new"),
+            UnitCommand::New => templates::new_document("unit", cli.format),
         },
         Command::Fmt { check } => rewriter::fmt(check, cli.format),
         Command::Finalise { date } => rewriter::finalise(&date, cli.format),
