@@ -5,11 +5,13 @@
 // the normative command map. Every command is a stub until its story is
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
+mod assembler;
 mod config;
 mod diag;
 mod linter;
 mod parser;
 mod rewriter;
+mod sha256;
 mod store;
 mod templates;
 mod trace;
@@ -248,7 +250,7 @@ fn main() -> ExitCode {
             LintCommand::Run => linter::run(cli.format),
         },
         Command::Assemble { command } => match command {
-            AssembleCommand::Build => unimplemented("assemble build"),
+            AssembleCommand::Build => assembler::build(cli.format),
         },
         Command::Trace { command } => match command {
             TraceCommand::Scan => trace::scan(cli.format),

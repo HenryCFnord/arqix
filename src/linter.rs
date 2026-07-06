@@ -103,8 +103,9 @@ fn check_translations(docs: &[Document], diags: &mut Vec<Diagnostic>) {
 
 /// Extract the path from a genuine `<!-- arqix:include PATH -->` directive.
 /// The whole line must be the HTML comment with a single-token path, so
-/// prose that merely mentions the directive is not matched.
-fn include_target(line: &str) -> Option<String> {
+/// prose that merely mentions the directive is not matched. Shared with the
+/// assembler, which expands the same directives.
+pub(crate) fn include_target(line: &str) -> Option<String> {
     let inner = line
         .trim()
         .strip_prefix("<!--")?
