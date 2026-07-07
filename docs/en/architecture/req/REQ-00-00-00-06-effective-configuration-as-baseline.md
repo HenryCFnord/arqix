@@ -90,4 +90,5 @@ The arqix CLI SHALL resolve every command against the effective configuration.
 
 Curated from acceptance criteria demanding configuration-driven behaviour (configured locations, kinds, policies, profiles) or effective-config inspection.
 
-Contributing stories: 52 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 52 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

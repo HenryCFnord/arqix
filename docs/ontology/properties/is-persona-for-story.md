@@ -33,4 +33,5 @@ meta:
 
 ## Is-persona-for-story
 
-Relates a persona to a user story told from its perspective. Inverse of `has-persona`.
+Relates a persona to a user story told from its perspective.
+Inverse of `has-persona`.

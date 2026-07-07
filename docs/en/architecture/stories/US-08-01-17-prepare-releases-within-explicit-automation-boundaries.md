@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Prepare Releases within Explicit Automation Boundaries
 
 As a coding agent, I want a documented, coding-agent-friendly release process using SemVer, so that I can assist with release preparation without performing unapproved tagging or publishing actions.
@@ -50,4 +49,7 @@ As a coding agent, I want a documented, coding-agent-friendly release process us
 
 ### Notes
 
-Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps. Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently. Keep the process explicit about final manual approval points for tagging and publishing. The main value for Casey is explicit automation scope and safe stop conditions for release work.
+Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps.
+Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently.
+Keep the process explicit about final manual approval points for tagging and publishing.
+The main value for Casey is explicit automation scope and safe stop conditions for release work.

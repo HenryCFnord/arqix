@@ -37,4 +37,5 @@ When `arqix trace matrix` runs, arqix SHALL export the selected matrix as CSV.
 
 ### Notes
 
-Derived from the acceptance criteria of US-03-01-02 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-03-01-02 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

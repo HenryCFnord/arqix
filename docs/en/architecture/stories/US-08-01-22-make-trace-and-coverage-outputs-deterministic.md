@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Make Trace and Coverage Outputs Deterministic
 
 As a coding agent, I want trace graphs, matrices, and coverage reports to be deterministic, so that I can produce clean diffs and reliably detect meaningful changes.
@@ -49,4 +48,6 @@ As a coding agent, I want trace graphs, matrices, and coverage reports to be det
 
 ### Notes
 
-This story treats output ordering and formatting as part of the contract, not as incidental behavior. The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting. Out of scope are semantic diffing, change explanation, and performance tuning.
+This story treats output ordering and formatting as part of the contract, not as incidental behavior.
+The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting.
+Out of scope are semantic diffing, change explanation, and performance tuning.

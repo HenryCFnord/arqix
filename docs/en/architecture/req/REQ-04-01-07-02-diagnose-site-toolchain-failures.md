@@ -38,4 +38,5 @@ If the site toolchain fails, then arqix SHALL return exit code 2 with diagnostic
 
 ### Notes
 
-Derived from the acceptance criteria of US-04-01-07, US-05-01-13 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-04-01-07, US-05-01-13 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

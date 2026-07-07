@@ -40,6 +40,8 @@ When translations exist for a document, arqix SHALL detect missing and outdated 
 
 ### Notes
 
-Curated to the i18n lint profile stories. Translation scaffolding, language filtering, and i18n publishing configuration were excluded as story-bound concerns.
+Curated to the i18n lint profile stories.
+Translation scaffolding, language filtering, and i18n publishing configuration were excluded as story-bound concerns.
 
-Contributing stories: 4 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 4 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

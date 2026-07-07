@@ -38,4 +38,5 @@ When a coding agent is supported, its agent-specific extension points SHALL be d
 
 ### Notes
 
-Derived from the acceptance criteria of US-01-01-09 after the agent-agnostic generalisation (see ADR-0001). The concrete file mapping per agent lives in the ADR, not in this requirement.
+Derived from the acceptance criteria of US-01-01-09 after the agent-agnostic generalisation (see ADR-0001).
+The concrete file mapping per agent lives in the ADR, not in this requirement.

@@ -33,7 +33,8 @@ meta:
 
 ## Maintain Architecture, ADRs, and Glossary
 
-Architecture knowledge and decisions must remain accessible and traceable as the system evolves. ADRs capture decisions; glossary terms reduce terminology drift.
+Architecture knowledge and decisions must remain accessible and traceable as the system evolves.
+ADRs capture decisions; glossary terms reduce terminology drift.
 
 ### Goal
 

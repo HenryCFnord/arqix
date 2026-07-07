@@ -2,11 +2,14 @@
 
 Generated from `docs/en/architecture/req/` — do not edit by hand; regenerate after corpus changes.
 
-Total: 142 requirements (103 functional, 17 quality, 22 constraint). Stories column: canonical owner first, then further demanding stories (`+`).
+Total: 142 requirements (103 functional, 17 quality, 22 constraint).
+Stories column: canonical owner first, then further demanding stories (`+`).
 
 ## Coverage per persona group
 
-Under the canonical-owner model a requirement is *owned* by the lowest-ID story that demands it, so ownership counts fall for later groups by construction. The *demands* column (requirements whose `derived-from` includes a story of the group) is the meaningful coverage view: group 08 owns only 4 requirements but demands 75 — the most of all groups — because nearly everything a coding agent needs was first demanded by lower groups. The story corpus is deliberately a personas-by-features matrix (the normalization session created per-persona views of the same features), which is why 150 of 177 distinct acceptance-criteria behaviours are shared by 2–4 stories.
+Under the canonical-owner model a requirement is *owned* by the lowest-ID story that demands it, so ownership counts fall for later groups by construction.
+The *demands* column (requirements whose `derived-from` includes a story of the group) is the meaningful coverage view: group 08 owns only 4 requirements but demands 75 — the most of all groups — because nearly everything a coding agent needs was first demanded by lower groups.
+The story corpus is deliberately a personas-by-features matrix (the normalization session created per-persona views of the same features), which is why 150 of 177 distinct acceptance-criteria behaviours are shared by 2–4 stories.
 
 | Group | Persona | Stories | Owns | Demands |
 | --- | --- | --- | --- | --- |
@@ -200,4 +203,3 @@ Under the canonical-owner model a requirement is *owned* by the lowest-ID story 
 | REQ-08-01-01-02 | Q | The generated doc package SHOULD be usable directly in the verification loop without manual interpretation or repair. | 08-01-01 |
 | REQ-08-01-02-01 | Q | Assembly outcomes SHOULD be interpretable from the log and command result without human guesswork. | 08-01-02 |
 | REQ-08-01-05-01 | F | If an unknown document kind is requested, then arqix SHALL fail with a clear, actionable error. | 08-01-05 |
-

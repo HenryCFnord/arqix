@@ -44,4 +44,5 @@ The arqix CLI SHALL NOT overwrite existing files without explicit approval.
 
 Curated from acceptance criteria on overwrite refusal and mechanical-only metadata finalisation.
 
-Contributing stories: 6 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 6 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

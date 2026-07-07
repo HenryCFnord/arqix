@@ -33,4 +33,5 @@ meta:
 
 ## Is-requirement-for-story
 
-Relates a requirement to a user story that demands it. Inverse of `has-requirement`.
+Relates a requirement to a user story that demands it.
+Inverse of `has-requirement`.

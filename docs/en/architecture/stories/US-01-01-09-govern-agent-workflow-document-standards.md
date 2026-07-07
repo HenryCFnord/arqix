@@ -52,5 +52,7 @@ As a maintainer, I want the agent instruction and plan documents to follow a sta
 
 ### Notes
 
-In scope are the minimal structures for the agent instruction and plan documents, clear editing constraints for agents, and a workflow contract for story-by-story execution. Which concrete files serve these roles per coding agent (for example `AGENTS.md` as the canonical instruction document with `CLAUDE.md` as an adapter, and `PLANS.md` as the plan document) is decided in ADR-0001; the story is intentionally agent-agnostic.
-Out of scope are automatic enforcement or generation of these documents. The main value for a maintainer is governed process documentation and predictable automation conventions.
+In scope are the minimal structures for the agent instruction and plan documents, clear editing constraints for agents, and a workflow contract for story-by-story execution.
+Which concrete files serve these roles per coding agent (for example `AGENTS.md` as the canonical instruction document with `CLAUDE.md` as an adapter, and `PLANS.md` as the plan document) is decided in ADR-0001; the story is intentionally agent-agnostic.
+Out of scope are automatic enforcement or generation of these documents.
+The main value for a maintainer is governed process documentation and predictable automation conventions.

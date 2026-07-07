@@ -28,7 +28,9 @@ meta:
 
 ## Daria DevOps
 
-Daria owns CI and publishing. She values reproducibility, clear exit codes, and workflows that behave the same locally and in CI. If a tool cannot be automated, it will not scale.
+Daria owns CI and publishing.
+She values reproducibility, clear exit codes, and workflows that behave the same locally and in CI.
+If a tool cannot be automated, it will not scale.
 
 ### Goals
 
@@ -53,7 +55,9 @@ Daria owns CI and publishing. She values reproducibility, clear exit codes, and 
 
 ### Typical Workflow with arqix
 
-Daria integrates arqix into CI using Taskfile tasks. PR pipelines run formatting checks, lint, trace scan, and coverage. Main pipelines run the same gates and then build and publish artefacts.
+Daria integrates arqix into CI using Taskfile tasks.
+PR pipelines run formatting checks, lint, trace scan, and coverage.
+Main pipelines run the same gates and then build and publish artefacts.
 
 ### Important arqix Capabilities and Commands
 
@@ -72,7 +76,8 @@ Daria integrates arqix into CI using Taskfile tasks. PR pipelines run formatting
 
 #### Boundaries
 
-Daria does not own content quality. She owns automation and reproducibility.
+Daria does not own content quality.
+She owns automation and reproducibility.
 
 #### Open Needs
 

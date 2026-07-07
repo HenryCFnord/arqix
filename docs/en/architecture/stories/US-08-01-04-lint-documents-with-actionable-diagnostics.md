@@ -40,7 +40,6 @@ meta:
   generated: false
 ---
 
-
 ## Lint Documents with Actionable Diagnostics
 
 As a coding agent, I want to lint documents, so that I can detect include, metadata, and ID errors deterministically and stop with actionable diagnostics.

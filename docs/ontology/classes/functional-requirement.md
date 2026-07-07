@@ -36,4 +36,5 @@ meta:
 
 ## Functional-requirement
 
-A directly testable behavior statement. A functional requirement describes observable system behavior and is verified by linking tests to it via `arqix:properties/verifies-requirement`.
+A directly testable behavior statement.
+A functional requirement describes observable system behavior and is verified by linking tests to it via `arqix:properties/verifies-requirement`.

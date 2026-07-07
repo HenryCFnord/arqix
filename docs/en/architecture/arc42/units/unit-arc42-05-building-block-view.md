@@ -62,11 +62,14 @@ The binary decomposes into fifteen components: the CLI entrypoint as composition
 | MCP Server | search/read/list over stdio, transport-separated | REQ-05-01-12-* |
 | Diagnostics & Exit Codes | Machine-readable diagnostics, 0/1/2 contract | REQ-00-00-00-02/03, REQ-04-01-08-*, REQ-04-01-10-* |
 
-Shared spine: the CLI Entrypoint invokes every feature component and is the only place that turns results into exit codes; every component reports through Diagnostics & Exit Codes, reads configuration through the Config Resolver, and reads documents through the Document Parser; the Verification Orchestrator sequences the quality-gate sub-steps through the same command interface the entrypoint uses (ADR-0003). These five are the components that make the cross-cutting contracts (chapter 8) enforceable in one place; lateral coupling between feature components is limited to Publish → Assembler and Report → Trace Engine — the orchestrators' edges are command-API orchestration, not implementation coupling. A complementary write-path invariant holds across the cut: existing source documents are mutated only by the Formatter & Finaliser; the Template Engine creates new files, and Assembler and Publisher write generated artefacts (ADR-0004).
+Shared spine: the CLI Entrypoint invokes every feature component and is the only place that turns results into exit codes; every component reports through Diagnostics & Exit Codes, reads configuration through the Config Resolver, and reads documents through the Document Parser; the Verification Orchestrator sequences the quality-gate sub-steps through the same command interface the entrypoint uses (ADR-0003).
+These five are the components that make the cross-cutting contracts (chapter 8) enforceable in one place; lateral coupling between feature components is limited to Publish → Assembler and Report → Trace Engine — the orchestrators' edges are command-API orchestration, not implementation coupling.
+A complementary write-path invariant holds across the cut: existing source documents are mutated only by the Formatter & Finaliser; the Template Engine creates new files, and Assembler and Publisher write generated artefacts (ADR-0004).
 
 ### Command ownership
 
-Each command has exactly one owning component — the component whose tests own the command's behaviour. The spine (Entrypoint → Config Resolver → … → Diagnostics & Exit Codes) is implicit in every flow; write flows additionally pass the containment, overwrite, and dry-run guards.
+Each command has exactly one owning component — the component whose tests own the command's behaviour.
+The spine (Entrypoint → Config Resolver → … → Diagnostics & Exit Codes) is implicit in every flow; write flows additionally pass the containment, overwrite, and dry-run guards.
 
 | Command | Owning component | Flow between entrypoint and diagnostics | Requirement anchor |
 | --- | --- | --- | --- |

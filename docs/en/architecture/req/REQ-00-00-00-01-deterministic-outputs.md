@@ -83,6 +83,8 @@ The arqix CLI SHALL produce byte-identical outputs for identical inputs and conf
 
 ### Notes
 
-Curated from the acceptance-criteria sweep for deterministic, idempotent, reproducible, or stably ordered outputs. Identity determinism (IDs and slugs) is covered separately by REQ-00-00-00-04; exit-code stability by REQ-00-00-00-02.
+Curated from the acceptance-criteria sweep for deterministic, idempotent, reproducible, or stably ordered outputs.
+Identity determinism (IDs and slugs) is covered separately by REQ-00-00-00-04; exit-code stability by REQ-00-00-00-02.
 
-Contributing stories: 47 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 47 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

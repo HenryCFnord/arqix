@@ -51,4 +51,5 @@ The arqix CLI SHALL signal command outcomes through documented, stable exit code
 
 Curated from acceptance criteria demanding exit-code contracts and CI-gate behaviour.
 
-Contributing stories: 13 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 13 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

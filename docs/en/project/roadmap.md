@@ -7,9 +7,12 @@ status: active
 
 # Roadmap
 
-This document describes planned work for arqix. It is intentionally rough and will evolve as the project matures. Items are in approximate priority order, not a fixed schedule.
+This document describes planned work for arqix.
+It is intentionally rough and will evolve as the project matures.
+Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 43/103). "Done" for a story means its skeleton tests are un-ignored and green.
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 43/103).
+"Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
 
@@ -49,7 +52,9 @@ Goal: run arqix semantics on this repository daily, months before the Rust port 
 
 ## Phase 4 — Rust core, story by story (done)
 
-Test-first per AGENTS.md: un-ignore, show red, implement to green. Rough order, chosen so each story stands on the previous one (the Config Resolver moved ahead of the parser: it is the smallest self-contained story and the parser only becomes observable through the store commands). Every slice landed as a `test(...)` red commit followed by a `feat(...)` green commit:
+Test-first per AGENTS.md: un-ignore, show red, implement to green.
+Rough order, chosen so each story stands on the previous one (the Config Resolver moved ahead of the parser: it is the smallest self-contained story and the parser only becomes observable through the store commands).
+Every slice landed as a `test(...)` red commit followed by a `feat(...)` green commit:
 
 1. [x] Config Resolver (`config validate`, `config show`) — US-01-01-16
 2. [x] Document Parser (frontmatter, classes/triples, body — the shared reading layer everything else needs), consumed directly by the Document Store & Catalog (`doc list`, `doc read`, `doc search`)
@@ -71,4 +76,7 @@ Phase 5 is now the remaining command surface: `report bundle`, `policy check`, `
 
 ## What this roadmap is not
 
-This is not a promise. It is a direction. The project is early and solo. Priorities will shift based on what is actually useful.
+This is not a promise.
+It is a direction.
+The project is early and solo.
+Priorities will shift based on what is actually useful.

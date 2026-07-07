@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Inspect Effective Config for CI Reproducibility
 
 As a DevOps engineer, I want to validate repository configuration and inspect the effective config, so that CI workflows use a deterministic baseline and configuration problems fail clearly.
@@ -50,4 +49,7 @@ As a DevOps engineer, I want to validate repository configuration and inspect th
 
 ### Notes
 
-Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides. Add tests for invalid keys, invalid values, and precedence resolution. Keep diagnostics stable so automation and CI can compare failures reliably. The main value for Daria is reproducible pipeline behaviour and clear diagnostics.
+Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides.
+Add tests for invalid keys, invalid values, and precedence resolution.
+Keep diagnostics stable so automation and CI can compare failures reliably.
+The main value for Daria is reproducible pipeline behaviour and clear diagnostics.

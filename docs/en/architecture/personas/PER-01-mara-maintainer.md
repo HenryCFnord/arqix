@@ -28,7 +28,10 @@ meta:
 
 ## Mara Maintainer
 
-Mara owns the repository’s documentation standards. She cares about consistency, long-term maintainability, and predictable tooling. For Mara, arqix is not a Markdown generator. It is a process enforcer for documentation-as-code.
+Mara owns the repository’s documentation standards.
+She cares about consistency, long-term maintainability, and predictable tooling.
+For Mara, arqix is not a Markdown generator.
+It is a process enforcer for documentation-as-code.
 
 ### Goals
 
@@ -53,7 +56,8 @@ Mara owns the repository’s documentation standards. She cares about consistenc
 
 ### Typical Workflow with arqix
 
-Mara defines the baseline configuration, sets up templates, and documents conventions in the handbook. She regularly runs formatting and linting, reviews diagnostics, and adjusts rules when real-world writing patterns require it.
+Mara defines the baseline configuration, sets up templates, and documents conventions in the handbook.
+She regularly runs formatting and linting, reviews diagnostics, and adjusts rules when real-world writing patterns require it.
 
 ### Important arqix Capabilities and Commands
 
@@ -73,7 +77,8 @@ Mara defines the baseline configuration, sets up templates, and documents conven
 
 ### Boundaries
 
-Mara does not need to author every technical detail. She focuses on the system and standards that make documentation reliable for everyone.
+Mara does not need to author every technical detail.
+She focuses on the system and standards that make documentation reliable for everyone.
 
 ### Open Needs
 

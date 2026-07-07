@@ -38,7 +38,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Architecture Documents from Templates
 
 As an architect, I want to create documents from templates, so that ADRs and related documentation artefacts are structured correctly from the start.

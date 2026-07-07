@@ -70,6 +70,8 @@ When arqix emits a diagnostic, arqix SHALL provide it in a documented machine-re
 
 ### Notes
 
-Curated from acceptance criteria demanding JSON/JSONL output, structured diagnostics, or stable diagnostic codes. Criteria that only demand clear or actionable human-facing diagnostics were excluded.
+Curated from acceptance criteria demanding JSON/JSONL output, structured diagnostics, or stable diagnostic codes.
+Criteria that only demand clear or actionable human-facing diagnostics were excluded.
 
-Contributing stories: 34 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 34 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Read Precise Document Sections for Scoped Execution
 
 As a coding agent, I want to read specific document sections using stable selectors, so that I can retrieve only the context needed for the current story without reparsing whole files.
@@ -51,4 +50,6 @@ As a coding agent, I want to read specific document sections using stable select
 
 ### Notes
 
-Acceptance should show that agents can cite the right context without reparsing whole files. Add tests for heading-slug selectors, explicit anchors, and failure cases for missing documents and selectors. The main value for Casey is precise, bounded context retrieval.
+Acceptance should show that agents can cite the right context without reparsing whole files.
+Add tests for heading-slug selectors, explicit anchors, and failure cases for missing documents and selectors.
+The main value for Casey is precise, bounded context retrieval.

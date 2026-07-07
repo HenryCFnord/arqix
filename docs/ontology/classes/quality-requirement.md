@@ -36,4 +36,5 @@ meta:
 
 ## Quality-requirement
 
-A quality statement about how well the system performs its behavior. A quality requirement is verified through acceptance criteria and review rather than through a directly linked test.
+A quality statement about how well the system performs its behavior.
+A quality requirement is verified through acceptance criteria and review rather than through a directly linked test.

@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Scan Traceability Deterministically within Verification Loops
 
 As a coding agent, I want to scan traceability information, so that I can verify requirement links across documentation, code, and tests without ambiguity.
@@ -49,4 +48,7 @@ As a coding agent, I want to scan traceability information, so that I can verify
 
 ### Notes
 
-Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model. Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output. Keep unresolved references visible in the report instead of silently dropping them. The main value for Casey is deterministic trace verification and actionable diagnostics.
+Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model.
+Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output.
+Keep unresolved references visible in the report instead of silently dropping them.
+The main value for Casey is deterministic trace verification and actionable diagnostics.

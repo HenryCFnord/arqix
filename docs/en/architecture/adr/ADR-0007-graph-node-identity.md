@@ -37,13 +37,17 @@ meta:
 
 ### Context
 
-The canonical trace graph (ADR-0006 layer 1) grew two node sources: corpus documents, whose frontmatter-link edges originate from declared document IDs, and code/test artefacts, whose marker edges originate from file paths. Two identity schemes in one graph leave the join rule implicit — consumers must know which kind of node they are matching — and the question must be settled before the Rust Trace Engine freezes the contract.
+The canonical trace graph (ADR-0006 layer 1) grew two node sources: corpus documents, whose frontmatter-link edges originate from declared document IDs, and code/test artefacts, whose marker edges originate from file paths.
+Two identity schemes in one graph leave the join rule implicit — consumers must know which kind of node they are matching — and the question must be settled before the Rust Trace Engine freezes the contract.
 
 ### Decision
 
-Every node has exactly one `id`, chosen by one rule: **the declared document ID when the source declares one, otherwise the repository-relative path.** Every node carries `file` as an attribute (for artefacts, `file` equals `id`). Edges always reference node `id`s.
+Every node has exactly one `id`, chosen by one rule: **the declared document ID when the source declares one, otherwise the repository-relative path.**
+Every node carries `file` as an attribute (for artefacts, `file` equals `id`).
+Edges always reference node `id`s.
 
-Artefact identity is deliberately path-based and therefore rename-unstable: the graph contains only facts declared in the corpus, and a Rust source file declares no identity beyond its location. Stability for artefacts comes from version control, not from invented names.
+Artefact identity is deliberately path-based and therefore rename-unstable: the graph contains only facts declared in the corpus, and a Rust source file declares no identity beyond its location.
+Stability for artefacts comes from version control, not from invented names.
 
 ### Alternatives Considered
 

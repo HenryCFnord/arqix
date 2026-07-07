@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit a Deterministic Assembly Log for Verification
 
 As a coding agent, I want a machine-readable log during assembly, so that I can verify include structure and outputs without ambiguity.

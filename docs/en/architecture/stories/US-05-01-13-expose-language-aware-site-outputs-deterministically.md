@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Expose Language-Aware Site Outputs Deterministically
 
 As an AIOps engineer, I want language-aware site publishing to produce deterministic outputs per language, so that downstream indexing and agent-facing retrieval can rely on a stable bilingual site structure.
@@ -52,4 +51,7 @@ As an AIOps engineer, I want language-aware site publishing to produce determini
 
 ### Notes
 
-In scope are language-root selection from i18n configuration, Zensical as the first site builder integration, deterministic artefact locations, and machine-readable diagnostics. Out of scope are HTML generation via Pandoc and additional site builders beyond Zensical. This story validates that the chosen i18n layout is practical for CI and automation. The main value for Alex is deterministic bilingual output structure for downstream systems.
+In scope are language-root selection from i18n configuration, Zensical as the first site builder integration, deterministic artefact locations, and machine-readable diagnostics.
+Out of scope are HTML generation via Pandoc and additional site builders beyond Zensical.
+This story validates that the chosen i18n layout is practical for CI and automation.
+The main value for Alex is deterministic bilingual output structure for downstream systems.

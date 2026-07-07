@@ -41,7 +41,6 @@ meta:
   generated: false
 ---
 
-
 ## Generate Publishable Documentation Outputs
 
 As an architect, I want to generate publishing outputs, so that architecture and handbook documentation can be reviewed in publishable forms such as PDF and website output.
@@ -57,4 +56,7 @@ As an architect, I want to generate publishing outputs, so that architecture and
 
 ### Notes
 
-Acceptance should cover both successful artefact generation and clean failure forwarding when Pandoc or site generation returns an error. Add integration-style tests for defaults handling, per-package overrides, and artefact placement under the configured mode. Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end. The main value for Aria is reviewable and navigable architecture documentation outputs.
+Acceptance should cover both successful artefact generation and clean failure forwarding when Pandoc or site generation returns an error.
+Add integration-style tests for defaults handling, per-package overrides, and artefact placement under the configured mode.
+Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end.
+The main value for Aria is reviewable and navigable architecture documentation outputs.

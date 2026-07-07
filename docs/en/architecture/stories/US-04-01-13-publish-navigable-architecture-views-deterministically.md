@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Publish Navigable Architecture Views Deterministically
 
 As a DevOps engineer, I want architecture narratives to assemble into a navigable documentation view, so that publish automation can validate and ship coherent architecture outputs deterministically.

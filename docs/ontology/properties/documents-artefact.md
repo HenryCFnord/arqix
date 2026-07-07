@@ -33,5 +33,5 @@ meta:
 
 ## Documents-artefact
 
-Relates a unit to an artefact it primarily documents. Inverse of
-`documented-by`.
+Relates a unit to an artefact it primarily documents.
+Inverse of `documented-by`.

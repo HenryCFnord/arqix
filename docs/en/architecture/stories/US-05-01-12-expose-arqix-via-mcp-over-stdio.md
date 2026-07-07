@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Expose Arqix via MCP over STDIO
 
 As an AIOps engineer, I want to expose arqix via MCP over stdio, so that agents can use standardized tools to access documentation.
@@ -49,4 +48,7 @@ As an AIOps engineer, I want to expose arqix via MCP over stdio, so that agents 
 
 ### Notes
 
-Acceptance should prove that an MCP client can start the server over stdio, discover the declared tools, and execute `search`, `read`, and `list` successfully. Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers. Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently. This is a core integration capability for agent tooling.
+Acceptance should prove that an MCP client can start the server over stdio, discover the declared tools, and execute `search`, `read`, and `list` successfully.
+Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers.
+Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently.
+This is a core integration capability for agent tooling.

@@ -33,4 +33,5 @@ meta:
 
 ## Is-primary-persona-for-workflow
 
-Relates a persona to a workflow it is the primary persona of. Inverse of `has-primary-persona`.
+Relates a persona to a workflow it is the primary persona of.
+Inverse of `has-primary-persona`.

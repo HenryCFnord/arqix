@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Documents without Ambiguity via Templates
 
 As a coding agent, I want to create documents via `doc new <kind>` using deterministic defaults for ID generation and target paths, so that I can generate conforming documents without guessing where they belong or how they should be structured.
@@ -51,4 +50,6 @@ As a coding agent, I want to create documents via `doc new <kind>` using determi
 
 ### Notes
 
-In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`. Out of scope are interactive prompts and arbitrary free-form template engines. The main value is ambiguity-free document creation for automation.
+In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`.
+Out of scope are interactive prompts and arbitrary free-form template engines.
+The main value is ambiguity-free document creation for automation.

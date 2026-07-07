@@ -8,9 +8,11 @@ plan_dir: docs/en/plans/requirements-derivation-2026-07-02
 
 # Cross-cutting concern candidates
 
-Candidate requirements for the reserved `REQ-00-00-00-NN` domain, identified by sweeping the acceptance criteria of all 103 user stories in `docs/en/architecture/stories/`. These are the behaviours that recur across persona groups and will form the foundation of arqix itself.
+Candidate requirements for the reserved `REQ-00-00-00-NN` domain, identified by sweeping the acceptance criteria of all 103 user stories in `docs/en/architecture/stories/`.
+These are the behaviours that recur across persona groups and will form the foundation of arqix itself.
 
-This is a review artefact: no requirement files are created from it until the candidate list is approved. Story lists below are indicative (regex sweep over acceptance criteria); the exact `derived-from` sets are pinned during derivation, and every accepted candidate needs at least two contributing stories (checker rule `REQ-LNK-002`).
+This is a review artefact: no requirement files are created from it until the candidate list is approved.
+Story lists below are indicative (regex sweep over acceptance criteria); the exact `derived-from` sets are pinned during derivation, and every accepted candidate needs at least two contributing stories (checker rule `REQ-LNK-002`).
 
 All draft sentences below have been validated against `scripts/check_requirements.py` (EARS pattern match, keyword subset, kind matrix).
 
@@ -88,15 +90,20 @@ All draft sentences below have been validated against `scripts/check_requirement
 
 ## Observations
 
-- Candidates 01, 03, and 06 have the broadest reach and are effectively the tool's core contracts; per-story requirements will frequently be refinements of them. During derivation, a per-story requirement that merely restates one of these SHOULD instead be replaced by a `has-requirement` link to the shared requirement.
-- Candidate 10 (translation drift) sits on the boundary between a cross-cutting concern and an i18n feature cluster. It is included because six of eight groups depend on it; review may decide to keep it story-bound instead.
-- The sweep is regex-based over acceptance criteria; it can over- or under-match. Final `derived-from` sets are fixed manually per candidate during derivation.
+- Candidates 01, 03, and 06 have the broadest reach and are effectively the tool's core contracts; per-story requirements will frequently be refinements of them.
+  During derivation, a per-story requirement that merely restates one of these SHOULD instead be replaced by a `has-requirement` link to the shared requirement.
+- Candidate 10 (translation drift) sits on the boundary between a cross-cutting concern and an i18n feature cluster.
+  It is included because six of eight groups depend on it; review may decide to keep it story-bound instead.
+- The sweep is regex-based over acceptance criteria; it can over- or under-match.
+  Final `derived-from` sets are fixed manually per candidate during derivation.
 
 ## Review decision (2026-07-02)
 
-All ten candidates were approved by the repository owner as proposed, including the kind assignments. Additionally decided: `derived-from` uses full verified story lists (every story whose acceptance criteria demonstrably demand the behaviour), and story-bound derivation starts with a pilot for persona group 01 before groups 02–08 follow.
+All ten candidates were approved by the repository owner as proposed, including the kind assignments.
+Additionally decided: `derived-from` uses full verified story lists (every story whose acceptance criteria demonstrably demand the behaviour), and story-bound derivation starts with a pilot for persona group 01 before groups 02–08 follow.
 
-The requirement files exist under `docs/en/architecture/req/` as `REQ-00-00-00-01` … `REQ-00-00-00-10`. The final `derived-from` sets were pinned by re-running the acceptance-criteria sweep and manually verifying every matched line; notable curation against the indicative lists above:
+The requirement files exist under `docs/en/architecture/req/` as `REQ-00-00-00-01` … `REQ-00-00-00-10`.
+The final `derived-from` sets were pinned by re-running the acceptance-criteria sweep and manually verifying every matched line; notable curation against the indicative lists above:
 
 - id/slug and placeholder-substitution criteria moved from candidate 01 to 04; exit-code determinism to 02
 - "clear/actionable diagnostics" criteria excluded from 03 (clarity is not machine-readability)

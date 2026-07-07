@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Publish Stable Compliance-Ready Report Exports
 
 As an auditor, I want stable compliance-ready report exports, so that review packages can be attached to audits without manual cleanup or reformatting.

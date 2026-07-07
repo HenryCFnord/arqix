@@ -28,7 +28,9 @@ meta:
 
 ## Quinn QA
 
-Quinn ensures traceability and measurable quality. Quinn wants evidence, not opinions. For Quinn, arqix is valuable when it produces deterministic reports that reveal gaps between requirements, implementation, and tests.
+Quinn ensures traceability and measurable quality.
+Quinn wants evidence, not opinions.
+For Quinn, arqix is valuable when it produces deterministic reports that reveal gaps between requirements, implementation, and tests.
 
 ### Goals
 
@@ -53,7 +55,8 @@ Quinn ensures traceability and measurable quality. Quinn wants evidence, not opi
 
 ### Typical Workflow with arqix
 
-Quinn runs trace scanning, creates coverage reports, and checks matrices for missing or broken links. Results are shared as review notes, CI gates, or structured exports.
+Quinn runs trace scanning, creates coverage reports, and checks matrices for missing or broken links.
+Results are shared as review notes, CI gates, or structured exports.
 
 ### Important arqix Capabilities and Commands
 

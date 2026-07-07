@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Make Trace and Coverage Outputs Reproducible
 
 As a QA engineer, I want trace graphs, matrices, and coverage reports to be deterministic, so that repeated runs produce reproducible quality evidence and reviewer-friendly comparisons.
@@ -49,4 +48,7 @@ As a QA engineer, I want trace graphs, matrices, and coverage reports to be dete
 
 ### Notes
 
-This story treats output ordering and formatting as part of the contract, not as incidental behavior. The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting. Out of scope are semantic diffing, change explanation, and performance tuning. The main value for Quinn is reproducible evidence for quality review.
+This story treats output ordering and formatting as part of the contract, not as incidental behavior.
+The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting.
+Out of scope are semantic diffing, change explanation, and performance tuning.
+The main value for Quinn is reproducible evidence for quality review.

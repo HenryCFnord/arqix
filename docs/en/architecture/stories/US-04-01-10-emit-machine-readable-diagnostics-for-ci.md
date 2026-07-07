@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit Machine-Readable Diagnostics for CI
 
 As a DevOps engineer, I want arqix commands to emit machine-readable diagnostics, so that CI can classify failures reliably and surface actionable build feedback without scraping human-oriented output.
@@ -51,4 +50,6 @@ As a DevOps engineer, I want arqix commands to emit machine-readable diagnostics
 
 ### Notes
 
-In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations. Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting. The main value for Daria is stable automation contracts for CI and pipeline reporting.
+In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations.
+Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting.
+The main value for Daria is stable automation contracts for CI and pipeline reporting.

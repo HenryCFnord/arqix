@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Run Governed Release Preparation Workflows
 
 As a DevOps engineer, I want a documented, coding-agent-friendly release process using SemVer, so that release preparation steps can be executed consistently and safely around automation boundaries.
@@ -50,4 +49,7 @@ As a DevOps engineer, I want a documented, coding-agent-friendly release process
 
 ### Notes
 
-Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps. Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently. Keep the process explicit about final manual approval points for tagging and publishing. The main value for Daria is repeatable operational release handling with clear approval gates.
+Acceptance should include a dry-run style checklist that a reviewer can follow from changelog preparation through release approval without hidden steps.
+Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently.
+Keep the process explicit about final manual approval points for tagging and publishing.
+The main value for Daria is repeatable operational release handling with clear approval gates.

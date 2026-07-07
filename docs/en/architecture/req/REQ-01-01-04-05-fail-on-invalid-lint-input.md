@@ -40,4 +40,5 @@ If lint input is invalid, then arqix SHALL return a failing status.
 
 ### Notes
 
-Derived from the acceptance criteria of US-01-01-04 during the group-01 pilot derivation (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`). Cross-cutting behaviour is linked via the story's `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-01-01-04 during the group-01 pilot derivation (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`).
+Cross-cutting behaviour is linked via the story's `has-requirement`, not restated here.

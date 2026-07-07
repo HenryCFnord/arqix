@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Interpret i18n Lint Results Deterministically
 
 As a coding agent, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that I can act on bilingual documentation issues without guesswork.
@@ -53,4 +52,8 @@ As a coding agent, I want an i18n lint profile that detects missing translations
 
 ### Notes
 
-The i18n lint profile should focus on repository metadata and translation state rather than translation quality. In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document. Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages. Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs. The main value for Casey is deterministic diagnostics and clear automation stop conditions.
+The i18n lint profile should focus on repository metadata and translation state rather than translation quality.
+In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document.
+Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages.
+Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs.
+The main value for Casey is deterministic diagnostics and clear automation stop conditions.

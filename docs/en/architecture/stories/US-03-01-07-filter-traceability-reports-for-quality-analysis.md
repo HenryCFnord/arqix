@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Filter Traceability Reports for Quality Analysis
 
 As a QA engineer, I want filtered traceability report views, so that I can focus on relevant structural gaps and assign fixes without manually reshaping exports.

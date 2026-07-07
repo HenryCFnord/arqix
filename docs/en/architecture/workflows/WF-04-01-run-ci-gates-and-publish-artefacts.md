@@ -35,7 +35,8 @@ meta:
 
 ### Context
 
-Local workflows must match CI behavior. The pipeline should run deterministic checks for PRs and produce publishable outputs on main.
+Local workflows must match CI behavior.
+The pipeline should run deterministic checks for PRs and produce publishable outputs on main.
 
 ### Goal
 
@@ -43,12 +44,10 @@ Provide CI gates for quality, and publish bilingual site outputs (Zensical-first
 
 ### Steps
 
-1. PR pipeline:
-   2) Run formatting in check mode.
+1. PR pipeline: 2) Run formatting in check mode.
    3) Run lint rules and i18n lint.
    4) Run trace scan and coverage.
-5. Main pipeline:
-   6) Run PR gates.
+2. Main pipeline: 6) Run PR gates.
    7) Build sites for EN and DE via Zensical.
    8) Upload artefacts and/or deploy to GitHub Pages.
 

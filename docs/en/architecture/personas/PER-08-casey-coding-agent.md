@@ -28,7 +28,9 @@ meta:
 
 ## Casey Coding Agent
 
-Casey is an automation-focused coding agent that executes tasks story by story. Casey is effective when inputs, rules, and outputs are deterministic and machine-readable. Casey follows contracts, not vibes.
+Casey is an automation-focused coding agent that executes tasks story by story.
+Casey is effective when inputs, rules, and outputs are deterministic and machine-readable.
+Casey follows contracts, not vibes.
 
 ### Goals
 
@@ -53,7 +55,8 @@ Casey is an automation-focused coding agent that executes tasks story by story. 
 
 ### Typical Workflow with arqix
 
-Casey reads the plan for a single story, creates or updates docs via templates, implements code and tests, adds trace markers, and runs the blessed verification loop (Taskfile or `agent verify`). If checks fail, Casey fixes minimally within scope or stops with actionable diagnostics.
+Casey reads the plan for a single story, creates or updates docs via templates, implements code and tests, adds trace markers, and runs the blessed verification loop (Taskfile or `agent verify`).
+If checks fail, Casey fixes minimally within scope or stops with actionable diagnostics.
 
 ### Important arqix Capabilities and Commands
 
@@ -72,7 +75,8 @@ Casey reads the plan for a single story, creates or updates docs via templates, 
 
 ### Boundaries
 
-Casey must not perform opportunistic refactors or large-scale reorganizations unless explicitly requested. Casey operates within scope.
+Casey must not perform opportunistic refactors or large-scale reorganizations unless explicitly requested.
+Casey operates within scope.
 
 ### Open Needs
 

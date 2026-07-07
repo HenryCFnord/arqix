@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## List Documents Deterministically for Automation
 
 As a coding agent, I want to list documents deterministically, so that I can discover repository content without guessing file structure or parsing raw Markdown.
@@ -51,4 +50,6 @@ As a coding agent, I want to list documents deterministically, so that I can dis
 
 ### Notes
 
-Acceptance should show that downstream indexing and retrieval systems can consume the catalog without scraping Markdown. Add tests for stable ordering, filtering by kind and language, and deterministic JSON rendering. The main value for Casey is stable discovery and automation-safe input selection.
+Acceptance should show that downstream indexing and retrieval systems can consume the catalog without scraping Markdown.
+Add tests for stable ordering, filtering by kind and language, and deterministic JSON rendering.
+The main value for Casey is stable discovery and automation-safe input selection.

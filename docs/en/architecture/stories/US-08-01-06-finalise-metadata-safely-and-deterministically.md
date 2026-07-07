@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Finalise Metadata Safely and Deterministically
 
 As a coding agent , I want to mechanically finalise metadata, so that `updated` is set consistently without rewriting content outside my scope.

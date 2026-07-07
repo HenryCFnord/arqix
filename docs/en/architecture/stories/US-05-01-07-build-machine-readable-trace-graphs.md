@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Build Machine-Readable Trace Graphs
 
 As an AIOps engineer, I want to scan traceability information, so that documentation, code, and test references can be exposed as a machine-readable graph for downstream tooling.
@@ -49,4 +48,7 @@ As an AIOps engineer, I want to scan traceability information, so that documenta
 
 ### Notes
 
-Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model. Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output. Keep unresolved references visible in the report instead of silently dropping them. The main value for Alex is structured graph data for automation and knowledge systems.
+Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model.
+Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output.
+Keep unresolved references visible in the report instead of silently dropping them.
+The main value for Alex is structured graph data for automation and knowledge systems.

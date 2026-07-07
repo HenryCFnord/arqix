@@ -32,7 +32,6 @@ meta:
   generated: false
 ---
 
-
 ## Detect Missing Trace Markers for a Requirement
 
 As a coding agent, I want arqix to detect missing `implements` and `verifies` markers for a given requirement across code and tests, so that I can add only the missing annotations and avoid unnecessary edits.
@@ -46,4 +45,6 @@ As a coding agent, I want arqix to detect missing `implements` and `verifies` ma
 
 ### Notes
 
-In scope is a focused command that reports existing and missing marker coverage for a chosen requirement ID. Out of scope are automatic insertion of markers and language-specific parsing beyond marker detection. The main value is scoped, minimal editing.
+In scope is a focused command that reports existing and missing marker coverage for a chosen requirement ID.
+Out of scope are automatic insertion of markers and language-specific parsing beyond marker detection.
+The main value is scoped, minimal editing.

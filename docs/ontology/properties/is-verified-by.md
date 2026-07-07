@@ -33,4 +33,5 @@ meta:
 
 ## Is-verified-by
 
-Relates a requirement to a verification artefact that verifies it. Inverse of `verifies-requirement`.
+Relates a requirement to a verification artefact that verifies it.
+Inverse of `verifies-requirement`.

@@ -28,7 +28,9 @@ meta:
 
 ## Alex AIOps
 
-Alex builds automation and RAG-friendly workflows. Alex cares about structure, stable identifiers, and machine-readable access to documentation. For Alex, documentation is a dataset.
+Alex builds automation and RAG-friendly workflows.
+Alex cares about structure, stable identifiers, and machine-readable access to documentation.
+For Alex, documentation is a dataset.
 
 ### Goals
 
@@ -53,7 +55,8 @@ Alex builds automation and RAG-friendly workflows. Alex cares about structure, s
 
 ### Typical Workflow with arqix
 
-Alex relies on stable doc creation and consistent metadata. He uses search and read functions to feed agent workflows and uses trace outputs to build knowledge graphs and quality dashboards.
+Alex relies on stable doc creation and consistent metadata.
+He uses search and read functions to feed agent workflows and uses trace outputs to build knowledge graphs and quality dashboards.
 
 ### Important arqix Capabilities and Commands
 

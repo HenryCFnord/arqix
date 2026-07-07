@@ -27,7 +27,9 @@ meta:
 
 ## Context and Scope
 
-arqix operates on a documentation corpus inside a git repository. Humans and coding agents drive it through the CLI; CI runs the same commands as a gate; MCP clients consume the corpus through the built-in server. Rendering is delegated to external tools that arqix orchestrates but never trusts with control flow.
+arqix operates on a documentation corpus inside a git repository.
+Humans and coding agents drive it through the CLI; CI runs the same commands as a gate; MCP clients consume the corpus through the built-in server.
+Rendering is delegated to external tools that arqix orchestrates but never trusts with control flow.
 
 <!-- derived from ../model/workspace.dsl (view: SystemContext) -->
 ```mermaid

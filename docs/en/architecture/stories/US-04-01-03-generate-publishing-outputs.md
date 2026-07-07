@@ -41,7 +41,6 @@ meta:
   generated: false
 ---
 
-
 ## Generate Publishing Outputs
 
 As a DevOps engineer, I want to generate publishing outputs, so that documentation can be published as PDF and/or a website through deterministic automation.
@@ -57,4 +56,7 @@ As a DevOps engineer, I want to generate publishing outputs, so that documentati
 
 ### Notes
 
-Acceptance should cover both successful artefact generation and clean failure forwarding when Pandoc or site generation returns an error. Add integration-style tests for defaults handling, per-package overrides, and artefact placement under the configured mode. Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end. The main value for Daria is reproducible build and publish automation.
+Acceptance should cover both successful artefact generation and clean failure forwarding when Pandoc or site generation returns an error.
+Add integration-style tests for defaults handling, per-package overrides, and artefact placement under the configured mode.
+Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end.
+The main value for Daria is reproducible build and publish automation.

@@ -1,10 +1,9 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a6588b1, 2026-07-06
+     Snapshot: c24c6b6, 2026-07-06
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
-
 
 A requirement counts for every story that demands it (`derived-from`), so shared requirements advance several stories at once.
 

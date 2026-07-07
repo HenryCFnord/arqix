@@ -1,10 +1,9 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a6588b1, 2026-07-06
+     Snapshot: c24c6b6, 2026-07-06
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
-
 
 | code | location | requirement |
 | --- | --- | --- |
@@ -14,12 +13,12 @@
 | `build` | src/assembler.rs:26 | REQ-04-01-01-03 |
 | `build` | src/assembler.rs:27 | REQ-04-01-01-04 |
 | `build` | src/assembler.rs:28 | REQ-04-01-01-05 |
-| `check_command` | src/trace.rs:627 | REQ-03-01-06-01 |
-| `check_command` | src/trace.rs:628 | REQ-03-01-06-02 |
-| `check_command` | src/trace.rs:629 | REQ-03-01-06-03 |
-| `coverage_command` | src/trace.rs:613 | REQ-01-01-08-01 |
-| `coverage_command` | src/trace.rs:614 | REQ-01-01-08-02 |
-| `coverage_command` | src/trace.rs:615 | REQ-01-01-08-03 |
+| `check_command` | src/trace.rs:668 | REQ-03-01-06-01 |
+| `check_command` | src/trace.rs:669 | REQ-03-01-06-02 |
+| `check_command` | src/trace.rs:670 | REQ-03-01-06-03 |
+| `coverage_command` | src/trace.rs:654 | REQ-01-01-08-01 |
+| `coverage_command` | src/trace.rs:655 | REQ-01-01-08-02 |
+| `coverage_command` | src/trace.rs:656 | REQ-01-01-08-03 |
 | `finalise` | src/rewriter.rs:223 | REQ-01-01-06-01 |
 | `finalise` | src/rewriter.rs:224 | REQ-01-01-06-02 |
 | `finalise` | src/rewriter.rs:225 | REQ-01-01-06-03 |
@@ -31,9 +30,9 @@
 | `init` | src/templates.rs:121 | REQ-01-01-01-02 |
 | `list` | src/store.rs:79 | REQ-05-01-08-01 |
 | `list` | src/store.rs:80 | REQ-05-01-08-03 |
-| `matrix_command` | src/trace.rs:680 | REQ-03-01-02-01 |
-| `matrix_command` | src/trace.rs:681 | REQ-03-01-02-02 |
-| `matrix_command` | src/trace.rs:682 | REQ-03-01-02-03 |
+| `matrix_command` | src/trace.rs:721 | REQ-03-01-02-01 |
+| `matrix_command` | src/trace.rs:722 | REQ-03-01-02-02 |
+| `matrix_command` | src/trace.rs:723 | REQ-03-01-02-03 |
 | `new_document` | src/templates.rs:67 | REQ-00-00-00-05 |
 | `new_document` | src/templates.rs:68 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:69 | REQ-01-01-13-02 |
@@ -46,10 +45,10 @@
 | `run` | src/linter.rs:13 | REQ-01-01-04-03 |
 | `run` | src/linter.rs:14 | REQ-01-01-04-04 |
 | `run` | src/linter.rs:15 | REQ-00-00-00-10 |
-| `scan` | src/trace.rs:592 | REQ-03-01-05-01 |
-| `scan` | src/trace.rs:593 | REQ-03-01-05-02 |
-| `scan` | src/trace.rs:594 | REQ-03-01-05-04 |
-| `scan` | src/trace.rs:595 | REQ-03-01-05-05 |
+| `scan` | src/trace.rs:633 | REQ-03-01-05-01 |
+| `scan` | src/trace.rs:634 | REQ-03-01-05-02 |
+| `scan` | src/trace.rs:635 | REQ-03-01-05-04 |
+| `scan` | src/trace.rs:636 | REQ-03-01-05-05 |
 | `search` | src/store.rs:145 | REQ-02-01-06-01 |
 | `show` | src/config.rs:152 | REQ-01-01-16-02 |
 | `validate` | src/config.rs:140 | REQ-01-01-16-01 |

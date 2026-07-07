@@ -38,4 +38,5 @@ The arqix CLI MAY ship a minimal GitHub Actions template for typical gates, alig
 
 ### Notes
 
-Derived from the acceptance criteria of US-04-01-08, US-08-01-15 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-04-01-08, US-08-01-15 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

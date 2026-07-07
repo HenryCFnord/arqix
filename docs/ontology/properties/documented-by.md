@@ -33,7 +33,6 @@ meta:
 
 ## Documented-by
 
-Relates an artefact — typically a `code-artefact` — to a unit that documents
-it. Inverse of `documents-artefact`. Materialised from a code-side
-`// arqix:documented-by <unit-iri>` marker (ADR-0009), so the code→documentation
-link is traversable from the code side (report question Q-08).
+Relates an artefact — typically a `code-artefact` — to a unit that documents it.
+Inverse of `documents-artefact`.
+Materialised from a code-side `// arqix:documented-by <unit-iri>` marker (ADR-0009), so the code→documentation link is traversable from the code side (report question Q-08).

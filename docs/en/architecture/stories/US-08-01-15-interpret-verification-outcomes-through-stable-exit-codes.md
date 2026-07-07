@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Interpret Verification Outcomes through Stable Exit Codes
 
 As a coding agent, I want consistent exit codes and stable error signaling, so that I can react to arqix outcomes deterministically without guessing whether a failure is a usage problem or a quality-gate result.
@@ -50,4 +49,7 @@ As a coding agent, I want consistent exit codes and stable error signaling, so t
 
 ### Notes
 
-This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging. Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors. If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only. The main value for Casey is machine-safe interpretation of command outcomes.
+This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging.
+Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors.
+If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only.
+The main value for Casey is machine-safe interpretation of command outcomes.
