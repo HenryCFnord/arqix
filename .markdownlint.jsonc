@@ -15,5 +15,10 @@
   // First-line H1: an arqix document carries its title in YAML frontmatter, and
   // the body's first heading is the H2 the frontmatter checker enforces
   // (`## <Title>`), so the first body line is never an H1.
-  "MD041": false
+  "MD041": false,
+
+  // Single title: free-form docs (plans, blog, project) carry their title as a
+  // body `#` H1 while also having a frontmatter `title:` field. Do not treat the
+  // frontmatter field as a competing title, so one body H1 is allowed.
+  "MD025": { "front_matter_title": "" }
 }

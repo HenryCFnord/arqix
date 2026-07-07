@@ -22,6 +22,7 @@ covered.
 """
 
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -80,6 +81,10 @@ def verify(fmt, fail_fast):
     ]
     if Path("Cargo.toml").exists():
         steps.append(("cargo-test", ["cargo", "test", "--quiet"], True))
+    if shutil.which("npx"):
+        # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
+        # policy). Skipped where Node/npx is unavailable, like cargo-test.
+        steps.append(("markdownlint", ["npx", "--yes", "markdownlint-cli2"], True))
 
     results = []
     failed = False

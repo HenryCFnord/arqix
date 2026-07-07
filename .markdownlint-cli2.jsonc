@@ -1,0 +1,6 @@
+{
+  // markdownlint-cli2 runner config: which files to lint and what to skip.
+  // Rules live in .markdownlint.jsonc. Run arg-free: npx markdownlint-cli2
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules", "target", "pages"]
+}
