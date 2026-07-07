@@ -27,32 +27,20 @@ meta:
 
 ## Wire Schemas
 
-The machine-readable outputs a consumer parses under `--format json`. Every
-object key is sorted (the JSON is emitted from a sorted map), so byte
-output is stable for a given input.
 <!-- arqix:references-artefact arqix:adrs/adr-0006 -->
 <!-- arqix:references-artefact arqix:requirements/req-04-01-10-01 -->
+The machine-readable outputs a consumer parses under `--format json`.
+Every object key is sorted (the JSON is emitted from a sorted map), so byte output is stable for a given input.
 
-- **`doc list`** — `{"schema_version", "documents": [{"id", "title",
-  "kind", "file", "lang"}]}`.
-- **`doc read`** — `{"schema_version", "id", "title", "iri", "kind",
-  "lang", "file", "body"}`.
-- **`doc search`** — `{"schema_version", "query", "hits": [{"id", "file",
-  "line"}]}`.
-- **`trace scan`** — the graph: `{"schema_version", "nodes": [...],
-  "edges": [...]}` (ADR-0006 layer 1).
-- **`trace coverage`** — coverage by requirement kind with `TRC-*`
-  diagnostics.
+- **`doc list`** — `{"schema_version", "documents": [{"id", "title", "kind", "file", "lang"}]}`.
+- **`doc read`** — `{"schema_version", "id", "title", "iri", "kind", "lang", "file", "body"}`.
+- **`doc search`** — `{"schema_version", "query", "hits": [{"id", "file", "line"}]}`.
+- **`trace scan`** — the graph: `{"schema_version", "nodes": [...], "edges": [...]}` (ADR-0006 layer 1).
+- **`trace coverage`** — coverage by requirement kind with `TRC-*` diagnostics.
 - **`trace matrix`** — CSV, not JSON (ADR-0006 layer 3).
-- **`verify`** — `{"schema_version", "steps": [{"step", "exit_code",
-  "ok"}], "ok"}`.
-- **`assemble build`** — the assembly log `pages/assembly.jsonl`, one JSON
-  object per line with `doc`, `chapter_id`, `out`, `include`, `sha256`,
-  `bytes`, `at_line`.
+- **`verify`** — `{"schema_version", "steps": [{"step", "exit_code", "ok"}], "ok"}`.
+- **`assemble build`** — the assembly log `pages/assembly.jsonl`, one JSON object per line with `doc`, `chapter_id`, `out`, `include`, `sha256`, `bytes`, `at_line`.
 
-**`schema_version` axis (ADR-0009):** each interface owns its own version
-rather than one global number; every contract above currently sits at `1`.
-The assembly log is the one output that does not yet carry a
-`schema_version` field — a follow-up adds it. When the diagnostic and
-result payloads move to typed serde DTOs, these shapes become a generated
-JSON-Schema fragment instead of this authored prose.
+**`schema_version` axis (ADR-0009):** each interface owns its own version rather than one global number; every contract above currently sits at `1`.
+The assembly log is the one output that does not yet carry a `schema_version` field — a follow-up adds it.
+When the diagnostic and result payloads move to typed serde DTOs, these shapes become a generated JSON-Schema fragment instead of this authored prose.
