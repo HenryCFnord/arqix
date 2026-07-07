@@ -293,6 +293,14 @@ Update documentation when:
 
 Keep documentation concise, practical, and aligned with actual behavior.
 
+Markdown follows the markdownlint rule set configured in `.markdownlint.jsonc`
+plus two project conventions: write one sentence per line (never wrap a
+sentence for column width, never put two sentences on one line; separate
+paragraphs with a blank line), and place any `<!-- arqix:… -->` marker or
+directive on its own line directly above the block it annotates. The full
+rules and rationale are in `docs/en/processes/markdown-style-guide.md`; run
+`npx markdownlint-cli2` on touched Markdown.
+
 ## Commits
 
 Make focused commits.

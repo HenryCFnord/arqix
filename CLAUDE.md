@@ -39,3 +39,7 @@ This is a mapping only; it introduces no new rules.
     `cargo test` in one command.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are
     documented in `docs/en/processes/requirements-style-guide.md`.
+  - Markdown authoring rules (markdownlint via `.markdownlint.jsonc`, one
+    sentence per line, markers above their block) are documented in
+    `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2`
+    on touched Markdown.

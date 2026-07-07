@@ -1,0 +1,19 @@
+{
+  // arqix Markdown rules — markdownlint
+  // (https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md).
+  // All rules on by default, with two project-specific disables.
+  // Run: npx markdownlint-cli2 "docs/**/*.md"
+  // See docs/en/processes/markdown-style-guide.md for the rationale and the
+  // one-sentence-per-line convention markdownlint cannot express.
+  "default": true,
+
+  // Line length: arqix prose is written one sentence per line, so a sentence
+  // may exceed any column limit. Disabling MD013 is the standard companion to
+  // that convention.
+  "MD013": false,
+
+  // First-line H1: an arqix document carries its title in YAML frontmatter, and
+  // the body's first heading is the H2 the frontmatter checker enforces
+  // (`## <Title>`), so the first body line is never an H1.
+  "MD041": false
+}
