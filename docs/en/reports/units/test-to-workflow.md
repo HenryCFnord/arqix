@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c5aa003, 2026-07-08
+     Snapshot: 876c506, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -41,6 +41,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_list_emits_a_json_document_catalog` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_list_filters_the_catalog_by_kind` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_list_filters_the_catalog_by_kind` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_list_honours_configured_skip_dirs` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_list_skips_the_default_directories_without_an_override` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-05-01 | Use Documentation for Agents and RAG |

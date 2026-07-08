@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c5aa003, 2026-07-08
+     Snapshot: 876c506, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -25,6 +25,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-14 | Lint Translation Metadata and Drift | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-15 | Operationalise the Release Process with SemVer | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
+| US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
 | US-02-01-01 | Initialize a Doc Package with One Command | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-02-01-02 | Create Units Quickly During Implementation | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-02-01-03 | Format Documents During Implementation | 4 | 0 | 1 | `████████░░` 80% |
