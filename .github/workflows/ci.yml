@@ -1,0 +1,39 @@
+# The repository gate (roadmap phase 5): the same checks the daily gate and
+# `just ci` run locally. Coverage stays informational inside `arqix verify`
+# while the corpus is under construction; the conformance cross-check keeps
+# the Rust trace engine value-equal to the Python oracle (arc42 chapter 8).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build
+
+      - name: Daily gate (checkers, marker gate, cargo test, markdownlint)
+        run: python3 scripts/arqix verify
+
+      - name: Rust lints
+        run: |
+          cargo clippy --all-targets -- -D warnings
+          cargo fmt --check
+
+      - name: Trace-oracle conformance cross-check (chapter 8)
+        run: python3 scripts/check_conformance.py
+
+      - name: Conformance suite against the oracle (ARQIX_BIN)
+        run: ARQIX_BIN="$PWD/scripts/arqix" cargo test --test cli_trace
