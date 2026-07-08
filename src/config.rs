@@ -141,12 +141,11 @@ fn toml_to_json(value: &toml::Value) -> Value {
 /// `arqix config validate`
 pub fn validate(format: OutputFormat) -> ExitCode {
     let (_, diagnostics) = resolve(Path::new("."));
-    let code = diag::exit_code(&diagnostics);
     diag::emit(&diagnostics, format);
     if diagnostics.is_empty() && matches!(format, OutputFormat::Text) {
         println!("configuration ok");
     }
-    code
+    diag::exit_code(&diagnostics)
 }
 
 // arqix:implements REQ-01-01-16-02
