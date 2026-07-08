@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Format Documents Deterministically within Scope
 
 As a coding agent, I want to format documents canonically, so that I can apply repository conventions automatically without causing unnecessary churn outside my scope.

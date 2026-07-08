@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Compose Modular Documents with Chapter and Include Directives
 
 As an architect, I want to use chapter and include directives in Markdown, so that architecture documentation can be composed modularly and assembled into coherent larger documents.
@@ -48,4 +47,7 @@ As an architect, I want to use chapter and include directives in Markdown, so th
 
 ### Notes
 
-Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic. Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files. Keep the directive grammar small and document unsupported attributes rather than inferring behaviour implicitly. The main value for Aria is reliable modular composition of architecture narratives.
+Treat directive parsing as complete only when valid chapter and include markers survive formatting and invalid forms fail with a clear diagnostic.
+Add tests for root restriction enforcement and for deterministic expansion order when a glob matches multiple files.
+Keep the directive grammar small and document unsupported attributes rather than inferring behaviour implicitly.
+The main value for Aria is reliable modular composition of architecture narratives.

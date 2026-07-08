@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Review Trace Graphs as Audit Evidence
 
 As an auditor, I want to scan traceability information, so that evidence chains between requirements, implementation, and verification can be reviewed reproducibly.
@@ -49,4 +48,7 @@ As an auditor, I want to scan traceability information, so that evidence chains 
 
 ### Notes
 
-Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model. Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output. Keep unresolved references visible in the report instead of silently dropping them. The main value for Avery is drill-down capable audit evidence.
+Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model.
+Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output.
+Keep unresolved references visible in the report instead of silently dropping them.
+The main value for Avery is drill-down capable audit evidence.

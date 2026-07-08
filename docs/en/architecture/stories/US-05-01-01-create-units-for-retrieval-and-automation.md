@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Units for Retrieval and Automation
 
 As an AIOps engineer, I want to create units quickly, so that I can maintain documentation as modular, metadata-aware building blocks for retrieval and downstream automation.

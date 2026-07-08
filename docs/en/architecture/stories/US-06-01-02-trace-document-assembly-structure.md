@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Trace Document Assembly Structure
 
 As an architect, I want a machine-readable log during assembly, so that I can trace how modular documents are composed from includes and outputs.

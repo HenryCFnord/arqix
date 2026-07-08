@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Export Deterministic Trace and Coverage Evidence
 
 As an auditor, I want trace graphs, matrices, and coverage reports to be deterministic, so that audit evidence remains stable across repeated runs and review packages stay comparable.
@@ -49,4 +48,7 @@ As an auditor, I want trace graphs, matrices, and coverage reports to be determi
 
 ### Notes
 
-This story treats output ordering and formatting as part of the contract, not as incidental behavior. The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting. Out of scope are semantic diffing, change explanation, and performance tuning. The main value for Avery is stable evidence chains for audit review.
+This story treats output ordering and formatting as part of the contract, not as incidental behavior.
+The scope includes deterministic ordering for trace graphs, matrices, and coverage reports, along with stable JSON and CSV formatting.
+Out of scope are semantic diffing, change explanation, and performance tuning.
+The main value for Avery is stable evidence chains for audit review.

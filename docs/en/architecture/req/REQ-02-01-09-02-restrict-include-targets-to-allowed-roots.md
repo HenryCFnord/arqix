@@ -37,4 +37,5 @@ The arqix CLI SHALL NOT resolve include targets outside the configured allowed r
 
 ### Notes
 
-Derived from the acceptance criteria of US-02-01-09 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-02-01-09 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

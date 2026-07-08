@@ -56,16 +56,17 @@ This plan distinguishes the reviewed execution intent from the implementation wo
 
 ## Execution artefacts prepared during the session
 
-Three Codex prompts were prepared during the session. They are session artefacts, not stored prompt files in this package.
+Three Codex prompts were prepared during the session.
+They are session artefacts, not stored prompt files in this package.
 
 1. Filename and metadata normalization prompt.
-Purpose: normalize filenames, `id`, `iri`, and `meta.updated`, and resolve duplicate or conflicting story IDs.
+   Purpose: normalize filenames, `id`, `iri`, and `meta.updated`, and resolve duplicate or conflicting story IDs.
 
 2. Title and heading alignment prompt.
-Purpose: normalize frontmatter titles to Title Case and align the first Markdown heading with the frontmatter title.
+   Purpose: normalize frontmatter titles to Title Case and align the first Markdown heading with the frontmatter title.
 
 3. Persona-reference normalization prompt.
-Purpose: replace named persona labels in the leading user-story sentence with the required generic role wording.
+   Purpose: replace named persona labels in the leading user-story sentence with the required generic role wording.
 
 ## Expected validation checks
 

@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Read Structured Document Sections with Stable Selectors
 
 As an AIOps engineer, I want to read specific sections of a document using stable selectors, so that agents can cite the right context without reparsing whole files.
@@ -51,4 +50,6 @@ As an AIOps engineer, I want to read specific sections of a document using stabl
 
 ### Notes
 
-Acceptance should show that agents can cite the right context without reparsing whole files. Add tests for heading-slug selectors, explicit anchors, and failure cases for missing documents and selectors. This is a core precise-retrieval capability.
+Acceptance should show that agents can cite the right context without reparsing whole files.
+Add tests for heading-slug selectors, explicit anchors, and failure cases for missing documents and selectors.
+This is a core precise-retrieval capability.

@@ -33,4 +33,5 @@ meta:
 
 ## Is-superseded-by
 
-Relates an artefact to the artefact that supersedes it. Inverse of `supersedes`.
+Relates an artefact to the artefact that supersedes it.
+Inverse of `supersedes`.

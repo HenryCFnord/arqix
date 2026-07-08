@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Modular Document Units
 
 As an architect, I want to create units quickly, so that I can maintain documentation modularly and consistently in small building blocks.

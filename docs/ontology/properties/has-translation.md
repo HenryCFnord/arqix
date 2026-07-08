@@ -33,4 +33,5 @@ meta:
 
 ## Has-translation
 
-Relates a source artefact to one of its translations. Inverse of `translation-of`.
+Relates a source artefact to one of its translations.
+Inverse of `translation-of`.

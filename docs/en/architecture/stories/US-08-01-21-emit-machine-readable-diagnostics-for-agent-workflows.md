@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit Machine-Readable Diagnostics for Agent Workflows
 
 As a coding agent, I want arqix commands to emit machine-readable diagnostics, so that I can interpret failures automatically, localize issues, and either fix them deterministically or stop with actionable output.
@@ -51,4 +50,6 @@ As a coding agent, I want arqix commands to emit machine-readable diagnostics, s
 
 ### Notes
 
-In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations. Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting. This is a prerequisite for reliable agent execution.
+In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations.
+Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting.
+This is a prerequisite for reliable agent execution.

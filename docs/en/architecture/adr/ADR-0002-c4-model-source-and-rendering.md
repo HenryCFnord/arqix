@@ -42,13 +42,17 @@ meta:
 
 ### Context
 
-REQ-01-01-11-04 requires architecture views to use Mermaid diagrams in a C4-oriented style. That requirement is owed to the publishing target: GitHub Pages renders Mermaid natively, so embedded views must be Mermaid. Mermaid, however, is a drawing notation, not a model — hand-maintained Mermaid diagrams drift apart because each diagram repeats the same elements and relationships without a shared source.
+REQ-01-01-11-04 requires architecture views to use Mermaid diagrams in a C4-oriented style.
+That requirement is owed to the publishing target: GitHub Pages renders Mermaid natively, so embedded views must be Mermaid.
+Mermaid, however, is a drawing notation, not a model — hand-maintained Mermaid diagrams drift apart because each diagram repeats the same elements and relationships without a shared source.
 
 ### Decision
 
 - `docs/en/architecture/model/workspace.dsl` (Structurizr DSL) is the single source of truth for the C4 model: people, systems, containers, components, relationships, and views are defined there and only there.
-- Views embedded in documentation (arc42 chapters, handbook) are Mermaid diagrams *derived from* the workspace. Every embedded diagram carries a `derived from docs/en/architecture/model/workspace.dsl` marker comment.
-- Until a `structurizr-cli export -format mermaid` step runs in CI, the Mermaid views are derived by hand. Hand-derived views change only together with the workspace; a review that touches one must touch both.
+- Views embedded in documentation (arc42 chapters, handbook) are Mermaid diagrams *derived from* the workspace.
+  Every embedded diagram carries a `derived from docs/en/architecture/model/workspace.dsl` marker comment.
+- Until a `structurizr-cli export -format mermaid` step runs in CI, the Mermaid views are derived by hand.
+  Hand-derived views change only together with the workspace; a review that touches one must touch both.
 - Diagram scope follows C4 levels: system context and container views for chapter 3/5 overviews, component views only where a chapter needs them.
 
 ### Alternatives Considered
@@ -59,6 +63,8 @@ REQ-01-01-11-04 requires architecture views to use Mermaid diagrams in a C4-orie
 
 ### Consequences
 
-- Model changes happen in one file; diagrams follow. Divergence between DSL and embedded Mermaid is a review-visible defect, not a silent drift.
+- Model changes happen in one file; diagrams follow.
+  Divergence between DSL and embedded Mermaid is a review-visible defect, not a silent drift.
 - Adding the `structurizr-cli` export to CI later removes the manual derivation step without changing any convention.
-- The workspace can later drive additional outputs (e.g. Structurizr site) without touching the documentation.
+- The workspace can later drive additional outputs (e.g.
+  Structurizr site) without touching the documentation.

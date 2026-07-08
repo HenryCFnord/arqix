@@ -38,4 +38,5 @@ Agent-specific extension points SHALL NOT carry normative process rules.
 
 ### Notes
 
-Derived from the acceptance criteria of US-01-01-09 after the agent-agnostic generalisation (see ADR-0001). Normative process rules live exclusively in the canonical agent instruction document so that every coding agent sees the same contract.
+Derived from the acceptance criteria of US-01-01-09 after the agent-agnostic generalisation (see ADR-0001).
+Normative process rules live exclusively in the canonical agent instruction document so that every coding agent sees the same contract.

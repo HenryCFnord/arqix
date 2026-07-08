@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Detect Missing Trace Markers for Quality Gaps
 
 As a QA engineer, I want arqix to detect missing `implements` and `verifies` markers for a given requirement, so that structural traceability gaps can be identified objectively before review or audit.

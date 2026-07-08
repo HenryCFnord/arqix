@@ -32,7 +32,6 @@ meta:
   generated: false
 ---
 
-
 ## Review Evidence Chains through Trace Matrices
 
 As an auditor, I want to export a trace matrix, so that I can review evidence chains such as requirements to tests and user stories to requirements in a reproducible tabular form.
@@ -46,4 +45,7 @@ As an auditor, I want to export a trace matrix, so that I can review evidence ch
 
 ### Notes
 
-Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type. Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form. Keep the command explicit about which matrix is being generated so downstream analysis stays predictable. The main value for Avery is reviewer-friendly and reproducible audit evidence.
+Acceptance should confirm that the exported CSV has stable headers and one row model per supported matrix type.
+Add tests for both `REQ×Test` and `US×REQ`, including empty-link cases that should still appear in a reviewer-friendly form.
+Keep the command explicit about which matrix is being generated so downstream analysis stays predictable.
+The main value for Avery is reviewer-friendly and reproducible audit evidence.

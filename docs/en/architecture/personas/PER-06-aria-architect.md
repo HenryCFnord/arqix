@@ -28,7 +28,9 @@ meta:
 
 ## Aria Architect
 
-Aria documents architecture, decisions, and vocabulary. She cares about clarity, structure, and traceable reasoning. Aria wants documentation to remain useful as the system evolves.
+Aria documents architecture, decisions, and vocabulary.
+She cares about clarity, structure, and traceable reasoning.
+Aria wants documentation to remain useful as the system evolves.
 
 ### Goals
 

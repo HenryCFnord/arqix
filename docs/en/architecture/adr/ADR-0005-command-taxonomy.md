@@ -39,13 +39,16 @@ meta:
 
 ### Context
 
-The corpus wavers between `trace coverage` (requirements, workflows) and `report coverage` (three story acceptance criteria) for the coverage report. Implementation needs one fixed command surface, and the command-ownership table in arc42 chapter 5 needs a normative naming rule behind it.
+The corpus wavers between `trace coverage` (requirements, workflows) and `report coverage` (three story acceptance criteria) for the coverage report.
+Implementation needs one fixed command surface, and the command-ownership table in arc42 chapter 5 needs a normative naming rule behind it.
 
 ### Decision
 
 - Commands follow the **noun–verb scheme** already dominant in the corpus: `doc new`, `doc list`, `unit new`, `config show`, `trace scan`, `lint run`, `policy check`, `publish site`, `mcp serve`.
 - Each noun family maps to one owning component (see the command-ownership table in arc42 chapter 5); the table is the normative command map.
-- **Every analysis exists exactly once.** Coverage is `trace coverage`; there is no separate `report coverage` command. Output formats are selected via the global `--format` option that every supported command carries (REQ-04-01-10-01) — serialisation is the Report & Export component acting as a shared library, not a second command.
+- **Every analysis exists exactly once.**
+  Coverage is `trace coverage`; there is no separate `report coverage` command.
+  Output formats are selected via the global `--format` option that every supported command carries (REQ-04-01-10-01) — serialisation is the Report & Export component acting as a shared library, not a second command.
 - The `report` verb is reserved for export *products*: its only command is `report bundle` (evidence bundles, REQ-03-01-04-*).
 - `verify` is the deliberate top-level exception to the noun–verb scheme: the one-command loop is the product promise for agents and CI (ADR-0003), and `arqix verify` is its ergonomic form.
 - The three acceptance criteria that said `report coverage` (US-03-01-08, US-07-01-06, US-08-01-22) are reworded to `trace coverage`; they were determinism evidence lines and their requirement links are unaffected.

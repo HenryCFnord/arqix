@@ -37,4 +37,5 @@ If an unknown document kind is requested, then arqix SHALL fail with a clear, ac
 
 ### Notes
 
-Derived from the acceptance criteria of US-08-01-05 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-08-01-05 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

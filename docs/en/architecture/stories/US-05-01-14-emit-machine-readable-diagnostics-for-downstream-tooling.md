@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit Machine-Readable Diagnostics for Downstream Tooling
 
 As an AIOps engineer, I want arqix commands to emit machine-readable diagnostics, so that automation and retrieval tooling can consume failures and warnings through a stable contract.
@@ -51,4 +50,6 @@ As an AIOps engineer, I want arqix commands to emit machine-readable diagnostics
 
 ### Notes
 
-In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations. Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting. The main value for Alex is a predictable interface for downstream systems and agent orchestration.
+In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations.
+Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting.
+The main value for Alex is a predictable interface for downstream systems and agent orchestration.

@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Build Deterministic Page Artefacts in CI
 
 As a DevOps engineer, I want to assemble a doc package into pages, so that stable publishable artefacts can be produced automatically in CI.
@@ -48,4 +47,7 @@ As a DevOps engineer, I want to assemble a doc package into pages, so that stabl
 
 ### Notes
 
-The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace. Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs. The first implementation should optimise for clear diagnostics over aggressive assembly features. The main value for Daria is reproducible build outputs and clear failure signals.
+The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace.
+Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs.
+The first implementation should optimise for clear diagnostics over aggressive assembly features.
+The main value for Daria is reproducible build outputs and clear failure signals.

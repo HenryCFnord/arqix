@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Review Coverage Evidence
 
 As an auditor, I want to generate coverage reports, so that I can review evidence chains quickly and identify missing implementation or verification links.
@@ -51,4 +50,7 @@ As an auditor, I want to generate coverage reports, so that I can review evidenc
 
 ### Notes
 
-Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering. Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering. A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones. The main value for Avery is reproducible audit evidence that can be consumed without manual data wrangling.
+Acceptance should verify that uncovered requirements are easy to spot and that identical inputs produce identical output ordering.
+Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering.
+A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones.
+The main value for Avery is reproducible audit evidence that can be consumed without manual data wrangling.

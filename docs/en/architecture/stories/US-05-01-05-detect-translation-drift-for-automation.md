@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Detect Translation Drift for Automation
 
 As an AIOps engineer, I want an i18n lint profile that detects missing translations, outdated translations, and translation metadata mismatches, so that bilingual documentation can be used reliably by agents and downstream tooling.
@@ -53,4 +52,8 @@ As an AIOps engineer, I want an i18n lint profile that detects missing translati
 
 ### Notes
 
-The i18n lint profile should focus on repository metadata and translation state rather than translation quality. In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document. Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages. Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs. The main value for Alex is deterministic bilingual metadata for search, read, and automation.
+The i18n lint profile should focus on repository metadata and translation state rather than translation quality.
+In practice, `arqix lint run --profile i18n` should verify that required translations exist for the configured target languages and kinds or domains, that translation links are resolved correctly, and that translation metadata stays in sync with the source document.
+Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages.
+Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs.
+The main value for Alex is deterministic bilingual metadata for search, read, and automation.

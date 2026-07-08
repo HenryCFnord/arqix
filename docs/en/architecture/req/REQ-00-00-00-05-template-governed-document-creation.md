@@ -46,6 +46,8 @@ When a document is created, arqix SHALL instantiate the configured template for 
 
 ### Notes
 
-Curated from acceptance criteria on template-based `doc new` creation and template/validation contract alignment. Pandoc render templates and CI workflow templates were excluded.
+Curated from acceptance criteria on template-based `doc new` creation and template/validation contract alignment.
+Pandoc render templates and CI workflow templates were excluded.
 
-Contributing stories: 10 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 10 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

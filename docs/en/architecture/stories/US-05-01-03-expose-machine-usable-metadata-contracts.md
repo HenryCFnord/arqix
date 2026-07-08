@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Expose Machine-Usable Metadata Contracts
 
 As an AIOps engineer, I want schema-backed metadata contracts for each document kind, so that tooling and agents can rely on stable, machine-readable metadata expectations.
@@ -50,4 +49,7 @@ As an AIOps engineer, I want schema-backed metadata contracts for each document 
 
 ### Notes
 
-Acceptance should verify that metadata contracts are authoritative for document kinds and that templates and validation stay aligned over time. Add fixtures for missing fields, extra fields, and type-invalid values across multiple document kinds. Keep the contract source singular so frontmatter drift is caught early and templates remain enforceable. The main value for Alex is predictable metadata for automation, search, and downstream systems.
+Acceptance should verify that metadata contracts are authoritative for document kinds and that templates and validation stay aligned over time.
+Add fixtures for missing fields, extra fields, and type-invalid values across multiple document kinds.
+Keep the contract source singular so frontmatter drift is caught early and templates remain enforceable.
+The main value for Alex is predictable metadata for automation, search, and downstream systems.

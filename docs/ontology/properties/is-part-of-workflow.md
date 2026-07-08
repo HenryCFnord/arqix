@@ -33,4 +33,5 @@ meta:
 
 ## Is-part-of-workflow
 
-Relates a user story to the workflow it belongs to. Inverse of `has-story`.
+Relates a user story to the workflow it belongs to.
+Inverse of `has-story`.

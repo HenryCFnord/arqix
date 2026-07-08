@@ -38,7 +38,6 @@ meta:
   generated: false
 ---
 
-
 ## Initialize a Doc Package Deterministically and Safely
 
 As a coding agent, I want to initialise a new doc package deterministically and without unsafe overwrites, so that I can create repository artefacts within scope and without ambiguity.

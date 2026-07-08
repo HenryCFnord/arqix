@@ -27,7 +27,8 @@ meta:
 
 ## Glossary
 
-First project-specific terms; the full glossary will be scaffolded via `arqix doc new glossary` with stable IDs (REQ-01-01-12-*) once the tool exists. For domain vocabulary, the ontology labels under `docs/ontology/` remain the controlled vocabulary.
+First project-specific terms; the full glossary will be scaffolded via `arqix doc new glossary` with stable IDs (REQ-01-01-12-*) once the tool exists.
+For domain vocabulary, the ontology labels under `docs/ontology/` remain the controlled vocabulary.
 
 | Term | Definition |
 | --- | --- |

@@ -1,8 +1,7 @@
 # Reports
 
-Human-facing reporting follows ADR-0008: every artefact answers exactly
-one named question from the [question catalog](QUESTIONS.md), and a report
-is an assembly of such units. Three layers live here:
+Human-facing reporting follows ADR-0008: every artefact answers exactly one named question from the [question catalog](QUESTIONS.md), and a report is an assembly of such units.
+Three layers live here:
 
 | Layer | What | Where |
 | --- | --- | --- |
@@ -23,16 +22,14 @@ is an assembly of such units. Three layers live here:
 
 ## Regeneration and staleness
 
-All committed files here are snapshots (each carries its commit + date in
-a generated header) and go stale with every change to requirements,
-tests, or markers. Refresh with:
+All committed files here are snapshots (each carries its commit + date in a generated header) and go stale with every change to requirements, tests, or markers.
+Refresh with:
 
-```
+```text
 python3 scripts/arqix_report.py --snapshot "<sha>, <date>"
 python3 scripts/arqix trace matrix > docs/en/reports/trace/matrix.csv
 python3 scripts/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
 ```
 
-Snapshots stay manual until a CI workflow regenerates them (arc42
-chapter 11: "implement with the first CI workflow PR"). The live answer
-is always the command.
+Snapshots stay manual until a CI workflow regenerates them (arc42 chapter 11: "implement with the first CI workflow PR").
+The live answer is always the command.

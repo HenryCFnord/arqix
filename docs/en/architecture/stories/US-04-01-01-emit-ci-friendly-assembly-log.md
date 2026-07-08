@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit a CI-Friendly Assembly Log
 
 As a DevOps engineer, I want a machine-readable log during assembly, so that I can capture deterministic build evidence and diagnose include-related failures in CI.

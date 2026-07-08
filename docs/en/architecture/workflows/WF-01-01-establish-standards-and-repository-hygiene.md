@@ -33,7 +33,8 @@ meta:
 
 ## Establish Standards and Repository Hygiene
 
-A repository contains Markdown documentation written by multiple contributors. Without clear standards, metadata contracts, and deterministic tooling, documentation drifts and becomes unreliable.
+A repository contains Markdown documentation written by multiple contributors.
+Without clear standards, metadata contracts, and deterministic tooling, documentation drifts and becomes unreliable.
 
 ### Goal
 

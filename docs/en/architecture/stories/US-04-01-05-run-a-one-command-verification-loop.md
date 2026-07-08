@@ -40,7 +40,6 @@ meta:
   generated: false
 ---
 
-
 ## Run a One-Command Verification Loop
 
 As a DevOps engineer, I want a single arqix command to run the standard verification loop, so that automation and CI can validate changes with one deterministic invocation.
@@ -55,4 +54,7 @@ As a DevOps engineer, I want a single arqix command to run the standard verifica
 
 ### Notes
 
-In scope is a single verification command that runs formatting, lint, trace scan, and coverage, and returns a consolidated summary. Out of scope are rendering in the default check loop and auto-fix beyond formatting. Add tests for fail-fast and aggregate modes, exit-code behavior, and structured JSON output. This is the canonical CI and automation orchestration view.
+In scope is a single verification command that runs formatting, lint, trace scan, and coverage, and returns a consolidated summary.
+Out of scope are rendering in the default check loop and auto-fix beyond formatting.
+Add tests for fail-fast and aggregate modes, exit-code behavior, and structured JSON output.
+This is the canonical CI and automation orchestration view.

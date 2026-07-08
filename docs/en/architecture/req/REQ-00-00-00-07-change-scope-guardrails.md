@@ -39,6 +39,8 @@ The arqix CLI SHALL NOT modify files outside the declared change scope.
 
 ### Notes
 
-Curated manually: the guardrail stories phrase their acceptance criteria in terms of `arqix policy check` and policy files, so the regex sweep missed them. Report-scoping criteria (evidence bundles by scope) were excluded.
+Curated manually: the guardrail stories phrase their acceptance criteria in terms of `arqix policy check` and policy files, so the regex sweep missed them.
+Report-scoping criteria (evidence bundles by scope) were excluded.
 
-Contributing stories: 3 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 3 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

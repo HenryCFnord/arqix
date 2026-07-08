@@ -32,7 +32,6 @@ meta:
   generated: false
 ---
 
-
 ## Scaffold Translations Deterministically from Source IDs
 
 As a coding agent, I want to create a translation document by referencing its source document ID, so that I can generate correctly linked translation artefacts without guessing routing, metadata, or document shape.
@@ -47,4 +46,8 @@ As a coding agent, I want to create a translation document by referencing its so
 
 ### Notes
 
-The `arqix doc new <kind> --lang <target> --translation-of <ID>` workflow should provide a deterministic and low-friction way to scaffold translation documents from an existing source note. It should resolve the source document using `source_lang`, derive the destination path from the configured i18n layout, and create the translation with the metadata needed to keep source and translation linked over time. A `--dry-run` mode should let contributors and automation agents inspect the planned id, path, and metadata without mutating the repository. Out of scope is any automatic translation of prose. The main value for Casey is deterministic scaffolding and clear failure behaviour for missing sources.
+The `arqix doc new <kind> --lang <target> --translation-of <ID>` workflow should provide a deterministic and low-friction way to scaffold translation documents from an existing source note.
+It should resolve the source document using `source_lang`, derive the destination path from the configured i18n layout, and create the translation with the metadata needed to keep source and translation linked over time.
+A `--dry-run` mode should let contributors and automation agents inspect the planned id, path, and metadata without mutating the repository.
+Out of scope is any automatic translation of prose.
+The main value for Casey is deterministic scaffolding and clear failure behaviour for missing sources.

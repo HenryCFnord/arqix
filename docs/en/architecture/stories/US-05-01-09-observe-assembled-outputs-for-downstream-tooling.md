@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Observe Assembled Outputs for Downstream Tooling
 
 As an AIOps engineer, I want to assemble a doc package into pages, so that downstream tools can consume stable, deterministically produced outputs from modular source units.
@@ -48,4 +47,7 @@ As an AIOps engineer, I want to assemble a doc package into pages, so that downs
 
 ### Notes
 
-The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace. Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs. The first implementation should optimise for clear diagnostics over aggressive assembly features. The main value for Alex is predictable assembled artefacts for indexing and automation.
+The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace.
+Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs.
+The first implementation should optimise for clear diagnostics over aggressive assembly features.
+The main value for Alex is predictable assembled artefacts for indexing and automation.

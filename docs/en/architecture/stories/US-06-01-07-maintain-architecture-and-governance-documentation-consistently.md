@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Maintain Architecture and Governance Documentation Consistently
 
 As an architect, I want to maintain architecture and governance documentation consistently, so that arqix applies its own Documentation-as-Code principles to arc42, ADRs, and the handbook.
@@ -52,4 +51,7 @@ As an architect, I want to maintain architecture and governance documentation co
 
 ### Notes
 
-This story is complete when the governance documents follow the same assembly and maintenance rules expected from product documentation. Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs. Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery. This is the canonical architecture and governance authoring view.
+This story is complete when the governance documents follow the same assembly and maintenance rules expected from product documentation.
+Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs.
+Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery.
+This is the canonical architecture and governance authoring view.

@@ -28,7 +28,8 @@ meta:
 
 ## Avery Auditor
 
-Avery evaluates evidence chains for audits and compliance reviews. Avery is not interested in tooling details, but in reproducible proof: what was required, what was decided, what was implemented, and what was verified.
+Avery evaluates evidence chains for audits and compliance reviews.
+Avery is not interested in tooling details, but in reproducible proof: what was required, what was decided, what was implemented, and what was verified.
 
 ### Goals
 
@@ -72,7 +73,8 @@ Avery starts with trace matrices and coverage reports, then drills down via stab
 
 ### Boundaries
 
-Avery does not create documents or pipelines. Avery consumes evidence and reports.
+Avery does not create documents or pipelines.
+Avery consumes evidence and reports.
 
 ### Open Needs
 

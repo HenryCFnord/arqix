@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Glossary Terms with Stable IDs
 
 As an architect, I want to create glossary terms from a template with stable IDs, so that architecture vocabulary stays consistent across ADRs, handbooks, and requirements.
@@ -50,4 +49,5 @@ As an architect, I want to create glossary terms from a template with stable IDs
 
 ### Notes
 
-This is a gap-fill for terminology governance. The main value is consistent vocabulary that remains referenceable across architecture and governance documents.
+This is a gap-fill for terminology governance.
+The main value is consistent vocabulary that remains referenceable across architecture and governance documents.

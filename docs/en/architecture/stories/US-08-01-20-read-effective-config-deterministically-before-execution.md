@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Read Effective Config Deterministically Before Execution
 
 As a coding agent, I want to validate repository configuration and inspect the effective config, so that I can execute work against the actual active rules without guessing defaults or overrides.
@@ -50,4 +49,7 @@ As a coding agent, I want to validate repository configuration and inspect the e
 
 ### Notes
 
-Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides. Add tests for invalid keys, invalid values, and precedence resolution. Keep diagnostics stable so automation and CI can compare failures reliably. The main value for Casey is deterministic execution against explicit configuration.
+Acceptance should verify both validation and effective configuration rendering on realistic multi-layer setups with defaults and overrides.
+Add tests for invalid keys, invalid values, and precedence resolution.
+Keep diagnostics stable so automation and CI can compare failures reliably.
+The main value for Casey is deterministic execution against explicit configuration.

@@ -49,12 +49,13 @@ loops.
 4. Add trace markers:
    - `arqix:implements REQ-xxxx`
    - `arqix:verifies REQ-xxxx`
-1. Run the blessed verification loop (local equivalent of CI):
+5. Run the blessed verification loop (local equivalent of CI):
    - `fmt`
    - `lint`
    - `trace scan`
    - `trace coverage`
-6. Fix only within scope. If ambiguous, stop and report blockers.
+6. Fix only within scope.
+   If ambiguous, stop and report blockers.
 
 ### Outputs
 

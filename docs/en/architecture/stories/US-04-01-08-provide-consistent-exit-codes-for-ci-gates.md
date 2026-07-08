@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Provide Consistent Exit Codes for CI Gates
 
 As a DevOps engineer, I want consistent exit codes and CI support, so that automation can react to arqix reliably.
@@ -50,4 +49,7 @@ As a DevOps engineer, I want consistent exit codes and CI support, so that autom
 
 ### Notes
 
-This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging. Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors. If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only. This is a core CI contract capability.
+This story is done when CI can distinguish usage errors from quality gate failures solely through exit status and stable stderr messaging.
+Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors.
+If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only.
+This is a core CI contract capability.

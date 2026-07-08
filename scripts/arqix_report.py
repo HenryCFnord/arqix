@@ -29,7 +29,7 @@ def header(question, qid, snapshot):
         f"     Snapshot: {snapshot}\n"
         f"     Regenerate: python3 scripts/arqix_report.py "
         f'--snapshot "<sha>, <date>" -->\n'
-        f"\n# {question}\n\n"
+        f"\n# {question}\n"
     )
 
 

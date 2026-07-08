@@ -1,10 +1,9 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: faac23f, 2026-07-08
+     Snapshot: c5aa003, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
-
 
 | test | location | requirement | status |
 | --- | --- | --- | --- |

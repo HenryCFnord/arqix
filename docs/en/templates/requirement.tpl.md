@@ -41,7 +41,7 @@ meta:
 
 <!-- Exactly one normative sentence following an EARS pattern and the RFC 2119 subset (SHALL / SHALL NOT / SHOULD / SHOULD NOT / MAY). See docs/en/processes/requirements-style-guide.md. -->
 
-The <system> SHALL <response>.
+The `<system>` SHALL `<response>`.
 
 ### Notes
 

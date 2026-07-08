@@ -36,4 +36,5 @@ meta:
 
 ## Constraint
 
-A restriction that frames other requirements. A constraint is not directly testable on its own; it bounds the solution space in which functional and quality requirements are implemented and verified.
+A restriction that frames other requirements.
+A constraint is not directly testable on its own; it bounds the solution space in which functional and quality requirements are implemented and verified.

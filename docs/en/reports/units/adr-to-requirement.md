@@ -1,10 +1,9 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: faac23f, 2026-07-08
+     Snapshot: c5aa003, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
-
 
 | adr | title | requirement |
 | --- | --- | --- |
@@ -36,3 +35,6 @@
 | ADR-0008 | Question-Driven Report Units | REQ-01-01-08-03 |
 | ADR-0008 | Question-Driven Report Units | REQ-04-01-12-01 |
 | ADR-0008 | Question-Driven Report Units | REQ-04-01-12-03 |
+| ADR-0009 | Documentation Production Policy | REQ-01-01-11-01 |
+| ADR-0009 | Documentation Production Policy | REQ-01-01-11-03 |
+| ADR-0009 | Documentation Production Policy | REQ-04-01-12-01 |

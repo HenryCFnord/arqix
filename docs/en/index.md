@@ -7,9 +7,11 @@ status: active
 
 # arqix documentation
 
-Welcome. This is the main entry point for arqix project documentation.
+Welcome.
+This is the main entry point for arqix project documentation.
 
-arqix is a Rust CLI for structured technical documentation and Architecture-as-Code workflows. It is text-first, Git-friendly, and designed to treat Markdown documents as structured units rather than loose text files.
+arqix is a Rust CLI for structured technical documentation and Architecture-as-Code workflows.
+It is text-first, Git-friendly, and designed to treat Markdown documents as structured units rather than loose text files.
 
 This `docs/` directory serves two purposes: it is the human-readable documentation for the project, and it is intended to become the first real corpus for arqix itself as features are implemented.
 

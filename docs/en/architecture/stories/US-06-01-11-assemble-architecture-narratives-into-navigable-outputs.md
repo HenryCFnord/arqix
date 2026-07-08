@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Assemble Architecture Narratives into Navigable Outputs
 
 As an architect, I want architecture narratives to assemble into a navigable documentation view, so that decision records, glossary terms, and handbook chapters remain coherent as the system evolves.
@@ -48,4 +47,5 @@ As an architect, I want architecture narratives to assemble into a navigable doc
 
 ### Notes
 
-This is a gap-fill for modular and publishable architecture documentation. The main value is coherence across ADRs, glossary terms, and handbook chapters.
+This is a gap-fill for modular and publishable architecture documentation.
+The main value is coherence across ADRs, glossary terms, and handbook chapters.

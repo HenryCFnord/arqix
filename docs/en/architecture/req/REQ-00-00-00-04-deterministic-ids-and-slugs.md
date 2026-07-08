@@ -53,4 +53,5 @@ The arqix CLI SHALL derive document IDs and slugs deterministically from the con
 
 Curated from acceptance criteria on deterministic id/slug derivation, placeholder substitution, duplicate-ID detection, and stable anchors/selectors.
 
-Contributing stories: 15 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 15 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Stay within Declared Change Scope
 
 As a coding agent, I want enforceable guardrails for automation agents that limit modifications to a declared scope such as files, directories, and story boundaries, so that I can execute work predictably without causing out-of-scope repository churn.
@@ -53,4 +52,6 @@ As a coding agent, I want enforceable guardrails for automation agents that limi
 
 ### Notes
 
-In scope, the work should define a file-based policy mechanism that specifies allowed paths and allowed operations per story or task, and it should also provide a check command suitable for CI, for example `arqix policy check ...`. Out of scope are full sandboxing of execution and fine-grained AST-level modification constraints. The main value for Casey is deterministic scope enforcement and clear stop conditions.
+In scope, the work should define a file-based policy mechanism that specifies allowed paths and allowed operations per story or task, and it should also provide a check command suitable for CI, for example `arqix policy check ...`.
+Out of scope are full sandboxing of execution and fine-grained AST-level modification constraints.
+The main value for Casey is deterministic scope enforcement and clear stop conditions.

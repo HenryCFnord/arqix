@@ -28,7 +28,9 @@ meta:
 
 ## Dan Developer
 
-Dan is a developer who writes code and documentation in the same flow. He values speed and low-friction tooling. If documentation feels like a separate project, it will not happen reliably.
+Dan is a developer who writes code and documentation in the same flow.
+He values speed and low-friction tooling.
+If documentation feels like a separate project, it will not happen reliably.
 
 ### Goals
 
@@ -53,7 +55,8 @@ Dan is a developer who writes code and documentation in the same flow. He values
 
 ### Typical Workflow with arqix
 
-Dan creates or updates docs while implementing a feature. He uses assemble to preview pages, runs formatting and linting before committing, and uses IDs to connect requirements, code, and tests.
+Dan creates or updates docs while implementing a feature.
+He uses assemble to preview pages, runs formatting and linting before committing, and uses IDs to connect requirements, code, and tests.
 
 ### Important arqix Capabilities and Commands
 
@@ -73,7 +76,8 @@ Dan creates or updates docs while implementing a feature. He uses assemble to pr
 
 ### Boundaries
 
-Dan does not own the global rules and templates. He follows the conventions defined by maintainers and expects them to be predictable.
+Dan does not own the global rules and templates.
+He follows the conventions defined by maintainers and expects them to be predictable.
 
 ### Open Needs
 

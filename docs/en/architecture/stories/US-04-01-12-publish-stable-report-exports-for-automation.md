@@ -36,7 +36,6 @@ meta:
   generated: false
 ---
 
-
 ## Publish Stable Report Exports for Automation
 
 As a DevOps engineer, I want stable compliance-ready report exports, so that CI and release automation can attach reviewable report packages without manual post-processing.

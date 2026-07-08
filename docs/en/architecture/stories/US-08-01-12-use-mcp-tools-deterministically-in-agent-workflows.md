@@ -35,7 +35,6 @@ meta:
   generated: false
 ---
 
-
 ## Use MCP Tools Deterministically in Agent Workflows
 
 As a coding agent, I want arqix to expose MCP tools over stdio, so that I can use standardized search, read, and list operations in automation workflows without custom integration code.
@@ -49,4 +48,7 @@ As a coding agent, I want arqix to expose MCP tools over stdio, so that I can us
 
 ### Notes
 
-Acceptance should prove that an MCP client can start the server over stdio, discover the declared tools, and execute `search`, `read`, and `list` successfully. Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers. Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently. The main value for Casey is deterministic tool access through a standard protocol.
+Acceptance should prove that an MCP client can start the server over stdio, discover the declared tools, and execute `search`, `read`, and `list` successfully.
+Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers.
+Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently.
+The main value for Casey is deterministic tool access through a standard protocol.

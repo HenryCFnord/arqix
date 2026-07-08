@@ -35,18 +35,10 @@ meta:
 
 ## Machine Interface Control Document
 
-This page assembles the machine-facing interface contract of arqix — the
-surface a caller, CI gate, or agent programs against — from one unit per
-interface concern. arc42 explains how the tool is built; this ICD fixes
-what it exposes and consumes. It cites the deciding ADRs (0003–0006 for the
-command taxonomy, orchestration, rewriter, and trace/diagnostics
-contracts) rather than re-deciding them, and composes generated fragments
-(the Command Reference, the Diagnostics Registry) where those exist.
+This page assembles the machine-facing interface contract of arqix — the surface a caller, CI gate, or agent programs against — from one unit per interface concern. arc42 explains how the tool is built; this ICD fixes what it exposes and consumes.
+It cites the deciding ADRs (0003–0006 for the command taxonomy, orchestration, rewriter, and trace/diagnostics contracts) rather than re-deciding them, and composes generated fragments (the Command Reference, the Diagnostics Registry) where those exist.
 
-Sections one to four are the output side (command surface, exit codes,
-diagnostics, wire schemas); section five is the input side agents author
-(markers, directives, triples); section six fixes the not-yet-shipped
-contracts ahead of their code.
+Sections one to four are the output side (command surface, exit codes, diagnostics, wire schemas); section five is the input side agents author (markers, directives, triples); section six fixes the not-yet-shipped contracts ahead of their code.
 
 <!-- arqix:include units/unit-icd-01-command-surface.md -->
 

@@ -40,4 +40,5 @@ Configuration diagnostics SHOULD identify the failing key and source file.
 
 ### Notes
 
-Derived from the acceptance criteria of US-01-01-16 during the group-01 pilot derivation (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`). Cross-cutting behaviour is linked via the story's `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-01-01-16 during the group-01 pilot derivation (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`).
+Cross-cutting behaviour is linked via the story's `has-requirement`, not restated here.

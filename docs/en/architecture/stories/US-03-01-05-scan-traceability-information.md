@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Scan Traceability Information
 
 As a QA engineer, I want to scan traceability information, so that a graph of documentation, code, and test references can be built and analysed objectively.
@@ -54,4 +53,7 @@ As a QA engineer, I want to scan traceability information, so that a graph of do
 
 ### Notes
 
-Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model. Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output. Keep unresolved references visible in the report instead of silently dropping them. The main value for Quinn is objective quality evidence and gap analysis.
+Acceptance should show that the scanner merges references from code comments, Markdown markers, and unit frontmatter into one consistent graph model.
+Add fixture-based tests that cover configurable marker syntax and verify node and edge stability in the JSON output.
+Keep unresolved references visible in the report instead of silently dropping them.
+The main value for Quinn is objective quality evidence and gap analysis.

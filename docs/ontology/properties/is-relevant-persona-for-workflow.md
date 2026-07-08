@@ -33,4 +33,5 @@ meta:
 
 ## Is-relevant-persona-for-workflow
 
-Relates a persona to a workflow it is relevant for. Inverse of `has-relevant-persona`.
+Relates a persona to a workflow it is relevant for.
+Inverse of `has-relevant-persona`.

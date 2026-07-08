@@ -32,7 +32,6 @@ meta:
   generated: false
 ---
 
-
 ## Generate Audit Evidence Bundles by Scope
 
 As an auditor, I want to generate an evidence bundle for a chosen requirement or story scope, so that audits can review a reproducible package of requirements, implementation evidence, and verification links.
@@ -46,4 +45,5 @@ As an auditor, I want to generate an evidence bundle for a chosen requirement or
 
 ### Notes
 
-This is a gap-fill for audit evidence-chain review workflows. The bundle should be deterministic and scoped, so auditors can review a stable package instead of reassembling evidence manually.
+This is a gap-fill for audit evidence-chain review workflows.
+The bundle should be deterministic and scoped, so auditors can review a stable package instead of reassembling evidence manually.

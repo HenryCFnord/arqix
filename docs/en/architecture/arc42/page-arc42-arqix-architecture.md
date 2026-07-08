@@ -44,7 +44,8 @@ meta:
 
 ## arqix Architecture (arc42)
 
-This page assembles the arc42 architecture document from one unit per chapter (REQ-01-01-11-01). Until `arqix assemble build` exists, the directives below document the intended assembly; afterwards they drive it.
+This page assembles the arc42 architecture document from one unit per chapter (REQ-01-01-11-01).
+Until `arqix assemble build` exists, the directives below document the intended assembly; afterwards they drive it.
 
 <!-- arqix:chapter 1 -->
 <!-- arqix:include units/unit-arc42-01-introduction-and-goals.md -->

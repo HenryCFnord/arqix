@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Assemble Modular Document Packages into Pages
 
 As an architect, I want to assemble a doc package into pages, so that publishable chapters are produced from units.
@@ -48,4 +47,7 @@ As an architect, I want to assemble a doc package into pages, so that publishabl
 
 ### Notes
 
-The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace. Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs. The first implementation should optimise for clear diagnostics over aggressive assembly features. The main value for Aria is reliable assembly of modular documentation into reviewable pages.
+The build flow is complete when a doc package with nested includes produces stable page outputs and cycles fail fast with a readable path trace.
+Add tests for frontmatter stripping on included content and for deterministic output ordering across repeated runs.
+The first implementation should optimise for clear diagnostics over aggressive assembly features.
+The main value for Aria is reliable assembly of modular documentation into reviewable pages.

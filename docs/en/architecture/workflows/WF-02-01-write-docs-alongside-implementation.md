@@ -33,7 +33,8 @@ meta:
 
 ## Write Docs alongside Implementation
 
-A developer is implementing a feature or fix. Documentation must be produced in the same flow, without creating a separate “docs project”.
+A developer is implementing a feature or fix.
+Documentation must be produced in the same flow, without creating a separate “docs project”.
 
 ### Goal
 

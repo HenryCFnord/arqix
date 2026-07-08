@@ -37,4 +37,5 @@ When an evidence bundle export is invoked with one or more requirement or story 
 
 ### Notes
 
-Derived from the acceptance criteria of US-03-01-04 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-03-01-04 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

@@ -34,7 +34,6 @@ meta:
   generated: false
 ---
 
-
 ## Search and Read Documentation via CLI
 
 As an AIOps engineer, I want to search and read documentation, so that I can quickly retrieve structured content via CLI and later through MCP.
@@ -48,4 +47,7 @@ As an AIOps engineer, I want to search and read documentation, so that I can qui
 
 ### Notes
 
-The first version is sufficient if users can reliably find a document by text query and read a full document or anchored section without extra tooling. Add tests for exact and partial matches, ambiguous search results, and missing anchors. Keep CLI output concise because the same behavior will likely be reused by MCP later. The main value for Alex is reliable retrieval for automation and agents.
+The first version is sufficient if users can reliably find a document by text query and read a full document or anchored section without extra tooling.
+Add tests for exact and partial matches, ambiguous search results, and missing anchors.
+Keep CLI output concise because the same behavior will likely be reused by MCP later.
+The main value for Alex is reliable retrieval for automation and agents.

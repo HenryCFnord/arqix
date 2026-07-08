@@ -32,7 +32,6 @@ meta:
   generated: false
 ---
 
-
 ## Filter Traceability Reports for Audit Review
 
 As an auditor, I want filtered traceability report views, so that I can focus on high-risk gaps without manually reshaping raw exports.

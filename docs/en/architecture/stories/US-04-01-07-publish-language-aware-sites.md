@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Publish Language-Aware Sites
 
 As a DevOps engineer, I want to publish documentation sites per language using arqix, with Zensical as the first supported site toolchain, so that bilingual documentation can be built and deployed deterministically in CI.
@@ -52,4 +51,7 @@ As a DevOps engineer, I want to publish documentation sites per language using a
 
 ### Notes
 
-In scope are language-root selection from i18n configuration, Zensical as the first site builder integration, deterministic artefact locations, and machine-readable diagnostics. Out of scope are HTML generation via Pandoc and additional site builders beyond Zensical. This story validates that the chosen i18n layout is practical for CI and automation. This is the canonical bilingual publishing view.
+In scope are language-root selection from i18n configuration, Zensical as the first site builder integration, deterministic artefact locations, and machine-readable diagnostics.
+Out of scope are HTML generation via Pandoc and additional site builders beyond Zensical.
+This story validates that the chosen i18n layout is practical for CI and automation.
+This is the canonical bilingual publishing view.

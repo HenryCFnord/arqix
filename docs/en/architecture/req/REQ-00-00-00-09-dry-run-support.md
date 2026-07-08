@@ -44,4 +44,5 @@ Where a command creates or modifies files, the command SHALL support a dry-run m
 
 Curated from acceptance criteria demanding `--dry-run` behaviour for document and translation creation.
 
-Contributing stories: 6 (see `derived-from`). Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
+Contributing stories: 6 (see `derived-from`).
+Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

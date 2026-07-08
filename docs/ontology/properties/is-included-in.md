@@ -33,4 +33,5 @@ meta:
 
 ## Is-included-in
 
-Relates a unit to a document page that includes it. Inverse of `includes-unit`.
+Relates a unit to a document page that includes it.
+Inverse of `includes-unit`.

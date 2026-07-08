@@ -37,7 +37,6 @@ meta:
   generated: false
 ---
 
-
 ## Export a Deterministic Document Catalog
 
 As an AIOps engineer, I want a deterministic document catalog export, so that downstream indexing and retrieval systems can consume arqix content without scraping Markdown.
@@ -51,4 +50,6 @@ As an AIOps engineer, I want a deterministic document catalog export, so that do
 
 ### Notes
 
-Acceptance should show that downstream indexing and retrieval systems can consume the catalog without scraping Markdown. Add tests for stable ordering, filtering by kind and language, and deterministic JSON rendering. This is a core machine-readable dataset capability.
+Acceptance should show that downstream indexing and retrieval systems can consume the catalog without scraping Markdown.
+Add tests for stable ordering, filtering by kind and language, and deterministic JSON rendering.
+This is a core machine-readable dataset capability.

@@ -1,8 +1,10 @@
 # Requirements Style Guide
 
-This guide defines the normative authoring rules for requirement documents under `docs/en/architecture/req/`. It combines a strict subset of RFC 2119 keywords with the EARS sentence patterns so that every requirement is deterministic to parse, classify, and verify.
+This guide defines the normative authoring rules for requirement documents under `docs/en/architecture/req/`.
+It combines a strict subset of RFC 2119 keywords with the EARS sentence patterns so that every requirement is deterministic to parse, classify, and verify.
 
-`scripts/check_requirements.py` enforces these rules mechanically. This guide is the human-readable contract behind that checker and the later arqix implementation.
+`scripts/check_requirements.py` enforces these rules mechanically.
+This guide is the human-readable contract behind that checker and the later arqix implementation.
 
 ## References
 
@@ -65,7 +67,8 @@ The `<system>` subject of the core clause follows these rules:
   - `Where warn-only mode is configured, \`arqix policy check\` SHALL report violations without failing.`
 - Artefact and output subjects are allowed when the requirement constrains the artefact itself rather than tool behaviour (documents, reports, diagnostics, processes, coding agents).
   - `The agent instruction document SHALL define scope rules for story-by-story execution.`
-- Invented subsystem nouns are forbidden — do not write `the arqix formatter`, `the linter`, or `the exporter`; use `The arqix CLI` or the command-trigger form instead. The checker reports arqix-containing subjects outside the allowed forms (`EARS-006`, warning).
+- Invented subsystem nouns are forbidden — do not write `the arqix formatter`, `the linter`, or `the exporter`; use `The arqix CLI` or the command-trigger form instead.
+  The checker reports arqix-containing subjects outside the allowed forms (`EARS-006`, warning).
 
 ## Atomicity
 
@@ -74,10 +77,13 @@ One requirement binds exactly one verifiable contract: one behaviour or one arte
 - Enumerations inside the normative sentence are allowed when they completely specify that single contract — for example the result set of one command invocation, or the mandatory content of one document.
 - When the sentence enumerates, the `fit-criterion` MUST make every enumerated item independently checkable: either by itemising them ("Each violation class (missing, extra, type-invalid) produces a distinct finding.") or by a set quantifier ("produces exactly the standard scaffold").
 - Split into separate requirements when the enumerated items are independently implementable features, could ship separately, or need different verification methods.
-- Partial-failure localisation lives in the trace model, not in the requirement count: `verifies-requirement` is many-to-one, so several test cases may verify one requirement — one per enumerated aspect. A requirement counts as satisfied only when all linked verification evidence passes; the failing test identifies the missing aspect.
+- Partial-failure localisation lives in the trace model, not in the requirement count: `verifies-requirement` is many-to-one, so several test cases may verify one requirement — one per enumerated aspect.
+  A requirement counts as satisfied only when all linked verification evidence passes; the failing test identifies the missing aspect.
 - Atomicity is a review criterion, not a checker rule: enumeration detection over natural sentences produces too many false positives ("identical inputs and configuration" is one condition, not two features) to be enforced mechanically.
 
-Canonical owner: every behaviour is specified exactly once. When several stories demand the same behaviour, the requirement is owned by the story with the lowest ID that demands it (the requirement ID stays `REQ-<owner>-NN`, and the owner is the first `derived-from` object); all further demanding stories are added to `derived-from` and link the requirement in their `has-requirement` instead of duplicating it. The `00-00-00` domain remains reserved for system-wide contracts, not for shared feature behaviour.
+Canonical owner: every behaviour is specified exactly once.
+When several stories demand the same behaviour, the requirement is owned by the story with the lowest ID that demands it (the requirement ID stays `REQ-<owner>-NN`, and the owner is the first `derived-from` object); all further demanding stories are added to `derived-from` and link the requirement in their `has-requirement` instead of duplicating it.
+The `00-00-00` domain remains reserved for system-wide contracts, not for shared feature behaviour.
 
 Good — one contract, itemisable fit criterion:
 

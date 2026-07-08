@@ -1,10 +1,7 @@
 # Report question catalog
 
-The living catalog behind the question-driven report units (ADR-0008):
-every human-facing report artefact answers exactly one of these questions.
-The catalog is deliberately non-exhaustive — new questions are added here
-first, and each question graduates into a user story for the report family
-before it becomes Rust command surface.
+The living catalog behind the question-driven report units (ADR-0008): every human-facing report artefact answers exactly one of these questions.
+The catalog is deliberately non-exhaustive — new questions are added here first, and each question graduates into a user story for the report family before it becomes Rust command surface.
 
 | ID | Question | Data source | Unit | Status |
 | --- | --- | --- | --- | --- |
@@ -21,6 +18,6 @@ before it becomes Rust command surface.
 
 Regenerate all built units with:
 
-```
+```text
 python3 scripts/arqix_report.py --snapshot "<sha>, <date>"
 ```

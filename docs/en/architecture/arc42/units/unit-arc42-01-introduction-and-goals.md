@@ -27,7 +27,8 @@ meta:
 
 ## Introduction and Goals
 
-arqix is a deterministic documentation-as-code toolchain: it creates, formats, lints, assembles, traces, and publishes modular Markdown documentation whose structure and relationships are machine-readable. Documentation is treated as a dataset with a contract, not as prose with goodwill.
+arqix is a deterministic documentation-as-code toolchain: it creates, formats, lints, assembles, traces, and publishes modular Markdown documentation whose structure and relationships are machine-readable.
+Documentation is treated as a dataset with a contract, not as prose with goodwill.
 
 The system exists because "related" links between artefacts are not enough (see the blog post *why arqix had to exist*): requirements, stories, code, and tests need verifiable, tool-enforced traceability that survives automation.
 
@@ -43,4 +44,5 @@ The system exists because "related" links between artefacts are not enough (see 
 
 ### Stakeholders
 
-The eight personas under `../personas/` condense into three C4 roles: the Documentation Maintainer (standards and governance), the Developer (docs alongside implementation; includes QA, architect, and reviewer perspectives), and the Coding Agent (deterministic story-by-story automation; includes CI). Coverage per persona is tracked in the requirements review table.
+The eight personas under `../personas/` condense into three C4 roles: the Documentation Maintainer (standards and governance), the Developer (docs alongside implementation; includes QA, architect, and reviewer perspectives), and the Coding Agent (deterministic story-by-story automation; includes CI).
+Coverage per persona is tracked in the requirements review table.

@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Create Documents Deterministically from Templates
 
 As a coding agent, I want to create documents from templates, so that I can generate compliant artefacts deterministically without guessing kinds, placeholders, or file structure.

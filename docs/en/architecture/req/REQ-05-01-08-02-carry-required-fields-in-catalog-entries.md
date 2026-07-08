@@ -38,4 +38,5 @@ Each catalog entry SHALL include at least `id`, `kind`, `title`, `lang`, and the
 
 ### Notes
 
-Derived from the acceptance criteria of US-05-01-08, US-08-01-07 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10). Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+Derived from the acceptance criteria of US-05-01-08, US-08-01-07 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
+Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.

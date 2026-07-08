@@ -5,11 +5,13 @@
 This repository uses a lightweight, planning-driven workflow for solo development.
 
 The goal is to keep work:
+
 - structured enough for reliable AI-assisted implementation,
 - lightweight enough to stay practical,
 - and strict enough to protect `main`.
 
 Agents working in this repository must optimize for:
+
 - clarity,
 - small reviewable changes,
 - stable mainline history,
@@ -67,6 +69,7 @@ The initial planning branch and draft planning artefacts may be created during i
 Handoffs remain supported artefacts where useful, but they are no longer the mandatory first step.
 
 A handoff should define:
+
 - goal
 - scope
 - out of scope
@@ -78,6 +81,7 @@ A handoff should define:
 - risks and unknowns
 
 When a handoff exists:
+
 - read it before changing files
 - map it to the current branch-local plan when appropriate
 - stay within its scope
@@ -99,12 +103,14 @@ Use branch prefixes that match the type of work:
 - `chore/` for repository maintenance and low-level upkeep
 
 Branch names should be:
+
 - short
 - descriptive
 - lowercase
 - slug-like
 
 Examples:
+
 - `feat/handoff-parser`
 - `fix/yaml-validation`
 - `refactor/config-loading`
@@ -119,6 +125,7 @@ Use the lightest process that still preserves clarity.
 ### Direct push to `main`
 
 Allowed only for trivial, low-risk changes such as:
+
 - typo fixes
 - wording changes
 - markdown formatting
@@ -126,6 +133,7 @@ Allowed only for trivial, low-risk changes such as:
 - tiny metadata fixes
 
 Do not directly push to `main` if the change affects:
+
 - code behavior
 - tests
 - architecture
@@ -136,12 +144,14 @@ Do not directly push to `main` if the change affects:
 ### Branch without issue or PR
 
 Appropriate for small real changes where:
+
 - the scope is small,
 - the intent is obvious,
 - no formal review checkpoint is needed,
 - and future traceability requirements are low.
 
 Typical examples:
+
 - small docs updates
 - blog posts
 - experiment reports
@@ -150,12 +160,14 @@ Typical examples:
 ### Issue plus branch
 
 Use an issue when the work benefits from:
+
 - explicit scope tracking,
 - acceptance criteria,
 - contextual references,
 - or likely follow-up work.
 
 Typical examples:
+
 - medium-sized tasks
 - structured imports or normalization work
 - tasks derived from reviewed plans or handoffs
@@ -164,6 +176,7 @@ Typical examples:
 ### Issue plus branch plus PR
 
 Preferred for:
+
 - features
 - non-trivial bug fixes
 - meaningful refactorings
@@ -183,10 +196,12 @@ Treat content artefacts differently from implementation work.
 Blog posts, reports, and standalone documentation pieces are often the work item itself.
 
 Typical flow:
+
 - branch only
 - optional PR if the change is large, structural, or AI-assisted
 
 Examples:
+
 - blog article
 - experiment report
 - workflow documentation
@@ -194,6 +209,7 @@ Examples:
 ### Implementation work
 
 Features, bug fixes, refactorings, architectural changes, and structured requirements work typically need:
+
 - scoped task context, ideally from reviewed `PLANS.md`
 - dedicated branch
 - PR for meaningful AI-assisted work
@@ -201,6 +217,7 @@ Features, bug fixes, refactorings, architectural changes, and structured require
 ## Planning behavior
 
 For non-trivial tasks:
+
 - inspect relevant files first
 - understand the local conventions
 - propose a short plan before large edits
@@ -216,6 +233,7 @@ Prefer evolutionary changes over premature abstraction.
 ## Editing behavior
 
 When editing:
+
 - preserve existing style unless there is a good reason to improve it
 - avoid unrelated cleanup
 - keep changes focused
@@ -228,6 +246,7 @@ Do not mix unrelated changes into the same task unless explicitly asked.
 ## Testing
 
 For behavioral changes:
+
 - add or update tests
 - prefer targeted tests close to the changed behavior
 - keep tests readable
@@ -239,52 +258,38 @@ Do not claim that tests passed unless they were actually run.
 
 ## Test-driven implementation
 
-Rust implementation work on the arqix CLI is test-driven. The command
-skeleton under `tests/cli_*.rs` mirrors the command-ownership table in
-arc42 chapter 5; tests for unimplemented stories are `#[ignore]`d with
-the owning story ID as the reason.
+Rust implementation work on the arqix CLI is test-driven.
+The command skeleton under `tests/cli_*.rs` mirrors the command-ownership table in arc42 chapter 5; tests for unimplemented stories are `#[ignore]`d with the owning story ID as the reason.
 
 Implementing a story follows this order, and the order is normative:
 
-1. Remove the `#[ignore]` attributes of the story's tests (and refine
-   the test bodies and fixtures where the skeleton was only a contract
-   sketch).
-2. Run the tests and show they fail (red). Include the red output in
-   the PR description as evidence.
+1. Remove the `#[ignore]` attributes of the story's tests (and refine the test bodies and fixtures where the skeleton was only a contract sketch).
+2. Run the tests and show they fail (red).
+   Include the red output in the PR description as evidence.
 3. Implement until the tests pass (green), then refactor.
-4. Commit the test changes before or together with — never after — the
-   implementation they drive. Reviewers check the commit order.
+4. Commit the test changes before or together with — never after — the implementation they drive.
+   Reviewers check the commit order.
 
 Additional rules:
 
-- Every test that verifies a requirement carries an
-  `// arqix:verifies REQ-…` marker comment directly above the test
-  function; `scripts/check_trace_markers.py` validates markers against
-  the requirements corpus and must pass before every commit.
-- Every ignored test must name its owning story in the ignore reason
-  (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
-- Tests must be deterministic: no wall clock (dates are injected,
-  see ADR-0004), no network, no dependence on test execution order.
-  Mutating commands run on `scratch_copy` fixtures, never on the
-  shared fixture.
-- Do not delete or weaken a skeleton test to get to green; if a
-  contract turns out wrong, change the requirement first and reference
-  the change in the PR.
+- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; `scripts/check_trace_markers.py` validates markers against the requirements corpus and must pass before every commit.
+- Every ignored test must name its owning story in the ignore reason (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
+- Tests must be deterministic: no wall clock (dates are injected, see ADR-0004), no network, no dependence on test execution order.
+  Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
+- Do not delete or weaken a skeleton test to get to green; if a contract turns out wrong, change the requirement first and reference the change in the PR.
 
-Conformance runs: the test helpers honour an `ARQIX_BIN` override, so
-the same skeleton tests double as the conformance suite for the Python
-oracle (arc42 chapter 8). Command families implemented in Python are
-exercised with
+Conformance runs: the test helpers honour an `ARQIX_BIN` override, so the same skeleton tests double as the conformance suite for the Python oracle (arc42 chapter 8).
+Command families implemented in Python are exercised with
 
-    ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
+ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
 
-The tests stay `#[ignore]`d — the default `cargo test` run measures the
-Rust implementation only. A story counts as ported when its suite is
-green without the override.
+The tests stay `#[ignore]`d — the default `cargo test` run measures the Rust implementation only.
+A story counts as ported when its suite is green without the override.
 
 ## Documentation
 
 Update documentation when:
+
 - behavior changes
 - interfaces change
 - workflows change
@@ -293,11 +298,15 @@ Update documentation when:
 
 Keep documentation concise, practical, and aligned with actual behavior.
 
+Markdown follows the markdownlint rule set configured in `.markdownlint.jsonc` plus two project conventions: write one sentence per line (never wrap a sentence for column width, never put two sentences on one line; separate paragraphs with a blank line), and place any `<!-- arqix:… -->` marker or directive on its own line directly above the block it annotates.
+The full rules and rationale are in `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2` on touched Markdown.
+
 ## Commits
 
 Make focused commits.
 
 Avoid mixing:
+
 - implementation changes
 - large documentation rewrites
 - formatting-only cleanup
@@ -308,6 +317,7 @@ A good commit should make sense when read in isolation.
 ## Pull requests
 
 When a PR is expected:
+
 - summarize the change clearly
 - state why it was made
 - call out risks and open questions
@@ -319,6 +329,7 @@ Optimize for reviewability.
 ## GitHub and review context
 
 When working from an issue, reviewed plan, handoff, or PR context:
+
 - preserve references where possible
 - keep branch names aligned with the task type
 - keep acceptance criteria visible in the final result
@@ -327,6 +338,7 @@ When working from an issue, reviewed plan, handoff, or PR context:
 ## Safety and escalation rules
 
 Do not:
+
 - push directly to `main` for non-trivial work
 - invent requirements not present in the task
 - silently introduce new runtime dependencies
@@ -334,6 +346,7 @@ Do not:
 - rewrite broad areas of the repository without clear justification
 
 When uncertain:
+
 - pause
 - summarize the uncertainty
 - propose a narrow next step
@@ -342,6 +355,7 @@ When uncertain:
 ## Decision defaults
 
 When in doubt:
+
 - prefer a branch over direct work on `main`
 - prefer a PR over a silent merge
 - prefer a small scoped change over a broad rewrite

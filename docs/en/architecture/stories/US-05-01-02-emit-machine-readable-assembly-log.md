@@ -39,7 +39,6 @@ meta:
   generated: false
 ---
 
-
 ## Emit a Machine-Readable Assembly Log
 
 As an AIOps engineer, I want a machine-readable log during assembly, so that I can trace include structure and outputs.

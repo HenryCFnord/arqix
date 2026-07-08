@@ -1,10 +1,9 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: faac23f, 2026-07-08
+     Snapshot: c5aa003, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
-
 
 Joined test → requirement → story → workflow (`is-part-of-workflow`).
 

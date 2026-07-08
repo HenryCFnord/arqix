@@ -38,15 +38,22 @@ meta:
 
 ### Context
 
-The first human-facing trace snapshot was a 142-row coverage table — a dump of the model, and unreadable. The review conclusion: the design question was asked in the wrong order. An artefact's presentation cannot be derived from the data structure; it must be derived from the *question* the artefact answers, and the questions are many: story progress, test↔requirement evidence, verified-implementation quota, code↔requirement, story↔test, workflow↔test, ADR↔requirement, docs↔code, plus classic metrics like lines of code and code coverage.
+The first human-facing trace snapshot was a 142-row coverage table — a dump of the model, and unreadable.
+The review conclusion: the design question was asked in the wrong order.
+An artefact's presentation cannot be derived from the data structure; it must be derived from the *question* the artefact answers, and the questions are many: story progress, test↔requirement evidence, verified-implementation quota, code↔requirement, story↔test, workflow↔test, ADR↔requirement, docs↔code, plus classic metrics like lines of code and code coverage.
 
 ### Decision
 
-- **One unit, one question.** Every human-facing report artefact answers exactly one named question. The presentation (table, scoreboard, list, prose) follows the question, not the data structure.
-- **Units are projections.** Each unit is a deterministic projection of the trace graph (ADR-0006 layer 1) — or, for metrics like LoC and code coverage, of an external data source joined against the graph.
+- **One unit, one question.**
+  Every human-facing report artefact answers exactly one named question.
+  The presentation (table, scoreboard, list, prose) follows the question, not the data structure.
+- **Units are projections.**
+  Each unit is a deterministic projection of the trace graph (ADR-0006 layer 1) — or, for metrics like LoC and code coverage, of an external data source joined against the graph.
 - **A report is an assembly of units**, mirroring the arc42 unit/page model: pages assemble chapters, reports assemble question units.
-- **Raw model dumps are not human artefacts.** The full graph and the full coverage table remain machine-layer outputs; a human artefact that merely reprints them is a design error, not a report.
-- **The question catalog is a living document** (`docs/en/reports/QUESTIONS.md`). Each question graduates into a user story for the report family before it becomes Rust command surface — the catalog is the story backlog for reporting.
+- **Raw model dumps are not human artefacts.**
+  The full graph and the full coverage table remain machine-layer outputs; a human artefact that merely reprints them is a design error, not a report.
+- **The question catalog is a living document** (`docs/en/reports/QUESTIONS.md`).
+  Each question graduates into a user story for the report family before it becomes Rust command surface — the catalog is the story backlog for reporting.
 
 ### Alternatives Considered
 

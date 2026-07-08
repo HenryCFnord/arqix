@@ -33,7 +33,8 @@ meta:
 
 ## Validate Traceability and Coverage
 
-The repository contains requirements, code, tests, and documentation. QA needs objective evidence and
+The repository contains requirements, code, tests, and documentation.
+QA needs objective evidence and
 
 reproducible metrics instead of manual spreadsheets.
 
@@ -47,7 +48,8 @@ missing implementations, missing verifications, unresolved IDs.
 
 1. Run `trace scan` to build the trace graph from docs, code, and tests.
 2. Generate coverage reports to identify missing links.
-3. Generate matrices for review (e.g. US↔REQ, REQ↔Tests).
+3. Generate matrices for review (e.g.
+   US↔REQ, REQ↔Tests).
 4. Review diagnostics and assign fixes (docs, code markers, tests).
 5. Export reports for audit or quality dashboards if needed.
 

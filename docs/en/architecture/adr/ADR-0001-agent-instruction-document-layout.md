@@ -44,15 +44,22 @@ meta:
 
 ### Context
 
-The user stories and requirements about agent workflows originally hardcoded `AGENTS.md` and `PLANS.md` and assumed the Codex workflow. In practice, coding agents read different instruction files: Codex, Cursor, Zed, and Gemini CLI read `AGENTS.md` (an open cross-vendor standard), while Claude Code primarily reads `CLAUDE.md` and can reference or import other files. Extension mechanisms also differ: Claude Code manages skills under `.claude/skills`, Codex uses prompt files, and other agents bring their own conventions. Stories US-01-01-09 and US-08-01-18 and requirements REQ-01-01-09-01 through -06 are therefore phrased agent-agnostically in terms of two roles: the *agent instruction document* and the *plan document*. This ADR fixes the concrete file mapping for those roles in this repository.
+The user stories and requirements about agent workflows originally hardcoded `AGENTS.md` and `PLANS.md` and assumed the Codex workflow.
+In practice, coding agents read different instruction files: Codex, Cursor, Zed, and Gemini CLI read `AGENTS.md` (an open cross-vendor standard), while Claude Code primarily reads `CLAUDE.md` and can reference or import other files.
+Extension mechanisms also differ: Claude Code manages skills under `.claude/skills`, Codex uses prompt files, and other agents bring their own conventions.
+Stories US-01-01-09 and US-08-01-18 and requirements REQ-01-01-09-01 through -06 are therefore phrased agent-agnostically in terms of two roles: the *agent instruction document* and the *plan document*.
+This ADR fixes the concrete file mapping for those roles in this repository.
 
 ### Decision
 
-- `AGENTS.md` is the canonical agent instruction document. All normative process rules — scope rules for story-by-story execution, editing constraints for the plan document, and the required arqix verification loop — live there and only there.
-- `CLAUDE.md` exists as a thin adapter for Claude Code: it refers to `AGENTS.md` for the process contract and carries only Claude-Code-specific notes (for example skill locations). It never restates or overrides normative rules.
+- `AGENTS.md` is the canonical agent instruction document.
+  All normative process rules — scope rules for story-by-story execution, editing constraints for the plan document, and the required arqix verification loop — live there and only there.
+- `CLAUDE.md` exists as a thin adapter for Claude Code: it refers to `AGENTS.md` for the process contract and carries only Claude-Code-specific notes (for example skill locations).
+  It never restates or overrides normative rules.
 - Agents that read `AGENTS.md` natively (Codex, Cursor, Zed, Gemini CLI, and others following the standard) need no adapter.
 - `PLANS.md` remains the name of the plan document in this repository.
-- Agent-specific extension points (Claude Code skills under `.claude/skills`, Codex prompt files, and equivalents of other agents) are documented per supported agent and carry no normative process rules (REQ-01-01-09-06). They may automate or assist the process, but the contract they follow is defined in `AGENTS.md`.
+- Agent-specific extension points (Claude Code skills under `.claude/skills`, Codex prompt files, and equivalents of other agents) are documented per supported agent and carry no normative process rules (REQ-01-01-09-06).
+  They may automate or assist the process, but the contract they follow is defined in `AGENTS.md`.
 
 ### Alternatives Considered
 
