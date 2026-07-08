@@ -10,21 +10,21 @@ use serde_json::{Value, json};
 use std::path::Path;
 use std::process::ExitCode;
 
-/// Directories never descended into during discovery (mirrors the oracle).
-const SKIP_DIRS: [&str; 5] = [".git", "target", "node_modules", "__pycache__", "fixtures"];
-
+// arqix:implements REQ-01-01-17-01
 /// Discover and parse every document under the configured roots, sorted by
-/// path for determinism. Shared by the linter, trace engine, and verifier.
+/// path for determinism, skipping the configured `skip-dirs`
+/// (REQ-01-01-17-01/-02). Shared by the linter, trace engine, and verifier.
 pub fn documents() -> Vec<Document> {
+    let skip = crate::config::skip_dirs(Path::new("."));
     let mut docs = Vec::new();
     for root in crate::config::roots(Path::new(".")) {
-        walk(Path::new(&root), &mut docs);
+        walk(Path::new(&root), &skip, &mut docs);
     }
     docs.sort_by(|a, b| a.file.cmp(&b.file));
     docs
 }
 
-fn walk(dir: &Path, docs: &mut Vec<Document>) {
+fn walk(dir: &Path, skip: &[String], docs: &mut Vec<Document>) {
     let entries = match std::fs::read_dir(dir) {
         Ok(entries) => entries,
         Err(_) => return,
@@ -34,8 +34,8 @@ fn walk(dir: &Path, docs: &mut Vec<Document>) {
     for path in paths {
         if path.is_dir() {
             let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-            if !SKIP_DIRS.contains(&name) {
-                walk(&path, docs);
+            if !skip.iter().any(|s| s == name) {
+                walk(&path, skip, docs);
             }
             continue;
         }

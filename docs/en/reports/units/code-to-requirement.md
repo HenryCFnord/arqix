@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c5aa003, 2026-07-08
+     Snapshot: 876c506, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -19,6 +19,7 @@
 | `coverage_command` | src/trace.rs:654 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:655 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:656 | REQ-01-01-08-03 |
+| `documents` | src/store.rs:13 | REQ-01-01-17-01 |
 | `finalise` | src/rewriter.rs:222 | REQ-01-01-06-01 |
 | `finalise` | src/rewriter.rs:223 | REQ-01-01-06-02 |
 | `finalise` | src/rewriter.rs:224 | REQ-01-01-06-03 |
@@ -38,9 +39,9 @@
 | `new_document` | src/templates.rs:69 | REQ-01-01-13-02 |
 | `read` | src/store.rs:113 | REQ-05-01-10-01 |
 | `read` | src/store.rs:114 | REQ-05-01-10-03 |
-| `resolve` | src/config.rs:37 | REQ-00-00-00-06 |
-| `resolve` | src/config.rs:38 | REQ-01-01-16-01 |
-| `resolve` | src/config.rs:39 | REQ-01-01-16-03 |
+| `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
+| `resolve` | src/config.rs:46 | REQ-01-01-16-01 |
+| `resolve` | src/config.rs:47 | REQ-01-01-16-03 |
 | `run` | src/linter.rs:12 | REQ-01-01-04-01 |
 | `run` | src/linter.rs:13 | REQ-01-01-04-03 |
 | `run` | src/linter.rs:14 | REQ-01-01-04-04 |
@@ -50,8 +51,8 @@
 | `scan` | src/trace.rs:635 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:636 | REQ-03-01-05-05 |
 | `search` | src/store.rs:145 | REQ-02-01-06-01 |
-| `show` | src/config.rs:151 | REQ-01-01-16-02 |
-| `validate` | src/config.rs:140 | REQ-01-01-16-01 |
+| `show` | src/config.rs:176 | REQ-01-01-16-02 |
+| `validate` | src/config.rs:165 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:22 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-03 |

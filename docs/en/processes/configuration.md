@@ -9,12 +9,16 @@ A missing file is valid — it simply means no overrides.
 | Key | Type | Default | Validated in v1 |
 | --- | --- | --- | --- |
 | `roots` | array of strings | `["docs"]` | yes — type-checked |
+| `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
 | `kinds` | table | empty | accepted, content validated in a later schema version |
 | `templates` | table | empty | accepted, content validated in a later schema version |
 | `policies` | table | empty | accepted, content validated in a later schema version |
 | `i18n` | table | empty | accepted, content validated in a later schema version |
 
 Unknown top-level keys are ignored with a warning — forward compatibility for configs written against newer schema versions.
+
+`skip-dirs` governs document discovery (the store walk under `roots`: `doc list/read/search`, lint, fmt, assemble).
+The trace corpus walk keeps its fixed skip set, mirroring the Python oracle for conformance (REQ-01-01-17-01).
 
 ## Diagnostics
 

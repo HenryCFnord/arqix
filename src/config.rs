@@ -19,9 +19,16 @@ const SCHEMA_VERSION: u64 = 1;
 /// Known optional table sections accepted (and not yet validated) in v1.
 const KNOWN_SECTIONS: [&str; 4] = ["kinds", "templates", "policies", "i18n"];
 
+// arqix:implements REQ-01-01-17-02
+/// Directories document discovery never descends into unless overridden by
+/// a `skip-dirs` config entry. The trace corpus walk keeps its own fixed
+/// copy of this set (src/trace.rs) for oracle conformance.
+const DEFAULT_SKIP_DIRS: [&str; 5] = [".git", "target", "node_modules", "__pycache__", "fixtures"];
+
 /// The effective configuration: schema-v1 defaults merged with overrides.
 pub struct EffectiveConfig {
     pub roots: Vec<String>,
+    pub skip_dirs: Vec<String>,
     pub sections: Map<String, Value>,
 }
 
@@ -29,6 +36,7 @@ impl Default for EffectiveConfig {
     fn default() -> Self {
         EffectiveConfig {
             roots: vec!["docs".to_string()],
+            skip_dirs: DEFAULT_SKIP_DIRS.iter().map(|s| s.to_string()).collect(),
             sections: Map::new(),
         }
     }
@@ -61,12 +69,23 @@ fn resolve(dir: &Path) -> (EffectiveConfig, Vec<Diagnostic>) {
 
     for (key, value) in &table {
         match key.as_str() {
-            "roots" => match roots_from(value) {
+            "roots" => match string_array(value) {
                 Ok(roots) => config.roots = roots,
                 Err(found) => diagnostics.push(
                     Diagnostic::error(
                         "CFG-001",
                         format!("roots: expected an array of strings, found {found}"),
+                    )
+                    .at(CONFIG_FILE),
+                ),
+            },
+            // arqix:implements REQ-01-01-17-01
+            "skip-dirs" => match string_array(value) {
+                Ok(dirs) => config.skip_dirs = dirs,
+                Err(found) => diagnostics.push(
+                    Diagnostic::error(
+                        "CFG-001",
+                        format!("skip-dirs: expected an array of strings, found {found}"),
                     )
                     .at(CONFIG_FILE),
                 ),
@@ -104,7 +123,13 @@ pub fn roots(dir: &Path) -> Vec<String> {
     resolve(dir).0.roots
 }
 
-fn roots_from(value: &toml::Value) -> Result<Vec<String>, String> {
+/// The effective skip list for document discovery — the default set unless
+/// a `skip-dirs` override replaces it (REQ-01-01-17-01/-02).
+pub fn skip_dirs(dir: &Path) -> Vec<String> {
+    resolve(dir).0.skip_dirs
+}
+
+fn string_array(value: &toml::Value) -> Result<Vec<String>, String> {
     let items = value
         .as_array()
         .ok_or_else(|| value.type_str().to_string())?;
@@ -160,6 +185,10 @@ pub fn show(format: OutputFormat) -> ExitCode {
     let mut effective = Map::new();
     effective.insert("schema_version".to_string(), Value::from(SCHEMA_VERSION));
     effective.insert("roots".to_string(), Value::from(config.roots.clone()));
+    effective.insert(
+        "skip-dirs".to_string(),
+        Value::from(config.skip_dirs.clone()),
+    );
     for (key, value) in &config.sections {
         effective.insert(key.clone(), value.clone());
     }
@@ -173,6 +202,7 @@ pub fn show(format: OutputFormat) -> ExitCode {
         }
         OutputFormat::Text => {
             println!("roots = {:?}", config.roots);
+            println!("skip-dirs = {:?}", config.skip_dirs);
             for key in config.sections.keys() {
                 println!("{key} = <table>");
             }

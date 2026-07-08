@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c5aa003, 2026-07-08
+     Snapshot: 876c506, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -19,6 +19,8 @@
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_list_emits_a_json_document_catalog` | tests/cli_doc.rs:57 | REQ-05-01-08-01 | active |
 | `doc_list_filters_the_catalog_by_kind` | tests/cli_doc.rs:69 | REQ-05-01-08-03 | active |
+| `doc_list_honours_configured_skip_dirs` | tests/cli_doc.rs:117 | REQ-01-01-17-01 | active |
+| `doc_list_skips_the_default_directories_without_an_override` | tests/cli_doc.rs:139 | REQ-01-01-17-02 | active |
 | `doc_new_creates_a_document_from_the_configured_template` | tests/cli_doc.rs:17 | REQ-00-00-00-05 | active |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:28 | REQ-01-01-13-01 | active |
 | `doc_new_writes_into_the_configured_kind_location` | tests/cli_doc.rs:41 | REQ-01-01-13-02 | active |

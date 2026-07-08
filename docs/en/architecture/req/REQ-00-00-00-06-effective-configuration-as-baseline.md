@@ -19,6 +19,7 @@ triples:
       - arqix:user-stories/us-01-01-13
       - arqix:user-stories/us-01-01-14
       - arqix:user-stories/us-01-01-16
+      - arqix:user-stories/us-01-01-17
       - arqix:user-stories/us-02-01-02
       - arqix:user-stories/us-02-01-03
       - arqix:user-stories/us-02-01-04
@@ -76,7 +77,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-02
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
