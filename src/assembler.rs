@@ -9,8 +9,9 @@
 use crate::OutputFormat;
 use crate::diag::{self, Diagnostic};
 use crate::linter::include_target;
-use crate::sha256;
 use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
+use std::fmt::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
@@ -55,7 +56,6 @@ pub fn build(format: OutputFormat) -> ExitCode {
     }
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
-    let code = diag::exit_code(&diagnostics);
     diag::emit(&diagnostics, format);
     if diagnostics.is_empty() && matches!(format, OutputFormat::Text) {
         println!(
@@ -64,7 +64,7 @@ pub fn build(format: OutputFormat) -> ExitCode {
             records.len()
         );
     }
-    code
+    diag::exit_code(&diagnostics)
 }
 
 /// Write the assembled pages and the JSONL log. Any I/O failure is a
@@ -134,7 +134,7 @@ fn expand(
         "chapter_id": chapter_id(file, &text),
         "out": out_rel,
         "include": rel(file),
-        "sha256": sha256::hex(text.as_bytes()),
+        "sha256": sha256_hex(text.as_bytes()),
         "bytes": text.len(),
         "at_line": at_line,
     }));
@@ -213,4 +213,28 @@ fn rel(file: &Path) -> String {
 /// when it cannot be resolved (e.g. it does not exist).
 fn canonical(file: &Path) -> PathBuf {
     std::fs::canonicalize(file).unwrap_or_else(|_| file.to_path_buf())
+}
+
+/// The lowercase hex SHA-256 of `data` — the content-identity fingerprint in
+/// the assembly log (REQ-04-01-01-05), computed by the `sha2` crate.
+fn sha256_hex(data: &[u8]) -> String {
+    let mut out = String::with_capacity(64);
+    for byte in Sha256::digest(data) {
+        write!(out, "{byte:02x}").expect("writing to a String never fails");
+    }
+    out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::sha256_hex;
+
+    #[test]
+    fn sha256_hex_matches_the_nist_vector() {
+        // Pins the crate wiring and the hex rendering the log depends on.
+        assert_eq!(
+            sha256_hex(b"abc"),
+            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        );
+    }
 }
