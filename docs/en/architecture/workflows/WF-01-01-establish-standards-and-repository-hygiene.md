@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-07-02
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -73,4 +73,4 @@ Establish a predictable documentation system: templates, routing, markup rules, 
 
 ### Automation (optional)
 
-- Taskfile: `taskfiles/wf-0001.yml` (hygiene pass)
+- just: `just verify` — the daily gate doubles as the hygiene pass

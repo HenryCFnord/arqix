@@ -20,7 +20,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2025-03-05
-  updated: 2025-03-28
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -36,7 +36,7 @@ If a tool cannot be automated, it will not scale.
 
 - Run arqix checks as CI gates for PRs.
 - Build and publish documentation deterministically.
-- Keep pipelines simple by reusing Taskfile workflows.
+- Keep pipelines simple by running the same gate locally and in CI (`just ci`).
 - Provide clear failure signals and diagnostics.
 
 ### Success Looks Like
@@ -55,7 +55,7 @@ If a tool cannot be automated, it will not scale.
 
 ### Typical Workflow with arqix
 
-Daria integrates arqix into CI using Taskfile tasks.
+Daria integrates arqix into CI by running the same gate the repository runs locally.
 PR pipelines run formatting checks, lint, trace scan, and coverage.
 Main pipelines run the same gates and then build and publish artefacts.
 
@@ -66,7 +66,7 @@ Main pipelines run the same gates and then build and publish artefacts.
 - `trace scan`
 - `trace coverage`
 - `publish site --lang en|de` (Zensical-first)
-- Taskfile workflows (`task ci:pr`, `task ci:main`)
+- the CI pipeline (`.github/workflows/ci.yml`) and its local mirror `just ci`
 
 #### artefacts They Care About
 

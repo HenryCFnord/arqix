@@ -20,7 +20,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-05
-  updated: 2026-07-02
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -55,7 +55,7 @@ Casey follows contracts, not vibes.
 
 ### Typical Workflow with arqix
 
-Casey reads the plan for a single story, creates or updates docs via templates, implements code and tests, adds trace markers, and runs the blessed verification loop (Taskfile or `agent verify`).
+Casey reads the plan for a single story, creates or updates docs via templates, implements code and tests, adds trace markers, and runs the blessed verification loop (`just verify` or `agent verify`).
 If checks fail, Casey fixes minimally within scope or stops with actionable diagnostics.
 
 ### Important arqix Capabilities and Commands
@@ -63,7 +63,7 @@ If checks fail, Casey fixes minimally within scope or stops with actionable diag
 - `doc new` (including translation scaffolding)
 - `fmt`, `lint run`
 - `trace scan`, `trace coverage`
-- Taskfile workflows (`task verify`, `task ci:pr`)
+- just recipes (`just verify`, `just ci`)
 - Structured diagnostics (`--format json`) and deterministic outputs
 
 ### artefacts They Care About

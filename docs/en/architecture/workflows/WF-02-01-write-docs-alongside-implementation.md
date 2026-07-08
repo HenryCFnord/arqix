@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-03-28
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -73,4 +73,4 @@ Create or update documentation and link it to code/tests using stable IDs, while
 
 ### Automation (recommended)
 
-- Taskfile: `task verify` or `task ci:pr`
+- just: `just verify`; CI runs the same gate on every PR

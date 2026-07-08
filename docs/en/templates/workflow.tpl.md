@@ -77,7 +77,7 @@ Describe the goal here.
 - `arqix lint run`
 - `arqix trace scan`
 
-<!-- Automation (optional): Mention Taskfile entries, scripts, or agent workflows that can automate parts of this process. -->
+<!-- Automation (optional): Mention just recipes, scripts, or agent workflows that can automate parts of this process. -->
 
 ### Automation (optional)
 
