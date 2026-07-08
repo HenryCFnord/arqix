@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-03-28
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -73,4 +73,5 @@ Provide CI gates for quality, and publish bilingual site outputs (Zensical-first
 
 ### Automation
 
-- Taskfile: `task ci:pr`, `task ci:main`
+- CI: `.github/workflows/ci.yml` runs the daily gate (`scripts/arqix verify`), the Rust lints, and the trace-oracle conformance cross-check on every PR and push to main
+- just: `just ci` mirrors the pipeline locally

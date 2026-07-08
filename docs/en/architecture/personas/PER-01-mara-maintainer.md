@@ -20,7 +20,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-05
-  updated: 2026-03-27
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -66,7 +66,7 @@ She regularly runs formatting and linting, reviews diagnostics, and adjusts rule
 - `fmt`
 - `lint run`
 - `trace scan` (as a quality baseline)
-- `agent verify` (later) or Taskfile workflows
+- `agent verify` (later) or the just recipes (`just verify`)
 
 ### artefacts They Care About
 

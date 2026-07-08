@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-25
-  updated: 2026-07-02
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -80,5 +80,4 @@ loops.
 
 ### Automation
 
-- Taskfile: `task verify` / `task ci:pr`
-- Taskfile module: `taskfiles/wf-0008.yml`
+- just: `just verify` during the loop, `just ci` before the PR

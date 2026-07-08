@@ -20,7 +20,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-05
-  updated: 2026-03-28
+  updated: 2026-07-08
   lang: en
   translation-of:
   generated: false
@@ -65,7 +65,7 @@ He uses assemble to preview pages, runs formatting and linting before committing
 - `fmt`
 - `lint run`
 - `trace scan` and `trace coverage` (when required)
-- Taskfile workflows for local “CI dry runs”
+- just recipes for local “CI dry runs” (`just ci`)
 
 ### artefacts They Care About
 

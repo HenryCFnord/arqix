@@ -36,7 +36,8 @@ Known at specification time:
   The **trace** family has now passed conformance (the `cli_trace` suite is green with the Rust binary and its output is value-equal to the oracle on the real corpus), so the trace oracle is in its cross-check phase.
   Remaining debt: `check_requirements.py`/`check_frontmatter.py` are still the active oracle; their Rust ports and conformance suites are Phase 5 work.
 - Performance budgets are unvalidated guesses until a real 1000-document corpus exists; decide when the corpus reaches ~500 documents or the first performance measurement exists.
-- Mermaid views are hand-derived from `workspace.dsl` until the structurizr-cli export runs in CI (ADR-0002); implement with the first CI workflow PR.
+- Mermaid views are hand-derived from `workspace.dsl` (ADR-0002).
+  The first CI PR landed the gate without the structurizr-cli export: switching the views from hand-derived to generated is a diagram-pipeline change of its own, and joins CI as a separate slice.
 - `doc search` is a linear full-text scan in v1 (`src/store.rs`); no index yet.
   The one-second budget (REQ-00-00-00-11) may later force an index, which brings state and invalidation questions.
   Decide with a dedicated search story, after measuring the linear scan on the real corpus.

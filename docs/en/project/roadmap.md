@@ -1,7 +1,7 @@
 ---
 title: "Roadmap"
 description: "Planned work for arqix, in rough priority order"
-date: 2026-07-06
+date: 2026-07-08
 status: active
 ---
 
@@ -69,7 +69,7 @@ Phase 5 is now the remaining command surface: `report bundle`, `policy check`, `
 
 ## Phase 5 — Publication and self-hosting
 
-- CI workflow: `cargo test`, the checkers, and later `arqix verify` as the gate; structurizr-cli Mermaid export joins the first CI PR (arc42 chapter 11)
+- [x] CI workflow (`.github/workflows/ci.yml`): the daily gate (checkers, marker gate, cargo test, markdownlint), the Rust lints, and the trace-oracle conformance cross-check on every PR; `just ci` mirrors it locally. The structurizr-cli Mermaid export moved to its own slice (arc42 chapter 11).
 - Report & Export (`report bundle`), Policy Checker (`policy check`), MCP Server (`mcp serve`)
 - Publish & Render (`publish site --lang`, `render pdf`), language-aware site, DE translations
 - Self-hosting closes the loop: the Python reference checkers are demoted to cross-checks and retired per the oracle policy
