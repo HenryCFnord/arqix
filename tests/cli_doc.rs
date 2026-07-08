@@ -113,3 +113,48 @@ fn doc_search_finds_documents_by_full_text() {
     let hits = stdout_json(&out);
     assert!(hits.to_string().contains("REQ-99-99-99-01"));
 }
+
+// arqix:verifies REQ-01-01-17-01
+#[test]
+fn doc_list_honours_configured_skip_dirs() {
+    let repo = scratch_copy("minimal", "doc_list_honours_configured_skip_dirs");
+    std::fs::write(repo.join("arqix.toml"), "skip-dirs = [\"archive\"]\n").unwrap();
+    std::fs::create_dir_all(repo.join("docs/archive")).unwrap();
+    std::fs::write(
+        repo.join("docs/archive/REQ-99-99-99-02-archived.md"),
+        "---\nid: REQ-99-99-99-02\ntitle: Archived\n---\nbody\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["doc", "list", "--format", "json"]);
+    assert_success(&out);
+    let catalog = stdout_json(&out).to_string();
+    assert!(catalog.contains("REQ-99-99-99-01"), "regular docs stay");
+    assert!(
+        !catalog.contains("REQ-99-99-99-02"),
+        "a document inside a configured skip-dir must not be discovered"
+    );
+}
+
+// arqix:verifies REQ-01-01-17-02
+#[test]
+fn doc_list_skips_the_default_directories_without_an_override() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_list_skips_the_default_directories_without_an_override",
+    );
+    std::fs::create_dir_all(repo.join("docs/node_modules")).unwrap();
+    std::fs::write(
+        repo.join("docs/node_modules/REQ-99-99-99-03-vendored.md"),
+        "---\nid: REQ-99-99-99-03\ntitle: Vendored\n---\nbody\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["doc", "list", "--format", "json"]);
+    assert_success(&out);
+    let catalog = stdout_json(&out).to_string();
+    assert!(
+        !catalog.contains("REQ-99-99-99-03"),
+        "the default skip set must apply without any override"
+    );
+}
