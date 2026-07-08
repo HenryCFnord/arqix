@@ -156,9 +156,8 @@ pub fn fmt(check: bool, format: OutputFormat) -> ExitCode {
             .iter()
             .map(|f| Diagnostic::error("FMT-001", "frontmatter is not canonically formatted").at(f))
             .collect();
-        let code = diag::exit_code(&diagnostics);
         diag::emit(&diagnostics, format);
-        return code;
+        return diag::exit_code(&diagnostics);
     }
 
     if write_failed {
