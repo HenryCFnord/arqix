@@ -5,7 +5,16 @@
 // the normative command map. Every command is a stub until its story is
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
+mod assembler;
 mod config;
+mod diag;
+mod linter;
+mod parser;
+mod rewriter;
+mod store;
+mod templates;
+mod trace;
+mod verifier;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use std::process::ExitCode;
@@ -50,9 +59,17 @@ enum Command {
         command: UnitCommand,
     },
     /// Rewrite documents into canonical form (mechanical only)
-    Fmt,
+    Fmt {
+        /// Report unformatted documents without writing (exit 1 if any)
+        #[arg(long)]
+        check: bool,
+    },
     /// Update mechanical metadata such as `updated` (never body text)
-    Finalise,
+    Finalise {
+        /// The date to stamp as `updated` (injected, never the wall clock)
+        #[arg(long)]
+        date: String,
+    },
     /// Lint: contract checks over the corpus
     Lint {
         #[command(subcommand)]
@@ -89,7 +106,14 @@ enum Command {
         command: PolicyCommand,
     },
     /// Run the configured verification loop (format, lint, trace scan, coverage)
-    Verify,
+    Verify {
+        /// Stop at the first failing sub-step
+        #[arg(long)]
+        fail_fast: bool,
+        /// Run every sub-step and aggregate results (default)
+        #[arg(long)]
+        aggregate: bool,
+    },
     /// Model Context Protocol server
     Mcp {
         #[command(subcommand)]
@@ -112,7 +136,11 @@ enum DocCommand {
     /// Create a document of the given kind from its configured template
     New { kind: String },
     /// List documents as a machine-readable catalog
-    List,
+    List {
+        /// Filter the catalog by document kind
+        #[arg(long)]
+        kind: Option<String>,
+    },
     /// Read a document, or a section of it, as structured output
     Read { id: String },
     /// Search documents
@@ -142,11 +170,15 @@ enum TraceCommand {
     /// Scan code, tests, and documents for trace markers
     Scan,
     /// Check marker links for a requirement
-    Check,
+    Check { requirement: String },
     /// Report requirements coverage
     Coverage,
     /// Project traceability matrices
-    Matrix,
+    Matrix {
+        /// Matrix type: req-test (default) or us-req
+        #[arg(long = "type", default_value = "req-test")]
+        matrix_type: String,
+    },
 }
 
 #[derive(Subcommand)]
@@ -202,28 +234,28 @@ fn main() -> ExitCode {
             ConfigCommand::Show => config::show(cli.format),
         },
         Command::Doc { command } => match command {
-            DocCommand::Init => unimplemented("doc init"),
-            DocCommand::New { .. } => unimplemented("doc new"),
-            DocCommand::List => unimplemented("doc list"),
-            DocCommand::Read { .. } => unimplemented("doc read"),
-            DocCommand::Search { .. } => unimplemented("doc search"),
+            DocCommand::Init => templates::init(cli.format),
+            DocCommand::New { kind } => templates::new_document(&kind, cli.format),
+            DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
+            DocCommand::Read { id } => store::read(&id, cli.format),
+            DocCommand::Search { query } => store::search(&query, cli.format),
         },
         Command::Unit { command } => match command {
-            UnitCommand::New => unimplemented("unit new"),
+            UnitCommand::New => templates::new_document("unit", cli.format),
         },
-        Command::Fmt => unimplemented("fmt"),
-        Command::Finalise => unimplemented("finalise"),
+        Command::Fmt { check } => rewriter::fmt(check, cli.format),
+        Command::Finalise { date } => rewriter::finalise(&date, cli.format),
         Command::Lint { command } => match command {
-            LintCommand::Run => unimplemented("lint run"),
+            LintCommand::Run => linter::run(cli.format),
         },
         Command::Assemble { command } => match command {
-            AssembleCommand::Build => unimplemented("assemble build"),
+            AssembleCommand::Build => assembler::build(cli.format),
         },
         Command::Trace { command } => match command {
-            TraceCommand::Scan => unimplemented("trace scan"),
-            TraceCommand::Check => unimplemented("trace check"),
-            TraceCommand::Coverage => unimplemented("trace coverage"),
-            TraceCommand::Matrix => unimplemented("trace matrix"),
+            TraceCommand::Scan => trace::scan(cli.format),
+            TraceCommand::Check { requirement } => trace::check_command(&requirement, cli.format),
+            TraceCommand::Coverage => trace::coverage_command(cli.format),
+            TraceCommand::Matrix { matrix_type } => trace::matrix_command(&matrix_type, cli.format),
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle => unimplemented("report bundle"),
@@ -237,7 +269,10 @@ fn main() -> ExitCode {
         Command::Policy { command } => match command {
             PolicyCommand::Check => unimplemented("policy check"),
         },
-        Command::Verify => unimplemented("verify"),
+        Command::Verify {
+            fail_fast,
+            aggregate: _,
+        } => verifier::verify(fail_fast, cli.format),
         Command::Mcp { command } => match command {
             McpCommand::Serve => unimplemented("mcp serve"),
         },

@@ -6,7 +6,6 @@ use common::{fixture, run_arqix_in};
 
 // arqix:verifies REQ-01-01-04-01
 #[test]
-#[ignore = "US-01-01-04: not implemented"]
 fn lint_run_checks_that_include_targets_exist() {
     let out = run_arqix_in(&fixture("minimal"), &["lint", "run"]);
     common::assert_success(&out);
@@ -14,7 +13,6 @@ fn lint_run_checks_that_include_targets_exist() {
 
 // arqix:verifies REQ-01-01-04-03
 #[test]
-#[ignore = "US-01-01-04: not implemented"]
 fn lint_run_reports_duplicate_ids_globally() {
     let repo = common::scratch_copy("minimal", "lint_run_reports_duplicate_ids_globally");
     std::fs::copy(
@@ -34,7 +32,6 @@ fn lint_run_reports_duplicate_ids_globally() {
 
 // arqix:verifies REQ-01-01-04-04
 #[test]
-#[ignore = "US-01-01-04: not implemented"]
 fn lint_run_reports_findings_with_file_and_line_context() {
     let repo = common::scratch_copy(
         "minimal",
@@ -57,7 +54,6 @@ fn lint_run_reports_findings_with_file_and_line_context() {
 
 // arqix:verifies REQ-00-00-00-10
 #[test]
-#[ignore = "US-01-01-10: not implemented"]
 fn lint_run_detects_translation_drift() {
     // Contract only at skeleton stage: the i18n profile is part of the
     // configured lint run; the fixture grows a translation pair with the

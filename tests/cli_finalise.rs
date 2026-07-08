@@ -8,7 +8,6 @@ use std::fs;
 
 // arqix:verifies REQ-01-01-06-01
 #[test]
-#[ignore = "US-01-01-06: not implemented"]
 fn finalise_sets_updated_to_the_injected_date() {
     let repo = scratch_copy("minimal", "finalise_sets_updated_to_the_injected_date");
     let doc = repo.join("docs/REQ-99-99-99-01-fixture-requirement.md");
@@ -24,7 +23,6 @@ fn finalise_sets_updated_to_the_injected_date() {
 
 // arqix:verifies REQ-01-01-06-02
 #[test]
-#[ignore = "US-01-01-06: not implemented"]
 fn finalise_leaves_current_metadata_untouched() {
     let repo = scratch_copy("minimal", "finalise_leaves_current_metadata_untouched");
     let doc = repo.join("docs/REQ-99-99-99-01-fixture-requirement.md");
@@ -42,7 +40,6 @@ fn finalise_leaves_current_metadata_untouched() {
 
 // arqix:verifies REQ-01-01-06-03
 #[test]
-#[ignore = "US-01-01-06: not implemented"]
 fn finalise_fails_clearly_on_unsupported_frontmatter() {
     let repo = scratch_copy(
         "minimal",

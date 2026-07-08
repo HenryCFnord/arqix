@@ -8,7 +8,6 @@ use common::{fixture, run_arqix_in, stdout_json};
 
 // arqix:verifies REQ-04-01-05-01
 #[test]
-#[ignore = "US-04-01-05: not implemented"]
 fn verify_runs_the_configured_sub_steps() {
     let out = run_arqix_in(&fixture("minimal"), &["verify"]);
     // Exit 0 (clean) or 1 (findings) — never a usage error or stub code.
@@ -17,7 +16,6 @@ fn verify_runs_the_configured_sub_steps() {
 
 // arqix:verifies REQ-04-01-05-02
 #[test]
-#[ignore = "US-04-01-05: not implemented"]
 fn verify_supports_fail_fast_and_aggregate_modes() {
     let fail_fast = run_arqix_in(&fixture("minimal"), &["verify", "--fail-fast"]);
     assert!(matches!(fail_fast.status.code(), Some(0) | Some(1)));
@@ -28,7 +26,6 @@ fn verify_supports_fail_fast_and_aggregate_modes() {
 
 // arqix:verifies REQ-04-01-05-03
 #[test]
-#[ignore = "US-04-01-05: not implemented"]
 fn verify_emits_per_step_results_in_json_mode() {
     let out = run_arqix_in(&fixture("minimal"), &["verify", "--format", "json"]);
     let results = stdout_json(&out);
@@ -40,7 +37,6 @@ fn verify_emits_per_step_results_in_json_mode() {
 
 // arqix:verifies REQ-04-01-05-04
 #[test]
-#[ignore = "US-04-01-05: not implemented"]
 fn verify_excludes_rendering_from_the_default_loop() {
     let out = run_arqix_in(&fixture("minimal"), &["verify", "--format", "json"]);
     let results = stdout_json(&out).to_string();

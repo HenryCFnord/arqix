@@ -8,7 +8,8 @@
 //! between the file and the finding.
 
 use crate::OutputFormat;
-use serde_json::{Map, Value, json};
+use crate::diag::{self, Diagnostic};
+use serde_json::{Map, Value};
 use std::path::Path;
 use std::process::ExitCode;
 
@@ -18,43 +19,10 @@ const SCHEMA_VERSION: u64 = 1;
 /// Known optional table sections accepted (and not yet validated) in v1.
 const KNOWN_SECTIONS: [&str; 4] = ["kinds", "templates", "policies", "i18n"];
 
-struct Diagnostic {
-    severity: &'static str,
-    code: &'static str,
-    message: String,
-}
-
-impl Diagnostic {
-    fn error(code: &'static str, message: String) -> Self {
-        Diagnostic {
-            severity: "error",
-            code,
-            message,
-        }
-    }
-
-    fn warning(code: &'static str, message: String) -> Self {
-        Diagnostic {
-            severity: "warning",
-            code,
-            message,
-        }
-    }
-
-    fn to_json(&self) -> Value {
-        json!({
-            "severity": self.severity,
-            "code": self.code,
-            "message": self.message,
-            "file": CONFIG_FILE,
-        })
-    }
-}
-
 /// The effective configuration: schema-v1 defaults merged with overrides.
-struct EffectiveConfig {
-    roots: Vec<String>,
-    sections: Map<String, Value>,
+pub struct EffectiveConfig {
+    pub roots: Vec<String>,
+    pub sections: Map<String, Value>,
 }
 
 impl Default for EffectiveConfig {
@@ -75,8 +43,7 @@ fn resolve(dir: &Path) -> (EffectiveConfig, Vec<Diagnostic>) {
     let mut config = EffectiveConfig::default();
     let mut diagnostics = Vec::new();
 
-    let path = dir.join(CONFIG_FILE);
-    let text = match std::fs::read_to_string(&path) {
+    let text = match std::fs::read_to_string(dir.join(CONFIG_FILE)) {
         Ok(text) => text,
         Err(_) => return (config, diagnostics),
     };
@@ -84,10 +51,10 @@ fn resolve(dir: &Path) -> (EffectiveConfig, Vec<Diagnostic>) {
     let table: toml::Table = match text.parse() {
         Ok(table) => table,
         Err(err) => {
-            diagnostics.push(Diagnostic::error(
-                "CFG-001",
-                format!("not parseable as TOML: {err}"),
-            ));
+            diagnostics.push(
+                Diagnostic::error("CFG-001", format!("not parseable as TOML: {err}"))
+                    .at(CONFIG_FILE),
+            );
             return (config, diagnostics);
         }
     };
@@ -96,29 +63,45 @@ fn resolve(dir: &Path) -> (EffectiveConfig, Vec<Diagnostic>) {
         match key.as_str() {
             "roots" => match roots_from(value) {
                 Ok(roots) => config.roots = roots,
-                Err(found) => diagnostics.push(Diagnostic::error(
-                    "CFG-001",
-                    format!("roots: expected an array of strings, found {found}"),
-                )),
+                Err(found) => diagnostics.push(
+                    Diagnostic::error(
+                        "CFG-001",
+                        format!("roots: expected an array of strings, found {found}"),
+                    )
+                    .at(CONFIG_FILE),
+                ),
             },
             key if KNOWN_SECTIONS.contains(&key) => {
                 if value.is_table() {
                     config.sections.insert(key.to_string(), toml_to_json(value));
                 } else {
-                    diagnostics.push(Diagnostic::error(
-                        "CFG-001",
-                        format!("{key}: expected a table, found {}", value.type_str()),
-                    ));
+                    diagnostics.push(
+                        Diagnostic::error(
+                            "CFG-001",
+                            format!("{key}: expected a table, found {}", value.type_str()),
+                        )
+                        .at(CONFIG_FILE),
+                    );
                 }
             }
-            unknown => diagnostics.push(Diagnostic::warning(
-                "CFG-002",
-                format!("{unknown}: unknown key, ignored (schema v1)"),
-            )),
+            unknown => diagnostics.push(
+                Diagnostic::warning(
+                    "CFG-002",
+                    format!("{unknown}: unknown key, ignored (schema v1)"),
+                )
+                .at(CONFIG_FILE),
+            ),
         }
     }
 
     (config, diagnostics)
+}
+
+/// The effective document roots for discovery — defaults plus overrides.
+/// Validation is `config validate`'s job; discovery falls back to defaults
+/// for a malformed file rather than failing.
+pub fn roots(dir: &Path) -> Vec<String> {
+    resolve(dir).0.roots
 }
 
 fn roots_from(value: &toml::Value) -> Result<Vec<String>, String> {
@@ -154,52 +137,23 @@ fn toml_to_json(value: &toml::Value) -> Value {
     }
 }
 
-fn emit_diagnostics(diagnostics: &[Diagnostic], format: OutputFormat) {
-    match format {
-        OutputFormat::Json => {
-            let payload = json!({
-                "schema_version": SCHEMA_VERSION,
-                "diagnostics": diagnostics.iter().map(Diagnostic::to_json).collect::<Vec<_>>(),
-            });
-            println!(
-                "{}",
-                serde_json::to_string_pretty(&payload).expect("valid JSON")
-            );
-        }
-        OutputFormat::Text => {
-            for d in diagnostics {
-                println!("{}: {}: {}: {}", CONFIG_FILE, d.code, d.severity, d.message);
-            }
-        }
-    }
-}
-
-fn exit_for(diagnostics: &[Diagnostic]) -> ExitCode {
-    if diagnostics.iter().any(|d| d.severity == "error") {
-        ExitCode::from(1)
-    } else {
-        ExitCode::SUCCESS
-    }
-}
-
 // arqix:implements REQ-01-01-16-01
 /// `arqix config validate`
 pub fn validate(format: OutputFormat) -> ExitCode {
     let (_, diagnostics) = resolve(Path::new("."));
-    let code = exit_for(&diagnostics);
-    emit_diagnostics(&diagnostics, format);
+    diag::emit(&diagnostics, format);
     if diagnostics.is_empty() && matches!(format, OutputFormat::Text) {
         println!("configuration ok");
     }
-    code
+    diag::exit_code(&diagnostics)
 }
 
 // arqix:implements REQ-01-01-16-02
 /// `arqix config show`
 pub fn show(format: OutputFormat) -> ExitCode {
     let (config, diagnostics) = resolve(Path::new("."));
-    if diagnostics.iter().any(|d| d.severity == "error") {
-        emit_diagnostics(&diagnostics, format);
+    if diag::has_errors(&diagnostics) {
+        diag::emit(&diagnostics, format);
         return ExitCode::from(1);
     }
 
