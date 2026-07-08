@@ -11,7 +11,6 @@ mod diag;
 mod linter;
 mod parser;
 mod rewriter;
-mod sha256;
 mod store;
 mod templates;
 mod trace;

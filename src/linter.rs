@@ -24,12 +24,11 @@ pub fn run(format: OutputFormat) -> ExitCode {
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
 
-    let code = diag::exit_code(&diagnostics);
     diag::emit(&diagnostics, format);
     if diagnostics.is_empty() && matches!(format, OutputFormat::Text) {
         println!("lint ok");
     }
-    code
+    diag::exit_code(&diagnostics)
 }
 
 /// LNT-002: a document ID must be globally unique (REQ-01-01-04-03).

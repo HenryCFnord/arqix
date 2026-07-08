@@ -1,28 +1,28 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c24c6b6, 2026-07-06
+     Snapshot: c5aa003, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
 
 | code | location | requirement |
 | --- | --- | --- |
-| `build` | src/assembler.rs:23 | REQ-02-01-11-01 |
-| `build` | src/assembler.rs:24 | REQ-02-01-11-03 |
-| `build` | src/assembler.rs:25 | REQ-04-01-01-02 |
-| `build` | src/assembler.rs:26 | REQ-04-01-01-03 |
-| `build` | src/assembler.rs:27 | REQ-04-01-01-04 |
-| `build` | src/assembler.rs:28 | REQ-04-01-01-05 |
+| `build` | src/assembler.rs:24 | REQ-02-01-11-01 |
+| `build` | src/assembler.rs:25 | REQ-02-01-11-03 |
+| `build` | src/assembler.rs:26 | REQ-04-01-01-02 |
+| `build` | src/assembler.rs:27 | REQ-04-01-01-03 |
+| `build` | src/assembler.rs:28 | REQ-04-01-01-04 |
+| `build` | src/assembler.rs:29 | REQ-04-01-01-05 |
 | `check_command` | src/trace.rs:668 | REQ-03-01-06-01 |
 | `check_command` | src/trace.rs:669 | REQ-03-01-06-02 |
 | `check_command` | src/trace.rs:670 | REQ-03-01-06-03 |
 | `coverage_command` | src/trace.rs:654 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:655 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:656 | REQ-01-01-08-03 |
-| `finalise` | src/rewriter.rs:223 | REQ-01-01-06-01 |
-| `finalise` | src/rewriter.rs:224 | REQ-01-01-06-02 |
-| `finalise` | src/rewriter.rs:225 | REQ-01-01-06-03 |
-| `finalise` | src/rewriter.rs:226 | REQ-00-00-00-08 |
+| `finalise` | src/rewriter.rs:222 | REQ-01-01-06-01 |
+| `finalise` | src/rewriter.rs:223 | REQ-01-01-06-02 |
+| `finalise` | src/rewriter.rs:224 | REQ-01-01-06-03 |
+| `finalise` | src/rewriter.rs:225 | REQ-00-00-00-08 |
 | `fmt` | src/rewriter.rs:128 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:129 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:130 | REQ-01-01-03-03 |
@@ -50,7 +50,7 @@
 | `scan` | src/trace.rs:635 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:636 | REQ-03-01-05-05 |
 | `search` | src/store.rs:145 | REQ-02-01-06-01 |
-| `show` | src/config.rs:152 | REQ-01-01-16-02 |
+| `show` | src/config.rs:151 | REQ-01-01-16-02 |
 | `validate` | src/config.rs:140 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:22 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-02 |

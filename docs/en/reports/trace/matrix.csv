@@ -6,7 +6,7 @@ REQ-00-00-00-04,functional,,,
 REQ-00-00-00-05,functional,tests/cli_doc.rs:17;tests/cli_unit.rs:8,,src/templates.rs:67
 REQ-00-00-00-06,functional,tests/cli_config.rs:16,,src/config.rs:37
 REQ-00-00-00-07,constraint,,,
-REQ-00-00-00-08,constraint,,,src/rewriter.rs:226
+REQ-00-00-00-08,constraint,,,src/rewriter.rs:225
 REQ-00-00-00-09,functional,,,
 REQ-00-00-00-10,functional,tests/cli_lint.rs:55,,src/linter.rs:15
 REQ-00-00-00-11,quality,,,
@@ -29,9 +29,9 @@ REQ-01-01-04-05,functional,,,
 REQ-01-01-05-01,functional,,,
 REQ-01-01-05-02,quality,,,
 REQ-01-01-05-03,functional,,,
-REQ-01-01-06-01,functional,tests/cli_finalise.rs:9,,src/rewriter.rs:223
-REQ-01-01-06-02,functional,tests/cli_finalise.rs:24,,src/rewriter.rs:224
-REQ-01-01-06-03,functional,tests/cli_finalise.rs:41,,src/rewriter.rs:225
+REQ-01-01-06-01,functional,tests/cli_finalise.rs:9,,src/rewriter.rs:222
+REQ-01-01-06-02,functional,tests/cli_finalise.rs:24,,src/rewriter.rs:223
+REQ-01-01-06-03,functional,tests/cli_finalise.rs:41,,src/rewriter.rs:224
 REQ-01-01-07-01,functional,,,
 REQ-01-01-07-02,functional,,tests/cli_policy.rs:8,
 REQ-01-01-07-03,functional,,tests/cli_policy.rs:22,
@@ -63,7 +63,7 @@ REQ-01-01-15-02,constraint,,,
 REQ-01-01-15-03,constraint,,,
 REQ-01-01-15-04,constraint,,,
 REQ-01-01-16-01,functional,tests/cli_config.rs:15;tests/cli_config.rs:28;tests/cli_config.rs:8,,src/config.rs:140;src/config.rs:38
-REQ-01-01-16-02,functional,tests/cli_config.rs:49,,src/config.rs:152
+REQ-01-01-16-02,functional,tests/cli_config.rs:49,,src/config.rs:151
 REQ-01-01-16-03,quality,tests/cli_config.rs:29,,src/config.rs:39
 REQ-02-01-03-01,quality,,,
 REQ-02-01-06-01,functional,tests/cli_doc.rs:105,,src/store.rs:145
@@ -76,9 +76,9 @@ REQ-02-01-10-01,functional,,,
 REQ-02-01-10-02,functional,,,
 REQ-02-01-10-03,functional,,,
 REQ-02-01-10-04,functional,,,
-REQ-02-01-11-01,functional,tests/cli_assemble.rs:8,,src/assembler.rs:23
+REQ-02-01-11-01,functional,tests/cli_assemble.rs:8,,src/assembler.rs:24
 REQ-02-01-11-02,functional,,,
-REQ-02-01-11-03,functional,tests/cli_assemble.rs:16,,src/assembler.rs:24
+REQ-02-01-11-03,functional,tests/cli_assemble.rs:16,,src/assembler.rs:25
 REQ-03-01-02-01,functional,tests/cli_trace.rs:87,,src/trace.rs:721
 REQ-03-01-02-02,functional,,,src/trace.rs:722
 REQ-03-01-02-03,functional,,,src/trace.rs:723
@@ -97,10 +97,10 @@ REQ-03-01-06-03,functional,,,src/trace.rs:670
 REQ-03-01-07-01,functional,,,
 REQ-03-01-07-02,functional,,,
 REQ-04-01-01-01,quality,,,
-REQ-04-01-01-02,functional,tests/cli_assemble.rs:44,,src/assembler.rs:25
-REQ-04-01-01-03,functional,,,src/assembler.rs:26
-REQ-04-01-01-04,functional,,,src/assembler.rs:27
-REQ-04-01-01-05,functional,,,src/assembler.rs:28
+REQ-04-01-01-02,functional,tests/cli_assemble.rs:44,,src/assembler.rs:26
+REQ-04-01-01-03,functional,,,src/assembler.rs:27
+REQ-04-01-01-04,functional,,,src/assembler.rs:28
+REQ-04-01-01-05,functional,,,src/assembler.rs:29
 REQ-04-01-03-01,functional,,,
 REQ-04-01-03-02,functional,,,
 REQ-04-01-03-03,functional,,,

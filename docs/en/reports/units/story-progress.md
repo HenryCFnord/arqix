@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c24c6b6, 2026-07-06
+     Snapshot: c5aa003, 2026-07-08
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
