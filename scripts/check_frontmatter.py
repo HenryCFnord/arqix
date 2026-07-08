@@ -35,6 +35,7 @@ Rule IDs:
     FM-004   slug does not match the filename tail (architecture docs)
     FM-005   first body heading does not match the expected heading
     FM-006   duplicate id or iri across scanned documents
+    FM-007   properties.section-kind is not in the controlled vocabulary
     ONT-001  triple predicate is not a defined ontology property
     ONT-002  arqix: rdf.type is not a defined ontology class
     ONT-003  arqix: triple object does not resolve to a scanned document
@@ -87,6 +88,14 @@ FAMILIES = {
                    ["id", "title", "slug", "iri", "rdf", "triples", "properties",
                     "external-references", "meta"],
                    ["id", "title", "slug", "iri"]),
+    "icd-unit": ("docs/en/architecture/icd/units",
+                 ["id", "title", "slug", "iri", "rdf", "triples", "properties",
+                  "external-references", "meta"],
+                 ["id", "title", "slug", "iri"]),
+    "icd-page": ("docs/en/architecture/icd",
+                 ["id", "title", "slug", "iri", "rdf", "triples", "properties",
+                  "external-references", "meta"],
+                 ["id", "title", "slug", "iri"]),
     "ont-class": ("docs/ontology/classes",
                   ["id", "label", "iri", "rdf", "rdfs", "triples", "properties",
                    "external-references", "owl", "meta"],
@@ -110,6 +119,22 @@ ARCH_NS = {
     "adr": ("ADR-", "arqix:adrs/"),
     "arc42-unit": ("unit-arc42-", "arqix:units/"),
     "arc42-page": ("page-", "arqix:pages/"),
+    "icd-unit": ("unit-icd-", "arqix:units/"),
+    "icd-page": ("page-icd", "arqix:pages/"),
+}
+
+# Controlled vocabulary for properties.section-kind (FM-007). Free-form
+# section-kind strings make the corpus non-machine-partitionable; new
+# document families register their kinds here (ADR-0009).
+SECTION_KINDS = {
+    "arc42-chapter",
+    "icd-command-surface",
+    "icd-exit-codes",
+    "icd-diagnostics",
+    "icd-wire-schemas",
+    "icd-input-grammars",
+    "icd-forward-contracts",
+    "icd-page",
 }
 ONT_ID_PREFIX = {"ont-class": "class-", "ont-property": "property-",
                  "ont-individual": "individual-"}
@@ -132,6 +157,7 @@ class Doc:
         self.rdfs = {}              # subkey -> [values]
         self.owl = {}               # subkey -> value
         self.meta = {}
+        self.properties = {}        # properties subkey -> value
         self.body = ""
         self.fm_ok = self._parse()
 
@@ -201,6 +227,10 @@ class Doc:
                 m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
                 if m and m.group(2).strip():
                     self.meta[m.group(1)] = m.group(2).strip()
+            elif section == "properties":
+                m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
+                if m and m.group(2).strip():
+                    self.properties[m.group(1)] = m.group(2).strip()
         return True
 
     def first_heading(self):
@@ -314,6 +344,11 @@ def check_frontmatter(doc, findings):
         if heading is None or heading.lower() != expected_heading.lower():
             findings.append(Finding(path, "FM-005", "error",
                                     "first heading %r, expected %r" % (heading, expected_heading)))
+
+    section_kind = doc.properties.get("section-kind")
+    if section_kind and section_kind not in SECTION_KINDS:
+        findings.append(Finding(path, "FM-007", "error",
+                                "properties.section-kind %r is not an allowed value" % section_kind))
 
 
 def check_vocabulary(doc, vocab, findings, allow_undefined_inverse):
@@ -551,12 +586,16 @@ def selftest():
     run("widget.md", GOOD_CLASS, "ont-class", ["ONT-005"],
         lambda t: t.replace("owl: {}", "owl:\n  inverse-of: arqix:properties/nowhere"))
     run("wrong-name.md", GOOD_CLASS, "ont-class", ["FM-002"])
+    run("US-01-01-01-test-story.md", GOOD_STORY, "story", [],
+        lambda t: t.replace("priority: high", "section-kind: arc42-chapter"))
+    run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FM-007"],
+        lambda t: t.replace("priority: high", "section-kind: bogus-kind"))
 
     if failures:
         for f in failures:
             print("selftest FAIL: %s" % f)
         return 1
-    print("selftest OK: 22 fixture cases")
+    print("selftest OK: 24 fixture cases")
     return 0
 
 
