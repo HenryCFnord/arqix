@@ -1,7 +1,7 @@
 # arqix
 
 <!-- markdownlint-disable-next-line MD033 -->
-<img src="assets/arqix-logo.png" alt="The arqix logo: an Archaeopteryx drawn as a trace graph of nodes and edges" width="240">
+<img src="assets/arqix-logo-transparent.png" alt="The arqix logo: an Archaeopteryx drawn as a trace graph of nodes and edges" width="240">
 
 A Rust CLI for structured technical documentation and Architecture-as-Code workflows.
 
