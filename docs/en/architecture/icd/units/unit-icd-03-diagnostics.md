@@ -45,6 +45,6 @@ The `--format json` payload is:
 `file` and `line` are present only when a finding has a source location.
 The `code` is a stable, greppable identifier owned by one component.
 
-Stable codes carried today (the authored catalog; it becomes generated once the diagnostic call sites move to typed DTOs — ADR-0009): `CFG-001`, `CFG-002` (config resolver); `DOC-001` (document store); `LNT-001`, `LNT-002`, `LNT-003`, `LNT-010` (linter); `FMT-001` (formatter); `FIN-001` (finaliser); `TPL-001` (templates); `ASM-001`, `ASM-002` (assembler); `TRC-COV-001`, `TRC-COV-002`, `TRC-KIND-001` (trace coverage).
+Stable codes carried today (the authored catalog; it becomes generated once the diagnostic call sites move to typed DTOs — ADR-0009): `CFG-001`, `CFG-002` (config resolver); `DOC-001` (document store); `LNT-001`, `LNT-002`, `LNT-003`, `LNT-010` (linter); `FMT-001` (formatter); `FIN-001` (finaliser); `TPL-001` (templates); `ASM-001`, `ASM-002`, `ASM-003` (output collision), `ASM-004` (include containment) (assembler); `TRC-COV-001`, `TRC-COV-002`, `TRC-KIND-001` (trace coverage).
 The shared struct lives in `src/diag.rs`.
 The full owner/severity/stability registry is the planned Diagnostics & Exit-Code Registry fragment.

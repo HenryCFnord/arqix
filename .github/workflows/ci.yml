@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: cargo build
 
-      - name: Daily gate (checkers, marker gate, cargo test, markdownlint)
+      - name: Daily gate (selftests, checkers, marker gate, report freshness, cargo test, lint, markdownlint)
         run: python3 scripts/arqix verify
 
       - name: Rust lints

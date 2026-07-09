@@ -27,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-02
+  updated: 2026-07-09
   lang: en
   translation-of:
   generated: false
@@ -35,7 +35,7 @@ meta:
 
 ## Requirement
 
-When `arqix doc new <kind>` is invoked with a title, arqix SHALL create the document in the configured location for that kind.
+When `arqix doc new <kind>` is invoked, arqix SHALL create the document in the configured location for that kind.
 
 ### Notes
 

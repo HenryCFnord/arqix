@@ -35,10 +35,27 @@ pub fn build(format: OutputFormat) -> ExitCode {
     let mut records: Vec<Value> = Vec::new();
     let mut pages: Vec<(PathBuf, String)> = Vec::new();
     let mut diagnostics: Vec<Diagnostic> = Vec::new();
+    let mut out_owners: std::collections::HashMap<String, String> =
+        std::collections::HashMap::new();
 
     for doc in &docs {
         let src = Path::new(&doc.file);
         let out_rel = out_path(&doc.file, &roots);
+        // Two sources mapping to one output would silently overwrite each
+        // other (overlapping root-relative names across configured roots);
+        // the first (path-sorted) source owns the page, the rest are a
+        // structural error (ASM-003).
+        if let Some(owner) = out_owners.get(&out_rel) {
+            diagnostics.push(
+                Diagnostic::error(
+                    "ASM-003",
+                    format!("output collision: {out_rel} is already generated from {owner}"),
+                )
+                .at(&doc.file),
+            );
+            continue;
+        }
+        out_owners.insert(out_rel.clone(), doc.file.clone());
         let mut stack: Vec<PathBuf> = Vec::new();
         let mut doc_records: Vec<Value> = Vec::new();
         match expand(src, 0, &doc.file, &out_rel, &mut stack, &mut doc_records) {
@@ -145,10 +162,19 @@ fn expand(
         if let Some(target) = include_target(line) {
             let target_path = dir.join(&target);
             if target_path.exists() {
+                let target_key = canonical(&target_path);
+                // Containment (REQ-00-00-00-13): a target resolving outside
+                // the repository root is never read or inlined (ASM-004).
+                if !target_key.starts_with(canonical(Path::new("."))) {
+                    return Err(Diagnostic::error(
+                        "ASM-004",
+                        format!("include target escapes the repository root: {target}"),
+                    )
+                    .at_line(rel(file), idx + 1));
+                }
                 // Detect the cycle here, where the re-including directive's
                 // own location (this file at this line) is known, so ASM-001
                 // anchors the real directive rather than the child fragment.
-                let target_key = canonical(&target_path);
                 if stack.iter().any(|p| canonical(p) == target_key) {
                     let mut chain: Vec<String> = stack.iter().map(|p| rel(p)).collect();
                     chain.push(rel(&target_path));
@@ -229,6 +255,7 @@ fn sha256_hex(data: &[u8]) -> String {
 mod tests {
     use super::sha256_hex;
 
+    // arqix:no-requirement
     #[test]
     fn sha256_hex_matches_the_nist_vector() {
         // Pins the crate wiring and the hex rendering the log depends on.

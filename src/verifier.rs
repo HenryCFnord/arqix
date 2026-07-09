@@ -77,9 +77,37 @@ pub fn verify(fail_fast: bool, format: OutputFormat) -> ExitCode {
         }
     }
 
-    if failed {
-        ExitCode::from(1)
+    let codes: Vec<i64> = steps
+        .iter()
+        .map(|s| s["exit_code"].as_i64().unwrap_or(-1))
+        .collect();
+    ExitCode::from(overall_exit(&codes))
+}
+
+/// Aggregate sub-step exit codes without losing severity: any step that did
+/// not end in the findings channel (0/1) — a usage error, an I/O error, a
+/// crash — surfaces as exit 2, never collapsed into exit 1.
+fn overall_exit(codes: &[i64]) -> u8 {
+    if codes.iter().any(|c| !matches!(c, 0 | 1)) {
+        2
+    } else if codes.contains(&1) {
+        1
     } else {
-        ExitCode::SUCCESS
+        0
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::overall_exit;
+
+    // arqix:no-requirement
+    #[test]
+    fn sub_step_system_errors_are_not_collapsed_to_findings() {
+        assert_eq!(overall_exit(&[0, 0, 0, 0]), 0);
+        assert_eq!(overall_exit(&[0, 1, 0, 1]), 1);
+        // A step exiting 2 (or dying, -1) is a system error, not a finding.
+        assert_eq!(overall_exit(&[0, 2, 0, 1]), 2);
+        assert_eq!(overall_exit(&[0, -1]), 2);
     }
 }

@@ -76,7 +76,7 @@ loops.
 - `arqix lint run`
 - `arqix trace scan`
 - `arqix trace coverage`
-- `arqix trace check --req REQ-xxxx` (assist)
+- `arqix trace check REQ-xxxx` (assist)
 
 ### Automation
 

@@ -36,6 +36,7 @@ Rule IDs:
     REQ-LNK-006  story has no has-requirement link (warning;
                  suppressed by --allow-unlinked-stories)
     REQ-META-001 required meta field missing or empty
+    US-ID-001    story id does not match the US-XX-YY-ZZ scheme
     EARS-001     '## Requirement' section missing or without exactly
                  one normative sentence
     EARS-002     sentence does not match any EARS pattern
@@ -401,14 +402,15 @@ def check_requirement_file(path, text, findings):
     derived = triple_objects(fields, "arqix:properties/derived-from")
     domain = m.group(1), m.group(2), m.group(3)
     if domain == CROSS_CUTTING_DOMAIN:
-        if len(derived) < 2:
+        # Distinct objects: listing the same story twice is one link.
+        if len(set(derived)) < 2:
             findings.append(
                 Finding(
                     path,
                     "REQ-LNK-002",
                     "error",
-                    "cross-cutting requirement needs >= 2 derived-from objects, "
-                    "found %d" % len(derived),
+                    "cross-cutting requirement needs >= 2 distinct derived-from "
+                    "objects, found %d" % len(set(derived)),
                 )
             )
     else:
@@ -444,12 +446,23 @@ def check_requirement_file(path, text, findings):
 def load_stories(story_dir, findings):
     """Return {story_iri: (path, has_requirement_objects)}."""
     stories = {}
-    for path in sorted(story_dir.glob("*.md")):
+    # Recursive: a story in a subdirectory must not escape the gate.
+    for path in sorted(story_dir.rglob("*.md")):
         fields, _ = parse_frontmatter(path.read_text(encoding="utf-8"))
         if fields is None:
             continue
         story_id = fields["_top"].get("id", "")
         if not US_ID_RE.match(story_id):
+            # A malformed id must not silently drop the story from every
+            # cross-file check — that would make the whole gate blind to it.
+            findings.append(
+                Finding(
+                    path,
+                    "US-ID-001",
+                    "error",
+                    "story id %r does not match the US-XX-YY-ZZ scheme" % story_id,
+                )
+            )
             continue
         iri = "arqix:user-stories/" + story_id.lower()
         has_req = triple_objects(fields, "arqix:properties/has-requirement")
@@ -556,7 +569,8 @@ def run_checks(root, allow_unlinked):
     requirements = {}
     req_ids = []
     if req_dir.is_dir():
-        for path in sorted(req_dir.glob("*.md")):
+        # Recursive: a requirement in a subdirectory must not escape the gate.
+        for path in sorted(req_dir.rglob("*.md")):
             result = check_requirement_file(
                 path, path.read_text(encoding="utf-8"), findings
             )

@@ -31,5 +31,5 @@ python3 scripts/arqix trace matrix > docs/en/reports/trace/matrix.csv
 python3 scripts/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
 ```
 
-Snapshots stay manual until a CI workflow regenerates them (arc42 chapter 11: "implement with the first CI workflow PR").
+Regeneration stays manual (`just reports`), but staleness is gated: `scripts/arqix_report.py --check` runs inside `scripts/arqix verify` (and therefore in CI) and fails when any committed snapshot no longer matches the corpus.
 The live answer is always the command.

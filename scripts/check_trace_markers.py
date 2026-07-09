@@ -40,12 +40,22 @@ STORY_DIR = REPO_ROOT / "docs/en/architecture/stories"
 TEST_DIR = REPO_ROOT / "tests"
 SRC_DIR = REPO_ROOT / "src"
 
-REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$")
-MARKER_RE = re.compile(r"//\s*arqix:verifies\s+(\S+)")
-NO_REQ_RE = re.compile(r"//\s*arqix:no-requirement\b")
+REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$", re.ASCII)
+# Whole-line markers only, exactly like the trace engine and its oracle: a
+# trailing comment on a code line is NOT a marker (and gets no coverage
+# credit either), so it must not swallow the line it trails.
+MARKER_RE = re.compile(r"^//\s*arqix:verifies\s+(\S+)\s*$")
+NO_REQ_RE = re.compile(r"^//\s*arqix:no-requirement\b")
 TEST_ATTR_RE = re.compile(r"^\s*#\[test\]")
 IGNORE_ATTR_RE = re.compile(r"^\s*#\[ignore(?:\s*=\s*\"([^\"]*)\")?\]")
-FN_RE = re.compile(r"^\s*(?:pub\s+)?fn\s+\w+")
+# Every fn qualifier combination rustc compiles: visibility, then
+# default/const/async/unsafe, then an extern ABI.
+FN_RE = re.compile(
+    r"^\s*(?:pub(?:\s*\([^)]*\))?\s+)?"
+    r"(?:(?:default|const|async|unsafe)\s+)*"
+    r'(?:extern\s+(?:"[^"]*"\s+)?)?'
+    r"fn\s+\w+"
+)
 IGNORE_REASON_RE = re.compile(r"^(US-\d{2}-\d{2}-\d{2}): .+")
 COMMENT_OR_ATTR_RE = re.compile(r"^\s*(//|#\[)")
 
@@ -109,10 +119,10 @@ def check_test_file(text, known_reqs, known_stories, path):
         if not stripped:
             reset()
             continue
-        if m := MARKER_RE.search(line):
+        if m := MARKER_RE.match(stripped):
             markers.append((line_no, m.group(1)))
             continue
-        if NO_REQ_RE.search(line):
+        if NO_REQ_RE.match(stripped):
             no_req_lines.append(line_no)
             continue
         if TEST_ATTR_RE.match(line):
@@ -124,14 +134,8 @@ def check_test_file(text, known_reqs, known_stories, path):
         if COMMENT_OR_ATTR_RE.match(line):
             continue
         if FN_RE.match(line) and is_test:
-            for marker_line, payload in markers:
-                if not REQ_ID_RE.match(payload):
-                    findings.append((path, marker_line, "TRC-004",
-                                     f"malformed marker payload '{payload}' "
-                                     "(expected REQ-XX-YY-ZZ-NN)"))
-                elif payload not in known_reqs:
-                    findings.append((path, marker_line, "TRC-001",
-                                     f"marker references unknown requirement {payload}"))
+            # Payload validity (TRC-001/TRC-004) is checked globally by
+            # check_marker_targets — for every marker line, attached or not.
             if not markers and not no_req_lines:
                 findings.append((path, line_no, "TRC-002",
                                  "test has neither an arqix:verifies marker nor "
@@ -160,10 +164,11 @@ def check_test_file(text, known_reqs, known_stories, path):
 
 
 def check_marker_targets(text, known_reqs, path):
-    """Validate marker payloads in non-test sources (src/)."""
+    """Validate every verifies-marker payload in a Rust source (TRC-001/-004),
+    attached to a test or not."""
     findings = []
     for line_no, line in enumerate(text.splitlines(), start=1):
-        if m := MARKER_RE.search(line):
+        if m := MARKER_RE.match(line.strip()):
             payload = m.group(1)
             if not REQ_ID_RE.match(payload):
                 findings.append((path, line_no, "TRC-004",
@@ -207,8 +212,8 @@ def check_backlinks(edges):
 def collect_referenced_reqs(paths):
     refs = set()
     for p in paths:
-        for m in MARKER_RE.finditer(p.read_text(encoding="utf-8")):
-            if REQ_ID_RE.match(m.group(1)):
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if (m := MARKER_RE.match(line.strip())) and REQ_ID_RE.match(m.group(1)):
                 refs.add(m.group(1))
     return refs
 
@@ -224,14 +229,14 @@ def run_checks(emit_json):
     src_files = sorted(SRC_DIR.rglob("*.rs")) if SRC_DIR.exists() else []
 
     findings = []
-    for p in test_files:
+    # Every Rust file — contract tests AND unit tests under src/ — is
+    # subject to the same rules: TRC-002/003/005 for its test fns and
+    # global payload validation (TRC-001/004) for every marker line.
+    for p in test_files + src_files:
         rel = str(p.relative_to(REPO_ROOT))
-        findings.extend(check_test_file(p.read_text(encoding="utf-8"),
-                                        known_reqs, known_stories, rel))
-    for p in src_files:
-        rel = str(p.relative_to(REPO_ROOT))
-        findings.extend(check_marker_targets(p.read_text(encoding="utf-8"),
-                                             known_reqs, rel))
+        text = p.read_text(encoding="utf-8")
+        findings.extend(check_test_file(text, known_reqs, known_stories, rel))
+        findings.extend(check_marker_targets(text, known_reqs, rel))
     _, corpus_edges, _ = build_model(read_corpus(REPO_ROOT))
     findings.extend(check_backlinks(corpus_edges))
     findings.sort()
@@ -345,6 +350,22 @@ fn a() {
     ("helper fn is not a test", """\
 fn helper() {
 """, []),
+    ("trailing marker on the fn line is no marker", """\
+#[test]
+fn a() { // arqix:verifies REQ-01-01-16-01
+""", ["TRC-002"]),
+    ("pub(crate) test fn is still a test", """\
+#[test]
+pub(crate) fn a() {
+""", ["TRC-002"]),
+    ("async test fn is still a test", """\
+#[test]
+async fn a() {
+""", ["TRC-002"]),
+    ("marker above a helper fn is still validated", """\
+// arqix:verifies REQ-99-99-99-99
+fn helper() {
+""", ["TRC-001"]),
 ]
 
 
@@ -363,7 +384,11 @@ BACKLINK_CASES = [
 def selftest():
     failed = 0
     for name, text, expected_rules in SELFTEST_CASES:
-        findings = check_test_file(text, SELFTEST_REQS, SELFTEST_STORIES, "t.rs")
+        # Mirror run_checks: attachment rules plus global payload validation.
+        findings = sorted(
+            check_test_file(text, SELFTEST_REQS, SELFTEST_STORIES, "t.rs")
+            + check_marker_targets(text, SELFTEST_REQS, "t.rs")
+        )
         rules = [r for _, _, r, _ in findings]
         if rules != expected_rules:
             print(f"FAIL {name}: expected {expected_rules}, got {rules}")

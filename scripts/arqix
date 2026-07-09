@@ -34,9 +34,11 @@ EXIT_UNIMPLEMENTED = 70
 
 
 def split_options(argv):
-    """Extract global --format and verify's --fail-fast from the argument list."""
+    """Extract the global --format flag from the argument list. Command-
+    specific flags (verify's --fail-fast/--aggregate) stay in `rest` and are
+    parsed by their command — the Rust binary rejects them anywhere else
+    with a usage error, so the stand-in must too."""
     fmt = "text"
-    fail_fast = False
     rest = []
     i = 0
     while i < len(argv):
@@ -52,16 +54,12 @@ def split_options(argv):
             fmt = arg.split("=", 1)[1]
             i += 1
             continue
-        if arg == "--fail-fast":
-            fail_fast = True
-            i += 1
-            continue
         rest.append(arg)
         i += 1
     if fmt not in ("text", "json"):
         print(f"error: invalid value '{fmt}' for --format", file=sys.stderr)
         sys.exit(2)
-    return fmt, fail_fast, rest
+    return fmt, rest
 
 
 def run_step(name, argv):
@@ -70,21 +68,54 @@ def run_step(name, argv):
             "output": (proc.stdout + proc.stderr).strip()}
 
 
+# Pinned so the gate is reproducible: an unpinned `npx --yes` would silently
+# float to whatever version npm serves that day.
+MARKDOWNLINT_CLI2 = "markdownlint-cli2@0.23.0"
+
+
+def arqix_binary():
+    """The Rust binary for gate steps that live only in Rust (the linter):
+    the ARQIX_BIN override, or the debug build if present."""
+    import os
+    override = os.environ.get("ARQIX_BIN")
+    if override and Path(override).is_file():
+        return override
+    default = Path("target/debug/arqix")
+    return str(default) if default.is_file() else None
+
+
 def verify(fmt, fail_fast):
     """Sequence the repository gate (approximates REQ-04-01-05-01..03)."""
     python = sys.executable
     steps = [
+        # The load-bearing checkers prove themselves first: a checker whose
+        # own selftest fails must not be trusted to gate anything.
+        ("selftest-frontmatter",
+         [python, str(SCRIPT_DIR / "check_frontmatter.py"), "--selftest"], True),
+        ("selftest-requirements",
+         [python, str(SCRIPT_DIR / "check_requirements.py"), "--selftest"], True),
+        ("selftest-trace-markers",
+         [python, str(SCRIPT_DIR / "check_trace_markers.py"), "--selftest"], True),
+        ("selftest-trace-oracle",
+         [python, str(SCRIPT_DIR / "arqix_trace.py"), "--selftest"], True),
+        ("selftest-report",
+         [python, str(SCRIPT_DIR / "arqix_report.py"), "--selftest"], True),
         ("frontmatter", [python, str(SCRIPT_DIR / "check_frontmatter.py")], True),
         ("requirements", [python, str(SCRIPT_DIR / "check_requirements.py")], True),
         ("trace-markers", [python, str(SCRIPT_DIR / "check_trace_markers.py")], True),
+        ("report-freshness", [python, str(SCRIPT_DIR / "arqix_report.py"), "--check"], True),
         ("trace-coverage", [python, str(SCRIPT_DIR / "arqix_trace.py"), "coverage"], False),
     ]
     if Path("Cargo.toml").exists():
         steps.append(("cargo-test", ["cargo", "test", "--quiet"], True))
+    if binary := arqix_binary():
+        # The linter lives only in Rust; gate it whenever a binary exists
+        # (CI builds one via cargo-test right above).
+        steps.append(("lint", [binary, "lint", "run"], True))
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
         # policy). Skipped where Node/npx is unavailable, like cargo-test.
-        steps.append(("markdownlint", ["npx", "--yes", "markdownlint-cli2"], True))
+        steps.append(("markdownlint", ["npx", "--yes", MARKDOWNLINT_CLI2], True))
 
     results = []
     failed = False
@@ -121,7 +152,7 @@ def unimplemented(command):
 
 
 def main():
-    fmt, fail_fast, args = split_options(sys.argv[1:])
+    fmt, args = split_options(sys.argv[1:])
     if not args:
         print("error: a subcommand is required", file=sys.stderr)
         return 2
@@ -136,6 +167,15 @@ def main():
         return arqix_trace.run(rest[0], rest[1:], fmt)
 
     if command == "verify":
+        fail_fast = False
+        for arg in rest:
+            if arg == "--fail-fast":
+                fail_fast = True
+            elif arg == "--aggregate":
+                fail_fast = False
+            else:
+                print(f"error: unexpected argument '{arg}' for verify", file=sys.stderr)
+                return 2
         return verify(fmt, fail_fast)
 
     known = {

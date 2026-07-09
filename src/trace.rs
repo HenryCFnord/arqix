@@ -85,7 +85,10 @@ fn walk(dir: &Path, out: &mut Vec<(String, String)>) {
         let path = entry.path();
         let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
         if path.is_dir() {
-            if !SKIP_DIRS.contains(&name) {
+            // The oracle's rglob never follows directory symlinks; doing so
+            // here would diverge and make the walk unbounded on a cycle.
+            if !SKIP_DIRS.contains(&name) && !path.symlink_metadata().is_ok_and(|m| m.is_symlink())
+            {
                 walk(&path, out);
             }
             continue;
@@ -172,7 +175,7 @@ fn build_model(corpus: &[(String, String)]) -> Model {
     let mut edges = Vec::new();
     for (path, text) in corpus {
         let is_rust = path.ends_with(".rs");
-        let lines: Vec<&str> = text.lines().collect();
+        let lines: Vec<&str> = parser::py_splitlines(text);
         for (idx, line) in lines.iter().enumerate() {
             let marker = if is_rust {
                 rs_marker(line)
@@ -275,7 +278,8 @@ pub(crate) fn md_reference_marker(line: &str) -> Option<String> {
     if tokens.next().is_some() {
         return None;
     }
-    target.starts_with("arqix:").then(|| target.to_string())
+    // MD_REF_MARKER_RE captures `arqix:\S+` — a bare `arqix:` is no target.
+    (target.starts_with("arqix:") && target.len() > "arqix:".len()).then(|| target.to_string())
 }
 
 /// Parse `arqix:(verifies|implements)\s+<token>` with only trailing space.
@@ -283,10 +287,8 @@ fn marker_body(rest: &str) -> Option<(String, String)> {
     let rest = rest.strip_prefix("arqix:")?;
     let (kind, after) = if let Some(r) = rest.strip_prefix("verifies") {
         ("verifies", r)
-    } else if let Some(r) = rest.strip_prefix("implements") {
-        ("implements", r)
     } else {
-        return None;
+        ("implements", rest.strip_prefix("implements")?)
     };
     if !after.starts_with(char::is_whitespace) {
         return None;
@@ -576,6 +578,22 @@ fn check(model: &Model, req_id: &str) -> (Value, ExitCode) {
     )
 }
 
+/// Mirror csv.writer's minimal quoting (the oracle's dialect): quote a
+/// field containing the delimiter, a quote, or a line break; double
+/// embedded quotes.
+fn csv_field(s: &str) -> String {
+    if s.contains([',', '"', '\n', '\r']) {
+        format!("\"{}\"", s.replace('"', "\"\""))
+    } else {
+        s.to_string()
+    }
+}
+
+fn csv_row(fields: &[String]) -> String {
+    let quoted: Vec<String> = fields.iter().map(|f| csv_field(f)).collect();
+    format!("{}\n", quoted.join(","))
+}
+
 fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     let mut out = String::new();
     if matrix_type == "us-req" {
@@ -589,7 +607,7 @@ fn matrix_csv(model: &Model, matrix_type: &str) -> String {
         pairs.sort();
         pairs.dedup();
         for (story, req) in pairs {
-            out.push_str(&format!("{story},{req}\n"));
+            out.push_str(&csv_row(&[story.to_string(), req.to_string()]));
         }
         return out;
     }
@@ -598,14 +616,13 @@ fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     let (report, _) = coverage(model);
     if let Some(rows) = report["requirements"].as_array() {
         for row in rows {
-            out.push_str(&format!(
-                "{},{},{},{},{}\n",
-                row["id"].as_str().unwrap_or(""),
-                row["kind"].as_str().unwrap_or(""),
+            out.push_str(&csv_row(&[
+                row["id"].as_str().unwrap_or("").to_string(),
+                row["kind"].as_str().unwrap_or("").to_string(),
                 join_strs(&row["verified_by"]),
                 join_strs(&row["planned_by"]),
                 join_strs(&row["implemented_by"]),
-            ));
+            ]));
         }
     }
     out
@@ -798,6 +815,7 @@ fn dash(value: &Value) -> String {
 mod tests {
     use super::*;
 
+    // arqix:no-requirement
     #[test]
     fn story_of_matches_the_oracle_and_never_panics() {
         // Canonical requirement id.
@@ -812,6 +830,67 @@ mod tests {
         assert_eq!(story_of("äöüßabcdefgh"), json!("US-abcdefgh"));
     }
 
+    // arqix:no-requirement
+    #[test]
+    fn markers_are_found_across_python_line_boundaries() {
+        // Python splitlines also breaks on form feed, so the oracle sees the
+        // marker as line 2 of its own; the engine must number it the same.
+        let corpus = vec![
+            (
+                "docs/r.md".to_string(),
+                "---\nid: REQ-99-99-99-01\n---\nbody\n".to_string(),
+            ),
+            (
+                "t.rs".to_string(),
+                // Assembled from pieces so the marker gate never reads this
+                // literal itself as a marker line of this file.
+                format!("\x0c// arqix:{} REQ-99-99-99-01\nfn t() {{}}\n", "verifies"),
+            ),
+        ];
+        let model = build_model(&corpus);
+        let edge = model
+            .edges
+            .iter()
+            .find(|e| e.kind == "verifies")
+            .expect("marker edge");
+        assert_eq!(edge.line, 2, "marker line must use Python line boundaries");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn bare_reference_target_is_rejected_like_the_oracle() {
+        // MD_REF_MARKER_RE captures `(arqix:\S+)` — at least one character
+        // after the colon; a bare `arqix:` is not a target.
+        assert_eq!(
+            md_reference_marker("<!-- arqix:references-artefact arqix: -->"),
+            None
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn matrix_csv_quotes_fields_like_the_oracle() {
+        // The oracle writes the matrix through csv.writer, which quotes any
+        // field containing a comma (and doubles embedded quotes).
+        let corpus = vec![
+            (
+                "docs/a,b.md".to_string(),
+                "<!-- arqix:verifies REQ-99-99-99-01 -->\n".to_string(),
+            ),
+            (
+                "docs/req.md".to_string(),
+                "---\nid: REQ-99-99-99-01\n---\nbody\n".to_string(),
+            ),
+        ];
+        let model = build_model(&corpus);
+        let csv = matrix_csv(&model, "req-test");
+        assert!(
+            csv.contains("\"docs/a,b.md:1\""),
+            "a field containing a comma must be quoted: {csv}"
+        );
+    }
+
+    // arqix:no-requirement
     #[test]
     fn body_reference_marker_becomes_a_resolved_edge() {
         // A `<!-- arqix:references-artefact <iri> -->` body marker is the

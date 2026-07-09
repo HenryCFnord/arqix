@@ -14,6 +14,7 @@ Usage:
 """
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -36,6 +37,12 @@ def header(question, qid, snapshot):
 def title_of(documents, doc_id):
     info = documents.get(doc_id)
     return (info.get("title") or doc_id) if info else doc_id
+
+
+def cell(value):
+    """Escape a value for a Markdown table cell — a legal `|` in a title
+    must not add a column."""
+    return str(value).replace("|", "\\|")
 
 
 def marker_rows(edges, kind):
@@ -92,7 +99,7 @@ def unit_story_progress(requirements, edges, documents, snapshot):
         done = round(100 * b["verified"] / total) if total else 0
         bar = "█" * (done // 10) + "░" * (10 - done // 10)
         lines.append(
-            f"| {story} | {title_of(documents, story)} | {b['verified']} "
+            f"| {story} | {cell(title_of(documents, story))} | {b['verified']} "
             f"| {b['planned']} | {b['uncovered']} | `{bar}` {done}% |"
         )
     return "\n".join(lines) + "\n"
@@ -145,7 +152,7 @@ def unit_test_to_story(requirements, edges, documents, snapshot):
     lines.append("| test | story | title |")
     lines.append("| --- | --- | --- |")
     for test, story in sorted(pairs):
-        lines.append(f"| `{test}` | {story} | {title_of(documents, story)} |")
+        lines.append(f"| `{test}` | {story} | {cell(title_of(documents, story))} |")
     return "\n".join(lines) + "\n"
 
 
@@ -163,7 +170,7 @@ def unit_test_to_workflow(requirements, edges, documents, snapshot):
     lines.append("| test | workflow | title |")
     lines.append("| --- | --- | --- |")
     for test, wf in sorted(pairs):
-        lines.append(f"| `{test}` | {wf} | {title_of(documents, wf)} |")
+        lines.append(f"| `{test}` | {wf} | {cell(title_of(documents, wf))} |")
     return "\n".join(lines) + "\n"
 
 
@@ -177,13 +184,20 @@ def unit_adr_to_requirement(requirements, edges, documents, snapshot):
         (e for e in edges if e["kind"] == "guides-implementation-of"),
         key=lambda e: (e["from"], str(e["to"])),
     ):
-        lines.append(f"| {e['from']} | {title_of(documents, e['from'])} | {e['to']} |")
+        lines.append(f"| {e['from']} | {cell(title_of(documents, e['from']))} | {e['to']} |")
     return "\n".join(lines) + "\n"
 
 
 def unit_code_to_requirement(requirements, edges, documents, snapshot):
     """Q-04: Which code implements which requirement?"""
-    rows = marker_rows(edges, "implements")
+    # EVERY implements marker answers the question — including one whose
+    # following item is not a fn (a const, a module header): those carry no
+    # attached name but are still implementing code.
+    rows = sorted(
+        (e["test"] or "—", f"{e['from']}:{e['line']}", e["to"])
+        for e in edges
+        if e["kind"] == "implements"
+    )
     lines = [header("Which code implements which requirement?", "Q-04", snapshot)]
     if not rows:
         lines.append("No `implements` markers exist yet — the Rust "
@@ -192,8 +206,9 @@ def unit_code_to_requirement(requirements, edges, documents, snapshot):
     else:
         lines.append("| code | location | requirement |")
         lines.append("| --- | --- | --- |")
-        for test, loc, req, _ in rows:
-            lines.append(f"| `{test}` | {loc} | {req} |")
+        for name, loc, req in rows:
+            code = f"`{name}`" if name != "—" else name
+            lines.append(f"| {code} | {loc} | {req} |")
     return "\n".join(lines) + "\n"
 
 
@@ -234,6 +249,45 @@ def generate(out_dir, snapshot, root="."):
         )
         print(f"wrote {out / filename}")
     return 0
+
+
+SNAPSHOT_RE = re.compile(r"^     Snapshot: (.*)$", re.MULTILINE)
+
+
+def check(out_dir, trace_dir="docs/en/reports/trace", root="."):
+    """Freshness gate for the committed snapshots: regenerate every unit
+    with the snapshot stamp it already carries (the stamp records when it
+    was taken, so it never goes stale by itself) and every matrix, and
+    compare byte-for-byte against the committed files."""
+    from arqix_trace import matrix
+
+    requirements, edges, documents = build_model(read_corpus(root))
+    stale = []
+    for filename, unit in UNITS:
+        path = Path(out_dir) / filename
+        if not path.exists():
+            stale.append((str(path), "missing"))
+            continue
+        text = path.read_text(encoding="utf-8")
+        m = SNAPSHOT_RE.search(text)
+        snapshot = m.group(1) if m else ""
+        if unit(requirements, edges, documents, snapshot) != text:
+            stale.append((str(path), "stale"))
+    for filename, matrix_type in (
+        ("matrix.csv", "req-test"),
+        ("matrix-us-req.csv", "us-req"),
+    ):
+        path = Path(trace_dir) / filename
+        if not path.exists():
+            stale.append((str(path), "missing"))
+        elif matrix(requirements, edges, matrix_type) != path.read_text(encoding="utf-8"):
+            stale.append((str(path), "stale"))
+
+    for path, why in stale:
+        print(f"FAIL {path}: {why} — regenerate with `just reports`")
+    if not stale:
+        print(f"reports: fresh ({len(UNITS)} units, 2 matrices)")
+    return 1 if stale else 0
 
 
 SELFTEST_CORPUS = {
@@ -277,6 +331,7 @@ rdf:
 body
 """,
     "a.rs": "// arqix:verifies REQ-11-11-11-01\n#[test]\nfn covers() {}\n",
+    "b.rs": "// arqix:implements REQ-11-11-11-01\nconst SCHEMA: u32 = 1;\n",
 }
 
 
@@ -314,13 +369,15 @@ def selftest():
            "| `covers` | WF-22-22 | Example Workflow |" in t2w)
 
     q4 = unit_code_to_requirement(requirements, edges, documents, snapshot)
-    expect("code unit states its emptiness honestly",
-           "No `implements` markers exist yet" in q4)
+    expect("code unit lists implements markers not attached to a fn",
+           "| — | b.rs:1 | REQ-11-11-11-01 |" in q4)
 
     again = unit_story_progress(requirements, edges, documents, snapshot)
     expect("units are deterministic", progress == again)
 
-    total = 7
+    expect("table cells escape pipes", cell("a|b") == "a\\|b")
+
+    total = 8
     print(f"selftest: {total - failed}/{total} passed")
     return 1 if failed else 0
 
@@ -331,10 +388,14 @@ def main():
     parser.add_argument("--out", default="docs/en/reports/units",
                         help="output directory for the unit files")
     parser.add_argument("--selftest", action="store_true", help="run embedded selftest")
+    parser.add_argument("--check", action="store_true",
+                        help="verify the committed snapshots are fresh")
     args = parser.parse_args()
 
     if args.selftest:
         return selftest()
+    if args.check:
+        return check(args.out)
     if not args.snapshot:
         print("error: --snapshot is required (injected, never ambient)", file=sys.stderr)
         return 2

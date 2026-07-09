@@ -34,8 +34,8 @@ The stable exit-code contract (REQ-00-00-00-02, REQ-04-01-08-01) is the first th
 | Code | Meaning | Example |
 | ---: | --- | --- |
 | `0` | success | a command completed with no findings |
-| `1` | findings / quality-gate failure | `lint run` found an error; `fmt --check` saw an unformatted file; `verify` had a failing sub-step |
-| `2` | usage or system error | an unknown flag; a source-write or scaffold I/O failure |
+| `1` | findings / quality-gate failure | `lint run` found an error; `fmt --check` saw an unformatted file; `verify` had a sub-step with findings |
+| `2` | usage or system error | an unknown flag; a source-write or scaffold I/O failure; a `verify` sub-step that itself ended outside the findings channel |
 | `70` | unimplemented stub | a Phase-5 command whose story has not shipped |
 
 `70` sits deliberately outside the stable `0/1/2` range so a stub can never be mistaken for a real result.
