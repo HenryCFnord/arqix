@@ -41,6 +41,67 @@ fn assemble_build_fails_clearly_on_include_cycles() {
     );
 }
 
+// arqix:verifies REQ-02-01-11-01
+#[test]
+fn assemble_build_fails_on_output_collisions_across_roots() {
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_build_fails_on_output_collisions_across_roots",
+    );
+    // Two roots with the same root-relative file name map to the same
+    // pages/ output; the second page must not silently overwrite the first.
+    std::fs::write(repo.join("arqix.toml"), "roots = [\"docs\", \"extra\"]\n").unwrap();
+    std::fs::create_dir_all(repo.join("extra")).unwrap();
+    std::fs::write(
+        repo.join("extra/REQ-99-99-99-01-fixture-requirement.md"),
+        "---\nid: DOC-88\ntitle: Clash\n---\nother body\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["assemble", "build"]);
+    common::assert_findings(&out);
+    let combined = format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(
+        combined.contains("collision") || combined.contains("collide"),
+        "the diagnostic must name the output collision: {combined}"
+    );
+}
+
+// arqix:verifies REQ-00-00-00-13
+#[test]
+fn assemble_build_refuses_includes_outside_the_repository() {
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_build_refuses_includes_outside_the_repository",
+    );
+    // A file OUTSIDE the repository (the scratch dir's parent).
+    let outside = repo
+        .parent()
+        .unwrap()
+        .join("assemble-containment-secret.md");
+    std::fs::write(&outside, "SECRET CONTENT\n").unwrap();
+    std::fs::write(
+        repo.join("docs/esc.md"),
+        "<!-- arqix:include ../../assemble-containment-secret.md -->\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["assemble", "build"]);
+    common::assert_findings(&out);
+    let page = repo.join("pages/esc.md");
+    if page.exists() {
+        let content = std::fs::read_to_string(&page).unwrap();
+        assert!(
+            !content.contains("SECRET CONTENT"),
+            "content outside the repository must never be inlined"
+        );
+    }
+}
+
 // arqix:verifies REQ-04-01-01-02
 #[test]
 fn assemble_build_writes_a_jsonl_log() {
