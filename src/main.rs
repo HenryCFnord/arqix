@@ -132,7 +132,10 @@ enum ConfigCommand {
 #[derive(Subcommand)]
 enum DocCommand {
     /// Scaffold a documentation package in the current repository
-    Init,
+    Init {
+        /// Package path (defaults to the first configured root)
+        path: Option<String>,
+    },
     /// Create a document of the given kind from its configured template
     New { kind: String },
     /// List documents as a machine-readable catalog
@@ -234,7 +237,7 @@ fn main() -> ExitCode {
             ConfigCommand::Show => config::show(cli.format),
         },
         Command::Doc { command } => match command {
-            DocCommand::Init => templates::init(cli.format),
+            DocCommand::Init { path } => templates::init(path.as_deref(), cli.format),
             DocCommand::New { kind } => templates::new_document(&kind, cli.format),
             DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
             DocCommand::Read { id } => store::read(&id, cli.format),

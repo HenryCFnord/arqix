@@ -64,12 +64,27 @@ fn capitalise(s: &str) -> String {
     }
 }
 
+/// A kind is a plain lowercase slug — it becomes a path component and an
+/// ID prefix, so anything else (separators, dots, uppercase) is a usage
+/// error, not a write target (containment, REQ-00-00-00-13).
+fn valid_kind(kind: &str) -> bool {
+    !kind.is_empty()
+        && kind
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
+}
+
 // arqix:implements REQ-00-00-00-05
+// arqix:implements REQ-00-00-00-13
 // arqix:implements REQ-01-01-13-01
 // arqix:implements REQ-01-01-13-02
 /// Create a document of `kind` from its template. Shared by `doc new` and
 /// `unit new`.
 pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
+    if !valid_kind(kind) {
+        eprintln!("error: invalid kind '{kind}': expected a lowercase slug ([a-z0-9-])");
+        return ExitCode::from(2);
+    }
     let (prefix, width, namespace) = scheme(kind);
     let docs = crate::store::documents();
     let counter = next_counter(&docs, &prefix) + 1;
@@ -117,16 +132,54 @@ pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+/// The index.md a fresh package starts with (REQ-01-01-01-02: frontmatter
+/// carrying id, kind=doc_index, and title).
+const INDEX_TEMPLATE: &str = "---\n\
+    id: doc-index\n\
+    kind: doc_index\n\
+    title: Documentation Index\n\
+    ---\n\n\
+    ## Documentation Index\n\n\
+    TODO: introduce this documentation package.\n";
+
 // arqix:implements REQ-01-01-01-01
 // arqix:implements REQ-01-01-01-02
-/// `arqix doc init` — scaffold the standard package; never overwrites.
-pub fn init(format: OutputFormat) -> ExitCode {
-    for root in crate::config::roots(Path::new(".")) {
-        if let Err(err) = std::fs::create_dir_all(&root) {
-            eprintln!("error: cannot create {root}: {err}");
+/// `arqix doc init [path]` — scaffold the standard package (REQ-01-01-01-01:
+/// index.md, units/, pages/, artefacts/, logs/, .arqix/) at `path` or the
+/// first configured root; never overwrites.
+pub fn init(path: Option<&str>, format: OutputFormat) -> ExitCode {
+    let mut roots = crate::config::roots(Path::new("."));
+    let package = match path {
+        Some(p) => p.to_string(),
+        None => roots.first().cloned().unwrap_or_else(|| "docs".to_string()),
+    };
+    if path.is_none() {
+        // A bare init also materialises the other configured roots.
+        roots.retain(|r| *r != package);
+        for root in &roots {
+            if let Err(err) = std::fs::create_dir_all(root) {
+                eprintln!("error: cannot create {root}: {err}");
+                return ExitCode::from(2);
+            }
+        }
+    }
+
+    let package = Path::new(&package);
+    for dir in ["units", "pages", "artefacts", "logs", ".arqix"] {
+        let dir = package.join(dir);
+        if let Err(err) = std::fs::create_dir_all(&dir) {
+            eprintln!("error: cannot create {}: {err}", dir.display());
             return ExitCode::from(2);
         }
     }
+    let index = package.join("index.md");
+    if !index.exists()
+        && let Err(err) = std::fs::write(&index, INDEX_TEMPLATE)
+    {
+        eprintln!("error: cannot write {}: {err}", index.display());
+        return ExitCode::from(2);
+    }
+
     let config = Path::new("arqix.toml");
     if !config.exists()
         && let Err(err) = std::fs::write(config, "# arqix configuration (schema v1)\n")
