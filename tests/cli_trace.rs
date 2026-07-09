@@ -84,6 +84,26 @@ fn trace_coverage_output_is_deterministic() {
     );
 }
 
+// arqix:verifies REQ-00-00-00-01
+#[cfg(unix)]
+#[test]
+fn trace_scan_does_not_follow_directory_symlinks() {
+    let repo = common::scratch_copy("minimal", "trace_scan_does_not_follow_directory_symlinks");
+    std::fs::create_dir_all(repo.join("docs/sub")).unwrap();
+    // A parent symlink forms a cycle under the corpus walk; the Python
+    // oracle's rglob does not follow directory symlinks, so the engine
+    // must not either (unbounded walk, phantom duplicate paths).
+    std::os::unix::fs::symlink("..", repo.join("docs/sub/up")).unwrap();
+
+    let out = run_arqix_in(&repo, &["trace", "scan", "--format", "json"]);
+    assert_success(&out);
+    let graph = stdout_json(&out).to_string();
+    assert!(
+        !graph.contains("sub/up"),
+        "paths reached through a directory symlink must not enter the graph: {graph}"
+    );
+}
+
 // arqix:verifies REQ-03-01-02-01
 #[test]
 fn trace_matrix_exports_csv() {

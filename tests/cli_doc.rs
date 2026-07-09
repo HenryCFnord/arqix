@@ -136,6 +136,60 @@ fn doc_list_honours_configured_skip_dirs() {
     );
 }
 
+// arqix:verifies REQ-00-00-00-01
+#[cfg(unix)]
+#[test]
+fn doc_list_does_not_follow_directory_symlinks() {
+    let repo = scratch_copy("minimal", "doc_list_does_not_follow_directory_symlinks");
+    std::fs::create_dir_all(repo.join("docs/sub")).unwrap();
+    // A parent symlink forms a cycle: docs -> docs/sub/up -> docs -> …
+    // Following it makes discovery unbounded and multiplies every document
+    // in the catalog, so directory symlinks must not be traversed (the
+    // Python oracle's rglob does not follow them either).
+    std::os::unix::fs::symlink("..", repo.join("docs/sub/up")).unwrap();
+
+    let out = run_arqix_in(&repo, &["doc", "list", "--format", "json"]);
+    assert_success(&out);
+    let catalog = stdout_json(&out);
+    let documents = catalog["documents"].as_array().expect("documents array");
+    assert_eq!(
+        documents.len(),
+        1,
+        "a directory symlink must not multiply catalog entries: {catalog}"
+    );
+}
+
+// arqix:verifies REQ-05-01-08-01
+#[test]
+fn doc_list_lists_each_document_once_under_overlapping_roots() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_list_lists_each_document_once_under_overlapping_roots",
+    );
+    std::fs::write(repo.join("arqix.toml"), "roots = [\"docs\", \"docs/sub\"]\n").unwrap();
+    std::fs::create_dir_all(repo.join("docs/sub")).unwrap();
+    std::fs::write(
+        repo.join("docs/sub/REQ-99-99-99-04-nested.md"),
+        "---\nid: REQ-99-99-99-04\ntitle: Nested\n---\nbody\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["doc", "list", "--format", "json"]);
+    assert_success(&out);
+    let catalog = stdout_json(&out);
+    let nested: Vec<_> = catalog["documents"]
+        .as_array()
+        .expect("documents array")
+        .iter()
+        .filter(|d| d["id"] == "REQ-99-99-99-04")
+        .collect();
+    assert_eq!(
+        nested.len(),
+        1,
+        "a document under two overlapping roots must appear once: {catalog}"
+    );
+}
+
 // arqix:verifies REQ-01-01-17-02
 #[test]
 fn doc_list_skips_the_default_directories_without_an_override() {
