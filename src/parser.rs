@@ -299,4 +299,80 @@ mod tests {
         let d = parse("r.md", doc);
         assert!(d.triples.is_empty());
     }
+
+    #[test]
+    fn zero_indent_list_items_are_ignored_like_the_oracle() {
+        // The oracle's top-level branch catches every non-indented line, so
+        // a zero-indent list item is neither a class nor a triple item.
+        let doc = "---\nid: REQ-99-99-99-01\nrdf:\n- arqix:classes/functional-requirement\ntriples:\n- predicate: arqix:properties/derived-from\n- arqix:user-stories/us-01-01-08\n---\nbody\n";
+        let d = parse("r.md", doc);
+        assert!(d.classes.is_empty(), "zero-indent class item: {:?}", d.classes);
+        assert!(d.triples.is_empty());
+    }
+
+    #[test]
+    fn section_changes_only_on_top_key_lines_like_the_oracle() {
+        // A non-indented line that does not match TOP_KEY_RE `^([\w.-]+):`
+        // leaves the current section untouched.
+        let doc = "---\nid: REQ-99-99-99-01\nrdf:\n  - arqix:classes/adr\nnot a key line\n  - arqix:classes/second\n---\nbody\n";
+        let d = parse("r.md", doc);
+        assert_eq!(d.classes, vec!["adr", "second"]);
+    }
+
+    #[test]
+    fn id_matches_the_oracle_word_shape() {
+        // FRONTMATTER_ID_RE `^id:\s*["']?([\w][\w-]*)["']?\s*$`: optional,
+        // independently unbalanced quotes around one `[\w][\w-]*` token.
+        let quoted = parse("r.md", "---\nid: \"REQ-99-99-99-01'\n---\nbody\n");
+        assert_eq!(quoted.id.as_deref(), Some("REQ-99-99-99-01"));
+        let spaced = parse("r.md", "---\nid: hello world\n---\nbody\n");
+        assert_eq!(spaced.id, None);
+        let dashed = parse("r.md", "---\nid: -leading\n---\nbody\n");
+        assert_eq!(dashed.id, None);
+    }
+
+    #[test]
+    fn iri_keeps_quotes_and_takes_a_single_token_like_the_oracle() {
+        // FRONTMATTER_IRI_RE `^iri:\s*(\S+)\s*$` keeps the raw token —
+        // quotes included — and rejects a multi-token value.
+        let quoted = parse("r.md", "---\nid: X\niri: \"arqix:x\"\n---\nbody\n");
+        assert_eq!(quoted.iri.as_deref(), Some("\"arqix:x\""));
+        let spaced = parse("r.md", "---\nid: X\niri: two tokens\n---\nbody\n");
+        assert_eq!(spaced.iri, None);
+    }
+
+    #[test]
+    fn title_strips_at_most_one_quote_per_side_like_the_oracle() {
+        // FRONTMATTER_TITLE_RE `^title:\s*["']?(.+?)["']?\s*$`: one optional
+        // quote each side, mismatched pairs allowed, empty value rejected.
+        let inner = parse("r.md", "---\nid: X\ntitle: A \"B\"\n---\nbody\n");
+        assert_eq!(inner.title.as_deref(), Some("A \"B"));
+        let mismatched = parse("r.md", "---\nid: X\ntitle: 'Quoted\"\n---\nbody\n");
+        assert_eq!(mismatched.title.as_deref(), Some("Quoted"));
+        let empty = parse("r.md", "---\nid: X\ntitle:\n---\nbody\n");
+        assert_eq!(empty.title, None);
+    }
+
+    #[test]
+    fn class_items_follow_the_oracle_regex() {
+        // CLASS_ITEM_RE `^-\s+arqix:classes/(\S+)\s*$`.
+        let wide = parse("r.md", "---\nid: X\nrdf:\n  -   arqix:classes/adr\n---\nbody\n");
+        assert_eq!(wide.classes, vec!["adr"]);
+        let trailing = parse(
+            "r.md",
+            "---\nid: X\nrdf:\n  - arqix:classes/adr junk\n---\nbody\n",
+        );
+        assert!(trailing.classes.is_empty());
+        let gap = parse("r.md", "---\nid: X\nrdf:\n  - arqix:classes/ adr\n---\nbody\n");
+        assert!(gap.classes.is_empty());
+    }
+
+    #[test]
+    fn triple_predicate_token_must_follow_the_prefix_immediately() {
+        // TRIPLE_PRED_RE puts `(\S+)` right after `arqix:properties/` — a
+        // space between prefix and token is not a predicate line.
+        let doc = "---\nid: X\ntriples:\n  - predicate: arqix:properties/ derived-from\n    object: arqix:user-stories/us-01-01-08\n---\nbody\n";
+        let d = parse("r.md", doc);
+        assert!(d.triples.is_empty());
+    }
 }

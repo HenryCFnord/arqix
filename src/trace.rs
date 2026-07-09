@@ -817,6 +817,61 @@ mod tests {
     }
 
     #[test]
+    fn markers_are_found_across_python_line_boundaries() {
+        // Python splitlines also breaks on form feed, so the oracle sees the
+        // marker as line 2 of its own; the engine must number it the same.
+        let corpus = vec![
+            (
+                "docs/r.md".to_string(),
+                "---\nid: REQ-99-99-99-01\n---\nbody\n".to_string(),
+            ),
+            (
+                "t.rs".to_string(),
+                "\x0c// arqix:verifies REQ-99-99-99-01\nfn t() {}\n".to_string(),
+            ),
+        ];
+        let model = build_model(&corpus);
+        let edge = model
+            .edges
+            .iter()
+            .find(|e| e.kind == "verifies")
+            .expect("marker edge");
+        assert_eq!(edge.line, 2, "marker line must use Python line boundaries");
+    }
+
+    #[test]
+    fn bare_reference_target_is_rejected_like_the_oracle() {
+        // MD_REF_MARKER_RE captures `(arqix:\S+)` — at least one character
+        // after the colon; a bare `arqix:` is not a target.
+        assert_eq!(
+            md_reference_marker("<!-- arqix:references-artefact arqix: -->"),
+            None
+        );
+    }
+
+    #[test]
+    fn matrix_csv_quotes_fields_like_the_oracle() {
+        // The oracle writes the matrix through csv.writer, which quotes any
+        // field containing a comma (and doubles embedded quotes).
+        let corpus = vec![
+            (
+                "docs/a,b.md".to_string(),
+                "<!-- arqix:verifies REQ-99-99-99-01 -->\n".to_string(),
+            ),
+            (
+                "docs/req.md".to_string(),
+                "---\nid: REQ-99-99-99-01\n---\nbody\n".to_string(),
+            ),
+        ];
+        let model = build_model(&corpus);
+        let csv = matrix_csv(&model, "req-test");
+        assert!(
+            csv.contains("\"docs/a,b.md:1\""),
+            "a field containing a comma must be quoted: {csv}"
+        );
+    }
+
+    #[test]
     fn body_reference_marker_becomes_a_resolved_edge() {
         // A `<!-- arqix:references-artefact <iri> -->` body marker is the
         // paragraph-anchored analogue of a frontmatter references-artefact
