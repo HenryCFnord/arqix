@@ -1,3 +1,10 @@
+---
+title: "Agent orchestration patterns"
+description: "Multi-agent patterns used to build arqix, and what they offer arqix-governed projects"
+date: 2026-07-09
+status: active
+---
+
 # Agent Orchestration Patterns
 
 This document describes the multi-agent patterns used while building arqix, and what they mean for arqix in both directions: how agents working in arqix-governed projects profit from them, and how arqix itself can use them.
@@ -29,6 +36,7 @@ Every finding then goes to a **skeptic** whose instruction is inverted: default 
 The value is the interest conflict by design: finders are tuned to find, so they also produce plausible-but-wrong findings; the skeptic does not judge the finder's argument but rebuilds the reproduction against reality.
 What survives both filters is robust.
 In the phase-4 review of this repository, 9 raw findings became 7 confirmed — and all 7 were real defects, including a panic on contract-permitted input and a losslessness break.
+The full-repository round that followed ran the same pattern at scale: 71 agents across nine dimensions produced 61 raw findings, the skeptics confirmed 58, and one of the three refuted verdicts earned its own lesson (below).
 
 ### Mapper (read-only fact sweep)
 
@@ -49,6 +57,13 @@ Diversity here catches what redundancy cannot: three agents with the same brief 
 - **Loop-until-dry:** finder rounds repeat until k consecutive rounds surface nothing new.
   Fits completeness-critical sweeps ("find *all* the broken links"), where a fixed finder count silently truncates the tail.
 - **Perspective-diverse verification:** three skeptics with distinct lenses (correctness, security, reproducibility) instead of one, when a finding can fail in more than one way.
+
+### When the skeptic is right and the finding still matters
+
+One finding of the full-repository round — `verify` collapsing sub-step system errors into the findings exit code — was refuted by its skeptic, and correctly so: the authored exit-code contract documented exactly that behaviour.
+The finding survived anyway, as a decision instead of a bug: the same contract's own principle ("system errors never travel the findings channel") contradicted its example row, so code and contract were changed together and the deviation was flagged prominently for human review.
+The lesson: a skeptic that judges against an authored contract proves consistency, not correctness.
+When a documented detail and the principle behind it conflict, the verdict is honestly REFUTED and the finding is still real — that class of finding must be routed to a human decision, neither silently fixed nor silently dropped.
 
 ## a) How agents in arqix projects profit
 

@@ -272,7 +272,7 @@ Implementing a story follows this order, and the order is normative:
 
 Additional rules:
 
-- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; `scripts/check_trace_markers.py` validates markers against the requirements corpus and must pass before every commit.
+- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; a test that deliberately verifies no requirement (an implementation-detail or oracle-conformance pin) carries `// arqix:no-requirement` instead — exactly one of the two, on every test function including unit tests under `src/`. `scripts/check_trace_markers.py` validates markers against the requirements corpus and must pass before every commit.
 - Every ignored test must name its owning story in the ignore reason (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
 - Tests must be deterministic: no wall clock (dates are injected, see ADR-0004), no network, no dependence on test execution order.
   Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
