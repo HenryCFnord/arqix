@@ -21,6 +21,9 @@ pub fn documents() -> Vec<Document> {
         walk(Path::new(&root), &skip, &mut docs);
     }
     docs.sort_by(|a, b| a.file.cmp(&b.file));
+    // Overlapping roots (e.g. `docs` and `docs/en`) discover the same file
+    // once per containing root; the catalog lists it once.
+    docs.dedup_by(|a, b| a.file == b.file);
     docs
 }
 
@@ -33,6 +36,12 @@ fn walk(dir: &Path, skip: &[String], docs: &mut Vec<Document>) {
     paths.sort();
     for path in paths {
         if path.is_dir() {
+            // Never traverse directory symlinks: a parent link forms a
+            // cycle that makes the walk unbounded, and the trace oracle's
+            // rglob does not follow them either.
+            if path.symlink_metadata().is_ok_and(|m| m.is_symlink()) {
+                continue;
+            }
             let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
             if !skip.iter().any(|s| s == name) {
                 walk(&path, skip, docs);

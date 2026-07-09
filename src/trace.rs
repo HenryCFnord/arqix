@@ -85,7 +85,11 @@ fn walk(dir: &Path, out: &mut Vec<(String, String)>) {
         let path = entry.path();
         let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
         if path.is_dir() {
-            if !SKIP_DIRS.contains(&name) {
+            // The oracle's rglob never follows directory symlinks; doing so
+            // here would diverge and make the walk unbounded on a cycle.
+            if !SKIP_DIRS.contains(&name)
+                && !path.symlink_metadata().is_ok_and(|m| m.is_symlink())
+            {
                 walk(&path, out);
             }
             continue;
