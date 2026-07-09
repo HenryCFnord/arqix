@@ -287,10 +287,8 @@ fn marker_body(rest: &str) -> Option<(String, String)> {
     let rest = rest.strip_prefix("arqix:")?;
     let (kind, after) = if let Some(r) = rest.strip_prefix("verifies") {
         ("verifies", r)
-    } else if let Some(r) = rest.strip_prefix("implements") {
-        ("implements", r)
     } else {
-        return None;
+        ("implements", rest.strip_prefix("implements")?)
     };
     if !after.starts_with(char::is_whitespace) {
         return None;
