@@ -34,7 +34,10 @@ import re
 import sys
 from pathlib import Path
 
-REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$")
+# ASCII pinned: requirement ids are four two-digit ASCII groups by the
+# style guide; the Rust engine checks is_ascii_digit, and Unicode \d would
+# silently admit e.g. Arabic-Indic digits here but not there.
+REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$", re.ASCII)
 FRONTMATTER_ID_RE = re.compile(r"^id:\s*[\"']?([\w][\w-]*)[\"']?\s*$")
 FRONTMATTER_IRI_RE = re.compile(r"^iri:\s*(\S+)\s*$")
 FRONTMATTER_TITLE_RE = re.compile(r"^title:\s*[\"']?(.+?)[\"']?\s*$")

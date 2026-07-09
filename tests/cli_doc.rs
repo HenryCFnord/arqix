@@ -166,7 +166,11 @@ fn doc_list_lists_each_document_once_under_overlapping_roots() {
         "minimal",
         "doc_list_lists_each_document_once_under_overlapping_roots",
     );
-    std::fs::write(repo.join("arqix.toml"), "roots = [\"docs\", \"docs/sub\"]\n").unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "roots = [\"docs\", \"docs/sub\"]\n",
+    )
+    .unwrap();
     std::fs::create_dir_all(repo.join("docs/sub")).unwrap();
     std::fs::write(
         repo.join("docs/sub/REQ-99-99-99-04-nested.md"),

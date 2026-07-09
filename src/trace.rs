@@ -87,8 +87,7 @@ fn walk(dir: &Path, out: &mut Vec<(String, String)>) {
         if path.is_dir() {
             // The oracle's rglob never follows directory symlinks; doing so
             // here would diverge and make the walk unbounded on a cycle.
-            if !SKIP_DIRS.contains(&name)
-                && !path.symlink_metadata().is_ok_and(|m| m.is_symlink())
+            if !SKIP_DIRS.contains(&name) && !path.symlink_metadata().is_ok_and(|m| m.is_symlink())
             {
                 walk(&path, out);
             }
@@ -176,7 +175,7 @@ fn build_model(corpus: &[(String, String)]) -> Model {
     let mut edges = Vec::new();
     for (path, text) in corpus {
         let is_rust = path.ends_with(".rs");
-        let lines: Vec<&str> = text.lines().collect();
+        let lines: Vec<&str> = parser::py_splitlines(text);
         for (idx, line) in lines.iter().enumerate() {
             let marker = if is_rust {
                 rs_marker(line)
@@ -279,7 +278,8 @@ pub(crate) fn md_reference_marker(line: &str) -> Option<String> {
     if tokens.next().is_some() {
         return None;
     }
-    target.starts_with("arqix:").then(|| target.to_string())
+    // MD_REF_MARKER_RE captures `arqix:\S+` — a bare `arqix:` is no target.
+    (target.starts_with("arqix:") && target.len() > "arqix:".len()).then(|| target.to_string())
 }
 
 /// Parse `arqix:(verifies|implements)\s+<token>` with only trailing space.
@@ -580,6 +580,22 @@ fn check(model: &Model, req_id: &str) -> (Value, ExitCode) {
     )
 }
 
+/// Mirror csv.writer's minimal quoting (the oracle's dialect): quote a
+/// field containing the delimiter, a quote, or a line break; double
+/// embedded quotes.
+fn csv_field(s: &str) -> String {
+    if s.contains([',', '"', '\n', '\r']) {
+        format!("\"{}\"", s.replace('"', "\"\""))
+    } else {
+        s.to_string()
+    }
+}
+
+fn csv_row(fields: &[String]) -> String {
+    let quoted: Vec<String> = fields.iter().map(|f| csv_field(f)).collect();
+    format!("{}\n", quoted.join(","))
+}
+
 fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     let mut out = String::new();
     if matrix_type == "us-req" {
@@ -593,7 +609,7 @@ fn matrix_csv(model: &Model, matrix_type: &str) -> String {
         pairs.sort();
         pairs.dedup();
         for (story, req) in pairs {
-            out.push_str(&format!("{story},{req}\n"));
+            out.push_str(&csv_row(&[story.to_string(), req.to_string()]));
         }
         return out;
     }
@@ -602,14 +618,13 @@ fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     let (report, _) = coverage(model);
     if let Some(rows) = report["requirements"].as_array() {
         for row in rows {
-            out.push_str(&format!(
-                "{},{},{},{},{}\n",
-                row["id"].as_str().unwrap_or(""),
-                row["kind"].as_str().unwrap_or(""),
+            out.push_str(&csv_row(&[
+                row["id"].as_str().unwrap_or("").to_string(),
+                row["kind"].as_str().unwrap_or("").to_string(),
                 join_strs(&row["verified_by"]),
                 join_strs(&row["planned_by"]),
                 join_strs(&row["implemented_by"]),
-            ));
+            ]));
         }
     }
     out
@@ -827,7 +842,9 @@ mod tests {
             ),
             (
                 "t.rs".to_string(),
-                "\x0c// arqix:verifies REQ-99-99-99-01\nfn t() {}\n".to_string(),
+                // Assembled from pieces so the marker gate never reads this
+                // literal itself as a marker line of this file.
+                format!("\x0c// arqix:{} REQ-99-99-99-01\nfn t() {{}}\n", "verifies"),
             ),
         ];
         let model = build_model(&corpus);
