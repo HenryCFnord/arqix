@@ -39,5 +39,6 @@ Decisions are kept as ADRs under `../adr/`, maintained per the path model with a
 | [ADR-0006](../adr/ADR-0006-trace-output-contracts.md) | Trace output is layered — canonical core graph, diagnostics projection, audit products — each with its own stability promise; `schema_version` in every JSON output | accepted |
 | [ADR-0007](../adr/ADR-0007-graph-node-identity.md) | One node identity rule: declared document ID, else repository-relative path; `file` as attribute everywhere; edges reference node ids | accepted |
 | [ADR-0008](../adr/ADR-0008-question-driven-report-units.md) | Human-facing reports are assemblies of question units — one unit answers one named question; raw model dumps are machine artefacts, never reports | accepted |
+| [ADR-0009](../adr/ADR-0009-documentation-production-policy.md) | Documentation production policy: new documents are units discriminated by `section-kind`; code→doc links via the `documented-by` marker; one generator surface (report units); rustdoc as a gated layer; `schema_version` per interface | accepted |
 
 Decision records predating the ADR directory live in the planning packages under `docs/en/plans/` (ID scheme, canonical-owner model, atomicity, subject conventions).

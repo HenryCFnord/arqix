@@ -1,5 +1,8 @@
 # arqix
 
+<!-- markdownlint-disable-next-line MD033 -->
+<img src="assets/arqix-logo.png" alt="The arqix logo: an Archaeopteryx drawn as a trace graph of nodes and edges" width="240">
+
 A Rust CLI for structured technical documentation and Architecture-as-Code workflows.
 
 ## What is arqix?
@@ -12,15 +15,15 @@ It is a tool for engineers who want their documentation to be part of the engine
 ## Why does it exist?
 
 arqix exists to keep technical Markdown documentation structured, machine-readable, and close to the code it describes.
-For background and motivation, see [Why arqix had to exist](docs/blog/2026-03-why-arqix-had-to-exist.md).
+For background and motivation, see [Why arqix had to exist](docs/en/blog/2026-03-why-arqix-had-to-exist.md).
 
 ## Current status
 
 **Early development.
-Not usable yet.**
+The core works; the publication surface does not exist yet.**
 
-The repository is being initialized.
-The CLI currently supports `--help` and `--version`; feature commands are not implemented yet.
+The Rust core is implemented and verifies this repository's own corpus daily: `config`, `doc init/new/list/read/search`, `unit new`, `fmt`, `finalise`, `lint run`, `assemble build`, `trace scan/check/coverage/matrix`, and `verify`.
+`report`, `publish`, `render`, `policy`, and `mcp` are stubs that exit with code 70 until their stories ship.
 
 See [docs/en/project/roadmap.md](docs/en/project/roadmap.md) for planned work.
 

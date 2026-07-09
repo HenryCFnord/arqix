@@ -75,7 +75,7 @@ enum Command {
         #[command(subcommand)]
         command: LintCommand,
     },
-    /// Assemble: expand chapter/include directives into pages
+    /// Assemble: expand include directives into pages
     Assemble {
         #[command(subcommand)]
         command: AssembleCommand,
@@ -164,7 +164,7 @@ enum LintCommand {
 
 #[derive(Subcommand)]
 enum AssembleCommand {
-    /// Build pages from chapter/include directives
+    /// Build pages by expanding include directives
     Build,
 }
 

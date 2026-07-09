@@ -19,7 +19,7 @@ triples:
 
 properties:
   priority: high
-  fit-criterion: Creation without `--id` yields a policy-conforming ID that collides with no existing document.
+  fit-criterion: Creation without an explicit ID yields a policy-conforming ID that collides with no existing document.
 
 external-references: []
 
@@ -27,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-02
+  updated: 2026-07-09
   lang: en
   translation-of:
   generated: false
@@ -35,7 +35,7 @@ meta:
 
 ## Requirement
 
-When no `--id` is provided, arqix SHALL generate an ID from the configured policy and verify its uniqueness.
+When a document is created without an explicit ID, arqix SHALL generate an ID from the configured policy and verify its uniqueness.
 
 ### Notes
 

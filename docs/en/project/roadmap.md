@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 43/103).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 46/105 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -26,14 +26,14 @@ Progress through the implementation phases is measured by one number: the share 
 
 What the old phases 1–4 sketched as features is now fully specified and traceable:
 
-- [x] 8 personas, 103 user stories (`docs/en/architecture/stories/`)
-- [x] 142 requirements — 103 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
+- [x] 8 personas, 104 user stories (`docs/en/architecture/stories/`)
+- [x] 144 requirements — 105 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
 - [x] Ontology with requirement kinds and inverse properties (`docs/ontology/`)
 - [x] Reference checkers: `check_requirements.py`, `check_frontmatter.py` (stdlib-only, strict, selftested)
 - [x] arc42 documentation with Structurizr C4 model (`docs/en/architecture/`)
 - [x] ADR-0001..0005 (agent instructions, C4 source, verification orchestrator, mechanical rewriter, command taxonomy)
 
-## Phase 2 — Red skeleton and TDD harness (in review, PR #11)
+## Phase 2 — Red skeleton and TDD harness (done)
 
 - [x] clap command tree for the full surface per ADR-0005; stubs exit 70
 - [x] 45 ignored command-contract tests mirroring the arc42 chapter 5 command-ownership table
@@ -73,6 +73,7 @@ Phase 5 is now the remaining command surface: `report bundle`, `policy check`, `
 - Report & Export (`report bundle`), Policy Checker (`policy check`), MCP Server (`mcp serve`)
 - Publish & Render (`publish site --lang`, `render pdf`), language-aware site, DE translations
 - Self-hosting closes the loop: the Python reference checkers are demoted to cross-checks and retired per the oracle policy
+- Brand assets: vector (SVG) source for the Archaeopteryx trace-graph logo, plus mark-only and monochrome variants (the raster original lives in `assets/`)
 
 ## What this roadmap is not
 
