@@ -12,6 +12,72 @@ fn doc_init_creates_the_standard_package_scaffold() {
     let repo = scratch_copy("minimal", "doc_init_creates_the_standard_package_scaffold");
     let out = run_arqix_in(&repo, &["doc", "init"]);
     assert_success(&out);
+
+    // The standard scaffold (REQ-01-01-01-01) under the package root.
+    assert!(repo.join("docs/index.md").is_file(), "index.md missing");
+    for dir in [
+        "docs/units",
+        "docs/pages",
+        "docs/artefacts",
+        "docs/logs",
+        "docs/.arqix",
+    ] {
+        assert!(repo.join(dir).is_dir(), "{dir} missing from the scaffold");
+    }
+
+    // Initialising is idempotent and never overwrites (REQ-00-00-00-08).
+    std::fs::write(repo.join("docs/index.md"), "user content\n").unwrap();
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    assert_eq!(
+        std::fs::read_to_string(repo.join("docs/index.md")).unwrap(),
+        "user content\n",
+        "a second init must not overwrite an existing index.md"
+    );
+}
+
+// arqix:verifies REQ-01-01-01-01
+#[test]
+fn doc_init_scaffolds_an_explicit_path() {
+    let repo = scratch_copy("minimal", "doc_init_scaffolds_an_explicit_path");
+    let out = run_arqix_in(&repo, &["doc", "init", "pkg"]);
+    assert_success(&out);
+    assert!(repo.join("pkg/index.md").is_file());
+    assert!(repo.join("pkg/units").is_dir());
+    assert!(repo.join("pkg/logs").is_dir());
+}
+
+// arqix:verifies REQ-01-01-01-02
+#[test]
+fn doc_init_writes_doc_index_frontmatter() {
+    let repo = scratch_copy("minimal", "doc_init_writes_doc_index_frontmatter");
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    let index = std::fs::read_to_string(repo.join("docs/index.md")).unwrap();
+    let frontmatter = index
+        .split("---")
+        .nth(1)
+        .expect("index.md must start with frontmatter");
+    assert!(frontmatter.contains("id:"), "id missing: {index}");
+    assert!(
+        frontmatter.contains("kind: doc_index"),
+        "kind=doc_index missing: {index}"
+    );
+    assert!(frontmatter.contains("title:"), "title missing: {index}");
+}
+
+// arqix:verifies REQ-00-00-00-13
+#[test]
+fn doc_new_rejects_a_kind_that_escapes_the_root() {
+    let repo = scratch_copy("minimal", "doc_new_rejects_a_kind_that_escapes_the_root");
+    let out = run_arqix_in(&repo, &["doc", "new", "../escape"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "a path-escaping kind is a usage error, not a write outside the root"
+    );
+    assert!(
+        !repo.join("escape").exists(),
+        "nothing may be created outside the configured root"
+    );
 }
 
 // arqix:verifies REQ-00-00-00-05
