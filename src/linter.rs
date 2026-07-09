@@ -146,6 +146,7 @@ mod tests {
     use super::*;
     use crate::parser::parse;
 
+    // arqix:no-requirement
     #[test]
     fn unresolved_reference_marker_is_lnt_003() {
         let target = parse(

@@ -15,9 +15,10 @@ lint:
     cargo clippy --all-targets -- -D warnings
     cargo fmt --check
 
-# Markdown hygiene over the corpus (rules: .markdownlint.jsonc)
+# Markdown hygiene over the corpus (rules: .markdownlint.jsonc).
+# Pinned to the same version as the gate (scripts/arqix verify).
 lint-md:
-    npx --yes markdownlint-cli2
+    npx --yes markdownlint-cli2@0.23.0
 
 # Trace-oracle conformance cross-check (arc42 chapter 8)
 conformance:

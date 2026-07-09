@@ -255,6 +255,7 @@ fn sha256_hex(data: &[u8]) -> String {
 mod tests {
     use super::sha256_hex;
 
+    // arqix:no-requirement
     #[test]
     fn sha256_hex_matches_the_nist_vector() {
         // Pins the crate wiring and the hex rendering the log depends on.

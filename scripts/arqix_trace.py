@@ -518,6 +518,13 @@ def run(verb, args, fmt, root="."):
     corpus = read_corpus(root)
     requirements, edges, documents = build_model(corpus)
 
+    if verb in ("scan", "coverage") and args:
+        # clap rejects stray arguments as a usage error; the stand-in must
+        # not be more lenient than the binary it stands in for.
+        print(f"error: unexpected arguments for `trace {verb}`: {' '.join(args)}",
+              file=sys.stderr)
+        return 2
+
     if verb == "scan":
         payload = graph(requirements, edges, documents)
         if fmt == "json":
@@ -559,6 +566,9 @@ def run(verb, args, fmt, root="."):
 
     if verb == "matrix":
         matrix_type = "req-test"
+        # clap accepts both `--type us-req` and `--type=us-req`.
+        if len(args) == 1 and args[0].startswith("--type="):
+            args = ["--type", args[0].split("=", 1)[1]]
         if args[:1] == ["--type"] and len(args) == 2:
             matrix_type = args[1]
         elif args:

@@ -352,6 +352,7 @@ mod tests {
 
     const DOC: &str = "---\nid: REQ-01-01-08-01\ntitle: Example\niri: arqix:requirements/req-01-01-08-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-01-01-08\nmeta:\n  lang: en\n---\n## Example\n\nBody text.\n";
 
+    // arqix:no-requirement
     #[test]
     fn parses_scalars_classes_and_triples() {
         let d = parse("r.md", DOC);
@@ -367,12 +368,14 @@ mod tests {
         assert!(d.body.contains("Body text."));
     }
 
+    // arqix:no-requirement
     #[test]
     fn kind_falls_back_to_id_pattern_without_classes() {
         let d = parse("r.md", "---\nid: REQ-99-99-99-01\n---\nbody\n");
         assert_eq!(d.kind(), "requirement");
     }
 
+    // arqix:no-requirement
     #[test]
     fn no_frontmatter_is_all_body() {
         let d = parse("x.md", "no frontmatter here\n");
@@ -381,6 +384,7 @@ mod tests {
         assert!(d.body.contains("no frontmatter"));
     }
 
+    // arqix:no-requirement
     #[test]
     fn requirement_id_shape() {
         assert!(is_requirement_id("REQ-01-02-03-04"));
@@ -388,6 +392,7 @@ mod tests {
         assert!(!is_requirement_id("REQ-1-2-3"));
     }
 
+    // arqix:no-requirement
     #[test]
     fn triples_tolerate_variable_whitespace_like_the_oracle() {
         // Extra spaces after the dash, after the colon, and an inline object
@@ -399,6 +404,7 @@ mod tests {
         assert_eq!(d.triples[0].object, "arqix:user-stories/us-01-01-08");
     }
 
+    // arqix:no-requirement
     #[test]
     fn triples_reject_trailing_tokens_like_the_oracle() {
         // The oracle anchors on `\s*$`, so a stray trailing token is not a
@@ -408,6 +414,7 @@ mod tests {
         assert!(d.triples.is_empty());
     }
 
+    // arqix:no-requirement
     #[test]
     fn zero_indent_list_items_are_ignored_like_the_oracle() {
         // The oracle's top-level branch catches every non-indented line, so
@@ -422,6 +429,7 @@ mod tests {
         assert!(d.triples.is_empty());
     }
 
+    // arqix:no-requirement
     #[test]
     fn section_changes_only_on_top_key_lines_like_the_oracle() {
         // A non-indented line that does not match TOP_KEY_RE `^([\w.-]+):`
@@ -431,6 +439,7 @@ mod tests {
         assert_eq!(d.classes, vec!["adr", "second"]);
     }
 
+    // arqix:no-requirement
     #[test]
     fn id_matches_the_oracle_word_shape() {
         // FRONTMATTER_ID_RE `^id:\s*["']?([\w][\w-]*)["']?\s*$`: optional,
@@ -443,6 +452,7 @@ mod tests {
         assert_eq!(dashed.id, None);
     }
 
+    // arqix:no-requirement
     #[test]
     fn iri_keeps_quotes_and_takes_a_single_token_like_the_oracle() {
         // FRONTMATTER_IRI_RE `^iri:\s*(\S+)\s*$` keeps the raw token —
@@ -453,6 +463,7 @@ mod tests {
         assert_eq!(spaced.iri, None);
     }
 
+    // arqix:no-requirement
     #[test]
     fn title_strips_at_most_one_quote_per_side_like_the_oracle() {
         // FRONTMATTER_TITLE_RE `^title:\s*["']?(.+?)["']?\s*$`: one optional
@@ -465,6 +476,7 @@ mod tests {
         assert_eq!(empty.title, None);
     }
 
+    // arqix:no-requirement
     #[test]
     fn class_items_follow_the_oracle_regex() {
         // CLASS_ITEM_RE `^-\s+arqix:classes/(\S+)\s*$`.
@@ -485,6 +497,7 @@ mod tests {
         assert!(gap.classes.is_empty());
     }
 
+    // arqix:no-requirement
     #[test]
     fn lines_split_like_python_splitlines() {
         // The oracle reads documents with str.splitlines, which also breaks
@@ -497,6 +510,7 @@ mod tests {
         assert_eq!(py_splitlines(""), Vec::<&str>::new());
     }
 
+    // arqix:no-requirement
     #[test]
     fn triple_predicate_token_must_follow_the_prefix_immediately() {
         // TRIPLE_PRED_RE puts `(\S+)` right after `arqix:properties/` — a

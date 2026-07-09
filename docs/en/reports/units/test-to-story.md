@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 876c506, 2026-07-08
+     Snapshot: 5a0aec2, 2026-07-09
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -10,7 +10,14 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | test | story | title |
 | --- | --- | --- |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
+| `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_generates_outputs_under_pages` | US-02-01-11 | Assemble Documentation During Implementation |
+| `assemble_build_refuses_includes_outside_the_repository` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `assemble_build_refuses_includes_outside_the_repository` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `assemble_build_refuses_includes_outside_the_repository` | US-04-01-02 | Check Scope Guardrails in CI |
+| `assemble_build_refuses_includes_outside_the_repository` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
+| `assemble_build_refuses_includes_outside_the_repository` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
+| `assemble_build_refuses_includes_outside_the_repository` | US-08-01-08 | Stay within Declared Change Scope |
 | `assemble_build_writes_a_jsonl_log` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
 | `assemble_build_writes_a_jsonl_log` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
 | `assemble_build_writes_a_jsonl_log` | US-06-01-02 | Trace Document Assembly Structure |
@@ -82,11 +89,64 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_identifies_the_failing_key` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
 | `doc_init_creates_the_standard_package_scaffold` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
+| `doc_init_scaffolds_an_explicit_path` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `doc_init_writes_doc_index_frontmatter` | US-01-01-01 | Initialise Standardised Doc Package |
+| `doc_init_writes_doc_index_frontmatter` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-04 | Lint Documents Deterministically |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-08 | Generate Governed Coverage Reports |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-12 | Govern Glossary Term Metadata and IDs |
+| `doc_list_does_not_follow_directory_symlinks` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-03 | Format Documents During Implementation |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-04 | Lint Documents Before Commit |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-11 | Assemble Documentation During Implementation |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-01 | Lint Documents for Traceability Gaps |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-02 | Export Trace Matrices |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-03 | Generate Coverage Reports |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-07 | Filter Traceability Reports for Quality Analysis |
+| `doc_list_does_not_follow_directory_symlinks` | US-03-01-08 | Make Trace and Coverage Outputs Reproducible |
+| `doc_list_does_not_follow_directory_symlinks` | US-04-01-06 | Build Deterministic Page Artefacts in CI |
+| `doc_list_does_not_follow_directory_symlinks` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
+| `doc_list_does_not_follow_directory_symlinks` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-06 | Search and Read Documentation via CLI |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-08 | Export a Deterministic Document Catalog |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-09 | Observe Assembled Outputs for Downstream Tooling |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
+| `doc_list_does_not_follow_directory_symlinks` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
+| `doc_list_does_not_follow_directory_symlinks` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
+| `doc_list_does_not_follow_directory_symlinks` | US-06-01-08 | Assemble Modular Document Packages into Pages |
+| `doc_list_does_not_follow_directory_symlinks` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
+| `doc_list_does_not_follow_directory_symlinks` | US-06-01-10 | Create Glossary Terms with Stable IDs |
+| `doc_list_does_not_follow_directory_symlinks` | US-07-01-01 | Review Coverage Evidence |
+| `doc_list_does_not_follow_directory_symlinks` | US-07-01-02 | Review Evidence Chains through Trace Matrices |
+| `doc_list_does_not_follow_directory_symlinks` | US-07-01-03 | Generate Audit Evidence Bundles by Scope |
+| `doc_list_does_not_follow_directory_symlinks` | US-07-01-05 | Filter Traceability Reports for Audit Review |
+| `doc_list_does_not_follow_directory_symlinks` | US-07-01-06 | Export Deterministic Trace and Coverage Evidence |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-07 | List Documents Deterministically for Automation |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-10 | Use Metadata Contracts Deterministically |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `doc_list_does_not_follow_directory_symlinks` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `doc_list_emits_a_json_document_catalog` | US-05-01-08 | Export a Deterministic Document Catalog |
 | `doc_list_emits_a_json_document_catalog` | US-08-01-07 | List Documents Deterministically for Automation |
 | `doc_list_filters_the_catalog_by_kind` | US-05-01-08 | Export a Deterministic Document Catalog |
 | `doc_list_filters_the_catalog_by_kind` | US-08-01-07 | List Documents Deterministically for Automation |
 | `doc_list_honours_configured_skip_dirs` | US-01-01-17 | Configure Discovery Scope |
+| `doc_list_lists_each_document_once_under_overlapping_roots` | US-05-01-08 | Export a Deterministic Document Catalog |
+| `doc_list_lists_each_document_once_under_overlapping_roots` | US-08-01-07 | List Documents Deterministically for Automation |
 | `doc_list_skips_the_default_directories_without_an_override` | US-01-01-17 | Configure Discovery Scope |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
@@ -101,6 +161,12 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-04-01-02 | Check Scope Guardrails in CI |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-08-01-08 | Stay within Declared Change Scope |
 | `doc_new_writes_into_the_configured_kind_location` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-08-01-23 | Create Documents without Ambiguity via Templates |
@@ -115,9 +181,15 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `finalise_leaves_current_metadata_untouched` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_leaves_current_metadata_untouched` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_leaves_current_metadata_untouched` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `finalise_rejects_a_non_iso_date` | US-01-01-06 | Finalise Document Metadata Mechanically |
+| `finalise_rejects_a_non_iso_date` | US-02-01-08 | Finalise Metadata without Touching Content |
+| `finalise_rejects_a_non_iso_date` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
 | `finalise_sets_updated_to_the_injected_date` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_sets_updated_to_the_injected_date` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_sets_updated_to_the_injected_date` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `finalise_touches_only_the_meta_updated_field` | US-01-01-06 | Finalise Document Metadata Mechanically |
+| `finalise_touches_only_the_meta_updated_field` | US-02-01-08 | Finalise Metadata without Touching Content |
+| `finalise_touches_only_the_meta_updated_field` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
 | `fmt_is_idempotent` | US-01-01-03 | Format Documents Canonically |
 | `fmt_is_idempotent` | US-01-01-04 | Lint Documents Deterministically |
 | `fmt_is_idempotent` | US-01-01-08 | Generate Governed Coverage Reports |
@@ -168,6 +240,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_never_changes_body_text` | US-01-01-03 | Format Documents Canonically |
 | `fmt_never_changes_body_text` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `fmt_orders_ontology_frontmatter_by_family` | US-01-01-03 | Format Documents Canonically |
+| `fmt_orders_ontology_frontmatter_by_family` | US-02-01-03 | Format Documents During Implementation |
+| `fmt_orders_ontology_frontmatter_by_family` | US-08-01-03 | Format Documents Deterministically within Scope |
 | `fmt_sorts_frontmatter_keys_canonically` | US-01-01-03 | Format Documents Canonically |
 | `fmt_sorts_frontmatter_keys_canonically` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_sorts_frontmatter_keys_canonically` | US-08-01-03 | Format Documents Deterministically within Scope |
@@ -262,6 +337,53 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_coverage_supports_json_output` | US-07-01-01 | Review Coverage Evidence |
 | `trace_matrix_exports_csv` | US-03-01-02 | Export Trace Matrices |
 | `trace_scan_detects_markers_in_rust_comments` | US-03-01-05 | Scan Traceability Information |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-04 | Lint Documents Deterministically |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-08 | Generate Governed Coverage Reports |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-12 | Govern Glossary Term Metadata and IDs |
+| `trace_scan_does_not_follow_directory_symlinks` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-03 | Format Documents During Implementation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-04 | Lint Documents Before Commit |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-11 | Assemble Documentation During Implementation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-01 | Lint Documents for Traceability Gaps |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-02 | Export Trace Matrices |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-03 | Generate Coverage Reports |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-07 | Filter Traceability Reports for Quality Analysis |
+| `trace_scan_does_not_follow_directory_symlinks` | US-03-01-08 | Make Trace and Coverage Outputs Reproducible |
+| `trace_scan_does_not_follow_directory_symlinks` | US-04-01-06 | Build Deterministic Page Artefacts in CI |
+| `trace_scan_does_not_follow_directory_symlinks` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
+| `trace_scan_does_not_follow_directory_symlinks` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-06 | Search and Read Documentation via CLI |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-08 | Export a Deterministic Document Catalog |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-09 | Observe Assembled Outputs for Downstream Tooling |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
+| `trace_scan_does_not_follow_directory_symlinks` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
+| `trace_scan_does_not_follow_directory_symlinks` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
+| `trace_scan_does_not_follow_directory_symlinks` | US-06-01-08 | Assemble Modular Document Packages into Pages |
+| `trace_scan_does_not_follow_directory_symlinks` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
+| `trace_scan_does_not_follow_directory_symlinks` | US-06-01-10 | Create Glossary Terms with Stable IDs |
+| `trace_scan_does_not_follow_directory_symlinks` | US-07-01-01 | Review Coverage Evidence |
+| `trace_scan_does_not_follow_directory_symlinks` | US-07-01-02 | Review Evidence Chains through Trace Matrices |
+| `trace_scan_does_not_follow_directory_symlinks` | US-07-01-03 | Generate Audit Evidence Bundles by Scope |
+| `trace_scan_does_not_follow_directory_symlinks` | US-07-01-05 | Filter Traceability Reports for Audit Review |
+| `trace_scan_does_not_follow_directory_symlinks` | US-07-01-06 | Export Deterministic Trace and Coverage Evidence |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-07 | List Documents Deterministically for Automation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-10 | Use Metadata Contracts Deterministically |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `trace_scan_does_not_follow_directory_symlinks` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `trace_scan_outputs_the_trace_graph_as_json` | US-03-01-05 | Scan Traceability Information |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |

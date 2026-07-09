@@ -354,12 +354,14 @@ pub fn finalise(date: &str, format: OutputFormat) -> ExitCode {
 mod tests {
     use super::*;
 
+    // arqix:no-requirement
     #[test]
     fn already_ordered_document_is_byte_identical() {
         let text = "---\nid: X\ntitle: T\nmeta:\n  updated: 2026-07-04\n---\n\n## Body\n";
         assert_eq!(format_text("docs/x.md", text).as_deref(), Some(text));
     }
 
+    // arqix:no-requirement
     #[test]
     fn foreign_family_keys_are_left_in_place() {
         // Ontology docs interleave label/rdfs/owl among the known keys; those
@@ -368,6 +370,7 @@ mod tests {
         assert_eq!(format_text("docs/x.md", text).as_deref(), Some(text));
     }
 
+    // arqix:no-requirement
     #[test]
     fn out_of_order_known_keys_are_canonicalised_and_idempotent() {
         let text = "---\nid: X\nmeta:\n  updated: 2026-07-04\ntitle: T\n---\nbody\n";
@@ -379,6 +382,7 @@ mod tests {
         );
     }
 
+    // arqix:no-requirement
     #[test]
     fn crlf_document_round_trips_byte_identically() {
         // Losslessness must not depend on the line ending: a CRLF,
@@ -389,6 +393,7 @@ mod tests {
         assert_eq!(format_text("docs/x.md", text).as_deref(), Some(text));
     }
 
+    // arqix:no-requirement
     #[test]
     fn finalise_preserves_crlf_line_endings() {
         let text = "---\r\nid: X\r\nmeta:\r\n  updated: 2026-07-04\r\n---\r\nbody\r\n";
@@ -408,6 +413,7 @@ mod tests {
         }
     }
 
+    // arqix:no-requirement
     #[test]
     fn finalise_sets_and_leaves_current_untouched() {
         let text = "---\nid: X\nmeta:\n  updated: 2026-07-04\n---\nbody\n";

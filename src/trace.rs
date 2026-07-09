@@ -817,6 +817,7 @@ fn dash(value: &Value) -> String {
 mod tests {
     use super::*;
 
+    // arqix:no-requirement
     #[test]
     fn story_of_matches_the_oracle_and_never_panics() {
         // Canonical requirement id.
@@ -831,6 +832,7 @@ mod tests {
         assert_eq!(story_of("äöüßabcdefgh"), json!("US-abcdefgh"));
     }
 
+    // arqix:no-requirement
     #[test]
     fn markers_are_found_across_python_line_boundaries() {
         // Python splitlines also breaks on form feed, so the oracle sees the
@@ -856,6 +858,7 @@ mod tests {
         assert_eq!(edge.line, 2, "marker line must use Python line boundaries");
     }
 
+    // arqix:no-requirement
     #[test]
     fn bare_reference_target_is_rejected_like_the_oracle() {
         // MD_REF_MARKER_RE captures `(arqix:\S+)` — at least one character
@@ -866,6 +869,7 @@ mod tests {
         );
     }
 
+    // arqix:no-requirement
     #[test]
     fn matrix_csv_quotes_fields_like_the_oracle() {
         // The oracle writes the matrix through csv.writer, which quotes any
@@ -888,6 +892,7 @@ mod tests {
         );
     }
 
+    // arqix:no-requirement
     #[test]
     fn body_reference_marker_becomes_a_resolved_edge() {
         // A `<!-- arqix:references-artefact <iri> -->` body marker is the

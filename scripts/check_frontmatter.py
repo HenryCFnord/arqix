@@ -46,6 +46,7 @@ Rule IDs:
 """
 
 import argparse
+import datetime
 import json
 import re
 import sys
@@ -55,6 +56,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from check_requirements import Finding  # noqa: E402
 
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def is_calendar_date(value):
+    """True when a shape-valid YYYY-MM-DD string is a real calendar date."""
+    try:
+        datetime.date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
 NON_ARQIX_TYPES = {"rdfs:Class", "rdf:Property"}
 REQUIRED_META = ["lifecycle-status", "owner", "created", "updated", "lang", "generated"]
 
@@ -279,6 +289,9 @@ def check_format(doc, findings):
         if value and not ISO_DATE.match(value):
             findings.append(Finding(path, "FMT-005", "error",
                                     "meta.%s %r is not ISO YYYY-MM-DD" % (key, value)))
+        elif value and not is_calendar_date(value):
+            findings.append(Finding(path, "FMT-005", "error",
+                                    "meta.%s %r is not a real calendar date" % (key, value)))
     if created and updated and ISO_DATE.match(created) and ISO_DATE.match(updated):
         if created > updated:
             findings.append(Finding(path, "FMT-005", "error",
@@ -396,13 +409,25 @@ def check_index(root, classes_by_label, findings):
 
 
 def load_docs(root):
+    """Load every family document recursively; a file in a subdirectory must
+    not escape the gate. Nested family directories (arc42/units under
+    arc42, icd/units under icd) win by longest path, so each file keeps its
+    most specific family."""
+    by_depth = sorted(
+        FAMILIES.items(), key=lambda kv: len(str(kv[1][0])), reverse=True
+    )
+    seen = set()
     docs = []
-    for family, (rel_dir, _, _) in FAMILIES.items():
+    for family, (rel_dir, _, _) in by_depth:
         d = root / rel_dir
         if not d.is_dir():
             continue
-        for path in sorted(d.glob("*.md")):
+        for path in sorted(d.rglob("*.md")):
+            if path in seen:
+                continue
+            seen.add(path)
             docs.append(Doc(path, path.read_text(encoding="utf-8"), family))
+    docs.sort(key=lambda doc: str(doc.path))
     return docs
 
 

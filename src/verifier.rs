@@ -101,6 +101,7 @@ fn overall_exit(codes: &[i64]) -> u8 {
 mod tests {
     use super::overall_exit;
 
+    // arqix:no-requirement
     #[test]
     fn sub_step_system_errors_are_not_collapsed_to_findings() {
         assert_eq!(overall_exit(&[0, 0, 0, 0]), 0);

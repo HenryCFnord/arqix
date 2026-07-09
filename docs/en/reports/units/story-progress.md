@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 876c506, 2026-07-08
+     Snapshot: 5a0aec2, 2026-07-09
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -9,13 +9,13 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 
 | story | title | verified | planned | uncovered | progress |
 | --- | --- | ---: | ---: | ---: | --- |
-| US-01-01-01 | Initialise Standardised Doc Package | 2 | 0 | 3 | `████░░░░░░` 40% |
+| US-01-01-01 | Initialise Standardised Doc Package | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-02 | Create Governed Units | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-01-01-03 | Format Documents Canonically | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-04 | Lint Documents Deterministically | 5 | 0 | 3 | `██████░░░░` 62% |
 | US-01-01-05 | Create Documents from Configured Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
 | US-01-01-06 | Finalise Document Metadata Mechanically | 3 | 0 | 1 | `███████░░░` 75% |
-| US-01-01-07 | Enforce Scope Guardrails for Automation Agents | 0 | 2 | 5 | `░░░░░░░░░░` 0% |
+| US-01-01-07 | Enforce Scope Guardrails for Automation Agents | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-01-01-08 | Generate Governed Coverage Reports | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-09 | Govern Agent Workflow Document Standards | 0 | 0 | 6 | `░░░░░░░░░░` 0% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |
@@ -26,7 +26,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-15 | Operationalise the Release Process with SemVer | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
-| US-02-01-01 | Initialize a Doc Package with One Command | 1 | 0 | 3 | `██░░░░░░░░` 25% |
+| US-02-01-01 | Initialize a Doc Package with One Command | 2 | 0 | 2 | `█████░░░░░` 50% |
 | US-02-01-02 | Create Units Quickly During Implementation | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-02-01-03 | Format Documents During Implementation | 4 | 0 | 1 | `████████░░` 80% |
 | US-02-01-04 | Lint Documents Before Commit | 5 | 0 | 3 | `██████░░░░` 62% |
@@ -34,7 +34,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-02-01-06 | Find and Read Documentation During Implementation | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-02-01-07 | Create Conforming Documents Quickly via Templates | 4 | 0 | 1 | `████████░░` 80% |
 | US-02-01-08 | Finalise Metadata without Touching Content | 3 | 0 | 1 | `███████░░░` 75% |
-| US-02-01-09 | Use Chapter and Include Directives During Implementation | 2 | 0 | 4 | `███░░░░░░░` 33% |
+| US-02-01-09 | Use Chapter and Include Directives During Implementation | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-02-01-10 | Scaffold Translations During Implementation | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
 | US-02-01-11 | Assemble Documentation During Implementation | 4 | 0 | 1 | `████████░░` 80% |
 | US-03-01-01 | Lint Documents for Traceability Gaps | 5 | 0 | 3 | `██████░░░░` 62% |
@@ -46,7 +46,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-07 | Filter Traceability Reports for Quality Analysis | 1 | 0 | 2 | `███░░░░░░░` 33% |
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 2 | 0 | 1 | `██████░░░░` 67% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
-| US-04-01-02 | Check Scope Guardrails in CI | 0 | 2 | 5 | `░░░░░░░░░░` 0% |
+| US-04-01-02 | Check Scope Guardrails in CI | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-04-01-03 | Generate Publishing Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
 | US-04-01-04 | Gate Bilingual Documentation Quality in CI | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-04-01-05 | Run a One-Command Verification Loop | 6 | 0 | 2 | `███████░░░` 75% |
@@ -61,7 +61,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-05-01-01 | Create Units for Retrieval and Automation | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-05-01-03 | Expose Machine-Usable Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |
-| US-05-01-04 | Parse Document Structure Deterministically for Automation | 2 | 0 | 1 | `██████░░░░` 67% |
+| US-05-01-04 | Parse Document Structure Deterministically for Automation | 3 | 0 | 0 | `██████████` 100% |
 | US-05-01-05 | Detect Translation Drift for Automation | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-05-01-06 | Search and Read Documentation via CLI | 1 | 0 | 1 | `█████░░░░░` 50% |
 | US-05-01-07 | Build Machine-Readable Trace Graphs | 1 | 0 | 1 | `█████░░░░░` 50% |
@@ -75,7 +75,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-06-01-01 | Create Modular Document Units | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-06-01-02 | Trace Document Assembly Structure | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-06-01-03 | Create Architecture Documents from Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
-| US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 2 | 0 | 1 | `██████░░░░` 67% |
+| US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 3 | 0 | 0 | `██████████` 100% |
 | US-06-01-05 | Generate Publishable Documentation Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
 | US-06-01-06 | Create Linked Translation Documents for Architecture Content | 0 | 0 | 1 | `░░░░░░░░░░` 0% |
 | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
@@ -97,7 +97,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-05 | Create Documents Deterministically from Templates | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-08-01-06 | Finalise Metadata Safely and Deterministically | 4 | 0 | 1 | `████████░░` 80% |
 | US-08-01-07 | List Documents Deterministically for Automation | 3 | 0 | 2 | `██████░░░░` 60% |
-| US-08-01-08 | Stay within Declared Change Scope | 0 | 2 | 5 | `░░░░░░░░░░` 0% |
+| US-08-01-08 | Stay within Declared Change Scope | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-08-01-09 | Read Precise Document Sections for Scoped Execution | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-08-01-10 | Use Metadata Contracts Deterministically | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-08-01-11 | Interpret i18n Lint Results Deterministically | 3 | 0 | 2 | `██████░░░░` 60% |
