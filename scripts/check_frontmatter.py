@@ -557,6 +557,8 @@ def selftest():
         lambda t: t.replace("priority: high", "priority: high "))
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FMT-005"],
         lambda t: t.replace("created: 2026-07-01", "created: 2026-07-03"))
+    run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FMT-005"],
+        lambda t: t.replace("created: 2026-07-01", "created: 2026-02-30"))
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FMT-006"],
         lambda t: t.replace("lang: en", "lang: de"))
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FM-001"],
@@ -595,7 +597,7 @@ def selftest():
         for f in failures:
             print("selftest FAIL: %s" % f)
         return 1
-    print("selftest OK: 24 fixture cases")
+    print("selftest OK: 25 fixture cases")
     return 0
 
 

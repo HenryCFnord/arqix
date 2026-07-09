@@ -277,6 +277,7 @@ rdf:
 body
 """,
     "a.rs": "// arqix:verifies REQ-11-11-11-01\n#[test]\nfn covers() {}\n",
+    "b.rs": "// arqix:implements REQ-11-11-11-01\nconst SCHEMA: u32 = 1;\n",
 }
 
 
@@ -314,8 +315,8 @@ def selftest():
            "| `covers` | WF-22-22 | Example Workflow |" in t2w)
 
     q4 = unit_code_to_requirement(requirements, edges, documents, snapshot)
-    expect("code unit states its emptiness honestly",
-           "No `implements` markers exist yet" in q4)
+    expect("code unit lists implements markers not attached to a fn",
+           "| — | b.rs:1 | REQ-11-11-11-01 |" in q4)
 
     again = unit_story_progress(requirements, edges, documents, snapshot)
     expect("units are deterministic", progress == again)

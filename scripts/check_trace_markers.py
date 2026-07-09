@@ -345,6 +345,22 @@ fn a() {
     ("helper fn is not a test", """\
 fn helper() {
 """, []),
+    ("trailing marker on the fn line is no marker", """\
+#[test]
+fn a() { // arqix:verifies REQ-01-01-16-01
+""", ["TRC-002"]),
+    ("pub(crate) test fn is still a test", """\
+#[test]
+pub(crate) fn a() {
+""", ["TRC-002"]),
+    ("async test fn is still a test", """\
+#[test]
+async fn a() {
+""", ["TRC-002"]),
+    ("marker above a helper fn is still validated", """\
+// arqix:verifies REQ-99-99-99-99
+fn helper() {
+""", ["TRC-001"]),
 ]
 
 
