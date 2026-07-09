@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>arqix — structured technical documentation as code</title>
+  <meta name="description" content="arqix is a Rust CLI for structured technical documentation and Architecture-as-Code workflows: Markdown as data, deterministic assembly, traceability as a graph.">
+  <link rel="icon" type="image/png" href="arqix-logo.png">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --fg: #1c1c1c;
+      --muted: #5a5a5a;
+      --bg: #fcfbf8;
+      --accent: #b3541e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fg: #e8e6e1;
+        --muted: #a09d96;
+        --bg: #161513;
+        --accent: #e0824a;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      line-height: 1.6;
+    }
+    main { max-width: 34rem; text-align: center; }
+    img.logo { width: min(240px, 60vw); height: auto; margin-bottom: 1.5rem; }
+    h1 {
+      font-size: 2.25rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.5rem;
+    }
+    p.tagline { font-size: 1.1rem; margin-bottom: 1rem; }
+    p.status { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentcolor;
+      margin: 0 0.75rem;
+      font-size: 1rem;
+    }
+    nav a:hover { border-bottom-width: 2px; }
+    footer { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="arqix-logo.png" alt="The arqix logo: an Archaeopteryx drawn as a trace graph of nodes and edges">
+    <h1>arqix</h1>
+    <p class="tagline">A Rust CLI for structured technical documentation and Architecture-as-Code workflows.</p>
+    <p class="status">
+      Markdown as data, deterministic assembly, traceability as a graph.
+      In early development — the core works and verifies its own corpus daily;
+      this page is a placeholder until arqix publishes its own site.
+    </p>
+    <nav>
+      <a href="https://github.com/HenryCFnord/arqix">GitHub</a>
+      <a href="https://github.com/HenryCFnord/arqix/blob/main/docs/en/blog/2026-03-why-arqix-had-to-exist.md">Why arqix exists</a>
+      <a href="https://github.com/HenryCFnord/arqix/blob/main/docs/en/project/roadmap.md">Roadmap</a>
+    </nav>
+    <footer>GPL-3.0-or-later · built in the open, with AI assistance documented in the repository</footer>
+  </main>
+</body>
+</html>
