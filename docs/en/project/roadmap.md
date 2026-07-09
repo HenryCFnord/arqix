@@ -73,6 +73,10 @@ Phase 5 is now the remaining command surface: `report bundle`, `policy check`, `
 - Report & Export (`report bundle`), Policy Checker (`policy check`), MCP Server (`mcp serve`)
 - Publish & Render (`publish site --lang`, `render pdf`), language-aware site, DE translations
 - Self-hosting closes the loop: the Python reference checkers are demoted to cross-checks and retired per the oracle policy
+- Verification-process refinement — coverage measures project progress, so an absolute number must never gate a change (a fully specified, not-yet-implemented corpus is a healthy state, not a failure):
+  - Verify profiles: configurable sub-steps per REQ-04-01-05, with coverage defaulting to report-only and gating behaviour a configuration choice — the prerequisite for CI dogfooding `arqix verify` in place of `scripts/arqix verify`
+  - Coverage ratchet: a checker rule that fails a change which *decreases* verified coverage against the committed report snapshots, while pure specification growth passes
+  - Done-claim rule: a story marked `lifecycle-status: done` requires every one of its requirements to be verified by an active test (frontmatter vocabulary + checker rule), so "done" is a machine-checked claim
 - Brand assets: vector (SVG) source for the Archaeopteryx trace-graph logo, plus mark-only and monochrome variants (the raster original lives in `assets/`)
 
 ## What this roadmap is not
