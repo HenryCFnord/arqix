@@ -9,7 +9,7 @@ branch: docs/refinement-2026-07
 # Spec sweep
 
 Every story with zero verified requirements (n = 17), classified against the shipped phase-4 surface (`src/main.rs` clap tree, arc42 chapter-5 command ownership, ADR-0005/0009), plus three partial-coverage stories whose one open requirement is the known `doc new` flag discrepancy.
-Decision D4 of [PLANS.md](PLANS.md): confirm or overrule per story; SUPERSEDED and UNDERSPECIFIED items then get their own correction change before implementation.
+Decision D4 of [PLANS.md](PLANS.md) is settled: all classifications confirmed; the SUPERSEDED resolutions are recorded below, UNDERSPECIFIED items get their design decision with roadmap slice 4.
 
 ## Method
 
@@ -50,8 +50,8 @@ The error characteristics are asymmetric: SUPERSEDED/UNDERSPECIFIED entries rest
 | US-02-01-07 (80%) | Create Conforming Documents Quickly via Templates | same `--title/--id/--dry-run` acceptance against the flagless shipped command |
 | US-08-01-23 (80%) | Create Documents without Ambiguity via Templates | same acceptance, agent persona |
 
-Correction options for the `doc new` trio: (a) reword acceptance to the shipped surface and move the flags to a follow-up story, or (b) keep the acceptance and implement the flags as the next Template Engine slice.
-The REQ-01-01-13-01/-02 sentences were already made surface-neutral in PR #20; option (b) needs no further spec change.
+Decision (D4, settled): the `doc new` trio resolves as option (b) — keep the acceptance and implement `--title`/`--id`/`--dry-run` as the next Template Engine slice (the REQ-01-01-13-01/-02 sentences are already surface-neutral, so no spec change is needed).
+US-08-01-19 resolves as option (a) — its acceptance is reworded to the shipped positional `trace check <requirement>`, which is the ADR-0005-conformant surface.
 
 ## UNDERSPECIFIED — no precise test writable yet (2)
 

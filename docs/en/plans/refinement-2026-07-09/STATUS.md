@@ -12,5 +12,5 @@ branch: docs/refinement-2026-07
 - [x] PLANS.md with strand drafts (verification, configuration, onboarding)
 - [x] SPEC-SWEEP.md decision list
 - [x] CONFIG-AUDIT.md decision list
-- [ ] Owner decisions D1–D4 (PR review)
+- [x] Owner decisions D1–D4 (PR review, 2026-07-10)
 - [ ] Generation changes per decision (separate gated branches)

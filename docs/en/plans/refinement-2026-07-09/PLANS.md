@@ -79,7 +79,7 @@ Story cut proposal (owners: Mara), final after the audit decisions:
 - US-01-01-19 — Configure frontmatter contracts: per-family canonical key order as one configured source consumed by `fmt` and the frontmatter checker (ends today's double bookkeeping).
 - US-01-01-20 — Template files: `doc new`/`doc init` instantiate template files from a configured directory; `doc init` scaffolds the defaults; the string literals in `src/templates.rs` are removed (anchor: REQ-00-00-00-05).
 
-Open decision (D2): which audit items become configuration versus stay deliberate conventions — decide per line in CONFIG-AUDIT.md.
+Decision D2 (settled in review): all audit recommendations confirmed as listed, with the owner overrule already recorded (ID shapes → C15/C16); D2a story cut and D2b oracle-coupling criterion confirmed; D2c — the REQUIRED_META divergence is fixed immediately, ahead of the config strand. The D2 boundary becomes ADR-0011; the ID-policy model gets its own ADR with US-01-01-18.
 
 ## Strand 3 — Agent onboarding
 
@@ -89,12 +89,12 @@ Outline (owner: Casey; builds on `docs/en/processes/agent-orchestration-patterns
 - `doc init` scaffolds an agent-instructions file (AGENTS.md-shaped, pointing at the gate commands and the ICD input grammars).
 - A packaged skill shipped alongside `mcp serve`, so agent frameworks can discover the arqix workflow.
 
-Open decision (D3): whether the skill lands with `mcp serve` (roadmap slice 4) or as part of this strand (slice 6) — proposal: with slice 6, after MCP exists.
+Decision D3 (settled in review): the skill lands with this strand (slice 6), after MCP exists.
 
 ## Spec sweep
 
 [SPEC-SWEEP.md](SPEC-SWEEP.md) classifies every not-yet-verified story as FITS / SUPERSEDED / UNDERSPECIFIED / DEFERRED with a one-line reason.
-Open decision (D4): confirm or overrule the classification per story; SUPERSEDED and UNDERSPECIFIED items then get their own correction change.
+Decision D4 (settled in review): all classifications confirmed. For the `doc new` trio the resolution is option (b) — implement `--title`/`--id`/`--dry-run` as the next Template Engine slice (the requirements are already surface-neutral). For US-08-01-19 the resolution is option (a) — reword the acceptance to the shipped positional `trace check <requirement>`, which is the better surface.
 
 ## Process
 
