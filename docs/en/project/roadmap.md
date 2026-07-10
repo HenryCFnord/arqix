@@ -69,15 +69,21 @@ Phase 5 is now the remaining command surface: `report bundle`, `policy check`, `
 
 ## Phase 5 — Publication and self-hosting
 
-- [x] CI workflow (`.github/workflows/ci.yml`): the daily gate (checkers, marker gate, cargo test, markdownlint), the Rust lints, and the trace-oracle conformance cross-check on every PR; `just ci` mirrors it locally. The structurizr-cli Mermaid export moved to its own slice (arc42 chapter 11).
-- Report & Export (`report bundle`), Policy Checker (`policy check`), MCP Server (`mcp serve`)
-- Publish & Render (`publish site --lang`, `render pdf`), language-aware site, DE translations
-- Self-hosting closes the loop: the Python reference checkers are demoted to cross-checks and retired per the oracle policy
-- Verification-process refinement — coverage measures project progress, so an absolute number must never gate a change (a fully specified, not-yet-implemented corpus is a healthy state, not a failure):
-  - Verify profiles: configurable sub-steps per REQ-04-01-05, with coverage defaulting to report-only and gating behaviour a configuration choice — the prerequisite for CI dogfooding `arqix verify` in place of `scripts/arqix verify`
-  - Coverage ratchet: a checker rule that fails a change which *decreases* verified coverage against the committed report snapshots, while pure specification growth passes
-  - Done-claim rule: a story marked `lifecycle-status: done` requires every one of its requirements to be verified by an active test (frontmatter vocabulary + checker rule), so "done" is a machine-checked claim
-- Brand assets: vector (SVG) source for the Archaeopteryx trace-graph logo, plus mark-only and monochrome variants (the raster original lives in `assets/`)
+The remaining command surface, ordered so each slice makes the previous one more valuable.
+[arqix.dev](https://arqix.dev) is live with a hand-written placeholder; slice 1's visible milestone is replacing it with the first arqix-published site.
+
+- [x] Repository public, GitHub Pages on arqix.dev (placeholder in `site/`, deployed by `.github/workflows/pages.yml`)
+- [x] CI workflow (`.github/workflows/ci.yml`): the daily gate (selftests, checkers, marker gate, report freshness, cargo test, lint, markdownlint), the Rust lints, and the trace-oracle conformance cross-check on every PR; `just ci` mirrors it locally. The structurizr-cli Mermaid export moved to its own slice (arc42 chapter 11).
+
+1. **Publish site MVP** (`publish site`): assemble the corpus into the static site that replaces the placeholder content of `site/` — arqix.dev becomes the first arqix-published site.
+2. **Verification process** (stories in refinement): configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, and the machine-checked done claim per story lifecycle — then CI dogfoods `arqix verify` in place of `scripts/arqix verify`.
+3. **Configuration over convention** (stories in refinement, from the PR-#20 config audit): configured ID policy, per-family frontmatter key orders as one source, template files instead of string literals.
+4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`).
+5. **Render & languages** (`render pdf`, language-aware site, DE translations).
+6. **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
+7. **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
+
+Deferred alongside: vector (SVG) source for the logo, traced from the monochrome raster variant (the raster set — transparent, mark, mono dark/light — lives in `assets/`).
 
 ## What this roadmap is not
 
