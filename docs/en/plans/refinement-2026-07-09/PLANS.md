@@ -63,7 +63,12 @@ Requirement drafts:
 - REQ-03-01-09-01: When a story declares `lifecycle-status: done`, arqix SHALL report an error for each of its requirements that no active test verifies.
 - REQ-03-01-09-02: The story lifecycle vocabulary SHALL be a controlled set validated by the frontmatter contract.
 
-Open decision (D1): the exact lifecycle vocabulary (`draft` exists today; proposal: `draft`, `specified`, `in-implementation`, `done`).
+Decision D1 (settled in review, to be recorded as ADR-0010): three vocabularies by document nature, plus the declared-versus-computed rule (declared states carry intent, computed states carry findings; progress within a state is a report number, never a state).
+
+- Stories: `draft` → `specified` → `in-implementation` → `done`, terminal `retired`; done ⇒ every requirement verified by an active test.
+- Requirements: only `draft`/`retired` declared; everything between is computed from the trace graph. v1 checks test verification; the ontology's verification methods (inspection, analysis, …) are the prepared hook for non-test evidence.
+- Prose documents (units, pages, …): `draft` → `final`, transition performed by `finalise` (the single mechanical mutator, ADR-0004); the publish pipeline takes only `final`; editing a final document returns it to `draft`; terminal `retired`.
+- ADRs: the document text follows the prose model; `decision-status` (proposed/accepted/deprecated/superseded) stays the orthogonal decision axis.
 
 ## Strand 2 — Configuration over convention
 
@@ -88,8 +93,8 @@ Open decision (D3): whether the skill lands with `mcp serve` (roadmap slice 4) o
 
 ## Spec sweep
 
-[SPEC-SWEEP.md](SPEC-SWEEP.md) classifies every not-yet-verified story as PASST / ÜBERHOLT / UNTERSPEZIFIZIERT / VERSCHIEBEN with a one-line reason.
-Open decision (D4): confirm or overrule the classification per story; ÜBERHOLT and UNTERSPEZIFIZIERT items then get their own correction change.
+[SPEC-SWEEP.md](SPEC-SWEEP.md) classifies every not-yet-verified story as FITS / SUPERSEDED / UNDERSPECIFIED / DEFERRED with a one-line reason.
+Open decision (D4): confirm or overrule the classification per story; SUPERSEDED and UNDERSPECIFIED items then get their own correction change.
 
 ## Process
 

@@ -9,9 +9,24 @@ branch: docs/refinement-2026-07
 # Spec sweep
 
 Every story with zero verified requirements (n = 17), classified against the shipped phase-4 surface (`src/main.rs` clap tree, arc42 chapter-5 command ownership, ADR-0005/0009), plus three partial-coverage stories whose one open requirement is the known `doc new` flag discrepancy.
-Decision D4 of [PLANS.md](PLANS.md): confirm or overrule per story; ÜBERHOLT and UNTERSPEZIFIZIERT items then get their own correction change before implementation.
+Decision D4 of [PLANS.md](PLANS.md): confirm or overrule per story; SUPERSEDED and UNDERSPECIFIED items then get their own correction change before implementation.
 
-## PASST — implementable as specified (10)
+## Method
+
+The candidate set is every story the generated story-progress report (kept current by the report-freshness gate) lists with zero verified requirements, plus partial-coverage stories whose only open requirement is a known surface discrepancy.
+A read-only agent (mapper pattern, `docs/en/processes/agent-orchestration-patterns.md`) compared both sides per story: the specification side (the full story text, its requirements sampled via the `has-requirement` triples) against the shipped reality (the clap tree in `src/main.rs`, the assembler's directive handling, the shipped `trace check`, the stubs, and the normative anchors ADR-0005, ADR-0009, and the arc42 chapter-5 ownership table).
+
+The categories are operational, not impressions:
+
+- **SUPERSEDED** requires a concrete, citable contradiction between an acceptance criterion and shipped code.
+- **UNDERSPECIFIED** means no precise red test can be written — the bar is the TDD flow itself (a red skeleton that cannot be sharpened is not implementable).
+- **DEFERRED** means internally sound but dependent on something ADR-0009 or the roadmap schedules later, with the dependency named.
+- **FITS** is the residual class: no contradiction found, trigger/output/error case sufficiently determined.
+
+Honest limitation: this was one finder without an adversarial verification pass (unlike the PR-#20 review) — acceptable because the output is a decision list whose skeptic is the owner (decision D4), not auto-applied fixes.
+The error characteristics are asymmetric: SUPERSEDED/UNDERSPECIFIED entries rest on positive, cited contradictions; **FITS is the weakest claim** (absence of contradiction, with requirements only sampled) and each FITS story still gets the normal story-start check (sharpening its red skeleton) before implementation.
+
+## FITS — implementable as specified (10)
 
 | Story | Title | Note |
 | --- | --- | --- |
@@ -26,7 +41,7 @@ Decision D4 of [PLANS.md](PLANS.md): confirm or overrule per story; ÜBERHOLT an
 | US-04-01-09 | Run Governed Release Preparation Workflows | same release-process acceptance, DevOps persona |
 | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries | third release clone, agent persona |
 
-## ÜBERHOLT — contradicted by shipped code (1 + 3 partial)
+## SUPERSEDED — contradicted by shipped code (1 + 3 partial)
 
 | Story | Title | Contradiction |
 | --- | --- | --- |
@@ -38,7 +53,7 @@ Decision D4 of [PLANS.md](PLANS.md): confirm or overrule per story; ÜBERHOLT an
 Correction options for the `doc new` trio: (a) reword acceptance to the shipped surface and move the flags to a follow-up story, or (b) keep the acceptance and implement the flags as the next Template Engine slice.
 The REQ-01-01-13-01/-02 sentences were already made surface-neutral in PR #20; option (b) needs no further spec change.
 
-## UNTERSPEZIFIZIERT — no precise test writable yet (2)
+## UNDERSPECIFIED — no precise test writable yet (2)
 
 | Story | Title | Gap |
 | --- | --- | --- |
@@ -47,7 +62,7 @@ The REQ-01-01-13-01/-02 sentences were already made surface-neutral in PR #20; o
 
 Needs a small design decision (export selection surface for `report bundle`) before the red skeleton can be sharpened — natural companion to roadmap slice 4.
 
-## VERSCHIEBEN — sound, but dependency-blocked (4)
+## DEFERRED — sound, but dependency-blocked (4)
 
 | Story | Title | Blocked on |
 | --- | --- | --- |
