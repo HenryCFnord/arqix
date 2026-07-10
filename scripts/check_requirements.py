@@ -103,7 +103,9 @@ EARS_PATTERNS = [
     ("ubiquitous", re.compile(r"^%s\.$" % CORE)),
 ]
 
-REQUIRED_META = ["lifecycle-status", "owner", "created", "updated", "lang"]
+# Must stay identical to check_frontmatter.py REQUIRED_META until the
+# configured [frontmatter] required-meta source lands (config strand).
+REQUIRED_META = ["lifecycle-status", "owner", "created", "updated", "lang", "generated"]
 
 
 class Finding:
@@ -725,11 +727,22 @@ def selftest():
     if rules != ["REQ-LNK-001"]:
         failures.append("foreign-owner fixture: expected [REQ-LNK-001], got %s" % rules)
 
+    # The required-meta list must match check_frontmatter.py's — `generated`
+    # included — so the two gates can never silently diverge again.
+    missing_generated = GOOD_REQ.replace("  generated: false\n", "")
+    findings = []
+    check_requirement_file(
+        Path("REQ-01-01-01-01-test-requirement.md"), missing_generated, findings
+    )
+    rules = sorted({f.rule for f in findings})
+    if rules != ["REQ-META-001"]:
+        failures.append("missing-generated fixture: expected [REQ-META-001], got %s" % rules)
+
     if failures:
         for failure in failures:
             print("selftest FAIL: %s" % failure)
         return 1
-    print("selftest OK: %d sentence cases, 4 document fixtures" % len(SELFTEST_SENTENCES))
+    print("selftest OK: %d sentence cases, 5 document fixtures" % len(SELFTEST_SENTENCES))
     return 0
 
 
