@@ -103,7 +103,9 @@ EARS_PATTERNS = [
     ("ubiquitous", re.compile(r"^%s\.$" % CORE)),
 ]
 
-REQUIRED_META = ["lifecycle-status", "owner", "created", "updated", "lang"]
+# Must stay identical to check_frontmatter.py REQUIRED_META until the
+# configured [frontmatter] required-meta source lands (config strand).
+REQUIRED_META = ["lifecycle-status", "owner", "created", "updated", "lang", "generated"]
 
 
 class Finding:
@@ -740,7 +742,7 @@ def selftest():
         for failure in failures:
             print("selftest FAIL: %s" % failure)
         return 1
-    print("selftest OK: %d sentence cases, 4 document fixtures" % len(SELFTEST_SENTENCES))
+    print("selftest OK: %d sentence cases, 5 document fixtures" % len(SELFTEST_SENTENCES))
     return 0
 
 
