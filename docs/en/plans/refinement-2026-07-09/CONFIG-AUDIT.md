@@ -48,5 +48,5 @@ Sorted by leverage (double bookkeeping + user relevance first).
 ## Decision guidance
 
 - **D2a (scope):** cut the strand as three stories (PLANS.md US-01-01-18/19/20); US-01-01-18 now carries the heaviest piece — the configurable ID policy including shape AND derivation model (C3+C4+C15+C16), per the owner decision; C1/C2/C5–C7 + C10 spread over US-01-01-19/20; C8 is strand 1; C9/C11–C14 ride along where they touch the same code, or wait.
-- **D2b (hard boundary):** everything oracle-coupled (C10, K1–K4) must feed Rust *and* Python from the same source, or the conformance suite breaks — that is the acceptance criterion for those stories, not an afterthought.
+- **D2b (hard boundary):** everything oracle-coupled (C10, C15, C16, K3, K4) must feed Rust *and* Python from the same source, or the conformance suite breaks — that is the acceptance criterion for those stories, not an afterthought.
 - **D2c (immediate bug):** C6's existing divergence (`generated` required by one checker, ignored by the other) is worth a small fix ahead of the config story.
