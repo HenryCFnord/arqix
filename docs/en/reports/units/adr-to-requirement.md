@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 63db3eb, 2026-07-09
+     Snapshot: eee0ae0, 2026-07-10
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
@@ -38,3 +38,5 @@
 | ADR-0009 | Documentation Production Policy | REQ-01-01-11-01 |
 | ADR-0009 | Documentation Production Policy | REQ-01-01-11-03 |
 | ADR-0009 | Documentation Production Policy | REQ-04-01-12-01 |
+| ADR-0010 | Lifecycle Vocabularies | REQ-03-01-09-01 |
+| ADR-0010 | Lifecycle Vocabularies | REQ-04-01-14-03 |
