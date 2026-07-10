@@ -32,21 +32,21 @@ Sorted by leverage (double bookkeeping + user relevance first).
 | C12 | Package scaffold directories (units, pages, artefacts, logs, .arqix) | `src/templates.rs:168,137-143` | `[templates] package-dirs` | `pages` here and assembler out-root are two literals for one concept |
 | C13 | EARS subject forms (`arqix`, `The arqix CLI`, backticked command) | `check_requirements.py:291-296` | `[policies.ears] subject-forms` (low priority) | a fork with another tool name is instantly wrong |
 | C14 | Report output paths | `arqix_report.py:230-239,257,388` | `[policies.reports]` (paths only; Q-IDs stay ADR-0008-bound) | `--check` defaults must match generation defaults |
+| C15 | Requirement-ID shape (owner decision 2026-07-10, overruling the keep recommendation) | `parser.rs:84-94`, `trace.rs`, `arqix_trace.py:40`, both doc checkers | `[kinds.req] id-pattern` with named groups | not just a regex: the pattern must expose the owner/sequence groups the derivation model consumes (see below); oracle and engine read the same config |
+| C16 | Story-ID shape + owner derivation + cross-cutting marker (owner decision 2026-07-10) | `trace.rs:346-363`, `arqix_trace.py:274-292`, `check_requirements.py:62-63,404,417`, `check_trace_markers.py:59,101` | `[kinds.story] id-pattern` + `[kinds] cross-cutting-domain` | the `story_of` slice, the canonical-owner rule, and REQ-ID-006 sequencing must all derive from the configured groups — this is a model, not a constant; candidate for its own ADR |
 
 ## Recommended: keep as convention
 
 | # | Convention | Where | Why keep |
 | --- | --- | --- | --- |
-| K1 | Requirement-ID shape `REQ-XX-YY-ZZ-NN` | `parser.rs:84-94`, `trace.rs`, `arqix_trace.py:40`, both doc checkers | conformance-bound and load-bearing for the `story_of` derivation; making it configurable is a model change, not a config key — revisit only with a concrete multi-project need (review comment noted; see D2a below) |
-| K2 | Story-ID shape `US-XX-YY-ZZ` + `id[4:12]` owner slice + `00-00-00` cross-cutting domain | `trace.rs:346-363`, `arqix_trace.py:274-292`, `check_requirements.py` | the canonical-owner model itself |
 | K3 | Marker/CURIE prefix `arqix:` + verbs | all marker parsers (Rust + Py) | tool identity (ADR-0009); changing it breaks the whole ontology vocabulary |
 | K4 | Trace-walk skip dirs (fixed set) | `trace.rs:15`, `arqix_trace.py:61` — vs configurable `config.rs:26` | deliberate per REQ-01-01-17 + oracle conformance; **but** the three identical lists should share one constant per language so they cannot drift |
 | K5 | EARS patterns + RFC-2119 keyword subsets | `check_requirements.py:71-104` | normative style guide; config would hollow out the check |
 | K6 | Exit codes 0/1/2/70 | tool-wide | stable contract (REQ-00-00-00-02) — must NOT be configurable |
-| K7 | ISO-8601 dates, `iri = lowercase(id)`, filename `<ID>-<slug>.md`, corpus extensions `.md/.rs`, kind slug charset, `arqix.toml` itself | various | standards, safety (containment), or the config anchor itself |
+| K7 | ISO-8601 dates, `iri = lowercase(id)`, filename `<ID>-<slug>.md`, corpus extensions `.md/.rs`, kind slug charset, `arqix.toml` itself | various | standards, safety (containment), or the config anchor itself. Owner note: keep an eye on ISO-8601 dates for later (revisit if localisation or timestamps ever matter) |
 
 ## Decision guidance
 
-- **D2a (scope):** recommend cutting the strand as three stories (PLANS.md US-01-01-18/19/20) covering C1–C7 + C10; C8 is strand 1; C9/C11–C14 ride along where they touch the same code, or wait.
+- **D2a (scope):** cut the strand as three stories (PLANS.md US-01-01-18/19/20); US-01-01-18 now carries the heaviest piece — the configurable ID policy including shape AND derivation model (C3+C4+C15+C16), per the owner decision; C1/C2/C5–C7 + C10 spread over US-01-01-19/20; C8 is strand 1; C9/C11–C14 ride along where they touch the same code, or wait.
 - **D2b (hard boundary):** everything oracle-coupled (C10, K1–K4) must feed Rust *and* Python from the same source, or the conformance suite breaks — that is the acceptance criterion for those stories, not an afterthought.
 - **D2c (immediate bug):** C6's existing divergence (`generated` required by one checker, ignored by the other) is worth a small fix ahead of the config story.

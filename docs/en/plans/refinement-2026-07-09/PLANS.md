@@ -75,7 +75,7 @@ Decision D1 (settled in review, to be recorded as ADR-0010): three vocabularies 
 From the six PR-#20 review comments; the full inventory with per-item recommendations is [CONFIG-AUDIT.md](CONFIG-AUDIT.md).
 Story cut proposal (owners: Mara), final after the audit decisions:
 
-- US-01-01-18 — Configure the ID policy: one configured pattern per document family that oracle, engine, and checkers all read (anchor: REQ-00-00-00-04).
+- US-01-01-18 — Configure the ID policy: one configured pattern per document family that oracle, engine, and checkers all read (anchor: REQ-00-00-00-04). Per owner decision this includes the ID *shapes* (C15/C16) and therefore the derivation model — owner-story slice, cross-cutting marker, per-story sequencing — expressed through named pattern groups; the current scheme becomes the default configuration and the corpus stays unchanged. Candidate for its own ADR.
 - US-01-01-19 — Configure frontmatter contracts: per-family canonical key order as one configured source consumed by `fmt` and the frontmatter checker (ends today's double bookkeeping).
 - US-01-01-20 — Template files: `doc new`/`doc init` instantiate template files from a configured directory; `doc init` scaffolds the defaults; the string literals in `src/templates.rs` are removed (anchor: REQ-00-00-00-05).
 
