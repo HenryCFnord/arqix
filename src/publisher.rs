@@ -375,8 +375,7 @@ fn spans(text: &str) -> String {
 fn emphasis(text: &str) -> String {
     let mut out = text.to_string();
     for (marker, tag) in [("**", "strong"), ("*", "em")] {
-        loop {
-            let Some(start) = out.find(marker) else { break };
+        while let Some(start) = out.find(marker) {
             let Some(len) = out[start + marker.len()..].find(marker) else {
                 break;
             };
