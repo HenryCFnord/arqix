@@ -70,6 +70,11 @@ Decision D1 (settled in review, to be recorded as ADR-0010): three vocabularies 
 - Prose documents (units, pages, …): `draft` → `final`, transition performed by `finalise` (the single mechanical mutator, ADR-0004); the publish pipeline takes only `final`; editing a final document returns it to `draft`; terminal `retired`.
 - ADRs: the document text follows the prose model; `decision-status` (proposed/accepted/deprecated/superseded) stays the orthogonal decision axis.
 
+Addendum (2026-07-11): committed snapshots force a rebase before every merge when PRs run in parallel — the generated reports are a whole-corpus function, so even disjoint changes collide textually.
+The ratchet does not depend on that invariant: its baseline can equally be computed from the merge target, since both sides of the comparison are derivable from git.
+The strategy therefore becomes configuration (audit row C17): `committed` (today's model — maximal in-repo visibility, rebase before merge), `main-only` (PRs commit no snapshots; a bot or merge queue regenerates them on the target branch), and `on-demand` (reports exist only at publish/verify time).
+The ratchet baseline source (`snapshots` or `merge-target`) is configured alongside it; the requirement sentences land with the US-04-01-15 slice.
+
 ## Strand 2 — Configuration over convention
 
 From the six PR-#20 review comments; the full inventory with per-item recommendations is [CONFIG-AUDIT.md](CONFIG-AUDIT.md).

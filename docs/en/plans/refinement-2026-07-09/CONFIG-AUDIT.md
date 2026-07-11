@@ -34,6 +34,7 @@ Sorted by leverage (double bookkeeping + user relevance first).
 | C14 | Report output paths | `arqix_report.py:230-239,257,388` | `[policies.reports]` (paths only; Q-IDs stay ADR-0008-bound) | `--check` defaults must match generation defaults |
 | C15 | Requirement-ID shape (owner decision 2026-07-10, overruling the keep recommendation) | `parser.rs:84-94`, `trace.rs`, `arqix_trace.py:40`, both doc checkers | `[kinds.req] id-pattern` with named groups | not just a regex: the pattern must expose the owner/sequence groups the derivation model consumes (see below); oracle and engine read the same config |
 | C16 | Story-ID shape + owner derivation + cross-cutting marker (owner decision 2026-07-10) | `trace.rs:346-363`, `arqix_trace.py:274-292`, `check_requirements.py:62-63,404,417`, `check_trace_markers.py:59,101` | `[kinds.story] id-pattern` + `[kinds] cross-cutting-domain` | the `story_of` slice, the canonical-owner rule, and REQ-ID-006 sequencing must all derive from the configured groups — this is a model, not a constant; candidate for its own ADR |
+| C17 | Report snapshot strategy + ratchet baseline source (added 2026-07-11) | committed snapshots + freshness gate (`arqix_report.py --check`, `scripts/arqix` step) | `[policies.reports] snapshot-strategy` (committed / main-only / on-demand) + `[policies.verify] ratchet-baseline` (snapshots / merge-target) | committed snapshots force rebase-before-merge for parallel PRs; the ratchet must read whichever baseline source is configured; lands with US-04-01-14/15 |
 
 ## Recommended: keep as convention
 

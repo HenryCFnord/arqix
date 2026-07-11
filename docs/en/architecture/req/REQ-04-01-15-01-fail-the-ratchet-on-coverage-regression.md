@@ -33,11 +33,11 @@ meta:
 
 ## Requirement
 
-When verified coverage decreases against the committed baseline, arqix SHALL fail the coverage ratchet with findings that name each regressed requirement.
+When verified coverage decreases against the configured baseline, arqix SHALL fail the coverage ratchet with findings that name each regressed requirement.
 
 ### Notes
 
 Derived from US-04-01-15.
-The baseline is the committed report snapshot state, kept fresh by the report-freshness gate.
+The baseline comes from the configured baseline source: the committed report snapshots by default (kept fresh by the report-freshness gate), or a state computed from the merge target for parallel-team workflows (snapshot-strategy addendum, refinement plan 2026-07-09).
 The comparison is over `active` requirements: a regression is a requirement that is active in the current state, was verified in the baseline, and is no longer verified.
 Retiring a requirement removes it from both sides of the comparison (ADR-0010: retired documents leave progress denominators), so retirement is never a regression.
