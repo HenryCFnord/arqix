@@ -17,6 +17,9 @@ fn scheme(kind: &str) -> (String, usize, String) {
     match kind {
         "adr" => ("ADR-".to_string(), 4, "adrs".to_string()),
         "unit" => ("unit-arc42-".to_string(), 2, "units".to_string()),
+        // The ontology namespace is "user-stories", not the mechanical
+        // plural — the generated iri must match the corpus namespaces.
+        "user-story" => ("USER-STORY-".to_string(), 4, "user-stories".to_string()),
         other => (format!("{}-", other.to_uppercase()), 4, format!("{other}s")),
     }
 }
@@ -37,30 +40,92 @@ fn next_counter(docs: &[Document], prefix: &str) -> u64 {
     max
 }
 
-fn template(id: &str, kind: &str, namespace: &str, title: &str, slug: &str) -> String {
-    let iri_slug = id.to_lowercase();
-    // A requirement's lifecycle vocabulary is active/retired only
-    // (LNT-004): an unfinished obligation is not yet a requirement, so
-    // the scaffold declares what the default gates accept.
-    let lifecycle = if kind == "requirement" {
+/// The shipped default template — a real template file embedded at build
+/// time, not a string literal in the engine (US-01-01-20).
+const DEFAULT_TEMPLATE: &str = include_str!("templates/default.tpl.md");
+
+/// The document families `doc init` scaffolds template files for.
+const TEMPLATE_FAMILIES: [&str; 8] = [
+    "adr",
+    "page",
+    "persona",
+    "report",
+    "requirement",
+    "unit",
+    "user-story",
+    "workflow",
+];
+
+/// A requirement's lifecycle vocabulary is active/retired only (LNT-004):
+/// an unfinished obligation is not yet a requirement, so the scaffold
+/// declares what the default gates accept.
+fn lifecycle_for(kind: &str) -> &'static str {
+    if kind == "requirement" {
         "active"
     } else {
         "draft"
+    }
+}
+
+/// The default template for one kind: the embedded template with the
+/// kind-level placeholders baked in, the per-document ones kept.
+fn default_template(kind: &str, namespace: &str) -> String {
+    DEFAULT_TEMPLATE
+        .replace("{kind}", kind)
+        .replace("{namespace}", namespace)
+        .replace("{lifecycle}", lifecycle_for(kind))
+}
+
+/// The template directory: the configured `[templates] dir`, or the
+/// package-local `templates/` next to the first root. The bool says whether
+/// it was configured explicitly — only then is a missing file an error.
+fn template_dir() -> (PathBuf, bool) {
+    match crate::config::templates_dir(Path::new(".")) {
+        Some(dir) => (PathBuf::from(dir), true),
+        None => {
+            let root = crate::config::roots(Path::new("."))
+                .first()
+                .cloned()
+                .unwrap_or_else(|| "docs".to_string());
+            (Path::new(&root).join("templates"), false)
+        }
+    }
+}
+
+// arqix:implements REQ-01-01-20-01
+// arqix:implements REQ-01-01-20-03
+/// Instantiate the template for `kind`: the template file from the
+/// configured directory (missing is a config error), the package-local
+/// scaffold if one exists, or the embedded default — so an unconfigured
+/// repository produces byte-identical documents.
+fn template(
+    id: &str,
+    kind: &str,
+    namespace: &str,
+    title: &str,
+    slug: &str,
+) -> Result<String, ExitCode> {
+    let (dir, configured) = template_dir();
+    let path = dir.join(format!("{kind}.tpl.md"));
+    let text = match std::fs::read_to_string(&path) {
+        Ok(text) => text,
+        Err(_) if configured => {
+            eprintln!(
+                "error: no template for kind '{kind}': expected {} (scaffold the defaults with `arqix doc init`)",
+                path.display()
+            );
+            return Err(ExitCode::from(2));
+        }
+        Err(_) => default_template(kind, namespace),
     };
-    format!(
-        "---\n\
-         id: {id}\n\
-         title: {title}\n\
-         slug: {slug}\n\
-         iri: arqix:{namespace}/{iri_slug}\n\
-         rdf:\n  type:\n    - arqix:classes/{kind}\n\
-         triples: []\n\
-         properties: {{}}\n\
-         external-references: []\n\
-         meta:\n  lifecycle-status: {lifecycle}\n  owner: TODO\n  created: TODO\n  \
-         updated: TODO\n  lang: en\n  generated: false\n\
-         ---\n\n## {title}\n\nTODO: write this {kind}.\n",
-    )
+    Ok(text
+        .replace("{id}", id)
+        .replace("{title}", title)
+        .replace("{slug}", slug)
+        .replace("{iri_slug}", &id.to_lowercase())
+        .replace("{kind}", kind)
+        .replace("{namespace}", namespace)
+        .replace("{lifecycle}", lifecycle_for(kind)))
 }
 
 /// The `{slug}` placeholder value: the title lowered to a hyphen slug.
@@ -173,7 +238,11 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             eprintln!("error: cannot create {}: {err}", dir.display());
             return ExitCode::from(2);
         }
-        if let Err(err) = std::fs::write(&path, template(&id, kind, &namespace, &title, &slug)) {
+        let content = match template(&id, kind, &namespace, &title, &slug) {
+            Ok(content) => content,
+            Err(code) => return code,
+        };
+        if let Err(err) = std::fs::write(&path, content) {
             eprintln!("error: cannot write {}: {err}", path.display());
             return ExitCode::from(2);
         }
@@ -242,6 +311,31 @@ pub fn init(path: Option<&str>, format: OutputFormat) -> ExitCode {
             return ExitCode::from(2);
         }
     }
+    // arqix:implements REQ-01-01-20-02
+    // The default template files: into the configured template directory,
+    // or the package-local templates/ — never overwriting a shaped one.
+    let (tpl_dir, configured) = template_dir();
+    let tpl_dir = if configured {
+        tpl_dir
+    } else {
+        package.join("templates")
+    };
+    if let Err(err) = std::fs::create_dir_all(&tpl_dir) {
+        eprintln!("error: cannot create {}: {err}", tpl_dir.display());
+        return ExitCode::from(2);
+    }
+    for kind in TEMPLATE_FAMILIES {
+        let file = tpl_dir.join(format!("{kind}.tpl.md"));
+        if file.exists() {
+            continue;
+        }
+        let (_, _, namespace) = scheme(kind);
+        if let Err(err) = std::fs::write(&file, default_template(kind, &namespace)) {
+            eprintln!("error: cannot write {}: {err}", file.display());
+            return ExitCode::from(2);
+        }
+    }
+
     let index = package.join("index.md");
     if !index.exists()
         && let Err(err) = std::fs::write(&index, INDEX_TEMPLATE)

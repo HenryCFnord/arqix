@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: f2d10d6, 2026-07-11
+     Snapshot: d4ab09d, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -52,6 +52,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_init_creates_the_standard_package_scaffold` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_init_scaffolds_an_explicit_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_scaffolds_an_explicit_path` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_init_scaffolds_the_default_template_files` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_writes_doc_index_frontmatter` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_writes_doc_index_frontmatter` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_list_does_not_follow_directory_symlinks` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -82,9 +83,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_fails_clearly_on_a_missing_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-04-01 | Run CI Gates and Publish artefacts |

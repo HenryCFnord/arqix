@@ -383,7 +383,10 @@ fn doc_list_skips_the_default_directories_without_an_override() {
 // arqix:verifies REQ-01-01-20-01
 #[test]
 fn doc_new_instantiates_the_configured_template_file() {
-    let repo = scratch_copy("minimal", "doc_new_instantiates_the_configured_template_file");
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_instantiates_the_configured_template_file",
+    );
     std::fs::write(repo.join("arqix.toml"), "[templates]\ndir = \"tpl\"\n").unwrap();
     std::fs::create_dir_all(repo.join("tpl")).unwrap();
     std::fs::write(
@@ -442,7 +445,10 @@ fn doc_init_scaffolds_the_default_template_files() {
 // arqix:verifies REQ-01-01-20-03
 #[test]
 fn doc_new_fails_clearly_on_a_missing_template_file() {
-    let repo = scratch_copy("minimal", "doc_new_fails_clearly_on_a_missing_template_file");
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_fails_clearly_on_a_missing_template_file",
+    );
     std::fs::write(repo.join("arqix.toml"), "[templates]\ndir = \"tpl\"\n").unwrap();
     let out = run_arqix_in(&repo, &["doc", "new", "adr"]);
     assert_eq!(

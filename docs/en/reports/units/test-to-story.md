@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: f2d10d6, 2026-07-11
+     Snapshot: d4ab09d, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -98,6 +98,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_scaffolds_an_explicit_path` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `doc_init_scaffolds_the_default_template_files` | US-01-01-20 | Create Documents from Template Files |
 | `doc_init_writes_doc_index_frontmatter` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_writes_doc_index_frontmatter` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_list_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
@@ -175,9 +176,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-06-01-06 | Create Linked Translation Documents for Architecture Content |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-14 | Scaffold Translations Deterministically from Source IDs |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_fails_clearly_on_a_missing_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-04-01-02 | Check Scope Guardrails in CI |
