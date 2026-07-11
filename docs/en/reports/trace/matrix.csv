@@ -143,8 +143,8 @@ REQ-04-01-13-03,functional,,,
 REQ-04-01-14-01,functional,tests/cli_verify.rs:49,,src/config.rs:147;src/verifier.rs:27
 REQ-04-01-14-02,functional,tests/cli_verify.rs:77,,src/verifier.rs:28
 REQ-04-01-14-03,functional,tests/cli_verify.rs:122,,src/config.rs:148
-REQ-04-01-15-01,functional,tests/cli_trace.rs:119,,src/trace.rs:757
-REQ-04-01-15-02,functional,tests/cli_trace.rs:142,,src/trace.rs:758
+REQ-04-01-15-01,functional,tests/cli_ratchet.rs:10,,src/trace.rs:757
+REQ-04-01-15-02,functional,tests/cli_ratchet.rs:33,,src/trace.rs:758
 REQ-05-01-02-01,quality,,,
 REQ-05-01-08-01,functional,tests/cli_doc.rs:198;tests/cli_doc.rs:303,,src/store.rs:88
 REQ-05-01-08-02,functional,,,
