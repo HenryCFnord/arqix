@@ -39,6 +39,14 @@ fn next_counter(docs: &[Document], prefix: &str) -> u64 {
 
 fn template(id: &str, kind: &str, namespace: &str, title: &str, slug: &str) -> String {
     let iri_slug = id.to_lowercase();
+    // A requirement's lifecycle vocabulary is active/retired only
+    // (LNT-004): an unfinished obligation is not yet a requirement, so
+    // the scaffold declares what the default gates accept.
+    let lifecycle = if kind == "requirement" {
+        "active"
+    } else {
+        "draft"
+    };
     format!(
         "---\n\
          id: {id}\n\
@@ -49,7 +57,7 @@ fn template(id: &str, kind: &str, namespace: &str, title: &str, slug: &str) -> S
          triples: []\n\
          properties: {{}}\n\
          external-references: []\n\
-         meta:\n  lifecycle-status: draft\n  owner: TODO\n  created: TODO\n  \
+         meta:\n  lifecycle-status: {lifecycle}\n  owner: TODO\n  created: TODO\n  \
          updated: TODO\n  lang: en\n  generated: false\n\
          ---\n\n## {title}\n\nTODO: write this {kind}.\n",
     )
