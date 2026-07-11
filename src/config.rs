@@ -180,10 +180,12 @@ pub fn skip_dirs(dir: &Path) -> Vec<String> {
     resolve(dir).0.skip_dirs
 }
 
-/// The publish policy: the site target directory and the optional site
-/// toolchain command orchestrated after generation.
+/// The publish policy: where artefact-ready inputs are staged, how the site
+/// is stitched, and the toolchain that renders it (there is deliberately no
+/// built-in renderer).
 pub struct PublishPolicy {
-    pub site_dir: String,
+    pub staging_dir: String,
+    pub stitching: String,
     pub site_command: Option<String>,
 }
 
@@ -196,10 +198,15 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
         .get("policies")
         .and_then(|p| p.get("publish"));
     PublishPolicy {
-        site_dir: publish
-            .and_then(|p| p.get("site-dir"))
+        staging_dir: publish
+            .and_then(|p| p.get("staging-dir"))
             .and_then(Value::as_str)
-            .unwrap_or("site")
+            .unwrap_or("site-src")
+            .to_string(),
+        stitching: publish
+            .and_then(|p| p.get("stitching"))
+            .and_then(Value::as_str)
+            .unwrap_or("single-page")
             .to_string(),
         site_command: publish
             .and_then(|p| p.get("site-command"))

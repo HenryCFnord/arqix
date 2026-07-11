@@ -68,8 +68,7 @@ fn publish_site_stages_artefact_ready_inputs() {
     .unwrap();
 
     common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
-    let staged =
-        std::fs::read_to_string(repo.join("site-src/page.md")).expect("site-src/page.md");
+    let staged = std::fs::read_to_string(repo.join("site-src/page.md")).expect("site-src/page.md");
     assert!(
         staged.contains("included text from the fragment"),
         "includes are expanded before the toolchain sees the page: {staged}"

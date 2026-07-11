@@ -37,21 +37,23 @@ informational = ["coverage"]
 
 ## The publish policy
 
-`[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-03, REQ-04-01-07-01/-02):
+`[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-02/-03, REQ-04-01-07-01/-02):
 
 ```toml
 [i18n]
 default-lang = "en"
 
 [policies.publish]
-site-dir = "site"
-site-command = "my-ssg build"
+staging-dir = "site-src"
+stitching = "single-page"
+site-command = "zensical build"
 ```
 
-- `site-dir` — the site target directory (default `site`). The default language publishes to its root, every other language to `site-dir/<lang>/`.
-- The language root is `<root>/<lang>` where the layout has one; the bare root serves the default language otherwise.
-- `site-command` — optional: a toolchain invocation orchestrated after generation (whitespace-split, stdio inherited). A failing or unrunnable command is a system error: exit 2 with a diagnostic naming the invocation.
-- Without `site-command`, the built-in deterministic Markdown renderer is the toolchain: every corpus document becomes a self-contained HTML page plus an `index.html`; directives and HTML comments never publish; relative `.md` links become `.html`.
+- arqix **stages and orchestrates — it never renders**: rendering is the site toolchain's job, exactly as Pandoc renders PDF. There is no built-in renderer and no fallback; a publish without a configured `site-command` is a config error (exit 2).
+- `staging-dir` — where artefact-ready inputs are staged (default `site-src`; belongs in `.gitignore`). The default language stages to its root, every other language to `staging-dir/<lang>/`; the language root is `<root>/<lang>` where the layout has one, the bare root for the default language.
+- Staged pages are artefact-ready: includes expanded (single-page stitching), directives and marker comments removed, the arqix frontmatter reduced to the toolchain-consumable part (`title`) — which also keeps staged copies out of document discovery and the trace graph.
+- `stitching` — `single-page` (v1: the assembled document is the unit of publication). The `split` mode on the assembled outline is decided and lands with the ADR-0013 assembler slice.
+- `site-command` — the toolchain invocation (whitespace-split, stdio inherited), run after staging. Recommended: a pinned [Zensical](https://zensical.org) (or MkDocs) invocation whose `docs_dir` points at the staging dir; pin the version in CI for reproducible publishes. A failing or unrunnable command is a system error: exit 2 with a diagnostic naming the invocation.
 
 ## Diagnostics
 
