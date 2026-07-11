@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: d4ab09d, 2026-07-12
+     Snapshot: 32e1b96, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -221,6 +221,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `finalise_touches_only_the_meta_updated_field` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_touches_only_the_meta_updated_field` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_touches_only_the_meta_updated_field` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `fmt_and_config_show_share_one_contract_source` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_is_idempotent` | US-01-01-03 | Format Documents Canonically |
 | `fmt_is_idempotent` | US-01-01-04 | Lint Documents Deterministically |
 | `fmt_is_idempotent` | US-01-01-08 | Generate Governed Coverage Reports |
@@ -271,6 +272,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_never_changes_body_text` | US-01-01-03 | Format Documents Canonically |
 | `fmt_never_changes_body_text` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `fmt_orders_keys_from_the_configured_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_orders_ontology_frontmatter_by_family` | US-01-01-03 | Format Documents Canonically |
 | `fmt_orders_ontology_frontmatter_by_family` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_orders_ontology_frontmatter_by_family` | US-08-01-03 | Format Documents Deterministically within Scope |
@@ -326,6 +328,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `render_pdf_renders_via_pandoc` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_includes_linked_evidence` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `trace_check_reports_verifies_markers_per_requirement` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-01-01-08 | Generate Governed Coverage Reports |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-03-01-03 | Generate Coverage Reports |

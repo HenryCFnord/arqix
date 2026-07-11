@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: d4ab09d, 2026-07-12
+     Snapshot: 32e1b96, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -122,6 +122,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `finalise_touches_only_the_meta_updated_field` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `finalise_touches_only_the_meta_updated_field` | WF-02-01 | Write Docs Alongside Implementation |
 | `finalise_touches_only_the_meta_updated_field` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `fmt_and_config_show_share_one_contract_source` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_is_idempotent` | WF-03-01 | Validate Traceability and Coverage |
@@ -133,6 +134,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `fmt_never_changes_body_text` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_never_changes_body_text` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_never_changes_body_text` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `fmt_orders_keys_from_the_configured_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -188,6 +190,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `render_pdf_renders_via_pandoc` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_includes_linked_evidence` | WF-03-01 | Validate Traceability and Coverage |
+| `scaffolded_documents_satisfy_the_default_meta_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_check_reports_verifies_markers_per_requirement` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-03-01 | Validate Traceability and Coverage |

@@ -121,6 +121,48 @@ FAMILIES = {
                        ["id", "label", "iri"]),
 }
 
+# family -> required meta keys, when a [kinds.<family>] entry overrides
+# the global REQUIRED_META (US-01-01-19).
+FAMILY_META = {}
+
+
+def apply_config(config):
+    """Merge `[kinds.<family>]` contract entries from arqix.toml into the
+    family tables — the one-source rule (ADR-0011, REQ-01-01-19-02): the
+    formatter and this checker read the same declared contract. Entries
+    without a `dir` cannot be matched to files and are skipped."""
+    for family, entry in (config.get("kinds") or {}).items():
+        directory = entry.get("dir")
+        if not directory or not isinstance(directory, str):
+            continue
+        default = FAMILIES.get(family, (directory,
+                                        ["id", "title", "slug", "iri", "rdf",
+                                         "triples", "properties",
+                                         "external-references", "meta"],
+                                        ["id", "title", "slug", "iri"]))
+        FAMILIES[family] = (
+            directory.rstrip("/"),
+            entry.get("key-order", default[1]),
+            entry.get("required", default[2]),
+        )
+        if "required-meta" in entry:
+            FAMILY_META[family] = entry["required-meta"]
+
+
+def load_config(root):
+    """The `[kinds]` table from arqix.toml, if present (tomllib, stdlib)."""
+    path = Path(root) / "arqix.toml"
+    if not path.is_file():
+        return
+    import tomllib
+    try:
+        apply_config(tomllib.loads(path.read_text(encoding="utf-8")))
+    except tomllib.TOMLDecodeError:
+        # config validate owns the malformed-file finding; the checker
+        # falls back to the defaults rather than failing the walk.
+        return
+
+
 # architecture family -> (id prefix, iri namespace)
 ARCH_NS = {
     "story": ("US-", "arqix:user-stories/"),
@@ -321,7 +363,7 @@ def check_frontmatter(doc, findings):
                                     "required key %r missing or empty" % key))
     if not doc.rdf_types:
         findings.append(Finding(path, "FM-001", "error", "rdf.type missing or empty"))
-    for key in REQUIRED_META:
+    for key in FAMILY_META.get(doc.family, REQUIRED_META):
         if key not in doc.meta:
             findings.append(Finding(path, "FM-001", "error",
                                     "meta.%s missing or empty" % key))
@@ -347,6 +389,11 @@ def check_frontmatter(doc, findings):
                     findings.append(Finding(path, "FM-004", "error",
                                             "slug %r does not match filename tail %r" % (slug, tail)))
         expected_heading = "Requirement" if doc.family == "req" else doc.scalars.get("title", "")
+    elif doc.family not in ONT_ID_PREFIX:
+        # A configured family (US-01-01-19) carries no built-in id/iri
+        # shape; shapes become configuration with the ID-policy story
+        # (US-01-01-18). The generic heading rule still applies.
+        expected_heading = doc.scalars.get("title", "")
     else:
         label = doc.scalars.get("label", "")
         id_prefix = ONT_ID_PREFIX[doc.family]
@@ -572,7 +619,17 @@ def selftest():
              {"arqix:classes/widget", "arqix:properties/points-at",
               "arqix:user-stories/us-01-01-01"})
 
+    apply_config({"kinds": {"note": {
+        "dir": "docs/notes",
+        "key-order": ["title", "id", "rdf", "meta"],
+        "required": ["title", "id"],
+        "required-meta": ["lang"],
+    }}})
+
+    cases = [0]
+
     def run(name, text, family, expected_rules, mutate=None):
+        cases[0] += 1
         if mutate:
             text = mutate(text)
         doc = Doc(Path(name), text, family)
@@ -586,6 +643,19 @@ def selftest():
             failures.append("%s: got %s, expected %s" % (name, rules, sorted(expected_rules)))
 
     run("widget.md", GOOD_CLASS, "ont-class", [])
+
+    # US-01-01-19: a configured [kinds.note] contract governs key order,
+    # required keys, and required meta for its family.
+    good_note = (
+        "---\ntitle: A Note\nid: note-1\nrdf:\n  type:\n"
+        "    - arqix:classes/widget\nmeta:\n  lang: en\n---\n\n## A Note\n\nBody.\n"
+    )
+    run("docs/notes/n.md", good_note, "note", [])
+    run("docs/notes/n.md", good_note, "note", ["FMT-003"],
+        lambda t: t.replace("title: A Note\nid: note-1", "id: note-1\ntitle: A Note"))
+    run("docs/notes/n.md", good_note, "note", ["FM-001"],
+        lambda t: t.replace("\n  lang: en", "\n  owner: x"))
+
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", [])
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", [],
         lambda t: t.replace("title: Test Story", 'title: "Test Story"')
@@ -645,7 +715,7 @@ def selftest():
         for f in failures:
             print("selftest FAIL: %s" % f)
         return 1
-    print("selftest OK: 27 fixture cases")
+    print("selftest OK: %d fixture cases" % cases[0])
     return 0
 
 
@@ -663,6 +733,7 @@ def main(argv=None):
         return selftest()
 
     root = Path(args.root)
+    load_config(root)
     if not (root / "docs/ontology").is_dir():
         print("error: docs/ontology not found under %s" % root, file=sys.stderr)
         return 2
