@@ -120,6 +120,72 @@ fn doc_new_writes_into_the_configured_kind_location() {
     );
 }
 
+// arqix:verifies REQ-00-00-00-09
+#[test]
+fn doc_new_dry_run_reports_the_plan_without_writing() {
+    let repo = scratch_copy("minimal", "doc_new_dry_run_reports_the_plan_without_writing");
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "adr", "--dry-run", "--format", "json"],
+    );
+    assert_success(&out);
+    let result = stdout_json(&out);
+    assert_eq!(result["id"], "ADR-0001", "the planned ID: {result}");
+    assert!(
+        result["path"].as_str().unwrap_or("").ends_with("ADR-0001.md"),
+        "the planned target path: {result}"
+    );
+    assert_eq!(result["dry_run"], true, "the run must declare itself: {result}");
+    assert!(
+        !repo.join("docs/adr/ADR-0001.md").exists(),
+        "a dry run must not write any file"
+    );
+}
+
+// arqix:verifies REQ-01-01-13-01
+#[test]
+fn doc_new_accepts_an_explicit_id_and_rejects_a_duplicate() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_accepts_an_explicit_id_and_rejects_a_duplicate",
+    );
+    let out = run_arqix_in(&repo, &["doc", "new", "adr", "--id", "ADR-0042"]);
+    assert_success(&out);
+    let created = std::fs::read_to_string(repo.join("docs/adr/ADR-0042.md")).unwrap();
+    assert!(
+        created.contains("id: ADR-0042"),
+        "the explicit ID must be used verbatim: {created}"
+    );
+
+    // Uniqueness is verified for explicit IDs too (REQ-01-01-13-01).
+    let duplicate = run_arqix_in(&repo, &["doc", "new", "adr", "--id", "ADR-0042"]);
+    common::assert_findings(&duplicate);
+}
+
+// arqix:verifies REQ-00-00-00-05
+#[test]
+fn doc_new_substitutes_the_title_into_the_template() {
+    let repo = scratch_copy("minimal", "doc_new_substitutes_the_title_into_the_template");
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "adr", "--title", "Choose a Database"],
+    );
+    assert_success(&out);
+    let created = std::fs::read_to_string(repo.join("docs/adr/ADR-0001.md")).unwrap();
+    assert!(
+        created.contains("title: Choose a Database"),
+        "the {{title}} placeholder must carry the given title: {created}"
+    );
+    assert!(
+        created.contains("slug: choose-a-database"),
+        "the {{slug}} placeholder must derive from the title: {created}"
+    );
+    assert!(
+        created.contains("## Choose a Database"),
+        "the body heading must carry the title: {created}"
+    );
+}
+
 // arqix:verifies REQ-05-01-08-01
 #[test]
 fn doc_list_emits_a_json_document_catalog() {
