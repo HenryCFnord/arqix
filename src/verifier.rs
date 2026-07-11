@@ -9,10 +9,10 @@ use crate::diag::SCHEMA_VERSION;
 use serde_json::json;
 use std::process::{Command, ExitCode};
 
-/// The default sub-steps, in order. Each is invoked as `arqix <args>`, so the
+/// The sub-steps the loop can run. Each is invoked as `arqix <args>`, so the
 /// orchestrator depends only on the command interface (ADR-0003). Rendering
 /// and publishing are absent by design (REQ-04-01-05-04).
-const STEPS: [(&str, &[&str]); 4] = [
+const REGISTRY: [(&str, &[&str]); 4] = [
     ("format", &["fmt", "--check"]),
     ("lint", &["lint", "run"]),
     ("trace-scan", &["trace", "scan"]),
@@ -23,7 +23,11 @@ const STEPS: [(&str, &[&str]); 4] = [
 // arqix:implements REQ-04-01-05-02
 // arqix:implements REQ-04-01-05-03
 // arqix:implements REQ-04-01-05-04
-/// `arqix verify [--fail-fast | --aggregate]`
+// arqix:implements REQ-04-01-14-01
+// arqix:implements REQ-04-01-14-02
+/// `arqix verify [--fail-fast | --aggregate]` — runs the sub-steps declared
+/// in the effective `[policies.verify]` configuration, in their configured
+/// order; informational steps report findings without gating.
 pub fn verify(fail_fast: bool, format: OutputFormat) -> ExitCode {
     let exe = match std::env::current_exe() {
         Ok(exe) => exe,
@@ -32,26 +36,42 @@ pub fn verify(fail_fast: bool, format: OutputFormat) -> ExitCode {
             return ExitCode::from(2);
         }
     };
+    let policy = crate::config::verify_policy(std::path::Path::new("."));
 
     let mut steps = Vec::new();
-    let mut failed = false;
-    for (name, args) in STEPS {
+    let mut effective_codes = Vec::new();
+    for name in &policy.steps {
+        let Some((_, args)) = REGISTRY.iter().find(|(known, _)| known == name) else {
+            eprintln!(
+                "error: [policies.verify] steps: unknown sub-step '{name}' (known: {})",
+                REGISTRY.map(|(n, _)| n).join(", ")
+            );
+            return ExitCode::from(2);
+        };
         let code = Command::new(&exe)
-            .args(args)
+            .args(*args)
             .output()
             .ok()
             .and_then(|o| o.status.code())
+            .map(i64::from)
             .unwrap_or(-1);
-        let ok = code == 0;
-        steps.push(json!({ "step": name, "exit_code": code, "ok": ok }));
-        if !ok {
-            failed = true;
-            if fail_fast {
-                break;
-            }
+        let informational = policy.informational.iter().any(|i| i == name);
+        // An informational step forgives findings (exit 1), never system
+        // errors: a crashed sub-step is a broken loop either way.
+        let effective = if informational && code == 1 { 0 } else { code };
+        effective_codes.push(effective);
+        steps.push(json!({
+            "step": name,
+            "exit_code": code,
+            "ok": code == 0,
+            "informational": informational,
+        }));
+        if effective != 0 && fail_fast {
+            break;
         }
     }
 
+    let failed = effective_codes.iter().any(|c| *c != 0);
     let report = json!({ "schema_version": SCHEMA_VERSION, "steps": steps, "ok": !failed });
     match format {
         OutputFormat::Json => {
@@ -62,8 +82,11 @@ pub fn verify(fail_fast: bool, format: OutputFormat) -> ExitCode {
         }
         OutputFormat::Text => {
             for step in &steps {
+                let informational = step["informational"].as_bool().unwrap_or(false);
                 let status = if step["ok"].as_bool().unwrap_or(false) {
                     "ok"
+                } else if informational {
+                    "info"
                 } else {
                     "FAIL"
                 };
@@ -77,11 +100,7 @@ pub fn verify(fail_fast: bool, format: OutputFormat) -> ExitCode {
         }
     }
 
-    let codes: Vec<i64> = steps
-        .iter()
-        .map(|s| s["exit_code"].as_i64().unwrap_or(-1))
-        .collect();
-    ExitCode::from(overall_exit(&codes))
+    ExitCode::from(overall_exit(&effective_codes))
 }
 
 /// Aggregate sub-step exit codes without losing severity: any step that did

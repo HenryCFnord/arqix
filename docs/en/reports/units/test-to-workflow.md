@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8598c5, 2026-07-11
+     Snapshot: 7c68655, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -200,10 +200,13 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `usage_error_exits_with_code_2` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `usage_error_exits_with_code_2` | WF-05-01 | Use Documentation for Agents and RAG |
 | `usage_error_exits_with_code_2` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `verify_defaults_to_informational_coverage_and_gating_rest` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_emits_per_step_results_in_json_mode` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_emits_per_step_results_in_json_mode` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `verify_excludes_rendering_from_the_default_loop` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_excludes_rendering_from_the_default_loop` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `verify_reports_informational_findings_without_gating` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `verify_runs_exactly_the_configured_steps_in_order` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_runs_the_configured_sub_steps` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_runs_the_configured_sub_steps` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `verify_supports_fail_fast_and_aggregate_modes` | WF-04-01 | Run CI Gates and Publish artefacts |

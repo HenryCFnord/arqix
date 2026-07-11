@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8598c5, 2026-07-11
+     Snapshot: 7c68655, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -70,7 +70,10 @@
 | `trace_scan_outputs_the_trace_graph_as_json` | tests/cli_trace.rs:24 | REQ-03-01-05-04 | active |
 | `unit_new_creates_a_unit_from_the_configured_template` | tests/cli_unit.rs:8 | REQ-00-00-00-05 | active |
 | `usage_error_exits_with_code_2` | tests/cli.rs:30 | REQ-00-00-00-02 | active |
+| `verify_defaults_to_informational_coverage_and_gating_rest` | tests/cli_verify.rs:122 | REQ-04-01-14-03 | active |
 | `verify_emits_per_step_results_in_json_mode` | tests/cli_verify.rs:27 | REQ-04-01-05-03 | active |
 | `verify_excludes_rendering_from_the_default_loop` | tests/cli_verify.rs:38 | REQ-04-01-05-04 | active |
+| `verify_reports_informational_findings_without_gating` | tests/cli_verify.rs:77 | REQ-04-01-14-02 | active |
+| `verify_runs_exactly_the_configured_steps_in_order` | tests/cli_verify.rs:49 | REQ-04-01-14-01 | active |
 | `verify_runs_the_configured_sub_steps` | tests/cli_verify.rs:9 | REQ-04-01-05-01 | active |
 | `verify_supports_fail_fast_and_aggregate_modes` | tests/cli_verify.rs:17 | REQ-04-01-05-02 | active |

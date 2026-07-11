@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8598c5, 2026-07-11
+     Snapshot: 7c68655, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -431,10 +431,13 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `usage_error_exits_with_code_2` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `usage_error_exits_with_code_2` | US-08-01-15 | Interpret Verification Outcomes through Stable Exit Codes |
 | `usage_error_exits_with_code_2` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `verify_defaults_to_informational_coverage_and_gating_rest` | US-04-01-14 | Configure the Verification Loop |
 | `verify_emits_per_step_results_in_json_mode` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_emits_per_step_results_in_json_mode` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `verify_excludes_rendering_from_the_default_loop` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_excludes_rendering_from_the_default_loop` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `verify_reports_informational_findings_without_gating` | US-04-01-14 | Configure the Verification Loop |
+| `verify_runs_exactly_the_configured_steps_in_order` | US-04-01-14 | Configure the Verification Loop |
 | `verify_runs_the_configured_sub_steps` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_runs_the_configured_sub_steps` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `verify_supports_fail_fast_and_aggregate_modes` | US-04-01-05 | Run a One-Command Verification Loop |

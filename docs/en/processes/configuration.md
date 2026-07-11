@@ -12,13 +12,27 @@ A missing file is valid — it simply means no overrides.
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
 | `kinds` | table | empty | accepted, content validated in a later schema version |
 | `templates` | table | empty | accepted, content validated in a later schema version |
-| `policies` | table | empty | accepted, content validated in a later schema version |
+| `policies` | table | empty | accepted; `policies.verify` is read (below), other content validated in a later schema version |
 | `i18n` | table | empty | accepted, content validated in a later schema version |
 
 Unknown top-level keys are ignored with a warning — forward compatibility for configs written against newer schema versions.
 
 `skip-dirs` governs document discovery (the store walk under `roots`: `doc list/read/search`, lint, fmt, assemble).
 The trace corpus walk keeps its fixed skip set, mirroring the Python oracle for conformance (REQ-01-01-17-01).
+
+## The verify policy
+
+`[policies.verify]` declares which sub-steps `arqix verify` runs and how each result is treated (REQ-04-01-14-01/-02/-03):
+
+```toml
+[policies.verify]
+steps = ["format", "lint", "trace-scan", "coverage"]
+informational = ["coverage"]
+```
+
+- `steps` — the sub-steps to run, in order; the known names are `format`, `lint`, `trace-scan`, and `coverage`. An unknown name is a usage error (exit 2).
+- `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
+- The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
 
 ## Diagnostics
 
