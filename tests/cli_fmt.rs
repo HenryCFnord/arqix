@@ -72,3 +72,79 @@ fn fmt_is_idempotent() {
 
     assert_eq!(first, second, "a second fmt run must be a no-op");
 }
+
+// arqix:verifies REQ-01-01-19-01
+#[test]
+fn fmt_orders_keys_from_the_configured_contract() {
+    let repo = scratch_copy("minimal", "fmt_orders_keys_from_the_configured_contract");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.note]\ndir = \"docs/notes\"\nkey-order = [\"title\", \"id\", \"meta\"]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/notes")).unwrap();
+    std::fs::write(
+        repo.join("docs/notes/n.md"),
+        "---\nid: note-1\nmeta:\n  lang: en\ntitle: A Note\n---\n\nBody.\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["fmt"]));
+    let formatted = std::fs::read_to_string(repo.join("docs/notes/n.md")).unwrap();
+    let title = formatted.find("title:").unwrap();
+    let id = formatted.find("id:").unwrap();
+    let meta = formatted.find("meta:").unwrap();
+    assert!(
+        title < id && id < meta,
+        "the configured key order governs the family's frontmatter: {formatted}"
+    );
+}
+
+// arqix:verifies REQ-01-01-19-02
+#[test]
+fn fmt_and_config_show_share_one_contract_source() {
+    // The one-source rule (ADR-0011): what fmt applies is exactly what the
+    // effective configuration exposes — no second copy of the contract.
+    let repo = scratch_copy("minimal", "fmt_and_config_show_share_one_contract_source");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.note]\ndir = \"docs/notes\"\nkey-order = [\"title\", \"id\"]\nrequired-meta = [\"lang\"]\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["config", "show", "--format", "json"]);
+    assert_success(&out);
+    let config = common::stdout_json(&out);
+    assert_eq!(
+        config["kinds"]["note"]["key-order"][0], "title",
+        "the effective configuration exposes the contract fmt applies: {config}"
+    );
+    assert_eq!(
+        config["kinds"]["note"]["required-meta"][0], "lang",
+        "the required meta keys come from the same source: {config}"
+    );
+}
+
+// arqix:verifies REQ-01-01-19-03
+#[test]
+fn scaffolded_documents_satisfy_the_default_meta_contract() {
+    // The template is the first document a contract sees: every default
+    // required-meta key must be present in a fresh scaffold.
+    let repo = scratch_copy(
+        "minimal",
+        "scaffolded_documents_satisfy_the_default_meta_contract",
+    );
+    assert_success(&run_arqix_in(&repo, &["doc", "new", "adr"]));
+    let created = std::fs::read_to_string(repo.join("docs/adr/ADR-0001.md")).unwrap();
+    for key in [
+        "lifecycle-status",
+        "owner",
+        "created",
+        "updated",
+        "lang",
+        "generated",
+    ] {
+        assert!(
+            created.contains(&format!("{key}:")),
+            "required meta key '{key}' missing from the scaffold: {created}"
+        );
+    }
+}
