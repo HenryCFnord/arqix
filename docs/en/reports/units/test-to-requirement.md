@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 886a491, 2026-07-11
+     Snapshot: 8afe2ba, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -55,9 +55,13 @@
 | `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:9 | REQ-05-01-12-01 | planned (ignored) |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:8 | REQ-01-01-07-02 | planned (ignored) |
 | `policy_check_supports_warn_only_mode` | tests/cli_policy.rs:22 | REQ-01-01-07-03 | planned (ignored) |
-| `publish_site_publishes_per_language` | tests/cli_publish.rs:9 | REQ-04-01-07-01 | planned (ignored) |
-| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:29 | REQ-04-01-03-07 | planned (ignored) |
-| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:18 | REQ-04-01-03-04 | planned (ignored) |
+| `publish_site_diagnoses_a_failing_toolchain` | tests/cli_publish.rs:150 | REQ-04-01-07-02 | active |
+| `publish_site_generates_outputs_for_the_configured_target` | tests/cli_publish.rs:86 | REQ-04-01-03-01 | active |
+| `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
+| `publish_site_publishes_per_language` | tests/cli_publish.rs:13 | REQ-04-01-07-01 | active |
+| `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
+| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:183 | REQ-04-01-03-07 | planned (ignored) |
+| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:172 | REQ-04-01-03-04 | planned (ignored) |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | planned (ignored) |
 | `report_bundle_includes_linked_evidence` | tests/cli_report.rs:21 | REQ-03-01-04-02 | planned (ignored) |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |

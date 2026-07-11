@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 886a491, 2026-07-11
+     Snapshot: 8afe2ba, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -51,11 +51,11 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-09 | Machine-Check the Done Claim | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-04-01-02 | Check Scope Guardrails in CI | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
-| US-04-01-03 | Generate Publishing Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
+| US-04-01-03 | Generate Publishing Outputs | 4 | 2 | 3 | `████░░░░░░` 44% |
 | US-04-01-04 | Gate Bilingual Documentation Quality in CI | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-04-01-05 | Run a One-Command Verification Loop | 6 | 0 | 2 | `███████░░░` 75% |
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
-| US-04-01-07 | Publish Language-Aware Sites | 2 | 1 | 2 | `████░░░░░░` 40% |
+| US-04-01-07 | Publish Language-Aware Sites | 4 | 0 | 1 | `████████░░` 80% |
 | US-04-01-08 | Provide Consistent Exit Codes for CI Gates | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-04-01-09 | Run Governed Release Preparation Workflows | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-04-01-10 | Emit Machine-Readable Diagnostics for CI | 3 | 0 | 2 | `██████░░░░` 60% |
@@ -76,13 +76,13 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-05-01-10 | Read Structured Document Sections with Stable Selectors | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-05-01-11 | Consume Effective Configuration as Automation Baseline | 5 | 0 | 0 | `██████████` 100% |
 | US-05-01-12 | Expose Arqix via MCP over STDIO | 0 | 1 | 2 | `░░░░░░░░░░` 0% |
-| US-05-01-13 | Expose Language-Aware Site Outputs Deterministically | 2 | 1 | 2 | `████░░░░░░` 40% |
+| US-05-01-13 | Expose Language-Aware Site Outputs Deterministically | 4 | 0 | 1 | `████████░░` 80% |
 | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-06-01-01 | Create Modular Document Units | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-06-01-02 | Trace Document Assembly Structure | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-06-01-03 | Create Architecture Documents from Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
 | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 3 | 0 | 0 | `██████████` 100% |
-| US-06-01-05 | Generate Publishable Documentation Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
+| US-06-01-05 | Generate Publishable Documentation Outputs | 4 | 2 | 3 | `████░░░░░░` 44% |
 | US-06-01-06 | Create Linked Translation Documents for Architecture Content | 1 | 0 | 0 | `██████████` 100% |
 | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
 | US-06-01-08 | Assemble Modular Document Packages into Pages | 2 | 0 | 0 | `██████████` 100% |

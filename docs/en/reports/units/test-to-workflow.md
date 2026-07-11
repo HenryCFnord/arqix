@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 886a491, 2026-07-11
+     Snapshot: 8afe2ba, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -157,8 +157,16 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `policy_check_supports_warn_only_mode` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_supports_warn_only_mode` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_supports_warn_only_mode` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `publish_site_diagnoses_a_failing_toolchain` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_diagnoses_a_failing_toolchain` | WF-05-01 | Use Documentation for Agents and RAG |
+| `publish_site_generates_outputs_for_the_configured_target` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_generates_outputs_for_the_configured_target` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `publish_site_orchestrates_the_configured_toolchain` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_orchestrates_the_configured_toolchain` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_publishes_per_language` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_publishes_per_language` | WF-05-01 | Use Documentation for Agents and RAG |
+| `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_forwards_tool_errors_transparently` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_forwards_tool_errors_transparently` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_renders_via_pandoc` | WF-04-01 | Run CI Gates and Publish artefacts |
