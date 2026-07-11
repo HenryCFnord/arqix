@@ -38,7 +38,7 @@ meta:
 
 The PR-#20 review produced six comments with one theme: conventions hard-wired into `src/` and `scripts/` that a repository owner could legitimately want to change.
 The systematic sweep (config audit, plan package 2026-07-09) inventoried sixteen configuration candidates (C1–C16) and five deliberate keeps (K3–K7); several candidates are maintained in more than one place today, and one of those copies had already diverged (C6, fixed ahead of this strand).
-Decision D2 of the refinement settled the boundary recorded here.
+Without a stated boundary, every future "should this be configurable?" question is re-litigated ad hoc — the sixteen rows, and every row after them, need one rule they can be judged against.
 
 ### Decision
 
