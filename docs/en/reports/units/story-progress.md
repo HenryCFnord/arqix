@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 63db3eb, 2026-07-09
+     Snapshot: eee0ae0, 2026-07-10
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -45,6 +45,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-03-01-07 | Filter Traceability Reports for Quality Analysis | 1 | 0 | 2 | `███░░░░░░░` 33% |
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 2 | 0 | 1 | `██████░░░░` 67% |
+| US-03-01-09 | Machine-Check the Done Claim | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-04-01-02 | Check Scope Guardrails in CI | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-04-01-03 | Generate Publishing Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
@@ -58,6 +59,8 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-11 | Inspect Effective Config for CI Reproducibility | 5 | 0 | 0 | `██████████` 100% |
 | US-04-01-12 | Publish Stable Report Exports for Automation | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-04-01-13 | Publish Navigable Architecture Views Deterministically | 0 | 0 | 3 | `░░░░░░░░░░` 0% |
+| US-04-01-14 | Configure the Verification Loop | 0 | 0 | 3 | `░░░░░░░░░░` 0% |
+| US-04-01-15 | Gate Coverage as a Ratchet | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
 | US-05-01-01 | Create Units for Retrieval and Automation | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-05-01-03 | Expose Machine-Usable Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |

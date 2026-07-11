@@ -66,7 +66,7 @@ Requirement drafts:
 Decision D1 (settled in review, to be recorded as ADR-0010): three vocabularies by document nature, plus the declared-versus-computed rule (declared states carry intent, computed states carry findings; progress within a state is a report number, never a state).
 
 - Stories: `draft` → `specified` → `in-implementation` → `done`, terminal `retired`; done ⇒ every requirement verified by an active test.
-- Requirements: only `draft`/`retired` declared; everything between is computed from the trace graph. v1 checks test verification; the ontology's verification methods (inspection, analysis, …) are the prepared hook for non-test evidence.
+- Requirements: only `active`/`retired` declared (amended 2026-07-10: `draft` replaced by `active` — the gate refutes draft, and a verified requirement declaring draft misleads in the other direction); everything else is computed from the trace graph. v1 checks test verification; the ontology's verification methods (inspection, analysis, …) are the prepared hook for non-test evidence.
 - Prose documents (units, pages, …): `draft` → `final`, transition performed by `finalise` (the single mechanical mutator, ADR-0004); the publish pipeline takes only `final`; editing a final document returns it to `draft`; terminal `retired`.
 - ADRs: the document text follows the prose model; `decision-status` (proposed/accepted/deprecated/superseded) stays the orthogonal decision axis.
 
