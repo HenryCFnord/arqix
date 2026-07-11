@@ -83,3 +83,4 @@ Engine, oracle, and both reference checkers read the same configured policy (the
 - The ontology gains a declared cross-cutting marker; the checkers' `00-00-00` recognition becomes a default-policy consistency check instead of the definition.
 - The conformance suite gains a case with a non-default, group-free pattern, pinning that both sides derive identical graphs from triples alone.
 - The current shapes and checks become the default configuration; the corpus stays unchanged.
+- The default policy doubles as the recommended naming scheme for new corpora, to be carried into the handbook (agent-onboarding strand): semantic IDs keep the ownership relations readable in place, and the consistency checks that hold them against the declared triples already exist.

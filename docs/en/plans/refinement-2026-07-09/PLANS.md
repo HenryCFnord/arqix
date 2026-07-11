@@ -87,6 +87,7 @@ Decision D2 (settled in review): all audit recommendations confirmed as listed, 
 Outline (owner: Casey; builds on `docs/en/processes/agent-orchestration-patterns.md`):
 
 - A handbook chapter "Working in an arqix-governed repository" (unit family per ADR-0009's manual plan).
+  The chapter recommends the default ID policy as the naming scheme for new corpora (noted 2026-07-11, with ADR-0012): semantic IDs keep ownership relations readable in place, and the consistency checks against the declared triples already exist.
 - `doc init` scaffolds an agent-instructions file (AGENTS.md-shaped, pointing at the gate commands and the ICD input grammars).
 - A packaged skill shipped alongside `mcp serve`, so agent frameworks can discover the arqix workflow.
 
