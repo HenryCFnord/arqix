@@ -8,6 +8,11 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/HenryCFnord/arqix"
 keywords = ["documentation", "markdown", "architecture", "cli"]
 categories = ["command-line-utilities"]
+readme = "README.md"
+# The crate package is the tool, not the corpus: without this allowlist,
+# `cargo package` would ship all 439 files of docs/ (and the fixtures the
+# integration tests copy) to crates.io.
+include = ["/src/", "/README.md", "/LICENSE-APACHE", "/LICENSE-MIT"]
 
 [[bin]]
 name = "arqix"
