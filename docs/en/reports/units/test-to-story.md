@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 886a491, 2026-07-11
+     Snapshot: 8afe2ba, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -295,8 +295,16 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `policy_check_supports_warn_only_mode` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_supports_warn_only_mode` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_supports_warn_only_mode` | US-08-01-08 | Stay within Declared Change Scope |
+| `publish_site_diagnoses_a_failing_toolchain` | US-04-01-07 | Publish Language-Aware Sites |
+| `publish_site_diagnoses_a_failing_toolchain` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `publish_site_generates_outputs_for_the_configured_target` | US-04-01-03 | Generate Publishing Outputs |
+| `publish_site_generates_outputs_for_the_configured_target` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `publish_site_orchestrates_the_configured_toolchain` | US-04-01-03 | Generate Publishing Outputs |
+| `publish_site_orchestrates_the_configured_toolchain` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_publishes_per_language` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_publishes_per_language` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `publish_site_stages_artefact_ready_inputs` | US-04-01-03 | Generate Publishing Outputs |
+| `publish_site_stages_artefact_ready_inputs` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_forwards_tool_errors_transparently` | US-04-01-03 | Generate Publishing Outputs |
 | `render_forwards_tool_errors_transparently` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_pdf_renders_via_pandoc` | US-04-01-03 | Generate Publishing Outputs |

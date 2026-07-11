@@ -10,6 +10,7 @@ mod config;
 mod diag;
 mod linter;
 mod parser;
+mod publisher;
 mod rewriter;
 mod store;
 mod templates;
@@ -299,7 +300,7 @@ fn main() -> ExitCode {
             ReportCommand::Bundle => unimplemented("report bundle"),
         },
         Command::Publish { command } => match command {
-            PublishCommand::Site { .. } => unimplemented("publish site"),
+            PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),
         },
         Command::Render { command } => match command {
             RenderCommand::Pdf => unimplemented("render pdf"),

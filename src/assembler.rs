@@ -117,6 +117,15 @@ fn write_outputs(pages: &[(PathBuf, String)], records: &[Value]) -> Result<(), E
     Ok(())
 }
 
+/// Expand one source document for a downstream consumer (the publisher's
+/// staging): the same include walk as `build`, without keeping log records.
+pub(crate) fn expand_document(file: &Path) -> Result<String, Diagnostic> {
+    let mut stack = Vec::new();
+    let mut records = Vec::new();
+    let rel = file.to_string_lossy().replace('\\', "/");
+    expand(file, 0, &rel, "", &mut stack, &mut records)
+}
+
 /// Expand one source fragment, following include directives depth-first. Each
 /// fragment read is one assembly step and appends exactly one log record. A
 /// path already on the DFS stack is a cycle (ASM-001).

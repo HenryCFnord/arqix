@@ -180,6 +180,53 @@ pub fn skip_dirs(dir: &Path) -> Vec<String> {
     resolve(dir).0.skip_dirs
 }
 
+/// The publish policy: where artefact-ready inputs are staged, how the site
+/// is stitched, and the toolchain that renders it (there is deliberately no
+/// built-in renderer).
+pub struct PublishPolicy {
+    pub staging_dir: String,
+    pub stitching: String,
+    pub site_command: Option<String>,
+}
+
+// arqix:implements REQ-04-01-03-03
+/// The effective `[policies.publish]` table — defaults unless overridden.
+pub fn publish_policy(dir: &Path) -> PublishPolicy {
+    let (config, _) = resolve(dir);
+    let publish = config
+        .sections
+        .get("policies")
+        .and_then(|p| p.get("publish"));
+    PublishPolicy {
+        staging_dir: publish
+            .and_then(|p| p.get("staging-dir"))
+            .and_then(Value::as_str)
+            .unwrap_or("site-src")
+            .to_string(),
+        stitching: publish
+            .and_then(|p| p.get("stitching"))
+            .and_then(Value::as_str)
+            .unwrap_or("single-page")
+            .to_string(),
+        site_command: publish
+            .and_then(|p| p.get("site-command"))
+            .and_then(Value::as_str)
+            .map(str::to_string),
+    }
+}
+
+/// The corpus default language (`[i18n] default-lang`, default `en`).
+pub fn default_lang(dir: &Path) -> String {
+    let (config, _) = resolve(dir);
+    config
+        .sections
+        .get("i18n")
+        .and_then(|i| i.get("default-lang"))
+        .and_then(Value::as_str)
+        .unwrap_or("en")
+        .to_string()
+}
+
 fn string_array(value: &toml::Value) -> Result<Vec<String>, String> {
     let items = value
         .as_array()
