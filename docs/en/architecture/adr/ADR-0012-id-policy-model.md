@@ -16,6 +16,7 @@ triples:
     object:
       - arqix:requirements/req-01-01-18-01
       - arqix:requirements/req-01-01-18-03
+      - arqix:requirements/req-01-01-18-04
 
 properties:
   decision-status: accepted
@@ -37,39 +38,48 @@ meta:
 ### Context
 
 The config audit recommended keeping the ID shapes a convention; the owner overruled (2026-07-10): the ID shape is the main point of configuration — a repository adopting arqix brings its own numbering.
-The complication is that arqix's ID shapes are load-bearing, not cosmetic: the trace graph derives a requirement's owning story from its ID (the `story_of` slice), the canonical-owner rule ties the first `derived-from` to that story, cross-cutting requirements are recognised by their `00-00-00` domain, and per-story sequencing is validated positionally.
-A plain configured regex could validate a foreign shape but could not feed these derivations — the graph would still hardcode offsets.
+Today the shapes are load-bearing: the trace graph derives a requirement's owning story from an ID slice, cross-cutting requirements are recognised by their `00-00-00` domain, and per-story sequencing is validated positionally.
+A first draft of this decision generalised that mechanism — every configured pattern would have had to expose named groups for the derivation to work.
+The owner rejected that as too restrictive (2026-07-11): the ownership relation does not need to live in the name, because the corpus already declares it — every requirement carries its owning story as the first `derived-from` triple, and the graph is the project's source of truth, not a naming convention.
 
 ### Decision
 
 <!-- arqix:references-artefact arqix:requirements/req-01-01-18-02 -->
-The ID policy is a set of **per-family patterns with named groups**, and the derivation model consumes groups by name — the pattern is one artefact that both validates the shape and declares its semantics.
+**Declared triples are the source of truth for relations; the ID is an opaque label.**
+The trace graph resolves a requirement's owning story from its first `derived-from` triple — declared, not derived.
+This is the same rule the lifecycle decision rests on (ADR-0010: declared carries intent) applied to relations, and it is what "traceability as a graph" means: the relation lives in the graph, not hidden in a naming scheme.
+
+The ID policy then governs only what is genuinely the ID's job:
 
 ```toml
 [kinds.requirement]
 id-pattern = '^REQ-(?P<story>\d{2}-\d{2}-\d{2})-(?P<seq>\d{2})$'
 
-[kinds.story]
-id-pattern = '^US-(?P<story>\d{2}-\d{2}-\d{2})$'
-
-[kinds]
-cross-cutting-domain = "00-00-00"
+[kinds.adr]
+id-pattern = '^ADR-(?P<seq>\d{4})$'
 ```
 
-- The `story` group carries the owner slice: a requirement's owning story is the story whose `story` group matches, and the canonical-owner rule reads it from there.
-- The `seq` group carries per-story sequencing; the sequencing check validates it as a number, not as a character offset.
-- The `cross-cutting-domain` value marks ownerless requirements; matching the `story` group against it replaces today's hardcoded `00-00-00` comparisons.
-- Engine, oracle, and both reference checkers read the same configured policy (the one-source rule of ADR-0011); the built-in defaults are exactly the patterns above, so an unconfigured corpus behaves as before.
+- **Shape and uniqueness:** a document ID must match its family's configured pattern and be unique in the corpus.
+- **Generation:** `doc new` mints the next ID from the pattern (the `seq` group tells it what to count); any other groups are irrelevant to generation.
+- **Consistency checks, where groups exist:** named groups are optional and activate checks, not derivation.
+  Where a pattern declares a `story` group, the checker reports an ID whose encoded slice contradicts the declared owner triple; where it declares `seq`, per-story sequencing is validated.
+  arqix's own corpus keeps its strict discipline through exactly these checks in the default policy.
+- A pattern with no semantic groups is fully supported: a repository using `SRS-1234` gets shape validation, uniqueness, and generation, and its trace graph works entirely from the declared triples.
+
+Cross-cutting requirements follow the same inversion: instead of being recognised by an ID domain, they are declared — the ontology gains an explicit cross-cutting marker, and the `00-00-00` domain remains merely the default policy's naming convention for them.
+Engine, oracle, and both reference checkers read the same configured policy (the one-source rule of ADR-0011); the built-in defaults reproduce the current shapes and checks, so an unconfigured corpus behaves as before.
 
 ### Alternatives Considered
 
-- **A plain regex without named groups:** rejected — it validates but cannot derive; every consumer of the owner slice would keep its own offset arithmetic, and the configuration would be cosmetic.
-- **A template mini-language (`REQ-{story}-{seq}`):** considered — friendlier to write, but it needs its own parser, its own escaping rules, and a compilation step into a regex anyway; named groups are standard in both regex engines arqix already uses and collapse validation and derivation into one artefact.
+- **Named groups as the derivation source (the first draft):** rejected as too restrictive — it forces every adopting repository into semantic IDs and duplicates a relation the corpus already declares; redundant encodings drift, declared ones are checked.
+- **A plain regex with no group semantics at all:** rejected — generation needs to know what to count (`seq`), and dropping the optional consistency checks would cost arqix's own corpus its sequencing and owner-slice discipline for nothing.
+- **A template mini-language (`REQ-{story}-{seq}`):** considered — friendlier to write, but it needs its own parser and escaping rules and compiles into a regex anyway; named groups are standard in both regex engines arqix already uses.
 - **Keeping the shapes hardcoded:** rejected by the owner decision — five copies across Rust and Python today, drift-prone and fork-hostile.
 
 ### Consequences
 
-- The configuration contract gains `id-pattern` per family and `cross-cutting-domain`; `config validate` rejects patterns missing the groups the derivation model needs.
-- The conformance suite gains a case with a non-default pattern, pinning that engine and oracle derive identical graphs from the same policy.
-- US-01-01-18 implements this model; the current shapes become the default configuration and the corpus stays unchanged.
-- Renaming an ID family in an existing corpus remains a migration, not a config flip: the policy governs validation and derivation, it does not rewrite documents.
+- The configuration contract gains `id-pattern` per family; `config validate` requires a `seq` group where the family is created via `doc new` and accepts patterns without any semantic groups.
+- The trace engine and the oracle move `story_of` from ID slicing to the declared `derived-from` triples — part of the US-01-01-18 implementation, conformance-checked on both sides.
+- The ontology gains a declared cross-cutting marker; the checkers' `00-00-00` recognition becomes a default-policy consistency check instead of the definition.
+- The conformance suite gains a case with a non-default, group-free pattern, pinning that both sides derive identical graphs from triples alone.
+- The current shapes and checks become the default configuration; the corpus stays unchanged.
