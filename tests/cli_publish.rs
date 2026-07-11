@@ -67,7 +67,10 @@ fn publish_site_generates_outputs_with_an_index() {
 // arqix:verifies REQ-04-01-03-03
 #[test]
 fn publish_site_orchestrates_the_configured_toolchain() {
-    let repo = scratch_copy("minimal", "publish_site_orchestrates_the_configured_toolchain");
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_orchestrates_the_configured_toolchain",
+    );
     std::fs::write(
         repo.join("arqix.toml"),
         "[policies.publish]\nsite-command = \"touch toolchain-ran\"\n",

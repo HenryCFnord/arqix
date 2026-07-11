@@ -12,8 +12,8 @@ A missing file is valid — it simply means no overrides.
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
 | `kinds` | table | empty | accepted, content validated in a later schema version |
 | `templates` | table | empty | accepted, content validated in a later schema version |
-| `policies` | table | empty | accepted; `policies.verify` is read (below), other content validated in a later schema version |
-| `i18n` | table | empty | accepted, content validated in a later schema version |
+| `policies` | table | empty | accepted; `policies.verify` and `policies.publish` are read (below), other content validated in a later schema version |
+| `i18n` | table | empty | accepted; `default-lang` is read (below), other content validated in a later schema version |
 
 Unknown top-level keys are ignored with a warning — forward compatibility for configs written against newer schema versions.
 
@@ -34,6 +34,23 @@ informational = ["coverage"]
 - `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
 - `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
+## The publish policy
+
+`[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-03, REQ-04-01-07-01/-02):
+
+```toml
+[i18n]
+default-lang = "en"
+
+[policies.publish]
+site-dir = "site"
+site-command = "my-ssg build"
+```
+
+- `site-dir` — the site target directory (default `site`). The default language publishes to its root, every other language to `site-dir/<lang>/`.
+- The language root is `<root>/<lang>` where the layout has one; the bare root serves the default language otherwise.
+- `site-command` — optional: a toolchain invocation orchestrated after generation (whitespace-split, stdio inherited). A failing or unrunnable command is a system error: exit 2 with a diagnostic naming the invocation.
+- Without `site-command`, the built-in deterministic Markdown renderer is the toolchain: every corpus document becomes a self-contained HTML page plus an `index.html`; directives and HTML comments never publish; relative `.md` links become `.html`.
 
 ## Diagnostics
 
