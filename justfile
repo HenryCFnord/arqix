@@ -2,7 +2,7 @@
 # The process truth lives in scripts/arqix verify and .github/workflows/ci.yml;
 # these recipes only save typing. `just --list` shows everything.
 
-# The daily gate: checkers, marker gate, coverage (info), cargo test, markdownlint
+# The daily gate: checkers, marker gate, cargo test, dogfooded arqix verify, markdownlint
 verify:
     python3 scripts/arqix verify
 

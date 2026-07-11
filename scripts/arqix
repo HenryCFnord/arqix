@@ -13,12 +13,13 @@ Implemented here (per the oracle policy in arc42 chapter 8):
 Everything else is deliberately NOT implemented in Python (parser/fmt/
 finalise, publish/render, mcp live in Rust only).
 
-`verify` runs the gating steps frontmatter, requirements, trace-markers,
-and cargo-test (skipped when no Cargo.toml is present), plus trace
-coverage as an informational step: while the corpus is still being
-implemented, uncovered requirements are the expected state and must not
-fail the daily gate. Coverage becomes gating when the corpus is fully
-covered.
+`verify` sequences the repository gate: the checker selftests, the
+Python reference checkers, the report-freshness check, cargo-test
+(skipped when no Cargo.toml is present), the product's own
+`arqix verify` (dogfooded whenever a binary exists; it runs format,
+lint, trace-scan, coverage, and ratchet per the configured policy,
+with coverage informational while the corpus is under construction),
+and markdownlint.
 """
 
 import json
@@ -74,12 +75,16 @@ MARKDOWNLINT_CLI2 = "markdownlint-cli2@0.23.0"
 
 
 def arqix_binary():
-    """The Rust binary for gate steps that live only in Rust (the linter):
-    the ARQIX_BIN override, or the debug build if present."""
+    """The Rust binary for the dogfooded verify step: the ARQIX_BIN
+    override, or the debug build if present."""
     import os
     override = os.environ.get("ARQIX_BIN")
     if override and Path(override).is_file():
-        return override
+        # Never dogfood ourselves: an ARQIX_BIN pointing back at this
+        # dispatcher (the conformance harness does that) would recurse
+        # through the verify step forever — fall through to the build.
+        if Path(override).resolve() != Path(__file__).resolve():
+            return override
     default = Path("target/debug/arqix")
     return str(default) if default.is_file() else None
 
@@ -104,17 +109,18 @@ def verify(fmt, fail_fast):
         ("requirements", [python, str(SCRIPT_DIR / "check_requirements.py")], True),
         ("trace-markers", [python, str(SCRIPT_DIR / "check_trace_markers.py")], True),
         ("report-freshness", [python, str(SCRIPT_DIR / "arqix_report.py"), "--check"], True),
-        ("trace-coverage", [python, str(SCRIPT_DIR / "arqix_trace.py"), "coverage"], False),
     ]
     if Path("Cargo.toml").exists():
         steps.append(("cargo-test", ["cargo", "test", "--quiet"], True))
     if binary := arqix_binary():
-        # The linter lives only in Rust; gate it whenever a binary exists
-        # (CI builds one via cargo-test right above).
-        steps.append(("lint", [binary, "lint", "run"], True))
-        # The coverage ratchet gates regressions against the committed
-        # matrix snapshot; growth stays free (REQ-04-01-15-01/-02).
-        steps.append(("ratchet", [binary, "trace", "ratchet"], True))
+        # Dogfooding (roadmap phase 5, owner decision 2026-07-11): the
+        # product's own orchestrator gates the corpus checks — format,
+        # lint, trace-scan, and the coverage ratchet, with coverage
+        # informational per the configured [policies.verify]. The Python
+        # steps above stay because they check what the product does not
+        # own yet: the checkers themselves, the requirement semantics,
+        # the marker gate, and the report snapshots.
+        steps.append(("arqix-verify", [binary, "verify"], True))
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
         # policy). Skipped where Node/npx is unavailable, like cargo-test.
