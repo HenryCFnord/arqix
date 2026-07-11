@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: eee0ae0, 2026-07-10
+     Snapshot: 0844dbe, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -21,7 +21,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-11 | Govern Architecture Documentation Standards | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 1 | 0 | 4 | `██░░░░░░░░` 20% |
-| US-01-01-13 | Govern Deterministic Document Creation via Templates | 4 | 0 | 1 | `████████░░` 80% |
+| US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-15 | Operationalise the Release Process with SemVer | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
@@ -32,10 +32,10 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-02-01-04 | Lint Documents Before Commit | 5 | 0 | 3 | `██████░░░░` 62% |
 | US-02-01-05 | Create Documents Quickly from Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
 | US-02-01-06 | Find and Read Documentation During Implementation | 2 | 0 | 3 | `████░░░░░░` 40% |
-| US-02-01-07 | Create Conforming Documents Quickly via Templates | 4 | 0 | 1 | `████████░░` 80% |
+| US-02-01-07 | Create Conforming Documents Quickly via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-02-01-08 | Finalise Metadata without Touching Content | 3 | 0 | 1 | `███████░░░` 75% |
 | US-02-01-09 | Use Chapter and Include Directives During Implementation | 3 | 0 | 3 | `█████░░░░░` 50% |
-| US-02-01-10 | Scaffold Translations During Implementation | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
+| US-02-01-10 | Scaffold Translations During Implementation | 1 | 0 | 4 | `██░░░░░░░░` 20% |
 | US-02-01-11 | Assemble Documentation During Implementation | 4 | 0 | 1 | `████████░░` 80% |
 | US-03-01-01 | Lint Documents for Traceability Gaps | 5 | 0 | 3 | `██████░░░░` 62% |
 | US-03-01-02 | Export Trace Matrices | 2 | 0 | 3 | `████░░░░░░` 40% |
@@ -80,7 +80,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-06-01-03 | Create Architecture Documents from Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
 | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 3 | 0 | 0 | `██████████` 100% |
 | US-06-01-05 | Generate Publishable Documentation Outputs | 1 | 2 | 6 | `█░░░░░░░░░` 11% |
-| US-06-01-06 | Create Linked Translation Documents for Architecture Content | 0 | 0 | 1 | `░░░░░░░░░░` 0% |
+| US-06-01-06 | Create Linked Translation Documents for Architecture Content | 1 | 0 | 0 | `██████████` 100% |
 | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
 | US-06-01-08 | Assemble Modular Document Packages into Pages | 2 | 0 | 0 | `██████████` 100% |
 | US-06-01-09 | Retrieve Architecture Documentation Quickly | 1 | 0 | 1 | `█████░░░░░` 50% |
@@ -106,7 +106,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-11 | Interpret i18n Lint Results Deterministically | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows | 0 | 1 | 2 | `░░░░░░░░░░` 0% |
 | US-08-01-13 | Run One-Command Verification in Agent Workflows | 6 | 0 | 2 | `███████░░░` 75% |
-| US-08-01-14 | Scaffold Translations Deterministically from Source IDs | 0 | 0 | 1 | `░░░░░░░░░░` 0% |
+| US-08-01-14 | Scaffold Translations Deterministically from Source IDs | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-15 | Interpret Verification Outcomes through Stable Exit Codes | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-08-01-16 | Scan Traceability Deterministically within Verification Loops | 1 | 0 | 1 | `█████░░░░░` 50% |
 | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
@@ -115,4 +115,4 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-20 | Read Effective Config Deterministically Before Execution | 5 | 0 | 0 | `██████████` 100% |
 | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-08-01-22 | Make Trace and Coverage Outputs Deterministic | 2 | 0 | 1 | `██████░░░░` 67% |
-| US-08-01-23 | Create Documents without Ambiguity via Templates | 4 | 0 | 1 | `████████░░` 80% |
+| US-08-01-23 | Create Documents without Ambiguity via Templates | 5 | 0 | 0 | `██████████` 100% |

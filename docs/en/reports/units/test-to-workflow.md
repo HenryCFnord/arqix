@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: eee0ae0, 2026-07-10
+     Snapshot: 0844dbe, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -64,11 +64,18 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_list_lists_each_document_once_under_overlapping_roots` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_list_lists_each_document_once_under_overlapping_roots` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_list_skips_the_default_directories_without_an_override` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_dry_run_reports_the_plan_without_writing` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_dry_run_reports_the_plan_without_writing` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_new_dry_run_reports_the_plan_without_writing` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `doc_new_dry_run_reports_the_plan_without_writing` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -78,6 +85,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_substitutes_the_title_into_the_template` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_substitutes_the_title_into_the_template` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_new_substitutes_the_title_into_the_template` | WF-05-01 | Use Documentation for Agents and RAG |
+| `doc_new_substitutes_the_title_into_the_template` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `doc_new_substitutes_the_title_into_the_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_writes_into_the_configured_kind_location` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_writes_into_the_configured_kind_location` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_writes_into_the_configured_kind_location` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

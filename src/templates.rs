@@ -37,23 +37,41 @@ fn next_counter(docs: &[Document], prefix: &str) -> u64 {
     max
 }
 
-fn template(id: &str, kind: &str, namespace: &str) -> String {
-    let slug = id.to_lowercase();
+fn template(id: &str, kind: &str, namespace: &str, title: &str, slug: &str) -> String {
+    let iri_slug = id.to_lowercase();
     format!(
         "---\n\
          id: {id}\n\
-         title: New {Kind}\n\
+         title: {title}\n\
          slug: {slug}\n\
-         iri: arqix:{namespace}/{slug}\n\
+         iri: arqix:{namespace}/{iri_slug}\n\
          rdf:\n  type:\n    - arqix:classes/{kind}\n\
          triples: []\n\
          properties: {{}}\n\
          external-references: []\n\
          meta:\n  lifecycle-status: draft\n  owner: TODO\n  created: TODO\n  \
          updated: TODO\n  lang: en\n  generated: false\n\
-         ---\n\n## New {Kind}\n\nTODO: write this {kind}.\n",
-        Kind = capitalise(kind),
+         ---\n\n## {title}\n\nTODO: write this {kind}.\n",
     )
+}
+
+/// The `{slug}` placeholder value: the title lowered to a hyphen slug.
+fn slugify(title: &str) -> String {
+    let mut slug = String::new();
+    for c in title.chars() {
+        if c.is_ascii_alphanumeric() {
+            slug.extend(c.to_lowercase());
+        } else if !slug.ends_with('-') && !slug.is_empty() {
+            slug.push('-');
+        }
+    }
+    slug.trim_end_matches('-').to_string()
+}
+
+/// An explicit ID becomes a filename and an IRI segment, so it is held to
+/// the same containment bar as a kind (REQ-00-00-00-13), plus uppercase.
+fn valid_id(id: &str) -> bool {
+    !id.is_empty() && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-')
 }
 
 fn capitalise(s: &str) -> String {
@@ -74,21 +92,62 @@ fn valid_kind(kind: &str) -> bool {
             .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || c == '-')
 }
 
+/// Caller-chosen parts of `doc new`; everything unset falls back to the
+/// configured policy (generated ID, template title).
+#[derive(Default)]
+pub struct NewOptions<'a> {
+    pub title: Option<&'a str>,
+    pub id: Option<&'a str>,
+    pub dry_run: bool,
+}
+
 // arqix:implements REQ-00-00-00-05
+// arqix:implements REQ-00-00-00-09
 // arqix:implements REQ-00-00-00-13
 // arqix:implements REQ-01-01-13-01
 // arqix:implements REQ-01-01-13-02
 /// Create a document of `kind` from its template. Shared by `doc new` and
 /// `unit new`.
-pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
+pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> ExitCode {
     if !valid_kind(kind) {
         eprintln!("error: invalid kind '{kind}': expected a lowercase slug ([a-z0-9-])");
         return ExitCode::from(2);
     }
     let (prefix, width, namespace) = scheme(kind);
     let docs = crate::store::documents();
-    let counter = next_counter(&docs, &prefix) + 1;
-    let id = format!("{prefix}{counter:0width$}");
+    let id = match options.id {
+        Some(explicit) => {
+            if !valid_id(explicit) {
+                eprintln!("error: invalid id '{explicit}': expected an ID slug ([A-Za-z0-9-])");
+                return ExitCode::from(2);
+            }
+            if let Some(holder) = docs
+                .iter()
+                .find(|doc| doc.id.as_deref() == Some(explicit))
+            {
+                let diagnostic = Diagnostic::error(
+                    "TPL-002",
+                    format!("id {explicit} is already used by {}", holder.file),
+                )
+                .at(&holder.file);
+                diag::emit(&[diagnostic], format);
+                return ExitCode::from(1);
+            }
+            explicit.to_string()
+        }
+        None => {
+            let counter = next_counter(&docs, &prefix) + 1;
+            format!("{prefix}{counter:0width$}")
+        }
+    };
+    let title = match options.title {
+        Some(title) => title.to_string(),
+        None => format!("New {}", capitalise(kind)),
+    };
+    let slug = match options.title {
+        Some(title) => slugify(title),
+        None => id.to_lowercase(),
+    };
 
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
@@ -104,13 +163,15 @@ pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
         diag::emit(&[diagnostic], format);
         return ExitCode::from(1);
     }
-    if let Err(err) = std::fs::create_dir_all(&dir) {
-        eprintln!("error: cannot create {}: {err}", dir.display());
-        return ExitCode::from(2);
-    }
-    if let Err(err) = std::fs::write(&path, template(&id, kind, &namespace)) {
-        eprintln!("error: cannot write {}: {err}", path.display());
-        return ExitCode::from(2);
+    if !options.dry_run {
+        if let Err(err) = std::fs::create_dir_all(&dir) {
+            eprintln!("error: cannot create {}: {err}", dir.display());
+            return ExitCode::from(2);
+        }
+        if let Err(err) = std::fs::write(&path, template(&id, kind, &namespace, &title, &slug)) {
+            eprintln!("error: cannot write {}: {err}", path.display());
+            return ExitCode::from(2);
+        }
     }
 
     let path_str = path.to_string_lossy().to_string();
@@ -120,13 +181,17 @@ pub fn new_document(kind: &str, format: OutputFormat) -> ExitCode {
                 "schema_version": SCHEMA_VERSION,
                 "id": id,
                 "kind": kind,
+                "title": title,
+                "slug": slug,
                 "path": path_str,
+                "dry_run": options.dry_run,
             });
             println!(
                 "{}",
                 serde_json::to_string_pretty(&result).expect("valid JSON")
             );
         }
+        OutputFormat::Text if options.dry_run => println!("would create {id} at {path_str}"),
         OutputFormat::Text => println!("created {id} at {path_str}"),
     }
     ExitCode::SUCCESS
