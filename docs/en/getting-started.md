@@ -13,10 +13,10 @@ Every command and every output block below is real: the sequence was run as-is a
 ## 1. Install
 
 ```bash
-cargo install --git https://github.com/HenryCFnord/arqix
+cargo install arqix
 ```
 
-You need a current stable Rust toolchain; a crates.io release is planned for 0.1.0.
+You need a current stable Rust toolchain; the [crate](https://crates.io/crates/arqix) installs the latest release, `--git https://github.com/HenryCFnord/arqix` the development state.
 
 ## 2. Scaffold a documentation package
 
