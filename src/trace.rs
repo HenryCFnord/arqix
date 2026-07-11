@@ -752,6 +752,21 @@ pub fn matrix_command(matrix_type: &str, _format: OutputFormat) -> ExitCode {
 /// The default ratchet baseline: the committed req-test matrix snapshot,
 /// kept fresh by the report-freshness gate. The C17 alternative (a baseline
 /// computed from the merge target) lands with the snapshot-strategy config.
+/// The requirement ids at least one active (non-ignored) test verifies —
+/// the computed side of the done claim (LNT-005) and the ratchet.
+pub(crate) fn verified_requirement_ids() -> Vec<String> {
+    let model = build_model(&read_corpus());
+    let mut verified: Vec<String> = model
+        .edges
+        .iter()
+        .filter(|e| e.kind == "verifies" && !e.ignored)
+        .map(|e| e.to.clone())
+        .collect();
+    verified.sort();
+    verified.dedup();
+    verified
+}
+
 const RATCHET_BASELINE: &str = "docs/en/reports/trace/matrix.csv";
 
 // arqix:implements REQ-04-01-15-01

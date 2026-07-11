@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9cb2450, 2026-07-11
+     Snapshot: 71e88a5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -48,6 +48,8 @@
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
+| `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
+| `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
 | `lint_run_detects_translation_drift` | tests/cli_lint.rs:55 | REQ-00-00-00-10 | active |
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
@@ -60,6 +62,7 @@
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
 | `publish_site_publishes_per_language` | tests/cli_publish.rs:13 | REQ-04-01-07-01 | active |
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
+| `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:71 | REQ-01-01-15-01 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:183 | REQ-04-01-03-07 | planned (ignored) |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:172 | REQ-04-01-03-04 | planned (ignored) |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | planned (ignored) |

@@ -67,3 +67,29 @@ fn unimplemented_commands_exit_outside_the_stable_contract() {
     assert_eq!(output.status.code(), Some(70));
     assert!(String::from_utf8_lossy(&output.stderr).contains("not implemented"));
 }
+
+// arqix:verifies REQ-01-01-15-01
+#[test]
+fn release_documents_stay_consistent_with_the_crate_version() {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let cargo = std::fs::read_to_string(root.join("Cargo.toml")).unwrap();
+    let version = cargo
+        .lines()
+        .find_map(|l| l.strip_prefix("version = \""))
+        .and_then(|rest| rest.strip_suffix('"'))
+        .expect("Cargo.toml carries a version");
+
+    let changelog = std::fs::read_to_string(root.join("CHANGELOG.md"))
+        .expect("CHANGELOG.md exists (REQ-01-01-15-01)");
+    assert!(
+        changelog.contains(&format!("## [{version}]")),
+        "the changelog's top release section must match the crate version {version}"
+    );
+
+    let releasing = std::fs::read_to_string(root.join("RELEASING.md"))
+        .expect("RELEASING.md exists (REQ-01-01-15-01)");
+    assert!(
+        releasing.contains("CHANGELOG.md"),
+        "the release process must reference the changelog it maintains"
+    );
+}

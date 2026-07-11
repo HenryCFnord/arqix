@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9cb2450, 2026-07-11
+     Snapshot: 71e88a5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -23,7 +23,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 1 | 0 | 4 | `██░░░░░░░░` 20% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 3 | 0 | 2 | `██████░░░░` 60% |
-| US-01-01-15 | Operationalise the Release Process with SemVer | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
+| US-01-01-15 | Operationalise the Release Process with SemVer | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
 | US-01-01-18 | Configure the ID Policy | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
@@ -49,7 +49,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-03-01-07 | Filter Traceability Reports for Quality Analysis | 1 | 0 | 2 | `███░░░░░░░` 33% |
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 2 | 0 | 1 | `██████░░░░` 67% |
-| US-03-01-09 | Machine-Check the Done Claim | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
+| US-03-01-09 | Machine-Check the Done Claim | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-04-01-02 | Check Scope Guardrails in CI | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-04-01-03 | Generate Publishing Outputs | 4 | 2 | 3 | `████░░░░░░` 44% |
@@ -58,7 +58,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-07 | Publish Language-Aware Sites | 4 | 0 | 1 | `████████░░` 80% |
 | US-04-01-08 | Provide Consistent Exit Codes for CI Gates | 1 | 0 | 3 | `██░░░░░░░░` 25% |
-| US-04-01-09 | Run Governed Release Preparation Workflows | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
+| US-04-01-09 | Run Governed Release Preparation Workflows | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-04-01-10 | Emit Machine-Readable Diagnostics for CI | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-04-01-11 | Inspect Effective Config for CI Reproducibility | 5 | 0 | 0 | `██████████` 100% |
 | US-04-01-12 | Publish Stable Report Exports for Automation | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
@@ -113,7 +113,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-14 | Scaffold Translations Deterministically from Source IDs | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-15 | Interpret Verification Outcomes through Stable Exit Codes | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-08-01-16 | Scan Traceability Deterministically within Verification Loops | 1 | 0 | 1 | `█████░░░░░` 50% |
-| US-08-01-17 | Prepare Releases within Explicit Automation Boundaries | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
+| US-08-01-17 | Prepare Releases within Explicit Automation Boundaries | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-08-01-18 | Standardize Agent Workflow Documents | 0 | 0 | 6 | `░░░░░░░░░░` 0% |
 | US-08-01-19 | Detect Missing Trace Markers for a Requirement | 0 | 0 | 1 | `░░░░░░░░░░` 0% |
 | US-08-01-20 | Read Effective Config Deterministically Before Execution | 5 | 0 | 0 | `██████████` 100% |

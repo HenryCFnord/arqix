@@ -61,7 +61,7 @@ fn trace_ratchet_passes_without_regression() {
     let text = std::fs::read_to_string(&req).unwrap();
     std::fs::write(
         &req,
-        text.replace("lifecycle-status: draft", "lifecycle-status: retired"),
+        text.replace("lifecycle-status: active", "lifecycle-status: retired"),
     )
     .unwrap();
     assert_success(&run_arqix_in(&repo, &["trace", "ratchet"]));

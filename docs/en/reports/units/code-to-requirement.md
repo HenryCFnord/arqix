@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9cb2450, 2026-07-11
+     Snapshot: 71e88a5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -16,6 +16,8 @@
 | `check_command` | src/trace.rs:685 | REQ-03-01-06-01 |
 | `check_command` | src/trace.rs:686 | REQ-03-01-06-02 |
 | `check_command` | src/trace.rs:687 | REQ-03-01-06-03 |
+| `check_done_claims` | src/linter.rs:180 | REQ-03-01-09-01 |
+| `check_lifecycle_vocabulary` | src/linter.rs:151 | REQ-03-01-09-02 |
 | `coverage_command` | src/trace.rs:671 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:672 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:673 | REQ-01-01-08-03 |
@@ -40,8 +42,8 @@
 | `new_document` | src/templates.rs:107 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:108 | REQ-01-01-13-02 |
 | `publish_policy` | src/config.rs:192 | REQ-04-01-03-03 |
-| `ratchet_command` | src/trace.rs:757 | REQ-04-01-15-01 |
-| `ratchet_command` | src/trace.rs:758 | REQ-04-01-15-02 |
+| `ratchet_command` | src/trace.rs:772 | REQ-04-01-15-01 |
+| `ratchet_command` | src/trace.rs:773 | REQ-04-01-15-02 |
 | `read` | src/store.rs:122 | REQ-05-01-10-01 |
 | `read` | src/store.rs:123 | REQ-05-01-10-03 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |

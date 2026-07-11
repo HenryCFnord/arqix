@@ -58,7 +58,7 @@ REQ-01-01-12-03,functional,,,
 REQ-01-01-13-01,functional,tests/cli_doc.rs:154;tests/cli_doc.rs:94,,src/templates.rs:107
 REQ-01-01-13-02,functional,tests/cli_doc.rs:107,,src/templates.rs:108
 REQ-01-01-14-01,functional,,,
-REQ-01-01-15-01,constraint,,,
+REQ-01-01-15-01,constraint,tests/cli.rs:71,,
 REQ-01-01-15-02,constraint,,,
 REQ-01-01-15-03,constraint,,,
 REQ-01-01-15-04,constraint,,,
@@ -112,8 +112,8 @@ REQ-03-01-06-02,functional,tests/cli_trace.rs:36,,src/trace.rs:686
 REQ-03-01-06-03,functional,,,src/trace.rs:687
 REQ-03-01-07-01,functional,,,
 REQ-03-01-07-02,functional,,,
-REQ-03-01-09-01,functional,,,
-REQ-03-01-09-02,functional,,,
+REQ-03-01-09-01,functional,tests/cli_lint.rs:91,,src/linter.rs:180
+REQ-03-01-09-02,functional,tests/cli_lint.rs:65,,src/linter.rs:151
 REQ-04-01-01-01,quality,,,
 REQ-04-01-01-02,functional,tests/cli_assemble.rs:105,,src/assembler.rs:26
 REQ-04-01-01-03,functional,,,src/assembler.rs:27
@@ -147,8 +147,8 @@ REQ-04-01-13-03,functional,,,
 REQ-04-01-14-01,functional,tests/cli_verify.rs:49,,src/config.rs:147;src/verifier.rs:27
 REQ-04-01-14-02,functional,tests/cli_verify.rs:77,,src/verifier.rs:28
 REQ-04-01-14-03,functional,tests/cli_verify.rs:122,,src/config.rs:148
-REQ-04-01-15-01,functional,tests/cli_ratchet.rs:10,,src/trace.rs:757
-REQ-04-01-15-02,functional,tests/cli_ratchet.rs:33,,src/trace.rs:758
+REQ-04-01-15-01,functional,tests/cli_ratchet.rs:10,,src/trace.rs:772
+REQ-04-01-15-02,functional,tests/cli_ratchet.rs:33,,src/trace.rs:773
 REQ-05-01-02-01,quality,,,
 REQ-05-01-08-01,functional,tests/cli_doc.rs:198;tests/cli_doc.rs:303,,src/store.rs:88
 REQ-05-01-08-02,functional,,,

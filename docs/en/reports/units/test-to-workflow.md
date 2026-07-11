@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9cb2450, 2026-07-11
+     Snapshot: 71e88a5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -133,6 +133,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `format_option_is_accepted_globally` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `format_option_is_accepted_globally` | WF-05-01 | Use Documentation for Agents and RAG |
 | `format_option_is_accepted_globally` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
+| `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_run_checks_that_include_targets_exist` | WF-02-01 | Write Docs Alongside Implementation |
 | `lint_run_checks_that_include_targets_exist` | WF-03-01 | Validate Traceability and Coverage |
@@ -167,6 +169,9 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_publishes_per_language` | WF-05-01 | Use Documentation for Agents and RAG |
 | `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `render_forwards_tool_errors_transparently` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_forwards_tool_errors_transparently` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_renders_via_pandoc` | WF-04-01 | Run CI Gates and Publish artefacts |

@@ -26,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-10
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -76,7 +76,7 @@ The vocabularies are controlled sets validated by the frontmatter contract (REQ-
 
 ### Consequences
 
-- The frontmatter checker gains per-nature vocabulary validation and the done-claim rule; both arrive with US-03-01-09 (strand 1 of the refinement).
+- The frontmatter contract gains per-nature vocabulary validation (FM-008 in the reference checker, LNT-004 in the engine's linter); the done-claim rule lands in the linter (LNT-005), which consults the trace graph for the computed side — both arrive with US-03-01-09 (strand 1 of the refinement).
 - `finalise` gains the draft→final transition as its own later slice; until then `final` simply does not occur in the corpus.
 - The requirement corpus moves from `draft` to `active` in the same change that records this decision; stories and prose documents keep `draft` as their genuine starting state.
 - The spec sweep's superseded stories get an honest destination (`retired`) once the vocabulary ships.
