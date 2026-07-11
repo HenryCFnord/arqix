@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-10
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -39,3 +39,5 @@ When verified coverage decreases against the committed baseline, arqix SHALL fai
 
 Derived from US-04-01-15.
 The baseline is the committed report snapshot state, kept fresh by the report-freshness gate.
+The comparison is over `active` requirements: a regression is a requirement that is active in the current state, was verified in the baseline, and is no longer verified.
+Retiring a requirement removes it from both sides of the comparison (ADR-0010: retired documents leave progress denominators), so retirement is never a regression.

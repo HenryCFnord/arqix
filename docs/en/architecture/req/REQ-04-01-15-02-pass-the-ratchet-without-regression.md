@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-10
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -39,3 +39,4 @@ When a change does not reduce the set of verified requirements, the coverage rat
 
 Derived from US-04-01-15.
 Specification growth must stay free: new uncovered requirements lower the percentage but never trip the ratchet.
+Retirement stays free for the same reason: retired requirements are filtered from both sides of the set comparison before it runs, so retiring a verified requirement passes — a declared intent change reviewed in the diff, not a lost verification.
