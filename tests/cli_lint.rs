@@ -106,7 +106,11 @@ fn lint_reports_each_unverified_requirement_of_a_done_story() {
     };
 
     // A done claim over an unverified requirement is a finding naming both.
-    std::fs::write(repo.join("docs/US-99-99-99-fixture-story.md"), story("done")).unwrap();
+    std::fs::write(
+        repo.join("docs/US-99-99-99-fixture-story.md"),
+        story("done"),
+    )
+    .unwrap();
     let out = run_arqix_in(&repo, &["lint", "run", "--format", "json"]);
     common::assert_findings(&out);
     let findings = common::stdout_json(&out).to_string();

@@ -21,6 +21,8 @@ pub fn run(format: OutputFormat) -> ExitCode {
     check_includes(&docs, &mut diagnostics);
     check_references(&docs, &mut diagnostics);
     check_translations(&docs, &mut diagnostics);
+    check_lifecycle_vocabulary(&docs, &mut diagnostics);
+    check_done_claims(&docs, &mut diagnostics);
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
 
@@ -120,6 +122,102 @@ fn check_translations(docs: &[Document], diags: &mut Vec<Diagnostic>) {
                 )
                 .at_line(&d.file, d.id_line()),
             );
+        }
+    }
+}
+
+/// The controlled lifecycle vocabularies per document nature (ADR-0010).
+/// Requirements have no draft: the gate refutes it — nothing half-authored
+/// can merge, so everything on main is fully authored and in force.
+const STORY_VOCAB: [&str; 5] = ["draft", "specified", "in-implementation", "done", "retired"];
+const REQUIREMENT_VOCAB: [&str; 2] = ["active", "retired"];
+const PROSE_VOCAB: [&str; 3] = ["draft", "final", "retired"];
+
+/// A document's declared `meta.lifecycle-status` and its file line, read
+/// from the raw frontmatter (the value is contract-checked, not parsed).
+fn lifecycle_status(doc: &Document) -> Option<(String, usize)> {
+    for (idx, line) in doc.frontmatter.iter().enumerate() {
+        if let Some(value) = line.trim().strip_prefix("lifecycle-status:") {
+            let value = value.trim();
+            if !value.is_empty() {
+                // Frontmatter lines start at file line 2 (after the `---`).
+                return Some((value.to_string(), idx + 2));
+            }
+        }
+    }
+    None
+}
+
+// arqix:implements REQ-03-01-09-02
+/// LNT-004: a declared `lifecycle-status` must come from the controlled
+/// vocabulary of the document's nature (ADR-0010). Documents without the
+/// key are outside the lifecycle contract and stay unchecked here.
+fn check_lifecycle_vocabulary(docs: &[Document], diags: &mut Vec<Diagnostic>) {
+    for d in docs {
+        let Some((value, line)) = lifecycle_status(d) else {
+            continue;
+        };
+        let (nature, vocab): (&str, &[&str]) = match d.kind().as_str() {
+            "user-story" => ("story", &STORY_VOCAB),
+            "requirement" => ("requirement", &REQUIREMENT_VOCAB),
+            _ => ("prose", &PROSE_VOCAB),
+        };
+        if !vocab.contains(&value.as_str()) {
+            diags.push(
+                Diagnostic::error(
+                    "LNT-004",
+                    format!(
+                        "lifecycle-status '{value}' is not in the {nature} vocabulary ({})",
+                        vocab.join(", ")
+                    ),
+                )
+                .at_line(&d.file, line),
+            );
+        }
+    }
+}
+
+// arqix:implements REQ-03-01-09-01
+/// LNT-005: `done` is a claim the gate checks (ADR-0010) — every requirement
+/// of a done story must be verified by an active test. The verified set
+/// comes from the trace walk and is only computed when a done story exists.
+fn check_done_claims(docs: &[Document], diags: &mut Vec<Diagnostic>) {
+    let done: Vec<&Document> = docs
+        .iter()
+        .filter(|d| {
+            d.kind() == "user-story"
+                && lifecycle_status(d).is_some_and(|(value, _)| value == "done")
+        })
+        .collect();
+    if done.is_empty() {
+        return;
+    }
+
+    let verified = crate::trace::verified_requirement_ids();
+    let id_by_iri: HashMap<&str, &str> = docs
+        .iter()
+        .filter_map(|d| Some((d.iri.as_deref()?, d.id.as_deref()?)))
+        .collect();
+    for story in done {
+        let story_id = story.id.as_deref().unwrap_or("?");
+        for triple in &story.triples {
+            if !triple.predicate.ends_with("has-requirement") {
+                continue;
+            }
+            let Some(req_id) = id_by_iri.get(triple.object.as_str()) else {
+                continue; // an unresolved target is ONT-003 territory
+            };
+            if !verified.iter().any(|v| v == req_id) {
+                diags.push(
+                    Diagnostic::error(
+                        "LNT-005",
+                        format!(
+                            "done claim violated: {story_id} is done but {req_id} has no active verifying test"
+                        ),
+                    )
+                    .at_line(&story.file, triple.line),
+                );
+            }
         }
     }
 }

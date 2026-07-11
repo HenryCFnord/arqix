@@ -1,0 +1,28 @@
+# Releasing
+
+How an arqix release is prepared, checked, and published.
+This process is governed by US-01-01-15 (REQ-01-01-15-01..04); the version-consistency rule is machine-checked by the test suite.
+
+## Versioning policy
+
+- arqix follows [SemVer](https://semver.org).
+  Before 1.0.0, minor versions carry features and breaking changes, patch versions carry fixes; 1.0.0 freezes the public contracts.
+- The public contracts are versioned individually per ADR-0009: every JSON interface carries its own `schema_version`, the configuration schema is versioned as schema v1 in `arqix.toml`, and the exit codes 0/1/2 (and 70 for stubs) are a stable contract (REQ-00-00-00-02) that no release may change.
+- A breaking change to any contract requires a **Migration** note in its [CHANGELOG.md](CHANGELOG.md) entry (REQ-01-01-15-04).
+
+## Consistency rules
+
+- The top release section of [CHANGELOG.md](CHANGELOG.md) matches the version in `Cargo.toml` — checked by `release_documents_stay_consistent_with_the_crate_version` in the test suite (REQ-01-01-15-01).
+- An unreleased version carries `— unreleased` in its heading; releasing replaces it with the ISO date.
+
+## Release steps
+
+1. Verify the tree is releasable: `python3 scripts/arqix verify` (all gating steps green), `python3 scripts/check_conformance.py` (oracle parity), `just ci` for the full CI mirror.
+2. Confirm the report snapshots are fresh (`python3 scripts/arqix_report.py --check`) and the roadmap coverage number matches the marker gate.
+3. Stamp the release: replace `— unreleased` in the top CHANGELOG section with the ISO date, and open the `## [x.y.z] — unreleased` section for the next version.
+4. Commit, tag `vX.Y.Z` on `main`, push the tag, and create the GitHub release with the CHANGELOG section as its body.
+
+## Automation boundary
+
+Agents prepare releases; a human releases (REQ-01-01-15-03).
+Preparation — CHANGELOG entries, consistency checks, gate runs, this document — is agent work; creating the tag and publishing the GitHub release is reserved for the repository owner.

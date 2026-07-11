@@ -36,6 +36,7 @@ Rule IDs:
     FM-005   first body heading does not match the expected heading
     FM-006   duplicate id or iri across scanned documents
     FM-007   properties.section-kind is not in the controlled vocabulary
+    FM-008   meta.lifecycle-status outside the nature's vocabulary (ADR-0010)
     ONT-001  triple predicate is not a defined ontology property
     ONT-002  arqix: rdf.type is not a defined ontology class
     ONT-003  arqix: triple object does not resolve to a scanned document
@@ -148,6 +149,16 @@ SECTION_KINDS = {
 }
 ONT_ID_PREFIX = {"ont-class": "class-", "ont-property": "property-",
                  "ont-individual": "individual-"}
+
+# Controlled lifecycle vocabularies per document nature (ADR-0010, FM-008).
+# Requirements have no draft: the checker gate refutes it -- nothing
+# half-authored can merge, so everything on main is in force. Every family
+# not listed follows the prose model (draft -> final, terminal retired).
+LIFECYCLE_VOCAB = {
+    "story": {"draft", "specified", "in-implementation", "done", "retired"},
+    "req": {"active", "retired"},
+    "prose": {"draft", "final", "retired"},
+}
 ONT_NS = {"ont-class": "arqix:classes/", "ont-property": "arqix:properties/",
           "ont-individual": "arqix:individuals/"}
 
@@ -362,6 +373,14 @@ def check_frontmatter(doc, findings):
     if section_kind and section_kind not in SECTION_KINDS:
         findings.append(Finding(path, "FM-007", "error",
                                 "properties.section-kind %r is not an allowed value" % section_kind))
+
+    lifecycle = doc.meta.get("lifecycle-status")
+    if lifecycle:
+        vocab = LIFECYCLE_VOCAB.get(doc.family, LIFECYCLE_VOCAB["prose"])
+        if lifecycle not in vocab:
+            findings.append(Finding(path, "FM-008", "error",
+                                    "meta.lifecycle-status %r is not in the vocabulary %s"
+                                    % (lifecycle, sorted(vocab))))
 
 
 def check_vocabulary(doc, vocab, findings, allow_undefined_inverse):
@@ -617,12 +636,16 @@ def selftest():
         lambda t: t.replace("priority: high", "section-kind: arc42-chapter"))
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FM-007"],
         lambda t: t.replace("priority: high", "section-kind: bogus-kind"))
+    run("US-01-01-01-test-story.md", GOOD_STORY, "story", ["FM-008"],
+        lambda t: t.replace("lifecycle-status: draft", "lifecycle-status: published"))
+    run("US-01-01-01-test-story.md", GOOD_STORY, "story", [],
+        lambda t: t.replace("lifecycle-status: draft", "lifecycle-status: done"))
 
     if failures:
         for f in failures:
             print("selftest FAIL: %s" % f)
         return 1
-    print("selftest OK: 25 fixture cases")
+    print("selftest OK: 27 fixture cases")
     return 0
 
 
