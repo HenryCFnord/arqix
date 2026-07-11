@@ -34,6 +34,7 @@ informational = ["coverage"]
 - `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
 - `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
+
 ## The publish policy
 
 `[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-03, REQ-04-01-07-01/-02):
