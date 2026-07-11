@@ -21,6 +21,10 @@ The first release: arqix verifies and publishes its own corpus.
 - Publisher: per-language staging of artefact-ready inputs and orchestration of a configured site toolchain — arqix stages, the toolchain renders.
 - Configuration schema v1 (`arqix.toml`): roots, skip-dirs, verify policy, publish policy, i18n default language.
 
+### Changed
+
+- License: relicensed from GPL-3.0-or-later to MIT OR Apache-2.0 (dual), the Rust ecosystem convention, ahead of the first crates.io release; sole-author relicensing, no external contributions affected.
+
 ### Security
 
 - Containment discipline: no writes outside configured roots, no content execution, directives never reach published outputs.

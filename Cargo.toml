@@ -2,8 +2,9 @@
 name = "arqix"
 version = "0.1.0"
 edition = "2024"
+authors = ["Hendrik Oppenberg (HenryCFnord)"]
 description = "A Rust CLI for structured technical documentation and Architecture-as-Code workflows"
-license = "GPL-3.0-or-later"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/HenryCFnord/arqix"
 keywords = ["documentation", "markdown", "architecture", "cli"]
 categories = ["command-line-utilities"]

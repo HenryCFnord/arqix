@@ -9,7 +9,7 @@ site_author = "hcf"
 site_url = "https://arqix.dev/"
 docs_dir = "site-src"
 site_dir = "site-build"
-copyright = "GPL-3.0-or-later · built in the open, with AI assistance documented in the repository"
+copyright = "MIT OR Apache-2.0 · built in the open, with AI assistance documented in the repository"
 
 [project.theme]
 language = "en"
