@@ -82,6 +82,14 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
             };
             let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
             let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
+            // The publish scope: excluded subtrees never leave the repo.
+            let rel_posix = rel.to_string_lossy().replace('\\', "/");
+            if policy.exclude.iter().any(|e| {
+                let prefix = e.trim_end_matches('/');
+                rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
+            }) {
+                continue;
+            }
             if let Err(code) = write_staged(&staging.join(&rel), &doc) {
                 return code;
             }

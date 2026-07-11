@@ -1,0 +1,15 @@
+# arqix configuration (schema v1) — this repository dogfoods itself.
+# The verify and publish policies are documented in
+# docs/en/processes/configuration.md.
+
+[policies.publish]
+site-command = "zensical build"
+# The publish scope: internal plan packages and templates never leave the
+# repository; requirement and story source files stay off the site until
+# the generated catalogue pages bundle them (backlog, roadmap slice 4).
+exclude = [
+    "plans",
+    "templates",
+    "architecture/req",
+    "architecture/stories",
+]

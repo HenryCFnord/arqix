@@ -193,3 +193,38 @@ fn render_forwards_tool_errors_transparently() {
         );
     }
 }
+
+// arqix:no-requirement
+#[test]
+fn publish_site_honours_the_configured_exclude_scope() {
+    // The publish scope keeps internal corpus areas (plan packages,
+    // templates, the requirement/story source files) off the public site;
+    // the lifecycle-based final-filter (ADR-0010) and the generated
+    // requirement catalogue pages are the specified follow-ups.
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_honours_the_configured_exclude_scope",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.publish]\nsite-command = \"true\"\nexclude = [\"internal\"]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/internal")).unwrap();
+    std::fs::write(
+        repo.join("docs/internal/notes.md"),
+        "---\nid: notes\ntitle: Internal Notes\n---\n\n## Internal Notes\n\nNot public.\n",
+    )
+    .unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        repo.join("site-src/REQ-99-99-99-01-fixture-requirement.md")
+            .is_file(),
+        "documents outside the exclude scope stage as before"
+    );
+    assert!(
+        !repo.join("site-src/internal").exists(),
+        "an excluded subtree must not reach the staging dir"
+    );
+}

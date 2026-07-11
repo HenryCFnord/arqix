@@ -78,7 +78,7 @@ The remaining command surface, ordered so each slice makes the previous one more
 1. **Publish site MVP** (`publish site`): stage the corpus and orchestrate the configured site toolchain (Zensical recommended) so arqix.dev becomes the first arqix-published site; the stitching mechanics (level-parameterised includes, heading-ownership policy, split on the assembled outline — ADR-0013, US-02-01-12) follow as the assembler slice.
 2. **Verification process** (stories in refinement): configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, and the machine-checked done claim per story lifecycle — then CI dogfoods `arqix verify` in place of `scripts/arqix verify`.
 3. **Configuration over convention** (stories in refinement, from the PR-#20 config audit): configured ID policy, per-family frontmatter key orders as one source, template files instead of string literals.
-4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`).
+4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`) — plus the generated requirement/story catalogue pages that return the spec to the site in bundled form (one page per workflow group, an anchor per ID, coverage status from the graph) instead of 276 single pages.
 5. **Render & languages** (`render pdf`, language-aware site, DE translations).
 6. **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
 7. **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.

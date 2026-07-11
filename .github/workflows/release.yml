@@ -1,0 +1,36 @@
+# Release validation: a human creates the tag (RELEASING.md — agents
+# prepare, a human releases); this workflow then proves the tagged state is
+# releasable by running the full gate and the conformance cross-check.
+# The site follows main until 1.0.0 (pages.yml); the PDF job (render pdf
+# via the pinned pandoc/extra container, Eisvogel template) joins here
+# with the US-04-01-03 slice and attaches its artefacts to the release.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build arqix
+        run: cargo build
+
+      - name: Full gate
+        run: python3 scripts/arqix verify
+
+      - name: Oracle conformance
+        run: python3 scripts/check_conformance.py
+
+      - name: Release-document consistency
+        run: cargo test --test cli release_documents_stay_consistent_with_the_crate_version
