@@ -142,3 +142,168 @@ fn assemble_build_writes_a_jsonl_log() {
         }
     }
 }
+
+// arqix:verifies REQ-02-01-12-01
+#[test]
+fn assemble_shifts_included_headings_to_the_declared_level() {
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_shifts_included_headings_to_the_declared_level",
+    );
+    std::fs::write(
+        repo.join("docs/fragment.md"),
+        "## Fragment Title\n\nText.\n\n### Fragment Detail\n\nMore.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-abs\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include fragment.md level=3 -->\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("\n### Fragment Title\n"),
+        "the fragment's first heading lands at the declared level: {page}"
+    );
+    assert!(
+        page.contains("\n#### Fragment Detail\n"),
+        "every heading shifts by the same delta — internal structure preserved: {page}"
+    );
+}
+
+// arqix:verifies REQ-02-01-12-02
+#[test]
+fn assemble_resolves_relative_levels_at_the_include_position() {
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_resolves_relative_levels_at_the_include_position",
+    );
+    std::fs::write(repo.join("docs/fragment.md"), "## Reused Unit\n\nText.\n").unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-rel\ntitle: Page\n---\n\n## Shallow\n\n<!-- arqix:include fragment.md level=+1 -->\n\n### Deeper\n\n<!-- arqix:include fragment.md level=+1 -->\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("\n### Reused Unit\n"),
+        "+1 under an h2 yields h3: {page}"
+    );
+    assert!(
+        page.contains("\n#### Reused Unit\n"),
+        "the same fragment under an h3 yields h4 — moving an include re-levels without editing: {page}"
+    );
+}
+
+// arqix:verifies REQ-02-01-12-03
+#[test]
+fn assemble_fails_on_heading_overflow() {
+    let repo = scratch_copy("minimal", "assemble_fails_on_heading_overflow");
+    std::fs::write(
+        repo.join("docs/fragment.md"),
+        "## Top\n\n### Too Deep For Six\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-overflow\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include fragment.md level=6 -->\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["assemble", "build"]);
+    assert_eq!(
+        out.status.code(),
+        Some(1),
+        "a shift beyond h6 is a structural finding, never a silent clamp"
+    );
+    let stderr = format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stderr),
+        String::from_utf8_lossy(&out.stdout)
+    );
+    assert!(
+        stderr.contains("ASM-005") && stderr.contains("Too Deep For Six"),
+        "the diagnostic names the heading: {stderr}"
+    );
+    assert!(
+        stderr.contains("fragment.md"),
+        "the diagnostic names the fragment: {stderr}"
+    );
+}
+
+// arqix:verifies REQ-02-01-12-04
+#[test]
+fn assemble_applies_the_configured_heading_ownership_default() {
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_applies_the_configured_heading_ownership_default",
+    );
+    std::fs::write(repo.join("docs/fragment.md"), "## Owned Title\n\nText.\n").unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-own\ntitle: Page\n---\n\n## Page Section\n\n<!-- arqix:include fragment.md -->\n",
+    )
+    .unwrap();
+
+    // The child default: fragments own their headings, a bare include
+    // behaves as level=+1 under the page's section.
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("\n### Owned Title\n"),
+        "child ownership: a bare include behaves as level=+1: {page}"
+    );
+
+    // Parent ownership: the page declares the outline; a bare include
+    // inlines the fragment verbatim.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.assemble]\nheading-ownership = \"parent\"\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("\n## Owned Title\n"),
+        "parent ownership: a bare include stays verbatim: {page}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-02
+#[test]
+fn assemble_rebases_relative_links_from_included_fragments() {
+    // Artefact-ready pages: a fragment's relative links must resolve from
+    // the assembled page's location, not from where the fragment lives.
+    let repo = scratch_copy(
+        "minimal",
+        "assemble_rebases_relative_links_from_included_fragments",
+    );
+    std::fs::create_dir_all(repo.join("docs/units")).unwrap();
+    std::fs::create_dir_all(repo.join("docs/adr")).unwrap();
+    std::fs::write(repo.join("docs/adr/ADR-X.md"), "## Decision X\n").unwrap();
+    std::fs::write(
+        repo.join("docs/units/unit-a.md"),
+        "## Unit A\n\nSee [the decision](../adr/ADR-X.md) and [its section](../adr/ADR-X.md#decision-x).\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-links\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include units/unit-a.md level=+1 -->\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("(adr/ADR-X.md)"),
+        "the link is rebased to the including page's directory: {page}"
+    );
+    assert!(
+        page.contains("(adr/ADR-X.md#decision-x)"),
+        "anchors survive the rebase: {page}"
+    );
+    assert!(
+        !page.contains("../adr/"),
+        "no fragment-relative link survives assembly: {page}"
+    );
+}
