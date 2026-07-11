@@ -22,3 +22,4 @@ branch: docs/refinement-2026-07
   - [ ] Strand 1 implementation (verify profiles, ratchet, done claim), then CI dogfooding
   - [ ] Strand 2 implementation (ID policy, frontmatter contracts, template files)
   - [ ] Strand 3: agent onboarding (with slice 6)
+  - [x] Stitching model spec: ADR-0013, US-02-01-12, chapter directive retired (post-refinement decision 2026-07-11)

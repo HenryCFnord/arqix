@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 56/122 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 54/126 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -26,8 +26,8 @@ Progress through the implementation phases is measured by one number: the share 
 
 What the old phases 1–4 sketched as features is now fully specified and traceable:
 
-- [x] 8 personas, 110 user stories (`docs/en/architecture/stories/`)
-- [x] 161 requirements — 122 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
+- [x] 8 personas, 111 user stories (`docs/en/architecture/stories/`)
+- [x] 165 requirements — 126 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
 - [x] Ontology with requirement kinds and inverse properties (`docs/ontology/`)
 - [x] Reference checkers: `check_requirements.py`, `check_frontmatter.py` (stdlib-only, strict, selftested)
 - [x] arc42 documentation with Structurizr C4 model (`docs/en/architecture/`)
@@ -75,7 +75,7 @@ The remaining command surface, ordered so each slice makes the previous one more
 - [x] Repository public, GitHub Pages on arqix.dev (placeholder in `site/`, deployed by `.github/workflows/pages.yml`)
 - [x] CI workflow (`.github/workflows/ci.yml`): the daily gate (selftests, checkers, marker gate, report freshness, cargo test, lint, markdownlint), the Rust lints, and the trace-oracle conformance cross-check on every PR; `just ci` mirrors it locally. The structurizr-cli Mermaid export moved to its own slice (arc42 chapter 11).
 
-1. **Publish site MVP** (`publish site`): assemble the corpus into the static site that replaces the placeholder content of `site/` — arqix.dev becomes the first arqix-published site.
+1. **Publish site MVP** (`publish site`): stage the corpus and orchestrate the configured site toolchain (Zensical recommended) so arqix.dev becomes the first arqix-published site; the stitching mechanics (level-parameterised includes, heading-ownership policy, split on the assembled outline — ADR-0013, US-02-01-12) follow as the assembler slice.
 2. **Verification process** (stories in refinement): configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, and the machine-checked done claim per story lifecycle — then CI dogfoods `arqix verify` in place of `scripts/arqix verify`.
 3. **Configuration over convention** (stories in refinement, from the PR-#20 config audit): configured ID policy, per-family frontmatter key orders as one source, template files instead of string literals.
 4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`).
