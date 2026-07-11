@@ -26,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -38,7 +38,7 @@ As a coding agent, I want arqix to detect missing `implements` and `verifies` ma
 
 ### Acceptance Criteria
 
-- [ ] A command such as `arqix trace check --req REQ-xxxx` reports whether any `implements` markers exist for the given requirement.
+- [ ] `arqix trace check <requirement>` reports whether any `implements` markers exist for the given requirement.
 - [ ] The command reports whether any `verifies` markers exist for the given requirement.
 - [ ] The command reports locations of existing markers with path and line context.
 - [ ] Output can be emitted as JSON for automation consumption.
@@ -48,3 +48,4 @@ As a coding agent, I want arqix to detect missing `implements` and `verifies` ma
 In scope is a focused command that reports existing and missing marker coverage for a chosen requirement ID.
 Out of scope are automatic insertion of markers and language-specific parsing beyond marker detection.
 The main value is scoped, minimal editing.
+The command surface is the positional `trace check <requirement>` per the ADR-0005 taxonomy; the earlier `--req` flag sketch was superseded by the shipped surface (spec sweep 2026-07-09, decision D4).
