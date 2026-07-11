@@ -202,6 +202,28 @@ fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCo
 mod tests {
     // arqix:no-requirement
     #[test]
+    fn staged_titles_survive_yaml_special_characters() {
+        // Found on arqix.dev: "Automation Agent: Story-by-story ..." staged
+        // as an unquoted scalar is invalid YAML (the colon), so the
+        // toolchain fell back to the file slug. The staged title must be
+        // quoted like any emitted YAML string.
+        let doc = crate::parser::parse(
+            "docs/wf.md",
+            "---\nid: WF-X\ntitle: \"Automation Agent: A \\\"Quoted\\\" Title\"\n---\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-staged-title-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("wf.md");
+        super::write_staged(&path, &doc).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            staged.starts_with("---\ntitle: \"Automation Agent: A \\\"Quoted\\\" Title\"\n---\n"),
+            "the staged title must be a quoted YAML scalar: {staged}"
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
     fn staged_pages_carry_only_the_consumable_frontmatter() {
         let doc = crate::parser::parse(
             "docs/x.md",
