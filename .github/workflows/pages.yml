@@ -1,12 +1,18 @@
-# Deploy the site/ directory to GitHub Pages (custom domain: arqix.dev).
-# Today site/ is a hand-written placeholder; the phase-5 `arqix publish site`
-# story replaces its content with the generated site — this workflow stays.
+# Build and deploy arqix.dev: arqix stages the corpus (`publish site`),
+# Zensical renders it, the result deploys to GitHub Pages (custom domain
+# arqix.dev). Until 1.0.0 the site follows main (owner decision 2026-07-11);
+# releases additionally attach artefacts via release.yml.
 name: pages
 
 on:
   push:
     branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
+    paths:
+      - "docs/**"
+      - "src/**"
+      - "arqix.toml"
+      - "zensical.toml"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -19,19 +25,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      # Pinned so the published site is reproducible (same rule as the
+      # markdownlint pin in the gate).
+      - name: Install the site toolchain
+        run: pip install zensical==0.0.50
+
+      - name: Build arqix
+        run: cargo build --release
+
+      - name: Publish the site (stage + Zensical)
+        run: target/release/arqix publish site
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: site-build
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,6 @@
+# arqix configuration (schema v1) — this repository dogfoods itself.
+# The verify and publish policies are documented in
+# docs/en/processes/configuration.md.
+
+[policies.publish]
+site-command = "zensical build"
