@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 195db53, 2026-07-11
+     Snapshot: 167b84b, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -29,18 +29,18 @@
 | `fmt` | src/rewriter.rs:176 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:177 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:178 | REQ-01-01-03-03 |
-| `init` | src/templates.rs:207 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:208 | REQ-01-01-01-02 |
+| `init` | src/templates.rs:215 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:216 | REQ-01-01-01-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:738 | REQ-03-01-02-01 |
 | `matrix_command` | src/trace.rs:739 | REQ-03-01-02-02 |
 | `matrix_command` | src/trace.rs:740 | REQ-03-01-02-03 |
-| `new_document` | src/templates.rs:104 | REQ-00-00-00-05 |
-| `new_document` | src/templates.rs:105 | REQ-00-00-00-09 |
-| `new_document` | src/templates.rs:106 | REQ-00-00-00-13 |
-| `new_document` | src/templates.rs:107 | REQ-01-01-13-01 |
-| `new_document` | src/templates.rs:108 | REQ-01-01-13-02 |
+| `new_document` | src/templates.rs:112 | REQ-00-00-00-05 |
+| `new_document` | src/templates.rs:113 | REQ-00-00-00-09 |
+| `new_document` | src/templates.rs:114 | REQ-00-00-00-13 |
+| `new_document` | src/templates.rs:115 | REQ-01-01-13-01 |
+| `new_document` | src/templates.rs:116 | REQ-01-01-13-02 |
 | `publish_policy` | src/config.rs:195 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:772 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:773 | REQ-04-01-15-02 |
