@@ -50,8 +50,9 @@ Three vocabularies, by document nature:
 
 1. **Work items (stories):** `draft` → `specified` → `in-implementation` → `done`, terminal `retired`.
    The rungs map 1:1 to the trace graph's observable coverage states (uncovered, planned, verified), so every transition has a checkable invariant; the strictest is the done claim: `done` requires every requirement of the story to be verified by an active test.
-2. **Requirements:** only `draft` and `retired` are declared.
-   Everything between is computed from the trace graph; declaring it would be double bookkeeping against the story's intent (canonical-owner model).
+2. **Requirements:** only `active` and `retired` are declared.
+   `active` means in force — part of the binding specification; whether it is implemented or verified is computed from the trace graph, so the declared value can never suggest a wrong progress state in either direction.
+   `draft` is deliberately absent from this vocabulary: the checker gate refutes it — a requirement cannot reach `main` without passing the EARS, link, and frontmatter contracts, so everything on `main` is by construction fully authored and in force.
    The v1 done check counts test verification; the ontology's verification methods (inspection, analysis, demonstration) are the prepared hook for non-test evidence.
 3. **Prose documents (units, pages, personas, workflows):** `draft` → `final`, terminal `retired`.
    The transition to `final` is performed by `finalise` — the single mechanical mutator (ADR-0004) gains the single lifecycle transition.
@@ -67,11 +68,15 @@ The vocabularies are controlled sets validated by the frontmatter contract (REQ-
 - **A partial-progress state ("some tests green, some ignored"):** rejected — the boundary to `in-implementation` carries no decision value, the state would need re-stamping after every green test, and the gradient is already a computed number in the story-progress report.
 - **A richer DOORS-style ladder (analyzed, approved, implemented, verified):** rejected — under the normative TDD rule, "implemented but unverified" cannot legally exist, and dead vocabulary values invite inconsistency.
 - **Computed-only, no declaration:** rejected — a claim the gate can check needs both sides; intent ("deliberately parked", "retired") is not observable from coverage.
+- **`draft` as the requirements' resting state:** rejected — it answers the wrong question in both directions: a verified requirement declaring `draft` suggests it is unfinished, while the gate has already refuted the literal meaning (nothing half-authored can merge).
+  The declared field answers only "is this requirement in force or retired"; everything else is the graph's job.
+- **`final` for requirements:** rejected for the same symmetry — owned requirements inherit editorial doneness from their story's `specified` transition, and a `final` flag next to a computed verification state invites conflating the two axes.
+  `active` needs no transition bookkeeping and leaves nothing to misread.
 - **Two states (draft/done):** rejected — it loses exactly the distinction the coverage decision protects: healthy spec-first waiting versus unfinished authoring.
 
 ### Consequences
 
 - The frontmatter checker gains per-nature vocabulary validation and the done-claim rule; both arrive with US-03-01-09 (strand 1 of the refinement).
 - `finalise` gains the draft→final transition as its own later slice; until then `final` simply does not occur in the corpus.
-- The existing corpus stays valid: every document currently declares `draft`.
+- The requirement corpus moves from `draft` to `active` in the same change that records this decision; stories and prose documents keep `draft` as their genuine starting state.
 - The spec sweep's superseded stories get an honest destination (`retired`) once the vocabulary ships.

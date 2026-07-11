@@ -46,5 +46,5 @@ As a QA engineer, I want a story marked done to be provably done, so that lifecy
 
 ### Notes
 
-The vocabularies per document nature are decided in ADR-0010: stories walk draft → specified → in-implementation → done (terminal retired); requirements declare only draft/retired, everything between is computed from the trace graph; prose documents walk draft → final via `finalise`.
+The vocabularies per document nature are decided in ADR-0010: stories walk draft → specified → in-implementation → done (terminal retired); requirements declare only active/retired (in force versus retired), everything else is computed from the trace graph; prose documents walk draft → final via `finalise`.
 The v1 check counts test verification; the ontology's verification methods (inspection, analysis, demonstration) are the prepared hook for non-test evidence.

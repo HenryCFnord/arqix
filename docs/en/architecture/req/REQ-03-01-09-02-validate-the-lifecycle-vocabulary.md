@@ -22,7 +22,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: active
   owner: hcf
   created: 2026-07-10
   updated: 2026-07-10
@@ -38,4 +38,4 @@ When a document declares a `lifecycle-status` outside the controlled vocabulary 
 ### Notes
 
 Derived from US-03-01-09; the per-nature vocabularies are fixed in ADR-0010.
-Stories: draft, specified, in-implementation, done, retired. Requirements: draft, retired. Prose documents: draft, final, retired.
+Stories: draft, specified, in-implementation, done, retired. Requirements: active, retired (the gate refutes draft — nothing half-authored can merge). Prose documents: draft, final, retired.

@@ -22,7 +22,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: active
   owner: hcf
   created: 2026-07-10
   updated: 2026-07-10

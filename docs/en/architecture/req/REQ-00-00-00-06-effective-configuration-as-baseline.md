@@ -74,10 +74,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: active
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-08
+  updated: 2026-07-10
   lang: en
   translation-of:
   generated: false
