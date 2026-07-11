@@ -91,6 +91,10 @@ REQ-02-01-10-04,functional,,,
 REQ-02-01-11-01,functional,tests/cli_assemble.rs:44;tests/cli_assemble.rs:8,,src/assembler.rs:24
 REQ-02-01-11-02,functional,,,
 REQ-02-01-11-03,functional,tests/cli_assemble.rs:16,,src/assembler.rs:25
+REQ-02-01-12-01,functional,,,
+REQ-02-01-12-02,functional,,,
+REQ-02-01-12-03,functional,,,
+REQ-02-01-12-04,functional,,,
 REQ-03-01-02-01,functional,tests/cli_trace.rs:107,,src/trace.rs:738
 REQ-03-01-02-02,functional,,,src/trace.rs:739
 REQ-03-01-02-03,functional,,,src/trace.rs:740

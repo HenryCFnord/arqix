@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8afe2ba, 2026-07-11
+     Snapshot: 9cb2450, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -13,7 +13,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_generates_outputs_under_pages` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_refuses_includes_outside_the_repository` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
-| `assemble_build_refuses_includes_outside_the_repository` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `assemble_build_refuses_includes_outside_the_repository` | US-02-01-09 | Use Include Directives During Implementation |
 | `assemble_build_refuses_includes_outside_the_repository` | US-04-01-02 | Check Scope Guardrails in CI |
 | `assemble_build_refuses_includes_outside_the_repository` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
 | `assemble_build_refuses_includes_outside_the_repository` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
@@ -41,7 +41,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-04 | Lint Documents Before Commit |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-05 | Create Documents Quickly from Templates |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
-| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-09 | Use Include Directives During Implementation |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-11 | Assemble Documentation During Implementation |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-03-01-05 | Scan Traceability Information |
@@ -103,7 +103,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_list_does_not_follow_directory_symlinks` | US-02-01-03 | Format Documents During Implementation |
 | `doc_list_does_not_follow_directory_symlinks` | US-02-01-04 | Lint Documents Before Commit |
 | `doc_list_does_not_follow_directory_symlinks` | US-02-01-06 | Find and Read Documentation During Implementation |
-| `doc_list_does_not_follow_directory_symlinks` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `doc_list_does_not_follow_directory_symlinks` | US-02-01-09 | Use Include Directives During Implementation |
 | `doc_list_does_not_follow_directory_symlinks` | US-02-01-11 | Assemble Documentation During Implementation |
 | `doc_list_does_not_follow_directory_symlinks` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `doc_list_does_not_follow_directory_symlinks` | US-03-01-02 | Export Trace Matrices |
@@ -173,7 +173,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
-| `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-04-01-02 | Check Scope Guardrails in CI |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
@@ -221,7 +221,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_is_idempotent` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_is_idempotent` | US-02-01-04 | Lint Documents Before Commit |
 | `fmt_is_idempotent` | US-02-01-06 | Find and Read Documentation During Implementation |
-| `fmt_is_idempotent` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `fmt_is_idempotent` | US-02-01-09 | Use Include Directives During Implementation |
 | `fmt_is_idempotent` | US-02-01-11 | Assemble Documentation During Implementation |
 | `fmt_is_idempotent` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `fmt_is_idempotent` | US-03-01-02 | Export Trace Matrices |
@@ -324,7 +324,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_coverage_output_is_deterministic` | US-02-01-03 | Format Documents During Implementation |
 | `trace_coverage_output_is_deterministic` | US-02-01-04 | Lint Documents Before Commit |
 | `trace_coverage_output_is_deterministic` | US-02-01-06 | Find and Read Documentation During Implementation |
-| `trace_coverage_output_is_deterministic` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `trace_coverage_output_is_deterministic` | US-02-01-09 | Use Include Directives During Implementation |
 | `trace_coverage_output_is_deterministic` | US-02-01-11 | Assemble Documentation During Implementation |
 | `trace_coverage_output_is_deterministic` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `trace_coverage_output_is_deterministic` | US-03-01-02 | Export Trace Matrices |
@@ -378,7 +378,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_scan_does_not_follow_directory_symlinks` | US-02-01-03 | Format Documents During Implementation |
 | `trace_scan_does_not_follow_directory_symlinks` | US-02-01-04 | Lint Documents Before Commit |
 | `trace_scan_does_not_follow_directory_symlinks` | US-02-01-06 | Find and Read Documentation During Implementation |
-| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-09 | Use Chapter and Include Directives During Implementation |
+| `trace_scan_does_not_follow_directory_symlinks` | US-02-01-09 | Use Include Directives During Implementation |
 | `trace_scan_does_not_follow_directory_symlinks` | US-02-01-11 | Assemble Documentation During Implementation |
 | `trace_scan_does_not_follow_directory_symlinks` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `trace_scan_does_not_follow_directory_symlinks` | US-03-01-02 | Export Trace Matrices |
