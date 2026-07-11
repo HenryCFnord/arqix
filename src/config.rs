@@ -134,8 +134,9 @@ impl Default for VerifyPolicy {
     fn default() -> Self {
         VerifyPolicy {
             // Coverage measures project progress, so it must never gate a
-            // change by default (ADR-0010 discussion, REQ-04-01-14-03).
-            steps: ["format", "lint", "trace-scan", "coverage"]
+            // change by default (ADR-0010 discussion, REQ-04-01-14-03);
+            // what gates instead is the regression ratchet.
+            steps: ["format", "lint", "trace-scan", "coverage", "ratchet"]
                 .map(str::to_string)
                 .to_vec(),
             informational: vec!["coverage".to_string()],

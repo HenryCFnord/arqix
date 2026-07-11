@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 7c68655, 2026-07-11
+     Snapshot: 886a491, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -39,6 +39,8 @@
 | `new_document` | src/templates.rs:106 | REQ-00-00-00-13 |
 | `new_document` | src/templates.rs:107 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:108 | REQ-01-01-13-02 |
+| `ratchet_command` | src/trace.rs:757 | REQ-04-01-15-01 |
+| `ratchet_command` | src/trace.rs:758 | REQ-04-01-15-02 |
 | `read` | src/store.rs:122 | REQ-05-01-10-01 |
 | `read` | src/store.rs:123 | REQ-05-01-10-03 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
@@ -53,15 +55,15 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:226 | REQ-01-01-16-02 |
-| `validate` | src/config.rs:215 | REQ-01-01-16-01 |
-| `verify` | src/verifier.rs:22 | REQ-04-01-05-01 |
-| `verify` | src/verifier.rs:23 | REQ-04-01-05-02 |
-| `verify` | src/verifier.rs:24 | REQ-04-01-05-03 |
-| `verify` | src/verifier.rs:25 | REQ-04-01-05-04 |
-| `verify` | src/verifier.rs:26 | REQ-04-01-14-01 |
-| `verify` | src/verifier.rs:27 | REQ-04-01-14-02 |
-| `verify_policy` | src/config.rs:146 | REQ-04-01-14-01 |
-| `verify_policy` | src/config.rs:147 | REQ-04-01-14-03 |
+| `show` | src/config.rs:227 | REQ-01-01-16-02 |
+| `validate` | src/config.rs:216 | REQ-01-01-16-01 |
+| `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
+| `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
+| `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |
+| `verify` | src/verifier.rs:26 | REQ-04-01-05-04 |
+| `verify` | src/verifier.rs:27 | REQ-04-01-14-01 |
+| `verify` | src/verifier.rs:28 | REQ-04-01-14-02 |
+| `verify_policy` | src/config.rs:147 | REQ-04-01-14-01 |
+| `verify_policy` | src/config.rs:148 | REQ-04-01-14-03 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |

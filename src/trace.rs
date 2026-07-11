@@ -749,6 +749,134 @@ pub fn matrix_command(matrix_type: &str, _format: OutputFormat) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+/// The default ratchet baseline: the committed req-test matrix snapshot,
+/// kept fresh by the report-freshness gate. The C17 alternative (a baseline
+/// computed from the merge target) lands with the snapshot-strategy config.
+const RATCHET_BASELINE: &str = "docs/en/reports/trace/matrix.csv";
+
+// arqix:implements REQ-04-01-15-01
+// arqix:implements REQ-04-01-15-02
+/// `arqix trace ratchet [--baseline <path>]` — verified coverage must never
+/// decrease against the baseline. The comparison is over active
+/// requirements: retiring one removes it from both sides (ADR-0010), and a
+/// requirement absent from the baseline is specification growth, never a
+/// finding.
+pub fn ratchet_command(baseline: Option<&str>, format: OutputFormat) -> ExitCode {
+    let path = baseline.unwrap_or(RATCHET_BASELINE);
+    let Ok(baseline_text) = std::fs::read_to_string(path) else {
+        match format {
+            OutputFormat::Json => emit_json(&json!({
+                "schema_version": SCHEMA_VERSION,
+                "baseline": path,
+                "regressions": [],
+                "ok": true,
+                "note": "no baseline, nothing to compare",
+            })),
+            OutputFormat::Text => println!("ratchet: no baseline at {path}, nothing to compare"),
+        }
+        return ExitCode::SUCCESS;
+    };
+
+    let corpus = read_corpus();
+    let model = build_model(&corpus);
+    let mut verified: Vec<&str> = Vec::new();
+    for e in &model.edges {
+        if e.kind == "verifies" && !e.ignored {
+            verified.push(&e.to);
+        }
+    }
+
+    let mut regressions = Vec::new();
+    for line in baseline_text.lines().skip(1) {
+        let fields = csv_parse(line);
+        if fields.len() < 3 || fields[2].trim().is_empty() {
+            continue; // not verified in the baseline
+        }
+        let id = fields[0].trim();
+        // A requirement no longer in the corpus, or retired, has left the
+        // comparison: a declared specification change, not a lost test.
+        let Some(req) = model.requirements.get(id) else {
+            continue;
+        };
+        if is_retired(&corpus, &req.file) {
+            continue;
+        }
+        if !verified.contains(&id) {
+            regressions.push(json!({ "id": id, "file": req.file }));
+        }
+    }
+
+    let ok = regressions.is_empty();
+    match format {
+        OutputFormat::Json => emit_json(&json!({
+            "schema_version": SCHEMA_VERSION,
+            "baseline": path,
+            "regressions": regressions,
+            "ok": ok,
+        })),
+        OutputFormat::Text => {
+            for r in &regressions {
+                println!(
+                    "error: RAT-001: coverage regression: {} was verified in the baseline but no active test verifies it ({})",
+                    r["id"].as_str().unwrap_or("?"),
+                    r["file"].as_str().unwrap_or("?"),
+                );
+            }
+            if ok {
+                println!("ratchet: ok (baseline {path})");
+            } else {
+                println!(
+                    "ratchet: {} regression(s) against {path}",
+                    regressions.len()
+                );
+            }
+        }
+    }
+    if ok {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    }
+}
+
+/// One CSV line into fields, honouring the writer's quoting (csv_field):
+/// quoted fields may contain commas, doubled quotes are literal quotes.
+fn csv_parse(line: &str) -> Vec<String> {
+    let mut fields = Vec::new();
+    let mut field = String::new();
+    let mut chars = line.chars().peekable();
+    let mut quoted = false;
+    while let Some(c) = chars.next() {
+        match c {
+            '"' if quoted => {
+                if chars.peek() == Some(&'"') {
+                    chars.next();
+                    field.push('"');
+                } else {
+                    quoted = false;
+                }
+            }
+            '"' if field.is_empty() => quoted = true,
+            ',' if !quoted => fields.push(std::mem::take(&mut field)),
+            c => field.push(c),
+        }
+    }
+    fields.push(field);
+    fields
+}
+
+/// Whether the document at `file` declares `lifecycle-status: retired`
+/// (ADR-0010: retired documents leave progress denominators).
+fn is_retired(corpus: &[(String, String)], file: &str) -> bool {
+    corpus
+        .iter()
+        .find(|(path, _)| path == file)
+        .is_some_and(|(_, text)| {
+            text.lines()
+                .any(|line| line.trim() == "lifecycle-status: retired")
+        })
+}
+
 fn coverage_text(report: &Value) -> String {
     let mut lines = Vec::new();
     if let Some(diags) = report["diagnostics"].as_array() {
