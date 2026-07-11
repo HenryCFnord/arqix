@@ -123,6 +123,56 @@ pub fn roots(dir: &Path) -> Vec<String> {
     resolve(dir).0.roots
 }
 
+/// The verify loop's effective policy: which sub-steps run, in which order,
+/// and which of them are informational (findings reported, exit untouched).
+pub struct VerifyPolicy {
+    pub steps: Vec<String>,
+    pub informational: Vec<String>,
+}
+
+impl Default for VerifyPolicy {
+    fn default() -> Self {
+        VerifyPolicy {
+            // Coverage measures project progress, so it must never gate a
+            // change by default (ADR-0010 discussion, REQ-04-01-14-03).
+            steps: ["format", "lint", "trace-scan", "coverage"]
+                .map(str::to_string)
+                .to_vec(),
+            informational: vec!["coverage".to_string()],
+        }
+    }
+}
+
+// arqix:implements REQ-04-01-14-01
+// arqix:implements REQ-04-01-14-03
+/// The effective `[policies.verify]` table — defaults unless overridden.
+pub fn verify_policy(dir: &Path) -> VerifyPolicy {
+    let mut policy = VerifyPolicy::default();
+    let (config, _) = resolve(dir);
+    let Some(verify) = config
+        .sections
+        .get("policies")
+        .and_then(|p| p.get("verify"))
+    else {
+        return policy;
+    };
+    if let Some(steps) = json_string_array(verify.get("steps")) {
+        policy.steps = steps;
+    }
+    if let Some(informational) = json_string_array(verify.get("informational")) {
+        policy.informational = informational;
+    }
+    policy
+}
+
+fn json_string_array(value: Option<&Value>) -> Option<Vec<String>> {
+    let items = value?.as_array()?;
+    items
+        .iter()
+        .map(|item| item.as_str().map(str::to_string))
+        .collect()
+}
+
 /// The effective skip list for document discovery — the default set unless
 /// a `skip-dirs` override replaces it (REQ-01-01-17-01/-02).
 pub fn skip_dirs(dir: &Path) -> Vec<String> {

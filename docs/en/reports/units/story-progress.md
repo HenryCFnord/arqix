@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8598c5, 2026-07-11
+     Snapshot: 7c68655, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -62,7 +62,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-11 | Inspect Effective Config for CI Reproducibility | 5 | 0 | 0 | `██████████` 100% |
 | US-04-01-12 | Publish Stable Report Exports for Automation | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-04-01-13 | Publish Navigable Architecture Views Deterministically | 0 | 0 | 3 | `░░░░░░░░░░` 0% |
-| US-04-01-14 | Configure the Verification Loop | 0 | 0 | 3 | `░░░░░░░░░░` 0% |
+| US-04-01-14 | Configure the Verification Loop | 3 | 0 | 0 | `██████████` 100% |
 | US-04-01-15 | Gate Coverage as a Ratchet | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
 | US-05-01-01 | Create Units for Retrieval and Automation | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 2 | 0 | 5 | `██░░░░░░░░` 29% |

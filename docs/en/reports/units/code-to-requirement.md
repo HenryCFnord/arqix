@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8598c5, 2026-07-11
+     Snapshot: 7c68655, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -53,11 +53,15 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:176 | REQ-01-01-16-02 |
-| `validate` | src/config.rs:165 | REQ-01-01-16-01 |
+| `show` | src/config.rs:226 | REQ-01-01-16-02 |
+| `validate` | src/config.rs:215 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:22 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-03 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-04 |
+| `verify` | src/verifier.rs:26 | REQ-04-01-14-01 |
+| `verify` | src/verifier.rs:27 | REQ-04-01-14-02 |
+| `verify_policy` | src/config.rs:146 | REQ-04-01-14-01 |
+| `verify_policy` | src/config.rs:147 | REQ-04-01-14-03 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |

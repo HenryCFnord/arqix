@@ -49,7 +49,10 @@ fn verify_excludes_rendering_from_the_default_loop() {
 // arqix:verifies REQ-04-01-14-01
 #[test]
 fn verify_runs_exactly_the_configured_steps_in_order() {
-    let repo = common::scratch_copy("minimal", "verify_runs_exactly_the_configured_steps_in_order");
+    let repo = common::scratch_copy(
+        "minimal",
+        "verify_runs_exactly_the_configured_steps_in_order",
+    );
     std::fs::write(
         repo.join("arqix.toml"),
         "[policies.verify]\nsteps = [\"lint\", \"format\"]\n",
@@ -74,7 +77,10 @@ fn verify_runs_exactly_the_configured_steps_in_order() {
 // arqix:verifies REQ-04-01-14-02
 #[test]
 fn verify_reports_informational_findings_without_gating() {
-    let repo = common::scratch_copy("minimal", "verify_reports_informational_findings_without_gating");
+    let repo = common::scratch_copy(
+        "minimal",
+        "verify_reports_informational_findings_without_gating",
+    );
     // The fixture requirement has no verifies marker, so coverage exits 1.
     std::fs::write(
         repo.join("arqix.toml"),
@@ -85,8 +91,14 @@ fn verify_reports_informational_findings_without_gating() {
     let out = run_arqix_in(&repo, &["verify", "--format", "json"]);
     let report = stdout_json(&out);
     let step = &report["steps"][0];
-    assert_eq!(step["exit_code"], 1, "the findings are still reported: {report}");
-    assert_eq!(step["informational"], true, "the step declares its channel: {report}");
+    assert_eq!(
+        step["exit_code"], 1,
+        "the findings are still reported: {report}"
+    );
+    assert_eq!(
+        step["informational"], true,
+        "the step declares its channel: {report}"
+    );
     assert_eq!(
         out.status.code(),
         Some(0),
@@ -100,7 +112,11 @@ fn verify_reports_informational_findings_without_gating() {
     )
     .unwrap();
     let gated = run_arqix_in(&repo, &["verify"]);
-    assert_eq!(gated.status.code(), Some(1), "gating is the configured default channel");
+    assert_eq!(
+        gated.status.code(),
+        Some(1),
+        "gating is the configured default channel"
+    );
 }
 
 // arqix:verifies REQ-04-01-14-03
@@ -126,6 +142,12 @@ fn verify_defaults_to_informational_coverage_and_gating_rest() {
         .find(|s| s["step"] == "coverage")
         .expect("coverage step present by default")
         .clone();
-    assert_eq!(coverage["exit_code"], 1, "the fixture requirement is uncovered: {report}");
-    assert_eq!(coverage["informational"], true, "coverage is informational by default");
+    assert_eq!(
+        coverage["exit_code"], 1,
+        "the fixture requirement is uncovered: {report}"
+    );
+    assert_eq!(
+        coverage["informational"], true,
+        "coverage is informational by default"
+    );
 }
