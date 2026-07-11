@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 7c68655, 2026-07-11
+     Snapshot: 1a67a59, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -181,6 +181,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `trace_coverage_supports_json_output` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_supports_json_output` | WF-07-01 | Review Evidence Chains and Exports |
 | `trace_matrix_exports_csv` | WF-03-01 | Validate Traceability and Coverage |
+| `trace_ratchet_fails_on_a_coverage_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `trace_ratchet_passes_without_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `trace_scan_detects_markers_in_rust_comments` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_scan_does_not_follow_directory_symlinks` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_scan_does_not_follow_directory_symlinks` | WF-02-01 | Write Docs Alongside Implementation |

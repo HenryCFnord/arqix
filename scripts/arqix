@@ -112,6 +112,9 @@ def verify(fmt, fail_fast):
         # The linter lives only in Rust; gate it whenever a binary exists
         # (CI builds one via cargo-test right above).
         steps.append(("lint", [binary, "lint", "run"], True))
+        # The coverage ratchet gates regressions against the committed
+        # matrix snapshot; growth stays free (REQ-04-01-15-01/-02).
+        steps.append(("ratchet", [binary, "trace", "ratchet"], True))
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
         # policy). Skipped where Node/npx is unavailable, like cargo-test.

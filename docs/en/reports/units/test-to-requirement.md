@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 7c68655, 2026-07-11
+     Snapshot: 1a67a59, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -65,6 +65,8 @@
 | `trace_coverage_output_is_deterministic` | tests/cli_trace.rs:70 | REQ-00-00-00-01 | active |
 | `trace_coverage_supports_json_output` | tests/cli_trace.rs:59 | REQ-01-01-08-03 | active |
 | `trace_matrix_exports_csv` | tests/cli_trace.rs:107 | REQ-03-01-02-01 | active |
+| `trace_ratchet_fails_on_a_coverage_regression` | tests/cli_trace.rs:119 | REQ-04-01-15-01 | active |
+| `trace_ratchet_passes_without_regression` | tests/cli_trace.rs:142 | REQ-04-01-15-02 | active |
 | `trace_scan_detects_markers_in_rust_comments` | tests/cli_trace.rs:9 | REQ-03-01-05-01 | active |
 | `trace_scan_does_not_follow_directory_symlinks` | tests/cli_trace.rs:87 | REQ-00-00-00-01 | active |
 | `trace_scan_outputs_the_trace_graph_as_json` | tests/cli_trace.rs:24 | REQ-03-01-05-04 | active |

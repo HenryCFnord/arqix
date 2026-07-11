@@ -12,11 +12,12 @@ use std::process::{Command, ExitCode};
 /// The sub-steps the loop can run. Each is invoked as `arqix <args>`, so the
 /// orchestrator depends only on the command interface (ADR-0003). Rendering
 /// and publishing are absent by design (REQ-04-01-05-04).
-const REGISTRY: [(&str, &[&str]); 4] = [
+const REGISTRY: [(&str, &[&str]); 5] = [
     ("format", &["fmt", "--check"]),
     ("lint", &["lint", "run"]),
     ("trace-scan", &["trace", "scan"]),
     ("coverage", &["trace", "coverage"]),
+    ("ratchet", &["trace", "ratchet"]),
 ];
 
 // arqix:implements REQ-04-01-05-01

@@ -193,6 +193,12 @@ enum TraceCommand {
         #[arg(long = "type", default_value = "req-test")]
         matrix_type: String,
     },
+    /// Fail when verified coverage decreases against the baseline
+    Ratchet {
+        /// Baseline matrix snapshot (default: the committed req-test matrix)
+        #[arg(long)]
+        baseline: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -285,6 +291,9 @@ fn main() -> ExitCode {
             TraceCommand::Check { requirement } => trace::check_command(&requirement, cli.format),
             TraceCommand::Coverage => trace::coverage_command(cli.format),
             TraceCommand::Matrix { matrix_type } => trace::matrix_command(&matrix_type, cli.format),
+            TraceCommand::Ratchet { baseline } => {
+                trace::ratchet_command(baseline.as_deref(), cli.format)
+            }
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle => unimplemented("report bundle"),

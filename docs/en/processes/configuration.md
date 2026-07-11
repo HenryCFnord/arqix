@@ -26,13 +26,14 @@ The trace corpus walk keeps its fixed skip set, mirroring the Python oracle for 
 
 ```toml
 [policies.verify]
-steps = ["format", "lint", "trace-scan", "coverage"]
+steps = ["format", "lint", "trace-scan", "coverage", "ratchet"]
 informational = ["coverage"]
 ```
 
-- `steps` — the sub-steps to run, in order; the known names are `format`, `lint`, `trace-scan`, and `coverage`. An unknown name is a usage error (exit 2).
+- `steps` — the sub-steps to run, in order; the known names are `format`, `lint`, `trace-scan`, `coverage`, and `ratchet`. An unknown name is a usage error (exit 2).
 - `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
+- `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
 
 ## Diagnostics
 
