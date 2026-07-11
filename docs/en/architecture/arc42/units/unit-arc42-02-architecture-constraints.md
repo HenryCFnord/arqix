@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-03
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -30,7 +30,7 @@ meta:
 | Constraint | Consequence | Source |
 | --- | --- | --- |
 | Rust, single binary | All behaviour ships in one deterministic CLI; the Python checker scripts are reference implementations to be ported | repository layout, `scripts/` |
-| GPL-3.0-or-later | Licensing of all shipped code and templates | `LICENSE` |
+| MIT OR Apache-2.0 | Licensing of all shipped code and templates; contributions are dual-licensed the same way | `LICENSE-APACHE`, `LICENSE-MIT` |
 | Docs-as-code | All artefacts are Markdown + YAML frontmatter in git; no database, no service | `docs/en/index.md` |
 | Agent-neutral process | Normative process rules live in AGENTS.md only; agent-specific files are thin adapters | ADR-0001 |
 | Filesystem containment | The CLI never accesses files outside the repository root and configured allowed roots | REQ-00-00-00-13 |
