@@ -91,6 +91,28 @@ fn doc_new_creates_a_document_from_the_configured_template() {
     assert_success(&out);
 }
 
+// arqix:no-requirement
+#[test]
+fn doc_new_requirement_scaffold_passes_the_default_lint() {
+    // Found dogfooding the Quick Start: the generic scaffold declared
+    // `lifecycle-status: draft`, but the requirement vocabulary is
+    // active/retired only (LNT-004) — a fresh scaffold must never fail
+    // the default gates it will be checked against.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_requirement_scaffold_passes_the_default_lint",
+    );
+    assert_success(&run_arqix_in(&repo, &["doc", "new", "requirement"]));
+    let scaffold =
+        std::fs::read_to_string(repo.join("docs/requirement/REQUIREMENT-0001.md")).unwrap();
+    assert!(
+        scaffold.contains("lifecycle-status: active"),
+        "a requirement is active or retired; there is no draft requirement: {scaffold}"
+    );
+    let out = run_arqix_in(&repo, &["lint", "run"]);
+    assert_success(&out);
+}
+
 // arqix:verifies REQ-01-01-13-01
 #[test]
 fn doc_new_generates_a_unique_id_from_the_configured_policy() {
