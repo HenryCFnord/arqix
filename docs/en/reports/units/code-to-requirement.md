@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 167b84b, 2026-07-11
+     Snapshot: f2d10d6, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -22,6 +22,9 @@
 | `coverage_command` | src/trace.rs:672 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:673 | REQ-01-01-08-03 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
+| `expand` | src/assembler.rs:156 | REQ-02-01-12-01 |
+| `expand` | src/assembler.rs:157 | REQ-02-01-12-02 |
+| `expand` | src/assembler.rs:158 | REQ-02-01-12-03 |
 | `finalise` | src/rewriter.rs:306 | REQ-01-01-06-01 |
 | `finalise` | src/rewriter.rs:307 | REQ-01-01-06-02 |
 | `finalise` | src/rewriter.rs:308 | REQ-01-01-06-03 |
@@ -29,6 +32,7 @@
 | `fmt` | src/rewriter.rs:176 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:177 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:178 | REQ-01-01-03-03 |
+| `heading_ownership` | src/config.rs:228 | REQ-02-01-12-04 |
 | `init` | src/templates.rs:215 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:216 | REQ-01-01-01-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
@@ -58,13 +62,13 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:280 | REQ-01-01-16-02 |
+| `show` | src/config.rs:297 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
-| `validate` | src/config.rs:269 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:286 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |
@@ -75,3 +79,4 @@
 | `verify_policy` | src/config.rs:148 | REQ-04-01-14-03 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
+| — | src/linter.rs:242 | REQ-02-01-09-01 |

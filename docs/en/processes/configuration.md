@@ -35,6 +35,22 @@ informational = ["coverage"]
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
 - `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
 
+## The assemble policy
+
+`[policies.assemble]` governs stitching (ADR-0013, REQ-02-01-12-04):
+
+```toml
+[policies.assemble]
+heading-ownership = "child"
+```
+
+- `heading-ownership` — who owns section headings in a stitched corpus.
+  `child` (the default): fragments own their headings, and a bare `<!-- arqix:include <path> -->` behaves as `level=+1` under the heading in effect at the include position.
+  `parent`: the page declares the outline, fragments are authored headingless, and a bare include inlines verbatim.
+- The include directive's optional level argument overrides the default per include: `level=N` places the fragment's first heading at level N (1–6), `level=+N` places it N levels below the heading in effect.
+  The delta applies to every heading of the fragment; a shift out of the h1–h6 range fails the assembly (ASM-005).
+- Relative links inside included fragments are rebased to the including page's location during assembly, so assembled pages stay artefact-ready.
+
 ## The publish policy
 
 `[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-02/-03, REQ-04-01-07-01/-02):
