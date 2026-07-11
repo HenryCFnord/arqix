@@ -4,7 +4,7 @@ All notable changes to arqix are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows the policy in [RELEASING.md](RELEASING.md).
 Breaking changes carry a **Migration** note in their entry.
 
-## [0.1.0] — unreleased
+## [0.1.0] — 2026-07-11
 
 The first release: arqix verifies and publishes its own corpus.
 

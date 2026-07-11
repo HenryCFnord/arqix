@@ -19,10 +19,11 @@ This process is governed by US-01-01-15 (REQ-01-01-15-01..04); the version-consi
 
 1. Verify the tree is releasable: `python3 scripts/arqix verify` (all gating steps green), `python3 scripts/check_conformance.py` (oracle parity), `just ci` for the full CI mirror.
 2. Confirm the report snapshots are fresh (`python3 scripts/arqix_report.py --check`) and the roadmap coverage number matches the marker gate.
-3. Stamp the release: replace `— unreleased` in the top CHANGELOG section with the ISO date, and open the `## [x.y.z] — unreleased` section for the next version.
+3. Stamp the release: replace `— unreleased` in the top CHANGELOG section with the ISO date.
 4. Commit, tag `vX.Y.Z` on `main`, push the tag, and create the GitHub release with the CHANGELOG section as its body.
 5. Publish the crate: `cargo publish` (a `cargo publish --dry-run` first never hurts).
    The package is pinned to the tool by the `include` list in `Cargo.toml`; a published version is immutable — a broken one is yanked (`cargo yank --vers X.Y.Z`), never replaced.
+6. Start the next cycle: bump the `Cargo.toml` version and open its `## [x.y.z] — unreleased` CHANGELOG section in one commit, so the top section always matches the crate version (the machine-checked rule above).
 
 ## Automation boundary
 
