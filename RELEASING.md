@@ -21,8 +21,10 @@ This process is governed by US-01-01-15 (REQ-01-01-15-01..04); the version-consi
 2. Confirm the report snapshots are fresh (`python3 scripts/arqix_report.py --check`) and the roadmap coverage number matches the marker gate.
 3. Stamp the release: replace `— unreleased` in the top CHANGELOG section with the ISO date, and open the `## [x.y.z] — unreleased` section for the next version.
 4. Commit, tag `vX.Y.Z` on `main`, push the tag, and create the GitHub release with the CHANGELOG section as its body.
+5. Publish the crate: `cargo publish` (a `cargo publish --dry-run` first never hurts).
+   The package is pinned to the tool by the `include` list in `Cargo.toml`; a published version is immutable — a broken one is yanked (`cargo yank --vers X.Y.Z`), never replaced.
 
 ## Automation boundary
 
 Agents prepare releases; a human releases (REQ-01-01-15-03).
-Preparation — CHANGELOG entries, consistency checks, gate runs, this document — is agent work; creating the tag and publishing the GitHub release is reserved for the repository owner.
+Preparation — CHANGELOG entries, consistency checks, gate runs, this document — is agent work; creating the tag, publishing the GitHub release, and `cargo publish` (which uses the owner's crates.io token) are reserved for the repository owner.
