@@ -1,37 +1,83 @@
 ---
-title: "arqix documentation"
-description: "Entry point for the arqix project documentation"
-date: 2026-03-20
+title: "arqix"
+description: "Markdown as data: structured documentation, deterministic assembly, and traceability as a graph"
+date: 2026-07-11
 status: active
 ---
 
-# arqix documentation
+# arqix
 
-Welcome.
-This is the main entry point for arqix project documentation.
+arqix is a Rust CLI that treats Markdown documents as structured, verifiable units instead of loose text files.
+Frontmatter carries identity and typed relations, the body stays plain prose, and traceability from requirement to test is a graph the tool checks — not a spreadsheet somebody maintains.
 
-arqix is a Rust CLI for structured technical documentation and Architecture-as-Code workflows.
-It is text-first, Git-friendly, and designed to treat Markdown documents as structured units rather than loose text files.
+Everything on this site is the working corpus of the project itself: arqix verifies it, assembles it, and publishes it.
 
-This `docs/` directory serves two purposes: it is the human-readable documentation for the project, and it is intended to become the first real corpus for arqix itself as features are implemented.
+## Install
 
-## Contents
+```bash
+cargo install --git https://github.com/HenryCFnord/arqix
+```
 
-- [Project documents](project/) — stable, version-controlled project artefacts
-- [Architecture](architecture/arc42/page-arc42-arqix-architecture.md) — arc42 document, personas, stories, requirements, workflows, ADRs, and the C4 model
-- [Plans](plans/README.md) — branch-local planning packages
-- [Blog](blog/) — reflective posts grounded in project development
+You need a current stable Rust toolchain; a crates.io release is planned for 0.1.0.
 
-## Reading guide
+## Markdown as data
 
-If you are new to the project, start with the [README](../../README.md) for a short overview, then read [why arqix had to exist](blog/2026-03-why-arqix-had-to-exist.md) for the reasoning behind it.
+A document is a unit: the frontmatter is data, the body is prose.
+This is an actual requirement from this corpus (abridged):
 
-If you want to understand where the project is going, read the [roadmap](project/roadmap.md).
+```markdown
+---
+id: REQ-04-01-03-02
+title: Keep Assembled Pages Artefact-Ready
+iri: arqix:requirements/req-04-01-03-02
+rdf:
+  type:
+    - arqix:classes/functional-requirement
+triples:
+  - predicate: arqix:properties/derived-from
+    object:
+      - arqix:user-stories/us-04-01-03
+meta:
+  lifecycle-status: active
+---
 
-If you are curious about how AI tooling is used in this project, read the [AI transparency document](project/ai-transparency.md).
+## Requirement
 
-## Documentation conventions
+The assembled pages SHALL be artefact-ready for downstream publishing.
+```
 
-- All documents in `project/` and `blog/` use YAML frontmatter with at minimum `title`, `date`, and `status`.
-- Links are standard Markdown links, not Obsidian wikilinks, to keep this directory portable and GitHub-friendly.
-- Documents in `project/` are considered stable and reviewed before update.
+A marker in the test suite closes the loop from specification to proof — this is the actual test that verifies the requirement above:
+
+```rust
+// arqix:verifies REQ-04-01-03-02
+#[test]
+fn publish_site_stages_artefact_ready_inputs() {
+```
+
+One command checks the whole corpus — formatting, structural lint, the trace graph, coverage, and coverage regressions:
+
+```text
+$ arqix verify
+ok   format (exit 0)
+ok   lint (exit 0)
+ok   trace-scan (exit 0)
+ok   coverage (exit 0)
+ok   ratchet (exit 0)
+verify: ok
+```
+
+## Start here
+
+- [Quick Start](getting-started.md) — from an empty repository to a verified, published corpus
+- [Why arqix?](why-arqix.md) — how it compares to StrictDoc, Doorstop, Sphinx-needs, and Structurizr
+- [Why arqix had to exist](blog/2026-03-why-arqix-had-to-exist.md) — the reasoning behind the project
+- [Roadmap](project/roadmap.md) — where the project is going, measured by one number
+- [Architecture](architecture/arc42/page-arc42-arqix-architecture.md) — the arc42 document with the C4 model, workflows, and ADRs
+- [AI transparency](project/ai-transparency.md) — how AI tooling is used in this project
+
+## How much of this is real?
+
+arqix is early, and the specification is deliberately ahead of the implementation.
+The scoreboard below is not written by hand: it is the generated [scoreboard report unit](reports/units/scoreboard.md), pulled in by an `arqix:include` directive and refreshed with every published build.
+
+<!-- arqix:include reports/units/scoreboard.md -->
