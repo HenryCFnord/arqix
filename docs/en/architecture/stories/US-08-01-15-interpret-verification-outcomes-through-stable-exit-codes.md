@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ This story is done when CI can distinguish usage errors from quality gate failur
 Add tests that exercise each documented exit code and verify that lint failures do not collapse into generic command errors.
 If a GitHub Actions template is shipped, keep it minimal and aligned with the supported commands only.
 The main value for Casey is machine-safe interpretation of command outcomes.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-08, and the requirements' derived-from provenance keeps this story's contribution on record.

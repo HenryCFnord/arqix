@@ -26,10 +26,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -49,3 +49,5 @@ As an architect, I want architecture narratives to assemble into a navigable doc
 
 This is a gap-fill for modular and publishable architecture documentation.
 The main value is coherence across ADRs, glossary terms, and handbook chapters.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-13, and the requirements' derived-from provenance keeps this story's contribution on record.

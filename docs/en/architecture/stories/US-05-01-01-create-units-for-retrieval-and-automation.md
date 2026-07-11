@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-29
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As an AIOps engineer, I want to create units quickly, so that I can maintain doc
 Acceptance should cover both the default unit creation path and the configured variant without frontmatter.
 Add tests for unique ID validation across multiple units and for the generated file shape when optional metadata is disabled.
 Units are first-class retrieval chunks and may carry metadata needed for search, read, and downstream automation.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-02, and the requirements' derived-from provenance keeps this story's contribution on record.

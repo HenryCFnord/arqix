@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ This should be treated as a narrow metadata operation, not a content rewrite ste
 Add tests showing that `updated` is written in `YYYY-MM-DD` format and that repeated runs only touch metadata when the value changes.
 If files without frontmatter are unsupported, fail clearly and document that boundary.
 The main value for a developer is safe metadata maintenance in the normal implementation flow without creating noisy diffs.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-06, and the requirements' derived-from provenance keeps this story's contribution on record.

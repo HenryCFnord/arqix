@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -55,3 +55,5 @@ In scope are language-root selection from i18n configuration, Zensical as the fi
 Out of scope are HTML generation via Pandoc and additional site builders beyond Zensical.
 This story validates that the chosen i18n layout is practical for CI and automation.
 The main value for Alex is deterministic bilingual output structure for downstream systems.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-07, and the requirements' derived-from provenance keeps this story's contribution on record.

@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -57,3 +57,5 @@ In practice, `arqix lint run --profile i18n` should verify that required transla
 Optional markup safety checks can also help ensure that arqix markers remain unchanged across languages.
 Diagnostics should remain machine-readable through `--format json` and deterministic across repeated runs.
 The main value for Casey is deterministic diagnostics and clear automation stop conditions.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-14, and the requirements' derived-from provenance keeps this story's contribution on record.

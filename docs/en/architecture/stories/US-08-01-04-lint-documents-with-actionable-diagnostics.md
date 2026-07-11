@@ -31,10 +31,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-29
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -59,3 +59,5 @@ The lint pass is ready when all configured checks report precise file and line c
 Add targeted fixtures for missing includes, forbidden unit metadata keys, and duplicate IDs across document types.
 Keep the output deterministic so automation can compare failures reliably and act without guesswork.
 The main value for a coding agent is machine-usable diagnostics and clear stop conditions within scope.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-04, and the requirements' derived-from provenance keeps this story's contribution on record.

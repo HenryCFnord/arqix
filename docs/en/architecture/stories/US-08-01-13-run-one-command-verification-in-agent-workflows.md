@@ -31,10 +31,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -58,3 +58,5 @@ In scope is a single verification command that runs formatting, lint, trace scan
 Out of scope are rendering in the default check loop and auto-fix beyond formatting.
 Add tests for fail-fast and aggregate modes, exit-code behavior, and structured JSON output.
 The main value for Casey is deterministic verification with minimal workflow branching.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-05, and the requirements' derived-from provenance keeps this story's contribution on record.

@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As a coding agent, I want arqix commands to emit machine-readable diagnostics, s
 In scope are JSON diagnostics for `fmt`, `lint`, `trace scan`, `trace matrix`, and coverage reporting, including stable ordering and source locations.
 Out of scope are full structured logging, rich UI formatting, and auto-fix behaviour beyond existing formatting.
 This is a prerequisite for reliable agent execution.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-10, and the requirements' derived-from provenance keeps this story's contribution on record.

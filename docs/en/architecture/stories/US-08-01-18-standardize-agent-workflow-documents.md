@@ -29,10 +29,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -56,3 +56,5 @@ In scope are the minimal structures for the agent instruction and plan documents
 Which concrete files serve these roles per coding agent (for example `AGENTS.md` as the canonical instruction document with `CLAUDE.md` as an adapter, and `PLANS.md` as the plan document) is decided in ADR-0001; the story is intentionally agent-agnostic.
 Out of scope are automatic enforcement or generation of these documents.
 The main value here is a stable execution contract for agent workflows.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-09, and the requirements' derived-from provenance keeps this story's contribution on record.

@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As a coding agent, I want to read specific document sections using stable select
 Acceptance should show that agents can cite the right context without reparsing whole files.
 Add tests for heading-slug selectors, explicit anchors, and failure cases for missing documents and selectors.
 The main value for Casey is precise, bounded context retrieval.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-05-01-10, and the requirements' derived-from provenance keeps this story's contribution on record.

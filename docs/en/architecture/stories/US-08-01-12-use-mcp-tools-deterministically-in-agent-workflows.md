@@ -26,10 +26,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -52,3 +52,5 @@ Acceptance should prove that an MCP client can start the server over stdio, disc
 Add an integration test or protocol fixture that validates request and response structure rather than only unit-testing handlers.
 Keep transport concerns separate from tool logic so the CLI and MCP layers can evolve independently.
 The main value for Casey is deterministic tool access through a standard protocol.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-05-01-12, and the requirements' derived-from provenance keeps this story's contribution on record.
