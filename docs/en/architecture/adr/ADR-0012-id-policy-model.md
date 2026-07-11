@@ -37,10 +37,10 @@ meta:
 
 ### Context
 
-The config audit recommended keeping the ID shapes a convention; the owner overruled (2026-07-10): the ID shape is the main point of configuration — a repository adopting arqix brings its own numbering.
-Today the shapes are load-bearing: the trace graph derives a requirement's owning story from an ID slice, cross-cutting requirements are recognised by their `00-00-00` domain, and per-story sequencing is validated positionally.
-A first draft of this decision generalised that mechanism — every configured pattern would have had to expose named groups for the derivation to work.
-The owner rejected that as too restrictive (2026-07-11): the ownership relation does not need to live in the name, because the corpus already declares it — every requirement carries its owning story as the first `derived-from` triple, and the graph is the project's source of truth, not a naming convention.
+The document ID shapes are hard-wired in five places across the Rust engine and the Python reference tools, and a repository adopting arqix brings its own numbering — the shapes belong in configuration (audit rows C3/C4/C15/C16, boundary per ADR-0011).
+The complication: the shapes are load-bearing today — the trace graph derives a requirement's owning story from an ID slice, cross-cutting requirements are recognised by their `00-00-00` domain, and per-story sequencing is validated positionally.
+A configurable pattern therefore faces a dilemma: if it must carry these semantics, every adopting repository is forced into semantic IDs; if it is a plain shape check, the derivations the tooling depends on lose their source.
+The dilemma is false: the corpus already declares the relation the ID encodes — every requirement names its owning story as its first `derived-from` triple — so the ID-slice derivation is a redundant encoding of a declared fact, and redundant encodings drift.
 
 ### Decision
 
@@ -74,7 +74,7 @@ Engine, oracle, and both reference checkers read the same configured policy (the
 - **Named groups as the derivation source (the first draft):** rejected as too restrictive — it forces every adopting repository into semantic IDs and duplicates a relation the corpus already declares; redundant encodings drift, declared ones are checked.
 - **A plain regex with no group semantics at all:** rejected — generation needs to know what to count (`seq`), and dropping the optional consistency checks would cost arqix's own corpus its sequencing and owner-slice discipline for nothing.
 - **A template mini-language (`REQ-{story}-{seq}`):** considered — friendlier to write, but it needs its own parser and escaping rules and compiles into a regex anyway; named groups are standard in both regex engines arqix already uses.
-- **Keeping the shapes hardcoded:** rejected by the owner decision — five copies across Rust and Python today, drift-prone and fork-hostile.
+- **Keeping the shapes hardcoded:** rejected — five copies across Rust and Python today, drift-prone and fork-hostile; making the shapes configurable is the point of this decision.
 
 ### Consequences
 
