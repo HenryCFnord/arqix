@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a4ff9bf, 2026-07-11
+     Snapshot: c8598c5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -35,6 +35,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-14 | Lint Translation Metadata and Drift |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-17 | Configure Discovery Scope |
+| `config_validate_accepts_a_missing_file_as_pure_defaults` | US-01-01-19 | Configure Frontmatter Contracts |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-02 | Create Units Quickly During Implementation |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-03 | Format Documents During Implementation |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | US-02-01-04 | Lint Documents Before Commit |
@@ -154,6 +155,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `doc_new_creates_a_document_from_the_configured_template` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_creates_a_document_from_the_configured_template` | US-02-01-05 | Create Documents Quickly from Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
@@ -179,6 +181,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_substitutes_the_title_into_the_template` | US-02-01-05 | Create Documents Quickly from Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
@@ -407,6 +410,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `unit_new_creates_a_unit_from_the_configured_template` | US-01-01-20 | Create Documents from Template Files |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-02-01-05 | Create Documents Quickly from Templates |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |

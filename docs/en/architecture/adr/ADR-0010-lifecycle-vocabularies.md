@@ -38,7 +38,7 @@ meta:
 
 `meta.lifecycle-status` exists on every corpus document but carries an unregulated value (`draft` everywhere).
 Three pressures make it load-bearing now: the verification-process strand needs "done" to be a machine-checked claim; the spec sweep produced superseded stories that need an honest terminal state; and the publish pipeline (phase-5 slice 1) needs a filter for what is ready to leave the repository.
-The refinement discussion (plan package 2026-07-09, decision D1) settled the model recorded here.
+An unregulated free-text field can serve none of the three: each needs a controlled vocabulary whose values a checker can hold a claim against.
 
 ### Decision
 

@@ -14,6 +14,7 @@ triples:
       - arqix:user-stories/us-01-01-05
       - arqix:user-stories/us-01-01-10
       - arqix:user-stories/us-01-01-13
+      - arqix:user-stories/us-01-01-20
       - arqix:user-stories/us-02-01-05
       - arqix:user-stories/us-02-01-07
       - arqix:user-stories/us-05-01-03
@@ -34,7 +35,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -49,5 +50,5 @@ When a document is created, arqix SHALL instantiate the configured template for 
 Curated from acceptance criteria on template-based `doc new` creation and template/validation contract alignment.
 Pandoc render templates and CI workflow templates were excluded.
 
-Contributing stories: 10 (see `derived-from`).
+Contributing stories: 11 (see `derived-from`).
 Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

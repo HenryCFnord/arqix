@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a4ff9bf, 2026-07-11
+     Snapshot: c8598c5, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
@@ -40,3 +40,8 @@
 | ADR-0009 | Documentation Production Policy | REQ-04-01-12-01 |
 | ADR-0010 | Lifecycle Vocabularies | REQ-03-01-09-01 |
 | ADR-0010 | Lifecycle Vocabularies | REQ-04-01-14-03 |
+| ADR-0011 | Configuration Boundary | REQ-01-01-18-01 |
+| ADR-0011 | Configuration Boundary | REQ-01-01-20-01 |
+| ADR-0012 | ID Policy Model | REQ-01-01-18-01 |
+| ADR-0012 | ID Policy Model | REQ-01-01-18-03 |
+| ADR-0012 | ID Policy Model | REQ-01-01-18-04 |

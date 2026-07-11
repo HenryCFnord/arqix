@@ -15,6 +15,7 @@ triples:
       - arqix:user-stories/us-01-01-04
       - arqix:user-stories/us-01-01-05
       - arqix:user-stories/us-01-01-12
+      - arqix:user-stories/us-01-01-18
       - arqix:user-stories/us-02-01-01
       - arqix:user-stories/us-02-01-04
       - arqix:user-stories/us-02-01-05
@@ -39,7 +40,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,5 +54,5 @@ The arqix CLI SHALL derive document IDs and slugs deterministically from the con
 
 Curated from acceptance criteria on deterministic id/slug derivation, placeholder substitution, duplicate-ID detection, and stable anchors/selectors.
 
-Contributing stories: 15 (see `derived-from`).
+Contributing stories: 16 (see `derived-from`).
 Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.

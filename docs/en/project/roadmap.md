@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 47/112 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 47/122 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -26,8 +26,8 @@ Progress through the implementation phases is measured by one number: the share 
 
 What the old phases 1–4 sketched as features is now fully specified and traceable:
 
-- [x] 8 personas, 107 user stories (`docs/en/architecture/stories/`)
-- [x] 151 requirements — 112 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
+- [x] 8 personas, 110 user stories (`docs/en/architecture/stories/`)
+- [x] 161 requirements — 122 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
 - [x] Ontology with requirement kinds and inverse properties (`docs/ontology/`)
 - [x] Reference checkers: `check_requirements.py`, `check_frontmatter.py` (stdlib-only, strict, selftested)
 - [x] arc42 documentation with Structurizr C4 model (`docs/en/architecture/`)

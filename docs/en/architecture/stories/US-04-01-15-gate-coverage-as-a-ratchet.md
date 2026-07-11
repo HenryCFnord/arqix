@@ -28,7 +28,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-10
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -47,3 +47,4 @@ As a DevOps engineer, I want changes that reduce verified coverage to fail the g
 ### Notes
 
 The report-freshness gate already forces the snapshots to be regenerated with every change, so the baseline is always the pre-change state of the same files.
+The snapshot strategy and the ratchet baseline source are configuration (config audit C17): committed snapshots by default; a baseline computed from the merge target removes the rebase-before-merge constraint for parallel work.

@@ -70,12 +70,18 @@ Decision D1 (settled in review, to be recorded as ADR-0010): three vocabularies 
 - Prose documents (units, pages, …): `draft` → `final`, transition performed by `finalise` (the single mechanical mutator, ADR-0004); the publish pipeline takes only `final`; editing a final document returns it to `draft`; terminal `retired`.
 - ADRs: the document text follows the prose model; `decision-status` (proposed/accepted/deprecated/superseded) stays the orthogonal decision axis.
 
+Addendum (2026-07-11): committed snapshots force a rebase before every merge when PRs run in parallel — the generated reports are a whole-corpus function, so even disjoint changes collide textually.
+The ratchet does not depend on that invariant: its baseline can equally be computed from the merge target, since both sides of the comparison are derivable from git.
+The strategy therefore becomes configuration (audit row C17): `committed` (today's model — maximal in-repo visibility, rebase before merge), `main-only` (PRs commit no snapshots; a bot or merge queue regenerates them on the target branch), and `on-demand` (reports exist only at publish/verify time).
+The ratchet baseline source (`snapshots` or `merge-target`) is configured alongside it; the requirement sentences land with the US-04-01-15 slice.
+
 ## Strand 2 — Configuration over convention
 
 From the six PR-#20 review comments; the full inventory with per-item recommendations is [CONFIG-AUDIT.md](CONFIG-AUDIT.md).
 Story cut proposal (owners: Mara), final after the audit decisions:
 
 - US-01-01-18 — Configure the ID policy: one configured pattern per document family that oracle, engine, and checkers all read (anchor: REQ-00-00-00-04). Per owner decision this includes the ID *shapes* (C15/C16) and therefore the derivation model — owner-story slice, cross-cutting marker, per-story sequencing — expressed through named pattern groups; the current scheme becomes the default configuration and the corpus stays unchanged. Candidate for its own ADR.
+  Amended 2026-07-11 (owner decision, recorded in ADR-0012): declared `derived-from` triples are the source of truth for ownership — the derivation-from-named-groups model was rejected as too restrictive; groups are optional and activate consistency checks, cross-cutting becomes a declared ontology marker.
 - US-01-01-19 — Configure frontmatter contracts: per-family canonical key order as one configured source consumed by `fmt` and the frontmatter checker (ends today's double bookkeeping).
 - US-01-01-20 — Template files: `doc new`/`doc init` instantiate template files from a configured directory; `doc init` scaffolds the defaults; the string literals in `src/templates.rs` are removed (anchor: REQ-00-00-00-05).
 
@@ -86,6 +92,7 @@ Decision D2 (settled in review): all audit recommendations confirmed as listed, 
 Outline (owner: Casey; builds on `docs/en/processes/agent-orchestration-patterns.md`):
 
 - A handbook chapter "Working in an arqix-governed repository" (unit family per ADR-0009's manual plan).
+  The chapter recommends the default ID policy as the naming scheme for new corpora (noted 2026-07-11, with ADR-0012): semantic IDs keep ownership relations readable in place, and the consistency checks against the declared triples already exist.
 - `doc init` scaffolds an agent-instructions file (AGENTS.md-shaped, pointing at the gate commands and the ICD input grammars).
 - A packaged skill shipped alongside `mcp serve`, so agent frameworks can discover the arqix workflow.
 
