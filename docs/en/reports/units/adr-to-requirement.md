@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8afe2ba, 2026-07-11
+     Snapshot: 9cb2450, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
@@ -45,3 +45,6 @@
 | ADR-0012 | ID Policy Model | REQ-01-01-18-01 |
 | ADR-0012 | ID Policy Model | REQ-01-01-18-03 |
 | ADR-0012 | ID Policy Model | REQ-01-01-18-04 |
+| ADR-0013 | Stitching Model | REQ-02-01-12-02 |
+| ADR-0013 | Stitching Model | REQ-02-01-12-03 |
+| ADR-0013 | Stitching Model | REQ-02-01-12-04 |

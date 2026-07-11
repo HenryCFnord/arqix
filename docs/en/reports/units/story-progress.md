@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8afe2ba, 2026-07-11
+     Snapshot: 9cb2450, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -37,9 +37,10 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-02-01-06 | Find and Read Documentation During Implementation | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-02-01-07 | Create Conforming Documents Quickly via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-02-01-08 | Finalise Metadata without Touching Content | 3 | 0 | 1 | `███████░░░` 75% |
-| US-02-01-09 | Use Chapter and Include Directives During Implementation | 3 | 0 | 3 | `█████░░░░░` 50% |
+| US-02-01-09 | Use Include Directives During Implementation | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-02-01-10 | Scaffold Translations During Implementation | 1 | 0 | 4 | `██░░░░░░░░` 20% |
 | US-02-01-11 | Assemble Documentation During Implementation | 4 | 0 | 1 | `████████░░` 80% |
+| US-02-01-12 | Stitch Fragments at Declared Heading Levels | 0 | 0 | 4 | `░░░░░░░░░░` 0% |
 | US-03-01-01 | Lint Documents for Traceability Gaps | 5 | 0 | 3 | `██████░░░░` 62% |
 | US-03-01-02 | Export Trace Matrices | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-03-01-03 | Generate Coverage Reports | 3 | 0 | 2 | `██████░░░░` 60% |
