@@ -123,7 +123,10 @@ fn doc_new_writes_into_the_configured_kind_location() {
 // arqix:verifies REQ-00-00-00-09
 #[test]
 fn doc_new_dry_run_reports_the_plan_without_writing() {
-    let repo = scratch_copy("minimal", "doc_new_dry_run_reports_the_plan_without_writing");
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_dry_run_reports_the_plan_without_writing",
+    );
     let out = run_arqix_in(
         &repo,
         &["doc", "new", "adr", "--dry-run", "--format", "json"],
@@ -132,10 +135,16 @@ fn doc_new_dry_run_reports_the_plan_without_writing() {
     let result = stdout_json(&out);
     assert_eq!(result["id"], "ADR-0001", "the planned ID: {result}");
     assert!(
-        result["path"].as_str().unwrap_or("").ends_with("ADR-0001.md"),
+        result["path"]
+            .as_str()
+            .unwrap_or("")
+            .ends_with("ADR-0001.md"),
         "the planned target path: {result}"
     );
-    assert_eq!(result["dry_run"], true, "the run must declare itself: {result}");
+    assert_eq!(
+        result["dry_run"], true,
+        "the run must declare itself: {result}"
+    );
     assert!(
         !repo.join("docs/adr/ADR-0001.md").exists(),
         "a dry run must not write any file"

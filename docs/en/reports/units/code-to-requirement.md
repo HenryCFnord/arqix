@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 0844dbe, 2026-07-11
+     Snapshot: a4ff9bf, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -27,8 +27,8 @@
 | `fmt` | src/rewriter.rs:176 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:177 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:178 | REQ-01-01-03-03 |
-| `init` | src/templates.rs:210 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:211 | REQ-01-01-01-02 |
+| `init` | src/templates.rs:207 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:208 | REQ-01-01-01-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:738 | REQ-03-01-02-01 |

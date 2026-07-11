@@ -121,10 +121,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 eprintln!("error: invalid id '{explicit}': expected an ID slug ([A-Za-z0-9-])");
                 return ExitCode::from(2);
             }
-            if let Some(holder) = docs
-                .iter()
-                .find(|doc| doc.id.as_deref() == Some(explicit))
-            {
+            if let Some(holder) = docs.iter().find(|doc| doc.id.as_deref() == Some(explicit)) {
                 let diagnostic = Diagnostic::error(
                     "TPL-002",
                     format!("id {explicit} is already used by {}", holder.file),
