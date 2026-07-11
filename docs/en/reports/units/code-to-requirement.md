@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 71e88a5, 2026-07-11
+     Snapshot: 195db53, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -41,7 +41,7 @@
 | `new_document` | src/templates.rs:106 | REQ-00-00-00-13 |
 | `new_document` | src/templates.rs:107 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:108 | REQ-01-01-13-02 |
-| `publish_policy` | src/config.rs:192 | REQ-04-01-03-03 |
+| `publish_policy` | src/config.rs:195 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:772 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:773 | REQ-04-01-15-02 |
 | `read` | src/store.rs:122 | REQ-05-01-10-01 |
@@ -58,13 +58,13 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:274 | REQ-01-01-16-02 |
+| `show` | src/config.rs:280 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
-| `validate` | src/config.rs:263 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:269 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |

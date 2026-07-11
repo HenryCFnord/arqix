@@ -187,6 +187,9 @@ pub struct PublishPolicy {
     pub staging_dir: String,
     pub stitching: String,
     pub site_command: Option<String>,
+    /// Language-root-relative path prefixes that never stage (the publish
+    /// scope; the ADR-0010 final-filter is the lifecycle-based successor).
+    pub exclude: Vec<String>,
 }
 
 // arqix:implements REQ-04-01-03-03
@@ -212,6 +215,9 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
             .and_then(|p| p.get("site-command"))
             .and_then(Value::as_str)
             .map(str::to_string),
+        exclude: publish
+            .and_then(|p| json_string_array(p.get("exclude")))
+            .unwrap_or_default(),
     }
 }
 
