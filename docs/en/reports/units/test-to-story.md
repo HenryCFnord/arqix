@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: eee0ae0, 2026-07-10
+     Snapshot: a4ff9bf, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -148,6 +148,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_list_lists_each_document_once_under_overlapping_roots` | US-05-01-08 | Export a Deterministic Document Catalog |
 | `doc_list_lists_each_document_once_under_overlapping_roots` | US-08-01-07 | List Documents Deterministically for Automation |
 | `doc_list_skips_the_default_directories_without_an_override` | US-01-01-17 | Configure Discovery Scope |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `doc_new_creates_a_document_from_the_configured_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
@@ -158,6 +161,12 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-05 | Create Documents Deterministically from Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-10 | Scaffold Translations During Implementation |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-06-01-06 | Create Linked Translation Documents for Architecture Content |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-14 | Scaffold Translations Deterministically from Source IDs |
+| `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
@@ -167,6 +176,16 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-08-01-08 | Stay within Declared Change Scope |
+| `doc_new_substitutes_the_title_into_the_template` | US-01-01-05 | Create Documents from Configured Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
+| `doc_new_substitutes_the_title_into_the_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-02-01-05 | Create Documents Quickly from Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
+| `doc_new_substitutes_the_title_into_the_template` | US-06-01-03 | Create Architecture Documents from Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-08-01-05 | Create Documents Deterministically from Templates |
+| `doc_new_substitutes_the_title_into_the_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
+| `doc_new_substitutes_the_title_into_the_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-08-01-23 | Create Documents without Ambiguity via Templates |

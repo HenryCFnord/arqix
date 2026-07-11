@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: eee0ae0, 2026-07-10
+     Snapshot: a4ff9bf, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?

@@ -137,7 +137,18 @@ enum DocCommand {
         path: Option<String>,
     },
     /// Create a document of the given kind from its configured template
-    New { kind: String },
+    New {
+        kind: String,
+        /// Title substituted into the template (the slug derives from it)
+        #[arg(long)]
+        title: Option<String>,
+        /// Explicit ID instead of the generated one (uniqueness still checked)
+        #[arg(long)]
+        id: Option<String>,
+        /// Report the planned ID and target path without writing
+        #[arg(long)]
+        dry_run: bool,
+    },
     /// List documents as a machine-readable catalog
     List {
         /// Filter the catalog by document kind
@@ -238,13 +249,28 @@ fn main() -> ExitCode {
         },
         Command::Doc { command } => match command {
             DocCommand::Init { path } => templates::init(path.as_deref(), cli.format),
-            DocCommand::New { kind } => templates::new_document(&kind, cli.format),
+            DocCommand::New {
+                kind,
+                title,
+                id,
+                dry_run,
+            } => templates::new_document(
+                &kind,
+                templates::NewOptions {
+                    title: title.as_deref(),
+                    id: id.as_deref(),
+                    dry_run,
+                },
+                cli.format,
+            ),
             DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
             DocCommand::Read { id } => store::read(&id, cli.format),
             DocCommand::Search { query } => store::search(&query, cli.format),
         },
         Command::Unit { command } => match command {
-            UnitCommand::New => templates::new_document("unit", cli.format),
+            UnitCommand::New => {
+                templates::new_document("unit", templates::NewOptions::default(), cli.format)
+            }
         },
         Command::Fmt { check } => rewriter::fmt(check, cli.format),
         Command::Finalise { date } => rewriter::finalise(&date, cli.format),
