@@ -20,6 +20,7 @@ triples:
       - arqix:user-stories/us-01-01-14
       - arqix:user-stories/us-01-01-16
       - arqix:user-stories/us-01-01-17
+      - arqix:user-stories/us-01-01-19
       - arqix:user-stories/us-02-01-02
       - arqix:user-stories/us-02-01-03
       - arqix:user-stories/us-02-01-04
@@ -77,7 +78,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-10
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -91,5 +92,5 @@ The arqix CLI SHALL resolve every command against the effective configuration.
 
 Curated from acceptance criteria demanding configuration-driven behaviour (configured locations, kinds, policies, profiles) or effective-config inspection.
 
-Contributing stories: 52 (see `derived-from`).
+Contributing stories: 53 (see `derived-from`).
 Approved via `docs/en/plans/requirements-derivation-2026-07-02/CROSS-CONCERNS.md`.
