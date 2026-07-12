@@ -17,10 +17,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2025-03-05
-  updated: 2026-07-08
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -82,3 +82,5 @@ She owns automation and reproducibility.
 #### Open Needs
 
 Daria benefits from stable CLI contracts, predictable artefact locations, and reliable third-party tool integration.
+
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Bernadette Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

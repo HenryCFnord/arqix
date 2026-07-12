@@ -17,10 +17,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-05
-  updated: 2026-07-02
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -80,3 +80,5 @@ Quinn does not define templates or CI pipelines, but relies on those systems to 
 ### Open Needs
 
 Quinn benefits from stable schemas for exports, filtering capabilities, and consistent diagnostics contracts.
+
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-10 (Adrian Assessor), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
