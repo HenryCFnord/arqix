@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -49,3 +49,5 @@ As an auditor, I want stable compliance-ready report exports, so that review pac
 ### Notes
 
 This story focuses on reproducible external review packages with stable schemas and explicit generation metadata.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-12, and the requirements' derived-from provenance keeps this story's contribution on record.

@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-28
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As a developer, I want to initialize a new doc package with one command, so that
 This is a workflow-adjacent enabling story for writing docs alongside implementation.
 The primary value for a developer is speed and low friction, not repository governance.
 Local usability matters: the initialized package should be immediately compatible with `assemble build`, `fmt`, and `lint run`.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-01, and the requirements' derived-from provenance keeps this story's contribution on record.

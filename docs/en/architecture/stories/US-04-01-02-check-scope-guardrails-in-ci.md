@@ -30,10 +30,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -55,3 +55,5 @@ As a DevOps engineer, I want enforceable guardrails for automation agents that l
 In scope, the work should define a file-based policy mechanism that specifies allowed paths and allowed operations per story or task, and it should also provide a check command suitable for CI, for example `arqix policy check ...`.
 Out of scope are full sandboxing of execution and fine-grained AST-level modification constraints.
 The main value for Daria is optional policy gating and structured CI diagnostics.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-07, and the requirements' derived-from provenance keeps this story's contribution on record.

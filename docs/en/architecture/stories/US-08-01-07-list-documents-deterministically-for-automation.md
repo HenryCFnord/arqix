@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As a coding agent, I want to list documents deterministically, so that I can dis
 Acceptance should show that downstream indexing and retrieval systems can consume the catalog without scraping Markdown.
 Add tests for stable ordering, filtering by kind and language, and deterministic JSON rendering.
 The main value for Casey is stable discovery and automation-safe input selection.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-05-01-08, and the requirements' derived-from provenance keeps this story's contribution on record.

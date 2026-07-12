@@ -32,10 +32,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -60,3 +60,5 @@ Acceptance should cover both successful artefact generation and clean failure fo
 Add integration-style tests for defaults handling, per-package overrides, and artefact placement under the configured mode.
 Defer deployment automation details unless they are needed to prove the documented GitHub Pages path end to end.
 The main value for Aria is reviewable and navigable architecture documentation outputs.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-04-01-03, and the requirements' derived-from provenance keeps this story's contribution on record.

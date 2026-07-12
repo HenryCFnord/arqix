@@ -27,10 +27,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ Acceptance should include a dry-run style checklist that a reviewer can follow f
 Add documentation examples for patch, minor, and major releases, including when `config_version` or `schema_version` must change independently.
 Keep the process explicit about final manual approval points for tagging and publishing.
 The main value for Casey is explicit automation scope and safe stop conditions for release work.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-15, and the requirements' derived-from provenance keeps this story's contribution on record.

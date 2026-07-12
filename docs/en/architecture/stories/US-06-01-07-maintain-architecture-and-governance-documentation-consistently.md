@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -55,3 +55,5 @@ This story is complete when the governance documents follow the same assembly an
 Add checks or examples that show how arc42 units, ADRs, and handbook layers relate and where each concern belongs.
 Treat the future consistency check as a documented extension path, not as an implicit requirement for the first delivery.
 This is the canonical architecture and governance authoring view.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-11, and the requirements' derived-from provenance keeps this story's contribution on record.

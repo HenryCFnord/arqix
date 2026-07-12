@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -54,3 +54,5 @@ Acceptance should verify that uncovered requirements are easy to spot and that i
 Add tests that exercise uncovered requirements for both code and tests, plus format checks for Markdown and JSON rendering.
 A useful next step is to define whether partially covered requirements should be flagged separately from fully uncovered ones.
 The main value for QA is measurable quality evidence and actionable review findings.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-08, and the requirements' derived-from provenance keeps this story's contribution on record.

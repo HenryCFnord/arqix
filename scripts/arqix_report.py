@@ -34,6 +34,19 @@ def header(question, qid, snapshot):
     )
 
 
+RETIRED_RE = re.compile(r"^\s*lifecycle-status:\s*retired\s*$", re.MULTILINE)
+
+
+def retired_ids(documents, corpus):
+    """Document ids whose file declares lifecycle-status retired — they
+    leave progress denominators (ADR-0010)."""
+    return {
+        doc_id
+        for doc_id, info in documents.items()
+        if RETIRED_RE.search(corpus.get(info["file"], ""))
+    }
+
+
 def title_of(documents, doc_id):
     info = documents.get(doc_id)
     return (info.get("title") or doc_id) if info else doc_id
@@ -69,13 +82,13 @@ def workflows_of_story(edges, story_id):
     )
 
 
-def unit_story_progress(requirements, edges, documents, snapshot):
+def unit_story_progress(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-01: How far along is each user story?"""
     report, _ = coverage(requirements, edges)
     per_story = {}
     for row in report["requirements"]:
         for story in stories_of_requirement(edges, row["id"]) or [row["story"]]:
-            if story is None:
+            if story is None or story in retired:
                 continue
             bucket = per_story.setdefault(
                 story, {"verified": 0, "planned": 0, "uncovered": 0}
@@ -102,10 +115,19 @@ def unit_story_progress(requirements, edges, documents, snapshot):
             f"| {story} | {cell(title_of(documents, story))} | {b['verified']} "
             f"| {b['planned']} | {b['uncovered']} | `{bar}` {done}% |"
         )
+    story_retired = sorted(
+        doc_id for doc_id in retired
+        if documents.get(doc_id, {}).get("type") == "user-story"
+    )
+    if story_retired:
+        lines.append(
+            f"\nRetired stories excluded from this view (ADR-0010): "
+            f"{len(story_retired)}."
+        )
     return "\n".join(lines) + "\n"
 
 
-def unit_scoreboard(requirements, edges, documents, snapshot):
+def unit_scoreboard(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-03: What share of requirements is verifiably implemented?"""
     report, _ = coverage(requirements, edges)
     lines = [header("What share of the requirements is verifiably implemented?",
@@ -128,7 +150,7 @@ def unit_scoreboard(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_test_to_requirement(requirements, edges, documents, snapshot):
+def unit_test_to_requirement(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-02: Which tests verify which requirements?"""
     lines = [header("Which tests verify which requirements?", "Q-02", snapshot)]
     lines.append("| test | location | requirement | status |")
@@ -139,7 +161,7 @@ def unit_test_to_requirement(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_test_to_story(requirements, edges, documents, snapshot):
+def unit_test_to_story(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-05: Which user story belongs to which integration test?"""
     pairs = set()
     for test, loc, req, _ in marker_rows(edges, "verifies"):
@@ -156,7 +178,7 @@ def unit_test_to_story(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_test_to_workflow(requirements, edges, documents, snapshot):
+def unit_test_to_workflow(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-06: Which workflow belongs to which integration test?"""
     pairs = set()
     for test, loc, req, _ in marker_rows(edges, "verifies"):
@@ -174,7 +196,7 @@ def unit_test_to_workflow(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_adr_to_requirement(requirements, edges, documents, snapshot):
+def unit_adr_to_requirement(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-07: Which ADRs are linked to which requirements?"""
     lines = [header("Which ADRs are linked to which requirements?",
                     "Q-07", snapshot)]
@@ -188,7 +210,7 @@ def unit_adr_to_requirement(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_code_to_requirement(requirements, edges, documents, snapshot):
+def unit_code_to_requirement(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-04: Which code implements which requirement?"""
     # EVERY implements marker answers the question — including one whose
     # following item is not a fn (a const, a module header): those carry no
@@ -212,7 +234,7 @@ def unit_code_to_requirement(requirements, edges, documents, snapshot):
     return "\n".join(lines) + "\n"
 
 
-def unit_doc_to_code(requirements, edges, documents, snapshot):
+def unit_doc_to_code(requirements, edges, documents, snapshot, retired=frozenset()):
     """Q-08: Where is the documentation for a given piece of code?"""
     lines = [header("Where is the documentation for a given piece of code?",
                     "Q-08", snapshot)]
@@ -240,12 +262,15 @@ UNITS = [
 
 
 def generate(out_dir, snapshot, root="."):
-    requirements, edges, documents = build_model(read_corpus(root))
+    corpus = read_corpus(root)
+    requirements, edges, documents = build_model(corpus)
+    retired = retired_ids(documents, corpus)
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     for filename, unit in UNITS:
         (out / filename).write_text(
-            unit(requirements, edges, documents, snapshot), encoding="utf-8"
+            unit(requirements, edges, documents, snapshot, retired=retired),
+            encoding="utf-8",
         )
         print(f"wrote {out / filename}")
     return 0
@@ -261,7 +286,9 @@ def check(out_dir, trace_dir="docs/en/reports/trace", root="."):
     compare byte-for-byte against the committed files."""
     from arqix_trace import matrix
 
-    requirements, edges, documents = build_model(read_corpus(root))
+    corpus = read_corpus(root)
+    requirements, edges, documents = build_model(corpus)
+    retired = retired_ids(documents, corpus)
     stale = []
     for filename, unit in UNITS:
         path = Path(out_dir) / filename
@@ -271,7 +298,7 @@ def check(out_dir, trace_dir="docs/en/reports/trace", root="."):
         text = path.read_text(encoding="utf-8")
         m = SNAPSHOT_RE.search(text)
         snapshot = m.group(1) if m else ""
-        if unit(requirements, edges, documents, snapshot) != text:
+        if unit(requirements, edges, documents, snapshot, retired=retired) != text:
             stale.append((str(path), "stale"))
     for filename, matrix_type in (
         ("matrix.csv", "req-test"),
@@ -301,6 +328,23 @@ triples:
   - predicate: arqix:properties/derived-from
     object:
       - arqix:user-stories/us-22-22-22
+      - arqix:user-stories/us-33-33-33
+---
+body
+""",
+    "docs/s2.md": """---
+id: US-33-33-33
+title: Provide a Cloned Example
+iri: arqix:user-stories/us-33-33-33
+rdf:
+  type:
+    - arqix:classes/user-story
+triples:
+  - predicate: arqix:properties/has-requirement
+    object:
+      - arqix:requirements/req-11-11-11-01
+meta:
+  lifecycle-status: retired
 ---
 body
 """,
@@ -351,6 +395,13 @@ def selftest():
     progress = unit_story_progress(requirements, edges, documents, snapshot)
     expect("story progress counts the verified requirement",
            "| US-22-22-22 | Provide a Linked Example | 1 | 0 | 0 |" in progress)
+
+    retired = retired_ids(documents, SELFTEST_CORPUS)
+    expect("retired_ids finds the retired story", retired == {"US-33-33-33"})
+    filtered = unit_story_progress(requirements, edges, documents, snapshot, retired)
+    expect("story progress excludes retired stories (ADR-0010)",
+           "US-33-33-33" not in filtered
+           and "Retired stories excluded from this view (ADR-0010): 1." in filtered)
 
     board = unit_scoreboard(requirements, edges, documents, snapshot)
     expect("scoreboard shows 100% verified functional",

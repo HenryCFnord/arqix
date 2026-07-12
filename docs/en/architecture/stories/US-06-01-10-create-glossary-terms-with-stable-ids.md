@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -51,3 +51,5 @@ As an architect, I want to create glossary terms from a template with stable IDs
 
 This is a gap-fill for terminology governance.
 The main value is consistent vocabulary that remains referenceable across architecture and governance documents.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-12, and the requirements' derived-from provenance keeps this story's contribution on record.

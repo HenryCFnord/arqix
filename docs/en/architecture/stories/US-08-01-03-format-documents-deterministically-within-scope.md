@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-29
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -55,3 +55,5 @@ Acceptance should prove that formatting is idempotent and does not change docume
 Add snapshot-style tests for frontmatter key ordering and directive normalization on realistic inputs.
 Any fields or directives intentionally left untouched should be called out explicitly to avoid accidental scope growth.
 The main value for a coding agent is deterministic convention enforcement with minimal churn and clear scope boundaries.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-03, and the requirements' derived-from provenance keeps this story's contribution on record.

@@ -29,10 +29,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -55,3 +55,5 @@ As an architect, I want to create documents from templates, so that ADRs and rel
 Acceptance should verify that every configured template kind renders the expected file skeleton with placeholders resolved consistently.
 Add tests for supported aliases, unknown kinds, and deterministic `{slug}` and `{id}` substitution from the same title.
 The main value for an architect is consistent structure for ADRs and other architecture documentation artefacts.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-05, and the requirements' derived-from provenance keeps this story's contribution on record.

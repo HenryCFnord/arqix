@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ As a coding agent, I want to create documents via `doc new <kind>` using determi
 In scope are template selection by kind, deterministic ID generation or explicit `--id`, deterministic target path policy, and placeholder substitution for `{id}`, `{title}`, and `{slug}`.
 Out of scope are interactive prompts and arbitrary free-form template engines.
 The main value is ambiguity-free document creation for automation.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-13, and the requirements' derived-from provenance keeps this story's contribution on record.

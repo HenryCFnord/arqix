@@ -28,10 +28,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-11
   lang: en
   translation-of:
   generated: false
@@ -53,3 +53,5 @@ Acceptance should verify that metadata contracts are authoritative for document 
 Add fixtures for missing fields, extra fields, and type-invalid values across multiple document kinds.
 Keep the contract source singular so frontmatter drift is caught early and templates remain enforceable.
 The main value for Alex is predictable metadata for automation, search, and downstream systems.
+
+Retired in the consolidation sweep of 2026-07-11: this story is a persona clone — its non-cross-cutting requirements are canonically owned by US-01-01-10, and the requirements' derived-from provenance keeps this story's contribution on record.
