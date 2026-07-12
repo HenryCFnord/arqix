@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3f17a9a, 2026-07-12
+     Snapshot: e0bc398, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -13,16 +13,22 @@
 | `build` | src/assembler.rs:27 | REQ-04-01-01-03 |
 | `build` | src/assembler.rs:28 | REQ-04-01-01-04 |
 | `build` | src/assembler.rs:29 | REQ-04-01-01-05 |
-| `check_command` | src/trace.rs:685 | REQ-03-01-06-01 |
-| `check_command` | src/trace.rs:686 | REQ-03-01-06-02 |
-| `check_command` | src/trace.rs:687 | REQ-03-01-06-03 |
+| `bundle` | src/reporter.rs:15 | REQ-03-01-04-01 |
+| `bundle` | src/reporter.rs:16 | REQ-03-01-04-02 |
+| `bundle` | src/reporter.rs:17 | REQ-03-01-04-03 |
+| `bundle` | src/reporter.rs:18 | REQ-04-01-12-01 |
+| `bundle` | src/reporter.rs:19 | REQ-04-01-12-02 |
+| `bundle` | src/reporter.rs:20 | REQ-04-01-12-03 |
+| `check_command` | src/trace.rs:751 | REQ-03-01-06-01 |
+| `check_command` | src/trace.rs:752 | REQ-03-01-06-02 |
+| `check_command` | src/trace.rs:753 | REQ-03-01-06-03 |
 | `check_done_claims` | src/linter.rs:286 | REQ-03-01-09-01 |
 | `check_id_policy` | src/linter.rs:37 | REQ-01-01-18-01 |
 | `check_id_policy` | src/linter.rs:38 | REQ-01-01-18-04 |
 | `check_lifecycle_vocabulary` | src/linter.rs:257 | REQ-03-01-09-02 |
-| `coverage_command` | src/trace.rs:671 | REQ-01-01-08-01 |
-| `coverage_command` | src/trace.rs:672 | REQ-01-01-08-02 |
-| `coverage_command` | src/trace.rs:673 | REQ-01-01-08-03 |
+| `coverage_command` | src/trace.rs:737 | REQ-01-01-08-01 |
+| `coverage_command` | src/trace.rs:738 | REQ-01-01-08-02 |
+| `coverage_command` | src/trace.rs:739 | REQ-01-01-08-03 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
 | `expand` | src/assembler.rs:156 | REQ-02-01-12-01 |
 | `expand` | src/assembler.rs:157 | REQ-02-01-12-02 |
@@ -43,17 +49,17 @@
 | `kind_contracts` | src/config.rs:277 | REQ-01-01-19-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
-| `matrix_command` | src/trace.rs:738 | REQ-03-01-02-01 |
-| `matrix_command` | src/trace.rs:739 | REQ-03-01-02-02 |
-| `matrix_command` | src/trace.rs:740 | REQ-03-01-02-03 |
+| `matrix_command` | src/trace.rs:804 | REQ-03-01-02-01 |
+| `matrix_command` | src/trace.rs:805 | REQ-03-01-02-02 |
+| `matrix_command` | src/trace.rs:806 | REQ-03-01-02-03 |
 | `new_document` | src/templates.rs:236 | REQ-00-00-00-05 |
 | `new_document` | src/templates.rs:237 | REQ-00-00-00-09 |
 | `new_document` | src/templates.rs:238 | REQ-00-00-00-13 |
 | `new_document` | src/templates.rs:239 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:240 | REQ-01-01-13-02 |
 | `publish_policy` | src/config.rs:199 | REQ-04-01-03-03 |
-| `ratchet_command` | src/trace.rs:772 | REQ-04-01-15-01 |
-| `ratchet_command` | src/trace.rs:773 | REQ-04-01-15-02 |
+| `ratchet_command` | src/trace.rs:838 | REQ-04-01-15-01 |
+| `ratchet_command` | src/trace.rs:839 | REQ-04-01-15-02 |
 | `read` | src/store.rs:122 | REQ-05-01-10-01 |
 | `read` | src/store.rs:123 | REQ-05-01-10-03 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
@@ -63,10 +69,10 @@
 | `run` | src/linter.rs:13 | REQ-01-01-04-03 |
 | `run` | src/linter.rs:14 | REQ-01-01-04-04 |
 | `run` | src/linter.rs:15 | REQ-00-00-00-10 |
-| `scan` | src/trace.rs:650 | REQ-03-01-05-01 |
-| `scan` | src/trace.rs:651 | REQ-03-01-05-02 |
-| `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
-| `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
+| `scan` | src/trace.rs:716 | REQ-03-01-05-01 |
+| `scan` | src/trace.rs:717 | REQ-03-01-05-02 |
+| `scan` | src/trace.rs:718 | REQ-03-01-05-04 |
+| `scan` | src/trace.rs:719 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
 | `show` | src/config.rs:377 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |

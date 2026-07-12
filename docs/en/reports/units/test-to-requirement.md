@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3f17a9a, 2026-07-12
+     Snapshot: e0bc398, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -23,6 +23,7 @@
 | `config_validate_accepts_a_valid_configuration` | tests/cli_config.rs:8 | REQ-01-01-16-01 | active |
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:28 | REQ-01-01-16-01 | active |
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:29 | REQ-01-01-16-03 | active |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | tests/cli_lint.rs:203 | REQ-00-00-00-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_init_scaffolds_an_explicit_path` | tests/cli_doc.rs:38 | REQ-01-01-01-01 | active |
 | `doc_init_scaffolds_the_default_template_files` | tests/cli_doc.rs:416 | REQ-01-01-20-02 | active |
@@ -81,8 +82,13 @@
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:71 | REQ-01-01-15-01 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:183 | REQ-04-01-03-07 | planned (ignored) |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:172 | REQ-04-01-03-04 | planned (ignored) |
-| `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | planned (ignored) |
-| `report_bundle_includes_linked_evidence` | tests/cli_report.rs:21 | REQ-03-01-04-02 | planned (ignored) |
+| `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | active |
+| `report_bundle_includes_linked_evidence` | tests/cli_report.rs:20 | REQ-03-01-04-02 | active |
+| `report_bundle_output_is_deterministic_and_schema_stable` | tests/cli_report.rs:94 | REQ-04-01-12-02 | active |
+| `report_bundle_records_generation_metadata` | tests/cli_report.rs:114 | REQ-04-01-12-03 | active |
+| `report_bundle_resolves_a_story_scope_to_its_requirements` | tests/cli_report.rs:33 | REQ-03-01-04-01 | active |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | tests/cli_report.rs:66 | REQ-03-01-04-03 | active |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | tests/cli_report.rs:67 | REQ-04-01-12-01 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |

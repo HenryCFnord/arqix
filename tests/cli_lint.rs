@@ -199,3 +199,29 @@ fn lint_checks_encoded_groups_against_declared_triples() {
         "the finding names the contradicting id: {stdout}"
     );
 }
+
+// arqix:verifies REQ-00-00-00-03
+#[test]
+fn diagnostics_are_machine_readable_with_the_tool_wide_shape() {
+    let repo = scratch_copy(
+        "minimal",
+        "diagnostics_are_machine_readable_with_the_tool_wide_shape",
+    );
+    // Two documents sharing one id: a deterministic finding to inspect.
+    std::fs::write(
+        repo.join("docs/dup.md"),
+        "---\nid: REQ-99-99-99-01\ntitle: Duplicate\n---\n\n## Duplicate\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "run", "--format", "json"]);
+    assert_eq!(out.status.code(), Some(1));
+    let report = common::stdout_json(&out);
+    assert_eq!(report["schema_version"], 1);
+    let finding = &report["diagnostics"][0];
+    for key in ["severity", "code", "message", "file"] {
+        assert!(
+            !finding[key].is_null(),
+            "a diagnostic carries {key}: {report}"
+        );
+    }
+}

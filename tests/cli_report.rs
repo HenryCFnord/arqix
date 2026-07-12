@@ -101,8 +101,14 @@ fn report_bundle_output_is_deterministic_and_schema_stable() {
     let args = ["report", "bundle", "REQ-99-99-99-01", "--format", "json"];
     let first = common::stdout_json(&run_arqix_in(&repo, &args));
     let second = common::stdout_json(&run_arqix_in(&repo, &args));
-    assert_eq!(first, second, "identical inputs must produce identical bundles");
-    assert_eq!(first["schema_version"], 1, "exports carry their schema version");
+    assert_eq!(
+        first, second,
+        "identical inputs must produce identical bundles"
+    );
+    assert_eq!(
+        first["schema_version"], 1,
+        "exports carry their schema version"
+    );
 }
 
 // arqix:verifies REQ-04-01-12-03

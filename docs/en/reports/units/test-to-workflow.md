@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3f17a9a, 2026-07-12
+     Snapshot: e0bc398, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -48,6 +48,13 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `config_validate_identifies_the_failing_key` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_validate_identifies_the_failing_key` | WF-05-01 | Use Documentation for Agents and RAG |
 | `config_validate_identifies_the_failing_key` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-03-01 | Validate Traceability and Coverage |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-05-01 | Use Documentation for Agents and RAG |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-07-01 | Review Evidence Chains and Exports |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_init_creates_the_standard_package_scaffold` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_creates_the_standard_package_scaffold` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_init_scaffolds_an_explicit_path` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -200,6 +207,14 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `render_pdf_renders_via_pandoc` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_includes_linked_evidence` | WF-03-01 | Validate Traceability and Coverage |
+| `report_bundle_output_is_deterministic_and_schema_stable` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_bundle_output_is_deterministic_and_schema_stable` | WF-07-01 | Review Evidence Chains and Exports |
+| `report_bundle_records_generation_metadata` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_bundle_records_generation_metadata` | WF-07-01 | Review Evidence Chains and Exports |
+| `report_bundle_resolves_a_story_scope_to_its_requirements` | WF-03-01 | Validate Traceability and Coverage |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-03-01 | Validate Traceability and Coverage |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-07-01 | Review Evidence Chains and Exports |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_check_reports_verifies_markers_per_requirement` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-01-01 | Establish Standards and Repository Hygiene |
