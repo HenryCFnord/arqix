@@ -28,7 +28,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-11
   updated: 2026-07-11
@@ -43,11 +43,11 @@ As a maintainer, I want the document ID shapes declared in configuration and all
 
 ### Acceptance Criteria
 
-- [ ] `arqix.toml` declares an `id-pattern` per document family; `doc new` generates the next ID from it and the checkers validate shape and uniqueness against it.
-- [ ] The trace graph resolves a requirement's owning story from its first `derived-from` triple; a group-free pattern yields a complete graph.
-- [ ] Where the pattern declares semantic groups (`story`, `seq`), consistency checks run: encoded values against declared triples, per-story sequencing.
-- [ ] The Rust engine and the Python reference tools read the same configured policy; oracle conformance holds under a non-default, group-free pattern.
-- [ ] Without configuration, the defaults reproduce the current ID shapes and checks, and the existing corpus is unchanged.
+- [x] `arqix.toml` declares an `id-pattern` per document family; `doc new` generates the next ID from it and the checkers validate shape and uniqueness against it.
+- [x] The trace graph resolves a requirement's owning story from its first `derived-from` triple; a group-free pattern yields a complete graph.
+- [x] Where the pattern declares semantic groups (`story`, `seq`), consistency checks run: encoded values against declared triples, per-story sequencing.
+- [x] The Rust engine and the Python reference tools read the same configured policy; oracle conformance holds under a non-default, group-free pattern.
+- [x] Without configuration, the defaults reproduce the current ID shapes and checks, and the existing corpus is unchanged.
 
 ### Notes
 

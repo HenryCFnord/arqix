@@ -115,3 +115,53 @@ fn trace_matrix_exports_csv() {
         "expected a CSV header row"
     );
 }
+
+// arqix:verifies REQ-01-01-18-02
+#[test]
+fn trace_resolves_ownership_from_triples_under_a_custom_pattern() {
+    // ADR-0012: the ID is an opaque label; a group-free pattern still
+    // yields a complete graph because ownership comes from the declared
+    // derived-from triple. Runs against the oracle too (ARQIX_BIN) — the
+    // configured policy is one source for both implementations.
+    let repo = common::scratch_copy(
+        "minimal",
+        "trace_resolves_ownership_from_triples_under_a_custom_pattern",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.requirement]\ndir = \"docs\"\nid-pattern = '^R-(?P<seq>\\d{4})$'\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/story.md"),
+        "---\nid: US-77-01-01\ntitle: Owning Story\niri: arqix:user-stories/us-77-01-01\nrdf:\n  type:\n    - arqix:classes/user-story\n---\n\n## Owning Story\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/R-0007.md"),
+        "---\nid: R-0007\ntitle: Opaque Label\niri: arqix:requirements/r-0007\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-77-01-01\n---\n\n## Requirement\n\nThe system SHALL work with opaque labels.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("tests.rs"),
+        "// arqix:verifies R-0007\n#[test]\nfn opaque_covered() {}\n\n// arqix:verifies REQ-99-99-99-01\n#[test]\nfn fixture_covered() {}\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["trace", "coverage", "--format", "json"]);
+    assert_success(&out);
+    let coverage = stdout_json(&out);
+    let row = coverage["requirements"]
+        .as_array()
+        .and_then(|rows| rows.iter().find(|r| r["id"] == "R-0007"))
+        .cloned()
+        .unwrap_or_default();
+    assert_eq!(
+        row["story"], "US-77-01-01",
+        "ownership comes from the declared triple, not the ID: {coverage}"
+    );
+    assert!(
+        row["verified_by"].as_array().is_some_and(|v| !v.is_empty()),
+        "the marker with a non-default payload counts: {coverage}"
+    );
+}

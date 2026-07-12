@@ -68,8 +68,10 @@ const ONT_INDIVIDUAL_KEYS: [&str; 8] = [
 fn key_order(file: &str) -> Vec<String> {
     let posix = file.replace('\\', "/");
     for contract in crate::config::kind_contracts(std::path::Path::new(".")) {
-        if posix.starts_with(&format!("{}/", contract.dir)) {
-            return contract.key_order;
+        if posix.starts_with(&format!("{}/", contract.dir))
+            && let Some(order) = contract.key_order
+        {
+            return order;
         }
     }
     let builtin: &[&str] = if file.contains("docs/ontology/classes/") {

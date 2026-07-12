@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 548345f, 2026-07-12
+     Snapshot: 3f17a9a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -35,9 +35,11 @@
 | `doc_list_skips_the_default_directories_without_an_override` | tests/cli_doc.rs:360 | REQ-01-01-17-02 | active |
 | `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | tests/cli_doc.rs:176 | REQ-01-01-13-01 | active |
 | `doc_new_creates_a_document_from_the_configured_template` | tests/cli_doc.rs:83 | REQ-00-00-00-05 | active |
+| `doc_new_defaults_keep_the_current_id_shapes` | tests/cli_doc.rs:493 | REQ-01-01-18-03 | active |
 | `doc_new_dry_run_reports_the_plan_without_writing` | tests/cli_doc.rs:145 | REQ-00-00-00-09 | active |
 | `doc_new_fails_clearly_on_a_missing_template_file` | tests/cli_doc.rs:445 | REQ-01-01-20-03 | active |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:116 | REQ-01-01-13-01 | active |
+| `doc_new_generates_ids_from_the_configured_pattern` | tests/cli_doc.rs:466 | REQ-01-01-18-01 | active |
 | `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:383 | REQ-01-01-20-01 | active |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:67 | REQ-00-00-00-13 | active |
 | `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:196 | REQ-00-00-00-05 | active |
@@ -58,13 +60,16 @@
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
-| `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:283 | REQ-02-01-09-01 | active |
+| `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:507 | REQ-00-00-00-04 | active |
+| `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
+| `lint_checks_encoded_groups_against_declared_triples` | tests/cli_lint.rs:160 | REQ-01-01-18-04 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
 | `lint_run_detects_translation_drift` | tests/cli_lint.rs:55 | REQ-00-00-00-10 | active |
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
 | `lint_run_reports_findings_with_file_and_line_context` | tests/cli_lint.rs:33 | REQ-01-01-04-04 | active |
+| `lint_validates_id_shape_against_the_configured_pattern` | tests/cli_lint.rs:133 | REQ-01-01-18-01 | active |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:9 | REQ-05-01-12-01 | planned (ignored) |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:8 | REQ-01-01-07-02 | planned (ignored) |
 | `policy_check_supports_warn_only_mode` | tests/cli_policy.rs:22 | REQ-01-01-07-03 | planned (ignored) |
@@ -86,6 +91,7 @@
 | `trace_matrix_exports_csv` | tests/cli_trace.rs:107 | REQ-03-01-02-01 | active |
 | `trace_ratchet_fails_on_a_coverage_regression` | tests/cli_ratchet.rs:10 | REQ-04-01-15-01 | active |
 | `trace_ratchet_passes_without_regression` | tests/cli_ratchet.rs:33 | REQ-04-01-15-02 | active |
+| `trace_resolves_ownership_from_triples_under_a_custom_pattern` | tests/cli_trace.rs:119 | REQ-01-01-18-02 | active |
 | `trace_scan_detects_markers_in_rust_comments` | tests/cli_trace.rs:9 | REQ-03-01-05-01 | active |
 | `trace_scan_does_not_follow_directory_symlinks` | tests/cli_trace.rs:87 | REQ-00-00-00-01 | active |
 | `trace_scan_outputs_the_trace_graph_as_json` | tests/cli_trace.rs:24 | REQ-03-01-05-04 | active |

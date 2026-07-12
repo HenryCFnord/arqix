@@ -22,6 +22,7 @@ pub fn run(format: OutputFormat) -> ExitCode {
     check_references(&docs, &mut diagnostics);
     check_translations(&docs, &mut diagnostics);
     check_lifecycle_vocabulary(&docs, &mut diagnostics);
+    check_id_policy(&docs, &mut diagnostics);
     check_done_claims(&docs, &mut diagnostics);
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
@@ -31,6 +32,111 @@ pub fn run(format: OutputFormat) -> ExitCode {
         println!("lint ok");
     }
     diag::exit_code(&diagnostics)
+}
+
+// arqix:implements REQ-01-01-18-01
+// arqix:implements REQ-01-01-18-04
+/// LNT-006/LNT-007: the configured ID policy (ADR-0012). A document under a
+/// family's directory must match the family's id-pattern (LNT-006), and
+/// named groups activate consistency checks (LNT-007): an encoded `story`
+/// slice must agree with the first declared derived-from triple, and a
+/// `seq` value must be unique under its story. Without configured patterns
+/// this check is silent — the defaults live in the reference checkers.
+fn check_id_policy(docs: &[Document], diags: &mut Vec<Diagnostic>) {
+    let contracts: Vec<_> = crate::config::kind_contracts(std::path::Path::new("."))
+        .into_iter()
+        .filter(|c| c.id_pattern.is_some())
+        .collect();
+    if contracts.is_empty() {
+        return;
+    }
+    let by_iri: std::collections::HashMap<&str, &str> = docs
+        .iter()
+        .filter_map(|d| Some((d.iri.as_deref()?, d.id.as_deref()?)))
+        .collect();
+
+    for contract in &contracts {
+        let pattern = contract.id_pattern.as_deref().expect("filtered");
+        let regex = match regex::Regex::new(pattern) {
+            Ok(regex) => regex,
+            Err(err) => {
+                diags.push(
+                    Diagnostic::error(
+                        "LNT-006",
+                        format!(
+                            "[kinds.{}] id-pattern is not a valid regex: {err}",
+                            contract.family
+                        ),
+                    )
+                    .at("arqix.toml"),
+                );
+                continue;
+            }
+        };
+        let mut seq_owners: std::collections::HashMap<(String, String), String> =
+            std::collections::HashMap::new();
+        for doc in docs {
+            let posix = doc.file.replace('\\', "/");
+            if !posix.starts_with(&format!("{}/", contract.dir)) {
+                continue;
+            }
+            let Some(id) = &doc.id else { continue };
+            let Some(caps) = regex.captures(id) else {
+                diags.push(
+                    Diagnostic::error(
+                        "LNT-006",
+                        format!(
+                            "id '{id}' does not match the '{}' id-pattern {pattern}",
+                            contract.family
+                        ),
+                    )
+                    .at(&doc.file),
+                );
+                continue;
+            };
+            if let Some(encoded) = caps.name("story")
+                && let Some(triple) = doc.triples.iter().find(|t| t.predicate == "derived-from")
+            {
+                match by_iri.get(triple.object.as_str()) {
+                    Some(owner) if owner.ends_with(encoded.as_str()) => {}
+                    Some(owner) => diags.push(
+                        Diagnostic::error(
+                            "LNT-007",
+                            format!(
+                                "id '{id}' encodes story '{}' but the declared owner is '{owner}'",
+                                encoded.as_str()
+                            ),
+                        )
+                        .at_line(&doc.file, triple.line),
+                    ),
+                    // An unresolved owner iri is LNT-003's finding, not a
+                    // consistency contradiction.
+                    None => {}
+                }
+            }
+            if let Some(seq) = caps.name("seq") {
+                let story = caps
+                    .name("story")
+                    .map(|m| m.as_str().to_string())
+                    .unwrap_or_default();
+                if let Some(other) =
+                    seq_owners.insert((story.clone(), seq.as_str().to_string()), id.clone())
+                    && other != *id
+                {
+                    diags.push(
+                        Diagnostic::error(
+                            "LNT-007",
+                            format!(
+                                "sequence '{}' under story '{story}' is used by both '{other}' and '{id}'",
+                                seq.as_str()
+                            ),
+                        )
+                        .at(&doc.file),
+                    );
+                }
+            }
+        }
+    }
 }
 
 /// LNT-002: a document ID must be globally unique (REQ-01-01-04-03).

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 548345f, 2026-07-12
+     Snapshot: 3f17a9a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -170,6 +170,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-05 | Create Documents Deterministically from Templates |
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_defaults_keep_the_current_id_shapes` | US-01-01-18 | Configure the ID Policy |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-10 | Scaffold Translations During Implementation |
@@ -180,6 +181,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_generates_ids_from_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
 | `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
@@ -282,7 +284,24 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `format_option_is_accepted_globally` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
 | `format_option_is_accepted_globally` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
 | `format_option_is_accepted_globally` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `ids_and_slugs_derive_deterministically` | US-01-01-01 | Initialise Standardised Doc Package |
+| `ids_and_slugs_derive_deterministically` | US-01-01-04 | Lint Documents Deterministically |
+| `ids_and_slugs_derive_deterministically` | US-01-01-05 | Create Documents from Configured Templates |
+| `ids_and_slugs_derive_deterministically` | US-01-01-12 | Govern Glossary Term Metadata and IDs |
+| `ids_and_slugs_derive_deterministically` | US-01-01-18 | Configure the ID Policy |
+| `ids_and_slugs_derive_deterministically` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `ids_and_slugs_derive_deterministically` | US-02-01-04 | Lint Documents Before Commit |
+| `ids_and_slugs_derive_deterministically` | US-02-01-05 | Create Documents Quickly from Templates |
+| `ids_and_slugs_derive_deterministically` | US-03-01-01 | Lint Documents for Traceability Gaps |
+| `ids_and_slugs_derive_deterministically` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
+| `ids_and_slugs_derive_deterministically` | US-06-01-03 | Create Architecture Documents from Templates |
+| `ids_and_slugs_derive_deterministically` | US-06-01-10 | Create Glossary Terms with Stable IDs |
+| `ids_and_slugs_derive_deterministically` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `ids_and_slugs_derive_deterministically` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
+| `ids_and_slugs_derive_deterministically` | US-08-01-05 | Create Documents Deterministically from Templates |
+| `ids_and_slugs_derive_deterministically` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
+| `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |
@@ -301,6 +320,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_run_reports_findings_with_file_and_line_context` | US-02-01-04 | Lint Documents Before Commit |
 | `lint_run_reports_findings_with_file_and_line_context` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `lint_run_reports_findings_with_file_and_line_context` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
+| `lint_validates_id_shape_against_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
@@ -386,6 +406,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_matrix_exports_csv` | US-03-01-02 | Export Trace Matrices |
 | `trace_ratchet_fails_on_a_coverage_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
 | `trace_ratchet_passes_without_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
+| `trace_resolves_ownership_from_triples_under_a_custom_pattern` | US-01-01-18 | Configure the ID Policy |
 | `trace_scan_detects_markers_in_rust_comments` | US-03-01-05 | Scan Traceability Information |
 | `trace_scan_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
 | `trace_scan_does_not_follow_directory_symlinks` | US-01-01-04 | Lint Documents Deterministically |
