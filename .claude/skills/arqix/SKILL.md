@@ -30,6 +30,6 @@ Coverage findings are informational by default; ratchet findings mean a previous
 
 ## Trace and export
 
-- Claim a requirement from a test with a comment marker on the line above: `arqix:verifies <REQUIREMENT-ID>`; anchor code with `arqix:implements <REQUIREMENT-ID>`.
-- `arqix trace coverage` shows the picture; `arqix trace check <requirement>` answers for one id.
+- Claim a requirement from a test with a comment marker on the line above: `arqix:verifies <REQUIREMENT-ID>`; anchor code with `arqix:implements <REQUIREMENT-ID>`; declare a planned test with `arqix:plans <REQUIREMENT-ID>`.
+- `arqix trace coverage` shows the picture; `arqix trace check <requirement>` answers for one id; `--results <junit.xml>` joins real test outcomes so verified means green.
 - `arqix report bundle <ID>` exports audit evidence; `arqix report knowledge` exports the corpus as an agent-ready knowledge bundle.

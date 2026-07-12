@@ -37,6 +37,7 @@ Markers attach a source or test line to a requirement or a document.
 They are line comments, matched only when the whole comment is the marker:
 
 - In Rust (`.rs`): `// arqix:implements REQ-XX-YY-ZZ-NN` on a code item; `// arqix:verifies REQ-XX-YY-ZZ-NN` or `// arqix:no-requirement` on a test function (exactly one of the two — both is an error, TRC-005).
+- `// arqix:plans REQ-XX-YY-ZZ-NN` — the planned claim without framework skip syntax (US-03-01-10): counts as planned in coverage, never as verified; satisfies the test-marker duty like `verifies`.
 - In Markdown (`.md`): the same verbs inside an HTML comment, `<!-- arqix:implements REQ-… -->`.
 - **`// arqix:documented-by <unit-iri>`** (decided in ADR-0009): attaches a code item to the unit that documents it, the inverse of a unit's `documents-artefact` triple.
   The trace engine learns to parse it in the follow-up slice; the grammar is fixed here so agents can author it now.

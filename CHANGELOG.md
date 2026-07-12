@@ -8,6 +8,8 @@ Breaking changes carry a **Migration** note in their entry.
 
 ### Added
 
+- `arqix:plans <REQUIREMENT-ID>`: the language-neutral planned claim — counts as planned in coverage without framework skip syntax, satisfies the test-marker duty like `verifies`; Rust's `#[ignore]` detection stays as a convenience.
+- `trace coverage --results <junit.xml>`: joined test outcomes by test name — a failing or skipped test demotes its verifying claim to planned, unjoined claims stay untouched, and coverage rows carry the outcomes for downstream evidence exports.
 - `mcp serve`: the corpus as MCP tools — `search`, `read`, and `list` over stdio (JSON-RPC 2.0, one message per line), answering with the same JSON as the CLI surface; the protocol subset is implemented directly per ADR-0014, no SDK dependency.
 - `publish site` stages a generated specification catalogue when enabled (`[policies.publish] specification-catalogue`): one page per workflow group bundling stories and their derived requirements, an HTML anchor per ID, live coverage status from the trace graph — the excluded spec sources return to the site in bundled form.
 - `doc init` scaffolds an `AGENTS.md` agent-instructions starting point at the repository root — the verification loop and the corpus entry points named from the first commit, never overwriting an authored one.

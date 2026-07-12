@@ -165,3 +165,48 @@ fn trace_resolves_ownership_from_triples_under_a_custom_pattern() {
         "the marker with a non-default payload counts: {coverage}"
     );
 }
+
+// arqix:verifies REQ-03-01-10-01
+#[test]
+fn trace_records_plans_markers_as_planned() {
+    // The language-neutral planned claim: no #[ignore], no framework skip
+    // syntax — the marker alone declares the intent, in Rust comments and
+    // Markdown HTML comments alike.
+    let repo = common::scratch_copy("minimal", "trace_records_plans_markers_as_planned");
+    std::fs::write(
+        repo.join("docs/REQ-88-01-01-01-planned.md"),
+        "---\nid: REQ-88-01-01-01\ntitle: A Planned Requirement\niri: arqix:requirements/req-88-01-01-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\n---\n\n## Requirement\n\nThe system SHALL be planned first.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("skeleton.rs"),
+        "// arqix:plans REQ-88-01-01-01\nfn a_future_test() {}\n\n// arqix:verifies REQ-99-99-99-01\n#[test]\nfn fixture_covered() {}\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["trace", "coverage", "--format", "json"]);
+    let coverage = stdout_json(&out);
+    let row = coverage["requirements"]
+        .as_array()
+        .and_then(|rows| rows.iter().find(|r| r["id"] == "REQ-88-01-01-01"))
+        .cloned()
+        .unwrap_or_default();
+    assert!(
+        row["planned_by"].as_array().is_some_and(|p| !p.is_empty()),
+        "a plans marker is a planned claim: {coverage}"
+    );
+    assert!(
+        row["verified_by"].as_array().is_some_and(|v| v.is_empty()),
+        "a plans marker never counts as verified: {coverage}"
+    );
+
+    // The scan graph carries the claim as its own edge kind.
+    let out = run_arqix_in(&repo, &["trace", "scan", "--format", "json"]);
+    let graph = stdout_json(&out);
+    assert!(
+        graph["edges"]
+            .as_array()
+            .is_some_and(|edges| edges.iter().any(|e| e["kind"] == "plans")),
+        "the graph records the plans edge: {graph}"
+    );
+}

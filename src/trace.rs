@@ -282,11 +282,15 @@ pub(crate) fn md_reference_marker(line: &str) -> Option<String> {
     (target.starts_with("arqix:") && target.len() > "arqix:".len()).then(|| target.to_string())
 }
 
-/// Parse `arqix:(verifies|implements)\s+<token>` with only trailing space.
+// arqix:implements REQ-03-01-10-01
+/// Parse `arqix:(verifies|implements|plans)\s+<token>` with only trailing
+/// space.
 fn marker_body(rest: &str) -> Option<(String, String)> {
     let rest = rest.strip_prefix("arqix:")?;
     let (kind, after) = if let Some(r) = rest.strip_prefix("verifies") {
         ("verifies", r)
+    } else if let Some(r) = rest.strip_prefix("plans") {
+        ("plans", r)
     } else {
         ("implements", rest.strip_prefix("implements")?)
     };
@@ -465,9 +469,12 @@ pub(crate) fn matrix_csv_scoped(
     out
 }
 
-/// The coverage report as JSON, for downstream consumers.
-pub(crate) fn coverage_report(model: &Model) -> (Value, ExitCode) {
-    coverage(model)
+/// One joined test outcome from a results report (US-03-01-10).
+#[derive(Clone, Copy, PartialEq)]
+pub(crate) enum Outcome {
+    Passed,
+    Failed,
+    Skipped,
 }
 
 /// The coverage rows for one id, as data for the MCP `trace` tool: a
@@ -479,7 +486,7 @@ pub(crate) fn coverage_report(model: &Model) -> (Value, ExitCode) {
 pub(crate) fn trace_json(id: &str) -> Option<Value> {
     let model = corpus_model();
     let scope = resolve_scope(&model, &[id.to_string()]).ok()?;
-    let (report, _) = coverage(&model);
+    let (report, _) = coverage(&model, None);
     let rows: Vec<Value> = report["requirements"]
         .as_array()
         .map(|rows| {
@@ -504,7 +511,52 @@ pub(crate) fn trace_json(id: &str) -> Option<Value> {
     Some(json!({ "schema_version": SCHEMA_VERSION, "id": id, "requirements": rows }))
 }
 
-fn coverage(model: &Model) -> (Value, ExitCode) {
+/// Parse the JUnit XML subset every mainstream runner emits: `<testcase>`
+/// elements with a `name` attribute, a child `<failure>`/`<error>` meaning
+/// failed, `<skipped>` meaning skipped, nothing meaning passed. Hand-rolled
+/// over the text — the tree structure beyond test cases is irrelevant here,
+/// and the dependency tree stays closed (the ADR-0014 posture).
+pub(crate) fn parse_junit(text: &str) -> BTreeMap<String, Outcome> {
+    let mut outcomes = BTreeMap::new();
+    let mut rest = text;
+    while let Some(start) = rest.find("<testcase") {
+        rest = &rest[start + "<testcase".len()..];
+        let Some(tag_end) = rest.find('>') else { break };
+        let attrs = &rest[..tag_end];
+        let self_closing = attrs.trim_end().ends_with('/');
+        let name = attrs
+            .split("name=\"")
+            .nth(1)
+            .and_then(|s| s.split('"').next());
+        let body = if self_closing {
+            ""
+        } else {
+            let after = &rest[tag_end + 1..];
+            after
+                .find("</testcase>")
+                .map(|end| &after[..end])
+                .unwrap_or("")
+        };
+        if let Some(name) = name {
+            let outcome = if body.contains("<failure") || body.contains("<error") {
+                Outcome::Failed
+            } else if body.contains("<skipped") {
+                Outcome::Skipped
+            } else {
+                Outcome::Passed
+            };
+            outcomes.insert(name.to_string(), outcome);
+        }
+    }
+    outcomes
+}
+
+/// The coverage report as JSON, for downstream consumers.
+pub(crate) fn coverage_report(model: &Model) -> (Value, ExitCode) {
+    coverage(model, None)
+}
+
+fn coverage(model: &Model, results: Option<&BTreeMap<String, Outcome>>) -> (Value, ExitCode) {
     let mut links: BTreeMap<&String, Links> = model
         .requirements
         .keys()
@@ -519,16 +571,39 @@ fn coverage(model: &Model) -> (Value, ExitCode) {
             )
         })
         .collect();
+    // Joined outcomes per requirement (only when a results report is given).
+    let mut joined: BTreeMap<String, [Vec<String>; 3]> = BTreeMap::new(); // passed, failed, skipped
     for e in &model.edges {
-        if (e.kind == "verifies" || e.kind == "implements")
+        if (e.kind == "verifies" || e.kind == "implements" || e.kind == "plans")
             && let Some(l) = links.get_mut(&e.to)
         {
             if e.kind == "implements" {
                 l.implemented.push(e.location());
-            } else if e.ignored {
+            } else if e.kind == "plans" || e.ignored {
                 l.planned.push(e.location());
             } else {
-                l.verified.push(e.location());
+                // An active verifying claim: a joined failed or skipped
+                // outcome demotes it to planned (REQ-03-01-10-03); an
+                // unjoined claim keeps its marker-derived status — results
+                // refine, they never invent evidence.
+                let outcome = results
+                    .zip(e.test.as_ref())
+                    .and_then(|(report, test)| report.get(test).copied());
+                match outcome {
+                    Some(Outcome::Failed) | Some(Outcome::Skipped) => l.planned.push(e.location()),
+                    _ => l.verified.push(e.location()),
+                }
+                if let (Some(_), Some(test)) = (results, &e.test) {
+                    let slot = match outcome {
+                        Some(Outcome::Passed) => Some(0),
+                        Some(Outcome::Failed) => Some(1),
+                        Some(Outcome::Skipped) => Some(2),
+                        None => None,
+                    };
+                    if let Some(slot) = slot {
+                        joined.entry(e.to.clone()).or_default()[slot].push(test.clone());
+                    }
+                }
             }
         }
     }
@@ -542,14 +617,27 @@ fn coverage(model: &Model) -> (Value, ExitCode) {
         l.verified.sort();
         l.planned.sort();
         l.implemented.sort();
-        rows.push(json!({
+        let mut row = json!({
             "id": id,
             "kind": req.kind,
             "story": owner_story(id, &model.edges),
             "verified_by": l.verified,
             "planned_by": l.planned,
             "implemented_by": l.implemented,
-        }));
+        });
+        // The results key exists only when a report was joined, so the
+        // default output stays value-equal to the frozen oracle surface.
+        if results.is_some() {
+            let mut lists = joined.remove(id.as_str()).unwrap_or_default();
+            lists.iter_mut().for_each(|l| l.sort());
+            let [passed, failed, skipped] = lists;
+            row["results"] = json!({
+                "passed": passed,
+                "failed": failed,
+                "skipped": skipped,
+            });
+        }
+        rows.push(row);
 
         let entry = summary.entry(req.kind.clone()).or_insert([0, 0, 0, 0]);
         entry[0] += 1;
@@ -562,7 +650,7 @@ fn coverage(model: &Model) -> (Value, ExitCode) {
                     "warning",
                     "TRC-COV-002",
                     format!(
-                        "functional requirement {id} is only planned: all verifies markers sit on ignored tests"
+                        "functional requirement {id} is only planned: no active test verifies it yet"
                     ),
                     id,
                     &req.file,
@@ -713,7 +801,7 @@ fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     }
 
     out.push_str("requirement,kind,verified_markers,planned_markers,implements_markers\n");
-    let (report, _) = coverage(model);
+    let (report, _) = coverage(model, None);
     if let Some(rows) = report["requirements"].as_array() {
         for row in rows {
             out.push_str(&csv_row(&[
@@ -772,9 +860,21 @@ pub fn scan(format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-01-01-08-02
 // arqix:implements REQ-01-01-08-03
 /// `arqix trace coverage`
-pub fn coverage_command(format: OutputFormat) -> ExitCode {
+// arqix:implements REQ-03-01-10-02
+// arqix:implements REQ-03-01-10-03
+pub fn coverage_command(results: Option<&str>, format: OutputFormat) -> ExitCode {
+    let outcomes = match results {
+        Some(path) => match std::fs::read_to_string(path) {
+            Ok(text) => Some(parse_junit(&text)),
+            Err(err) => {
+                eprintln!("error: cannot read results report {path}: {err}");
+                return ExitCode::from(2);
+            }
+        },
+        None => None,
+    };
     let model = build_model(&read_corpus());
-    let (report, code) = coverage(&model);
+    let (report, code) = coverage(&model, outcomes.as_ref());
     match format {
         OutputFormat::Json => emit_json(&report),
         OutputFormat::Text => print!("{}", coverage_text(&report)),

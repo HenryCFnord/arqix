@@ -190,7 +190,12 @@ enum TraceCommand {
     /// Check marker links for a requirement
     Check { requirement: String },
     /// Report requirements coverage
-    Coverage,
+    Coverage {
+        /// JUnit XML results report; joined outcomes demote failed or
+        /// skipped claims (US-03-01-10)
+        #[arg(long)]
+        results: Option<String>,
+    },
     /// Project traceability matrices
     Matrix {
         /// Matrix type: req-test (default) or us-req
@@ -314,7 +319,9 @@ fn main() -> ExitCode {
         Command::Trace { command } => match command {
             TraceCommand::Scan => trace::scan(cli.format),
             TraceCommand::Check { requirement } => trace::check_command(&requirement, cli.format),
-            TraceCommand::Coverage => trace::coverage_command(cli.format),
+            TraceCommand::Coverage { results } => {
+                trace::coverage_command(results.as_deref(), cli.format)
+            }
             TraceCommand::Matrix { matrix_type } => trace::matrix_command(&matrix_type, cli.format),
             TraceCommand::Ratchet { baseline } => {
                 trace::ratchet_command(baseline.as_deref(), cli.format)
