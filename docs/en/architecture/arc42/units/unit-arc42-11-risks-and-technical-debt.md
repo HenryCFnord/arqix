@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-08
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -43,3 +43,4 @@ Known at specification time:
   Decide with a dedicated search story, after measuring the linear scan on the real corpus.
 - The assembly log path is a fixed v1 default (`pages/assembly.jsonl`); REQ-04-01-01-03 asks for it to be configurable, which lands with the render/publish configuration story in Phase 5.
   A missing include target is currently left verbatim by the assembler (the linter's LNT-001 is the tool that flags it); folding that signal into `assemble build` is a later refinement.
+- A future documentation consistency check (drift between the C4 model, the Mermaid views, and the prose) is recorded as an extension path of the verification pipeline (REQ-01-01-11-05); no story schedules it yet.
