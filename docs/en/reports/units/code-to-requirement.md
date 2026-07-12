@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 270efe4, 2026-07-12
+     Snapshot: 54b77e6, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -20,7 +20,7 @@
 | `bundle` | src/reporter.rs:18 | REQ-04-01-12-01 |
 | `bundle` | src/reporter.rs:19 | REQ-04-01-12-02 |
 | `bundle` | src/reporter.rs:20 | REQ-04-01-12-03 |
-| `change_policy` | src/config.rs:249 | REQ-01-01-07-01 |
+| `change_policy` | src/config.rs:257 | REQ-01-01-07-01 |
 | `check` | src/policy.rs:31 | REQ-01-01-07-02 |
 | `check` | src/policy.rs:32 | REQ-01-01-07-03 |
 | `check_command` | src/trace.rs:751 | REQ-03-01-06-01 |
@@ -44,13 +44,13 @@
 | `fmt` | src/rewriter.rs:191 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:192 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:193 | REQ-01-01-03-03 |
-| `heading_ownership` | src/config.rs:314 | REQ-02-01-12-04 |
-| `id_pattern_for_kind` | src/config.rs:390 | REQ-01-01-18-01 |
+| `heading_ownership` | src/config.rs:322 | REQ-02-01-12-04 |
+| `id_pattern_for_kind` | src/config.rs:398 | REQ-01-01-18-01 |
 | `init` | src/templates.rs:361 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:362 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:355 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:356 | REQ-01-01-19-02 |
+| `kind_contracts` | src/config.rs:363 | REQ-01-01-19-01 |
+| `kind_contracts` | src/config.rs:364 | REQ-01-01-19-02 |
 | `knowledge` | src/reporter.rs:124 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-03 |
@@ -64,16 +64,16 @@
 | `new_document` | src/templates.rs:244 | REQ-00-00-00-13 |
 | `new_document` | src/templates.rs:245 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:246 | REQ-01-01-13-02 |
-| `pdf` | src/publisher.rs:155 | REQ-04-01-03-04 |
-| `pdf` | src/publisher.rs:156 | REQ-04-01-03-05 |
-| `pdf` | src/publisher.rs:157 | REQ-04-01-03-06 |
-| `pdf` | src/publisher.rs:158 | REQ-04-01-03-07 |
-| `publish_policy` | src/config.rs:208 | REQ-04-01-03-03 |
+| `pdf` | src/publisher.rs:166 | REQ-04-01-03-04 |
+| `pdf` | src/publisher.rs:167 | REQ-04-01-03-05 |
+| `pdf` | src/publisher.rs:168 | REQ-04-01-03-06 |
+| `pdf` | src/publisher.rs:169 | REQ-04-01-03-07 |
+| `publish_policy` | src/config.rs:212 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:839 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:840 | REQ-04-01-15-02 |
 | `read` | src/store.rs:156 | REQ-05-01-10-01 |
 | `read` | src/store.rs:157 | REQ-05-01-10-03 |
-| `render_policy` | src/config.rs:282 | REQ-04-01-03-08 |
+| `render_policy` | src/config.rs:290 | REQ-04-01-03-08 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
 | `resolve` | src/config.rs:46 | REQ-01-01-16-01 |
 | `resolve` | src/config.rs:47 | REQ-01-01-16-03 |
@@ -87,17 +87,20 @@
 | `scan` | src/trace.rs:719 | REQ-03-01-05-05 |
 | `search` | src/store.rs:187 | REQ-02-01-06-01 |
 | `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
-| `show` | src/config.rs:456 | REQ-01-01-16-02 |
+| `show` | src/config.rs:464 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
+| `stage_catalogue` | src/publisher.rs:329 | REQ-04-01-17-01 |
+| `stage_catalogue` | src/publisher.rs:330 | REQ-04-01-17-02 |
+| `stage_catalogue` | src/publisher.rs:331 | REQ-04-01-17-03 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
-| `templates_dir` | src/config.rs:327 | REQ-01-01-20-01 |
+| `templates_dir` | src/config.rs:335 | REQ-01-01-20-01 |
 | `tool_result` | src/mcp.rs:129 | REQ-05-01-12-03 |
-| `validate` | src/config.rs:445 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:453 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |

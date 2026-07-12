@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 270efe4, 2026-07-12
+     Snapshot: 54b77e6, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -28,6 +28,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `assemble_rebases_relative_links_from_included_fragments` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_resolves_relative_levels_at_the_include_position` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_shifts_included_headings_to_the_declared_level` | WF-02-01 | Write Docs Alongside Implementation |
+| `catalogue_entries_carry_anchors_and_coverage_status` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `catalogue_pages_are_deterministic` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `config_show_renders_the_effective_configuration_as_json` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-05-01 | Use Documentation for Agents and RAG |
@@ -215,6 +217,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_publishes_per_language` | WF-05-01 | Use Documentation for Agents and RAG |
 | `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

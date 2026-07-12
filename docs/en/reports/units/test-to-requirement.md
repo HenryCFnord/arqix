@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 270efe4, 2026-07-12
+     Snapshot: 54b77e6, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -17,6 +17,8 @@
 | `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
 | `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
 | `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
+| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
+| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
@@ -86,6 +88,7 @@
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
 | `publish_site_publishes_per_language` | tests/cli_publish.rs:13 | REQ-04-01-07-01 | active |
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |

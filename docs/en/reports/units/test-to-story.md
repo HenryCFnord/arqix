@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 270efe4, 2026-07-12
+     Snapshot: 54b77e6, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -28,6 +28,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_shifts_included_headings_to_the_declared_level` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `catalogue_entries_carry_anchors_and_coverage_status` | US-04-01-17 | Publish the Specification as Catalogue Pages |
+| `catalogue_pages_are_deterministic` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
@@ -417,6 +419,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `publish_site_publishes_per_language` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
 | `publish_site_stages_artefact_ready_inputs` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_stages_artefact_ready_inputs` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `release_documents_stay_consistent_with_the_crate_version` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `release_documents_stay_consistent_with_the_crate_version` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `release_documents_stay_consistent_with_the_crate_version` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
