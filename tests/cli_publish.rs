@@ -468,3 +468,37 @@ fn catalogue_pages_are_deterministic() {
         std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md")).expect("page");
     assert_eq!(first, second, "identical corpus, identical catalogue");
 }
+
+// arqix:verifies REQ-04-01-03-02
+#[test]
+fn staged_pages_do_not_duplicate_the_title_heading() {
+    // Site toolchains render the frontmatter title as the page H1; the
+    // corpus convention starts every body with `## <Title>`, so staging
+    // must drop that leading heading or every page shows its title twice
+    // (found on arqix.dev, 2026-07-12).
+    let repo = scratch_copy("minimal", "staged_pages_do_not_duplicate_the_title_heading");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::write(
+        repo.join("docs/dup.md"),
+        "---\nid: dup\ntitle: A Doubled Title\n---\n\n## A Doubled Title\n\nBody text.\n\n### A Doubled Title\n\nA deeper section may repeat the words.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let staged = std::fs::read_to_string(repo.join("site-src/dup.md")).expect("staged page");
+    assert!(
+        staged.contains("title: \"A Doubled Title\""),
+        "the title stays in the frontmatter: {staged}"
+    );
+    assert!(
+        !staged.contains("## A Doubled Title\n") || staged.contains("### A Doubled Title"),
+        "sanity: deeper headings survive"
+    );
+    assert!(
+        !staged.lines().any(|l| l.trim() == "## A Doubled Title"),
+        "the leading title heading is dropped — the toolchain renders the title: {staged}"
+    );
+    assert!(
+        staged.contains("### A Doubled Title"),
+        "only the leading duplicate goes; deeper headings stay: {staged}"
+    );
+}

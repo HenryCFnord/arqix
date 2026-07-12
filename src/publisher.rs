@@ -557,11 +557,27 @@ fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCo
         let quoted = title.replace('\\', "\\\\").replace('"', "\\\"");
         out.push_str(&format!("---\ntitle: \"{quoted}\"\n---\n"));
     }
+    // The toolchain renders the frontmatter title as the page H1, and the
+    // corpus convention starts every body with `## <Title>` — dropping that
+    // one leading duplicate keeps titles from appearing twice on the site
+    // (found on arqix.dev, 2026-07-12). Deeper repeats stay untouched.
+    let duplicate_heading = doc
+        .title
+        .as_ref()
+        .map(|title| format!("## {title}"))
+        .unwrap_or_default();
+    let mut leading_heading_seen = false;
     for line in doc.body.lines() {
         let trimmed = line.trim();
         // Directives and marker comments never reach the toolchain.
         if trimmed.starts_with("<!--") && trimmed.ends_with("-->") && trimmed.contains("arqix:") {
             continue;
+        }
+        if !leading_heading_seen && trimmed.starts_with('#') {
+            leading_heading_seen = true;
+            if trimmed == duplicate_heading {
+                continue;
+            }
         }
         out.push_str(line);
         out.push('\n');
