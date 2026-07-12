@@ -75,13 +75,13 @@ The remaining command surface, ordered so each slice makes the previous one more
 - [x] Repository public, GitHub Pages on arqix.dev (placeholder in `site/`, deployed by `.github/workflows/pages.yml`)
 - [x] CI workflow (`.github/workflows/ci.yml`): the daily gate (selftests, checkers, marker gate, report freshness, cargo test, lint, markdownlint), the Rust lints, and the trace-oracle conformance cross-check on every PR; `just ci` mirrors it locally. The structurizr-cli Mermaid export moved to its own slice (arc42 chapter 11).
 
-1. **Publish site MVP** (`publish site`): stage the corpus and orchestrate the configured site toolchain (Zensical recommended) so arqix.dev becomes the first arqix-published site; the stitching mechanics (level-parameterised includes, heading-ownership policy, split on the assembled outline — ADR-0013, US-02-01-12) follow as the assembler slice.
-2. **Verification process** (done): configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, the machine-checked done claim per story lifecycle — and the gate dogfoods `arqix verify` for the corpus checks, while the Python checkers stay as reference cross-checks until the self-hosting slice.
-3. **Configuration over convention** (done, from the PR-#20 config audit): configured ID policy (ADR-0012), per-family frontmatter contracts as one source, template files instead of string literals, the snapshot strategy and ratchet baseline as configuration (C17).
-4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`) — plus the generated requirement/story catalogue pages that return the spec to the site in bundled form (one page per workflow group, an anchor per ID, coverage status from the graph) instead of 276 single pages.
-5. **Render & languages** (`render pdf`, language-aware site, DE translations).
-6. **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
-7. **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
+1. [x] **Publish site MVP** (`publish site`): stage the corpus and orchestrate the configured site toolchain (Zensical recommended) so arqix.dev becomes the first arqix-published site; the stitching mechanics (level-parameterised includes, heading-ownership policy, split on the assembled outline — ADR-0013, US-02-01-12) follow as the assembler slice.
+2. [x] **Verification process**: configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, the machine-checked done claim per story lifecycle — and the gate dogfoods `arqix verify` for the corpus checks, while the Python checkers stay as reference cross-checks until the self-hosting slice.
+3. [x] **Configuration over convention** (from the PR-#20 config audit): configured ID policy (ADR-0012), per-family frontmatter contracts as one source, template files instead of string literals, the snapshot strategy and ratchet baseline as configuration (C17).
+4. [ ] **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`) — plus the generated requirement/story catalogue pages that return the spec to the site in bundled form (one page per workflow group, an anchor per ID, coverage status from the graph) instead of 276 single pages.
+5. [ ] **Render & languages** (`render pdf`, language-aware site, DE translations).
+6. [ ] **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
+7. [ ] **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
 
 Deferred alongside: vector (SVG) source for the logo, traced from the monochrome raster variant (the raster set — transparent, mark, mono dark/light — lives in `assets/`).
 Also deferred (post-0.1.0): machine-readable licensing per [REUSE](https://reuse.software) — the `REUSE.toml` variant, no per-file SPDX headers.

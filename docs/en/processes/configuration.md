@@ -10,11 +10,8 @@ A missing file is valid — it simply means no overrides.
 | --- | --- | --- | --- |
 | `roots` | array of strings | `["docs"]` | yes — type-checked |
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
-| `kinds` | table | empty | accepted, content validated in a later schema version |
-| `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
-
 | `kinds` | table | empty | accepted; per-family contract entries are read (below), other content validated in a later schema version |
-| `templates` | table | empty | accepted, content validated in a later schema version |
+| `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
 | `policies` | table | empty | accepted; `policies.verify` and `policies.publish` are read (below), other content validated in a later schema version |
 | `i18n` | table | empty | accepted; `default-lang` is read (below), other content validated in a later schema version |
 
