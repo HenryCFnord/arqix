@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3e54da9, 2026-07-12
+     Snapshot: d7ee25f, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -57,6 +57,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_init_creates_the_standard_package_scaffold` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_creates_the_standard_package_scaffold` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_init_never_overwrites_agent_instructions` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_init_scaffolds_agent_instructions` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_scaffolds_an_explicit_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_scaffolds_an_explicit_path` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_init_scaffolds_the_default_template_files` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -187,6 +189,19 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `policy_check_passes_when_no_policy_is_declared` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `policy_check_passes_when_no_policy_is_declared` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `policy_check_passes_when_no_policy_is_declared` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-03-01 | Validate Traceability and Coverage |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-05-01 | Use Documentation for Agents and RAG |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-07-01 | Review Evidence Chains and Exports |
+| `policy_check_reports_violations_as_structured_diagnostics` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `policy_check_supports_warn_only_mode` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_supports_warn_only_mode` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_supports_warn_only_mode` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -205,8 +220,14 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `render_forwards_tool_errors_transparently` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_forwards_tool_errors_transparently` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `render_pdf_accepts_selected_markdown_files` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_accepts_selected_markdown_files` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_renders_via_pandoc` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_pdf_renders_via_pandoc` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `render_pdf_stores_artefacts_per_configured_mode` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_stores_artefacts_per_configured_mode` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_includes_linked_evidence` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_output_is_deterministic_and_schema_stable` | WF-04-01 | Run CI Gates and Publish artefacts |

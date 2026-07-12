@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3e54da9, 2026-07-12
+     Snapshot: d7ee25f, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -130,6 +130,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `doc_init_creates_the_standard_package_scaffold` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `doc_init_never_overwrites_agent_instructions` | US-01-01-21 | Scaffold Agent Instructions on Init |
+| `doc_init_scaffolds_agent_instructions` | US-01-01-21 | Scaffold Agent Instructions on Init |
 | `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_scaffolds_an_explicit_path` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_init_scaffolds_the_default_template_files` | US-01-01-20 | Create Documents from Template Files |
@@ -362,6 +364,46 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-08-01-08 | Stay within Declared Change Scope |
+| `policy_check_passes_when_no_policy_is_declared` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `policy_check_passes_when_no_policy_is_declared` | US-04-01-02 | Check Scope Guardrails in CI |
+| `policy_check_passes_when_no_policy_is_declared` | US-08-01-08 | Stay within Declared Change Scope |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | US-04-01-02 | Check Scope Guardrails in CI |
+| `policy_check_reads_the_declared_scope_from_the_policy_file` | US-08-01-08 | Stay within Declared Change Scope |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-01-01-08 | Generate Governed Coverage Reports |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-01-01-14 | Lint Translation Metadata and Drift |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-03-01-03 | Generate Coverage Reports |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-03-01-05 | Scan Traceability Information |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-03-01-08 | Make Trace and Coverage Outputs Reproducible |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-02 | Check Scope Guardrails in CI |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-05 | Run a One-Command Verification Loop |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-07 | Publish Language-Aware Sites |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-05 | Detect Translation Drift for Automation |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-07 | Build Machine-Readable Trace Graphs |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-08 | Export a Deterministic Document Catalog |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-06-01-02 | Trace Document Assembly Structure |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-07-01-01 | Review Coverage Evidence |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-07-01-04 | Review Trace Graphs as Audit Evidence |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-07-01-06 | Export Deterministic Trace and Coverage Evidence |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-07 | List Documents Deterministically for Automation |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-08 | Stay within Declared Change Scope |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-11 | Interpret i18n Lint Results Deterministically |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-16 | Scan Traceability Deterministically within Verification Loops |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-19 | Detect Missing Trace Markers for a Requirement |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `policy_check_reports_violations_as_structured_diagnostics` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `policy_check_supports_warn_only_mode` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_supports_warn_only_mode` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_supports_warn_only_mode` | US-08-01-08 | Stay within Declared Change Scope |
@@ -380,8 +422,14 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `release_documents_stay_consistent_with_the_crate_version` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
 | `render_forwards_tool_errors_transparently` | US-04-01-03 | Generate Publishing Outputs |
 | `render_forwards_tool_errors_transparently` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `render_pdf_accepts_selected_markdown_files` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_accepts_selected_markdown_files` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_pdf_renders_via_pandoc` | US-04-01-03 | Generate Publishing Outputs |
 | `render_pdf_renders_via_pandoc` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `render_pdf_stores_artefacts_per_configured_mode` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_stores_artefacts_per_configured_mode` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_includes_linked_evidence` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_output_is_deterministic_and_schema_stable` | US-04-01-12 | Publish Stable Report Exports for Automation |

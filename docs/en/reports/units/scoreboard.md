@@ -1,13 +1,13 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-03 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3e54da9, 2026-07-12
+     Snapshot: d7ee25f, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # What share of the requirements is verifiably implemented?
 
 | kind | verified | planned | uncovered | total | verified % |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| functional | 79 | 4 | 47 | 130 | 61% |
+| functional | 89 | 0 | 43 | 132 | 67% |
 | quality | 2 | 0 | 15 | 17 | 12% |
 | constraint | 6 | 0 | 16 | 22 | 27% |
 
