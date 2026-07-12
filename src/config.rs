@@ -203,6 +203,10 @@ pub struct PublishPolicy {
     /// the staging dir (logo, favicon — the toolchain can only reference
     /// what reaches staging).
     pub assets: Vec<String>,
+    /// Stage the generated specification catalogue — one page per workflow
+    /// group with anchors and coverage status (US-04-01-17); off by
+    /// default.
+    pub specification_catalogue: bool,
 }
 
 // arqix:implements REQ-04-01-03-03
@@ -234,6 +238,10 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
         assets: publish
             .and_then(|p| json_string_array(p.get("assets")))
             .unwrap_or_default(),
+        specification_catalogue: publish
+            .and_then(|p| p.get("specification-catalogue"))
+            .and_then(Value::as_bool)
+            .unwrap_or(false),
     }
 }
 
