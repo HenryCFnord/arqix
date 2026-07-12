@@ -44,28 +44,17 @@ fn usage_error_exits_with_code_2() {
 // arqix:verifies REQ-04-01-10-01
 #[test]
 fn format_option_is_accepted_globally() {
-    // The option must parse on any command (exit code 2 would mean a usage
-    // error); the stub exit code 70 proves parsing succeeded. `render pdf`
-    // is a phase-5 command still stubbed at this point.
-    let output = run_arqix(&["--format", "json", "render", "pdf"]);
-    assert_eq!(output.status.code(), Some(70));
+    // The option must parse before and after any subcommand (exit code 2
+    // would mean a usage error). The command surface has no stubs left, so
+    // the probe is `config show` — cheap, read-only, deterministic.
+    let output = run_arqix(&["--format", "json", "config", "show"]);
+    assert_eq!(output.status.code(), Some(0));
 
-    let after_subcommand = run_arqix(&["render", "pdf", "--format", "json"]);
-    assert_eq!(after_subcommand.status.code(), Some(70));
+    let after_subcommand = run_arqix(&["config", "show", "--format", "json"]);
+    assert_eq!(after_subcommand.status.code(), Some(0));
 
-    let invalid_value = run_arqix(&["--format", "yaml", "render", "pdf"]);
+    let invalid_value = run_arqix(&["--format", "yaml", "config", "show"]);
     assert_eq!(invalid_value.status.code(), Some(2));
-}
-
-// arqix:no-requirement
-#[test]
-fn unimplemented_commands_exit_outside_the_stable_contract() {
-    // Stubs must never be mistaken for a real result: exit code 70 is
-    // deliberately outside the stable 0/1/2 contract. `render pdf` is the
-    // last phase-5 command still stubbed at this point.
-    let output = run_arqix(&["render", "pdf"]);
-    assert_eq!(output.status.code(), Some(70));
-    assert!(String::from_utf8_lossy(&output.stderr).contains("not implemented"));
 }
 
 // arqix:verifies REQ-01-01-15-01

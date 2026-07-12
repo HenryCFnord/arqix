@@ -240,8 +240,18 @@ enum PublishCommand {
 
 #[derive(Subcommand)]
 enum RenderCommand {
-    /// Render a PDF artefact
-    Pdf,
+    /// Render a PDF artefact via the configured renderer (Pandoc)
+    Pdf {
+        /// Selected Markdown files; the staged artefact-ready pages
+        /// otherwise
+        files: Vec<String>,
+        /// Language root to render (the configured default otherwise)
+        #[arg(long)]
+        lang: Option<String>,
+        /// Output path, overriding the configured artefact mode
+        #[arg(long)]
+        out: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -258,16 +268,6 @@ enum PolicyCommand {
 enum McpCommand {
     /// Serve search/read/list over stdio
     Serve,
-}
-
-/// Exit code for commands whose story is not yet implemented. Deliberately
-/// outside the stable 0/1/2 contract (REQ-00-00-00-02) so nothing can
-/// mistake a stub for a real result.
-const EXIT_UNIMPLEMENTED: u8 = 70;
-
-fn unimplemented(command: &str) -> ExitCode {
-    eprintln!("error: `arqix {command}` is not implemented yet");
-    ExitCode::from(EXIT_UNIMPLEMENTED)
 }
 
 fn main() -> ExitCode {
@@ -330,7 +330,9 @@ fn main() -> ExitCode {
             PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),
         },
         Command::Render { command } => match command {
-            RenderCommand::Pdf => unimplemented("render pdf"),
+            RenderCommand::Pdf { files, lang, out } => {
+                publisher::pdf(&files, lang.as_deref(), out.as_deref(), cli.format)
+            }
         },
         Command::Policy { command } => match command {
             PolicyCommand::Check { files } => policy::check(&files, cli.format),

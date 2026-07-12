@@ -169,20 +169,133 @@ fn publish_site_diagnoses_a_failing_toolchain() {
     );
 }
 
+/// A recording fake renderer: writes its argument list to `args.txt` and
+/// the word `rendered` to whatever follows `-o` — enough to observe the
+/// invocation arqix builds without requiring Pandoc in the test image.
+fn install_fake_renderer(repo: &std::path::Path) {
+    let script = "#!/bin/sh\nprintf '%s\\n' \"$@\" > args.txt\nout=\"\"\nprev=\"\"\nfor a in \"$@\"; do\n  if [ \"$prev\" = \"-o\" ]; then out=\"$a\"; fi\n  prev=\"$a\"\ndone\nif [ -n \"$out\" ]; then echo rendered > \"$out\"; fi\n";
+    let path = repo.join("fakepandoc.sh");
+    std::fs::write(&path, script).unwrap();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o755)).unwrap();
+    }
+}
+
 // arqix:verifies REQ-04-01-03-04
 #[test]
-#[ignore = "US-04-01-03: not implemented"]
 fn render_pdf_renders_via_pandoc() {
     let repo = scratch_copy("minimal", "render_pdf_renders_via_pandoc");
     let out = run_arqix_in(&repo, &["render", "pdf"]);
     // CI images without Pandoc surface a clear diagnostic instead of a
-    // silent failure; the success path is asserted where Pandoc exists.
+    // silent failure; the success path is asserted with the recording
+    // renderer below.
     assert_ne!(out.status.code(), Some(70), "command must be implemented");
+
+    // The staged, artefact-ready pages are what reaches the renderer.
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    let args = std::fs::read_to_string(repo.join("args.txt")).unwrap();
+    assert!(
+        args.contains("REQ-99-99-99-01") && args.contains("-o"),
+        "the renderer is invoked on the staged pages with an output target: {args}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-04
+#[test]
+fn render_pdf_accepts_selected_markdown_files() {
+    let repo = scratch_copy("minimal", "render_pdf_accepts_selected_markdown_files");
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(
+        &repo,
+        &[
+            "render",
+            "pdf",
+            "docs/REQ-99-99-99-01-fixture-requirement.md",
+        ],
+    ));
+    let args = std::fs::read_to_string(repo.join("args.txt")).unwrap();
+    assert!(
+        args.contains("REQ-99-99-99-01-fixture-requirement"),
+        "selected files are what the renderer sees: {args}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-05
+// arqix:verifies REQ-04-01-03-08
+#[test]
+fn render_pdf_supports_defaults_eisvogel_and_package_overrides() {
+    let repo = scratch_copy(
+        "minimal",
+        "render_pdf_supports_defaults_eisvogel_and_package_overrides",
+    );
+    install_fake_renderer(&repo);
+    std::fs::write(repo.join("pandoc-defaults.yaml"), "toc: true\n").unwrap();
+    // The global policy sets the defaults file; the per-package override
+    // adds the eisvogel template for the `docs` package only.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndefaults = \"pandoc-defaults.yaml\"\n\n[policies.render.package.docs]\ntemplate = \"eisvogel\"\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    let args = std::fs::read_to_string(repo.join("args.txt")).unwrap();
+    assert!(
+        args.contains("--defaults") && args.contains("pandoc-defaults.yaml"),
+        "the configured Pandoc defaults file is passed through: {args}"
+    );
+    assert!(
+        args.contains("--template") && args.contains("eisvogel"),
+        "the per-package override adds the eisvogel template: {args}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-06
+#[test]
+fn render_pdf_stores_artefacts_per_configured_mode() {
+    let repo = scratch_copy("minimal", "render_pdf_stores_artefacts_per_configured_mode");
+    install_fake_renderer(&repo);
+
+    // The default mode stores into the package's artefacts/ directory —
+    // the location the doc init scaffold reserves for render products.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    assert!(
+        repo.join("docs/artefacts/docs.pdf").is_file(),
+        "package mode stores the artefact inside the package"
+    );
+
+    // The detached mode stores into the configured artefact directory.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\nartefact-mode = \"detached\"\nartefact-dir = \"render-out\"\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    assert!(
+        repo.join("render-out/docs.pdf").is_file(),
+        "detached mode stores the artefact outside the package"
+    );
 }
 
 // arqix:verifies REQ-04-01-03-07
 #[test]
-#[ignore = "US-04-01-03: not implemented"]
 fn render_forwards_tool_errors_transparently() {
     let repo = scratch_copy("minimal", "render_forwards_tool_errors_transparently");
     let out = run_arqix_in(&repo, &["render", "pdf"]);
@@ -192,6 +305,24 @@ fn render_forwards_tool_errors_transparently() {
             "a failing render must forward the tool error, never swallow it"
         );
     }
+
+    // A failing renderer is a system error naming the invocation, exactly
+    // like a failing site toolchain (REQ-04-01-07-02's discipline).
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"false\"\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["render", "pdf"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "a renderer failure is a system error, not a finding"
+    );
+    assert!(
+        String::from_utf8_lossy(&out.stderr).contains("false"),
+        "the diagnostic names the failing invocation"
+    );
 }
 
 // arqix:no-requirement

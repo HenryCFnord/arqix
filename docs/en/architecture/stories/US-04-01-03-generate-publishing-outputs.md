@@ -32,7 +32,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-03-30
   updated: 2026-07-12
@@ -47,12 +47,12 @@ As a DevOps engineer, I want to generate publishing outputs, so that documentati
 
 ### Acceptance Criteria
 
-- [ ] `arqix publish` generates publishing outputs for PDF and/or website targets.
-- [ ] Assembled pages are artefact-ready, and site build orchestration is supported when configured.
-- [ ] `arqix render pdf` runs Pandoc on assembled pages or selected Markdown files.
-- [ ] Pandoc `--defaults` is supported, and `--template eisvogel` is supported when configured.
-- [ ] Artefacts are stored according to configured artefact mode and tool errors are forwarded cleanly.
-- [ ] Per-doc-package render configuration and overrides are supported.
+- [x] `arqix publish` generates publishing outputs for PDF and/or website targets.
+- [x] Assembled pages are artefact-ready, and site build orchestration is supported when configured.
+- [x] `arqix render pdf` runs Pandoc on assembled pages or selected Markdown files.
+- [x] Pandoc `--defaults` is supported, and `--template eisvogel` is supported when configured.
+- [x] Artefacts are stored according to configured artefact mode and tool errors are forwarded cleanly.
+- [x] Per-doc-package render configuration and overrides are supported.
 
 ### Notes
 
