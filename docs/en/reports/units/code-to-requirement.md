@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a8a9e91, 2026-07-12
+     Snapshot: a836fb8, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -116,6 +116,7 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
+| — | src/main.rs:394 | REQ-01-01-05-02 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/templates.rs:274 | REQ-01-01-18-01 |

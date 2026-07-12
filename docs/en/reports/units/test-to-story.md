@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a8a9e91, 2026-07-12
+     Snapshot: a836fb8, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -9,6 +9,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 
 | test | story | title |
 | --- | --- | --- |
+| `a_fresh_package_passes_the_verification_loop_directly` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
 | `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `agent_extension_points_carry_no_normative_process_rules` | US-01-01-09 | Govern Agent Workflow Document Standards |
@@ -45,6 +46,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_shifts_included_headings_to_the_declared_level` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `assembly_log_records_carry_stable_field_names` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
+| `assembly_outcomes_are_reviewable_from_log_and_exit_code` | US-06-01-02 | Trace Document Assembly Structure |
+| `assembly_outcomes_are_reviewable_from_log_and_exit_code` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
@@ -118,6 +122,16 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_identifies_the_failing_key` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
 | `coverage_joins_junit_outcomes_by_test_name` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `coverage_without_results_is_byte_identical_to_before` | US-03-01-10 | Track Planned and Executed Test Evidence |
+| `creation_aliases_mirror_doc_new` | US-01-01-05 | Create Documents from Configured Templates |
+| `creation_aliases_mirror_doc_new` | US-02-01-05 | Create Documents Quickly from Templates |
+| `creation_aliases_mirror_doc_new` | US-06-01-03 | Create Architecture Documents from Templates |
+| `creation_aliases_mirror_doc_new` | US-08-01-05 | Create Documents Deterministically from Templates |
+| `creation_never_overwrites_an_existing_document` | US-01-01-01 | Initialise Standardised Doc Package |
+| `creation_never_overwrites_an_existing_document` | US-01-01-06 | Finalise Document Metadata Mechanically |
+| `creation_never_overwrites_an_existing_document` | US-02-01-01 | Initialize a Doc Package with One Command |
+| `creation_never_overwrites_an_existing_document` | US-02-01-08 | Finalise Metadata without Touching Content |
+| `creation_never_overwrites_an_existing_document` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `creation_never_overwrites_an_existing_document` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-08 | Generate Governed Coverage Reports |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-14 | Lint Translation Metadata and Drift |
@@ -268,7 +282,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_read_retrieves_a_document_by_id` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
 | `doc_read_retrieves_a_document_by_id` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `doc_search_finds_documents_by_full_text` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `empty_link_cases_stay_visible_in_the_matrix` | US-03-01-02 | Export Trace Matrices |
 | `failed_outcomes_demote_the_verifying_claim` | US-03-01-10 | Track Planned and Executed Test Evidence |
+| `failure_diagnostics_name_the_stop_condition` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
@@ -332,6 +348,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_is_idempotent` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
 | `fmt_is_idempotent` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
 | `fmt_is_idempotent` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
+| `fmt_keeps_diffs_focused_on_content` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-01-01-03 | Format Documents Canonically |
 | `fmt_never_changes_body_text` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-08-01-03 | Format Documents Deterministically within Scope |
@@ -362,6 +379,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `ids_and_slugs_derive_deterministically` | US-08-01-05 | Create Documents Deterministically from Templates |
 | `ids_and_slugs_derive_deterministically` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
+| `includes_never_resolve_outside_the_configured_roots` | US-02-01-09 | Use Include Directives During Implementation |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
@@ -394,6 +412,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
+| `mutating_commands_leave_files_outside_the_roots_untouched` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `mutating_commands_leave_files_outside_the_roots_untouched` | US-04-01-02 | Check Scope Guardrails in CI |
+| `mutating_commands_leave_files_outside_the_roots_untouched` | US-08-01-08 | Stay within Declared Change Scope |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-08-01-08 | Stay within Declared Change Scope |
@@ -440,6 +461,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `policy_check_supports_warn_only_mode` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_supports_warn_only_mode` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_supports_warn_only_mode` | US-08-01-08 | Stay within Declared Change Scope |
+| `processed_content_is_never_executed` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `processed_content_is_never_executed` | US-04-01-02 | Check Scope Guardrails in CI |
+| `processed_content_is_never_executed` | US-08-01-08 | Stay within Declared Change Scope |
 | `publish_site_diagnoses_a_failing_toolchain` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_diagnoses_a_failing_toolchain` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
 | `publish_site_generates_outputs_for_the_configured_target` | US-04-01-03 | Generate Publishing Outputs |
@@ -480,8 +504,17 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
+| `search_answers_within_a_second_on_a_thousand_documents` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `search_answers_within_a_second_on_a_thousand_documents` | US-05-01-06 | Search and Read Documentation via CLI |
+| `search_answers_within_a_second_on_a_thousand_documents` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `templates_and_validation_share_the_contract_source` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
+| `templates_and_validation_share_the_contract_source` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
+| `templates_and_validation_share_the_contract_source` | US-08-01-10 | Use Metadata Contracts Deterministically |
+| `the_assembly_log_is_a_collectable_artefact` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
+| `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | US-04-01-05 | Run a One-Command Verification Loop |
+| `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `tool_logic_answers_without_any_transport` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `tool_logic_answers_without_any_transport` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `trace_check_reports_verifies_markers_per_requirement` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
@@ -604,6 +637,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `unit_new_creates_a_unit_from_the_configured_template` | US-08-01-05 | Create Documents Deterministically from Templates |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
 | `unit_new_creates_a_unit_from_the_configured_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `unit_new_help_explains_location_metadata_and_ids` | US-01-01-02 | Create Governed Units |
+| `unit_new_help_explains_location_metadata_and_ids` | US-02-01-02 | Create Units Quickly During Implementation |
+| `unit_new_help_explains_location_metadata_and_ids` | US-05-01-01 | Create Units for Retrieval and Automation |
+| `unit_new_help_explains_location_metadata_and_ids` | US-06-01-01 | Create Modular Document Units |
+| `unresolved_references_stay_visible_in_trace_outputs` | US-03-01-05 | Scan Traceability Information |
 | `usage_error_exits_with_code_2` | US-01-01-14 | Lint Translation Metadata and Drift |
 | `usage_error_exits_with_code_2` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |
 | `usage_error_exits_with_code_2` | US-04-01-05 | Run a One-Command Verification Loop |

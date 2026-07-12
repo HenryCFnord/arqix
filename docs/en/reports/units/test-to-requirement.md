@@ -1,12 +1,13 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a8a9e91, 2026-07-12
+     Snapshot: a836fb8, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
 
 | test | location | requirement | status |
 | --- | --- | --- | --- |
+| `a_fresh_package_passes_the_verification_loop_directly` | tests/cli_quality.rs:391 | REQ-08-01-01-02 | active |
 | `adrs_follow_the_path_model_in_the_canonical_governance_language` | tests/corpus_guards.rs:119 | REQ-01-01-11-02 | active |
 | `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:78 | REQ-01-01-09-06 | active |
 | `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:60 | REQ-01-01-09-02 | active |
@@ -25,6 +26,9 @@
 | `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
 | `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
 | `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
+| `assembly_log_records_carry_stable_field_names` | tests/cli_quality.rs:336 | REQ-05-01-02-01 | active |
+| `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
+| `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:243 | REQ-01-01-15-04 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
@@ -36,6 +40,8 @@
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:29 | REQ-01-01-16-03 | active |
 | `coverage_joins_junit_outcomes_by_test_name` | tests/cli_trace_results.rs:44 | REQ-03-01-10-02 | active |
 | `coverage_without_results_is_byte_identical_to_before` | tests/cli_trace_results.rs:123 | REQ-03-01-10-02 | active |
+| `creation_aliases_mirror_doc_new` | tests/cli_quality.rs:245 | REQ-01-01-05-02 | active |
+| `creation_never_overwrites_an_existing_document` | tests/cli_quality.rs:55 | REQ-00-00-00-08 | active |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | tests/cli_lint.rs:203 | REQ-00-00-00-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_init_never_overwrites_agent_instructions` | tests/cli_doc.rs:549 | REQ-01-01-21-02 | active |
@@ -63,7 +69,9 @@
 | `doc_read_distinguishes_a_document_miss_from_a_selector_miss` | tests/cli_doc.rs:254 | REQ-05-01-10-03 | active |
 | `doc_read_retrieves_a_document_by_id` | tests/cli_doc.rs:242 | REQ-05-01-10-01 | active |
 | `doc_search_finds_documents_by_full_text` | tests/cli_doc.rs:268 | REQ-02-01-06-01 | active |
+| `empty_link_cases_stay_visible_in_the_matrix` | tests/cli_quality.rs:286 | REQ-03-01-02-04 | active |
 | `failed_outcomes_demote_the_verifying_claim` | tests/cli_trace_results.rs:87 | REQ-03-01-10-03 | active |
+| `failure_diagnostics_name_the_stop_condition` | tests/cli_quality.rs:364 | REQ-08-01-01-01 | active |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | tests/cli_finalise.rs:90 | REQ-01-01-06-03 | active |
 | `finalise_leaves_current_metadata_untouched` | tests/cli_finalise.rs:24 | REQ-01-01-06-02 | active |
 | `finalise_rejects_a_non_iso_date` | tests/cli_finalise.rs:41 | REQ-01-01-06-01 | active |
@@ -71,6 +79,7 @@
 | `finalise_touches_only_the_meta_updated_field` | tests/cli_finalise.rs:65 | REQ-01-01-06-01 | active |
 | `fmt_and_config_show_share_one_contract_source` | tests/cli_fmt.rs:102 | REQ-01-01-19-02 | active |
 | `fmt_is_idempotent` | tests/cli_fmt.rs:62 | REQ-00-00-00-01 | active |
+| `fmt_keeps_diffs_focused_on_content` | tests/cli_quality.rs:264 | REQ-02-01-03-01 | active |
 | `fmt_never_changes_body_text` | tests/cli_fmt.rs:17 | REQ-01-01-03-02 | active |
 | `fmt_never_changes_body_text` | tests/cli_fmt.rs:18 | REQ-01-01-03-03 | active |
 | `fmt_orders_keys_from_the_configured_contract` | tests/cli_fmt.rs:76 | REQ-01-01-19-01 | active |
@@ -79,6 +88,7 @@
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
 | `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:507 | REQ-00-00-00-04 | active |
 | `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
+| `includes_never_resolve_outside_the_configured_roots` | tests/cli_quality.rs:119 | REQ-02-01-09-02 | active |
 | `lint_checks_encoded_groups_against_declared_triples` | tests/cli_lint.rs:160 | REQ-01-01-18-04 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
@@ -93,12 +103,14 @@
 | `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:51 | REQ-05-01-12-01 | active |
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | tests/cli_mcp.rs:260 | REQ-05-01-12-02 | active |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | tests/cli_mcp.rs:318 | REQ-05-01-12-02 | active |
+| `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
 | `policy_check_reads_the_declared_scope_from_the_policy_file` | tests/cli_policy.rs:19 | REQ-01-01-07-01 | active |
 | `policy_check_reports_violations_as_structured_diagnostics` | tests/cli_policy.rs:93 | REQ-00-00-00-03 | active |
 | `policy_check_reports_violations_as_structured_diagnostics` | tests/cli_policy.rs:94 | REQ-01-01-07-02 | active |
 | `policy_check_supports_warn_only_mode` | tests/cli_policy.rs:77 | REQ-01-01-07-03 | active |
+| `processed_content_is_never_executed` | tests/cli_quality.rs:86 | REQ-00-00-00-14 | active |
 | `publish_site_diagnoses_a_failing_toolchain` | tests/cli_publish.rs:150 | REQ-04-01-07-02 | active |
 | `publish_site_generates_outputs_for_the_configured_target` | tests/cli_publish.rs:86 | REQ-04-01-03-01 | active |
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
@@ -124,7 +136,11 @@
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | tests/cli_report.rs:146 | REQ-05-01-15-02 | active |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
+| `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
 | `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:472 | REQ-04-01-03-02 | active |
+| `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
+| `the_assembly_log_is_a_collectable_artefact` | tests/cli_quality.rs:326 | REQ-04-01-01-01 | active |
+| `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | tests/cli_quality.rs:207 | REQ-00-00-00-12 | active |
 | `tool_logic_answers_without_any_transport` | src/mcp.rs:205 | REQ-05-01-12-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |
@@ -140,6 +156,8 @@
 | `trace_scan_does_not_follow_directory_symlinks` | tests/cli_trace.rs:87 | REQ-00-00-00-01 | active |
 | `trace_scan_outputs_the_trace_graph_as_json` | tests/cli_trace.rs:24 | REQ-03-01-05-04 | active |
 | `unit_new_creates_a_unit_from_the_configured_template` | tests/cli_unit.rs:8 | REQ-00-00-00-05 | active |
+| `unit_new_help_explains_location_metadata_and_ids` | tests/cli_quality.rs:222 | REQ-01-01-02-03 | active |
+| `unresolved_references_stay_visible_in_trace_outputs` | tests/cli_quality.rs:159 | REQ-03-01-05-05 | active |
 | `usage_error_exits_with_code_2` | tests/cli.rs:30 | REQ-00-00-00-02 | active |
 | `verify_defaults_to_informational_coverage_and_gating_rest` | tests/cli_verify.rs:122 | REQ-04-01-14-03 | active |
 | `verify_emits_per_step_results_in_json_mode` | tests/cli_verify.rs:27 | REQ-04-01-05-03 | active |
