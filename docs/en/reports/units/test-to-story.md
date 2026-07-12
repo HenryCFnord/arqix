@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 1cbb204, 2026-07-12
+     Snapshot: 4e01178, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -9,7 +9,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 
 | test | story | title |
 | --- | --- | --- |
-| `assemble_applies_the_configured_heading_ownership_default` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_generates_outputs_under_pages` | US-02-01-11 | Assemble Documentation During Implementation |
@@ -23,11 +22,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_build_writes_a_jsonl_log` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
 | `assemble_build_writes_a_jsonl_log` | US-06-01-02 | Trace Document Assembly Structure |
 | `assemble_build_writes_a_jsonl_log` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
-| `assemble_fails_on_heading_overflow` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
-| `assemble_rebases_relative_links_from_included_fragments` | US-04-01-03 | Generate Publishing Outputs |
-| `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
-| `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
-| `assemble_shifts_included_headings_to_the_declared_level` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
@@ -98,7 +92,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_scaffolds_an_explicit_path` | US-02-01-01 | Initialize a Doc Package with One Command |
-| `doc_init_scaffolds_the_default_template_files` | US-01-01-20 | Create Documents from Template Files |
 | `doc_init_writes_doc_index_frontmatter` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_writes_doc_index_frontmatter` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_list_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
@@ -176,11 +169,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-06-01-06 | Create Linked Translation Documents for Architecture Content |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-14 | Scaffold Translations Deterministically from Source IDs |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-23 | Create Documents without Ambiguity via Templates |
-| `doc_new_fails_clearly_on_a_missing_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
-| `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-04-01-02 | Check Scope Guardrails in CI |
@@ -221,7 +212,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `finalise_touches_only_the_meta_updated_field` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_touches_only_the_meta_updated_field` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_touches_only_the_meta_updated_field` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
-| `fmt_and_config_show_share_one_contract_source` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_is_idempotent` | US-01-01-03 | Format Documents Canonically |
 | `fmt_is_idempotent` | US-01-01-04 | Lint Documents Deterministically |
 | `fmt_is_idempotent` | US-01-01-08 | Generate Governed Coverage Reports |
@@ -272,7 +262,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_never_changes_body_text` | US-01-01-03 | Format Documents Canonically |
 | `fmt_never_changes_body_text` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-08-01-03 | Format Documents Deterministically within Scope |
-| `fmt_orders_keys_from_the_configured_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_orders_ontology_frontmatter_by_family` | US-01-01-03 | Format Documents Canonically |
 | `fmt_orders_ontology_frontmatter_by_family` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_orders_ontology_frontmatter_by_family` | US-08-01-03 | Format Documents Deterministically within Scope |
@@ -282,7 +271,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `format_option_is_accepted_globally` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
 | `format_option_is_accepted_globally` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
 | `format_option_is_accepted_globally` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
-| `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |
@@ -328,7 +316,6 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `render_pdf_renders_via_pandoc` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_includes_linked_evidence` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
-| `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `trace_check_reports_verifies_markers_per_requirement` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-01-01-08 | Generate Governed Coverage Reports |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-03-01-03 | Generate Coverage Reports |

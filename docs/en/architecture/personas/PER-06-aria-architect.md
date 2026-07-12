@@ -17,10 +17,10 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-03-05
-  updated: 2026-03-28
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -80,3 +80,5 @@ Aria does not own CI pipelines or code-level trace markers, but depends on them 
 ### Open Needs
 
 Aria benefits from stable templates, clear markup rules, and consistent cross-language handling.
+
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

@@ -10,7 +10,7 @@ rdf:
 
 triples:
   - predicate: arqix:properties/has-primary-persona
-    object: arqix:personas/per-03
+    object: arqix:personas/per-10
   - predicate: arqix:properties/has-relevant-persona
     object:
 
@@ -25,7 +25,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2025-03-25
-  updated: 2025-03-28
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false

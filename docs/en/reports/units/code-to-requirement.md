@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 1cbb204, 2026-07-12
+     Snapshot: 4e01178, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -22,32 +22,25 @@
 | `coverage_command` | src/trace.rs:672 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:673 | REQ-01-01-08-03 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
-| `expand` | src/assembler.rs:156 | REQ-02-01-12-01 |
-| `expand` | src/assembler.rs:157 | REQ-02-01-12-02 |
-| `expand` | src/assembler.rs:158 | REQ-02-01-12-03 |
-| `finalise` | src/rewriter.rs:319 | REQ-01-01-06-01 |
-| `finalise` | src/rewriter.rs:320 | REQ-01-01-06-02 |
-| `finalise` | src/rewriter.rs:321 | REQ-01-01-06-03 |
-| `finalise` | src/rewriter.rs:322 | REQ-00-00-00-08 |
-| `fmt` | src/rewriter.rs:189 | REQ-01-01-03-01 |
-| `fmt` | src/rewriter.rs:190 | REQ-01-01-03-02 |
-| `fmt` | src/rewriter.rs:191 | REQ-01-01-03-03 |
-| `heading_ownership` | src/config.rs:228 | REQ-02-01-12-04 |
-| `init` | src/templates.rs:284 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:285 | REQ-01-01-01-02 |
-| `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:264 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:265 | REQ-01-01-19-02 |
+| `finalise` | src/rewriter.rs:306 | REQ-01-01-06-01 |
+| `finalise` | src/rewriter.rs:307 | REQ-01-01-06-02 |
+| `finalise` | src/rewriter.rs:308 | REQ-01-01-06-03 |
+| `finalise` | src/rewriter.rs:309 | REQ-00-00-00-08 |
+| `fmt` | src/rewriter.rs:176 | REQ-01-01-03-01 |
+| `fmt` | src/rewriter.rs:177 | REQ-01-01-03-02 |
+| `fmt` | src/rewriter.rs:178 | REQ-01-01-03-03 |
+| `init` | src/templates.rs:215 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:216 | REQ-01-01-01-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:738 | REQ-03-01-02-01 |
 | `matrix_command` | src/trace.rs:739 | REQ-03-01-02-02 |
 | `matrix_command` | src/trace.rs:740 | REQ-03-01-02-03 |
-| `new_document` | src/templates.rs:177 | REQ-00-00-00-05 |
-| `new_document` | src/templates.rs:178 | REQ-00-00-00-09 |
-| `new_document` | src/templates.rs:179 | REQ-00-00-00-13 |
-| `new_document` | src/templates.rs:180 | REQ-01-01-13-01 |
-| `new_document` | src/templates.rs:181 | REQ-01-01-13-02 |
+| `new_document` | src/templates.rs:112 | REQ-00-00-00-05 |
+| `new_document` | src/templates.rs:113 | REQ-00-00-00-09 |
+| `new_document` | src/templates.rs:114 | REQ-00-00-00-13 |
+| `new_document` | src/templates.rs:115 | REQ-01-01-13-01 |
+| `new_document` | src/templates.rs:116 | REQ-01-01-13-02 |
 | `publish_policy` | src/config.rs:195 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:772 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:773 | REQ-04-01-15-02 |
@@ -65,16 +58,13 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:350 | REQ-01-01-16-02 |
+| `show` | src/config.rs:280 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
-| `template` | src/templates.rs:95 | REQ-01-01-20-01 |
-| `template` | src/templates.rs:96 | REQ-01-01-20-03 |
-| `templates_dir` | src/config.rs:241 | REQ-01-01-20-01 |
-| `validate` | src/config.rs:339 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:269 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |
@@ -85,5 +75,3 @@
 | `verify_policy` | src/config.rs:148 | REQ-04-01-14-03 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
-| — | src/linter.rs:242 | REQ-02-01-09-01 |
-| — | src/templates.rs:314 | REQ-01-01-20-02 |
