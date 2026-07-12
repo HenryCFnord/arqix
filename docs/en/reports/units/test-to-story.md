@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6621a1a, 2026-07-12
+     Snapshot: a8a9e91, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -9,6 +9,23 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 
 | test | story | title |
 | --- | --- | --- |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
+| `agent_extension_points_carry_no_normative_process_rules` | US-01-01-09 | Govern Agent Workflow Document Standards |
+| `agent_extension_points_carry_no_normative_process_rules` | US-08-01-18 | Standardize Agent Workflow Documents |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | US-01-01-09 | Govern Agent Workflow Document Standards |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | US-08-01-18 | Standardize Agent Workflow Documents |
+| `agent_instructions_define_story_by_story_scope_rules` | US-01-01-09 | Govern Agent Workflow Document Standards |
+| `agent_instructions_define_story_by_story_scope_rules` | US-08-01-18 | Standardize Agent Workflow Documents |
+| `agent_instructions_restrict_agents_to_release_preparation` | US-01-01-15 | Operationalise the Release Process with SemVer |
+| `agent_instructions_restrict_agents_to_release_preparation` | US-04-01-09 | Run Governed Release Preparation Workflows |
+| `agent_instructions_restrict_agents_to_release_preparation` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
+| `architecture_documentation_records_the_consistency_check_extension_path` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `architecture_documentation_records_the_consistency_check_extension_path` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
+| `architecture_views_use_c4_oriented_mermaid_diagrams` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `architecture_views_use_c4_oriented_mermaid_diagrams` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `assemble_applies_the_configured_heading_ownership_default` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
@@ -28,6 +45,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_shifts_included_headings_to_the_declared_level` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | US-01-01-15 | Operationalise the Release Process with SemVer |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | US-04-01-09 | Run Governed Release Preparation Workflows |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
 | `catalogue_entries_carry_anchors_and_coverage_status` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `catalogue_pages_are_deterministic` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
@@ -434,6 +454,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `release_documents_stay_consistent_with_the_crate_version` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `release_documents_stay_consistent_with_the_crate_version` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `release_documents_stay_consistent_with_the_crate_version` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
+| `release_process_documents_semver_and_the_versioned_contracts` | US-01-01-15 | Operationalise the Release Process with SemVer |
+| `release_process_documents_semver_and_the_versioned_contracts` | US-04-01-09 | Run Governed Release Preparation Workflows |
+| `release_process_documents_semver_and_the_versioned_contracts` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
 | `render_forwards_tool_errors_transparently` | US-04-01-03 | Generate Publishing Outputs |
 | `render_forwards_tool_errors_transparently` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_pdf_accepts_selected_markdown_files` | US-04-01-03 | Generate Publishing Outputs |

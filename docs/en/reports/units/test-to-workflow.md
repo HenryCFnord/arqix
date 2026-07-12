@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6621a1a, 2026-07-12
+     Snapshot: a8a9e91, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -9,6 +9,23 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 
 | test | workflow | title |
 | --- | --- | --- |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `agent_extension_points_carry_no_normative_process_rules` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `agent_extension_points_carry_no_normative_process_rules` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `agent_instructions_define_story_by_story_scope_rules` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `agent_instructions_define_story_by_story_scope_rules` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `agent_instructions_restrict_agents_to_release_preparation` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `agent_instructions_restrict_agents_to_release_preparation` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `agent_instructions_restrict_agents_to_release_preparation` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `architecture_documentation_records_the_consistency_check_extension_path` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `architecture_documentation_records_the_consistency_check_extension_path` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `architecture_views_use_c4_oriented_mermaid_diagrams` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `architecture_views_use_c4_oriented_mermaid_diagrams` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_applies_the_configured_heading_ownership_default` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_clearly_on_include_cycles` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | WF-02-01 | Write Docs Alongside Implementation |
@@ -28,6 +45,9 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `assemble_rebases_relative_links_from_included_fragments` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_resolves_relative_levels_at_the_include_position` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_shifts_included_headings_to_the_declared_level` | WF-02-01 | Write Docs Alongside Implementation |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `catalogue_entries_carry_anchors_and_coverage_status` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `catalogue_pages_are_deterministic` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -232,6 +252,9 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `release_process_documents_semver_and_the_versioned_contracts` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `release_process_documents_semver_and_the_versioned_contracts` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `release_process_documents_semver_and_the_versioned_contracts` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `render_forwards_tool_errors_transparently` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_forwards_tool_errors_transparently` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_accepts_selected_markdown_files` | WF-04-01 | Run CI Gates and Publish artefacts |

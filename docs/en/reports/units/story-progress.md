@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6621a1a, 2026-07-12
+     Snapshot: a8a9e91, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -17,13 +17,13 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-06 | Finalise Document Metadata Mechanically | 3 | 0 | 1 | `███████░░░` 75% |
 | US-01-01-07 | Enforce Scope Guardrails for Automation Agents | 5 | 0 | 2 | `███████░░░` 71% |
 | US-01-01-08 | Generate Governed Coverage Reports | 4 | 0 | 1 | `████████░░` 80% |
-| US-01-01-09 | Govern Agent Workflow Document Standards | 0 | 0 | 6 | `░░░░░░░░░░` 0% |
+| US-01-01-09 | Govern Agent Workflow Document Standards | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |
-| US-01-01-11 | Govern Architecture Documentation Standards | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
+| US-01-01-11 | Govern Architecture Documentation Standards | 4 | 0 | 1 | `████████░░` 80% |
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 4 | 0 | 1 | `████████░░` 80% |
-| US-01-01-15 | Operationalise the Release Process with SemVer | 1 | 0 | 3 | `██░░░░░░░░` 25% |
+| US-01-01-15 | Operationalise the Release Process with SemVer | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
 | US-01-01-18 | Configure the ID Policy | 5 | 0 | 0 | `██████████` 100% |

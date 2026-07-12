@@ -1,12 +1,20 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6621a1a, 2026-07-12
+     Snapshot: a8a9e91, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
 
 | test | location | requirement | status |
 | --- | --- | --- | --- |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | tests/corpus_guards.rs:119 | REQ-01-01-11-02 | active |
+| `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:78 | REQ-01-01-09-06 | active |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:60 | REQ-01-01-09-02 | active |
+| `agent_instructions_define_story_by_story_scope_rules` | tests/corpus_guards.rs:42 | REQ-01-01-09-01 | active |
+| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:224 | REQ-01-01-15-03 | active |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | tests/corpus_guards.rs:97 | REQ-01-01-11-01 | active |
+| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:191 | REQ-01-01-11-05 | active |
+| `architecture_views_use_c4_oriented_mermaid_diagrams` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
 | `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
@@ -17,6 +25,7 @@
 | `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
 | `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
 | `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:243 | REQ-01-01-15-04 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
@@ -97,6 +106,7 @@
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
+| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:206 | REQ-01-01-15-02 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:186 | REQ-04-01-03-04 | active |
