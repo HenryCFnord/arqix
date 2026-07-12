@@ -8,6 +8,8 @@ Breaking changes carry a **Migration** note in their entry.
 
 ### Added
 
+- Creation aliases `req new`, `us new`, and `adr new` — the same code path as `doc new <kind>`, with `--title`, `--id`, and `--dry-run`.
+- Include containment tightened (`ASM-006`): an include target inside the repository but outside every configured root is refused — corpus composition only ever reads the corpus.
 - `arqix:plans <REQUIREMENT-ID>`: the language-neutral planned claim — counts as planned in coverage without framework skip syntax, satisfies the test-marker duty like `verifies`; Rust's `#[ignore]` detection stays as a convenience.
 - `trace coverage --results <junit.xml>`: joined test outcomes by test name — a failing or skipped test demotes its verifying claim to planned, unjoined claims stay untouched, and coverage rows carry the outcomes for downstream evidence exports.
 - `mcp serve`: the corpus as MCP tools — `search`, `read`, and `list` over stdio (JSON-RPC 2.0, one message per line), answering with the same JSON as the CLI surface; the protocol subset is implemented directly per ADR-0014, no SDK dependency.

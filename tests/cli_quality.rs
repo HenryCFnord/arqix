@@ -207,8 +207,9 @@ fn search_answers_within_a_second_on_a_thousand_documents() {
 // arqix:verifies REQ-00-00-00-12
 #[test]
 fn the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents() {
-    let repo =
-        thousand_documents("the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents");
+    let repo = thousand_documents(
+        "the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents",
+    );
     let start = std::time::Instant::now();
     assert_success(&run_arqix_in(&repo, &["verify"]));
     let elapsed = start.elapsed();
@@ -221,7 +222,10 @@ fn the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents() 
 // arqix:verifies REQ-01-01-02-03
 #[test]
 fn unit_new_help_explains_location_metadata_and_ids() {
-    let repo = scratch_copy("minimal", "unit_new_help_explains_location_metadata_and_ids");
+    let repo = scratch_copy(
+        "minimal",
+        "unit_new_help_explains_location_metadata_and_ids",
+    );
     let out = run_arqix_in(&repo, &["unit", "new", "--help"]);
     let help = String::from_utf8_lossy(&out.stdout);
     assert!(
@@ -266,7 +270,10 @@ fn fmt_keeps_diffs_focused_on_content() {
     // the diff a reviewer sees is exactly the content edit.
     assert_success(&run_arqix_in(&repo, &["fmt"]));
     let canonical = std::fs::read_to_string(&path).unwrap();
-    let edited = canonical.replace("## Fixture Requirement", "## Fixture Requirement\n\nNew prose.");
+    let edited = canonical.replace(
+        "## Fixture Requirement",
+        "## Fixture Requirement\n\nNew prose.",
+    );
     std::fs::write(&path, &edited).unwrap();
     assert_success(&run_arqix_in(&repo, &["fmt"]));
     assert_eq!(
@@ -347,9 +354,9 @@ fn assembly_outcomes_are_reviewable_from_log_and_exit_code() {
     // inferring hidden steps; the command result said ok (asserted in the
     // helper), so log + exit code carry the outcome.
     assert!(
-        records
-            .iter()
-            .any(|r| r["include"].as_str().is_some_and(|i| i.contains("fragment.md"))),
+        records.iter().any(|r| r["include"]
+            .as_str()
+            .is_some_and(|i| i.contains("fragment.md"))),
         "every composition step is recorded: {records:?}"
     );
 }
@@ -384,7 +391,10 @@ fn failure_diagnostics_name_the_stop_condition() {
 // arqix:verifies REQ-08-01-01-02
 #[test]
 fn a_fresh_package_passes_the_verification_loop_directly() {
-    let repo = scratch_copy("minimal", "a_fresh_package_passes_the_verification_loop_directly");
+    let repo = scratch_copy(
+        "minimal",
+        "a_fresh_package_passes_the_verification_loop_directly",
+    );
     let fresh = repo.join("fresh");
     std::fs::create_dir_all(&fresh).unwrap();
     assert_success(&run_arqix_in(&fresh, &["doc", "init"]));
@@ -394,7 +404,10 @@ fn a_fresh_package_passes_the_verification_loop_directly() {
 // arqix:verifies REQ-01-01-10-03
 #[test]
 fn templates_and_validation_share_the_contract_source() {
-    let repo = scratch_copy("minimal", "templates_and_validation_share_the_contract_source");
+    let repo = scratch_copy(
+        "minimal",
+        "templates_and_validation_share_the_contract_source",
+    );
     // One declared contract: what doc new produces, fmt --check accepts —
     // no second source to drift from.
     std::fs::write(

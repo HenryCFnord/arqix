@@ -241,6 +241,19 @@ fn expand(
                     )
                     .at_line(rel(file), idx + 1));
                 }
+                // The tighter fence (REQ-02-01-09-02): inside the repository
+                // but outside every configured root is still out of bounds —
+                // corpus composition only ever reads the corpus (ASM-006).
+                if !crate::config::roots(Path::new("."))
+                    .iter()
+                    .any(|root| target_key.starts_with(canonical(Path::new(root))))
+                {
+                    return Err(Diagnostic::error(
+                        "ASM-006",
+                        format!("include target escapes the configured roots: {target}"),
+                    )
+                    .at_line(rel(file), idx + 1));
+                }
                 // Detect the cycle here, where the re-including directive's
                 // own location (this file at this line) is known, so ASM-001
                 // anchors the real directive rather than the child fragment.
