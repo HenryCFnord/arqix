@@ -379,3 +379,91 @@ fn publish_site_stages_configured_assets() {
         "configured asset trees are copied into the staging dir verbatim"
     );
 }
+
+/// A scratch corpus with one workflow group: a story, a requirement
+/// derived from it, and a test file whose marker verifies the requirement.
+fn write_catalogue_fixture(repo: &std::path::Path) {
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.publish]\nsite-command = \"true\"\nspecification-catalogue = true\nexclude = [\"req\", \"stories\"]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/stories")).unwrap();
+    std::fs::write(
+        repo.join("docs/stories/US-42-01-01-catalogued.md"),
+        "---\nid: US-42-01-01\ntitle: A Catalogued Story\niri: arqix:user-stories/us-42-01-01\nrdf:\n  type:\n    - arqix:classes/user-story\ntriples:\n  - predicate: arqix:properties/is-part-of-workflow\n    object: arqix:workflows/wf-42-01\n---\n\n## A Catalogued Story\n\nAs a reader, I want a catalogue.\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/req")).unwrap();
+    std::fs::write(
+        repo.join("docs/req/REQ-42-01-01-01-catalogued.md"),
+        "---\nid: REQ-42-01-01-01\ntitle: A Catalogued Requirement\niri: arqix:requirements/req-42-01-01-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-42-01-01\n---\n\n## Requirement\n\nThe system SHALL be catalogued.\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("tests")).unwrap();
+    std::fs::write(
+        repo.join("tests/catalogued.rs"),
+        "// arqix:verifies REQ-42-01-01-01\n// arqix:verifies REQ-99-99-99-01\n#[test]\nfn catalogued() {}\n",
+    )
+    .unwrap();
+}
+
+// arqix:verifies REQ-04-01-17-01
+#[test]
+fn publish_site_stages_catalogue_pages_per_workflow_group() {
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_stages_catalogue_pages_per_workflow_group",
+    );
+    write_catalogue_fixture(&repo);
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let page = std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md"))
+        .expect("one catalogue page per workflow group");
+    assert!(
+        page.contains("US-42-01-01") && page.contains("REQ-42-01-01-01"),
+        "the group page bundles the group's stories and requirements: {page}"
+    );
+    assert!(
+        page.contains("The system SHALL be catalogued."),
+        "requirement entries carry the obligation text: {page}"
+    );
+    assert!(
+        !repo.join("site-src/stories").exists() && !repo.join("site-src/req").exists(),
+        "the source files stay off the site — the catalogue replaces them"
+    );
+}
+
+// arqix:verifies REQ-04-01-17-02
+#[test]
+fn catalogue_entries_carry_anchors_and_coverage_status() {
+    let repo = scratch_copy(
+        "minimal",
+        "catalogue_entries_carry_anchors_and_coverage_status",
+    );
+    write_catalogue_fixture(&repo);
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let page =
+        std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md")).expect("page");
+    assert!(
+        page.contains("<a id=\"US-42-01-01\"></a>") && page.contains("<a id=\"REQ-42-01-01-01\"></a>"),
+        "every id gets a deep-linkable anchor: {page}"
+    );
+    assert!(
+        page.contains("verified"),
+        "the requirement's coverage status comes from the trace graph: {page}"
+    );
+}
+
+// arqix:verifies REQ-04-01-17-03
+#[test]
+fn catalogue_pages_are_deterministic() {
+    let repo = scratch_copy("minimal", "catalogue_pages_are_deterministic");
+    write_catalogue_fixture(&repo);
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let first =
+        std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md")).expect("page");
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let second =
+        std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md")).expect("page");
+    assert_eq!(first, second, "identical corpus, identical catalogue");
+}
