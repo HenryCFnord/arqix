@@ -20,5 +20,10 @@
   // Single title: free-form docs (plans, blog, project) carry their title as a
   // body `#` H1 while also having a frontmatter `title:` field. Do not treat the
   // frontmatter field as a competing title, so one body H1 is allowed.
-  "MD025": { "front_matter_title": "" }
+  "MD025": { "front_matter_title": "" },
+
+  // Duplicate headings: Keep a Changelog repeats "### Added"/"### Changed"
+  // under every version section by design — only flag duplicates among
+  // siblings, not across different parents.
+  "MD024": { "siblings_only": true }
 }

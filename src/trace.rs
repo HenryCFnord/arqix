@@ -61,7 +61,7 @@ struct DocInfo {
     doctype: String,
 }
 
-struct Model {
+pub(crate) struct Model {
     requirements: BTreeMap<String, Requirement>,
     documents: BTreeMap<String, DocInfo>,
     edges: Vec<Edge>,
@@ -402,6 +402,72 @@ struct Links {
     verified: Vec<String>,
     planned: Vec<String>,
     implemented: Vec<String>,
+}
+
+/// The corpus trace model, for downstream consumers (the reporter).
+pub(crate) fn corpus_model() -> Model {
+    build_model(&read_corpus())
+}
+
+/// Resolve a bundle scope: a requirement ID stands for itself, any other
+/// ID for the requirements derived from it (declared triples, ADR-0012).
+pub(crate) fn resolve_scope(
+    model: &Model,
+    ids: &[String],
+) -> Result<std::collections::BTreeSet<String>, String> {
+    let mut scope = std::collections::BTreeSet::new();
+    for id in ids {
+        if model.requirements.contains_key(id) {
+            scope.insert(id.clone());
+            continue;
+        }
+        let derived: Vec<String> = model
+            .edges
+            .iter()
+            .filter(|e| e.kind == "derived-from" && &e.to == id)
+            .map(|e| e.from.clone())
+            .collect();
+        if derived.is_empty() {
+            return Err(format!(
+                "unknown id '{id}': not a requirement, and no requirement derives from it"
+            ));
+        }
+        scope.extend(derived);
+    }
+    Ok(scope)
+}
+
+/// The source files of the scoped requirements — the bundle's inputs.
+pub(crate) fn requirement_files(
+    model: &Model,
+    scope: &std::collections::BTreeSet<String>,
+) -> Vec<String> {
+    scope
+        .iter()
+        .filter_map(|id| model.requirements.get(id).map(|r| r.file.clone()))
+        .collect()
+}
+
+/// The req-test matrix restricted to a scope, same schema and ordering as
+/// the full export (REQ-04-01-12-02).
+pub(crate) fn matrix_csv_scoped(
+    model: &Model,
+    scope: &std::collections::BTreeSet<String>,
+) -> String {
+    let full = matrix_csv(model, "req-test");
+    let mut out = String::new();
+    for (idx, line) in full.lines().enumerate() {
+        if idx == 0 || scope.iter().any(|id| line.starts_with(id.as_str())) {
+            out.push_str(line);
+            out.push('\n');
+        }
+    }
+    out
+}
+
+/// The coverage report as JSON, for downstream consumers.
+pub(crate) fn coverage_report(model: &Model) -> (Value, ExitCode) {
+    coverage(model)
 }
 
 fn coverage(model: &Model) -> (Value, ExitCode) {

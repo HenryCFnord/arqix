@@ -27,7 +27,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-03-30
   updated: 2026-07-12
@@ -42,10 +42,10 @@ As a QA engineer, I want to generate a scoped evidence bundle for selected requi
 
 ### Acceptance Criteria
 
-- [ ] A command exports an evidence bundle for one or more selected requirement or story IDs.
-- [ ] The bundle includes linked requirements, stories, diagnostics, and trace outputs relevant to the chosen scope.
-- [ ] Bundle contents are deterministic for identical inputs.
-- [ ] The exported bundle is reviewable without manual reshaping of source evidence.
+- [x] A command exports an evidence bundle for one or more selected requirement or story IDs.
+- [x] The bundle includes linked requirements, stories, diagnostics, and trace outputs relevant to the chosen scope.
+- [x] Bundle contents are deterministic for identical inputs.
+- [x] The exported bundle is reviewable without manual reshaping of source evidence.
 
 ### Notes
 

@@ -11,6 +11,7 @@ mod diag;
 mod linter;
 mod parser;
 mod publisher;
+mod reporter;
 mod rewriter;
 mod store;
 mod templates;
@@ -204,8 +205,25 @@ enum TraceCommand {
 
 #[derive(Subcommand)]
 enum ReportCommand {
-    /// Produce an evidence bundle
-    Bundle,
+    /// Produce an evidence bundle for the given requirement or story IDs
+    Bundle {
+        /// Requirement or story IDs; a story stands for the requirements
+        /// derived from it
+        #[arg(required = true)]
+        ids: Vec<String>,
+        /// Bundle output directory (default: bundle)
+        #[arg(long)]
+        out: Option<String>,
+        /// Generation stamp recorded in the bundle metadata (e.g. "<sha>, <date>")
+        #[arg(long)]
+        stamp: Option<String>,
+    },
+    /// Export the corpus as an Open Knowledge Format bundle
+    Knowledge {
+        /// Bundle output directory (default: knowledge)
+        #[arg(long)]
+        out: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -297,7 +315,10 @@ fn main() -> ExitCode {
             }
         },
         Command::Report { command } => match command {
-            ReportCommand::Bundle => unimplemented("report bundle"),
+            ReportCommand::Bundle { ids, out, stamp } => {
+                reporter::bundle(&ids, out.as_deref(), stamp.as_deref(), cli.format)
+            }
+            ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
         },
         Command::Publish { command } => match command {
             PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),

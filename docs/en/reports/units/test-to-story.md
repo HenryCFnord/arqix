@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e30c6e9, 2026-07-12
+     Snapshot: 007385a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -94,6 +94,40 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_identifies_the_failing_key` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_validate_identifies_the_failing_key` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
 | `config_validate_identifies_the_failing_key` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-08 | Generate Governed Coverage Reports |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-14 | Lint Translation Metadata and Drift |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-03-01-03 | Generate Coverage Reports |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-03-01-05 | Scan Traceability Information |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-03-01-08 | Make Trace and Coverage Outputs Reproducible |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-02 | Check Scope Guardrails in CI |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-05 | Run a One-Command Verification Loop |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-07 | Publish Language-Aware Sites |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-05 | Detect Translation Drift for Automation |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-07 | Build Machine-Readable Trace Graphs |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-08 | Export a Deterministic Document Catalog |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-06-01-02 | Trace Document Assembly Structure |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-07-01-01 | Review Coverage Evidence |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-07-01-04 | Review Trace Graphs as Audit Evidence |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-07-01-06 | Export Deterministic Trace and Coverage Evidence |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-07 | List Documents Deterministically for Automation |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-08 | Stay within Declared Change Scope |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-11 | Interpret i18n Lint Results Deterministically |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-16 | Scan Traceability Deterministically within Verification Loops |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-19 | Detect Missing Trace Markers for a Requirement |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `doc_init_creates_the_standard_package_scaffold` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
@@ -348,6 +382,16 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `render_pdf_renders_via_pandoc` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_includes_linked_evidence` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `report_bundle_output_is_deterministic_and_schema_stable` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_bundle_output_is_deterministic_and_schema_stable` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_bundle_records_generation_metadata` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_bundle_records_generation_metadata` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_bundle_resolves_a_story_scope_to_its_requirements` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
+| `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `trace_check_reports_verifies_markers_per_requirement` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-01-01-08 | Generate Governed Coverage Reports |

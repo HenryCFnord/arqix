@@ -27,7 +27,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-03-30
   updated: 2026-07-12
@@ -42,9 +42,9 @@ As a DevOps engineer, I want stable compliance-ready report exports, so that CI 
 
 ### Acceptance Criteria
 
-- [ ] Audit-oriented exports support at least Markdown, CSV, and JSON where applicable.
-- [ ] Export schemas and column ordering are stable across runs.
-- [ ] Report metadata records generation time, scope, and source inputs.
+- [x] Audit-oriented exports support at least Markdown, CSV, and JSON where applicable.
+- [x] Export schemas and column ordering are stable across runs.
+- [x] Report metadata records generation time, scope, and source inputs.
 
 ### Notes
 

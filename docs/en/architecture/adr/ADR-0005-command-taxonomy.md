@@ -49,7 +49,7 @@ Implementation needs one fixed command surface, and the command-ownership table 
 - **Every analysis exists exactly once.**
   Coverage is `trace coverage`; there is no separate `report coverage` command.
   Output formats are selected via the global `--format` option that every supported command carries (REQ-04-01-10-01) — serialisation is the Report & Export component acting as a shared library, not a second command.
-- The `report` verb is reserved for export *products*: its only command is `report bundle` (evidence bundles, REQ-03-01-04-*).
+- The `report` verb is reserved for export *products*: `report bundle` (evidence bundles, REQ-03-01-04-*) and, since US-05-01-15, `report knowledge` (OKF knowledge bundles, REQ-05-01-15-*).
 - `verify` is the deliberate top-level exception to the noun–verb scheme: the one-command loop is the product promise for agents and CI (ADR-0003), and `arqix verify` is its ergonomic form.
 - The three acceptance criteria that said `report coverage` (US-03-01-08, US-07-01-06, US-08-01-22) are reworded to `trace coverage`; they were determinism evidence lines and their requirement links are unaffected.
 
