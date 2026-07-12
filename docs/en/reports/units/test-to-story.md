@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 021defb, 2026-07-12
+     Snapshot: 6621a1a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -96,6 +96,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_identifies_the_failing_key` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_validate_identifies_the_failing_key` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
 | `config_validate_identifies_the_failing_key` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `coverage_joins_junit_outcomes_by_test_name` | US-03-01-10 | Track Planned and Executed Test Evidence |
+| `coverage_without_results_is_byte_identical_to_before` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-08 | Generate Governed Coverage Reports |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-14 | Lint Translation Metadata and Drift |
@@ -246,6 +248,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_read_retrieves_a_document_by_id` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
 | `doc_read_retrieves_a_document_by_id` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `doc_search_finds_documents_by_full_text` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `failed_outcomes_demote_the_verifying_claim` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
@@ -516,6 +519,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_ratchet_fails_on_a_coverage_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
 | `trace_ratchet_passes_without_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
 | `trace_ratchet_reads_the_configured_baseline` | US-04-01-16 | Configure the Snapshot Strategy |
+| `trace_records_plans_markers_as_planned` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `trace_resolves_ownership_from_triples_under_a_custom_pattern` | US-01-01-18 | Configure the ID Policy |
 | `trace_scan_detects_markers_in_rust_comments` | US-03-01-05 | Scan Traceability Information |
 | `trace_scan_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |

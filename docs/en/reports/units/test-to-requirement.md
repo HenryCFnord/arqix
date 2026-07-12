@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 021defb, 2026-07-12
+     Snapshot: 6621a1a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -25,6 +25,8 @@
 | `config_validate_accepts_a_valid_configuration` | tests/cli_config.rs:8 | REQ-01-01-16-01 | active |
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:28 | REQ-01-01-16-01 | active |
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:29 | REQ-01-01-16-03 | active |
+| `coverage_joins_junit_outcomes_by_test_name` | tests/cli_trace_results.rs:44 | REQ-03-01-10-02 | active |
+| `coverage_without_results_is_byte_identical_to_before` | tests/cli_trace_results.rs:123 | REQ-03-01-10-02 | active |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | tests/cli_lint.rs:203 | REQ-00-00-00-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_init_never_overwrites_agent_instructions` | tests/cli_doc.rs:549 | REQ-01-01-21-02 | active |
@@ -52,6 +54,7 @@
 | `doc_read_distinguishes_a_document_miss_from_a_selector_miss` | tests/cli_doc.rs:254 | REQ-05-01-10-03 | active |
 | `doc_read_retrieves_a_document_by_id` | tests/cli_doc.rs:242 | REQ-05-01-10-01 | active |
 | `doc_search_finds_documents_by_full_text` | tests/cli_doc.rs:268 | REQ-02-01-06-01 | active |
+| `failed_outcomes_demote_the_verifying_claim` | tests/cli_trace_results.rs:87 | REQ-03-01-10-03 | active |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | tests/cli_finalise.rs:90 | REQ-01-01-06-03 | active |
 | `finalise_leaves_current_metadata_untouched` | tests/cli_finalise.rs:24 | REQ-01-01-06-02 | active |
 | `finalise_rejects_a_non_iso_date` | tests/cli_finalise.rs:41 | REQ-01-01-06-01 | active |
@@ -121,6 +124,7 @@
 | `trace_ratchet_fails_on_a_coverage_regression` | tests/cli_ratchet.rs:10 | REQ-04-01-15-01 | active |
 | `trace_ratchet_passes_without_regression` | tests/cli_ratchet.rs:33 | REQ-04-01-15-02 | active |
 | `trace_ratchet_reads_the_configured_baseline` | tests/cli_ratchet.rs:70 | REQ-04-01-16-01 | active |
+| `trace_records_plans_markers_as_planned` | tests/cli_trace.rs:169 | REQ-03-01-10-01 | active |
 | `trace_resolves_ownership_from_triples_under_a_custom_pattern` | tests/cli_trace.rs:119 | REQ-01-01-18-02 | active |
 | `trace_scan_detects_markers_in_rust_comments` | tests/cli_trace.rs:9 | REQ-03-01-05-01 | active |
 | `trace_scan_does_not_follow_directory_symlinks` | tests/cli_trace.rs:87 | REQ-00-00-00-01 | active |

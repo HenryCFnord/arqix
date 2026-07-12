@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 021defb, 2026-07-12
+     Snapshot: 6621a1a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -50,6 +50,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `config_validate_identifies_the_failing_key` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_validate_identifies_the_failing_key` | WF-05-01 | Use Documentation for Agents and RAG |
 | `config_validate_identifies_the_failing_key` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `coverage_joins_junit_outcomes_by_test_name` | WF-03-01 | Validate Traceability and Coverage |
+| `coverage_without_results_is_byte_identical_to_before` | WF-03-01 | Validate Traceability and Coverage |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-03-01 | Validate Traceability and Coverage |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -120,6 +122,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_read_retrieves_a_document_by_id` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_read_retrieves_a_document_by_id` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_search_finds_documents_by_full_text` | WF-02-01 | Write Docs Alongside Implementation |
+| `failed_outcomes_demote_the_verifying_claim` | WF-03-01 | Validate Traceability and Coverage |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | WF-02-01 | Write Docs Alongside Implementation |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -275,6 +278,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `trace_ratchet_fails_on_a_coverage_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `trace_ratchet_passes_without_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `trace_ratchet_reads_the_configured_baseline` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `trace_records_plans_markers_as_planned` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_resolves_ownership_from_triples_under_a_custom_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_scan_detects_markers_in_rust_comments` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_scan_does_not_follow_directory_symlinks` | WF-01-01 | Establish Standards and Repository Hygiene |
