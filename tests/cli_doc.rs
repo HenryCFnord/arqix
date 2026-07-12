@@ -526,3 +526,35 @@ fn ids_and_slugs_derive_deterministically() {
     );
     assert_eq!(first["id"], "ADR-0001");
 }
+
+// arqix:verifies REQ-01-01-21-01
+#[test]
+fn doc_init_scaffolds_agent_instructions() {
+    let repo = scratch_copy("minimal", "doc_init_scaffolds_agent_instructions");
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    let agents = std::fs::read_to_string(repo.join("AGENTS.md"))
+        .expect("doc init scaffolds AGENTS.md at the repository root");
+    assert!(
+        agents.contains("arqix verify"),
+        "the scaffold names the verification loop: {agents}"
+    );
+    for entry_point in ["doc list", "doc search", "doc new", "fmt", "mcp serve"] {
+        assert!(
+            agents.contains(entry_point),
+            "the scaffold names the corpus entry point {entry_point}: {agents}"
+        );
+    }
+}
+
+// arqix:verifies REQ-01-01-21-02
+#[test]
+fn doc_init_never_overwrites_agent_instructions() {
+    let repo = scratch_copy("minimal", "doc_init_never_overwrites_agent_instructions");
+    std::fs::write(repo.join("AGENTS.md"), "house rules\n").unwrap();
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    assert_eq!(
+        std::fs::read_to_string(repo.join("AGENTS.md")).unwrap(),
+        "house rules\n",
+        "authored agent instructions always win over the scaffold"
+    );
+}
