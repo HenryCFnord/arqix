@@ -103,6 +103,28 @@ snapshot-strategy = "committed"
 The strategy is read by the reference sequencer (`scripts/arqix verify`); the product's own `arqix verify` does not gate snapshot freshness.
 This repository runs `main-only` with the auto-commit variant (owner decision 2026-07-12): the gate workflow refreshes and commits the snapshots on the default branch before verifying, and parallel branches never touch `docs/en/reports/`.
 
+## The render policy
+
+`[policies.render]` governs `render pdf` (REQ-04-01-03-04..08):
+
+```toml
+[policies.render]
+pdf-command = "pandoc"
+defaults = "pandoc-defaults.yaml"
+template = "eisvogel"
+artefact-mode = "package"
+
+[policies.render.package.docs]
+template = "another-template"
+```
+
+- `pdf-command` — the renderer invocation (`pandoc` by default); arqix appends the input pages, `-o <target>`, and the configured options, and forwards the tool's errors transparently as exit 2.
+- `defaults` — a Pandoc `--defaults` file, passed through when configured.
+- `template` — a Pandoc `--template` value (e.g. `eisvogel`), passed through when configured.
+- `artefact-mode` — where the artefact lands: `package` (the default) stores `<package>.pdf` into the package's `artefacts/` directory; `detached` stores into `artefact-dir` (default `render-out`).
+- `[policies.render.package.<name>]` — per-doc-package overrides: any key above, winning over the global table for that package.
+- Inputs are the staged artefact-ready pages of the language root (the publish `exclude` scope holds), or the Markdown files given on the command line; an explicit `--out` overrides the artefact mode.
+
 ## The publish policy
 
 `[policies.publish]` and `[i18n]` govern `publish site` (REQ-04-01-03-01/-02/-03, REQ-04-01-07-01/-02):

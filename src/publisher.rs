@@ -152,6 +152,169 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+// arqix:implements REQ-04-01-03-04
+// arqix:implements REQ-04-01-03-05
+// arqix:implements REQ-04-01-03-06
+// arqix:implements REQ-04-01-03-07
+/// `arqix render pdf [<file>...] [--lang <lang>] [--out <path>]` — the PDF
+/// half of the orchestrator: stage artefact-ready pages (or take the
+/// selected Markdown files verbatim), then invoke the configured renderer
+/// (Pandoc unless overridden) with the configured defaults file and
+/// template; the artefact lands per the configured artefact mode. PDF is
+/// always single-page (ADR-0013): one invocation, one artefact per package.
+pub fn pdf(
+    files: &[String],
+    lang: Option<&str>,
+    out: Option<&str>,
+    format: OutputFormat,
+) -> ExitCode {
+    let default_lang = crate::config::default_lang(Path::new("."));
+    let lang = lang.unwrap_or(&default_lang);
+    let publish = crate::config::publish_policy(Path::new("."));
+    let skip = crate::config::skip_dirs(Path::new("."));
+
+    let mut artefacts: Vec<String> = Vec::new();
+    let mut renderer = String::new();
+    for root in crate::config::roots(Path::new(".")) {
+        let package = Path::new(&root)
+            .file_name()
+            .map(|n| n.to_string_lossy().to_string())
+            .unwrap_or_else(|| root.clone());
+        let policy = crate::config::render_policy(Path::new("."), &package);
+        renderer = policy.pdf_command.clone();
+
+        let lang_root = Path::new(&root).join(lang);
+        let lang_root = if lang_root.is_dir() {
+            lang_root
+        } else if lang == default_lang {
+            PathBuf::from(&root)
+        } else {
+            continue;
+        };
+
+        // The renderer's inputs: the selected files verbatim, or the
+        // staged artefact-ready pages of this package in path order.
+        let inputs: Vec<String> = if files.is_empty() {
+            let staging = Path::new("render-staging").join(&package);
+            let mut sources = Vec::new();
+            collect_markdown(&lang_root, &skip, &mut sources);
+            let mut staged = Vec::new();
+            for file in sources {
+                let assembled = match crate::assembler::expand_document(&file) {
+                    Ok(text) => text,
+                    Err(diagnostic) => {
+                        eprintln!(
+                            "error: {}: {}",
+                            diagnostic.file.as_deref().unwrap_or("?"),
+                            diagnostic.message
+                        );
+                        return ExitCode::from(2);
+                    }
+                };
+                let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
+                let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
+                let rel_posix = rel.to_string_lossy().replace('\\', "/");
+                if publish.exclude.iter().any(|e| {
+                    let prefix = e.trim_end_matches('/');
+                    rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
+                }) {
+                    continue;
+                }
+                let target = staging.join(&rel);
+                if let Err(code) = write_staged(&target, &doc) {
+                    return code;
+                }
+                staged.push(target.to_string_lossy().to_string());
+            }
+            staged
+        } else {
+            files.to_vec()
+        };
+        if inputs.is_empty() {
+            continue;
+        }
+
+        // The artefact target per the configured mode; an explicit --out
+        // always wins.
+        let target = match out {
+            Some(path) => PathBuf::from(path),
+            None if policy.artefact_mode == "detached" => {
+                Path::new(&policy.artefact_dir).join(format!("{package}.pdf"))
+            }
+            None => lang_root.join("artefacts").join(format!("{package}.pdf")),
+        };
+        if let Some(parent) = target.parent()
+            && let Err(err) = std::fs::create_dir_all(parent)
+        {
+            eprintln!("error: cannot create {}: {err}", parent.display());
+            return ExitCode::from(2);
+        }
+
+        let mut parts = policy.pdf_command.split_whitespace();
+        let Some(program) = parts.next() else {
+            eprintln!("error: [policies.render] pdf-command is empty");
+            return ExitCode::from(2);
+        };
+        let mut command = Command::new(program);
+        command.args(parts).args(&inputs).arg("-o").arg(&target);
+        if let Some(defaults) = &policy.defaults {
+            command.arg("--defaults").arg(defaults);
+        }
+        if let Some(template) = &policy.template {
+            command.arg("--template").arg(template);
+        }
+        // Inherit stdio so the renderer's own output and errors surface
+        // transparently (REQ-04-01-03-07).
+        match command.status() {
+            Ok(status) if status.success() => {}
+            Ok(status) => {
+                eprintln!(
+                    "error: renderer failed: '{}' exited with {}",
+                    policy.pdf_command,
+                    status
+                        .code()
+                        .map_or("signal".to_string(), |c| c.to_string())
+                );
+                return ExitCode::from(2);
+            }
+            Err(err) => {
+                eprintln!(
+                    "error: renderer failed: cannot run '{}': {err}",
+                    policy.pdf_command
+                );
+                return ExitCode::from(2);
+            }
+        }
+        artefacts.push(target.to_string_lossy().to_string());
+
+        // Selected files render once, not once per package.
+        if !files.is_empty() {
+            break;
+        }
+    }
+
+    match format {
+        OutputFormat::Json => {
+            let result = json!({
+                "schema_version": SCHEMA_VERSION,
+                "lang": lang,
+                "renderer": renderer,
+                "artefacts": artefacts,
+            });
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&result).expect("valid JSON")
+            );
+        }
+        OutputFormat::Text => {
+            for artefact in &artefacts {
+                println!("rendered {artefact} via '{renderer}'");
+            }
+        }
+    }
+    ExitCode::SUCCESS
+}
+
 /// Copy one configured asset (file or directory tree) into the staging
 /// dir; a missing source is a config error naming the path.
 fn copy_asset(source: &Path, target: &Path) -> Result<(), ExitCode> {

@@ -239,8 +239,18 @@ enum PublishCommand {
 
 #[derive(Subcommand)]
 enum RenderCommand {
-    /// Render a PDF artefact
-    Pdf,
+    /// Render a PDF artefact via the configured renderer (Pandoc)
+    Pdf {
+        /// Selected Markdown files; the staged artefact-ready pages
+        /// otherwise
+        files: Vec<String>,
+        /// Language root to render (the configured default otherwise)
+        #[arg(long)]
+        lang: Option<String>,
+        /// Output path, overriding the configured artefact mode
+        #[arg(long)]
+        out: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -325,7 +335,9 @@ fn main() -> ExitCode {
             PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),
         },
         Command::Render { command } => match command {
-            RenderCommand::Pdf => unimplemented("render pdf"),
+            RenderCommand::Pdf { files, lang, out } => {
+                publisher::pdf(&files, lang.as_deref(), out.as_deref(), cli.format)
+            }
         },
         Command::Policy { command } => match command {
             PolicyCommand::Check => unimplemented("policy check"),

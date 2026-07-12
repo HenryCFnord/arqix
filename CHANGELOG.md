@@ -9,6 +9,7 @@ Breaking changes carry a **Migration** note in their entry.
 ### Added
 
 - `mcp serve`: the corpus as MCP tools — `search`, `read`, and `list` over stdio (JSON-RPC 2.0, one message per line), answering with the same JSON as the CLI surface; the protocol subset is implemented directly per ADR-0014, no SDK dependency.
+- `render pdf [<file>...] [--lang <lang>] [--out <path>]`: PDF artefacts via the configured renderer (Pandoc by default) — staged artefact-ready pages or selected files as input, `--defaults` and `--template eisvogel` passed through when configured, per-package overrides, artefact storage per the configured mode, tool errors forwarded transparently.
 - `report bundle <ID>... [--out <dir>] [--stamp <text>]`: scoped evidence bundles — a story ID stands for the requirements derived from it; the bundle directory carries `bundle.json`, `evidence.md`, and the scoped `matrix.csv` with stable schemas and caller-provided generation metadata.
 - `report knowledge [--out <dir>]`: the corpus as an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog) bundle — one artefact-ready concept document per living corpus document (includes expanded, directives stripped), OKF fields mapped from declared metadata and never fabricated, publish scope and lifecycle honoured.
 

@@ -237,6 +237,51 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
     }
 }
 
+pub struct RenderPolicy {
+    /// The renderer invocation, `pandoc` unless configured
+    /// (REQ-04-01-03-04); arqix appends inputs, output, and options.
+    pub pdf_command: String,
+    /// A Pandoc `--defaults` file, passed through when configured
+    /// (REQ-04-01-03-05).
+    pub defaults: Option<String>,
+    /// A Pandoc `--template` value (e.g. `eisvogel`), passed through when
+    /// configured (REQ-04-01-03-05).
+    pub template: Option<String>,
+    /// Where artefacts are stored (REQ-04-01-03-06): `package` (default)
+    /// stores into the package's `artefacts/` directory, `detached` into
+    /// `artefact_dir`.
+    pub artefact_mode: String,
+    pub artefact_dir: String,
+}
+
+// arqix:implements REQ-04-01-03-08
+/// The effective `[policies.render]` table for one doc package — the
+/// defaults, overridden by the global table, overridden by the package's
+/// own `[policies.render.package.<name>]` entries.
+pub fn render_policy(dir: &Path, package: &str) -> RenderPolicy {
+    let (config, _) = resolve(dir);
+    let render = config
+        .sections
+        .get("policies")
+        .and_then(|p| p.get("render"));
+    let package_render = render
+        .and_then(|r| r.get("package"))
+        .and_then(|p| p.get(package));
+    let key = |name: &str| {
+        package_render
+            .and_then(|p| p.get(name))
+            .or_else(|| render.and_then(|r| r.get(name)))
+            .and_then(Value::as_str)
+    };
+    RenderPolicy {
+        pdf_command: key("pdf-command").unwrap_or("pandoc").to_string(),
+        defaults: key("defaults").map(str::to_string),
+        template: key("template").map(str::to_string),
+        artefact_mode: key("artefact-mode").unwrap_or("package").to_string(),
+        artefact_dir: key("artefact-dir").unwrap_or("render-out").to_string(),
+    }
+}
+
 /// The assemble policy: who owns section headings in a stitched corpus
 /// (ADR-0013). `child` (default) — fragments own their headings and a bare
 /// include behaves as `level=+1`; `parent` — the page declares the outline
