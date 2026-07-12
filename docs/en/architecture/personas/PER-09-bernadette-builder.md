@@ -1,7 +1,7 @@
 ---
 id: PER-09
-title: Builder
-slug: builder
+title: Bernadette Builder
+slug: bernadette-builder
 iri: arqix:personas/per-09
 
 rdf:
@@ -26,10 +26,9 @@ meta:
   generated: false
 ---
 
-## Builder
+## Bernadette Builder
 
-The Builder is the engineering user who changes the corpus: code and documentation in the same flow, architecture decisions and glossary terms as they happen, CI gates and publishing as part of the change.
-This persona consolidates the developer, DevOps, and architect viewpoints of the 2026-07-12 persona merge — three angles on one activity: building the system and its documentation together.
+Bernadette is the engineering user who changes the corpus: code and documentation in the same flow, architecture decisions and glossary terms as they happen, CI gates and publishing as part of the change.
 
 ### Goals
 
@@ -43,3 +42,7 @@ This persona consolidates the developer, DevOps, and architect viewpoints of the
 - New docs are created from templates with correct structure on the first try.
 - `arqix verify` locally is the same gate as CI — no surprises after the push.
 - The site and the PDFs regenerate deterministically from the same corpus.
+
+### Notes
+
+This persona consolidates the developer, DevOps, and architect viewpoints in the persona merge of 2026-07-12 — three angles on one activity: building the system and its documentation together.

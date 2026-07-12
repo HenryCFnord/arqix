@@ -83,4 +83,4 @@ She owns automation and reproducibility.
 
 Daria benefits from stable CLI contracts, predictable artefact locations, and reliable third-party tool integration.
 
-Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Bernadette Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

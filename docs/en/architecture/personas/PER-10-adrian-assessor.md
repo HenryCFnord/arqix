@@ -1,7 +1,7 @@
 ---
 id: PER-10
-title: Assessor
-slug: assessor
+title: Adrian Assessor
+slug: adrian-assessor
 iri: arqix:personas/per-10
 
 rdf:
@@ -26,11 +26,10 @@ meta:
   generated: false
 ---
 
-## Assessor
+## Adrian Assessor
 
-The Assessor is the evaluating user: the corpus is input, not output.
-Whether the question is a quality gap, a compliance chain, or a retrieval pipeline for agentic tooling, the Assessor needs deterministic reports, stable identifiers, and machine-readable interfaces.
-This persona consolidates the QA, auditor, and automation/RAG viewpoints of the 2026-07-12 persona merge — three angles on one activity: evaluating and consuming the corpus.
+Adrian is the evaluating user: the corpus is input, not output.
+Whether the question is a quality gap, a compliance chain, or a retrieval pipeline for agentic tooling, Adrian needs deterministic reports, stable identifiers, and machine-readable interfaces.
 
 ### Goals
 
@@ -43,3 +42,7 @@ This persona consolidates the QA, auditor, and automation/RAG viewpoints of the 
 - Coverage and trace reports are deterministic and diffable across runs.
 - An evidence question is a query against the graph, not an archaeology project.
 - Exports and JSON interfaces are stable enough to build automation on.
+
+### Notes
+
+This persona consolidates the QA, auditor, and automation/RAG viewpoints in the persona merge of 2026-07-12 — three angles on one activity: evaluating and consuming the corpus.

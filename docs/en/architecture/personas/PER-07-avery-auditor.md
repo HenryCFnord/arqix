@@ -80,4 +80,4 @@ Avery consumes evidence and reports.
 
 Avery benefits from filtered report views, stable export schemas, and consistent bilingual publishing.
 
-Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-10 (Assessor), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-10 (Adrian Assessor), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

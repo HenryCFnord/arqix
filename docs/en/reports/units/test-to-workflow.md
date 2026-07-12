@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4e01178, 2026-07-12
+     Snapshot: 0cfdc4b, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -9,6 +9,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 
 | test | workflow | title |
 | --- | --- | --- |
+| `assemble_applies_the_configured_heading_ownership_default` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_clearly_on_include_cycles` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_generates_outputs_under_pages` | WF-02-01 | Write Docs Alongside Implementation |
@@ -22,6 +23,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `assemble_build_writes_a_jsonl_log` | WF-05-01 | Use Documentation for Agents and RAG |
 | `assemble_build_writes_a_jsonl_log` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_build_writes_a_jsonl_log` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `assemble_fails_on_heading_overflow` | WF-02-01 | Write Docs Alongside Implementation |
+| `assemble_rebases_relative_links_from_included_fragments` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `assemble_rebases_relative_links_from_included_fragments` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `assemble_resolves_relative_levels_at_the_include_position` | WF-02-01 | Write Docs Alongside Implementation |
+| `assemble_shifts_included_headings_to_the_declared_level` | WF-02-01 | Write Docs Alongside Implementation |
 | `config_show_renders_the_effective_configuration_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `config_show_renders_the_effective_configuration_as_json` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-05-01 | Use Documentation for Agents and RAG |
@@ -46,6 +52,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_init_creates_the_standard_package_scaffold` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_init_scaffolds_an_explicit_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_scaffolds_an_explicit_path` | WF-02-01 | Write Docs Alongside Implementation |
+| `doc_init_scaffolds_the_default_template_files` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_writes_doc_index_frontmatter` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_writes_doc_index_frontmatter` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_list_does_not_follow_directory_symlinks` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -76,9 +83,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_fails_clearly_on_a_missing_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -113,6 +122,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `finalise_touches_only_the_meta_updated_field` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `finalise_touches_only_the_meta_updated_field` | WF-02-01 | Write Docs Alongside Implementation |
 | `finalise_touches_only_the_meta_updated_field` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `fmt_and_config_show_share_one_contract_source` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_is_idempotent` | WF-03-01 | Validate Traceability and Coverage |
@@ -124,6 +134,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `fmt_never_changes_body_text` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_never_changes_body_text` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_never_changes_body_text` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `fmt_orders_keys_from_the_configured_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_orders_ontology_frontmatter_by_family` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -133,6 +144,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `format_option_is_accepted_globally` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `format_option_is_accepted_globally` | WF-05-01 | Use Documentation for Agents and RAG |
 | `format_option_is_accepted_globally` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `include_directives_parse_with_and_without_level_arguments` | WF-02-01 | Write Docs Alongside Implementation |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -178,6 +190,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `render_pdf_renders_via_pandoc` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_includes_linked_evidence` | WF-03-01 | Validate Traceability and Coverage |
+| `scaffolded_documents_satisfy_the_default_meta_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_check_reports_verifies_markers_per_requirement` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-03-01 | Validate Traceability and Coverage |

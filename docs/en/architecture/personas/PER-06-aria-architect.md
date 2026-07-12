@@ -81,4 +81,4 @@ Aria does not own CI pipelines or code-level trace markers, but depends on them 
 
 Aria benefits from stable templates, clear markup rules, and consistent cross-language handling.
 
-Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Bernadette Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

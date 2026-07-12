@@ -1,17 +1,22 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4e01178, 2026-07-12
+     Snapshot: 0cfdc4b, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
 
 | test | location | requirement | status |
 | --- | --- | --- | --- |
+| `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
 | `assemble_build_generates_outputs_under_pages` | tests/cli_assemble.rs:8 | REQ-02-01-11-01 | active |
 | `assemble_build_refuses_includes_outside_the_repository` | tests/cli_assemble.rs:74 | REQ-00-00-00-13 | active |
 | `assemble_build_writes_a_jsonl_log` | tests/cli_assemble.rs:105 | REQ-04-01-01-02 | active |
+| `assemble_fails_on_heading_overflow` | tests/cli_assemble.rs:200 | REQ-02-01-12-03 | active |
+| `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
+| `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
+| `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
@@ -20,6 +25,7 @@
 | `config_validate_identifies_the_failing_key` | tests/cli_config.rs:29 | REQ-01-01-16-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_init_scaffolds_an_explicit_path` | tests/cli_doc.rs:38 | REQ-01-01-01-01 | active |
+| `doc_init_scaffolds_the_default_template_files` | tests/cli_doc.rs:416 | REQ-01-01-20-02 | active |
 | `doc_init_writes_doc_index_frontmatter` | tests/cli_doc.rs:49 | REQ-01-01-01-02 | active |
 | `doc_list_does_not_follow_directory_symlinks` | tests/cli_doc.rs:302 | REQ-00-00-00-01 | active |
 | `doc_list_emits_a_json_document_catalog` | tests/cli_doc.rs:220 | REQ-05-01-08-01 | active |
@@ -30,7 +36,9 @@
 | `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | tests/cli_doc.rs:176 | REQ-01-01-13-01 | active |
 | `doc_new_creates_a_document_from_the_configured_template` | tests/cli_doc.rs:83 | REQ-00-00-00-05 | active |
 | `doc_new_dry_run_reports_the_plan_without_writing` | tests/cli_doc.rs:145 | REQ-00-00-00-09 | active |
+| `doc_new_fails_clearly_on_a_missing_template_file` | tests/cli_doc.rs:445 | REQ-01-01-20-03 | active |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:116 | REQ-01-01-13-01 | active |
+| `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:383 | REQ-01-01-20-01 | active |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:67 | REQ-00-00-00-13 | active |
 | `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:196 | REQ-00-00-00-05 | active |
 | `doc_new_writes_into_the_configured_kind_location` | tests/cli_doc.rs:129 | REQ-01-01-13-02 | active |
@@ -42,12 +50,15 @@
 | `finalise_rejects_a_non_iso_date` | tests/cli_finalise.rs:41 | REQ-01-01-06-01 | active |
 | `finalise_sets_updated_to_the_injected_date` | tests/cli_finalise.rs:9 | REQ-01-01-06-01 | active |
 | `finalise_touches_only_the_meta_updated_field` | tests/cli_finalise.rs:65 | REQ-01-01-06-01 | active |
+| `fmt_and_config_show_share_one_contract_source` | tests/cli_fmt.rs:102 | REQ-01-01-19-02 | active |
 | `fmt_is_idempotent` | tests/cli_fmt.rs:62 | REQ-00-00-00-01 | active |
 | `fmt_never_changes_body_text` | tests/cli_fmt.rs:17 | REQ-01-01-03-02 | active |
 | `fmt_never_changes_body_text` | tests/cli_fmt.rs:18 | REQ-01-01-03-03 | active |
+| `fmt_orders_keys_from_the_configured_contract` | tests/cli_fmt.rs:76 | REQ-01-01-19-01 | active |
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
+| `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:283 | REQ-02-01-09-01 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
@@ -67,6 +78,7 @@
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:172 | REQ-04-01-03-04 | planned (ignored) |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | planned (ignored) |
 | `report_bundle_includes_linked_evidence` | tests/cli_report.rs:21 | REQ-03-01-04-02 | planned (ignored) |
+| `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |
 | `trace_coverage_output_is_deterministic` | tests/cli_trace.rs:70 | REQ-00-00-00-01 | active |

@@ -83,4 +83,4 @@ He follows the conventions defined by maintainers and expects them to be predict
 
 Dan benefits from fast search and read functions, clear diagnostics, and a simple local workflow that matches CI.
 
-Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-09 (Bernadette Builder), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.

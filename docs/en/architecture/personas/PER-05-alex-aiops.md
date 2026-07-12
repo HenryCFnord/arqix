@@ -81,4 +81,4 @@ Alex does not define the business requirements, but depends on strong structure 
 
 Alex benefits from MCP support, stable result schemas, filtering, and robust i18n drift checks.
 
-Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-10 (Assessor), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
+Retired in the persona merge of 2026-07-12: this viewpoint is carried by PER-10 (Adrian Assessor), which consolidates the user-side personas while the maintainer and the coding agent stay dedicated.
