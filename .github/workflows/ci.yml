@@ -12,6 +12,16 @@ on:
 jobs:
   gate:
     runs-on: ubuntu-latest
+    # contents: write is for the snapshot refresh on main, actions: write
+    # for re-dispatching the pages deploy after it; every other step only
+    # reads the repository.
+    permissions:
+      contents: write
+      actions: write
+    # One gate run at a time on main, so two quick merges cannot race the
+    # snapshot push.
+    concurrency:
+      group: gate-${{ github.ref }}
     steps:
       - uses: actions/checkout@v5
 
@@ -23,6 +33,36 @@ jobs:
 
       - name: Build
         run: cargo build
+
+      # snapshot-strategy = "main-only" (owner decision 2026-07-12, see
+      # docs/en/processes/configuration.md): parallel branches skip the
+      # freshness gate, and main regains freshness right here — regenerate,
+      # auto-commit, then verify the fresh state. Removing this step switches
+      # to the "next change brings the regeneration along" variant.
+      - name: Refresh report snapshots (main only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The concurrency group serialises gate runs on main; syncing to
+          # origin/main first makes the push below a guaranteed fast-forward
+          # even when a newer merge queued behind this run.
+          git fetch origin main
+          git reset --hard origin/main
+          python3 scripts/arqix_report.py --snapshot "$(git rev-parse --short HEAD), $(date +%F)"
+          ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
+          ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
+          if ! git diff --quiet -- docs/en/reports; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/en/reports
+            git commit -m "chore: refresh report snapshots"
+            git push origin HEAD:main
+            # A GITHUB_TOKEN push triggers no workflows, so the pages deploy
+            # (which already ran against the stale snapshots) is re-dispatched
+            # explicitly; its concurrency group supersedes the stale run.
+            gh workflow run pages.yml --ref main
+          fi
 
       - name: Daily gate (selftests, checkers, marker gate, report freshness, cargo test, dogfooded arqix verify, markdownlint)
         run: python3 scripts/arqix verify

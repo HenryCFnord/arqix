@@ -128,6 +128,9 @@ pub fn roots(dir: &Path) -> Vec<String> {
 pub struct VerifyPolicy {
     pub steps: Vec<String>,
     pub informational: Vec<String>,
+    /// The ratchet's baseline file (C17, REQ-04-01-16-01); None means the
+    /// built-in default snapshot location.
+    pub ratchet_baseline: Option<String>,
 }
 
 impl Default for VerifyPolicy {
@@ -140,6 +143,7 @@ impl Default for VerifyPolicy {
                 .map(str::to_string)
                 .to_vec(),
             informational: vec!["coverage".to_string()],
+            ratchet_baseline: None,
         }
     }
 }
@@ -163,6 +167,11 @@ pub fn verify_policy(dir: &Path) -> VerifyPolicy {
     if let Some(informational) = json_string_array(verify.get("informational")) {
         policy.informational = informational;
     }
+    // arqix:implements REQ-04-01-16-01
+    policy.ratchet_baseline = verify
+        .get("ratchet-baseline")
+        .and_then(Value::as_str)
+        .map(str::to_string);
     policy
 }
 

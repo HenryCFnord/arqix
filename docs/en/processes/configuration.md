@@ -10,11 +10,8 @@ A missing file is valid — it simply means no overrides.
 | --- | --- | --- | --- |
 | `roots` | array of strings | `["docs"]` | yes — type-checked |
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
-| `kinds` | table | empty | accepted, content validated in a later schema version |
-| `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
-
 | `kinds` | table | empty | accepted; per-family contract entries are read (below), other content validated in a later schema version |
-| `templates` | table | empty | accepted, content validated in a later schema version |
+| `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
 | `policies` | table | empty | accepted; `policies.verify` and `policies.publish` are read (below), other content validated in a later schema version |
 | `i18n` | table | empty | accepted; `default-lang` is read (below), other content validated in a later schema version |
 
@@ -70,6 +67,7 @@ informational = ["coverage"]
 - `steps` — the sub-steps to run, in order; the known names are `format`, `lint`, `trace-scan`, `coverage`, and `ratchet`. An unknown name is a usage error (exit 2).
 - `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
+- `ratchet-baseline` — the baseline file the ratchet compares against (REQ-04-01-16-01, config-audit row C17); unset, the committed default snapshot location applies, and an explicit `--baseline` argument overrides both.
 - `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
 
 ## The assemble policy
@@ -87,6 +85,23 @@ heading-ownership = "child"
 - The include directive's optional level argument overrides the default per include: `level=N` places the fragment's first heading at level N (1–6), `level=+N` places it N levels below the heading in effect.
   The delta applies to every heading of the fragment; a shift out of the h1–h6 range fails the assembly (ASM-005).
 - Relative links inside included fragments are rebased to the including page's location during assembly, so assembled pages stay artefact-ready.
+
+## The reports policy
+
+`[policies.reports]` governs how the reference sequencer's freshness gate treats the committed report snapshots (config-audit row C17):
+
+```toml
+[policies.reports]
+snapshot-strategy = "committed"
+```
+
+- `committed` (the default) — snapshots are committed and the freshness gate runs everywhere; parallel branches rebase and regenerate before merging.
+- `main-only` — the freshness gate runs only on the default branch; parallel branches skip it, trading merge friction for a regeneration step on the default branch after merging.
+  How the default branch regains freshness is a per-repository choice: an auto-commit step in CI (the gate regenerates and pushes the snapshots before verifying), or the next change brings the regeneration along (cheaper, but the reports lag one step between merges).
+- `on-demand` — the freshness gate never runs; snapshots are regenerated when wanted.
+
+The strategy is read by the reference sequencer (`scripts/arqix verify`); the product's own `arqix verify` does not gate snapshot freshness.
+This repository runs `main-only` with the auto-commit variant (owner decision 2026-07-12): the gate workflow refreshes and commits the snapshots on the default branch before verifying, and parallel branches never touch `docs/en/reports/`.
 
 ## The publish policy
 

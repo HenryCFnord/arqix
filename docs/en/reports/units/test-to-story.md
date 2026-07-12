@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3f17a9a, 2026-07-12
+     Snapshot: 7b2800a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -406,6 +406,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_matrix_exports_csv` | US-03-01-02 | Export Trace Matrices |
 | `trace_ratchet_fails_on_a_coverage_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
 | `trace_ratchet_passes_without_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
+| `trace_ratchet_reads_the_configured_baseline` | US-04-01-16 | Configure the Snapshot Strategy |
 | `trace_resolves_ownership_from_triples_under_a_custom_pattern` | US-01-01-18 | Configure the ID Policy |
 | `trace_scan_detects_markers_in_rust_comments` | US-03-01-05 | Scan Traceability Information |
 | `trace_scan_does_not_follow_directory_symlinks` | US-01-01-03 | Format Documents Canonically |
