@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 007385a, 2026-07-12
+     Snapshot: 855b8f6, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -100,6 +100,7 @@
 | `trace_matrix_exports_csv` | tests/cli_trace.rs:107 | REQ-03-01-02-01 | active |
 | `trace_ratchet_fails_on_a_coverage_regression` | tests/cli_ratchet.rs:10 | REQ-04-01-15-01 | active |
 | `trace_ratchet_passes_without_regression` | tests/cli_ratchet.rs:33 | REQ-04-01-15-02 | active |
+| `trace_ratchet_reads_the_configured_baseline` | tests/cli_ratchet.rs:70 | REQ-04-01-16-01 | active |
 | `trace_resolves_ownership_from_triples_under_a_custom_pattern` | tests/cli_trace.rs:119 | REQ-01-01-18-02 | active |
 | `trace_scan_detects_markers_in_rust_comments` | tests/cli_trace.rs:9 | REQ-03-01-05-01 | active |
 | `trace_scan_does_not_follow_directory_symlinks` | tests/cli_trace.rs:87 | REQ-00-00-00-01 | active |
