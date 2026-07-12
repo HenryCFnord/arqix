@@ -5,9 +5,10 @@
 workspace "arqix" "Documentation-as-code toolchain with traceability" {
 
     model {
-        maintainer = person "Documentation Maintainer" "Owns standards, templates, schemas, and governance (persona Mara)."
-        developer = person "Developer" "Writes code and documentation in the same flow (personas Dan, Quinn, Aria)."
-        agent = person "Coding Agent" "Executes story-by-story tasks against deterministic contracts (persona Casey)."
+        maintainer = person "Documentation Maintainer" "Owns standards, templates, schemas, and governance (persona Mara, PER-01)."
+        builder = person "Builder" "Changes the corpus alongside code, pipelines, and architecture (persona Bernadette, PER-09)."
+        assessor = person "Assessor" "Consumes the corpus as input: coverage, evidence bundles, the catalogue, and the site (persona Adrian, PER-10)."
+        agent = person "Coding Agent" "Executes story-by-story tasks against deterministic contracts (persona Casey, PER-08)."
 
         arqix = softwareSystem "arqix CLI" "Deterministic documentation-as-code toolchain: create, format, lint, assemble, trace, report, publish." {
             cli = container "arqix binary" "Single Rust CLI; all commands resolve against the effective configuration (REQ-00-00-00-06)." "Rust" {
@@ -18,13 +19,13 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
                 templateEngine = component "Template Engine" "Instantiates configured templates per kind with placeholder substitution (REQ-00-00-00-05, REQ-01-01-05-*)."
                 formatter = component "Formatter & Finaliser" "Canonical rewrites over the parser CST: fmt (key order, directive normalisation, REQ-01-01-03-*) and finalise (mechanical metadata updates with injected clock, REQ-01-01-06-*). The only component that mutates existing source documents (REQ-00-00-00-08, ADR-0004)."
                 linter = component "Linter" "Include/metadata/ID checks, schema contracts, i18n profile (REQ-01-01-04-*, REQ-01-01-10-*, REQ-00-00-00-10)."
-                assembler = component "Assembler" "Parses chapter/include directives, expands globs, detects cycles, writes pages and the JSONL log (REQ-02-01-09-*, REQ-02-01-11-*, REQ-04-01-01-*)."
-                traceEngine = component "Trace Engine" "Scans markers, builds the trace graph, matrices, and coverage (REQ-03-01-05-*, REQ-03-01-02-*, REQ-01-01-08-*)."
-                reporter = component "Report & Export" "Audit-oriented exports with stable schemas (REQ-04-01-12-*), evidence bundles (REQ-03-01-04-*)."
-                publisher = component "Publish & Render Orchestrator" "Drives Pandoc and site toolchains per language (REQ-04-01-03-*, REQ-04-01-07-*)."
+                assembler = component "Assembler" "Expands include directives with declared heading levels (ADR-0013), rebases fragment links, detects cycles, enforces containment, writes pages and the JSONL log (REQ-02-01-09-*, REQ-02-01-11-*, REQ-02-01-12-*, REQ-04-01-01-*)."
+                traceEngine = component "Trace Engine" "Scans verifies/implements/plans markers, builds the trace graph, matrices, coverage with joined test outcomes, and the regression ratchet (REQ-03-01-05-*, REQ-03-01-02-*, REQ-01-01-08-*, REQ-03-01-10-*, REQ-04-01-15/16-*)."
+                reporter = component "Report & Export" "Audit-oriented exports with stable schemas (REQ-04-01-12-*): evidence bundles (REQ-03-01-04-*) and the OKF knowledge bundle (REQ-05-01-15-*)."
+                publisher = component "Publish & Render Orchestrator" "Stages artefact-ready pages and the specification catalogue, drives Pandoc and site toolchains per language (REQ-04-01-03-*, REQ-04-01-07-*, REQ-04-01-17-*)."
                 policyChecker = component "Policy Checker" "Evaluates changed files against declared change scope (REQ-01-01-07-*, REQ-00-00-00-07)."
-                mcpServer = component "MCP Server" "Exposes search/read/list over stdio; transport separated from tool logic (REQ-05-01-12-*)."
-                verifier = component "Verification Orchestrator" "Sequences the configured verify sub-steps (format, lint, trace scan, coverage) via the stable command interface; fail-fast/aggregate modes and per-step JSON results; never implements a check itself (REQ-04-01-05-*, ADR-0003)."
+                mcpServer = component "MCP Server" "Exposes search/read/list/trace with filters over stdio (hand-rolled JSON-RPC subset, ADR-0014); transport separated from tool logic (REQ-05-01-12-*)."
+                verifier = component "Verification Orchestrator" "Sequences the configured verify sub-steps (format, lint, trace scan, coverage, ratchet — REQ-04-01-14-*) via the stable command interface; fail-fast/aggregate modes and per-step JSON results; never implements a check itself (REQ-04-01-05-*, ADR-0003)."
                 diagnostics = component "Diagnostics & Exit Codes" "Machine-readable diagnostics and the 0/1/2 exit-code contract (REQ-00-00-00-02/03, REQ-04-01-08-*, REQ-04-01-10-*)."
             }
             config = container "arqix.toml" "Repository configuration: kinds, templates, roots, policies, i18n." "TOML"
@@ -37,12 +38,13 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         mcpClient = softwareSystem "MCP Client" "Agent or IDE consuming documentation over the Model Context Protocol." "External"
 
         maintainer -> arqix "Defines standards, runs fmt/lint, reviews diagnostics"
-        developer -> arqix "Creates and searches documents alongside implementation"
+        builder -> arqix "Creates and searches documents alongside implementation"
+        assessor -> arqix "Reads coverage, evidence bundles, and the published specification"
         agent -> arqix "Runs deterministic loops: doc new, verify, trace check"
         arqix -> gitRepo "Reads and writes documents within configured roots (REQ-00-00-00-13)"
         arqix -> renderToolchain "Invokes for PDF and site rendering; never executes document content (REQ-00-00-00-14)"
         ciPages -> arqix "Runs verify with stable exit codes (REQ-00-00-00-02)"
-        mcpClient -> arqix "Calls search/read/list over stdio"
+        mcpClient -> arqix "Calls search/read/list/trace over stdio"
 
         cli -> config "Resolves at startup into the effective configuration"
         cli -> corpus "Reads, creates, formats, and assembles documents"
@@ -55,14 +57,14 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         cliEntry -> linter "Routes lint"
         cliEntry -> assembler "Routes assemble"
         cliEntry -> traceEngine "Routes trace"
-        cliEntry -> reporter "Routes report bundle"
+        cliEntry -> reporter "Routes report bundle and report knowledge"
         cliEntry -> publisher "Routes publish and render"
         cliEntry -> verifier "Routes verify"
         cliEntry -> policyChecker "Routes policy check"
         cliEntry -> mcpServer "Routes mcp serve"
         verifier -> formatter "Runs the format sub-step in check mode"
         verifier -> linter "Runs the lint sub-step"
-        verifier -> traceEngine "Runs the trace scan and coverage sub-steps"
+        verifier -> traceEngine "Runs the trace scan, coverage, and ratchet sub-steps"
         verifier -> diagnostics "Aggregates per-step results and diagnostic references"
         docStore -> docParser "Parses documents into the semantic model"
         formatter -> docParser "Rewrites via the lossless concrete syntax"
@@ -73,9 +75,15 @@ workspace "arqix" "Documentation-as-code toolchain with traceability" {
         assembler -> docStore "Resolves include targets"
         linter -> docStore "Validates documents against contracts"
         traceEngine -> docStore "Reads frontmatter links"
-        publisher -> assembler "Publishes assembled pages"
+        assembler -> linter "Reuses the include-directive grammar"
+        publisher -> assembler "Expands includes for staging and rendering"
+        publisher -> docStore "Discovers the documents to stage"
+        publisher -> traceEngine "Reads coverage status for the specification catalogue"
         mcpServer -> docStore "Serves search/read/list"
+        mcpServer -> traceEngine "Serves the trace tool from the coverage rows"
         reporter -> traceEngine "Exports graph, matrices, coverage"
+        reporter -> docStore "Discovers the documents for the knowledge bundle"
+        reporter -> assembler "Expands includes for artefact-ready concepts"
         policyChecker -> configResolver "Reads declared policy"
     }
 
