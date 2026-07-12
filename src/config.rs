@@ -221,6 +221,23 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
     }
 }
 
+/// The assemble policy: who owns section headings in a stitched corpus
+/// (ADR-0013). `child` (default) — fragments own their headings and a bare
+/// include behaves as `level=+1`; `parent` — the page declares the outline
+/// and a bare include inlines verbatim.
+// arqix:implements REQ-02-01-12-04
+pub fn heading_ownership(dir: &Path) -> String {
+    let (config, _) = resolve(dir);
+    config
+        .sections
+        .get("policies")
+        .and_then(|p| p.get("assemble"))
+        .and_then(|a| a.get("heading-ownership"))
+        .and_then(Value::as_str)
+        .unwrap_or("child")
+        .to_string()
+}
+
 /// The corpus default language (`[i18n] default-lang`, default `en`).
 pub fn default_lang(dir: &Path) -> String {
     let (config, _) = resolve(dir);

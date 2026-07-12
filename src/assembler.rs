@@ -8,7 +8,7 @@
 
 use crate::OutputFormat;
 use crate::diag::{self, Diagnostic};
-use crate::linter::include_target;
+use crate::linter::{IncludeLevel, include_directive};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::fmt::Write as _;
@@ -58,7 +58,13 @@ pub fn build(format: OutputFormat) -> ExitCode {
         out_owners.insert(out_rel.clone(), doc.file.clone());
         let mut stack: Vec<PathBuf> = Vec::new();
         let mut doc_records: Vec<Value> = Vec::new();
-        match expand(src, 0, &doc.file, &out_rel, &mut stack, &mut doc_records) {
+        let walk = Walk {
+            doc_rel: &doc.file,
+            out_rel: &out_rel,
+            root_dir: src.parent().unwrap_or_else(|| Path::new(".")).to_path_buf(),
+            ownership: crate::config::heading_ownership(Path::new(".")),
+        };
+        match expand(src, 0, &walk, 0, None, &mut stack, &mut doc_records) {
             Ok(content) => {
                 records.append(&mut doc_records);
                 pages.push((PathBuf::from(&out_rel), content));
@@ -123,17 +129,45 @@ pub(crate) fn expand_document(file: &Path) -> Result<String, Diagnostic> {
     let mut stack = Vec::new();
     let mut records = Vec::new();
     let rel = file.to_string_lossy().replace('\\', "/");
-    expand(file, 0, &rel, "", &mut stack, &mut records)
+    let walk = Walk {
+        doc_rel: &rel,
+        out_rel: "",
+        root_dir: file
+            .parent()
+            .unwrap_or_else(|| Path::new("."))
+            .to_path_buf(),
+        ownership: crate::config::heading_ownership(Path::new(".")),
+    };
+    expand(file, 0, &walk, 0, None, &mut stack, &mut records)
 }
 
+/// One document's expansion context, shared by every fragment of the walk.
+struct Walk<'a> {
+    doc_rel: &'a str,
+    out_rel: &'a str,
+    /// The root document's directory: every fragment link is rebased here
+    /// so the assembled page is artefact-ready (REQ-04-01-03-02).
+    root_dir: PathBuf,
+    /// `[policies.assemble] heading-ownership` (ADR-0013): `child` or
+    /// `parent` — governs what a bare include means.
+    ownership: String,
+}
+
+// arqix:implements REQ-02-01-12-01
+// arqix:implements REQ-02-01-12-02
+// arqix:implements REQ-02-01-12-03
 /// Expand one source fragment, following include directives depth-first. Each
 /// fragment read is one assembly step and appends exactly one log record. A
-/// path already on the DFS stack is a cycle (ASM-001).
+/// path already on the DFS stack is a cycle (ASM-001). `base_level` is the
+/// heading level in effect at the include position; `target_level` is the
+/// resolved level the fragment's first heading must land on (None inlines
+/// verbatim — the root document and parent-owned bare includes).
 fn expand(
     file: &Path,
     at_line: usize,
-    doc_rel: &str,
-    out_rel: &str,
+    walk: &Walk,
+    base_level: i64,
+    target_level: Option<i64>,
     stack: &mut Vec<PathBuf>,
     records: &mut Vec<Value>,
 ) -> Result<String, Diagnostic> {
@@ -142,7 +176,7 @@ fn expand(
         Err(err) => {
             return Err(
                 Diagnostic::error("ASM-002", format!("cannot read {}: {err}", rel(file)))
-                    .at(rel(file)),
+                    .at_line(rel(file), at_line.max(1)),
             );
         }
     };
@@ -152,23 +186,49 @@ fn expand(
     // diagnostic chain stays in consistent relative form.
     stack.push(file.to_path_buf());
 
+    // The whole fragment shifts by one delta: declared level minus the
+    // first heading (ADR-0013). A headingless fragment has nothing to
+    // shift, whatever was declared.
+    let shift = match (target_level, first_heading_level(&text)) {
+        (Some(target), Some(first)) => target - first,
+        _ => 0,
+    };
+
     // REQ-04-01-01-04/-05: one stable record per step, carrying the required
     // fields. `include` is the fragment read; `at_line` is where its parent
-    // pulled it in (0 for the page root).
+    // pulled it in (0 for the page root); `level` is the resolved outline
+    // decision (null for verbatim inlining and the root).
     records.push(json!({
-        "doc": doc_rel,
+        "doc": walk.doc_rel,
         "chapter_id": chapter_id(file, &text),
-        "out": out_rel,
+        "out": walk.out_rel,
         "include": rel(file),
         "sha256": sha256_hex(text.as_bytes()),
         "bytes": text.len(),
         "at_line": at_line,
+        "level": target_level,
     }));
 
     let dir = file.parent().unwrap_or_else(|| Path::new("."));
+    let is_fragment = at_line > 0;
+    let mut current = base_level;
+    let mut in_fence = false;
     let mut out = String::new();
     for (idx, line) in text.lines().enumerate() {
-        if let Some(target) = include_target(line) {
+        // Fenced code is opaque: no headings, no directives, no links.
+        if line.trim_start().starts_with("```") {
+            in_fence = !in_fence;
+            out.push_str(line);
+            out.push('\n');
+            continue;
+        }
+        if in_fence {
+            out.push_str(line);
+            out.push('\n');
+            continue;
+        }
+
+        if let Some((target, declared)) = include_directive(line) {
             let target_path = dir.join(&target);
             if target_path.exists() {
                 let target_key = canonical(&target_path);
@@ -193,7 +253,31 @@ fn expand(
                     )
                     .at_line(rel(file), idx + 1));
                 }
-                let nested = expand(&target_path, idx + 1, doc_rel, out_rel, stack, records)?;
+                // Resolve where the child's headings land (ADR-0013): an
+                // absolute level stands, a relative one counts from the
+                // heading in effect here, and a bare include follows the
+                // configured ownership — child owns its heading one level
+                // below (+1), parent-owned corpora inline verbatim.
+                let child_target = match declared {
+                    Some(IncludeLevel::Absolute(level)) => Some(level),
+                    Some(IncludeLevel::Relative(delta)) => Some(current + delta),
+                    None if walk.ownership == "parent" => None,
+                    None => Some(current + 1),
+                };
+                // `current` stays the parent's own outline position
+                // (ADR-0013: "the last heading the assembler has seen in
+                // the parent"): sibling includes under one section land at
+                // the same level, whatever depth the previous fragment
+                // reached.
+                let nested = expand(
+                    &target_path,
+                    idx + 1,
+                    walk,
+                    current,
+                    child_target,
+                    stack,
+                    records,
+                )?;
                 out.push_str(&nested);
                 if !nested.ends_with('\n') {
                     out.push('\n');
@@ -203,12 +287,146 @@ fn expand(
             // A missing include target is left verbatim; the linter (LNT-001)
             // is the tool that flags it.
         }
-        out.push_str(line);
+
+        if let Some(level) = heading_level(line) {
+            let effective = level + shift;
+            // A shift out of the h1..h6 range is a structural error, never
+            // a silent clamp (ASM-005).
+            if !(1..=6).contains(&effective) {
+                return Err(Diagnostic::error(
+                    "ASM-005",
+                    format!(
+                        "heading shift overflows the outline: '{}' would land at level {effective} in {}",
+                        line.trim_matches('#').trim(),
+                        rel(file)
+                    ),
+                )
+                .at_line(rel(file), idx + 1));
+            }
+            current = effective;
+            out.push_str(&"#".repeat(effective as usize));
+            let rest = &line[level as usize..];
+            if is_fragment {
+                out.push_str(&rebase_links(rest, dir, &walk.root_dir));
+            } else {
+                out.push_str(rest);
+            }
+            out.push('\n');
+            continue;
+        }
+
+        if is_fragment {
+            out.push_str(&rebase_links(line, dir, &walk.root_dir));
+        } else {
+            out.push_str(line);
+        }
         out.push('\n');
     }
 
     stack.pop();
     Ok(out)
+}
+
+/// The ATX heading level of a line (column-zero `#`s followed by a space),
+/// or None for anything else.
+fn heading_level(line: &str) -> Option<i64> {
+    let hashes = line.len() - line.trim_start_matches('#').len();
+    ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
+}
+
+/// The first heading of a fragment, skipping fenced code.
+fn first_heading_level(text: &str) -> Option<i64> {
+    let mut in_fence = false;
+    for line in text.lines() {
+        if line.trim_start().starts_with("```") {
+            in_fence = !in_fence;
+            continue;
+        }
+        if !in_fence && let Some(level) = heading_level(line) {
+            return Some(level);
+        }
+    }
+    None
+}
+
+/// Rewrite the inline link targets of one fragment line so they resolve from
+/// the root document's directory instead of the fragment's (artefact-ready
+/// pages, REQ-04-01-03-02). Absolute targets, anchors, and URLs pass through.
+fn rebase_links(line: &str, from_dir: &Path, root_dir: &Path) -> String {
+    let mut out = String::new();
+    let mut rest = line;
+    while let Some(pos) = rest.find("](") {
+        let (head, tail) = rest.split_at(pos + 2);
+        out.push_str(head);
+        let Some(end) = tail.find(')') else {
+            out.push_str(tail);
+            return out;
+        };
+        out.push_str(&rebased_target(&tail[..end], from_dir, root_dir));
+        out.push(')');
+        rest = &tail[end + 1..];
+    }
+    out.push_str(rest);
+    out
+}
+
+fn rebased_target(target: &str, from_dir: &Path, root_dir: &Path) -> String {
+    if target.is_empty()
+        || target.starts_with('#')
+        || target.starts_with('/')
+        || target.starts_with('<')
+        || target.contains("://")
+        || target.starts_with("mailto:")
+    {
+        return target.to_string();
+    }
+    let (path, anchor) = match target.split_once('#') {
+        Some((path, anchor)) => (path, Some(anchor)),
+        None => (target, None),
+    };
+    if path.is_empty() {
+        return target.to_string();
+    }
+    let joined = normalized_parts(&from_dir.join(path));
+    let base = normalized_parts(root_dir);
+    let common = joined
+        .iter()
+        .zip(base.iter())
+        .take_while(|(a, b)| a == b)
+        .count();
+    let mut parts: Vec<String> = vec!["..".to_string(); base.len() - common];
+    parts.extend(joined[common..].iter().cloned());
+    let rebased = if parts.is_empty() {
+        ".".to_string()
+    } else {
+        parts.join("/")
+    };
+    match anchor {
+        Some(anchor) => format!("{rebased}#{anchor}"),
+        None => rebased,
+    }
+}
+
+/// Path components with `.` and `..` folded, in posix form.
+fn normalized_parts(path: &Path) -> Vec<String> {
+    let mut parts: Vec<String> = Vec::new();
+    for component in path.components() {
+        match component {
+            std::path::Component::CurDir => {}
+            std::path::Component::ParentDir => {
+                if parts.last().is_some_and(|p| p != "..") {
+                    parts.pop();
+                } else {
+                    parts.push("..".to_string());
+                }
+            }
+            std::path::Component::Normal(part) => {
+                parts.push(part.to_string_lossy().to_string());
+            }
+            _ => {}
+        }
+    }
+    parts
 }
 
 /// The output page path for a source file: its path relative to the matching

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 167b84b, 2026-07-11
+     Snapshot: f2d10d6, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -9,6 +9,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 
 | test | story | title |
 | --- | --- | --- |
+| `assemble_applies_the_configured_heading_ownership_default` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_generates_outputs_under_pages` | US-02-01-11 | Assemble Documentation During Implementation |
@@ -22,6 +23,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_build_writes_a_jsonl_log` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
 | `assemble_build_writes_a_jsonl_log` | US-06-01-02 | Trace Document Assembly Structure |
 | `assemble_build_writes_a_jsonl_log` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
+| `assemble_fails_on_heading_overflow` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `assemble_rebases_relative_links_from_included_fragments` | US-04-01-03 | Generate Publishing Outputs |
+| `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `assemble_shifts_included_headings_to_the_declared_level` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
@@ -271,6 +277,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `format_option_is_accepted_globally` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
 | `format_option_is_accepted_globally` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
 | `format_option_is_accepted_globally` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |

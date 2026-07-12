@@ -227,22 +227,93 @@ fn check_done_claims(docs: &[Document], diags: &mut Vec<Diagnostic>) {
 /// prose that merely mentions the directive is not matched. Shared with the
 /// assembler, which expands the same directives.
 pub(crate) fn include_target(line: &str) -> Option<String> {
+    include_directive(line).map(|(path, _)| path)
+}
+
+/// The declared heading level of an include directive (ADR-0013): where the
+/// fragment's first heading lands, absolute (`level=3`) or relative to the
+/// heading in effect at the include position (`level=+1`).
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub(crate) enum IncludeLevel {
+    Absolute(i64),
+    Relative(i64),
+}
+
+// arqix:implements REQ-02-01-09-01
+/// Parse `<!-- arqix:include <path> [level=N|+N] -->` (ADR-0013 grammar; the
+/// retired `arqix:chapter` directive is not part of it). Anything malformed
+/// is not an include and stays verbatim — the linter never guesses.
+pub(crate) fn include_directive(line: &str) -> Option<(String, Option<IncludeLevel>)> {
     let inner = line
         .trim()
         .strip_prefix("<!--")?
         .strip_suffix("-->")?
         .trim();
-    let path = inner.strip_prefix("arqix:include")?.trim();
-    if path.is_empty() || path.split_whitespace().count() != 1 {
+    let rest = inner.strip_prefix("arqix:include")?.trim();
+    let mut parts = rest.split_whitespace();
+    let path = parts.next()?.to_string();
+    let level = match parts.next() {
+        None => None,
+        Some(argument) => Some(include_level(argument)?),
+    };
+    if parts.next().is_some() {
         return None;
     }
-    Some(path.to_string())
+    Some((path, level))
+}
+
+fn include_level(argument: &str) -> Option<IncludeLevel> {
+    let value = argument.strip_prefix("level=")?;
+    if let Some(delta) = value.strip_prefix('+') {
+        let delta: i64 = delta.parse().ok()?;
+        (delta >= 1).then_some(IncludeLevel::Relative(delta))
+    } else {
+        let level: i64 = value.parse().ok()?;
+        (1..=6)
+            .contains(&level)
+            .then_some(IncludeLevel::Absolute(level))
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::parser::parse;
+
+    // arqix:verifies REQ-02-01-09-01
+    #[test]
+    fn include_directives_parse_with_and_without_level_arguments() {
+        assert_eq!(
+            include_directive("<!-- arqix:include units/u.md -->"),
+            Some(("units/u.md".to_string(), None))
+        );
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md level=3 -->"),
+            Some(("u.md".to_string(), Some(IncludeLevel::Absolute(3))))
+        );
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md level=+2 -->"),
+            Some(("u.md".to_string(), Some(IncludeLevel::Relative(2))))
+        );
+        // Malformed arguments are not includes: the assembler leaves the
+        // line verbatim rather than guessing.
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md level=0 -->"),
+            None
+        );
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md level=7 -->"),
+            None
+        );
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md chapter -->"),
+            None
+        );
+        assert_eq!(
+            include_directive("<!-- arqix:include u.md level=+1 x -->"),
+            None
+        );
+    }
 
     // arqix:no-requirement
     #[test]

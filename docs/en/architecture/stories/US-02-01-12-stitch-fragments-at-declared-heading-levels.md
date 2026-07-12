@@ -27,7 +27,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-11
   updated: 2026-07-11
@@ -42,10 +42,10 @@ As a developer, I want an include directive to place the fragment's headings at 
 
 ### Acceptance Criteria
 
-- [ ] `<!-- arqix:include <path> level=N -->` places the fragment's first heading at level N; every heading in the fragment shifts by the same delta.
-- [ ] `level=+N` resolves against the heading level in effect at the include position; moving the include re-levels the fragment without editing it.
-- [ ] Without a level argument, the configured `heading-ownership` default applies (`child`: behaves as `level=+1`; `parent`: fragments are headingless, the argument governs internal headings only).
-- [ ] A shift beyond h6 fails assembly with a diagnostic naming the fragment and the heading (ASM-005); no partial page is written.
+- [x] `<!-- arqix:include <path> level=N -->` places the fragment's first heading at level N; every heading in the fragment shifts by the same delta.
+- [x] `level=+N` resolves against the heading level in effect at the include position; moving the include re-levels the fragment without editing it.
+- [x] Without a level argument, the configured `heading-ownership` default applies (`child`: behaves as `level=+1`; `parent`: fragments are headingless, the argument governs internal headings only).
+- [x] A shift beyond h6 fails assembly with a diagnostic naming the fragment and the heading (ASM-005); no partial page is written.
 
 ### Notes
 

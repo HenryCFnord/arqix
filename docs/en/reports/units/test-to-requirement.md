@@ -1,17 +1,22 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 167b84b, 2026-07-11
+     Snapshot: f2d10d6, 2026-07-11
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
 
 | test | location | requirement | status |
 | --- | --- | --- | --- |
+| `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
 | `assemble_build_generates_outputs_under_pages` | tests/cli_assemble.rs:8 | REQ-02-01-11-01 | active |
 | `assemble_build_refuses_includes_outside_the_repository` | tests/cli_assemble.rs:74 | REQ-00-00-00-13 | active |
 | `assemble_build_writes_a_jsonl_log` | tests/cli_assemble.rs:105 | REQ-04-01-01-02 | active |
+| `assemble_fails_on_heading_overflow` | tests/cli_assemble.rs:200 | REQ-02-01-12-03 | active |
+| `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
+| `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
+| `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
@@ -48,6 +53,7 @@
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
+| `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:283 | REQ-02-01-09-01 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
