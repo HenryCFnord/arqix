@@ -85,10 +85,9 @@ fn document_json(d: &Document) -> Value {
     })
 }
 
-// arqix:implements REQ-05-01-08-01
-// arqix:implements REQ-05-01-08-03
-/// `arqix doc list [--kind <kind>]`
-pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
+/// The catalog as data: shared by the CLI (`doc list`) and the MCP `list`
+/// tool, so both surfaces answer identically (REQ-05-01-12-03).
+pub(crate) fn catalog_json(kind: Option<&str>) -> Value {
     let docs = documents();
     let entries: Vec<Value> = docs
         .iter()
@@ -96,10 +95,45 @@ pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
         .filter(|d| kind.is_none_or(|k| d.kind() == k))
         .map(catalog_entry)
         .collect();
+    json!({ "schema_version": SCHEMA_VERSION, "documents": entries })
+}
+
+/// A document by id as data; `None` when no document has the id.
+pub(crate) fn read_json(id: &str) -> Option<Value> {
+    documents()
+        .iter()
+        .find(|d| d.id.as_deref() == Some(id))
+        .map(document_json)
+}
+
+/// Full-text search as data.
+pub(crate) fn search_json(query: &str) -> Value {
+    let mut hits = Vec::new();
+    for d in &documents() {
+        if let Ok(text) = std::fs::read_to_string(&d.file) {
+            for (idx, line) in text.lines().enumerate() {
+                if line.contains(query) {
+                    hits.push(json!({
+                        "id": d.id,
+                        "file": d.file,
+                        "line": idx + 1,
+                    }));
+                }
+            }
+        }
+    }
+    json!({ "schema_version": SCHEMA_VERSION, "query": query, "hits": hits })
+}
+
+// arqix:implements REQ-05-01-08-01
+// arqix:implements REQ-05-01-08-03
+/// `arqix doc list [--kind <kind>]`
+pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
+    let catalog = catalog_json(kind);
+    let entries = catalog["documents"].as_array().cloned().unwrap_or_default();
 
     match format {
         OutputFormat::Json => {
-            let catalog = json!({ "schema_version": SCHEMA_VERSION, "documents": entries });
             println!(
                 "{}",
                 serde_json::to_string_pretty(&catalog).expect("valid JSON")
@@ -123,20 +157,19 @@ pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-05-01-10-03
 /// `arqix doc read <id>`
 pub fn read(id: &str, format: OutputFormat) -> ExitCode {
-    let docs = documents();
-    match docs.iter().find(|d| d.id.as_deref() == Some(id)) {
-        Some(d) => {
+    match read_json(id) {
+        Some(doc) => {
             match format {
                 OutputFormat::Json => {
                     println!(
                         "{}",
-                        serde_json::to_string_pretty(&document_json(d)).expect("valid JSON")
+                        serde_json::to_string_pretty(&doc).expect("valid JSON")
                     );
                 }
                 OutputFormat::Text => {
-                    println!("{}", d.title.as_deref().unwrap_or(id));
+                    println!("{}", doc["title"].as_str().unwrap_or(id));
                     println!();
-                    println!("{}", d.body);
+                    println!("{}", doc["body"].as_str().unwrap_or(""));
                 }
             }
             ExitCode::SUCCESS
@@ -154,32 +187,17 @@ pub fn read(id: &str, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-02-01-06-01
 /// `arqix doc search <query>`
 pub fn search(query: &str, format: OutputFormat) -> ExitCode {
-    let docs = documents();
-    let mut hits = Vec::new();
-    for d in &docs {
-        if let Ok(text) = std::fs::read_to_string(&d.file) {
-            for (idx, line) in text.lines().enumerate() {
-                if line.contains(query) {
-                    hits.push(json!({
-                        "id": d.id,
-                        "file": d.file,
-                        "line": idx + 1,
-                    }));
-                }
-            }
-        }
-    }
+    let result = search_json(query);
 
     match format {
         OutputFormat::Json => {
-            let result = json!({ "schema_version": SCHEMA_VERSION, "query": query, "hits": hits });
             println!(
                 "{}",
                 serde_json::to_string_pretty(&result).expect("valid JSON")
             );
         }
         OutputFormat::Text => {
-            for hit in &hits {
+            for hit in result["hits"].as_array().map(Vec::as_slice).unwrap_or(&[]) {
                 println!(
                     "{}:{}: {}",
                     hit["file"].as_str().unwrap_or("?"),

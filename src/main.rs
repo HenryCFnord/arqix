@@ -9,6 +9,7 @@ mod assembler;
 mod config;
 mod diag;
 mod linter;
+mod mcp;
 mod parser;
 mod publisher;
 mod reporter;
@@ -334,7 +335,7 @@ fn main() -> ExitCode {
             aggregate: _,
         } => verifier::verify(fail_fast, cli.format),
         Command::Mcp { command } => match command {
-            McpCommand::Serve => unimplemented("mcp serve"),
+            McpCommand::Serve => mcp::serve(),
         },
     }
 }
