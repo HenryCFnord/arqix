@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 72e30c5, 2026-07-12
+     Snapshot: 021defb, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -184,10 +184,18 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_run_reports_findings_with_file_and_line_context` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_reports_findings_with_file_and_line_context` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_validates_id_shape_against_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `mcp_list_supports_a_lifecycle_filter` | WF-05-01 | Use Documentation for Agents and RAG |
+| `mcp_list_supports_a_lifecycle_filter` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `mcp_search_supports_kind_and_path_filters` | WF-05-01 | Use Documentation for Agents and RAG |
+| `mcp_search_supports_kind_and_path_filters` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `mcp_serve_exposes_search_read_and_list_tools` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_serve_exposes_search_read_and_list_tools` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | WF-05-01 | Use Documentation for Agents and RAG |
+| `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `mcp_trace_reports_an_unknown_id_as_a_tool_error` | WF-05-01 | Use Documentation for Agents and RAG |
+| `mcp_trace_reports_an_unknown_id_as_a_tool_error` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

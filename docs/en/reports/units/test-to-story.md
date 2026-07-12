@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 72e30c5, 2026-07-12
+     Snapshot: 021defb, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -359,10 +359,18 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_run_reports_findings_with_file_and_line_context` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `lint_run_reports_findings_with_file_and_line_context` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
 | `lint_validates_id_shape_against_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
+| `mcp_list_supports_a_lifecycle_filter` | US-05-01-12 | Expose Arqix via MCP over STDIO |
+| `mcp_list_supports_a_lifecycle_filter` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
+| `mcp_search_supports_kind_and_path_filters` | US-05-01-12 | Expose Arqix via MCP over STDIO |
+| `mcp_search_supports_kind_and_path_filters` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `mcp_serve_exposes_search_read_and_list_tools` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_serve_exposes_search_read_and_list_tools` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
+| `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | US-05-01-12 | Expose Arqix via MCP over STDIO |
+| `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
+| `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-05-01-12 | Expose Arqix via MCP over STDIO |
+| `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-08-01-08 | Stay within Declared Change Scope |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 72e30c5, 2026-07-12
+     Snapshot: 021defb, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -75,8 +75,12 @@
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
 | `lint_run_reports_findings_with_file_and_line_context` | tests/cli_lint.rs:33 | REQ-01-01-04-04 | active |
 | `lint_validates_id_shape_against_the_configured_pattern` | tests/cli_lint.rs:133 | REQ-01-01-18-01 | active |
-| `mcp_serve_exposes_search_read_and_list_tools` | tests/cli_mcp.rs:89 | REQ-05-01-12-02 | active |
-| `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:50 | REQ-05-01-12-01 | active |
+| `mcp_list_supports_a_lifecycle_filter` | tests/cli_mcp.rs:208 | REQ-05-01-12-02 | active |
+| `mcp_search_supports_kind_and_path_filters` | tests/cli_mcp.rs:158 | REQ-05-01-12-02 | active |
+| `mcp_serve_exposes_search_read_and_list_tools` | tests/cli_mcp.rs:90 | REQ-05-01-12-02 | active |
+| `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:51 | REQ-05-01-12-01 | active |
+| `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | tests/cli_mcp.rs:260 | REQ-05-01-12-02 | active |
+| `mcp_trace_reports_an_unknown_id_as_a_tool_error` | tests/cli_mcp.rs:318 | REQ-05-01-12-02 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
 | `policy_check_reads_the_declared_scope_from_the_policy_file` | tests/cli_policy.rs:19 | REQ-01-01-07-01 | active |
@@ -108,7 +112,7 @@
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:472 | REQ-04-01-03-02 | active |
-| `tool_logic_answers_without_any_transport` | src/mcp.rs:171 | REQ-05-01-12-03 | active |
+| `tool_logic_answers_without_any_transport` | src/mcp.rs:205 | REQ-05-01-12-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |
 | `trace_coverage_output_is_deterministic` | tests/cli_trace.rs:70 | REQ-00-00-00-01 | active |
