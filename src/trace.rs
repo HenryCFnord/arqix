@@ -470,6 +470,40 @@ pub(crate) fn coverage_report(model: &Model) -> (Value, ExitCode) {
     coverage(model)
 }
 
+/// The coverage rows for one id, as data for the MCP `trace` tool: a
+/// requirement id stands for itself, a story id for the requirements
+/// derived from it (`resolve_scope`, same rule as the report bundle). Each
+/// row is the coverage row plus its derived status — verified when an
+/// active test verifies it, planned when only ignored tests do, uncovered
+/// otherwise. `None` when the id is neither a requirement nor derivable.
+pub(crate) fn trace_json(id: &str) -> Option<Value> {
+    let model = corpus_model();
+    let scope = resolve_scope(&model, &[id.to_string()]).ok()?;
+    let (report, _) = coverage(&model);
+    let rows: Vec<Value> = report["requirements"]
+        .as_array()
+        .map(|rows| {
+            rows.iter()
+                .filter(|row| row["id"].as_str().is_some_and(|i| scope.contains(i)))
+                .map(|row| {
+                    let filled = |field: &str| row[field].as_array().is_some_and(|a| !a.is_empty());
+                    let status = if filled("verified_by") {
+                        "verified"
+                    } else if filled("planned_by") {
+                        "planned"
+                    } else {
+                        "uncovered"
+                    };
+                    let mut row = row.clone();
+                    row["status"] = json!(status);
+                    row
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    Some(json!({ "schema_version": SCHEMA_VERSION, "id": id, "requirements": rows }))
+}
+
 fn coverage(model: &Model) -> (Value, ExitCode) {
     let mut links: BTreeMap<&String, Links> = model
         .requirements
