@@ -10,7 +10,7 @@ rdf:
 
 triples:
   - predicate: arqix:properties/has-persona
-    object: arqix:personas/per-02
+    object: arqix:personas/per-09
   - predicate: arqix:properties/has-requirement
     object:
       - arqix:requirements/req-02-01-12-01
@@ -30,7 +30,7 @@ meta:
   lifecycle-status: done
   owner: hcf
   created: 2026-07-11
-  updated: 2026-07-11
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false

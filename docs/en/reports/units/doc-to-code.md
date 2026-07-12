@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-08 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 7b2800a, 2026-07-12
+     Snapshot: e30c6e9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Where is the documentation for a given piece of code?
