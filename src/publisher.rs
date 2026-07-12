@@ -97,6 +97,15 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         }
     }
 
+    // Configured assets ride along verbatim: the toolchain can only
+    // reference what reaches the staging dir.
+    for asset in &policy.assets {
+        let source = Path::new(asset);
+        if let Err(code) = copy_asset(source, &PathBuf::from(&policy.staging_dir).join(asset)) {
+            return code;
+        }
+    }
+
     // Orchestrate the toolchain over the staged inputs, inheriting stdio so
     // its own output and errors surface transparently.
     let mut parts = command.split_whitespace();
@@ -141,6 +150,42 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         ),
     }
     ExitCode::SUCCESS
+}
+
+/// Copy one configured asset (file or directory tree) into the staging
+/// dir; a missing source is a config error naming the path.
+fn copy_asset(source: &Path, target: &Path) -> Result<(), ExitCode> {
+    if source.is_dir() {
+        let entries = match std::fs::read_dir(source) {
+            Ok(entries) => entries,
+            Err(err) => {
+                eprintln!("error: cannot read asset dir {}: {err}", source.display());
+                return Err(ExitCode::from(2));
+            }
+        };
+        for entry in entries.flatten() {
+            copy_asset(&entry.path(), &target.join(entry.file_name()))?;
+        }
+        return Ok(());
+    }
+    if !source.is_file() {
+        eprintln!(
+            "error: configured asset does not exist: {}",
+            source.display()
+        );
+        return Err(ExitCode::from(2));
+    }
+    if let Some(parent) = target.parent()
+        && let Err(err) = std::fs::create_dir_all(parent)
+    {
+        eprintln!("error: cannot create {}: {err}", parent.display());
+        return Err(ExitCode::from(2));
+    }
+    if let Err(err) = std::fs::copy(source, target) {
+        eprintln!("error: cannot copy {}: {err}", source.display());
+        return Err(ExitCode::from(2));
+    }
+    Ok(())
 }
 
 /// Collect Markdown sources under `dir`, path-sorted, honouring the skip

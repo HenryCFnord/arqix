@@ -12,4 +12,9 @@ exclude = [
     "templates",
     "architecture/req",
     "architecture/stories",
+    # Personas are spec-internal material like stories (owner decision
+    # 2026-07-11, after the site review called them out).
+    "architecture/personas",
 ]
+# Brand assets ride into staging so the toolchain can reference them.
+assets = ["assets/arqix-logo-transparent.png"]

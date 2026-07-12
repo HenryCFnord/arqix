@@ -492,6 +492,10 @@ def load_docs(root):
             if path in seen:
                 continue
             seen.add(path)
+            # index.md is navigation prose (a section landing page), not a
+            # member of the directory's document family.
+            if path.name == "index.md":
+                continue
             docs.append(Doc(path, path.read_text(encoding="utf-8"), family))
     docs.sort(key=lambda doc: str(doc.path))
     return docs
