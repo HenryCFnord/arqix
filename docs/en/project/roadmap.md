@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 91/135 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 94/138 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -84,6 +84,10 @@ The remaining command surface, ordered so each slice makes the previous one more
 7. [ ] **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
 
 Landed from the deferred list: the vector mark (`assets/arqix-mark.svg`, traced from the monochrome raster; `currentColor` fill, one file for both themes) and machine-readable licensing per [REUSE](https://reuse.software) (`REUSE.toml` + `LICENSES/`, no per-file SPDX headers; `reuse lint` compliant).
+
+## Beyond 0.2.0
+
+Candidate for 0.3.0 (owner idea 2026-07-12): an interactive graph explorer over the trace graph — the corpus as a navigable node-link view with kind/status filters, in the spirit of Obsidian's graph view; likely a self-contained page generated into the published site from the `trace scan` JSON.
 
 ## What this roadmap is not
 

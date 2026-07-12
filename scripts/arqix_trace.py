@@ -14,8 +14,8 @@ Semantics:
 - Requirement documents are Markdown files whose frontmatter carries an
   `id: REQ-XX-YY-ZZ-NN`; the kind is read from `arqix:classes/…`, and a
   missing kind is treated as functional (strictest default).
-- Markers are `// arqix:verifies|implements REQ-…` comment lines in Rust
-  sources (REQ-03-01-05-01) and `<!-- arqix:verifies|implements REQ-… -->`
+- Markers are `// arqix:verifies|implements|plans REQ-…` comment lines in Rust
+  sources (REQ-03-01-05-01) and `<!-- arqix:verifies|implements|plans REQ-… -->`
   HTML comments in Markdown (REQ-03-01-05-02). A marker only counts when
   the line starts with the comment token, so string literals containing
   marker text are ignored.
@@ -49,8 +49,8 @@ CLASS_ITEM_RE = re.compile(r"^-\s+arqix:classes/(\S+)\s*$")
 KIND_RE = re.compile(
     r"arqix:classes/(functional-requirement|quality-requirement|constraint)"
 )
-RS_MARKER_RE = re.compile(r"^//\s*arqix:(verifies|implements)\s+(\S+)\s*$")
-MD_MARKER_RE = re.compile(r"^<!--\s*arqix:(verifies|implements)\s+(\S+)\s*-->\s*$")
+RS_MARKER_RE = re.compile(r"^//\s*arqix:(verifies|implements|plans)\s+(\S+)\s*$")
+MD_MARKER_RE = re.compile(r"^<!--\s*arqix:(verifies|implements|plans)\s+(\S+)\s*-->\s*$")
 # Paragraph-anchored document reference (ADR-0009): the body-level analogue of
 # a frontmatter references-artefact triple. Kept separate from MD_MARKER_RE so
 # it never widens the shared verifies/implements alternation.
@@ -342,8 +342,8 @@ def coverage(requirements, edges):
         for req_id in requirements
     }
     for e in edges:
-        if e["to"] in links and e["kind"] in ("verifies", "implements"):
-            bucket = "planned" if e["kind"] == "verifies" and e["ignored"] else e["kind"]
+        if e["to"] in links and e["kind"] in ("verifies", "implements", "plans"):
+            bucket = ("planned" if (e["kind"] == "verifies" and e["ignored"]) or e["kind"] == "plans" else e["kind"])
             links[e["to"]][bucket].append(f"{e['from']}:{e['line']}")
 
     rows = []
@@ -379,7 +379,7 @@ def coverage(requirements, edges):
                         "severity": "warning",
                         "code": "TRC-COV-002",
                         "message": f"functional requirement {req_id} is only planned: "
-                        "all verifies markers sit on ignored tests",
+                        "no active test verifies it yet",
                         "requirement": req_id,
                         "file": info["file"],
                     }

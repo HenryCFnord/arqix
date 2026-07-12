@@ -60,8 +60,9 @@ Generated artefacts — assembled pages, staged sites, report snapshots — are 
 
 ### Traceability
 
-Requirements connect to proof through comment markers: `arqix:verifies <REQUIREMENT-ID>` above a test claims it, `arqix:implements <REQUIREMENT-ID>` above code anchors the implementation.
+Requirements connect to proof through comment markers: `arqix:verifies <REQUIREMENT-ID>` above a test claims it, `arqix:implements <REQUIREMENT-ID>` above code anchors the implementation, and `arqix:plans <REQUIREMENT-ID>` declares a planned test without framework skip syntax.
 `arqix trace coverage` shows the current picture; `arqix trace check <requirement>` answers for one requirement.
+With a JUnit XML report from your test runner, `arqix trace coverage --results <report>` joins the outcomes: a failing or skipped test demotes its claim, so "verified" means a green test, not a mere claim.
 Evidence leaves the repository as exports: `arqix report bundle <ID>` for audit-ready evidence, `arqix report knowledge` for an agent-ready knowledge bundle.
 
 ### Naming a new corpus

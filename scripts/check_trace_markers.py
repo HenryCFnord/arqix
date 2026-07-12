@@ -45,6 +45,9 @@ REQ_ID_RE = re.compile(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}$", re.ASCII)
 # trailing comment on a code line is NOT a marker (and gets no coverage
 # credit either), so it must not swallow the line it trails.
 MARKER_RE = re.compile(r"^//\s*arqix:verifies\s+(\S+)\s*$")
+# The language-neutral planned claim (US-03-01-10): satisfies the marker
+# duty like verifies, but earns planned status, never verified credit.
+PLANS_RE = re.compile(r"^//\s*arqix:plans\s+(\S+)\s*$")
 NO_REQ_RE = re.compile(r"^//\s*arqix:no-requirement\b")
 TEST_ATTR_RE = re.compile(r"^\s*#\[test\]")
 IGNORE_ATTR_RE = re.compile(r"^\s*#\[ignore(?:\s*=\s*\"([^\"]*)\")?\]")
@@ -122,6 +125,9 @@ def check_test_file(text, known_reqs, known_stories, path):
         if m := MARKER_RE.match(stripped):
             markers.append((line_no, m.group(1)))
             continue
+        if m := PLANS_RE.match(stripped):
+            markers.append((line_no, m.group(1)))
+            continue
         if NO_REQ_RE.match(stripped):
             no_req_lines.append(line_no)
             continue
@@ -138,7 +144,7 @@ def check_test_file(text, known_reqs, known_stories, path):
             # check_marker_targets — for every marker line, attached or not.
             if not markers and not no_req_lines:
                 findings.append((path, line_no, "TRC-002",
-                                 "test has neither an arqix:verifies marker nor "
+                                 "test has neither a verifies/plans marker nor "
                                  "an arqix:no-requirement annotation"))
             if markers and no_req_lines:
                 findings.append((path, line_no, "TRC-005",
@@ -168,7 +174,7 @@ def check_marker_targets(text, known_reqs, path):
     attached to a test or not."""
     findings = []
     for line_no, line in enumerate(text.splitlines(), start=1):
-        if m := MARKER_RE.match(line.strip()):
+        if (m := MARKER_RE.match(line.strip())) or (m := PLANS_RE.match(line.strip())):
             payload = m.group(1)
             if not REQ_ID_RE.match(payload):
                 findings.append((path, line_no, "TRC-004",

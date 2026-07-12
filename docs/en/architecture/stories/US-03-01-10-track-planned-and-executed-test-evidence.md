@@ -26,7 +26,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-12
   updated: 2026-07-12
@@ -41,10 +41,10 @@ As an assessor, I want planned tests to be claimable in any language and execute
 
 ### Acceptance Criteria
 
-- [ ] An `arqix:plans` marker claims a requirement as planned in every scanned comment surface, without relying on framework-specific skip attributes.
-- [ ] `arqix trace coverage --results <report>` joins test outcomes from a JUnit XML report to the verifying markers by test name.
-- [ ] A verifying claim whose joined outcome is failed or skipped does not count as verified; the requirement stays verified only while a passing (or unjoined) active claim remains.
-- [ ] Coverage rows carry the joined outcomes so downstream exports can show pass/fail evidence.
+- [x] An `arqix:plans` marker claims a requirement as planned in every scanned comment surface, without relying on framework-specific skip attributes.
+- [x] `arqix trace coverage --results <report>` joins test outcomes from a JUnit XML report to the verifying markers by test name.
+- [x] A verifying claim whose joined outcome is failed or skipped does not count as verified; the requirement stays verified only while a passing (or unjoined) active claim remains.
+- [x] Coverage rows carry the joined outcomes so downstream exports can show pass/fail evidence.
 
 ### Notes
 
