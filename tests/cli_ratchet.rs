@@ -66,3 +66,43 @@ fn trace_ratchet_passes_without_regression() {
     .unwrap();
     assert_success(&run_arqix_in(&repo, &["trace", "ratchet"]));
 }
+
+// arqix:verifies REQ-04-01-16-01
+#[test]
+fn trace_ratchet_reads_the_configured_baseline() {
+    // C17: the baseline source is configuration, not convention — a
+    // repository choosing another snapshot location (or strategy) points
+    // the ratchet at it once, in arqix.toml.
+    let repo = common::scratch_copy("minimal", "trace_ratchet_reads_the_configured_baseline");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.verify]\nratchet-baseline = \"snapshots/base.csv\"\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("snapshots")).unwrap();
+    std::fs::write(
+        repo.join("snapshots/base.csv"),
+        "requirement,kind,verified_markers,planned_markers,implements_markers\n\
+         REQ-99-99-99-01,functional,tests/cli_gone.rs:12,,\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["trace", "ratchet"]);
+    common::assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("REQ-99-99-99-01"),
+        "the configured baseline drives the comparison: {stdout}"
+    );
+
+    // An explicit --baseline still overrides the configured one.
+    std::fs::write(
+        repo.join("snapshots/other.csv"),
+        "requirement,kind,verified_markers,planned_markers,implements_markers\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(
+        &repo,
+        &["trace", "ratchet", "--baseline", "snapshots/other.csv"],
+    ));
+}
