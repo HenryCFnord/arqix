@@ -8,7 +8,6 @@ use common::{assert_success, run_arqix_in, scratch_copy};
 
 // arqix:verifies REQ-03-01-04-01
 #[test]
-#[ignore = "US-03-01-04: not implemented"]
 fn report_bundle_exports_an_evidence_bundle_by_id_scope() {
     let repo = scratch_copy(
         "minimal",
@@ -20,7 +19,6 @@ fn report_bundle_exports_an_evidence_bundle_by_id_scope() {
 
 // arqix:verifies REQ-03-01-04-02
 #[test]
-#[ignore = "US-03-01-04: not implemented"]
 fn report_bundle_includes_linked_evidence() {
     let repo = scratch_copy("minimal", "report_bundle_includes_linked_evidence");
     let out = run_arqix_in(
@@ -30,4 +28,110 @@ fn report_bundle_includes_linked_evidence() {
     assert_success(&out);
     let bundle = common::stdout_json(&out);
     assert!(bundle.to_string().contains("REQ-99-99-99-01"));
+}
+
+// arqix:verifies REQ-03-01-04-01
+#[test]
+fn report_bundle_resolves_a_story_scope_to_its_requirements() {
+    let repo = scratch_copy(
+        "minimal",
+        "report_bundle_resolves_a_story_scope_to_its_requirements",
+    );
+    std::fs::write(
+        repo.join("docs/US-42-01-01-story.md"),
+        "---\nid: US-42-01-01\ntitle: Scoped Story\niri: arqix:user-stories/us-42-01-01\nrdf:\n  type:\n    - arqix:classes/user-story\n---\n\n## Scoped Story\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/REQ-42-01-01-01-scoped.md"),
+        "---\nid: REQ-42-01-01-01\ntitle: Scoped Requirement\niri: arqix:requirements/req-42-01-01-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-42-01-01\n---\n\n## Requirement\n\nThe system SHALL be in scope.\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(
+        &repo,
+        &["report", "bundle", "US-42-01-01", "--format", "json"],
+    );
+    assert_success(&out);
+    let bundle = common::stdout_json(&out);
+    assert!(
+        bundle.to_string().contains("REQ-42-01-01-01"),
+        "a story scope pulls in the requirements derived from it: {bundle}"
+    );
+    assert!(
+        !bundle.to_string().contains("REQ-99-99-99-01"),
+        "out-of-scope requirements stay out: {bundle}"
+    );
+}
+
+// arqix:verifies REQ-03-01-04-03
+// arqix:verifies REQ-04-01-12-01
+#[test]
+fn report_bundle_writes_reviewable_markdown_csv_and_json() {
+    // Reviewable without reshaping: the bundle directory carries the
+    // evidence as Markdown for humans, CSV for spreadsheets, JSON for
+    // automation — the audit formats, ready to attach.
+    let repo = scratch_copy(
+        "minimal",
+        "report_bundle_writes_reviewable_markdown_csv_and_json",
+    );
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "bundle", "REQ-99-99-99-01", "--out", "evidence"],
+    ));
+    let md = std::fs::read_to_string(repo.join("evidence/evidence.md")).unwrap();
+    assert!(
+        md.contains("REQ-99-99-99-01") && md.contains("| requirement |"),
+        "the Markdown evidence is a readable table: {md}"
+    );
+    let csv = std::fs::read_to_string(repo.join("evidence/matrix.csv")).unwrap();
+    assert!(
+        csv.starts_with("requirement,kind,verified_markers,planned_markers,implements_markers"),
+        "the CSV carries the stable matrix schema: {csv}"
+    );
+    assert!(repo.join("evidence/bundle.json").is_file());
+}
+
+// arqix:verifies REQ-04-01-12-02
+#[test]
+fn report_bundle_output_is_deterministic_and_schema_stable() {
+    let repo = scratch_copy(
+        "minimal",
+        "report_bundle_output_is_deterministic_and_schema_stable",
+    );
+    let args = ["report", "bundle", "REQ-99-99-99-01", "--format", "json"];
+    let first = common::stdout_json(&run_arqix_in(&repo, &args));
+    let second = common::stdout_json(&run_arqix_in(&repo, &args));
+    assert_eq!(first, second, "identical inputs must produce identical bundles");
+    assert_eq!(first["schema_version"], 1, "exports carry their schema version");
+}
+
+// arqix:verifies REQ-04-01-12-03
+#[test]
+fn report_bundle_records_generation_metadata() {
+    // The stamp is caller-provided (the injected-clock discipline: the
+    // engine never reads the wall clock), so metadata records generation
+    // context without breaking determinism.
+    let repo = scratch_copy("minimal", "report_bundle_records_generation_metadata");
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "report",
+            "bundle",
+            "REQ-99-99-99-01",
+            "--stamp",
+            "abc123, 2026-07-12",
+            "--format",
+            "json",
+        ],
+    );
+    assert_success(&out);
+    let bundle = common::stdout_json(&out);
+    assert_eq!(bundle["stamp"], "abc123, 2026-07-12");
+    assert_eq!(bundle["scope"][0], "REQ-99-99-99-01");
+    assert!(
+        bundle["inputs"]
+            .as_array()
+            .is_some_and(|inputs| !inputs.is_empty()),
+        "metadata names the source inputs: {bundle}"
+    );
 }
