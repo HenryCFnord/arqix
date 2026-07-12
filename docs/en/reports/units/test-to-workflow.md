@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 548345f, 2026-07-12
+     Snapshot: 3f17a9a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -79,6 +79,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_creates_a_document_from_the_configured_template` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_defaults_keep_the_current_id_shapes` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-06-01 | Maintain architecture, ADRs, and glossary |
@@ -87,6 +88,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_generates_ids_from_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
@@ -144,7 +146,14 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `format_option_is_accepted_globally` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `format_option_is_accepted_globally` | WF-05-01 | Use Documentation for Agents and RAG |
 | `format_option_is_accepted_globally` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `ids_and_slugs_derive_deterministically` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `ids_and_slugs_derive_deterministically` | WF-02-01 | Write Docs Alongside Implementation |
+| `ids_and_slugs_derive_deterministically` | WF-03-01 | Validate Traceability and Coverage |
+| `ids_and_slugs_derive_deterministically` | WF-05-01 | Use Documentation for Agents and RAG |
+| `ids_and_slugs_derive_deterministically` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `ids_and_slugs_derive_deterministically` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `include_directives_parse_with_and_without_level_arguments` | WF-02-01 | Write Docs Alongside Implementation |
+| `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -163,6 +172,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_run_reports_findings_with_file_and_line_context` | WF-02-01 | Write Docs Alongside Implementation |
 | `lint_run_reports_findings_with_file_and_line_context` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_reports_findings_with_file_and_line_context` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_validates_id_shape_against_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -209,6 +219,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `trace_matrix_exports_csv` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_ratchet_fails_on_a_coverage_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `trace_ratchet_passes_without_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `trace_resolves_ownership_from_triples_under_a_custom_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_scan_detects_markers_in_rust_comments` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_scan_does_not_follow_directory_symlinks` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_scan_does_not_follow_directory_symlinks` | WF-02-01 | Write Docs Alongside Implementation |

@@ -128,6 +128,65 @@ fn template(
         .replace("{lifecycle}", lifecycle_for(kind)))
 }
 
+/// Mint the next ID from a configured id-pattern (ADR-0012): the pattern
+/// must be generative — literal text around one `(?P<seq>\d{N})` group —
+/// and the next sequence value is one past the highest among the IDs that
+/// match the pattern. Anything else needs an explicit `--id`.
+fn next_id_from_pattern(pattern: &str, docs: &[Document]) -> Result<String, String> {
+    let regex = regex::Regex::new(pattern)
+        .map_err(|err| format!("id-pattern is not a valid regex: {err}"))?;
+    let seq_marker = regex::Regex::new(r"\(\?P<seq>\\d\{(\d+)\}\)").expect("static regex");
+    let Some(found) = seq_marker.captures(pattern) else {
+        return Err(format!(
+            "id-pattern '{pattern}' has no (?P<seq>\\d{{N}}) group to count; pass --id"
+        ));
+    };
+    let width: usize = found[1].parse().expect("digits");
+    let span = found.get(0).expect("match");
+    let (Some(prefix), Some(suffix)) = (
+        literal_fragment(&pattern[..span.start()]),
+        literal_fragment(&pattern[span.end()..]),
+    ) else {
+        return Err(format!(
+            "id-pattern '{pattern}' is not generative (only literal text may surround the seq group); pass --id"
+        ));
+    };
+
+    let mut highest = 0u64;
+    for doc in docs {
+        if let Some(id) = &doc.id
+            && let Some(caps) = regex.captures(id)
+            && let Some(seq) = caps.name("seq")
+        {
+            highest = highest.max(seq.as_str().parse().unwrap_or(0));
+        }
+    }
+    let next = highest + 1;
+    Ok(format!("{prefix}{next:0width$}{suffix}"))
+}
+
+/// The literal text of a pattern fragment, or None when it carries regex
+/// machinery generation cannot fill.
+fn literal_fragment(fragment: &str) -> Option<String> {
+    let fragment = fragment.trim_start_matches('^').trim_end_matches('$');
+    let mut out = String::new();
+    let mut chars = fragment.chars();
+    while let Some(c) = chars.next() {
+        match c {
+            '\\' => {
+                let escaped = chars.next()?;
+                if escaped.is_ascii_alphanumeric() {
+                    return None;
+                }
+                out.push(escaped);
+            }
+            '(' | ')' | '[' | ']' | '{' | '}' | '?' | '*' | '+' | '|' | '.' => return None,
+            c => out.push(c),
+        }
+    }
+    Some(out)
+}
+
 /// The `{slug}` placeholder value: the title lowered to a hyphen slug.
 fn slugify(title: &str) -> String {
     let mut slug = String::new();
@@ -205,10 +264,22 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             explicit.to_string()
         }
-        None => {
-            let counter = next_counter(&docs, &prefix) + 1;
-            format!("{prefix}{counter:0width$}")
-        }
+        None => match crate::config::id_pattern_for_kind(Path::new("."), kind) {
+            // arqix:implements REQ-01-01-18-01
+            // The configured pattern mints the ID: the seq group tells
+            // generation what to count (ADR-0012).
+            Some(pattern) => match next_id_from_pattern(&pattern, &docs) {
+                Ok(id) => id,
+                Err(message) => {
+                    eprintln!("error: {message}");
+                    return ExitCode::from(2);
+                }
+            },
+            None => {
+                let counter = next_counter(&docs, &prefix) + 1;
+                format!("{prefix}{counter:0width$}")
+            }
+        },
     };
     let title = match options.title {
         Some(title) => title.to_string(),

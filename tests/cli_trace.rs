@@ -161,9 +161,7 @@ fn trace_resolves_ownership_from_triples_under_a_custom_pattern() {
         "ownership comes from the declared triple, not the ID: {coverage}"
     );
     assert!(
-        row["verified_by"]
-            .as_array()
-            .is_some_and(|v| !v.is_empty()),
+        row["verified_by"].as_array().is_some_and(|v| !v.is_empty()),
         "the marker with a non-default payload counts: {coverage}"
     );
 }

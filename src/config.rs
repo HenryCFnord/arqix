@@ -264,8 +264,13 @@ pub fn templates_dir(dir: &Path) -> Option<String> {
 /// order (US-01-01-19). Families without a `dir` cannot be matched to
 /// files and are skipped.
 pub struct KindContract {
+    pub family: String,
     pub dir: String,
-    pub key_order: Vec<String>,
+    pub key_order: Option<Vec<String>>,
+    /// The family's ID pattern (ADR-0012): a regex governing shape,
+    /// uniqueness scope, and — through its named groups — generation
+    /// (`seq`) and consistency checks (`story`).
+    pub id_pattern: Option<String>,
 }
 
 // arqix:implements REQ-01-01-19-01
@@ -280,15 +285,20 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
         .and_then(Value::as_object)
         .map(|kinds| {
             kinds
-                .values()
-                .filter_map(|entry| {
+                .iter()
+                .filter_map(|(family, entry)| {
                     Some(KindContract {
+                        family: family.clone(),
                         dir: entry
                             .get("dir")?
                             .as_str()?
                             .trim_end_matches('/')
                             .to_string(),
-                        key_order: json_string_array(entry.get("key-order"))?,
+                        key_order: json_string_array(entry.get("key-order")),
+                        id_pattern: entry
+                            .get("id-pattern")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
                     })
                 })
                 .collect()
@@ -296,6 +306,16 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
         .unwrap_or_default();
     contracts.sort_by_key(|c| std::cmp::Reverse(c.dir.len()));
     contracts
+}
+
+// arqix:implements REQ-01-01-18-01
+/// The configured ID pattern for one document kind, by family name — the
+/// generation side of the ID policy (`doc new`).
+pub fn id_pattern_for_kind(base: &Path, kind: &str) -> Option<String> {
+    kind_contracts(base)
+        .into_iter()
+        .find(|c| c.family == kind)
+        .and_then(|c| c.id_pattern)
 }
 
 /// The corpus default language (`[i18n] default-lang`, default `en`).

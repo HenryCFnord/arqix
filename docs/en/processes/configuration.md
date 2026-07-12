@@ -52,6 +52,8 @@ required-meta = ["lang"]
 - `key-order` — the canonical top-level key order `fmt` applies and the frontmatter checker validates (FMT-003); unknown keys are findings (FMT-004).
 - `required` — keys that must be present and non-empty (FM-001).
 - `required-meta` — the family's required `meta` keys; unset families keep the built-in set.
+- `id-pattern` — the family's ID shape as a regex (ADR-0012, REQ-01-01-18-01..04): the checkers validate shape (FM-002, LNT-006), `doc new` mints the next ID from the `(?P<seq>…)` group where the surrounding pattern is literal, and a `(?P<story>…)` group activates the consistency check against the first declared `derived-from` triple (LNT-007).
+  The ID stays an opaque label: relations always come from the declared triples, and a group-free pattern yields a complete trace graph.
 - Without configuration, the built-in defaults reproduce the present contract — `fmt` stays byte-identical on an unconfigured corpus.
 - Configured families carry no built-in id/iri shape rules; ID shapes become configuration with the ID-policy story (US-01-01-18).
 

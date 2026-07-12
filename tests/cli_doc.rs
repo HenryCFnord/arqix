@@ -461,11 +461,15 @@ fn doc_new_fails_clearly_on_a_missing_template_file() {
         stderr.contains("tpl/adr.tpl.md"),
         "the diagnostic names the expected path: {stderr}"
     );
+}
 
 // arqix:verifies REQ-01-01-18-01
 #[test]
 fn doc_new_generates_ids_from_the_configured_pattern() {
-    let repo = scratch_copy("minimal", "doc_new_generates_ids_from_the_configured_pattern");
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_generates_ids_from_the_configured_pattern",
+    );
     std::fs::write(
         repo.join("arqix.toml"),
         "[kinds.ticket]\ndir = \"docs/ticket\"\nid-pattern = '^T-(?P<seq>\\d{3})$'\n",
@@ -492,7 +496,33 @@ fn doc_new_defaults_keep_the_current_id_shapes() {
     // Without configuration, the defaults reproduce the present shapes —
     // the existing corpus and its checks are unchanged (ADR-0012).
     let repo = scratch_copy("minimal", "doc_new_defaults_keep_the_current_id_shapes");
-    let out = run_arqix_in(&repo, &["doc", "new", "requirement", "--dry-run", "--format", "json"]);
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "requirement", "--dry-run", "--format", "json"],
+    );
     assert_success(&out);
     assert_eq!(common::stdout_json(&out)["id"], "REQUIREMENT-0001");
+}
+
+// arqix:verifies REQ-00-00-00-04
+#[test]
+fn ids_and_slugs_derive_deterministically() {
+    let repo = scratch_copy("minimal", "ids_and_slugs_derive_deterministically");
+    let args = [
+        "doc",
+        "new",
+        "adr",
+        "--title",
+        "Choose a Database",
+        "--dry-run",
+        "--format",
+        "json",
+    ];
+    let first = stdout_json(&run_arqix_in(&repo, &args));
+    let second = stdout_json(&run_arqix_in(&repo, &args));
+    assert_eq!(
+        first, second,
+        "the same corpus and input must plan the same ID and path"
+    );
+    assert_eq!(first["id"], "ADR-0001");
 }

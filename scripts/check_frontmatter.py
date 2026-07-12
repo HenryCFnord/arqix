@@ -125,6 +125,10 @@ FAMILIES = {
 # the global REQUIRED_META (US-01-01-19).
 FAMILY_META = {}
 
+# family -> configured id-pattern (US-01-01-18, ADR-0012): shape and the
+# named groups live in configuration; the ID itself is an opaque label.
+FAMILY_PATTERNS = {}
+
 
 def apply_config(config):
     """Merge `[kinds.<family>]` contract entries from arqix.toml into the
@@ -147,6 +151,8 @@ def apply_config(config):
         )
         if "required-meta" in entry:
             FAMILY_META[family] = entry["required-meta"]
+        if "id-pattern" in entry:
+            FAMILY_PATTERNS[family] = entry["id-pattern"]
 
 
 def load_config(root):
@@ -390,9 +396,13 @@ def check_frontmatter(doc, findings):
                                             "slug %r does not match filename tail %r" % (slug, tail)))
         expected_heading = "Requirement" if doc.family == "req" else doc.scalars.get("title", "")
     elif doc.family not in ONT_ID_PREFIX:
-        # A configured family (US-01-01-19) carries no built-in id/iri
-        # shape; shapes become configuration with the ID-policy story
-        # (US-01-01-18). The generic heading rule still applies.
+        # A configured family carries no built-in id/iri shape — its shape
+        # is the configured id-pattern (US-01-01-18, ADR-0012).
+        pattern = FAMILY_PATTERNS.get(doc.family)
+        if pattern and doc_id and not re.match(pattern, doc_id):
+            findings.append(Finding(path, "FM-002", "error",
+                                    "id %r does not match the configured "
+                                    "id-pattern %r" % (doc_id, pattern)))
         expected_heading = doc.scalars.get("title", "")
     else:
         label = doc.scalars.get("label", "")
@@ -628,6 +638,7 @@ def selftest():
         "key-order": ["title", "id", "rdf", "meta"],
         "required": ["title", "id"],
         "required-meta": ["lang"],
+        "id-pattern": r"^note-(?P<seq>\d+)$",
     }}})
 
     cases = [0]
@@ -659,6 +670,8 @@ def selftest():
         lambda t: t.replace("title: A Note\nid: note-1", "id: note-1\ntitle: A Note"))
     run("docs/notes/n.md", good_note, "note", ["FM-001"],
         lambda t: t.replace("\n  lang: en", "\n  owner: x"))
+    run("docs/notes/n.md", good_note, "note", ["FM-002"],
+        lambda t: t.replace("id: note-1", "id: NOTE_X"))
 
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", [])
     run("US-01-01-01-test-story.md", GOOD_STORY, "story", [],

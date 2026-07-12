@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 548345f, 2026-07-12
+     Snapshot: 3f17a9a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -9,24 +9,24 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 
 | story | title | verified | planned | uncovered | progress |
 | --- | --- | ---: | ---: | ---: | --- |
-| US-01-01-01 | Initialise Standardised Doc Package | 3 | 0 | 2 | `██████░░░░` 60% |
+| US-01-01-01 | Initialise Standardised Doc Package | 4 | 0 | 1 | `████████░░` 80% |
 | US-01-01-02 | Create Governed Units | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-01-01-03 | Format Documents Canonically | 5 | 0 | 0 | `██████████` 100% |
-| US-01-01-04 | Lint Documents Deterministically | 5 | 0 | 3 | `██████░░░░` 62% |
-| US-01-01-05 | Create Documents from Configured Templates | 2 | 0 | 4 | `███░░░░░░░` 33% |
+| US-01-01-04 | Lint Documents Deterministically | 6 | 0 | 2 | `███████░░░` 75% |
+| US-01-01-05 | Create Documents from Configured Templates | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-01-01-06 | Finalise Document Metadata Mechanically | 3 | 0 | 1 | `███████░░░` 75% |
 | US-01-01-07 | Enforce Scope Guardrails for Automation Agents | 1 | 2 | 4 | `█░░░░░░░░░` 14% |
 | US-01-01-08 | Generate Governed Coverage Reports | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-09 | Govern Agent Workflow Document Standards | 0 | 0 | 6 | `░░░░░░░░░░` 0% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-11 | Govern Architecture Documentation Standards | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
-| US-01-01-12 | Govern Glossary Term Metadata and IDs | 1 | 0 | 4 | `██░░░░░░░░` 20% |
+| US-01-01-12 | Govern Glossary Term Metadata and IDs | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-01-01-15 | Operationalise the Release Process with SemVer | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
-| US-01-01-18 | Configure the ID Policy | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
+| US-01-01-18 | Configure the ID Policy | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-19 | Configure Frontmatter Contracts | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-20 | Create Documents from Template Files | 4 | 0 | 0 | `██████████` 100% |
 | US-02-01-03 | Format Documents During Implementation | 4 | 0 | 1 | `████████░░` 80% |
@@ -59,7 +59,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-05-01-07 | Build Machine-Readable Trace Graphs | 1 | 0 | 1 | `█████░░░░░` 50% |
 | US-05-01-08 | Export a Deterministic Document Catalog | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-05-01-09 | Observe Assembled Outputs for Downstream Tooling | 2 | 0 | 0 | `██████████` 100% |
-| US-05-01-10 | Read Structured Document Sections with Stable Selectors | 3 | 0 | 2 | `██████░░░░` 60% |
+| US-05-01-10 | Read Structured Document Sections with Stable Selectors | 4 | 0 | 1 | `████████░░` 80% |
 | US-05-01-12 | Expose Arqix via MCP over STDIO | 0 | 1 | 2 | `░░░░░░░░░░` 0% |
 | US-06-01-02 | Trace Document Assembly Structure | 2 | 0 | 5 | `██░░░░░░░░` 29% |
 | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 3 | 0 | 0 | `██████████` 100% |
@@ -71,9 +71,9 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-07-01-04 | Review Trace Graphs as Audit Evidence | 1 | 0 | 1 | `█████░░░░░` 50% |
 | US-07-01-05 | Filter Traceability Reports for Audit Review | 1 | 0 | 0 | `██████████` 100% |
 | US-07-01-06 | Export Deterministic Trace and Coverage Evidence | 2 | 0 | 1 | `██████░░░░` 67% |
-| US-08-01-01 | Initialize a Doc Package Deterministically and Safely | 2 | 0 | 4 | `███░░░░░░░` 33% |
+| US-08-01-01 | Initialize a Doc Package Deterministically and Safely | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-08-01-02 | Emit a Deterministic Assembly Log for Verification | 2 | 0 | 5 | `██░░░░░░░░` 29% |
-| US-08-01-05 | Create Documents Deterministically from Templates | 2 | 0 | 5 | `██░░░░░░░░` 29% |
+| US-08-01-05 | Create Documents Deterministically from Templates | 3 | 0 | 4 | `████░░░░░░` 43% |
 | US-08-01-14 | Scaffold Translations Deterministically from Source IDs | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-16 | Scan Traceability Deterministically within Verification Loops | 1 | 0 | 1 | `█████░░░░░` 50% |
 | US-08-01-19 | Detect Missing Trace Markers for a Requirement | 0 | 0 | 1 | `░░░░░░░░░░` 0% |
