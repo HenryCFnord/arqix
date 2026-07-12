@@ -26,7 +26,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-03-30
   updated: 2026-07-12
@@ -41,10 +41,10 @@ As an AIOps engineer, I want to expose arqix via MCP over stdio, so that agents 
 
 ### Acceptance Criteria
 
-- [ ] `arqix mcp serve` supports stdio transport.
-- [ ] The MCP server exposes at least the tools `search`, `read`, and `list`.
-- [ ] An MCP client can start the server over stdio, discover the declared tools, and execute the supported tools successfully.
-- [ ] Transport handling remains separate from tool logic.
+- [x] `arqix mcp serve` supports stdio transport.
+- [x] The MCP server exposes at least the tools `search`, `read`, and `list`.
+- [x] An MCP client can start the server over stdio, discover the declared tools, and execute the supported tools successfully.
+- [x] Transport handling remains separate from tool logic.
 
 ### Notes
 

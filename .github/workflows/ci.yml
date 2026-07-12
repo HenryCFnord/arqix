@@ -49,6 +49,14 @@ jobs:
           # even when a newer merge queued behind this run.
           git fetch origin main
           git reset --hard origin/main
+          # The freshness check decides, not a diff: regeneration always
+          # rewrites the snapshot stamp (commit + date), so diffing after
+          # regenerating would commit on every push. --check regenerates
+          # with the stamp already in the files and compares content.
+          if python3 scripts/arqix_report.py --check; then
+            echo "snapshots fresh, nothing to refresh"
+            exit 0
+          fi
           python3 scripts/arqix_report.py --snapshot "$(git rev-parse --short HEAD), $(date +%F)"
           ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
           ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
