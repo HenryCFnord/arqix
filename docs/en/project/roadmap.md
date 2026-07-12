@@ -83,8 +83,7 @@ The remaining command surface, ordered so each slice makes the previous one more
 6. [x] **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
 7. [ ] **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
 
-Deferred alongside: vector (SVG) source for the logo, traced from the monochrome raster variant (the raster set — transparent, mark, mono dark/light — lives in `assets/`).
-Also deferred (post-0.1.0): machine-readable licensing per [REUSE](https://reuse.software) — the `REUSE.toml` variant, no per-file SPDX headers.
+Landed from the deferred list: the vector mark (`assets/arqix-mark.svg`, traced from the monochrome raster; `currentColor` fill, one file for both themes) and machine-readable licensing per [REUSE](https://reuse.software) (`REUSE.toml` + `LICENSES/`, no per-file SPDX headers; `reuse lint` compliant).
 
 ## What this roadmap is not
 

@@ -1,0 +1,15 @@
+# Machine-readable licensing per the REUSE specification (v3.3), in the
+# REUSE.toml variant — no per-file SPDX headers (owner decision 2026-07-11,
+# deferred past 0.1.0). The whole repository is dual-licensed; LICENSE-MIT
+# and LICENSE-APACHE at the root stay the human-facing copies, LICENSES/
+# carries the REUSE-required texts.
+version = 1
+SPDX-PackageName = "arqix"
+SPDX-PackageSupplier = "Hendrik Oppenberg (HenryCFnord)"
+SPDX-PackageDownloadLocation = "https://github.com/HenryCFnord/arqix"
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Hendrik Oppenberg (HenryCFnord)"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
