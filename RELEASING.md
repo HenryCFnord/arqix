@@ -7,7 +7,7 @@ This process is governed by US-01-01-15 (REQ-01-01-15-01..04); the version-consi
 
 - arqix follows [SemVer](https://semver.org).
   Before 1.0.0, minor versions carry features and breaking changes, patch versions carry fixes; 1.0.0 freezes the public contracts.
-- The public contracts are versioned individually per ADR-0009: every JSON interface carries its own `schema_version`, the configuration schema is versioned as schema v1 in `arqix.toml`, and the exit codes 0/1/2 (and 70 for stubs) are a stable contract (REQ-00-00-00-02) that no release may change.
+- The public contracts are versioned individually per ADR-0009: every JSON interface carries its own `schema_version`, the configuration schema is versioned separately as `config_version` (currently schema v1 in `arqix.toml`, incremented only for breaking configuration changes), and the exit codes 0/1/2 (and 70 for stubs) are a stable contract (REQ-00-00-00-02) that no release may change.
 - A breaking change to any contract requires a **Migration** note in its [CHANGELOG.md](CHANGELOG.md) entry (REQ-01-01-15-04).
 
 ## Consistency rules

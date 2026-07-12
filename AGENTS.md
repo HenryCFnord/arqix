@@ -64,6 +64,8 @@ The standard planning package lives under:
 
 Reviewed `PLANS.md` artefacts are the preferred basis for later implementation work by a coding agent.
 
+During implementation, agents record progress in `STATUS.md` and do not rewrite the reviewed `PLANS.md`; the verification loop `python3 scripts/arqix verify` must pass before every commit.
+
 The initial planning branch and draft planning artefacts may be created during intake before implementation starts.
 
 Handoffs remain supported artefacts where useful, but they are no longer the mandatory first step.
@@ -243,6 +245,8 @@ When editing:
 
 Do not mix unrelated changes into the same task unless explicitly asked.
 
+When implementing stories, work on one story at a time and keep opportunistic refactors out of the change.
+
 ## Testing
 
 For behavioral changes:
@@ -340,6 +344,7 @@ When working from an issue, reviewed plan, handoff, or PR context:
 Do not:
 
 - push directly to `main` for non-trivial work
+- tag or publish a release (git tag, GitHub release, crates.io publish) without explicit approval from the repository owner
 - invent requirements not present in the task
 - silently introduce new runtime dependencies
 - change public behavior unless explicitly required
