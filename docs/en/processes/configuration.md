@@ -85,6 +85,7 @@ heading-ownership = "child"
 - The include directive's optional level argument overrides the default per include: `level=N` places the fragment's first heading at level N (1–6), `level=+N` places it N levels below the heading in effect.
   The delta applies to every heading of the fragment; a shift out of the h1–h6 range fails the assembly (ASM-005).
 - Relative links inside included fragments are rebased to the including page's location during assembly, so assembled pages stay artefact-ready.
+- Include targets must stay inside the configured roots: a target escaping the repository is ASM-004, one inside the repository but outside every root is ASM-006 (REQ-02-01-09-02) — both refuse the assembly.
 
 ## The change policy
 

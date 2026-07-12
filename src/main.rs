@@ -123,6 +123,21 @@ enum Command {
         #[command(subcommand)]
         command: McpCommand,
     },
+    /// Requirement shortcuts (`req new` = `doc new requirement`)
+    Req {
+        #[command(subcommand)]
+        command: AliasNewCommand,
+    },
+    /// User-story shortcuts (`us new` = `doc new user-story`)
+    Us {
+        #[command(subcommand)]
+        command: AliasNewCommand,
+    },
+    /// ADR shortcuts (`adr new` = `doc new adr`)
+    Adr {
+        #[command(subcommand)]
+        command: AliasNewCommand,
+    },
 }
 
 #[derive(Subcommand)]
@@ -168,6 +183,13 @@ enum DocCommand {
 #[derive(Subcommand)]
 enum UnitCommand {
     /// Create an architecture unit from its configured template
+    ///
+    /// The unit is created in the first configured root (default `docs/`),
+    /// as a sibling of the package's `units/` content. Its ID is supplied
+    /// automatically — the next free `unit-arc42-NN` minted from the
+    /// corpus — and everything beyond the generated identity (title,
+    /// triples, lifecycle metadata) is optional: fill it in afterwards and
+    /// let `arqix fmt` keep the shape canonical.
     New,
 }
 
@@ -175,6 +197,24 @@ enum UnitCommand {
 enum LintCommand {
     /// Run the configured lint checks
     Run,
+}
+
+/// The `new` half of the creation aliases (REQ-01-01-05-02): `req new`,
+/// `us new`, and `adr new` mirror `doc new <kind>` exactly.
+#[derive(Subcommand)]
+enum AliasNewCommand {
+    /// Create the document from its configured template
+    New {
+        /// Title substituted into the template (the slug derives from it)
+        #[arg(long)]
+        title: Option<String>,
+        /// Explicit ID instead of the generated one (uniqueness still checked)
+        #[arg(long)]
+        id: Option<String>,
+        /// Plan the creation without writing the file
+        #[arg(long)]
+        dry_run: bool,
+    },
 }
 
 #[derive(Subcommand)]
@@ -351,5 +391,24 @@ fn main() -> ExitCode {
         Command::Mcp { command } => match command {
             McpCommand::Serve => mcp::serve(),
         },
+        // arqix:implements REQ-01-01-05-02
+        Command::Req { command } => alias_new("requirement", command, cli.format),
+        Command::Us { command } => alias_new("user-story", command, cli.format),
+        Command::Adr { command } => alias_new("adr", command, cli.format),
     }
+}
+
+/// The creation aliases dispatch exactly like `doc new <kind>` — one code
+/// path, no second creation surface (REQ-01-01-05-02).
+fn alias_new(kind: &str, command: AliasNewCommand, format: OutputFormat) -> ExitCode {
+    let AliasNewCommand::New { title, id, dry_run } = command;
+    templates::new_document(
+        kind,
+        templates::NewOptions {
+            title: title.as_deref(),
+            id: id.as_deref(),
+            dry_run,
+        },
+        format,
+    )
 }
