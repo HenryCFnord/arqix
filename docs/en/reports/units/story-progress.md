@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 15dc777, 2026-07-12
+     Snapshot: 3e54da9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -61,7 +61,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-05-01-08 | Export a Deterministic Document Catalog | 4 | 0 | 1 | `████████░░` 80% |
 | US-05-01-09 | Observe Assembled Outputs for Downstream Tooling | 2 | 0 | 0 | `██████████` 100% |
 | US-05-01-10 | Read Structured Document Sections with Stable Selectors | 4 | 0 | 1 | `████████░░` 80% |
-| US-05-01-12 | Expose Arqix via MCP over STDIO | 0 | 1 | 2 | `░░░░░░░░░░` 0% |
+| US-05-01-12 | Expose Arqix via MCP over STDIO | 3 | 0 | 0 | `██████████` 100% |
 | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle | 3 | 0 | 0 | `██████████` 100% |
 | US-06-01-02 | Trace Document Assembly Structure | 3 | 0 | 4 | `████░░░░░░` 43% |
 | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives | 3 | 0 | 0 | `██████████` 100% |

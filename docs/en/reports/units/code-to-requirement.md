@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 15dc777, 2026-07-12
+     Snapshot: 3e54da9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -50,8 +50,8 @@
 | `knowledge` | src/reporter.rs:124 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-03 |
-| `list` | src/store.rs:88 | REQ-05-01-08-01 |
-| `list` | src/store.rs:89 | REQ-05-01-08-03 |
+| `list` | src/store.rs:128 | REQ-05-01-08-01 |
+| `list` | src/store.rs:129 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:804 | REQ-03-01-02-01 |
 | `matrix_command` | src/trace.rs:805 | REQ-03-01-02-02 |
 | `matrix_command` | src/trace.rs:806 | REQ-03-01-02-03 |
@@ -63,8 +63,8 @@
 | `publish_policy` | src/config.rs:208 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:839 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:840 | REQ-04-01-15-02 |
-| `read` | src/store.rs:122 | REQ-05-01-10-01 |
-| `read` | src/store.rs:123 | REQ-05-01-10-03 |
+| `read` | src/store.rs:156 | REQ-05-01-10-01 |
+| `read` | src/store.rs:157 | REQ-05-01-10-03 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
 | `resolve` | src/config.rs:46 | REQ-01-01-16-01 |
 | `resolve` | src/config.rs:47 | REQ-01-01-16-03 |
@@ -76,7 +76,8 @@
 | `scan` | src/trace.rs:717 | REQ-03-01-05-02 |
 | `scan` | src/trace.rs:718 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:719 | REQ-03-01-05-05 |
-| `search` | src/store.rs:154 | REQ-02-01-06-01 |
+| `search` | src/store.rs:187 | REQ-02-01-06-01 |
+| `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
 | `show` | src/config.rs:386 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
@@ -86,6 +87,7 @@
 | `template` | src/templates.rs:95 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:96 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:257 | REQ-01-01-20-01 |
+| `tool_result` | src/mcp.rs:129 | REQ-05-01-12-03 |
 | `validate` | src/config.rs:375 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
@@ -99,6 +101,7 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
+| — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/templates.rs:268 | REQ-01-01-18-01 |
 | — | src/templates.rs:385 | REQ-01-01-20-02 |
 | — | src/trace.rs:847 | REQ-04-01-16-01 |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 15dc777, 2026-07-12
+     Snapshot: 3e54da9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
@@ -48,3 +48,6 @@
 | ADR-0013 | Stitching Model | REQ-02-01-12-02 |
 | ADR-0013 | Stitching Model | REQ-02-01-12-03 |
 | ADR-0013 | Stitching Model | REQ-02-01-12-04 |
+| ADR-0014 | MCP Transport | REQ-05-01-12-01 |
+| ADR-0014 | MCP Transport | REQ-05-01-12-02 |
+| ADR-0014 | MCP Transport | REQ-05-01-12-03 |

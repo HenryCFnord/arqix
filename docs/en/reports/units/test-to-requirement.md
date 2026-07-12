@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 15dc777, 2026-07-12
+     Snapshot: 3e54da9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -71,7 +71,8 @@
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
 | `lint_run_reports_findings_with_file_and_line_context` | tests/cli_lint.rs:33 | REQ-01-01-04-04 | active |
 | `lint_validates_id_shape_against_the_configured_pattern` | tests/cli_lint.rs:133 | REQ-01-01-18-01 | active |
-| `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:9 | REQ-05-01-12-01 | planned (ignored) |
+| `mcp_serve_exposes_search_read_and_list_tools` | tests/cli_mcp.rs:89 | REQ-05-01-12-02 | active |
+| `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:50 | REQ-05-01-12-01 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:8 | REQ-01-01-07-02 | planned (ignored) |
 | `policy_check_supports_warn_only_mode` | tests/cli_policy.rs:22 | REQ-01-01-07-03 | planned (ignored) |
 | `publish_site_diagnoses_a_failing_toolchain` | tests/cli_publish.rs:150 | REQ-04-01-07-02 | active |
@@ -93,6 +94,7 @@
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | tests/cli_report.rs:146 | REQ-05-01-15-02 | active |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
+| `tool_logic_answers_without_any_transport` | src/mcp.rs:171 | REQ-05-01-12-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |
 | `trace_coverage_output_is_deterministic` | tests/cli_trace.rs:70 | REQ-00-00-00-01 | active |

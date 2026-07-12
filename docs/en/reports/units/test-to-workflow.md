@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 15dc777, 2026-07-12
+     Snapshot: 3e54da9, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -180,6 +180,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_run_reports_findings_with_file_and_line_context` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_reports_findings_with_file_and_line_context` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_validates_id_shape_against_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `mcp_serve_exposes_search_read_and_list_tools` | WF-05-01 | Use Documentation for Agents and RAG |
+| `mcp_serve_exposes_search_read_and_list_tools` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_serve_speaks_jsonrpc_over_stdio` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -218,6 +220,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | WF-05-01 | Use Documentation for Agents and RAG |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `tool_logic_answers_without_any_transport` | WF-05-01 | Use Documentation for Agents and RAG |
+| `tool_logic_answers_without_any_transport` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `trace_check_reports_verifies_markers_per_requirement` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | WF-03-01 | Validate Traceability and Coverage |
