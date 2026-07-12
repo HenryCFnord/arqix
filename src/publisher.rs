@@ -173,7 +173,11 @@ fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
 fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCode> {
     let mut out = String::new();
     if let Some(title) = &doc.title {
-        out.push_str(&format!("---\ntitle: {title}\n---\n"));
+        // Always a quoted YAML scalar: a colon in an unquoted title is
+        // invalid YAML, and the toolchain then silently falls back to the
+        // file slug (found on arqix.dev with WF-08-01).
+        let quoted = title.replace('\\', "\\\\").replace('"', "\\\"");
+        out.push_str(&format!("---\ntitle: \"{quoted}\"\n---\n"));
     }
     for line in doc.body.lines() {
         let trimmed = line.trim();
@@ -202,6 +206,28 @@ fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCo
 mod tests {
     // arqix:no-requirement
     #[test]
+    fn staged_titles_survive_yaml_special_characters() {
+        // Found on arqix.dev: "Automation Agent: Story-by-story ..." staged
+        // as an unquoted scalar is invalid YAML (the colon), so the
+        // toolchain fell back to the file slug. The staged title must be
+        // quoted like any emitted YAML string.
+        let doc = crate::parser::parse(
+            "docs/wf.md",
+            "---\nid: WF-X\ntitle: \"Automation Agent: Story-by-story\"\n---\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-staged-title-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("wf.md");
+        super::write_staged(&path, &doc).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            staged.starts_with("---\ntitle: \"Automation Agent: Story-by-story\"\n---\n"),
+            "the staged title must be a quoted YAML scalar: {staged}"
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
     fn staged_pages_carry_only_the_consumable_frontmatter() {
         let doc = crate::parser::parse(
             "docs/x.md",
@@ -212,7 +238,7 @@ mod tests {
         let path = dir.join("x.md");
         super::write_staged(&path, &doc).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
-        assert!(staged.contains("title: A Title"));
+        assert!(staged.contains("title: \"A Title\""));
         assert!(!staged.contains("iri:") && !staged.contains("id: X-01"));
         assert!(!staged.contains("arqix:references-artefact"));
         assert!(staged.contains("Body."));

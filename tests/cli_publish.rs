@@ -78,7 +78,7 @@ fn publish_site_stages_artefact_ready_inputs() {
         "directives never reach the toolchain: {staged}"
     );
     assert!(
-        staged.contains("title: Stitched Page") && !staged.contains("iri:"),
+        staged.contains("title: \"Stitched Page\"") && !staged.contains("iri:"),
         "the arqix frontmatter is reduced to the toolchain-consumable part: {staged}"
     );
 }
