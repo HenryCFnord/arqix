@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e0bc398, 2026-07-12
+     Snapshot: 007385a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -390,6 +390,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
+| `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `trace_check_reports_verifies_markers_per_requirement` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | US-01-01-08 | Generate Governed Coverage Reports |

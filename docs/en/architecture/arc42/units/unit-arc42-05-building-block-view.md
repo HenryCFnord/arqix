@@ -86,6 +86,7 @@ The spine (Entrypoint → Config Resolver → … → Diagnostics & Exit Codes) 
 | `trace scan`, `trace check` | Trace Engine | → Parser (markers, links) + code/test files → graph | REQ-03-01-05-*, REQ-03-01-06-* |
 | `trace coverage`, `trace matrix` | Trace Engine | graph projections; serialisation via Report & Export | REQ-01-01-08-*, REQ-03-01-02-* |
 | `report bundle` (evidence bundles) | Report & Export | → Trace Engine (graph) → stable schemas | REQ-03-01-04-*, REQ-04-01-12-* |
+| `report knowledge` (OKF export) | Report & Export | → Store (scope, lifecycle) → Assembler (expansion) → concept documents | REQ-05-01-15-* |
 | `publish`, `publish site --lang`, `render pdf` | Publish & Render Orchestrator | → Assembler → external toolchain (errors forwarded) | REQ-04-01-03-*, REQ-04-01-07-* |
 | `policy check` | Policy Checker | changed-file list (external) → policy from config | REQ-01-01-07-* |
 | `verify` | Verification Orchestrator | → fmt/lint/scan/coverage via the command interface ([ADR-0003](../../adr/ADR-0003-verification-orchestrator.md)) | REQ-04-01-05-* |

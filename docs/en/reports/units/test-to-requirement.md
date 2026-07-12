@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e0bc398, 2026-07-12
+     Snapshot: 007385a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -89,6 +89,9 @@
 | `report_bundle_resolves_a_story_scope_to_its_requirements` | tests/cli_report.rs:33 | REQ-03-01-04-01 | active |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | tests/cli_report.rs:66 | REQ-03-01-04-03 | active |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | tests/cli_report.rs:67 | REQ-04-01-12-01 | active |
+| `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | tests/cli_report.rs:145 | REQ-05-01-15-01 | active |
+| `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | tests/cli_report.rs:146 | REQ-05-01-15-02 | active |
+| `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `trace_check_reports_verifies_markers_per_requirement` | tests/cli_trace.rs:36 | REQ-03-01-06-02 | active |
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |

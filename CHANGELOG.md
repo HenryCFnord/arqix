@@ -9,6 +9,7 @@ Breaking changes carry a **Migration** note in their entry.
 ### Added
 
 - `report bundle <ID>... [--out <dir>] [--stamp <text>]`: scoped evidence bundles — a story ID stands for the requirements derived from it; the bundle directory carries `bundle.json`, `evidence.md`, and the scoped `matrix.csv` with stable schemas and caller-provided generation metadata.
+- `report knowledge [--out <dir>]`: the corpus as an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog) bundle — one artefact-ready concept document per living corpus document (includes expanded, directives stripped), OKF fields mapped from declared metadata and never fabricated, publish scope and lifecycle honoured.
 
 ## [0.1.0] — 2026-07-11
 

@@ -159,6 +159,9 @@ REQ-05-01-10-03,functional,tests/cli_doc.rs:254,,src/store.rs:123
 REQ-05-01-12-01,functional,,tests/cli_mcp.rs:9,
 REQ-05-01-12-02,functional,,,
 REQ-05-01-12-03,constraint,,,
+REQ-05-01-15-01,functional,tests/cli_report.rs:145,,src/reporter.rs:124
+REQ-05-01-15-02,functional,tests/cli_report.rs:146,,src/reporter.rs:125
+REQ-05-01-15-03,functional,tests/cli_report.rs:187,,src/reporter.rs:126
 REQ-06-01-02-01,quality,,,
 REQ-08-01-01-01,quality,,,
 REQ-08-01-01-02,quality,,,

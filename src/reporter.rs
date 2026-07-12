@@ -120,3 +120,136 @@ fn joined(value: &Value) -> String {
         items.join("; ")
     }
 }
+
+// arqix:implements REQ-05-01-15-01
+// arqix:implements REQ-05-01-15-02
+// arqix:implements REQ-05-01-15-03
+/// `arqix report knowledge [--out <dir>]` — the corpus as an Open Knowledge
+/// Format bundle (US-05-01-15): one artefact-ready concept document per
+/// living corpus document, OKF fields mapped from declared metadata, the
+/// publish scope and the lifecycle honoured.
+pub fn knowledge(out: Option<&str>, format: OutputFormat) -> ExitCode {
+    let policy = crate::config::publish_policy(Path::new("."));
+    let default_lang = crate::config::default_lang(Path::new("."));
+    let out_dir = Path::new(out.unwrap_or("knowledge"));
+
+    let mut exported = 0usize;
+    for root in crate::config::roots(Path::new(".")) {
+        // The default language's root, exactly as the publisher resolves it.
+        let lang_root = Path::new(&root).join(&default_lang);
+        let lang_root = if lang_root.is_dir() {
+            lang_root
+        } else {
+            std::path::PathBuf::from(&root)
+        };
+
+        for doc in crate::store::documents() {
+            let file = Path::new(&doc.file);
+            let Ok(rel) = file.strip_prefix(&lang_root) else {
+                continue;
+            };
+            let rel_posix = rel.to_string_lossy().replace('\\', "/");
+            // The publish scope and the lifecycle: excluded subtrees and
+            // retired documents never become living knowledge (ADR-0010).
+            if policy.exclude.iter().any(|e| {
+                let prefix = e.trim_end_matches('/');
+                rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
+            }) {
+                continue;
+            }
+            if doc
+                .frontmatter
+                .iter()
+                .any(|line| line.trim() == "lifecycle-status: retired")
+            {
+                continue;
+            }
+
+            let assembled = match crate::assembler::expand_document(file) {
+                Ok(text) => text,
+                Err(diagnostic) => {
+                    eprintln!(
+                        "error: {}: {}",
+                        diagnostic.file.as_deref().unwrap_or("?"),
+                        diagnostic.message
+                    );
+                    return ExitCode::from(2);
+                }
+            };
+            let expanded = crate::parser::parse(&doc.file, &assembled);
+            if let Err(code) = write_concept(&out_dir.join(rel), &doc, &expanded) {
+                return code;
+            }
+            exported += 1;
+        }
+    }
+
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&json!({
+                "schema_version": SCHEMA_VERSION,
+                "out": out_dir.to_string_lossy(),
+                "concepts": exported,
+            }))
+            .expect("valid JSON")
+        ),
+        OutputFormat::Text => {
+            println!("exported {exported} concept(s) to {}", out_dir.display());
+        }
+    }
+    ExitCode::SUCCESS
+}
+
+/// Write one OKF concept document: fields mapped from declared metadata —
+/// `type` from the declared class (the generic document type otherwise),
+/// `title` verbatim, `timestamp` from the declared update date; absent
+/// metadata is omitted, never fabricated (REQ-05-01-15-02).
+fn write_concept(
+    path: &Path,
+    doc: &crate::parser::Document,
+    expanded: &crate::parser::Document,
+) -> Result<(), ExitCode> {
+    let mut front = String::from("---\n");
+    let concept_type = doc
+        .classes
+        .first()
+        .cloned()
+        .unwrap_or_else(|| "document".to_string());
+    front.push_str(&format!("type: {concept_type}\n"));
+    if let Some(title) = &doc.title {
+        let quoted = title.replace('\\', "\\\\").replace('"', "\\\"");
+        front.push_str(&format!("title: \"{quoted}\"\n"));
+    }
+    if let Some(updated) = doc.frontmatter.iter().find_map(|line| {
+        line.trim()
+            .strip_prefix("updated:")
+            .map(str::trim)
+            .filter(|v| !v.is_empty())
+    }) {
+        front.push_str(&format!("timestamp: {updated}\n"));
+    }
+    front.push_str("---\n");
+
+    let mut body = String::new();
+    for line in expanded.body.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("<!--") && trimmed.ends_with("-->") && trimmed.contains("arqix:") {
+            continue;
+        }
+        body.push_str(line);
+        body.push('\n');
+    }
+
+    if let Some(parent) = path.parent()
+        && let Err(err) = std::fs::create_dir_all(parent)
+    {
+        eprintln!("error: cannot create {}: {err}", parent.display());
+        return Err(ExitCode::from(2));
+    }
+    if let Err(err) = std::fs::write(path, format!("{front}{body}")) {
+        eprintln!("error: cannot write {}: {err}", path.display());
+        return Err(ExitCode::from(2));
+    }
+    Ok(())
+}

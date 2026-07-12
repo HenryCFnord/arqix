@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e0bc398, 2026-07-12
+     Snapshot: 007385a, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -47,6 +47,9 @@
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:276 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:277 | REQ-01-01-19-02 |
+| `knowledge` | src/reporter.rs:124 | REQ-05-01-15-01 |
+| `knowledge` | src/reporter.rs:125 | REQ-05-01-15-02 |
+| `knowledge` | src/reporter.rs:126 | REQ-05-01-15-03 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:804 | REQ-03-01-02-01 |

@@ -218,6 +218,12 @@ enum ReportCommand {
         #[arg(long)]
         stamp: Option<String>,
     },
+    /// Export the corpus as an Open Knowledge Format bundle
+    Knowledge {
+        /// Bundle output directory (default: knowledge)
+        #[arg(long)]
+        out: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -312,6 +318,7 @@ fn main() -> ExitCode {
             ReportCommand::Bundle { ids, out, stamp } => {
                 reporter::bundle(&ids, out.as_deref(), stamp.as_deref(), cli.format)
             }
+            ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
         },
         Command::Publish { command } => match command {
             PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),

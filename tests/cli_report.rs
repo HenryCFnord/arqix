@@ -1,5 +1,5 @@
-//! Command contract: `report bundle` — owned by Report & Export; the only
-//! `report` command (ADR-0005: the report verb is reserved for export
+//! Command contract: `report bundle` and `report knowledge` — owned by
+//! Report & Export (ADR-0005: the report verb is reserved for export
 //! products).
 
 mod common;
@@ -156,7 +156,10 @@ fn report_knowledge_exports_an_okf_bundle_with_mapped_fields() {
         "---\nid: unit-k\ntitle: A Knowledge Unit\niri: arqix:units/unit-k\nrdf:\n  type:\n    - arqix:classes/unit\nmeta:\n  lifecycle-status: draft\n  updated: 2026-07-12\n---\n\n## A Knowledge Unit\n\n<!-- arqix:include fragment.md -->\n",
     )
     .unwrap();
-    assert_success(&run_arqix_in(&repo, &["report", "knowledge", "--out", "okf"]));
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "knowledge", "--out", "okf"],
+    ));
     let concept = std::fs::read_to_string(repo.join("okf/unit.md")).unwrap();
     assert!(
         concept.contains("type: unit") && concept.contains("title: \"A Knowledge Unit\""),
@@ -214,14 +217,12 @@ fn report_knowledge_honours_scope_lifecycle_and_determinism() {
         "retired documents leave living knowledge (ADR-0010)"
     );
 
-    let first = std::fs::read_to_string(
-        repo.join("knowledge/REQ-99-99-99-01-fixture-requirement.md"),
-    )
-    .unwrap();
+    let first =
+        std::fs::read_to_string(repo.join("knowledge/REQ-99-99-99-01-fixture-requirement.md"))
+            .unwrap();
     assert_success(&run_arqix_in(&repo, &["report", "knowledge"]));
-    let second = std::fs::read_to_string(
-        repo.join("knowledge/REQ-99-99-99-01-fixture-requirement.md"),
-    )
-    .unwrap();
+    let second =
+        std::fs::read_to_string(repo.join("knowledge/REQ-99-99-99-01-fixture-requirement.md"))
+            .unwrap();
     assert_eq!(first, second, "identical inputs, identical bundle");
 }
