@@ -160,6 +160,7 @@ site-command = "zensical build"
 - Staged pages are artefact-ready: includes expanded (single-page stitching), directives and marker comments removed, the arqix frontmatter reduced to the toolchain-consumable part (`title`) — which also keeps staged copies out of document discovery and the trace graph.
 - `stitching` — `single-page` (v1: the assembled document is the unit of publication). The `split` mode on the assembled outline is decided and lands with the ADR-0013 assembler slice.
 - `exclude` — language-root-relative path prefixes that never stage (the publish scope): internal corpus areas stay off the public site. The lifecycle-based `final` filter (ADR-0010) is the specified successor for prose documents.
+- `specification-catalogue` (default `false`) — stage the generated specification catalogue: one page per workflow group bundling the stories and their derived requirements, an HTML anchor per ID, the coverage status from the trace graph; the excluded source files stay off the site and return in this bundled form (US-04-01-17). Default language only; the pages are generated at staging time and never committed.
 - `site-command` — the toolchain invocation (whitespace-split, stdio inherited), run after staging. Recommended: a pinned [Zensical](https://zensical.org) (or MkDocs) invocation whose `docs_dir` points at the staging dir; pin the version in CI for reproducible publishes. A failing or unrunnable command is a system error: exit 2 with a diagnostic naming the invocation.
 
 ## Diagnostics

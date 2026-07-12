@@ -12,9 +12,12 @@ snapshot-strategy = "main-only"
 
 [policies.publish]
 site-command = "zensical build"
+# The specification returns to the site in bundled form (US-04-01-17):
+# one catalogue page per workflow group, anchors per ID, live coverage.
+specification-catalogue = true
 # The publish scope: internal plan packages and templates never leave the
-# repository; requirement and story source files stay off the site until
-# the generated catalogue pages bundle them (backlog, roadmap slice 4).
+# repository; requirement and story source files stay off the site — the
+# generated specification catalogue above bundles them instead.
 exclude = [
     "plans",
     "templates",

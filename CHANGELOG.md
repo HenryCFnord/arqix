@@ -9,6 +9,7 @@ Breaking changes carry a **Migration** note in their entry.
 ### Added
 
 - `mcp serve`: the corpus as MCP tools — `search`, `read`, and `list` over stdio (JSON-RPC 2.0, one message per line), answering with the same JSON as the CLI surface; the protocol subset is implemented directly per ADR-0014, no SDK dependency.
+- `publish site` stages a generated specification catalogue when enabled (`[policies.publish] specification-catalogue`): one page per workflow group bundling stories and their derived requirements, an HTML anchor per ID, live coverage status from the trace graph — the excluded spec sources return to the site in bundled form.
 - `doc init` scaffolds an `AGENTS.md` agent-instructions starting point at the repository root — the verification loop and the corpus entry points named from the first commit, never overwriting an authored one.
 - `render pdf [<file>...] [--lang <lang>] [--out <path>]`: PDF artefacts via the configured renderer (Pandoc by default) — staged artefact-ready pages or selected files as input, `--defaults` and `--template eisvogel` passed through when configured, per-package overrides, artefact storage per the configured mode, tool errors forwarded transparently.
 - `report bundle <ID>... [--out <dir>] [--stamp <text>]`: scoped evidence bundles — a story ID stands for the requirements derived from it; the bundle directory carries `bundle.json`, `evidence.md`, and the scoped `matrix.csv` with stable schemas and caller-provided generation metadata.

@@ -97,6 +97,17 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         }
     }
 
+    // The specification catalogue: the excluded story/requirement sources
+    // return in bundled form — one generated page per workflow group
+    // (US-04-01-17). Default language only: the specification sources are
+    // authored in the corpus language.
+    if policy.specification_catalogue
+        && lang == default_lang
+        && let Err(code) = stage_catalogue(&staging)
+    {
+        return code;
+    }
+
     // Configured assets ride along verbatim: the toolchain can only
     // reference what reaches the staging dir.
     for asset in &policy.assets {
@@ -313,6 +324,165 @@ pub fn pdf(
         }
     }
     ExitCode::SUCCESS
+}
+
+// arqix:implements REQ-04-01-17-01
+// arqix:implements REQ-04-01-17-02
+// arqix:implements REQ-04-01-17-03
+/// Stage the specification catalogue: one generated page per workflow
+/// group, bundling the group's stories and their derived requirements —
+/// an HTML anchor per ID for deep links, the coverage status straight
+/// from the trace graph. Everything is ordered by ID and carries no
+/// wall-clock values, so identical corpus state yields identical pages.
+fn stage_catalogue(staging: &Path) -> Result<(), ExitCode> {
+    let docs = crate::store::documents();
+    let model = crate::trace::corpus_model();
+    let (coverage, _) = crate::trace::coverage_report(&model);
+
+    // Coverage status per requirement id: verified beats planned beats
+    // uncovered (the trace engine's vocabulary).
+    let mut status = std::collections::BTreeMap::new();
+    if let Some(rows) = coverage["requirements"].as_array() {
+        for row in rows {
+            if let Some(id) = row["id"].as_str() {
+                let non_empty =
+                    |key: &str| row[key].as_array().is_some_and(|list| !list.is_empty());
+                let value = if non_empty("verified_by") {
+                    "verified"
+                } else if non_empty("planned_by") {
+                    "planned"
+                } else {
+                    "uncovered"
+                };
+                status.insert(id.to_string(), value);
+            }
+        }
+    }
+
+    let retired = |doc: &&crate::parser::Document| {
+        !doc.frontmatter
+            .iter()
+            .any(|line| line.trim() == "lifecycle-status: retired")
+    };
+    // Stories per workflow group, from the declared is-part-of-workflow
+    // triple (ADR-0012: declared relations are the source of truth).
+    let mut groups: std::collections::BTreeMap<String, Vec<&crate::parser::Document>> =
+        std::collections::BTreeMap::new();
+    for doc in docs
+        .iter()
+        .filter(|d| d.classes.iter().any(|c| c == "user-story"))
+        .filter(retired)
+    {
+        let Some(group) = doc
+            .triples
+            .iter()
+            .find(|t| t.predicate == "is-part-of-workflow")
+            .and_then(|t| t.object.rsplit('/').next())
+        else {
+            continue;
+        };
+        groups.entry(group.to_string()).or_default().push(doc);
+    }
+    // Requirements per owning story, from the declared derived-from
+    // triples; a cross-cutting requirement appears under every story that
+    // derives it.
+    let mut by_story: std::collections::BTreeMap<String, Vec<&crate::parser::Document>> =
+        std::collections::BTreeMap::new();
+    for doc in docs
+        .iter()
+        .filter(|d| d.classes.iter().any(|c| c.ends_with("requirement")))
+        .filter(retired)
+    {
+        for triple in doc.triples.iter().filter(|t| t.predicate == "derived-from") {
+            by_story.entry(triple.object.clone()).or_default().push(doc);
+        }
+    }
+
+    let mut index = String::from(
+        "---\ntitle: \"Specification\"\n---\n# Specification\n\nThe story and requirement catalogue, one page per workflow group; every ID is a stable anchor, every requirement carries its live coverage status.\n\n",
+    );
+    for (group, stories) in &groups {
+        let mut page =
+            format!("---\ntitle: \"Specification — {group}\"\n---\n# Specification — {group}\n");
+        let mut stories = stories.clone();
+        stories.sort_by_key(|d| d.id.clone());
+        let mut anchored: std::collections::BTreeSet<&str> = std::collections::BTreeSet::new();
+        for story in &stories {
+            let (Some(id), Some(title)) = (&story.id, &story.title) else {
+                continue;
+            };
+            page.push_str(&format!(
+                "\n<a id=\"{id}\"></a>\n\n## {id} — {title}\n\n{}\n",
+                first_paragraph(&story.body)
+            ));
+            let mut reqs = story
+                .iri
+                .as_ref()
+                .and_then(|iri| by_story.get(iri))
+                .cloned()
+                .unwrap_or_default();
+            reqs.sort_by_key(|d| d.id.clone());
+            for req in reqs {
+                let (Some(req_id), Some(req_title)) = (&req.id, &req.title) else {
+                    continue;
+                };
+                if anchored.insert(req_id) {
+                    page.push_str(&format!("\n<a id=\"{req_id}\"></a>\n"));
+                }
+                page.push_str(&format!(
+                    "\n### {req_id} — {req_title}\n\n{}\n\n*Coverage: {}.*\n",
+                    first_paragraph(&req.body),
+                    status.get(req_id.as_str()).copied().unwrap_or("uncovered")
+                ));
+            }
+        }
+        let path = staging.join("specification").join(format!("{group}.md"));
+        if let Some(parent) = path.parent()
+            && let Err(err) = std::fs::create_dir_all(parent)
+        {
+            eprintln!("error: cannot create {}: {err}", parent.display());
+            return Err(ExitCode::from(2));
+        }
+        if let Err(err) = std::fs::write(&path, &page) {
+            eprintln!("error: cannot write {}: {err}", path.display());
+            return Err(ExitCode::from(2));
+        }
+        index.push_str(&format!(
+            "- [{group}]({group}.md) — {} story(ies)\n",
+            stories.len()
+        ));
+    }
+    if !groups.is_empty()
+        && let Err(err) = std::fs::write(staging.join("specification/index.md"), index)
+    {
+        eprintln!("error: cannot write the specification index: {err}");
+        return Err(ExitCode::from(2));
+    }
+    Ok(())
+}
+
+/// The first prose paragraph of a document body: the text after the
+/// leading heading, up to the next blank line or heading — the story's
+/// "As a ..." sentence, a requirement's obligation.
+fn first_paragraph(body: &str) -> String {
+    let mut lines = Vec::new();
+    for line in body.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with('#') || (trimmed.starts_with("<!--") && trimmed.ends_with("-->")) {
+            if !lines.is_empty() {
+                break;
+            }
+            continue;
+        }
+        if trimmed.is_empty() {
+            if !lines.is_empty() {
+                break;
+            }
+            continue;
+        }
+        lines.push(trimmed);
+    }
+    lines.join("\n")
 }
 
 /// Copy one configured asset (file or directory tree) into the staging

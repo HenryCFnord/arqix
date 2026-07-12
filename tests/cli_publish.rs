@@ -445,7 +445,8 @@ fn catalogue_entries_carry_anchors_and_coverage_status() {
     let page =
         std::fs::read_to_string(repo.join("site-src/specification/wf-42-01.md")).expect("page");
     assert!(
-        page.contains("<a id=\"US-42-01-01\"></a>") && page.contains("<a id=\"REQ-42-01-01-01\"></a>"),
+        page.contains("<a id=\"US-42-01-01\"></a>")
+            && page.contains("<a id=\"REQ-42-01-01-01\"></a>"),
         "every id gets a deep-linkable anchor: {page}"
     );
     assert!(

@@ -26,7 +26,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-12
   updated: 2026-07-12
@@ -41,10 +41,10 @@ As an assessor, I want the published site to carry the specification as bundled 
 
 ### Acceptance Criteria
 
-- [ ] With the catalogue enabled in the publish policy, `publish site` stages generated catalogue pages — one page per workflow group — while the requirement and story source files stay off the site.
-- [ ] Every story and requirement in the catalogue carries an anchor for its ID, so deep links like `.../wf-01-01/#REQ-01-01-07-02` resolve.
-- [ ] Every requirement entry carries its coverage status from the trace graph (verified, planned, or uncovered).
-- [ ] Identical corpus state produces byte-identical catalogue pages.
+- [x] With the catalogue enabled in the publish policy, `publish site` stages generated catalogue pages — one page per workflow group — while the requirement and story source files stay off the site.
+- [x] Every story and requirement in the catalogue carries an anchor for its ID, so deep links like `.../wf-01-01/#REQ-01-01-07-02` resolve.
+- [x] Every requirement entry carries its coverage status from the trace graph (verified, planned, or uncovered).
+- [x] Identical corpus state produces byte-identical catalogue pages.
 
 ### Notes
 
