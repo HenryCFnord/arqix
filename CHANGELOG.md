@@ -9,6 +9,7 @@ Breaking changes carry a **Migration** note in their entry.
 ### Added
 
 - `mcp serve`: the corpus as MCP tools — `search`, `read`, and `list` over stdio (JSON-RPC 2.0, one message per line), answering with the same JSON as the CLI surface; the protocol subset is implemented directly per ADR-0014, no SDK dependency.
+- `doc init` scaffolds an `AGENTS.md` agent-instructions starting point at the repository root — the verification loop and the corpus entry points named from the first commit, never overwriting an authored one.
 - `report bundle <ID>... [--out <dir>] [--stamp <text>]`: scoped evidence bundles — a story ID stands for the requirements derived from it; the bundle directory carries `bundle.json`, `evidence.md`, and the scoped `matrix.csv` with stable schemas and caller-provided generation metadata.
 - `report knowledge [--out <dir>]`: the corpus as an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog) bundle — one artefact-ready concept document per living corpus document (includes expanded, directives stripped), OKF fields mapped from declared metadata and never fabricated, publish scope and lifecycle honoured.
 - `policy check <file>...`: changed files evaluated against the change scope declared in `[policies.change]` — an `allow` list of path prefixes (trailing slash for a subtree, exact entry for one file), violations as `POL-001` diagnostics, gate mode exiting 1 and warn-only mode reporting without failing; no declared policy means nothing to enforce.

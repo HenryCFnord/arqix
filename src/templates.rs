@@ -44,6 +44,12 @@ fn next_counter(docs: &[Document], prefix: &str) -> u64 {
 /// time, not a string literal in the engine (US-01-01-20).
 const DEFAULT_TEMPLATE: &str = include_str!("templates/default.tpl.md");
 
+/// The agent-instructions scaffold `doc init` writes to the repository
+/// root (US-01-01-21): a starting point for the repository's own
+/// normative rules, naming the verification loop and the corpus entry
+/// points.
+const AGENTS_TEMPLATE: &str = include_str!("templates/agents.tpl.md");
+
 /// The document families `doc init` scaffolds template files for.
 const TEMPLATE_FAMILIES: [&str; 8] = [
     "adr",
@@ -412,6 +418,18 @@ pub fn init(path: Option<&str>, format: OutputFormat) -> ExitCode {
         && let Err(err) = std::fs::write(&index, INDEX_TEMPLATE)
     {
         eprintln!("error: cannot write {}: {err}", index.display());
+        return ExitCode::from(2);
+    }
+
+    // arqix:implements REQ-01-01-21-01
+    // arqix:implements REQ-01-01-21-02
+    // The agent-instructions scaffold at the repository root; authored
+    // instructions always win, so an existing file is never touched.
+    let agents = Path::new("AGENTS.md");
+    if !agents.exists()
+        && let Err(err) = std::fs::write(agents, AGENTS_TEMPLATE)
+    {
+        eprintln!("error: cannot write AGENTS.md: {err}");
         return ExitCode::from(2);
     }
 

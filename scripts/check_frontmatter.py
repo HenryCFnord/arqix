@@ -194,6 +194,7 @@ SECTION_KINDS = {
     "icd-input-grammars",
     "icd-forward-contracts",
     "icd-page",
+    "manual-chapter",
 }
 ONT_ID_PREFIX = {"ont-class": "class-", "ont-property": "property-",
                  "ont-individual": "individual-"}
