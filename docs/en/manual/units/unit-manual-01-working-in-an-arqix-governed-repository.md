@@ -44,6 +44,7 @@ Explore the corpus through the catalog, never by guessing paths:
 - `arqix doc search <query>` — full-text search with file and line.
 
 Agent frameworks get the same three operations as MCP tools: `arqix mcp serve` speaks the Model Context Protocol over stdio, and the tools answer with the same JSON as the CLI.
+Over MCP, `search` additionally takes optional `kind` and `path` filters, `list` an optional `lifecycle` filter, and a fourth tool `trace` answers coverage from the trace graph for a requirement or story id.
 
 ### The verification loop
 

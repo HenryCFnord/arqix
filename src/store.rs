@@ -85,14 +85,26 @@ fn document_json(d: &Document) -> Value {
     })
 }
 
+/// The declared `meta.lifecycle-status` frontmatter value, if any.
+fn lifecycle_status(d: &Document) -> Option<&str> {
+    d.frontmatter
+        .iter()
+        .find_map(|line| line.trim().strip_prefix("lifecycle-status:"))
+        .map(str::trim)
+        .filter(|v| !v.is_empty())
+}
+
 /// The catalog as data: shared by the CLI (`doc list`) and the MCP `list`
-/// tool, so both surfaces answer identically (REQ-05-01-12-03).
-pub(crate) fn catalog_json(kind: Option<&str>) -> Value {
+/// tool, so both surfaces answer identically (REQ-05-01-12-03). `lifecycle`
+/// keeps only documents whose declared lifecycle-status equals the value; a
+/// document without a lifecycle line never matches a lifecycle filter.
+pub(crate) fn catalog_json(kind: Option<&str>, lifecycle: Option<&str>) -> Value {
     let docs = documents();
     let entries: Vec<Value> = docs
         .iter()
         .filter(|d| d.id.is_some())
         .filter(|d| kind.is_none_or(|k| d.kind() == k))
+        .filter(|d| lifecycle.is_none_or(|l| lifecycle_status(d) == Some(l)))
         .map(catalog_entry)
         .collect();
     json!({ "schema_version": SCHEMA_VERSION, "documents": entries })
@@ -106,10 +118,15 @@ pub(crate) fn read_json(id: &str) -> Option<Value> {
         .map(document_json)
 }
 
-/// Full-text search as data.
-pub(crate) fn search_json(query: &str) -> Value {
+/// Full-text search as data. `kind` keeps only hits in documents of that
+/// catalog kind; `path` keeps only hits in files whose repository-relative
+/// path starts with the prefix. Both combine with each other and the query.
+pub(crate) fn search_json(query: &str, kind: Option<&str>, path: Option<&str>) -> Value {
     let mut hits = Vec::new();
     for d in &documents() {
+        if !kind.is_none_or(|k| d.kind() == k) || !path.is_none_or(|p| d.file.starts_with(p)) {
+            continue;
+        }
         if let Ok(text) = std::fs::read_to_string(&d.file) {
             for (idx, line) in text.lines().enumerate() {
                 if line.contains(query) {
@@ -129,7 +146,7 @@ pub(crate) fn search_json(query: &str) -> Value {
 // arqix:implements REQ-05-01-08-03
 /// `arqix doc list [--kind <kind>]`
 pub fn list(kind: Option<&str>, format: OutputFormat) -> ExitCode {
-    let catalog = catalog_json(kind);
+    let catalog = catalog_json(kind, None);
     let entries = catalog["documents"].as_array().cloned().unwrap_or_default();
 
     match format {
@@ -187,7 +204,7 @@ pub fn read(id: &str, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-02-01-06-01
 /// `arqix doc search <query>`
 pub fn search(query: &str, format: OutputFormat) -> ExitCode {
-    let result = search_json(query);
+    let result = search_json(query, None, None);
 
     match format {
         OutputFormat::Json => {

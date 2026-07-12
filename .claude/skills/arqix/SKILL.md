@@ -15,7 +15,7 @@ This skill covers the tool surface only; the repository's normative process rule
 - `arqix doc search <query>` — full-text search with file and line.
 - `--format json` on any command gives machine-readable output with a `schema_version`.
 
-Long-running frameworks can hold the catalog open instead: `arqix mcp serve` exposes `search`, `read`, and `list` as MCP tools over stdio.
+Long-running frameworks can hold the catalog open instead: `arqix mcp serve` exposes `search`, `read`, `list`, and `trace` as MCP tools over stdio — `search` takes optional `kind` and `path` filters, `list` an optional `lifecycle` filter, and `trace` answers coverage for a requirement or story id.
 
 ## The gate
 

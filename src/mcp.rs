@@ -97,6 +97,8 @@ fn tool_catalog() -> Value {
                 "type": "object",
                 "properties": {
                     "query": { "type": "string", "description": "Text to search for" },
+                    "kind": { "type": "string", "description": "Optional filter: only hits in documents of this catalog kind, e.g. requirement" },
+                    "path": { "type": "string", "description": "Optional filter: only hits in files whose repository-relative path starts with this prefix, e.g. docs/en/architecture" },
                 },
                 "required": ["query"],
             },
@@ -114,13 +116,25 @@ fn tool_catalog() -> Value {
         },
         {
             "name": "list",
-            "description": "The document catalog: id, title, kind, file, and language for every document, optionally filtered by kind.",
+            "description": "The document catalog: id, title, kind, file, and language for every document, optionally filtered by kind and lifecycle.",
             "inputSchema": {
                 "type": "object",
                 "properties": {
                     "kind": { "type": "string", "description": "Optional kind filter, e.g. requirement" },
+                    "lifecycle": { "type": "string", "description": "Optional filter: only documents whose declared lifecycle-status equals this value, e.g. active, draft, done, retired; documents without a lifecycle line never match" },
                 },
                 "required": [],
+            },
+        },
+        {
+            "name": "trace",
+            "description": "Coverage from the trace graph for one id: a requirement id answers with its coverage row (status verified/planned/uncovered plus the verifying, planned, and implementing marker locations), a story id with the rows of the requirements derived from it.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "string", "description": "Requirement or story id, e.g. REQ-05-01-12-02 or US-05-01-12" },
+                },
+                "required": ["id"],
             },
         },
     ])
@@ -137,7 +151,11 @@ fn tool_result(name: &str, arguments: &Value) -> Result<Value, (i64, String)> {
             let query = arguments["query"]
                 .as_str()
                 .ok_or((-32602, "search requires a string 'query'".to_string()))?;
-            crate::store::search_json(query)
+            crate::store::search_json(
+                query,
+                arguments["kind"].as_str(),
+                arguments["path"].as_str(),
+            )
         }
         "read" => {
             let id = arguments["id"]
@@ -153,7 +171,23 @@ fn tool_result(name: &str, arguments: &Value) -> Result<Value, (i64, String)> {
                 }
             }
         }
-        "list" => crate::store::catalog_json(arguments["kind"].as_str()),
+        "list" => {
+            crate::store::catalog_json(arguments["kind"].as_str(), arguments["lifecycle"].as_str())
+        }
+        "trace" => {
+            let id = arguments["id"]
+                .as_str()
+                .ok_or((-32602, "trace requires a string 'id'".to_string()))?;
+            match crate::trace::trace_json(id) {
+                Some(rows) => rows,
+                None => {
+                    return Ok(json!({
+                        "content": [{ "type": "text", "text": format!("no requirement or story has id {id}") }],
+                        "isError": true,
+                    }));
+                }
+            }
+        }
         _ => return Err((-32602, format!("unknown tool: {name}"))),
     };
     Ok(json!({
@@ -176,8 +210,8 @@ mod tests {
         // stdio, no JSON-RPC envelope involved.
         let result = tool_result("list", &json!({})).expect("list succeeds");
         let payload = result["content"][0]["text"].as_str().expect("text content");
-        let expected =
-            serde_json::to_string_pretty(&crate::store::catalog_json(None)).expect("valid JSON");
+        let expected = serde_json::to_string_pretty(&crate::store::catalog_json(None, None))
+            .expect("valid JSON");
         assert_eq!(payload, expected);
     }
 
