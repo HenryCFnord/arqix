@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 82/130 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 84/132 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -80,7 +80,7 @@ The remaining command surface, ordered so each slice makes the previous one more
 3. [x] **Configuration over convention** (from the PR-#20 config audit): configured ID policy (ADR-0012), per-family frontmatter contracts as one source, template files instead of string literals, the snapshot strategy and ratchet baseline as configuration (C17).
 4. [ ] **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`) — plus the generated requirement/story catalogue pages that return the spec to the site in bundled form (one page per workflow group, an anchor per ID, coverage status from the graph) instead of 276 single pages.
 5. [ ] **Render & languages** (`render pdf`, language-aware site, DE translations).
-6. [ ] **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
+6. [x] **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.
 7. [ ] **Self-hosting closes the loop**: the Python reference checkers are demoted to cross-checks and retired per the oracle policy.
 
 Deferred alongside: vector (SVG) source for the logo, traced from the monochrome raster variant (the raster set — transparent, mark, mono dark/light — lives in `assets/`).

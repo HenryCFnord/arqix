@@ -25,7 +25,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-12
   updated: 2026-07-12
@@ -40,9 +40,9 @@ As a coding agent, I want `doc init` to scaffold an agent instruction document, 
 
 ### Acceptance Criteria
 
-- [ ] `arqix doc init` scaffolds an `AGENTS.md` agent instruction document at the repository root.
-- [ ] The scaffold names the verification loop (`arqix verify`) and the corpus entry points (`doc list/read/search`, `doc new`, `fmt`, `mcp serve`).
-- [ ] An existing `AGENTS.md` is left byte-identical — init never overwrites authored instructions.
+- [x] `arqix doc init` scaffolds an `AGENTS.md` agent instruction document at the repository root.
+- [x] The scaffold names the verification loop (`arqix verify`) and the corpus entry points (`doc list/read/search`, `doc new`, `fmt`, `mcp serve`).
+- [x] An existing `AGENTS.md` is left byte-identical — init never overwrites authored instructions.
 
 ### Notes
 

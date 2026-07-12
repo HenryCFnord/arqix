@@ -18,8 +18,8 @@ This is a mapping only; it introduces no new rules.
 
 ## Claude-Code-specific notes
 
-- Skills: this repository currently defines no Claude Code skills (there is no `.claude/skills/`).
-  If skills are added, they are agent-specific extension points and must not carry normative process rules (see REQ-01-01-09-06).
+- Skills: `.claude/skills/arqix/` packages the arqix tool-usage skill (the command surface and the MCP tools; agent-onboarding strand).
+  Skills are agent-specific extension points and carry no normative process rules (REQ-01-01-09-06) — the skill points back at AGENTS.md for process.
 - Non-normative convenience pointers:
   - When working on `docs/en/architecture/stories/` or `docs/en/architecture/req/`, run `python3 scripts/check_requirements.py`.
   - When touching any document under `docs/en/architecture/` or `docs/ontology/`, run `python3 scripts/check_frontmatter.py`.
