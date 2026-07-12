@@ -70,6 +70,7 @@ informational = ["coverage"]
 - `steps` — the sub-steps to run, in order; the known names are `format`, `lint`, `trace-scan`, `coverage`, and `ratchet`. An unknown name is a usage error (exit 2).
 - `informational` — steps whose findings are reported without affecting the exit code. Informational forgives findings (exit 1) only, never system errors: a crashed sub-step fails the loop either way.
 - The values above are the defaults: coverage measures project progress and must never gate a change by default; everything else gates.
+- `ratchet-baseline` — the baseline file the ratchet compares against (REQ-04-01-16-01, config-audit row C17); unset, the committed default snapshot location applies, and an explicit `--baseline` argument overrides both.
 - `ratchet` (`trace ratchet [--baseline <path>]`) gates coverage *regressions* against the committed matrix snapshot: a requirement the baseline lists as verified must still be verified by an active test, unless it is retired or gone — a declared specification change is never a regression. Growth stays free; a missing baseline compares nothing and passes.
 
 ## The assemble policy
@@ -87,6 +88,21 @@ heading-ownership = "child"
 - The include directive's optional level argument overrides the default per include: `level=N` places the fragment's first heading at level N (1–6), `level=+N` places it N levels below the heading in effect.
   The delta applies to every heading of the fragment; a shift out of the h1–h6 range fails the assembly (ASM-005).
 - Relative links inside included fragments are rebased to the including page's location during assembly, so assembled pages stay artefact-ready.
+
+## The reports policy
+
+`[policies.reports]` governs how the reference sequencer's freshness gate treats the committed report snapshots (config-audit row C17):
+
+```toml
+[policies.reports]
+snapshot-strategy = "committed"
+```
+
+- `committed` (the default) — snapshots are committed and the freshness gate runs everywhere; parallel branches rebase and regenerate before merging.
+- `main-only` — the freshness gate runs only on the default branch; parallel branches skip it, trading merge friction for a regeneration step on the default branch after merging. How the default branch regains freshness (an auto-commit job or the next change) is an open owner decision.
+- `on-demand` — the freshness gate never runs; snapshots are regenerated when wanted.
+
+The strategy is read by the reference sequencer (`scripts/arqix verify`); the product's own `arqix verify` does not gate snapshot freshness.
 
 ## The publish policy
 

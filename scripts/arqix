@@ -74,6 +74,31 @@ def run_step(name, argv):
 MARKDOWNLINT_CLI2 = "markdownlint-cli2@0.23.0"
 
 
+def snapshot_strategy():
+    """`[policies.reports] snapshot-strategy` (C17): how the freshness gate
+    treats the committed snapshots. `committed` gates everywhere (default),
+    `main-only` gates only on the default branch, `on-demand` never gates."""
+    import os
+    path = Path("arqix.toml")
+    strategy = "committed"
+    if path.is_file():
+        import tomllib
+        try:
+            config = tomllib.loads(path.read_text(encoding="utf-8"))
+            strategy = (config.get("policies", {}).get("reports", {})
+                        .get("snapshot-strategy", "committed"))
+        except tomllib.TOMLDecodeError:
+            pass
+    if strategy == "main-only":
+        branch = os.environ.get("GITHUB_REF_NAME")
+        if branch is None:
+            probe = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                                   capture_output=True, text=True)
+            branch = probe.stdout.strip() if probe.returncode == 0 else ""
+        return "committed" if branch in ("main", "master") else "on-demand"
+    return strategy
+
+
 def arqix_binary():
     """The Rust binary for the dogfooded verify step: the ARQIX_BIN
     override, or the debug build if present."""
@@ -108,8 +133,12 @@ def verify(fmt, fail_fast):
         ("frontmatter", [python, str(SCRIPT_DIR / "check_frontmatter.py")], True),
         ("requirements", [python, str(SCRIPT_DIR / "check_requirements.py")], True),
         ("trace-markers", [python, str(SCRIPT_DIR / "check_trace_markers.py")], True),
-        ("report-freshness", [python, str(SCRIPT_DIR / "arqix_report.py"), "--check"], True),
     ]
+    if snapshot_strategy() != "on-demand":
+        steps.append(
+            ("report-freshness",
+             [python, str(SCRIPT_DIR / "arqix_report.py"), "--check"], True))
+
     if Path("Cargo.toml").exists():
         steps.append(("cargo-test", ["cargo", "test", "--quiet"], True))
     if binary := arqix_binary():

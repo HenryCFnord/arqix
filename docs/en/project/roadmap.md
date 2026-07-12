@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 73/126 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 74/127 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
@@ -27,7 +27,7 @@ Progress through the implementation phases is measured by one number: the share 
 What the old phases 1–4 sketched as features is now fully specified and traceable:
 
 - [x] 8 personas, 111 user stories (`docs/en/architecture/stories/`)
-- [x] 165 requirements — 126 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
+- [x] 165 requirements at the phase-1 cut — 126 functional, 17 quality, 22 constraints — under RFC 2119 subset + EARS patterns (`docs/en/architecture/req/`)
 - [x] Ontology with requirement kinds and inverse properties (`docs/ontology/`)
 - [x] Reference checkers: `check_requirements.py`, `check_frontmatter.py` (stdlib-only, strict, selftested)
 - [x] arc42 documentation with Structurizr C4 model (`docs/en/architecture/`)
@@ -77,7 +77,7 @@ The remaining command surface, ordered so each slice makes the previous one more
 
 1. **Publish site MVP** (`publish site`): stage the corpus and orchestrate the configured site toolchain (Zensical recommended) so arqix.dev becomes the first arqix-published site; the stitching mechanics (level-parameterised includes, heading-ownership policy, split on the assembled outline — ADR-0013, US-02-01-12) follow as the assembler slice.
 2. **Verification process** (done): configurable verify sub-steps with coverage report-only by default, the coverage ratchet against the committed snapshots, the machine-checked done claim per story lifecycle — and the gate dogfoods `arqix verify` for the corpus checks, while the Python checkers stay as reference cross-checks until the self-hosting slice.
-3. **Configuration over convention** (stories in refinement, from the PR-#20 config audit): configured ID policy, per-family frontmatter key orders as one source, template files instead of string literals.
+3. **Configuration over convention** (done, from the PR-#20 config audit): configured ID policy (ADR-0012), per-family frontmatter contracts as one source, template files instead of string literals, the snapshot strategy and ratchet baseline as configuration (C17).
 4. **Report & Export** (`report bundle`), **Policy Checker** (`policy check`), **MCP Server** (`mcp serve`) — plus the generated requirement/story catalogue pages that return the spec to the site in bundled form (one page per workflow group, an anchor per ID, coverage status from the graph) instead of 276 single pages.
 5. **Render & languages** (`render pdf`, language-aware site, DE translations).
 6. **Agent onboarding**: handbook chapter, an agent-instructions scaffold in `doc init`, and a packaged skill next to `mcp serve`.

@@ -749,9 +749,6 @@ pub fn matrix_command(matrix_type: &str, _format: OutputFormat) -> ExitCode {
     ExitCode::SUCCESS
 }
 
-/// The default ratchet baseline: the committed req-test matrix snapshot,
-/// kept fresh by the report-freshness gate. The C17 alternative (a baseline
-/// computed from the merge target) lands with the snapshot-strategy config.
 /// The requirement ids at least one active (non-ignored) test verifies —
 /// the computed side of the done claim (LNT-005) and the ratchet.
 pub(crate) fn verified_requirement_ids() -> Vec<String> {
@@ -767,6 +764,10 @@ pub(crate) fn verified_requirement_ids() -> Vec<String> {
     verified
 }
 
+/// The default ratchet baseline: the committed req-test matrix snapshot,
+/// kept fresh by the report-freshness gate. A configured
+/// `[policies.verify] ratchet-baseline` replaces it (C17,
+/// REQ-04-01-16-01); an explicit `--baseline` overrides both.
 const RATCHET_BASELINE: &str = "docs/en/reports/trace/matrix.csv";
 
 // arqix:implements REQ-04-01-15-01
@@ -777,7 +778,11 @@ const RATCHET_BASELINE: &str = "docs/en/reports/trace/matrix.csv";
 /// requirement absent from the baseline is specification growth, never a
 /// finding.
 pub fn ratchet_command(baseline: Option<&str>, format: OutputFormat) -> ExitCode {
-    let path = baseline.unwrap_or(RATCHET_BASELINE);
+    // arqix:implements REQ-04-01-16-01
+    // Resolution order: explicit --baseline, the configured path, the
+    // built-in default snapshot location.
+    let configured = crate::config::verify_policy(Path::new(".")).ratchet_baseline;
+    let path = baseline.unwrap_or_else(|| configured.as_deref().unwrap_or(RATCHET_BASELINE));
     let Ok(baseline_text) = std::fs::read_to_string(path) else {
         match format {
             OutputFormat::Json => emit_json(&json!({
