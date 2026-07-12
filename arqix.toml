@@ -2,6 +2,14 @@
 # The verify and publish policies are documented in
 # docs/en/processes/configuration.md.
 
+# Snapshot strategy (owner decision 2026-07-12): parallel branches skip the
+# report-freshness gate; the default branch regains freshness through the
+# auto-commit step in ci.yml. The alternative — the next change brings the
+# regeneration along — stays available by removing that step (see
+# docs/en/processes/configuration.md, reports policy).
+[policies.reports]
+snapshot-strategy = "main-only"
+
 [policies.publish]
 site-command = "zensical build"
 # The publish scope: internal plan packages and templates never leave the

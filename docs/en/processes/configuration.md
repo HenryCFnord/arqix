@@ -99,10 +99,12 @@ snapshot-strategy = "committed"
 ```
 
 - `committed` (the default) — snapshots are committed and the freshness gate runs everywhere; parallel branches rebase and regenerate before merging.
-- `main-only` — the freshness gate runs only on the default branch; parallel branches skip it, trading merge friction for a regeneration step on the default branch after merging. How the default branch regains freshness (an auto-commit job or the next change) is an open owner decision.
+- `main-only` — the freshness gate runs only on the default branch; parallel branches skip it, trading merge friction for a regeneration step on the default branch after merging.
+  How the default branch regains freshness is a per-repository choice: an auto-commit step in CI (the gate regenerates and pushes the snapshots before verifying), or the next change brings the regeneration along (cheaper, but the reports lag one step between merges).
 - `on-demand` — the freshness gate never runs; snapshots are regenerated when wanted.
 
 The strategy is read by the reference sequencer (`scripts/arqix verify`); the product's own `arqix verify` does not gate snapshot freshness.
+This repository runs `main-only` with the auto-commit variant (owner decision 2026-07-12): the gate workflow refreshes and commits the snapshots on the default branch before verifying, and parallel branches never touch `docs/en/reports/`.
 
 ## The publish policy
 
