@@ -12,6 +12,9 @@ A missing file is valid — it simply means no overrides.
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
 | `kinds` | table | empty | accepted, content validated in a later schema version |
 | `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
+
+| `kinds` | table | empty | accepted; per-family contract entries are read (below), other content validated in a later schema version |
+| `templates` | table | empty | accepted, content validated in a later schema version |
 | `policies` | table | empty | accepted; `policies.verify` and `policies.publish` are read (below), other content validated in a later schema version |
 | `i18n` | table | empty | accepted; `default-lang` is read (below), other content validated in a later schema version |
 
@@ -32,6 +35,25 @@ dir = "docs/templates"
 - A configured but missing template file is a config error: the diagnostic names the expected path.
 - Unconfigured, the engine reads the package-local `templates/` that `doc init` scaffolds, and falls back to the embedded default — an unconfigured repository produces byte-identical documents.
 - `doc init` scaffolds the default template files into the template directory and never overwrites a shaped one (REQ-01-01-20-02).
+
+## The frontmatter contracts
+
+`[kinds.<family>]` declares one document family's frontmatter contract — the one source the formatter and the validators share (ADR-0011, REQ-01-01-19-01/-02/-03):
+
+```toml
+[kinds.note]
+dir = "docs/notes"
+key-order = ["title", "id", "rdf", "meta"]
+required = ["title", "id"]
+required-meta = ["lang"]
+```
+
+- `dir` — the directory that selects the family (longest match wins); an entry without it cannot be matched and is skipped.
+- `key-order` — the canonical top-level key order `fmt` applies and the frontmatter checker validates (FMT-003); unknown keys are findings (FMT-004).
+- `required` — keys that must be present and non-empty (FM-001).
+- `required-meta` — the family's required `meta` keys; unset families keep the built-in set.
+- Without configuration, the built-in defaults reproduce the present contract — `fmt` stays byte-identical on an unconfigured corpus.
+- Configured families carry no built-in id/iri shape rules; ID shapes become configuration with the ID-policy story (US-01-01-18).
 
 ## The verify policy
 

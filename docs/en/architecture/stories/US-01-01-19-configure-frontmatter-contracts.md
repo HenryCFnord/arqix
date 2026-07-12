@@ -27,7 +27,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-11
   updated: 2026-07-11
@@ -42,10 +42,10 @@ As a maintainer, I want the per-family frontmatter contract — canonical key or
 
 ### Acceptance Criteria
 
-- [ ] `arqix.toml` declares the canonical key order per document family; `fmt` orders keys by it.
-- [ ] Frontmatter validation reads the same configured source as the formatter; no second copy of the contract lives in code.
-- [ ] The required meta keys come from the same configuration, and the document templates satisfy them.
-- [ ] Without configuration, the defaults reproduce today's contract and `fmt` stays byte-identical on the existing corpus.
+- [x] `arqix.toml` declares the canonical key order per document family; `fmt` orders keys by it.
+- [x] Frontmatter validation reads the same configured source as the formatter; no second copy of the contract lives in code.
+- [x] The required meta keys come from the same configuration, and the document templates satisfy them.
+- [x] Without configuration, the defaults reproduce today's contract and `fmt` stays byte-identical on the existing corpus.
 
 ### Notes
 

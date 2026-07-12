@@ -60,10 +60,19 @@ const ONT_INDIVIDUAL_KEYS: [&str; 8] = [
     "meta",
 ];
 
-/// The canonical key order for a document, by the same directory mapping
-/// the frontmatter checker uses to pick the family.
-fn key_order(file: &str) -> &'static [&'static str] {
-    if file.contains("docs/ontology/classes/") {
+// arqix:implements REQ-01-01-19-01
+/// The canonical key order for a document: the configured family contract
+/// whose directory contains the file (longest match — US-01-01-19), or the
+/// built-in defaults by the same directory mapping the frontmatter checker
+/// uses to pick the family.
+fn key_order(file: &str) -> Vec<String> {
+    let posix = file.replace('\\', "/");
+    for contract in crate::config::kind_contracts(std::path::Path::new(".")) {
+        if posix.starts_with(&format!("{}/", contract.dir)) {
+            return contract.key_order;
+        }
+    }
+    let builtin: &[&str] = if file.contains("docs/ontology/classes/") {
         &ONT_CLASS_KEYS
     } else if file.contains("docs/ontology/properties/") {
         &ONT_PROPERTY_KEYS
@@ -71,7 +80,8 @@ fn key_order(file: &str) -> &'static [&'static str] {
         &ONT_INDIVIDUAL_KEYS
     } else {
         &DOC_KEYS
-    }
+    };
+    builtin.iter().map(|k| k.to_string()).collect()
 }
 
 /// Split leading frontmatter into the exact opening-fence bytes (including
@@ -128,11 +138,14 @@ fn group_blocks(fm: &[String]) -> Vec<(Option<String>, Vec<String>)> {
     blocks
 }
 
-fn is_known(block: &(Option<String>, Vec<String>), order: &[&str]) -> bool {
-    block.0.as_deref().is_some_and(|k| order.contains(&k))
+fn is_known(block: &(Option<String>, Vec<String>), order: &[String]) -> bool {
+    block
+        .0
+        .as_deref()
+        .is_some_and(|k| order.iter().any(|o| o == k))
 }
 
-fn canonical_index(block: &(Option<String>, Vec<String>), order: &[&str]) -> usize {
+fn canonical_index(block: &(Option<String>, Vec<String>), order: &[String]) -> usize {
     block
         .0
         .as_deref()
@@ -153,13 +166,13 @@ fn format_text(file: &str, text: &str) -> Option<String> {
     let blocks = group_blocks(&fm_lines);
 
     let mut known: Vec<&(Option<String>, Vec<String>)> =
-        blocks.iter().filter(|b| is_known(b, order)).collect();
-    known.sort_by_key(|b| canonical_index(b, order));
+        blocks.iter().filter(|b| is_known(b, &order)).collect();
+    known.sort_by_key(|b| canonical_index(b, &order));
     let mut known = known.into_iter();
 
     let mut out = String::from(open);
     for block in &blocks {
-        let emitted = if is_known(block, order) {
+        let emitted = if is_known(block, &order) {
             known.next().expect("known count is stable")
         } else {
             block

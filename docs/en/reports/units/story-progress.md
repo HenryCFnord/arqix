@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: d4ab09d, 2026-07-12
+     Snapshot: 32e1b96, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -27,7 +27,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-17 | Configure Discovery Scope | 3 | 0 | 0 | `██████████` 100% |
 | US-01-01-18 | Configure the ID Policy | 0 | 0 | 5 | `░░░░░░░░░░` 0% |
-| US-01-01-19 | Configure Frontmatter Contracts | 1 | 0 | 3 | `██░░░░░░░░` 25% |
+| US-01-01-19 | Configure Frontmatter Contracts | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-20 | Create Documents from Template Files | 4 | 0 | 0 | `██████████` 100% |
 | US-02-01-01 | Initialize a Doc Package with One Command | 2 | 0 | 2 | `█████░░░░░` 50% |
 | US-02-01-02 | Create Units Quickly During Implementation | 1 | 0 | 3 | `██░░░░░░░░` 25% |

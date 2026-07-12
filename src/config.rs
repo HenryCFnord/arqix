@@ -252,6 +252,45 @@ pub fn templates_dir(dir: &Path) -> Option<String> {
         .map(str::to_string)
 }
 
+/// One configured document-family contract (`[kinds.<family>]`): the
+/// directory that selects the family and its canonical frontmatter key
+/// order (US-01-01-19). Families without a `dir` cannot be matched to
+/// files and are skipped.
+pub struct KindContract {
+    pub dir: String,
+    pub key_order: Vec<String>,
+}
+
+// arqix:implements REQ-01-01-19-01
+// arqix:implements REQ-01-01-19-02
+/// The configured family contracts, longest directory first so the most
+/// specific family wins (units under a page directory, for example).
+pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
+    let (config, _) = resolve(base);
+    let mut contracts: Vec<KindContract> = config
+        .sections
+        .get("kinds")
+        .and_then(Value::as_object)
+        .map(|kinds| {
+            kinds
+                .values()
+                .filter_map(|entry| {
+                    Some(KindContract {
+                        dir: entry
+                            .get("dir")?
+                            .as_str()?
+                            .trim_end_matches('/')
+                            .to_string(),
+                        key_order: json_string_array(entry.get("key-order"))?,
+                    })
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    contracts.sort_by_key(|c| std::cmp::Reverse(c.dir.len()));
+    contracts
+}
+
 /// The corpus default language (`[i18n] default-lang`, default `en`).
 pub fn default_lang(dir: &Path) -> String {
     let (config, _) = resolve(dir);

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: d4ab09d, 2026-07-12
+     Snapshot: 32e1b96, 2026-07-12
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -25,16 +25,19 @@
 | `expand` | src/assembler.rs:156 | REQ-02-01-12-01 |
 | `expand` | src/assembler.rs:157 | REQ-02-01-12-02 |
 | `expand` | src/assembler.rs:158 | REQ-02-01-12-03 |
-| `finalise` | src/rewriter.rs:306 | REQ-01-01-06-01 |
-| `finalise` | src/rewriter.rs:307 | REQ-01-01-06-02 |
-| `finalise` | src/rewriter.rs:308 | REQ-01-01-06-03 |
-| `finalise` | src/rewriter.rs:309 | REQ-00-00-00-08 |
-| `fmt` | src/rewriter.rs:176 | REQ-01-01-03-01 |
-| `fmt` | src/rewriter.rs:177 | REQ-01-01-03-02 |
-| `fmt` | src/rewriter.rs:178 | REQ-01-01-03-03 |
+| `finalise` | src/rewriter.rs:319 | REQ-01-01-06-01 |
+| `finalise` | src/rewriter.rs:320 | REQ-01-01-06-02 |
+| `finalise` | src/rewriter.rs:321 | REQ-01-01-06-03 |
+| `finalise` | src/rewriter.rs:322 | REQ-00-00-00-08 |
+| `fmt` | src/rewriter.rs:189 | REQ-01-01-03-01 |
+| `fmt` | src/rewriter.rs:190 | REQ-01-01-03-02 |
+| `fmt` | src/rewriter.rs:191 | REQ-01-01-03-03 |
 | `heading_ownership` | src/config.rs:228 | REQ-02-01-12-04 |
 | `init` | src/templates.rs:284 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:285 | REQ-01-01-01-02 |
+| `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
+| `kind_contracts` | src/config.rs:264 | REQ-01-01-19-01 |
+| `kind_contracts` | src/config.rs:265 | REQ-01-01-19-02 |
 | `list` | src/store.rs:88 | REQ-05-01-08-01 |
 | `list` | src/store.rs:89 | REQ-05-01-08-03 |
 | `matrix_command` | src/trace.rs:738 | REQ-03-01-02-01 |
@@ -62,7 +65,7 @@
 | `scan` | src/trace.rs:652 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:653 | REQ-03-01-05-05 |
 | `search` | src/store.rs:154 | REQ-02-01-06-01 |
-| `show` | src/config.rs:311 | REQ-01-01-16-02 |
+| `show` | src/config.rs:350 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:17 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
@@ -71,7 +74,7 @@
 | `template` | src/templates.rs:95 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:96 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:241 | REQ-01-01-20-01 |
-| `validate` | src/config.rs:300 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:339 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:23 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:24 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:25 | REQ-04-01-05-03 |
