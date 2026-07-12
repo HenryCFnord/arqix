@@ -190,6 +190,10 @@ pub struct PublishPolicy {
     /// Language-root-relative path prefixes that never stage (the publish
     /// scope; the ADR-0010 final-filter is the lifecycle-based successor).
     pub exclude: Vec<String>,
+    /// Repository-root-relative files or directories copied verbatim into
+    /// the staging dir (logo, favicon — the toolchain can only reference
+    /// what reaches staging).
+    pub assets: Vec<String>,
 }
 
 // arqix:implements REQ-04-01-03-03
@@ -217,6 +221,9 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
             .map(str::to_string),
         exclude: publish
             .and_then(|p| json_string_array(p.get("exclude")))
+            .unwrap_or_default(),
+        assets: publish
+            .and_then(|p| json_string_array(p.get("assets")))
             .unwrap_or_default(),
     }
 }

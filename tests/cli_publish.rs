@@ -228,3 +228,23 @@ fn publish_site_honours_the_configured_exclude_scope() {
         "an excluded subtree must not reach the staging dir"
     );
 }
+
+// arqix:no-requirement
+#[test]
+fn publish_site_stages_configured_assets() {
+    // The site toolchain can only reference what reaches the staging dir:
+    // logo and favicon are inputs like any page (site polish 2026-07-11).
+    let repo = scratch_copy("minimal", "publish_site_stages_configured_assets");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.publish]\nsite-command = \"true\"\nassets = [\"assets\"]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("assets")).unwrap();
+    std::fs::write(repo.join("assets/logo.png"), b"\x89PNG fake").unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        repo.join("site-src/assets/logo.png").is_file(),
+        "configured asset trees are copied into the staging dir verbatim"
+    );
+}

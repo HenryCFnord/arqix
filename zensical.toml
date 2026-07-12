@@ -13,6 +13,8 @@ copyright = "MIT OR Apache-2.0 · built in the open, with AI assistance document
 
 [project.theme]
 language = "en"
+logo = "assets/arqix-logo-transparent.png"
+favicon = "assets/arqix-logo-transparent.png"
 features = [
     "content.code.copy",
     "navigation.footer",
@@ -24,9 +26,6 @@ features = [
     "navigation.tracking",
     "search.highlight",
 ]
-
-[project.theme.icon]
-logo = "lucide/git-branch"
 
 [[project.theme.palette]]
 scheme = "default"
