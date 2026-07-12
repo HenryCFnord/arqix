@@ -379,3 +379,86 @@ fn doc_list_skips_the_default_directories_without_an_override() {
         "the default skip set must apply without any override"
     );
 }
+
+// arqix:verifies REQ-01-01-20-01
+#[test]
+fn doc_new_instantiates_the_configured_template_file() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_instantiates_the_configured_template_file",
+    );
+    std::fs::write(repo.join("arqix.toml"), "[templates]\ndir = \"tpl\"\n").unwrap();
+    std::fs::create_dir_all(repo.join("tpl")).unwrap();
+    std::fs::write(
+        repo.join("tpl/requirement.tpl.md"),
+        "---\nid: {id}\ntitle: {title}\nslug: {slug}\n---\n\n## {title}\n\nHouse style, not a string literal.\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "requirement", "--title", "Shaped by a File"],
+    );
+    assert_success(&out);
+    let created =
+        std::fs::read_to_string(repo.join("docs/requirement/REQUIREMENT-0001.md")).unwrap();
+    assert!(
+        created.contains("House style, not a string literal."),
+        "the configured template file shapes the document: {created}"
+    );
+    assert!(
+        created.contains("id: REQUIREMENT-0001")
+            && created.contains("title: Shaped by a File")
+            && created.contains("slug: shaped-by-a-file"),
+        "the placeholders substitute exactly as before: {created}"
+    );
+}
+
+// arqix:verifies REQ-01-01-20-02
+#[test]
+fn doc_init_scaffolds_the_default_template_files() {
+    let repo = scratch_copy("minimal", "doc_init_scaffolds_the_default_template_files");
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    let requirement = repo.join("docs/templates/requirement.tpl.md");
+    assert!(
+        requirement.is_file(),
+        "doc init scaffolds the default template files"
+    );
+    let text = std::fs::read_to_string(&requirement).unwrap();
+    assert!(
+        text.contains("{title}") && text.contains("{id}"),
+        "scaffolded templates keep their placeholders: {text}"
+    );
+    assert!(
+        text.contains("lifecycle-status: active"),
+        "the requirement template declares what the default gates accept: {text}"
+    );
+
+    // Init never overwrites: a shaped template survives a second init.
+    std::fs::write(&requirement, "house template\n").unwrap();
+    assert_success(&run_arqix_in(&repo, &["doc", "init"]));
+    assert_eq!(
+        std::fs::read_to_string(&requirement).unwrap(),
+        "house template\n"
+    );
+}
+
+// arqix:verifies REQ-01-01-20-03
+#[test]
+fn doc_new_fails_clearly_on_a_missing_template_file() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_fails_clearly_on_a_missing_template_file",
+    );
+    std::fs::write(repo.join("arqix.toml"), "[templates]\ndir = \"tpl\"\n").unwrap();
+    let out = run_arqix_in(&repo, &["doc", "new", "adr"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "a configured but missing template is a config error"
+    );
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(
+        stderr.contains("tpl/adr.tpl.md"),
+        "the diagnostic names the expected path: {stderr}"
+    );
+}

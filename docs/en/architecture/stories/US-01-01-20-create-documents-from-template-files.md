@@ -27,7 +27,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-11
   updated: 2026-07-11
@@ -42,10 +42,10 @@ As a maintainer, I want `doc new` and `doc init` to instantiate template files f
 
 ### Acceptance Criteria
 
-- [ ] `doc new` and `unit new` instantiate the template file configured for the kind; the string literals in the engine are removed.
-- [ ] `doc init` scaffolds the default template files into the configured template directory.
-- [ ] A missing configured template file fails with a diagnostic naming the expected path.
-- [ ] The placeholders `{id}`, `{title}`, and `{slug}` substitute exactly as before, and an unconfigured repository produces byte-identical documents.
+- [x] `doc new` and `unit new` instantiate the template file configured for the kind; the string literals in the engine are removed.
+- [x] `doc init` scaffolds the default template files into the configured template directory.
+- [x] A missing configured template file fails with a diagnostic naming the expected path.
+- [x] The placeholders `{id}`, `{title}`, and `{slug}` substitute exactly as before, and an unconfigured repository produces byte-identical documents.
 
 ### Notes
 

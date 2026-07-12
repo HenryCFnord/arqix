@@ -238,6 +238,20 @@ pub fn heading_ownership(dir: &Path) -> String {
         .to_string()
 }
 
+// arqix:implements REQ-01-01-20-01
+/// The configured template directory (`[templates] dir`), if any — the
+/// engine falls back to the package-local scaffold and the embedded
+/// default when it is absent (US-01-01-20).
+pub fn templates_dir(dir: &Path) -> Option<String> {
+    let (config, _) = resolve(dir);
+    config
+        .sections
+        .get("templates")?
+        .get("dir")?
+        .as_str()
+        .map(str::to_string)
+}
+
 /// The corpus default language (`[i18n] default-lang`, default `en`).
 pub fn default_lang(dir: &Path) -> String {
     let (config, _) = resolve(dir);

@@ -11,7 +11,7 @@ This document describes planned work for arqix.
 It is intentionally rough and will evolve as the project matures.
 Items are in approximate priority order, not a fixed schedule.
 
-Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 62/126 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
+Progress through the implementation phases is measured by one number: the share of functional requirements referenced by `arqix:verifies` markers in the test suite (reported by `scripts/check_trace_markers.py`; currently 65/126 — the generated [scoreboard](../reports/units/scoreboard.md) is the always-current view).
 "Done" for a story means its skeleton tests are un-ignored and green.
 
 ## Phase 0 — Foundation (done)
