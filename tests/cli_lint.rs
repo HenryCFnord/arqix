@@ -2,7 +2,7 @@
 
 mod common;
 
-use common::{fixture, run_arqix_in};
+use common::{assert_success, fixture, run_arqix_in, scratch_copy};
 
 // arqix:verifies REQ-01-01-04-01
 #[test]
@@ -128,4 +128,74 @@ fn lint_reports_each_unverified_requirement_of_a_done_story() {
     )
     .unwrap();
     common::assert_success(&run_arqix_in(&repo, &["lint", "run"]));
+}
+
+// arqix:verifies REQ-01-01-18-01
+#[test]
+fn lint_validates_id_shape_against_the_configured_pattern() {
+    let repo = scratch_copy(
+        "minimal",
+        "lint_validates_id_shape_against_the_configured_pattern",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.ticket]\ndir = \"docs/ticket\"\nid-pattern = '^T-(?P<seq>\\d{3})$'\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/ticket")).unwrap();
+    std::fs::write(
+        repo.join("docs/ticket/T-04.md"),
+        "---\nid: T-04\ntitle: Too Short\n---\n\n## Too Short\n\nBody.\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "run"]);
+    assert_eq!(out.status.code(), Some(1), "a shape violation is a finding");
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("LNT-006") && stdout.contains("T-04"),
+        "the finding names the offending id: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-01-01-18-04
+#[test]
+fn lint_checks_encoded_groups_against_declared_triples() {
+    // Where the pattern declares a story group, the encoded slice must
+    // agree with the declared owner triple (ADR-0012: triples are the
+    // source of truth; groups only activate consistency checks).
+    let repo = scratch_copy(
+        "minimal",
+        "lint_checks_encoded_groups_against_declared_triples",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.spec]\ndir = \"docs/spec\"\nid-pattern = '^SPEC-(?P<story>\\d{2})-(?P<seq>\\d{2})$'\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/spec")).unwrap();
+    std::fs::write(
+        repo.join("docs/story-07.md"),
+        "---\nid: US-07\ntitle: Story Seven\niri: arqix:user-stories/us-07\n---\n\n## Story Seven\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/spec/SPEC-07-01.md"),
+        "---\nid: SPEC-07-01\ntitle: Consistent\niri: arqix:requirements/spec-07-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-07\n---\n\n## Consistent\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["lint", "run"]));
+
+    // The encoded story slice contradicts the declared owner.
+    std::fs::write(
+        repo.join("docs/spec/SPEC-99-01.md"),
+        "---\nid: SPEC-99-01\ntitle: Contradiction\niri: arqix:requirements/spec-99-01\nrdf:\n  type:\n    - arqix:classes/functional-requirement\ntriples:\n  - predicate: arqix:properties/derived-from\n    object:\n      - arqix:user-stories/us-07\n---\n\n## Contradiction\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "run"]);
+    assert_eq!(out.status.code(), Some(1));
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("LNT-007") && stdout.contains("SPEC-99-01"),
+        "the finding names the contradicting id: {stdout}"
+    );
 }

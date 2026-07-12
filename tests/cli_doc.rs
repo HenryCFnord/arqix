@@ -461,4 +461,38 @@ fn doc_new_fails_clearly_on_a_missing_template_file() {
         stderr.contains("tpl/adr.tpl.md"),
         "the diagnostic names the expected path: {stderr}"
     );
+
+// arqix:verifies REQ-01-01-18-01
+#[test]
+fn doc_new_generates_ids_from_the_configured_pattern() {
+    let repo = scratch_copy("minimal", "doc_new_generates_ids_from_the_configured_pattern");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.ticket]\ndir = \"docs/ticket\"\nid-pattern = '^T-(?P<seq>\\d{3})$'\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/ticket")).unwrap();
+    std::fs::write(
+        repo.join("docs/ticket/T-041.md"),
+        "---\nid: T-041\ntitle: Existing\n---\n\n## Existing\n\nBody.\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["doc", "new", "ticket", "--format", "json"]);
+    assert_success(&out);
+    let result = stdout_json(&out);
+    assert_eq!(
+        result["id"], "T-042",
+        "the seq group tells generation what to count: {result}"
+    );
+}
+
+// arqix:verifies REQ-01-01-18-03
+#[test]
+fn doc_new_defaults_keep_the_current_id_shapes() {
+    // Without configuration, the defaults reproduce the present shapes —
+    // the existing corpus and its checks are unchanged (ADR-0012).
+    let repo = scratch_copy("minimal", "doc_new_defaults_keep_the_current_id_shapes");
+    let out = run_arqix_in(&repo, &["doc", "new", "requirement", "--dry-run", "--format", "json"]);
+    assert_success(&out);
+    assert_eq!(common::stdout_json(&out)["id"], "REQUIREMENT-0001");
 }
