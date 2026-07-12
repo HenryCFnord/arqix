@@ -12,7 +12,7 @@ A missing file is valid — it simply means no overrides.
 | `skip-dirs` | array of strings | `[".git", "target", "node_modules", "__pycache__", "fixtures"]` | yes — type-checked |
 | `kinds` | table | empty | accepted; per-family contract entries are read (below), other content validated in a later schema version |
 | `templates` | table | empty | accepted; `dir` is read (below), other content validated in a later schema version |
-| `policies` | table | empty | accepted; `policies.verify` and `policies.publish` are read (below), other content validated in a later schema version |
+| `policies` | table | empty | accepted; `policies.verify`, `policies.publish`, and `policies.change` are read (below), other content validated in a later schema version |
 | `i18n` | table | empty | accepted; `default-lang` is read (below), other content validated in a later schema version |
 
 Unknown top-level keys are ignored with a warning — forward compatibility for configs written against newer schema versions.
@@ -85,6 +85,22 @@ heading-ownership = "child"
 - The include directive's optional level argument overrides the default per include: `level=N` places the fragment's first heading at level N (1–6), `level=+N` places it N levels below the heading in effect.
   The delta applies to every heading of the fragment; a shift out of the h1–h6 range fails the assembly (ASM-005).
 - Relative links inside included fragments are rebased to the including page's location during assembly, so assembled pages stay artefact-ready.
+
+## The change policy
+
+`[policies.change]` declares the change scope `arqix policy check <file>...` evaluates changed files against (REQ-01-01-07-01/-02/-03):
+
+```toml
+[policies.change]
+allow = ["docs/", "CHANGELOG.md"]
+mode = "gate"
+```
+
+- The changed-file list is external and positional — typically `git diff --name-only`; at least one file is required (a bare invocation is a usage error, exit 2).
+- `allow` — the allowed path prefixes: a trailing slash declares a subtree (`docs/` allows everything under `docs/`), an exact entry declares that one file (`CHANGELOG.md` allows exactly that path, not `CHANGELOG.md.bak`).
+- `mode` — `gate` (the default): violations are errors and the check exits 1; `warn`: violations are reported as warnings and the check stays successful (warn-only introduction, REQ-01-01-07-03).
+- The mechanism is optional: without a declared `[policies.change]` table there is nothing to enforce — the check exits 0 with a note.
+- Violations carry the diagnostic code `POL-001` and follow the tool-wide shape, so `--format json` is CI-consumable.
 
 ## The reports policy
 

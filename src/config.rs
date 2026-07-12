@@ -237,6 +237,31 @@ pub fn publish_policy(dir: &Path) -> PublishPolicy {
     }
 }
 
+/// The change policy: the declared change scope `policy check` evaluates
+/// changed files against (US-01-01-07). `allow` lists path prefixes — a
+/// trailing slash declares a subtree, an exact entry that one file; `mode`
+/// is `gate` (default) or `warn` for warn-only enforcement.
+pub struct ChangePolicy {
+    pub allow: Vec<String>,
+    pub mode: String,
+}
+
+// arqix:implements REQ-01-01-07-01
+/// The declared `[policies.change]` table, if any — the mechanism is
+/// optional, so an absent table means there is nothing to enforce.
+pub fn change_policy(dir: &Path) -> Option<ChangePolicy> {
+    let (config, _) = resolve(dir);
+    let change = config.sections.get("policies")?.get("change")?;
+    Some(ChangePolicy {
+        allow: json_string_array(change.get("allow")).unwrap_or_default(),
+        mode: change
+            .get("mode")
+            .and_then(Value::as_str)
+            .unwrap_or("gate")
+            .to_string(),
+    })
+}
+
 /// The assemble policy: who owns section headings in a stitched corpus
 /// (ADR-0013). `child` (default) — fragments own their headings and a bare
 /// include behaves as `level=+1`; `parent` — the page declares the outline

@@ -11,6 +11,7 @@ mod diag;
 mod linter;
 mod mcp;
 mod parser;
+mod policy;
 mod publisher;
 mod reporter;
 mod rewriter;
@@ -246,7 +247,11 @@ enum RenderCommand {
 #[derive(Subcommand)]
 enum PolicyCommand {
     /// Evaluate changed files against the declared change scope
-    Check,
+    Check {
+        /// Changed files to evaluate (e.g. from `git diff --name-only`)
+        #[arg(required = true)]
+        files: Vec<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -328,7 +333,7 @@ fn main() -> ExitCode {
             RenderCommand::Pdf => unimplemented("render pdf"),
         },
         Command::Policy { command } => match command {
-            PolicyCommand::Check => unimplemented("policy check"),
+            PolicyCommand::Check { files } => policy::check(&files, cli.format),
         },
         Command::Verify {
             fail_fast,
