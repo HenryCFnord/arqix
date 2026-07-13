@@ -10,6 +10,42 @@ use common::{run_arqix_in, scratch_copy};
 /// there is deliberately no built-in renderer and no fallback.
 const NOOP_TOOLCHAIN: &str = "[policies.publish]\nsite-command = \"true\"\n";
 
+// arqix:verifies REQ-04-01-07-04
+#[test]
+fn publish_site_stages_doc_assets_at_page_relative_paths() {
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_stages_doc_assets_at_page_relative_paths",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.publish]\nsite-command = \"true\"\n\
+         assets = [\"assets/brand.svg\", \"docs/media/diagram.svg\"]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("assets")).unwrap();
+    std::fs::write(repo.join("assets/brand.svg"), "<svg/>\n").unwrap();
+    std::fs::create_dir_all(repo.join("docs/media")).unwrap();
+    std::fs::write(repo.join("docs/media/diagram.svg"), "<svg/>\n").unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    // The asset under the doc root stages with the `docs/` prefix stripped, so a
+    // staged page's `../media/diagram.svg`-style link resolves.
+    assert!(
+        repo.join("site-src/media/diagram.svg").is_file(),
+        "a doc-root asset stages at its document-relative path"
+    );
+    assert!(
+        !repo.join("site-src/docs/media/diagram.svg").exists(),
+        "the verbatim docs/ path must not be used for a doc-root asset"
+    );
+    // An asset outside any doc root keeps its configured path.
+    assert!(
+        repo.join("site-src/assets/brand.svg").is_file(),
+        "a non-doc-root asset stages verbatim"
+    );
+}
+
 // arqix:verifies REQ-04-01-07-03
 #[test]
 fn publish_site_omits_included_fragments() {
@@ -30,8 +66,7 @@ fn publish_site_omits_included_fragments() {
         !repo.join("site-src/fragment.md").exists(),
         "an included fragment must not be staged as a standalone page"
     );
-    let page =
-        std::fs::read_to_string(repo.join("site-src/page.md")).expect("site-src/page.md");
+    let page = std::fs::read_to_string(repo.join("site-src/page.md")).expect("site-src/page.md");
     assert!(
         page.contains("Frag Body"),
         "the fragment still reaches the site through its parent page: {page}"

@@ -120,11 +120,15 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         return code;
     }
 
-    // Configured assets ride along verbatim: the toolchain can only
-    // reference what reaches the staging dir.
+    // Configured assets ride along so the toolchain can reference them. An
+    // asset under a doc root's language dir is staged at the same
+    // language-root-relative path as the pages (which strip that prefix), so a
+    // page's relative link to it resolves (REQ-04-01-07-04); anything else —
+    // e.g. brand assets under `assets/` — is staged verbatim.
     for asset in &policy.assets {
         let source = Path::new(asset);
-        if let Err(code) = copy_asset(source, &PathBuf::from(&policy.staging_dir).join(asset)) {
+        let target = PathBuf::from(&policy.staging_dir).join(staged_asset_rel(asset, lang));
+        if let Err(code) = copy_asset(source, &target) {
             return code;
         }
     }
@@ -535,6 +539,27 @@ fn copy_asset(source: &Path, target: &Path) -> Result<(), ExitCode> {
 
 /// Collect Markdown sources under `dir`, path-sorted, honouring the skip
 /// set; templates (`.tpl.md`) are never published.
+// arqix:implements REQ-04-01-07-04
+/// The staging-relative path for a configured asset. An asset under a doc
+/// root's language directory is placed at the same language-root-relative
+/// location as the pages (which strip that prefix on staging), so a page's
+/// relative link resolves against the staged asset; any other asset keeps its
+/// configured path.
+fn staged_asset_rel(asset: &str, lang: &str) -> PathBuf {
+    for root in crate::config::roots(Path::new(".")) {
+        let lang_root = Path::new(&root).join(lang);
+        let prefix = if lang_root.is_dir() {
+            format!("{}/", lang_root.to_string_lossy().replace('\\', "/"))
+        } else {
+            format!("{root}/")
+        };
+        if let Some(rel) = asset.strip_prefix(&prefix) {
+            return PathBuf::from(rel);
+        }
+    }
+    PathBuf::from(asset)
+}
+
 // arqix:implements REQ-04-01-07-03
 /// The canonical paths of every fragment pulled in by an `arqix:include`
 /// directive anywhere in the corpus roots. Such a fragment is published
