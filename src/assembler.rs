@@ -162,6 +162,24 @@ struct Walk<'a> {
 /// heading level in effect at the include position; `target_level` is the
 /// resolved level the fragment's first heading must land on (None inlines
 /// verbatim — the root document and parent-owned bare includes).
+/// The number of leading lines a YAML frontmatter block occupies, through its
+/// closing `---` (0 when the text has no frontmatter). Used to skip a stitched
+/// fragment's own frontmatter so it never lands in the assembled body.
+fn frontmatter_line_count(text: &str) -> usize {
+    let mut lines = text.lines();
+    if lines.next() != Some("---") {
+        return 0;
+    }
+    let mut n = 1;
+    for line in lines {
+        n += 1;
+        if line == "---" {
+            return n;
+        }
+    }
+    0
+}
+
 fn expand(
     file: &Path,
     at_line: usize,
@@ -211,10 +229,23 @@ fn expand(
 
     let dir = file.parent().unwrap_or_else(|| Path::new("."));
     let is_fragment = at_line > 0;
+    // A fragment carries its own YAML frontmatter; a stitched document must not
+    // inline it, or it renders as a stray metadata block in the assembled page
+    // (found on arqix.dev). Skip those leading lines rather than slicing, so
+    // `idx` stays aligned to the source file for diagnostics. The root document
+    // keeps its frontmatter for the toolchain to consume.
+    let frontmatter_end = if is_fragment {
+        frontmatter_line_count(&text)
+    } else {
+        0
+    };
     let mut current = base_level;
     let mut in_fence = false;
     let mut out = String::new();
     for (idx, line) in text.lines().enumerate() {
+        if idx < frontmatter_end {
+            continue;
+        }
         // Fenced code is opaque: no headings, no directives, no links.
         if line.trim_start().starts_with("```") {
             in_fence = !in_fence;
