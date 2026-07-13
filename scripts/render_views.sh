@@ -19,11 +19,15 @@ MODEL_DIR="docs/en/architecture/model"
 OUT="${1:-$MODEL_DIR/generated}"
 # The views declared in workspace.dsl that documents embed.
 VIEWS=("SystemContext" "Containers")
+# Pin the renderer: Kroki renders structurizr via PlantUML, whose layout
+# coordinates depend on the version, so the freshness gate is only stable
+# against a fixed image tag. Override KROKI_IMAGE to match your local pull.
+KROKI_IMAGE="${KROKI_IMAGE:-yuzutech/kroki}"
 
 KROKI_URL="${KROKI_URL:-}"
 started=""
 if [[ -z "$KROKI_URL" ]]; then
-  docker run -d --rm --name arqix-kroki -p 8000:8000 yuzutech/kroki >/dev/null
+  docker run -d --rm --name arqix-kroki -p 8000:8000 "$KROKI_IMAGE" >/dev/null
   started="1"
   KROKI_URL="http://localhost:8000"
   for _ in $(seq 1 30); do curl -sf "$KROKI_URL/health" >/dev/null 2>&1 && break; sleep 1; done

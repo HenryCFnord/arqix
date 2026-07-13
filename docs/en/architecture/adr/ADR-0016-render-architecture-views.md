@@ -36,6 +36,7 @@ It worked, but a subsequent review found the class of problem it invites: a hand
 The cleaner design removes the hand-authored diagram entirely.
 arqix already orchestrates external renderers — Pandoc for PDF, a configured site command such as Zensical — so rendering the C4 views from the model as images and embedding those fits the established pattern: a diagram that is generated from the single source cannot drift from it, and there is no dialect to parse.
 `structurizr-cli` and Kroki emit a flowchart Mermaid dialect, not the `C4Context` dialect the diagrams used, so the views become rendered images rather than regenerated Mermaid.
+This reverses the "committing rendered Structurizr images (PNG/SVG)" alternative that ADR-0002 rejected as "not diffable, invisible in code review, and foreign to the Pages toolchain": a container render pipeline plus a regenerate-and-diff freshness gate answers the toolchain objection, and the drift the hand-authored Mermaid invited outweighs the reduced diffability of a generated SVG.
 
 ### Decision
 

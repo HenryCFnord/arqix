@@ -164,27 +164,22 @@ fn adrs_follow_the_path_model_in_the_canonical_governance_language() {
 
 // arqix:verifies REQ-01-01-11-04
 #[test]
-fn architecture_views_use_c4_oriented_mermaid_diagrams() {
+fn architecture_views_are_generated_from_the_c4_model() {
     assert!(
         root()
             .join("docs/en/architecture/model/workspace.dsl")
             .is_file(),
         "the C4 model source docs/en/architecture/model/workspace.dsl must exist"
     );
-    let has_c4_mermaid_block = dir_entries("docs/en/architecture/arc42/units")
+    // The views are rendered from the model (ADR-0016): an arc42 unit embeds a
+    // generated image carrying the derived-from provenance marker.
+    let embeds_generated_view = dir_entries("docs/en/architecture/arc42/units")
         .iter()
         .map(|p| std::fs::read_to_string(p).unwrap())
-        .any(|text| {
-            text.split("```mermaid").skip(1).any(|after_open| {
-                after_open
-                    .split("```")
-                    .next()
-                    .is_some_and(|block| block.contains("C4"))
-            })
-        });
+        .any(|text| text.contains("model/generated/") && text.contains("derived from"));
     assert!(
-        has_c4_mermaid_block,
-        "at least one arc42 unit must embed a fenced mermaid block using a C4 macro"
+        embeds_generated_view,
+        "at least one arc42 unit must embed an architecture view generated from the model"
     );
 }
 

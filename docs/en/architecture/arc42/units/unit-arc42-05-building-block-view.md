@@ -28,19 +28,7 @@ meta:
 ## Building Block View
 
 <!-- derived from ../model/workspace.dsl (view: Containers) -->
-```mermaid
-C4Container
-    title arqix — Containers
-    Person(agent, "Coding Agent", "")
-    System_Boundary(arqixB, "arqix") {
-        Container(cli, "arqix binary", "Rust", "All commands; effective-config resolution")
-        Container(config, "arqix.toml", "TOML", "Kinds, templates, roots, policies, i18n")
-        Container(corpus, "Documentation Corpus", "Markdown + YAML", "Documents, ontology, trace markers")
-    }
-    Rel(agent, cli, "invokes commands")
-    Rel(cli, config, "resolves at startup")
-    Rel(cli, corpus, "reads, creates, formats, assembles")
-```
+![arqix — Containers](../../model/generated/containers.svg)
 
 The binary decomposes into fifteen components: the CLI entrypoint as composition root, the document parser as shared reading layer, the verification orchestrator sequencing the quality gate, and twelve feature components cut along the requirement clusters:
 
