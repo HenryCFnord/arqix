@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 86caac9, 2026-07-13
+     Snapshot: 6b49f5c, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -81,6 +81,7 @@
 | `finalise_rejects_a_non_iso_date` | tests/cli_finalise.rs:41 | REQ-01-01-06-01 | active |
 | `finalise_sets_updated_to_the_injected_date` | tests/cli_finalise.rs:9 | REQ-01-01-06-01 | active |
 | `finalise_touches_only_the_meta_updated_field` | tests/cli_finalise.rs:65 | REQ-01-01-06-01 | active |
+| `finding_messages_match_the_oracle_formatting` | src/checkers/frontmatter.rs:1534 | REQ-01-01-11-07 | active |
 | `finding_messages_match_the_oracle_formatting` | src/checkers/requirements.rs:1108 | REQ-01-01-11-06 | active |
 | `fmt_and_config_show_share_one_contract_source` | tests/cli_fmt.rs:102 | REQ-01-01-19-02 | active |
 | `fmt_is_idempotent` | tests/cli_fmt.rs:62 | REQ-00-00-00-01 | active |
@@ -107,6 +108,7 @@
 | `init_alias_mirrors_doc_init` | tests/cli_doc.rs:38 | REQ-01-01-01-03 | active |
 | `lint_checks_encoded_groups_against_declared_triples` | tests/cli_lint.rs:160 | REQ-01-01-18-04 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
+| `lint_frontmatter_reports_contract_violations_as_json` | tests/cli_lint_frontmatter.rs:43 | REQ-01-01-11-07 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
 | `lint_requirements_reports_authoring_violations_as_json` | tests/cli_lint_requirements.rs:66 | REQ-01-01-11-06 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
@@ -158,6 +160,7 @@
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
+| `selftest_cases_match_the_oracle` | src/checkers/frontmatter.rs:1312 | REQ-01-01-11-07 | active |
 | `sentence_checks_match_the_oracle_selftest_cases` | src/checkers/requirements.rs:928 | REQ-01-01-11-06 | active |
 | `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:472 | REQ-04-01-03-02 | active |
 | `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
