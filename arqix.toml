@@ -28,4 +28,9 @@ exclude = [
     "architecture/personas",
 ]
 # Brand assets ride into staging so the toolchain can reference them.
-assets = ["assets/arqix-logo-transparent.png"]
+# The generated architecture views (ADR-0016) ride along the same way: the C4
+# SVGs rendered from workspace.dsl reach staging so the docs can embed them.
+assets = [
+    "assets/arqix-logo-transparent.png",
+    "docs/en/architecture/model/generated",
+]
