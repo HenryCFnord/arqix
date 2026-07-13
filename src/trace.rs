@@ -1574,4 +1574,148 @@ mod tests {
         assert_eq!(edge.file.as_deref(), Some("docs/unit.md"));
         assert_eq!(edge.line, 8); // the body line of the marker
     }
+
+    // arqix:verifies REQ-03-01-06-04
+    #[test]
+    fn marker_gate_matches_the_oracle_selftest_cases() {
+        // The oracle's SELFTEST_CASES (check_trace_markers.py), ported verbatim.
+        // Each source is a single-line literal (with `\n` escapes) so no
+        // physical line of this file is itself a whole-line marker the gate
+        // would read out of its own source.
+        let known_reqs: BTreeSet<String> = ["REQ-01-01-16-01", "REQ-01-01-16-02"]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
+        let known_stories: BTreeSet<String> =
+            ["US-01-01-16"].iter().map(|s| s.to_string()).collect();
+        let cases: Vec<(&str, &str, Vec<&str>)> = vec![
+            (
+                "clean marked test",
+                "// arqix:verifies REQ-01-01-16-01\n#[test]\n#[ignore = \"US-01-01-16: not implemented\"]\nfn a() {\n",
+                vec![],
+            ),
+            (
+                "clean no-requirement test",
+                "// arqix:no-requirement\n#[test]\nfn a() {\n",
+                vec![],
+            ),
+            (
+                "unknown requirement",
+                "// arqix:verifies REQ-99-99-99-99\n#[test]\nfn a() {\n",
+                vec!["TRC-001"],
+            ),
+            ("missing marker", "#[test]\nfn a() {\n", vec!["TRC-002"]),
+            (
+                "bad ignore reason",
+                "// arqix:verifies REQ-01-01-16-01\n#[test]\n#[ignore = \"todo\"]\nfn a() {\n",
+                vec!["TRC-003"],
+            ),
+            (
+                "unknown story in ignore reason",
+                "// arqix:verifies REQ-01-01-16-01\n#[test]\n#[ignore = \"US-99-99-99: not implemented\"]\nfn a() {\n",
+                vec!["TRC-003"],
+            ),
+            (
+                "ignore without reason",
+                "// arqix:verifies REQ-01-01-16-01\n#[test]\n#[ignore]\nfn a() {\n",
+                vec!["TRC-003"],
+            ),
+            (
+                "malformed marker payload",
+                "// arqix:verifies REQ-1-2-3\n#[test]\nfn a() {\n",
+                vec!["TRC-004"],
+            ),
+            (
+                "contradictory annotations",
+                "// arqix:verifies REQ-01-01-16-01\n// arqix:no-requirement\n#[test]\nfn a() {\n",
+                vec!["TRC-005"],
+            ),
+            (
+                "marker separated by blank line does not attach",
+                "// arqix:verifies REQ-01-01-16-01\n\n#[test]\nfn a() {\n",
+                vec!["TRC-002"],
+            ),
+            (
+                "two markers on one test",
+                "// arqix:verifies REQ-01-01-16-01\n// arqix:verifies REQ-01-01-16-02\n#[test]\nfn a() {\n",
+                vec![],
+            ),
+            ("helper fn is not a test", "fn helper() {\n", vec![]),
+            (
+                "trailing marker on the fn line is no marker",
+                "#[test]\nfn a() { // arqix:verifies REQ-01-01-16-01\n",
+                vec!["TRC-002"],
+            ),
+            (
+                "pub(crate) test fn is still a test",
+                "#[test]\npub(crate) fn a() {\n",
+                vec!["TRC-002"],
+            ),
+            (
+                "async test fn is still a test",
+                "#[test]\nasync fn a() {\n",
+                vec!["TRC-002"],
+            ),
+            (
+                "marker above a helper fn is still validated",
+                "// arqix:verifies REQ-99-99-99-99\nfn helper() {\n",
+                vec!["TRC-001"],
+            ),
+        ];
+        for (name, text, expected) in cases {
+            // Mirror run_checks: attachment rules plus global payload validation.
+            let mut findings = gate_check_test_file(text, &known_stories, "t.rs");
+            findings.extend(gate_check_marker_targets(text, &known_reqs, "t.rs"));
+            findings.sort();
+            let rules: Vec<&str> = findings.iter().map(|(_, _, r, _)| r.as_str()).collect();
+            assert_eq!(rules, expected, "case {name:?}: rules mismatch");
+        }
+    }
+
+    // arqix:verifies REQ-03-01-06-04
+    #[test]
+    fn marker_gate_matches_the_oracle_backlink_cases() {
+        // The oracle's BACKLINK_CASES: derived-from and has-requirement are
+        // double bookkeeping that must stay symmetric.
+        let derived_edge = || Edge {
+            from: "REQ-01-01-16-01".to_string(),
+            to: "US-01-01-16".to_string(),
+            kind: "derived-from".to_string(),
+            line: 5,
+            ignored: false,
+            test: None,
+            file: Some("r.md".to_string()),
+        };
+        let backlink_edge = || Edge {
+            from: "US-01-01-16".to_string(),
+            to: "REQ-01-01-16-01".to_string(),
+            kind: "has-requirement".to_string(),
+            line: 7,
+            ignored: false,
+            test: None,
+            file: Some("s.md".to_string()),
+        };
+        let cases: Vec<(&str, Vec<Edge>, Vec<&str>)> = vec![
+            (
+                "symmetric backlinks are clean",
+                vec![derived_edge(), backlink_edge()],
+                vec![],
+            ),
+            (
+                "missing has-requirement backlink",
+                vec![derived_edge()],
+                vec!["TRC-006"],
+            ),
+            (
+                "missing derived-from counterpart",
+                vec![backlink_edge()],
+                vec!["TRC-006"],
+            ),
+        ];
+        for (name, edges, expected) in cases {
+            let findings = gate_check_backlinks(&edges);
+            let rules: Vec<&str> = findings.iter().map(|(_, _, r, _)| r.as_str()).collect();
+            assert_eq!(rules, expected, "case {name:?}: rules mismatch");
+        }
+    }
 }
