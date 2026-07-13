@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6b49f5c, 2026-07-13
+     Snapshot: c561778, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -14,27 +14,27 @@
 | `build` | src/assembler.rs:27 | REQ-04-01-01-03 |
 | `build` | src/assembler.rs:28 | REQ-04-01-01-04 |
 | `build` | src/assembler.rs:29 | REQ-04-01-01-05 |
-| `bundle` | src/reporter.rs:15 | REQ-03-01-04-01 |
-| `bundle` | src/reporter.rs:16 | REQ-03-01-04-02 |
-| `bundle` | src/reporter.rs:17 | REQ-03-01-04-03 |
-| `bundle` | src/reporter.rs:18 | REQ-04-01-12-01 |
-| `bundle` | src/reporter.rs:19 | REQ-04-01-12-02 |
-| `bundle` | src/reporter.rs:20 | REQ-04-01-12-03 |
+| `bundle` | src/reporter.rs:16 | REQ-03-01-04-01 |
+| `bundle` | src/reporter.rs:17 | REQ-03-01-04-02 |
+| `bundle` | src/reporter.rs:18 | REQ-03-01-04-03 |
+| `bundle` | src/reporter.rs:19 | REQ-04-01-12-01 |
+| `bundle` | src/reporter.rs:20 | REQ-04-01-12-02 |
+| `bundle` | src/reporter.rs:21 | REQ-04-01-12-03 |
 | `change_policy` | src/config.rs:266 | REQ-01-01-07-01 |
 | `check` | src/policy.rs:31 | REQ-01-01-07-02 |
 | `check` | src/policy.rs:32 | REQ-01-01-07-03 |
-| `check_command` | src/trace.rs:887 | REQ-03-01-06-01 |
-| `check_command` | src/trace.rs:888 | REQ-03-01-06-02 |
-| `check_command` | src/trace.rs:889 | REQ-03-01-06-03 |
+| `check_command` | src/trace.rs:937 | REQ-03-01-06-01 |
+| `check_command` | src/trace.rs:938 | REQ-03-01-06-02 |
+| `check_command` | src/trace.rs:939 | REQ-03-01-06-03 |
 | `check_done_claims` | src/linter.rs:286 | REQ-03-01-09-01 |
 | `check_id_policy` | src/linter.rs:37 | REQ-01-01-18-01 |
 | `check_id_policy` | src/linter.rs:38 | REQ-01-01-18-04 |
 | `check_lifecycle_vocabulary` | src/linter.rs:257 | REQ-03-01-09-02 |
-| `coverage_command` | src/trace.rs:861 | REQ-01-01-08-01 |
-| `coverage_command` | src/trace.rs:862 | REQ-01-01-08-02 |
-| `coverage_command` | src/trace.rs:863 | REQ-01-01-08-03 |
-| `coverage_command` | src/trace.rs:865 | REQ-03-01-10-02 |
-| `coverage_command` | src/trace.rs:866 | REQ-03-01-10-03 |
+| `coverage_command` | src/trace.rs:911 | REQ-01-01-08-01 |
+| `coverage_command` | src/trace.rs:912 | REQ-01-01-08-02 |
+| `coverage_command` | src/trace.rs:913 | REQ-01-01-08-03 |
+| `coverage_command` | src/trace.rs:915 | REQ-03-01-10-02 |
+| `coverage_command` | src/trace.rs:916 | REQ-03-01-10-03 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
 | `expand` | src/assembler.rs:156 | REQ-02-01-12-01 |
 | `expand` | src/assembler.rs:157 | REQ-02-01-12-02 |
@@ -46,8 +46,8 @@
 | `fmt` | src/rewriter.rs:191 | REQ-01-01-03-01 |
 | `fmt` | src/rewriter.rs:192 | REQ-01-01-03-02 |
 | `fmt` | src/rewriter.rs:193 | REQ-01-01-03-03 |
-| `freshness` | src/trace.rs:1164 | REQ-03-01-11-01 |
-| `freshness` | src/trace.rs:1165 | REQ-03-01-11-02 |
+| `freshness` | src/trace.rs:1214 | REQ-03-01-11-01 |
+| `freshness` | src/trace.rs:1215 | REQ-03-01-11-02 |
 | `heading_ownership` | src/config.rs:331 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:407 | REQ-01-01-18-01 |
 | `init` | src/templates.rs:361 | REQ-01-01-01-01 |
@@ -55,18 +55,18 @@
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:372 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:373 | REQ-01-01-19-02 |
-| `knowledge` | src/reporter.rs:124 | REQ-05-01-15-01 |
-| `knowledge` | src/reporter.rs:125 | REQ-05-01-15-02 |
-| `knowledge` | src/reporter.rs:126 | REQ-05-01-15-03 |
+| `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
+| `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
+| `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `lint` | src/checkers/frontmatter.rs:1194 | REQ-01-01-11-07 |
 | `lint` | src/checkers/requirements.rs:864 | REQ-01-01-11-06 |
 | `list` | src/store.rs:145 | REQ-05-01-08-01 |
 | `list` | src/store.rs:146 | REQ-05-01-08-03 |
-| `marker_body` | src/trace.rs:287 | REQ-03-01-10-01 |
-| `markers_command` | src/trace.rs:1684 | REQ-03-01-06-04 |
-| `matrix_command` | src/trace.rs:940 | REQ-03-01-02-01 |
-| `matrix_command` | src/trace.rs:941 | REQ-03-01-02-02 |
-| `matrix_command` | src/trace.rs:942 | REQ-03-01-02-03 |
+| `marker_body` | src/trace.rs:290 | REQ-03-01-10-01 |
+| `markers_command` | src/trace.rs:1734 | REQ-03-01-06-04 |
+| `matrix_command` | src/trace.rs:990 | REQ-03-01-02-01 |
+| `matrix_command` | src/trace.rs:991 | REQ-03-01-02-02 |
+| `matrix_command` | src/trace.rs:992 | REQ-03-01-02-03 |
 | `new_document` | src/templates.rs:242 | REQ-00-00-00-05 |
 | `new_document` | src/templates.rs:243 | REQ-00-00-00-09 |
 | `new_document` | src/templates.rs:244 | REQ-00-00-00-13 |
@@ -77,8 +77,8 @@
 | `pdf` | src/publisher.rs:168 | REQ-04-01-03-06 |
 | `pdf` | src/publisher.rs:169 | REQ-04-01-03-07 |
 | `publish_policy` | src/config.rs:221 | REQ-04-01-03-03 |
-| `ratchet_command` | src/trace.rs:975 | REQ-04-01-15-01 |
-| `ratchet_command` | src/trace.rs:976 | REQ-04-01-15-02 |
+| `ratchet_command` | src/trace.rs:1025 | REQ-04-01-15-01 |
+| `ratchet_command` | src/trace.rs:1026 | REQ-04-01-15-02 |
 | `read` | src/store.rs:173 | REQ-05-01-10-01 |
 | `read` | src/store.rs:174 | REQ-05-01-10-03 |
 | `render_policy` | src/config.rs:299 | REQ-04-01-03-08 |
@@ -89,10 +89,10 @@
 | `run` | src/linter.rs:13 | REQ-01-01-04-03 |
 | `run` | src/linter.rs:14 | REQ-01-01-04-04 |
 | `run` | src/linter.rs:15 | REQ-00-00-00-10 |
-| `scan` | src/trace.rs:840 | REQ-03-01-05-01 |
-| `scan` | src/trace.rs:841 | REQ-03-01-05-02 |
-| `scan` | src/trace.rs:842 | REQ-03-01-05-04 |
-| `scan` | src/trace.rs:843 | REQ-03-01-05-05 |
+| `scan` | src/trace.rs:890 | REQ-03-01-05-01 |
+| `scan` | src/trace.rs:891 | REQ-03-01-05-02 |
+| `scan` | src/trace.rs:892 | REQ-03-01-05-04 |
+| `scan` | src/trace.rs:893 | REQ-03-01-05-05 |
 | `search` | src/store.rs:204 | REQ-02-01-06-01 |
 | `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
 | `show` | src/config.rs:473 | REQ-01-01-16-02 |
@@ -101,6 +101,7 @@
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
+| `snapshot` | src/reporter.rs:789 | REQ-04-01-12-04 |
 | `stage_catalogue` | src/publisher.rs:329 | REQ-04-01-17-01 |
 | `stage_catalogue` | src/publisher.rs:330 | REQ-04-01-17-02 |
 | `stage_catalogue` | src/publisher.rs:331 | REQ-04-01-17-03 |
@@ -122,12 +123,12 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
-| — | src/main.rs:427 | REQ-01-01-05-02 |
-| — | src/main.rs:431 | REQ-01-01-01-03 |
+| — | src/main.rs:442 | REQ-01-01-05-02 |
+| — | src/main.rs:446 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/templates.rs:274 | REQ-01-01-18-01 |
 | — | src/templates.rs:391 | REQ-01-01-20-02 |
 | — | src/templates.rs:424 | REQ-01-01-21-01 |
 | — | src/templates.rs:425 | REQ-01-01-21-02 |
-| — | src/trace.rs:983 | REQ-04-01-16-01 |
+| — | src/trace.rs:1033 | REQ-04-01-16-01 |
