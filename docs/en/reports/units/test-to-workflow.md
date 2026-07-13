@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6e0162b, 2026-07-13
+     Snapshot: 86caac9, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -50,9 +50,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `assembly_log_records_carry_stable_field_names` | WF-05-01 | Use Documentation for Agents and RAG |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `bad_fixture_reports_kind_and_iri` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `canonical_owner_fixture_is_clean_with_multiple_stories` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `catalogue_entries_carry_anchors_and_coverage_status` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `catalogue_pages_are_deterministic` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_show_renders_the_effective_configuration_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -84,6 +86,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `creation_never_overwrites_an_existing_document` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `creation_never_overwrites_an_existing_document` | WF-02-01 | Write Docs Alongside Implementation |
 | `creation_never_overwrites_an_existing_document` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `cross_cutting_requirement_needs_two_distinct_stories` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-03-01 | Validate Traceability and Coverage |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -172,6 +175,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `finalise_touches_only_the_meta_updated_field` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `finalise_touches_only_the_meta_updated_field` | WF-02-01 | Write Docs Alongside Implementation |
 | `finalise_touches_only_the_meta_updated_field` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `finding_messages_match_the_oracle_formatting` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_and_config_show_share_one_contract_source` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_is_idempotent` | WF-02-01 | Write Docs Alongside Implementation |
@@ -192,6 +196,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `fmt_sorts_frontmatter_keys_canonically` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_sorts_frontmatter_keys_canonically` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_sorts_frontmatter_keys_canonically` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `foreign_owner_fixture_reports_lnk_001` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `format_option_is_accepted_globally` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `format_option_is_accepted_globally` | WF-05-01 | Use Documentation for Agents and RAG |
 | `format_option_is_accepted_globally` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -203,6 +208,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `freshness_is_clean_when_the_test_is_the_later_commit` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_is_silent_when_the_marker_is_newer` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_treats_missing_history_as_fresh` | WF-03-01 | Validate Traceability and Coverage |
+| `good_fixture_parses_clean` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `ids_and_slugs_derive_deterministically` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `ids_and_slugs_derive_deterministically` | WF-02-01 | Write Docs Alongside Implementation |
 | `ids_and_slugs_derive_deterministically` | WF-03-01 | Validate Traceability and Coverage |
@@ -215,6 +221,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
+| `lint_requirements_reports_authoring_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_run_checks_that_include_targets_exist` | WF-02-01 | Write Docs Alongside Implementation |
 | `lint_run_checks_that_include_targets_exist` | WF-03-01 | Validate Traceability and Coverage |
@@ -246,6 +253,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `missing_frontmatter_reports_id_001` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `missing_generated_meta_reports_meta_001` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -314,6 +323,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-02-01 | Write Docs Alongside Implementation |
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-05-01 | Use Documentation for Agents and RAG |
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `sentence_checks_match_the_oracle_selftest_cases` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `templates_and_validation_share_the_contract_source` | WF-01-01 | Establish Standards and Repository Hygiene |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6e0162b, 2026-07-13
+     Snapshot: 86caac9, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -50,9 +50,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assembly_log_records_carry_stable_field_names` | US-05-01-02 | Emit a Machine-Readable Assembly Log |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | US-06-01-02 | Trace Document Assembly Structure |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
+| `bad_fixture_reports_kind_and_iri` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
+| `canonical_owner_fixture_is_clean_with_multiple_stories` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `catalogue_entries_carry_anchors_and_coverage_status` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `catalogue_pages_are_deterministic` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
@@ -133,6 +135,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `creation_never_overwrites_an_existing_document` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `creation_never_overwrites_an_existing_document` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
 | `creation_never_overwrites_an_existing_document` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `cross_cutting_requirement_needs_two_distinct_stories` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-08 | Generate Governed Coverage Reports |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-01-01-14 | Lint Translation Metadata and Drift |
@@ -301,6 +304,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `finalise_touches_only_the_meta_updated_field` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_touches_only_the_meta_updated_field` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_touches_only_the_meta_updated_field` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `finding_messages_match_the_oracle_formatting` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `fmt_and_config_show_share_one_contract_source` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_is_idempotent` | US-01-01-03 | Format Documents Canonically |
 | `fmt_is_idempotent` | US-01-01-04 | Lint Documents Deterministically |
@@ -360,6 +364,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_sorts_frontmatter_keys_canonically` | US-01-01-03 | Format Documents Canonically |
 | `fmt_sorts_frontmatter_keys_canonically` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_sorts_frontmatter_keys_canonically` | US-08-01-03 | Format Documents Deterministically within Scope |
+| `foreign_owner_fixture_reports_lnk_001` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `format_option_is_accepted_globally` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
 | `format_option_is_accepted_globally` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
 | `format_option_is_accepted_globally` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
@@ -371,6 +376,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `freshness_is_clean_when_the_test_is_the_later_commit` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_is_silent_when_the_marker_is_newer` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_treats_missing_history_as_fresh` | US-03-01-11 | Keep Verified Status Current |
+| `good_fixture_parses_clean` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `ids_and_slugs_derive_deterministically` | US-01-01-01 | Initialise Standardised Doc Package |
 | `ids_and_slugs_derive_deterministically` | US-01-01-04 | Lint Documents Deterministically |
 | `ids_and_slugs_derive_deterministically` | US-01-01-05 | Create Documents from Configured Templates |
@@ -393,6 +399,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
+| `lint_requirements_reports_authoring_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |
 | `lint_run_checks_that_include_targets_exist` | US-02-01-04 | Lint Documents Before Commit |
 | `lint_run_checks_that_include_targets_exist` | US-03-01-01 | Lint Documents for Traceability Gaps |
@@ -424,6 +431,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
+| `missing_frontmatter_reports_id_001` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `missing_generated_meta_reports_meta_001` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-04-01-02 | Check Scope Guardrails in CI |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-08-01-08 | Stay within Declared Change Scope |
@@ -519,6 +528,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `search_answers_within_a_second_on_a_thousand_documents` | US-02-01-06 | Find and Read Documentation During Implementation |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-05-01-06 | Search and Read Documentation via CLI |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
+| `sentence_checks_match_the_oracle_selftest_cases` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `templates_and_validation_share_the_contract_source` | US-01-01-10 | Define Schema-Backed Metadata Contracts |

@@ -15,7 +15,7 @@ REQ-00-00-00-13,constraint,tests/cli_assemble.rs:74;tests/cli_doc.rs:99,,src/tem
 REQ-00-00-00-14,constraint,tests/cli_quality.rs:86,,
 REQ-01-01-01-01,functional,tests/cli_doc.rs:70;tests/cli_doc.rs:9,,src/templates.rs:361
 REQ-01-01-01-02,functional,tests/cli_doc.rs:81,,src/templates.rs:362
-REQ-01-01-01-03,quality,tests/cli_doc.rs:38,,src/main.rs:409
+REQ-01-01-01-03,quality,tests/cli_doc.rs:38,,src/main.rs:420
 REQ-01-01-02-01,functional,,,
 REQ-01-01-02-02,functional,,,
 REQ-01-01-02-03,quality,tests/cli_quality.rs:222,,
@@ -28,7 +28,7 @@ REQ-01-01-04-03,functional,tests/cli_lint.rs:14,,src/linter.rs:13
 REQ-01-01-04-04,functional,tests/cli_lint.rs:33,,src/linter.rs:14
 REQ-01-01-04-05,functional,,,
 REQ-01-01-05-01,functional,,,
-REQ-01-01-05-02,quality,tests/cli_quality.rs:245,,src/main.rs:405
+REQ-01-01-05-02,quality,tests/cli_quality.rs:245,,src/main.rs:416
 REQ-01-01-05-03,functional,,,
 REQ-01-01-06-01,functional,tests/cli_finalise.rs:41;tests/cli_finalise.rs:65;tests/cli_finalise.rs:9,,src/rewriter.rs:321
 REQ-01-01-06-02,functional,tests/cli_finalise.rs:24,,src/rewriter.rs:322
@@ -53,6 +53,7 @@ REQ-01-01-11-02,constraint,tests/corpus_guards.rs:119,,
 REQ-01-01-11-03,constraint,,,
 REQ-01-01-11-04,quality,tests/corpus_guards.rs:165,,
 REQ-01-01-11-05,quality,tests/corpus_guards.rs:232,,
+REQ-01-01-11-06,functional,src/checkers/requirements.rs:1031;src/checkers/requirements.rs:1046;src/checkers/requirements.rs:1063;src/checkers/requirements.rs:1075;src/checkers/requirements.rs:1087;src/checkers/requirements.rs:1096;src/checkers/requirements.rs:1108;src/checkers/requirements.rs:1142;src/checkers/requirements.rs:928;tests/cli_lint_requirements.rs:66,,src/checkers/requirements.rs:864
 REQ-01-01-12-01,functional,,,
 REQ-01-01-12-02,functional,,,
 REQ-01-01-12-03,functional,,,
