@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-03
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -44,5 +44,5 @@ The system exists because "related" links between artefacts are not enough (see 
 
 ### Stakeholders
 
-The eight personas under `../personas/` condense into three C4 roles: the Documentation Maintainer (standards and governance), the Developer (docs alongside implementation; includes QA, architect, and reviewer perspectives), and the Coding Agent (deterministic story-by-story automation; includes CI).
+The four current personas under `../personas/` (six earlier ones retired in the 2026 merge) condense into four C4 roles: the Documentation Maintainer (PER-01, standards and governance), the Builder (PER-09, corpus alongside code, pipelines, and architecture), the Assessor (PER-10, evaluates and consumes the corpus), and the Coding Agent (PER-08, deterministic story-by-story automation; includes CI).
 Coverage per persona is tracked in the requirements review table.

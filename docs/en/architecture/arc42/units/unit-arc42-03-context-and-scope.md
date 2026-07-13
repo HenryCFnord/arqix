@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-03
+  updated: 2026-07-12
   lang: en
   translation-of:
   generated: false
@@ -36,20 +36,22 @@ Rendering is delegated to external tools that arqix orchestrates but never trust
 C4Context
     title arqix — System Context
     Person(maintainer, "Documentation Maintainer", "Standards, templates, governance")
-    Person(developer, "Developer", "Docs alongside implementation")
+    Person(builder, "Builder", "Changes the corpus alongside code, pipelines, architecture")
+    Person(assessor, "Assessor", "Consumes coverage, evidence, catalogue, site")
     Person(agent, "Coding Agent", "Deterministic story-by-story loops")
     System(arqix, "arqix CLI", "Deterministic documentation-as-code toolchain")
     System_Ext(gitRepo, "Git Repository", "Corpus, configuration, changed files")
-    System_Ext(render, "Render Toolchain", "Pandoc, Zensical")
+    System_Ext(render, "Render Toolchain", "Pandoc for PDF; configured site build, e.g. Zensical")
     System_Ext(ci, "CI & Pages", "Verification gate, site publishing")
     System_Ext(mcp, "MCP Client", "Agent or IDE consuming documentation")
     Rel(maintainer, arqix, "fmt, lint, standards")
-    Rel(developer, arqix, "doc new, search, read")
+    Rel(builder, arqix, "doc new, search, read")
+    Rel(assessor, arqix, "coverage, evidence, published spec")
     Rel(agent, arqix, "verify, trace check")
     Rel(arqix, gitRepo, "reads and writes within configured roots")
     Rel(arqix, render, "invokes for PDF and sites")
     Rel(ci, arqix, "runs verify with stable exit codes")
-    Rel(mcp, arqix, "search, read, list over stdio")
+    Rel(mcp, arqix, "search, read, list, trace over stdio")
 ```
 
 External interfaces: the filesystem (bounded by REQ-00-00-00-13), the render toolchain contract (errors forwarded transparently, REQ-04-01-03-07), the exit-code contract towards CI (REQ-04-01-08-01), and MCP over stdio (REQ-05-01-12-*).
