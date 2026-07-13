@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a836fb8, 2026-07-12
+     Snapshot: c8bd674, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -25,8 +25,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `architecture_documentation_records_the_consistency_check_extension_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `architecture_documentation_records_the_consistency_check_extension_path` | WF-06-01 | Maintain architecture, ADRs, and glossary |
-| `architecture_views_use_c4_oriented_mermaid_diagrams` | WF-01-01 | Establish Standards and Repository Hygiene |
-| `architecture_views_use_c4_oriented_mermaid_diagrams` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `architecture_views_are_generated_from_the_c4_model` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `architecture_views_are_generated_from_the_c4_model` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_applies_the_configured_heading_ownership_default` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_clearly_on_include_cycles` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | WF-02-01 | Write Docs Alongside Implementation |
@@ -194,6 +194,13 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `format_option_is_accepted_globally` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `format_option_is_accepted_globally` | WF-05-01 | Use Documentation for Agents and RAG |
 | `format_option_is_accepted_globally` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `freshness_degrades_without_version_control` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_excludes_ignored_skeleton_markers` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_flags_a_marker_whose_requirement_is_newer` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_is_clean_when_the_test_is_the_later_commit` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_is_silent_when_the_marker_is_newer` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_treats_missing_history_as_fresh` | WF-03-01 | Validate Traceability and Coverage |
 | `ids_and_slugs_derive_deterministically` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `ids_and_slugs_derive_deterministically` | WF-02-01 | Write Docs Alongside Implementation |
 | `ids_and_slugs_derive_deterministically` | WF-03-01 | Validate Traceability and Coverage |
@@ -202,6 +209,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `ids_and_slugs_derive_deterministically` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `include_directives_parse_with_and_without_level_arguments` | WF-02-01 | Write Docs Alongside Implementation |
 | `includes_never_resolve_outside_the_configured_roots` | WF-02-01 | Write Docs Alongside Implementation |
+| `init_alias_mirrors_doc_init` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
@@ -364,6 +372,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `verify_excludes_rendering_from_the_default_loop` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `verify_reports_informational_findings_without_gating` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_runs_exactly_the_configured_steps_in_order` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `verify_runs_freshness_as_an_informational_step` | WF-03-01 | Validate Traceability and Coverage |
 | `verify_runs_the_configured_sub_steps` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `verify_runs_the_configured_sub_steps` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `verify_supports_fail_fast_and_aggregate_modes` | WF-04-01 | Run CI Gates and Publish artefacts |

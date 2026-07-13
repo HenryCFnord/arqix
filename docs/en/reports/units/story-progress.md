@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a836fb8, 2026-07-12
+     Snapshot: c8bd674, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -9,7 +9,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 
 | story | title | verified | planned | uncovered | progress |
 | --- | --- | ---: | ---: | ---: | --- |
-| US-01-01-01 | Initialise Standardised Doc Package | 5 | 0 | 0 | `██████████` 100% |
+| US-01-01-01 | Initialise Standardised Doc Package | 6 | 0 | 0 | `██████████` 100% |
 | US-01-01-02 | Create Governed Units | 2 | 0 | 2 | `█████░░░░░` 50% |
 | US-01-01-03 | Format Documents Canonically | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-04 | Lint Documents Deterministically | 6 | 0 | 2 | `███████░░░` 75% |
@@ -44,6 +44,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 3 | 0 | 0 | `██████████` 100% |
 | US-03-01-09 | Machine-Check the Done Claim | 2 | 0 | 0 | `██████████` 100% |
 | US-03-01-10 | Track Planned and Executed Test Evidence | 3 | 0 | 0 | `██████████` 100% |
+| US-03-01-11 | Keep Verified Status Current | 3 | 0 | 0 | `██████████` 100% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 4 | 0 | 3 | `█████░░░░░` 57% |
 | US-04-01-03 | Generate Publishing Outputs | 9 | 0 | 0 | `██████████` 100% |
 | US-04-01-05 | Run a One-Command Verification Loop | 8 | 0 | 0 | `██████████` 100% |
@@ -57,6 +58,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-15 | Gate Coverage as a Ratchet | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-16 | Configure the Snapshot Strategy | 1 | 0 | 0 | `██████████` 100% |
 | US-04-01-17 | Publish the Specification as Catalogue Pages | 3 | 0 | 0 | `██████████` 100% |
+| US-04-01-18 | Render Architecture Views from the Model | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 4 | 0 | 3 | `█████░░░░░` 57% |
 | US-05-01-04 | Parse Document Structure Deterministically for Automation | 3 | 0 | 0 | `██████████` 100% |
 | US-05-01-06 | Search and Read Documentation via CLI | 2 | 0 | 0 | `██████████` 100% |

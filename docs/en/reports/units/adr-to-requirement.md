@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a836fb8, 2026-07-12
+     Snapshot: c8bd674, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?
@@ -51,3 +51,8 @@
 | ADR-0014 | MCP Transport | REQ-05-01-12-01 |
 | ADR-0014 | MCP Transport | REQ-05-01-12-02 |
 | ADR-0014 | MCP Transport | REQ-05-01-12-03 |
+| ADR-0015 | Marker Freshness | REQ-03-01-11-01 |
+| ADR-0015 | Marker Freshness | REQ-03-01-11-02 |
+| ADR-0015 | Marker Freshness | REQ-03-01-11-03 |
+| ADR-0016 | Render Architecture Views from the Model | REQ-04-01-18-01 |
+| ADR-0016 | Render Architecture Views from the Model | REQ-04-01-18-02 |

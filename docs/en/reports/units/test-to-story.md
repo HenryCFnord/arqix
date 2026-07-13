@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a836fb8, 2026-07-12
+     Snapshot: c8bd674, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -25,8 +25,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `architecture_documentation_records_the_consistency_check_extension_path` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `architecture_documentation_records_the_consistency_check_extension_path` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
-| `architecture_views_use_c4_oriented_mermaid_diagrams` | US-01-01-11 | Govern Architecture Documentation Standards |
-| `architecture_views_use_c4_oriented_mermaid_diagrams` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
+| `architecture_views_are_generated_from_the_c4_model` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `architecture_views_are_generated_from_the_c4_model` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `assemble_applies_the_configured_heading_ownership_default` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
 | `assemble_build_fails_on_output_collisions_across_roots` | US-02-01-11 | Assemble Documentation During Implementation |
@@ -362,6 +362,13 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `format_option_is_accepted_globally` | US-04-01-10 | Emit Machine-Readable Diagnostics for CI |
 | `format_option_is_accepted_globally` | US-05-01-14 | Emit Machine-Readable Diagnostics for Downstream Tooling |
 | `format_option_is_accepted_globally` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
+| `freshness_degrades_without_version_control` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_excludes_ignored_skeleton_markers` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_flags_a_marker_whose_requirement_is_newer` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_is_clean_when_the_test_is_the_later_commit` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_is_silent_when_the_marker_is_newer` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_treats_missing_history_as_fresh` | US-03-01-11 | Keep Verified Status Current |
 | `ids_and_slugs_derive_deterministically` | US-01-01-01 | Initialise Standardised Doc Package |
 | `ids_and_slugs_derive_deterministically` | US-01-01-04 | Lint Documents Deterministically |
 | `ids_and_slugs_derive_deterministically` | US-01-01-05 | Create Documents from Configured Templates |
@@ -380,6 +387,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `ids_and_slugs_derive_deterministically` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
 | `includes_never_resolve_outside_the_configured_roots` | US-02-01-09 | Use Include Directives During Implementation |
+| `init_alias_mirrors_doc_init` | US-01-01-01 | Initialise Standardised Doc Package |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
@@ -662,6 +670,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `verify_excludes_rendering_from_the_default_loop` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `verify_reports_informational_findings_without_gating` | US-04-01-14 | Configure the Verification Loop |
 | `verify_runs_exactly_the_configured_steps_in_order` | US-04-01-14 | Configure the Verification Loop |
+| `verify_runs_freshness_as_an_informational_step` | US-03-01-11 | Keep Verified Status Current |
 | `verify_runs_the_configured_sub_steps` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_runs_the_configured_sub_steps` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `verify_supports_fail_fast_and_aggregate_modes` | US-04-01-05 | Run a One-Command Verification Loop |

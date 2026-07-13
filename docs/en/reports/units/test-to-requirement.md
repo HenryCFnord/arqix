@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: a836fb8, 2026-07-12
+     Snapshot: c8bd674, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -12,10 +12,10 @@
 | `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:78 | REQ-01-01-09-06 | active |
 | `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:60 | REQ-01-01-09-02 | active |
 | `agent_instructions_define_story_by_story_scope_rules` | tests/corpus_guards.rs:42 | REQ-01-01-09-01 | active |
-| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:224 | REQ-01-01-15-03 | active |
+| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:219 | REQ-01-01-15-03 | active |
 | `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | tests/corpus_guards.rs:97 | REQ-01-01-11-01 | active |
-| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:191 | REQ-01-01-11-05 | active |
-| `architecture_views_use_c4_oriented_mermaid_diagrams` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
+| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:186 | REQ-01-01-11-05 | active |
+| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
 | `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
@@ -29,7 +29,7 @@
 | `assembly_log_records_carry_stable_field_names` | tests/cli_quality.rs:336 | REQ-05-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
-| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:243 | REQ-01-01-15-04 | active |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:238 | REQ-01-01-15-04 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
@@ -44,31 +44,31 @@
 | `creation_never_overwrites_an_existing_document` | tests/cli_quality.rs:55 | REQ-00-00-00-08 | active |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | tests/cli_lint.rs:203 | REQ-00-00-00-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
-| `doc_init_never_overwrites_agent_instructions` | tests/cli_doc.rs:549 | REQ-01-01-21-02 | active |
-| `doc_init_scaffolds_agent_instructions` | tests/cli_doc.rs:530 | REQ-01-01-21-01 | active |
-| `doc_init_scaffolds_an_explicit_path` | tests/cli_doc.rs:38 | REQ-01-01-01-01 | active |
-| `doc_init_scaffolds_the_default_template_files` | tests/cli_doc.rs:416 | REQ-01-01-20-02 | active |
-| `doc_init_writes_doc_index_frontmatter` | tests/cli_doc.rs:49 | REQ-01-01-01-02 | active |
-| `doc_list_does_not_follow_directory_symlinks` | tests/cli_doc.rs:302 | REQ-00-00-00-01 | active |
-| `doc_list_emits_a_json_document_catalog` | tests/cli_doc.rs:220 | REQ-05-01-08-01 | active |
-| `doc_list_filters_the_catalog_by_kind` | tests/cli_doc.rs:232 | REQ-05-01-08-03 | active |
-| `doc_list_honours_configured_skip_dirs` | tests/cli_doc.rs:280 | REQ-01-01-17-01 | active |
-| `doc_list_lists_each_document_once_under_overlapping_roots` | tests/cli_doc.rs:325 | REQ-05-01-08-01 | active |
-| `doc_list_skips_the_default_directories_without_an_override` | tests/cli_doc.rs:360 | REQ-01-01-17-02 | active |
-| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | tests/cli_doc.rs:176 | REQ-01-01-13-01 | active |
-| `doc_new_creates_a_document_from_the_configured_template` | tests/cli_doc.rs:83 | REQ-00-00-00-05 | active |
-| `doc_new_defaults_keep_the_current_id_shapes` | tests/cli_doc.rs:493 | REQ-01-01-18-03 | active |
-| `doc_new_dry_run_reports_the_plan_without_writing` | tests/cli_doc.rs:145 | REQ-00-00-00-09 | active |
-| `doc_new_fails_clearly_on_a_missing_template_file` | tests/cli_doc.rs:445 | REQ-01-01-20-03 | active |
-| `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:116 | REQ-01-01-13-01 | active |
-| `doc_new_generates_ids_from_the_configured_pattern` | tests/cli_doc.rs:466 | REQ-01-01-18-01 | active |
-| `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:383 | REQ-01-01-20-01 | active |
-| `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:67 | REQ-00-00-00-13 | active |
-| `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:196 | REQ-00-00-00-05 | active |
-| `doc_new_writes_into_the_configured_kind_location` | tests/cli_doc.rs:129 | REQ-01-01-13-02 | active |
-| `doc_read_distinguishes_a_document_miss_from_a_selector_miss` | tests/cli_doc.rs:254 | REQ-05-01-10-03 | active |
-| `doc_read_retrieves_a_document_by_id` | tests/cli_doc.rs:242 | REQ-05-01-10-01 | active |
-| `doc_search_finds_documents_by_full_text` | tests/cli_doc.rs:268 | REQ-02-01-06-01 | active |
+| `doc_init_never_overwrites_agent_instructions` | tests/cli_doc.rs:581 | REQ-01-01-21-02 | active |
+| `doc_init_scaffolds_agent_instructions` | tests/cli_doc.rs:562 | REQ-01-01-21-01 | active |
+| `doc_init_scaffolds_an_explicit_path` | tests/cli_doc.rs:70 | REQ-01-01-01-01 | active |
+| `doc_init_scaffolds_the_default_template_files` | tests/cli_doc.rs:448 | REQ-01-01-20-02 | active |
+| `doc_init_writes_doc_index_frontmatter` | tests/cli_doc.rs:81 | REQ-01-01-01-02 | active |
+| `doc_list_does_not_follow_directory_symlinks` | tests/cli_doc.rs:334 | REQ-00-00-00-01 | active |
+| `doc_list_emits_a_json_document_catalog` | tests/cli_doc.rs:252 | REQ-05-01-08-01 | active |
+| `doc_list_filters_the_catalog_by_kind` | tests/cli_doc.rs:264 | REQ-05-01-08-03 | active |
+| `doc_list_honours_configured_skip_dirs` | tests/cli_doc.rs:312 | REQ-01-01-17-01 | active |
+| `doc_list_lists_each_document_once_under_overlapping_roots` | tests/cli_doc.rs:357 | REQ-05-01-08-01 | active |
+| `doc_list_skips_the_default_directories_without_an_override` | tests/cli_doc.rs:392 | REQ-01-01-17-02 | active |
+| `doc_new_accepts_an_explicit_id_and_rejects_a_duplicate` | tests/cli_doc.rs:208 | REQ-01-01-13-01 | active |
+| `doc_new_creates_a_document_from_the_configured_template` | tests/cli_doc.rs:115 | REQ-00-00-00-05 | active |
+| `doc_new_defaults_keep_the_current_id_shapes` | tests/cli_doc.rs:525 | REQ-01-01-18-03 | active |
+| `doc_new_dry_run_reports_the_plan_without_writing` | tests/cli_doc.rs:177 | REQ-00-00-00-09 | active |
+| `doc_new_fails_clearly_on_a_missing_template_file` | tests/cli_doc.rs:477 | REQ-01-01-20-03 | active |
+| `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:148 | REQ-01-01-13-01 | active |
+| `doc_new_generates_ids_from_the_configured_pattern` | tests/cli_doc.rs:498 | REQ-01-01-18-01 | active |
+| `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:415 | REQ-01-01-20-01 | active |
+| `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:99 | REQ-00-00-00-13 | active |
+| `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:228 | REQ-00-00-00-05 | active |
+| `doc_new_writes_into_the_configured_kind_location` | tests/cli_doc.rs:161 | REQ-01-01-13-02 | active |
+| `doc_read_distinguishes_a_document_miss_from_a_selector_miss` | tests/cli_doc.rs:286 | REQ-05-01-10-03 | active |
+| `doc_read_retrieves_a_document_by_id` | tests/cli_doc.rs:274 | REQ-05-01-10-01 | active |
+| `doc_search_finds_documents_by_full_text` | tests/cli_doc.rs:300 | REQ-02-01-06-01 | active |
 | `empty_link_cases_stay_visible_in_the_matrix` | tests/cli_quality.rs:286 | REQ-03-01-02-04 | active |
 | `failed_outcomes_demote_the_verifying_claim` | tests/cli_trace_results.rs:87 | REQ-03-01-10-03 | active |
 | `failure_diagnostics_name_the_stop_condition` | tests/cli_quality.rs:364 | REQ-08-01-01-01 | active |
@@ -86,9 +86,17 @@
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
-| `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:507 | REQ-00-00-00-04 | active |
+| `freshness_degrades_without_version_control` | tests/cli_trace_freshness.rs:135 | REQ-03-01-11-02 | active |
+| `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1360 | REQ-03-01-11-01 | active |
+| `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | tests/cli_trace_freshness.rs:76 | REQ-03-01-11-01 | active |
+| `freshness_flags_a_marker_whose_requirement_is_newer` | src/trace.rs:1321 | REQ-03-01-11-01 | active |
+| `freshness_is_clean_when_the_test_is_the_later_commit` | tests/cli_trace_freshness.rs:108 | REQ-03-01-11-01 | active |
+| `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1341 | REQ-03-01-11-01 | active |
+| `freshness_treats_missing_history_as_fresh` | src/trace.rs:1399 | REQ-03-01-11-02 | active |
+| `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:539 | REQ-00-00-00-04 | active |
 | `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
 | `includes_never_resolve_outside_the_configured_roots` | tests/cli_quality.rs:119 | REQ-02-01-09-02 | active |
+| `init_alias_mirrors_doc_init` | tests/cli_doc.rs:38 | REQ-01-01-01-03 | active |
 | `lint_checks_encoded_groups_against_declared_triples` | tests/cli_lint.rs:160 | REQ-01-01-18-04 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
@@ -118,7 +126,7 @@
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
-| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:206 | REQ-01-01-15-02 | active |
+| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:201 | REQ-01-01-15-02 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:186 | REQ-04-01-03-04 | active |
@@ -164,5 +172,6 @@
 | `verify_excludes_rendering_from_the_default_loop` | tests/cli_verify.rs:38 | REQ-04-01-05-04 | active |
 | `verify_reports_informational_findings_without_gating` | tests/cli_verify.rs:77 | REQ-04-01-14-02 | active |
 | `verify_runs_exactly_the_configured_steps_in_order` | tests/cli_verify.rs:49 | REQ-04-01-14-01 | active |
+| `verify_runs_freshness_as_an_informational_step` | tests/cli_trace_freshness.rs:157 | REQ-03-01-11-03 | active |
 | `verify_runs_the_configured_sub_steps` | tests/cli_verify.rs:9 | REQ-04-01-05-01 | active |
 | `verify_supports_fail_fast_and_aggregate_modes` | tests/cli_verify.rs:17 | REQ-04-01-05-02 | active |
