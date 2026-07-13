@@ -210,6 +210,14 @@ enum LintCommand {
         #[arg(long)]
         allow_unlinked_stories: bool,
     },
+    /// Validate frontmatter, canonical formatting, and ontology-vocabulary use
+    /// across the architecture and ontology documents (FMT/FM/ONT rule families)
+    Frontmatter {
+        /// Suppress ONT-005 warnings for owl.inverse-of names that have no
+        /// property document yet
+        #[arg(long)]
+        allow_undefined_inverse: bool,
+    },
 }
 
 /// The `new` half of the creation aliases (REQ-01-01-05-02): `req new`,
@@ -372,6 +380,9 @@ fn main() -> ExitCode {
             LintCommand::Requirements {
                 allow_unlinked_stories,
             } => checkers::requirements::lint(cli.format, allow_unlinked_stories),
+            LintCommand::Frontmatter {
+                allow_undefined_inverse,
+            } => checkers::frontmatter::lint(cli.format, allow_undefined_inverse),
         },
         Command::Assemble { command } => match command {
             AssembleCommand::Build => assembler::build(cli.format),
