@@ -9,3 +9,14 @@ template: eisvogel
 pdf-engine: xelatex
 toc: true
 number-sections: true
+
+# Staging moves the assembled pages out of the source tree, so their image links
+# (`../model/generated/…` from the arc42 page, `../../model/generated/…` from a
+# unit) no longer resolve relative to the staged file. resource-path gives pandoc
+# the source anchors those relative paths were written against, so the committed
+# C4 SVGs are found and embedded. Paths are relative to the repo root (mounted at
+# the container's working directory).
+resource-path:
+  - .
+  - docs/en/architecture/arc42
+  - docs/en/architecture/arc42/units

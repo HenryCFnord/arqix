@@ -16,8 +16,12 @@ set -euo pipefail
 
 PANDOC_IMAGE="${PANDOC_IMAGE:-pandoc/extra:latest}"
 
+# No --user: under rootless Docker (the common local setup — note the "IPv4
+# forwarding is disabled" warning) container-root maps to the invoking host user,
+# so the output PDF lands owned by you; passing --user <host-uid> instead maps to
+# an unprivileged subuid that cannot write the mount. Under rootful Docker the
+# output is root-owned — chown it, or set an explicit --user via a wrapper.
 exec docker run --rm \
   -v "$PWD":/data -w /data \
-  --user "$(id -u):$(id -g)" \
   -e HOME=/tmp \
   "$PANDOC_IMAGE" "$@"
