@@ -33,7 +33,7 @@ Coverage answers whether a requirement carries a verifying marker; it does not a
 A `verifies` or `implements` marker resolves structurally even after the requirement it targets has been rewritten, so a green "verified" can rest on a marker placed against an older version of the requirement (US-03-01-11).
 Closing that gap turns arqix from architecture-as-code into its own verification apparatus, the way an IVVQ process validates a system against its specification.
 
-The signal is git arithmetic: a marker is out of date when the requirement it points at, or that requirement's owning story, was committed more recently than the marker's own file.
+The signal is git arithmetic: a marker is out of date when the requirement it points at was committed more recently than the marker's own file.
 This raises three tensions with the existing design.
 First, arqix has never shelled out to git — the whole binary is deterministic and free of ambient state, and `Command::new` is confined to configured external renderers and the binary re-invoking itself.
 Second, determinism (REQ-00-00-00-01) demands byte-identical output for identical inputs, and git history is now part of "the inputs".
@@ -46,8 +46,10 @@ Third, the Python trace oracle is frozen on its retirement path (arc42 chapter 8
 - The command is a new verb in the existing `trace` family (ADR-0005: every analysis exists exactly once); it does not touch `trace coverage` output, so the frozen oracle surface and its conformance suite are untouched and no oracle port is needed — the `--results` and `ratchet` precedents.
 - The freshness decision is a pure function over commit timestamps, exactly the shape of the finalise clock (ADR-0004): the caller supplies the numbers, the function reads nothing external.
   A single small function shells out to git (`git log -1 --format=%ct -- <path>`) and is the only new impurity; unit tests inject timestamps and never call git, and one integration test builds a git fixture with pinned `GIT_COMMITTER_DATE` so history — and therefore output — is byte-stable.
-- A marker whose file, requirement, or story has no reachable git history is treated as fresh, not as an error (REQ-03-01-11-02): a released tarball without `.git`, or an untracked file, degrades to reporting nothing stale.
-- Granularity is file-level; the signal is reported as "possibly stale" and the verify sub-step is informational (REQ-03-01-11-03), never gating, because a file-level comparison also fires on metadata-only commits.
+- The comparison is against the requirement document only, not the owning story.
+  Dogfooding proved this out: a prototype that also compared the owning story flagged 62 of 63 markers on this repository, because story documents churn (batch commits, lifecycle bumps, sibling-requirement edits) for reasons unrelated to any one test; comparing only the requirement — the contract the marker verifies — left 13 reviewable findings.
+- A marker whose file or requirement has no reachable git history is treated as fresh, not as an error (REQ-03-01-11-02): a released tarball without `.git`, or an untracked file, degrades to reporting nothing stale.
+- Granularity is file-level; the signal is reported as "possibly stale" and the verify sub-step is informational (REQ-03-01-11-03), never gating, because a file-level comparison also fires on metadata-only commits (a `finalise` stamp, a reformat).
   Line-level attribution (`git log -L`, `git blame`) is the named hardening path if the false-positive rate proves too high in practice.
 
 ### Alternatives Considered

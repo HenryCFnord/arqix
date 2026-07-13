@@ -33,9 +33,10 @@ meta:
 
 ## Requirement
 
-When `arqix trace freshness` finds an active marker whose target requirement or owning story changed in version control after the marker's own file, arqix SHALL report the marker as possibly stale.
+When `arqix trace freshness` finds an active marker whose target requirement changed in version control after the marker's own file, arqix SHALL report the marker as possibly stale.
 
 ### Notes
 
 Derived from US-03-01-11.
 "Active" excludes ignored skeleton markers; the comparison is file-level over the last commit that touched each path (ADR-0015).
+The requirement document is the compared contract; the owning story is a grouping layer whose churn is not a staleness signal, so it is deliberately not compared (ADR-0015).
