@@ -255,6 +255,8 @@ enum TraceCommand {
     },
     /// Report active markers gone stale against their target's version history
     Freshness,
+    /// Gate test functions for trace markers (the ported TDD marker gate)
+    Markers,
 }
 
 #[derive(Subcommand)]
@@ -374,6 +376,7 @@ fn main() -> ExitCode {
                 trace::ratchet_command(baseline.as_deref(), cli.format)
             }
             TraceCommand::Freshness => trace::freshness_command(cli.format),
+            TraceCommand::Markers => trace::markers_command(cli.format),
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle { ids, out, stamp } => {

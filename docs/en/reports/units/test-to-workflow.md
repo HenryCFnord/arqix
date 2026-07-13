@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c2e8228, 2026-07-13
+     Snapshot: 6e0162b, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -232,6 +232,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_run_reports_findings_with_file_and_line_context` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_run_reports_findings_with_file_and_line_context` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_validates_id_shape_against_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `marker_gate_matches_the_oracle_backlink_cases` | WF-03-01 | Validate Traceability and Coverage |
+| `marker_gate_matches_the_oracle_selftest_cases` | WF-03-01 | Validate Traceability and Coverage |
 | `mcp_list_supports_a_lifecycle_filter` | WF-05-01 | Use Documentation for Agents and RAG |
 | `mcp_list_supports_a_lifecycle_filter` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `mcp_search_supports_kind_and_path_filters` | WF-05-01 | Use Documentation for Agents and RAG |
@@ -337,6 +339,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `trace_coverage_supports_json_output` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `trace_coverage_supports_json_output` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_coverage_supports_json_output` | WF-07-01 | Review Evidence Chains and Exports |
+| `trace_markers_gates_test_functions_without_a_marker` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_matrix_exports_csv` | WF-03-01 | Validate Traceability and Coverage |
 | `trace_ratchet_fails_on_a_coverage_regression` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `trace_ratchet_passes_without_regression` | WF-04-01 | Run CI Gates and Publish artefacts |

@@ -6,10 +6,12 @@
 
 use crate::OutputFormat;
 use crate::parser::{self, is_requirement_id};
+use regex::Regex;
 use serde_json::{Map, Value, json};
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::path::Path;
 use std::process::ExitCode;
+use std::sync::LazyLock;
 
 const SCHEMA_VERSION: u64 = 1;
 const SKIP_DIRS: [&str; 5] = [".git", "target", "node_modules", "__pycache__", "fixtures"];
@@ -1300,6 +1302,487 @@ pub fn freshness_command(format: OutputFormat) -> ExitCode {
         OutputFormat::Text => print!("{}", freshness_text(&report)),
     }
     code
+}
+
+// --- Marker gate (the Rust port of scripts/check_trace_markers.py) --------
+//
+// The TDD marker gate: every test function carries a `verifies`/`plans`
+// marker or an explicit no-requirement annotation (TRC-002/005), markers
+// resolve to existing requirements (TRC-001/004), ignored tests name a known
+// owning story (TRC-003), and derived-from/has-requirement backlinks stay
+// symmetric (TRC-006). The Python checker remains the conformance oracle for
+// the grace period, so `arqix trace markers --format json` must be
+// JSON-value-equal to `check_trace_markers.py --json` on the corpus.
+
+const MARKER_REQ_DIR: &str = "docs/en/architecture/req";
+const MARKER_STORY_DIR: &str = "docs/en/architecture/stories";
+
+// Whole-line markers only (a trailing comment on a code line is no marker):
+// the payload is a single `\S+` token with only trailing whitespace.
+static GATE_VERIFIES_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^//\s*arqix:verifies\s+(\S+)\s*$").expect("static regex"));
+static GATE_PLANS_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^//\s*arqix:plans\s+(\S+)\s*$").expect("static regex"));
+static GATE_NO_REQ_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^//\s*arqix:no-requirement\b").expect("static regex"));
+static GATE_TEST_ATTR_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^\s*#\[test\]").expect("static regex"));
+static GATE_IGNORE_ATTR_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r#"^\s*#\[ignore(?:\s*=\s*"([^"]*)")?\]"#).expect("static regex"));
+// Every fn qualifier combination rustc compiles: visibility, then
+// default/const/async/unsafe, then an extern ABI.
+static GATE_FN_RE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r#"^\s*(?:pub(?:\s*\([^)]*\))?\s+)?(?:(?:default|const|async|unsafe)\s+)*(?:extern\s+(?:"[^"]*"\s+)?)?fn\s+\w+"#,
+    )
+    .expect("static regex")
+});
+static GATE_IGNORE_REASON_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^(US-\d{2}-\d{2}-\d{2}): .+").expect("static regex"));
+static GATE_COMMENT_OR_ATTR_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^\s*(?://|#\[)").expect("static regex"));
+static GATE_REQ_FILENAME_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^REQ-\d{2}-\d{2}-\d{2}-\d{2}").expect("static regex"));
+static GATE_US_FILENAME_RE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^US-\d{2}-\d{2}-\d{2}").expect("static regex"));
+static GATE_KIND_RE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"arqix:classes/(functional-requirement|quality-requirement|constraint)")
+        .expect("static regex")
+});
+
+/// A requirement's kind for the marker gate, keyed by its filename-derived
+/// ID (the oracle reads the req directory directly, not the trace model).
+struct GateReqKind {
+    kind: String,
+    declared: bool,
+    file: String,
+}
+
+/// One gate finding: (file, line, rule, message). Sorted as a tuple, exactly
+/// like the oracle's `sorted(findings)`.
+type GateFinding = (String, usize, String, String);
+
+fn kind_short(class: &str) -> String {
+    match class {
+        "functional-requirement" => "functional",
+        "quality-requirement" => "quality",
+        _ => "constraint",
+    }
+    .to_string()
+}
+
+/// Map requirement ID -> kind, mirroring `check_trace_markers.py`'s
+/// `known_requirement_kinds`: glob `docs/en/architecture/req/REQ-*.md`, key
+/// by the filename's `REQ-XX-YY-ZZ-NN`, and take the first
+/// `arqix:classes/<kind>` found anywhere in the file (functional by default,
+/// then reported as a TRC-KIND-001 warning).
+fn gate_requirement_kinds() -> BTreeMap<String, GateReqKind> {
+    let mut out = BTreeMap::new();
+    let mut paths: Vec<std::path::PathBuf> = match std::fs::read_dir(MARKER_REQ_DIR) {
+        Ok(rd) => rd.flatten().map(|e| e.path()).collect(),
+        Err(_) => return out,
+    };
+    paths.sort();
+    for path in paths {
+        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+        if !name.starts_with("REQ-") || !name.ends_with(".md") {
+            continue;
+        }
+        let Some(m) = GATE_REQ_FILENAME_RE.find(name) else {
+            continue;
+        };
+        let id = m.as_str().to_string();
+        let text = std::fs::read_to_string(&path).unwrap_or_default();
+        let (kind, declared) = match GATE_KIND_RE.captures(&text) {
+            Some(c) => (kind_short(&c[1]), true),
+            None => ("functional".to_string(), false),
+        };
+        out.insert(
+            id,
+            GateReqKind {
+                kind,
+                declared,
+                file: format!("{MARKER_REQ_DIR}/{name}"),
+            },
+        );
+    }
+    out
+}
+
+/// The known story IDs, mirroring the oracle's `known_story_ids`: glob
+/// `docs/en/architecture/stories/US-*.md`, keyed by the filename's
+/// `US-XX-YY-ZZ`.
+fn gate_story_ids() -> BTreeSet<String> {
+    let mut out = BTreeSet::new();
+    let paths = match std::fs::read_dir(MARKER_STORY_DIR) {
+        Ok(rd) => rd,
+        Err(_) => return out,
+    };
+    for entry in paths.flatten() {
+        let path = entry.path();
+        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+        if !name.starts_with("US-") || !name.ends_with(".md") {
+            continue;
+        }
+        if let Some(m) = GATE_US_FILENAME_RE.find(name) {
+            out.insert(m.as_str().to_string());
+        }
+    }
+    out
+}
+
+/// Python `repr()` of an optional ignore reason, so the TRC-003 message is
+/// byte-identical to the oracle's `{reason!r}`.
+fn py_repr(reason: Option<&str>) -> String {
+    let Some(s) = reason else {
+        return "None".to_string();
+    };
+    let quote = if s.contains('\'') && !s.contains('"') {
+        '"'
+    } else {
+        '\''
+    };
+    let mut out = String::new();
+    out.push(quote);
+    for c in s.chars() {
+        match c {
+            '\\' => out.push_str("\\\\"),
+            '\n' => out.push_str("\\n"),
+            '\r' => out.push_str("\\r"),
+            '\t' => out.push_str("\\t"),
+            c if c == quote => {
+                out.push('\\');
+                out.push(c);
+            }
+            c if (c as u32) < 0x20 || (c as u32) == 0x7f => {
+                out.push_str(&format!("\\x{:02x}", c as u32));
+            }
+            c => out.push(c),
+        }
+    }
+    out.push(quote);
+    out
+}
+
+/// Scan one Rust source for TRC-002/003/005 over its test functions,
+/// mirroring the oracle's `check_test_file` line scanner exactly. Payload
+/// validity (TRC-001/004) is a separate, global pass (`check_marker_targets`).
+fn gate_check_test_file(
+    text: &str,
+    known_stories: &BTreeSet<String>,
+    path: &str,
+) -> Vec<GateFinding> {
+    let mut findings = Vec::new();
+    let mut markers: Vec<(usize, String)> = Vec::new();
+    let mut no_req_lines: Vec<usize> = Vec::new();
+    let mut is_test = false;
+    let mut ignore: Option<(usize, Option<String>)> = None;
+
+    macro_rules! reset {
+        () => {{
+            markers.clear();
+            no_req_lines.clear();
+            is_test = false;
+            ignore = None;
+        }};
+    }
+
+    for (idx, line) in parser::py_splitlines(text).iter().enumerate() {
+        let line_no = idx + 1;
+        let stripped = line.trim();
+        if stripped.is_empty() {
+            reset!();
+            continue;
+        }
+        if let Some(c) = GATE_VERIFIES_RE.captures(stripped) {
+            markers.push((line_no, c[1].to_string()));
+            continue;
+        }
+        if let Some(c) = GATE_PLANS_RE.captures(stripped) {
+            markers.push((line_no, c[1].to_string()));
+            continue;
+        }
+        if GATE_NO_REQ_RE.is_match(stripped) {
+            no_req_lines.push(line_no);
+            continue;
+        }
+        if GATE_TEST_ATTR_RE.is_match(line) {
+            is_test = true;
+            continue;
+        }
+        if let Some(c) = GATE_IGNORE_ATTR_RE.captures(line) {
+            ignore = Some((line_no, c.get(1).map(|m| m.as_str().to_string())));
+            continue;
+        }
+        if GATE_COMMENT_OR_ATTR_RE.is_match(line) {
+            continue;
+        }
+        if GATE_FN_RE.is_match(line) {
+            if is_test {
+                if markers.is_empty() && no_req_lines.is_empty() {
+                    findings.push((
+                        path.to_string(),
+                        line_no,
+                        "TRC-002".to_string(),
+                        "test has neither a verifies/plans marker nor an \
+                         arqix:no-requirement annotation"
+                            .to_string(),
+                    ));
+                }
+                if !markers.is_empty() && !no_req_lines.is_empty() {
+                    findings.push((
+                        path.to_string(),
+                        line_no,
+                        "TRC-005".to_string(),
+                        "test carries both a verifies marker and arqix:no-requirement".to_string(),
+                    ));
+                }
+                if let Some((ignore_line, reason)) = &ignore {
+                    match GATE_IGNORE_REASON_RE.captures(reason.as_deref().unwrap_or("")) {
+                        None => findings.push((
+                            path.to_string(),
+                            *ignore_line,
+                            "TRC-003".to_string(),
+                            format!(
+                                "ignore reason must be 'US-XX-YY-ZZ: <text>', got {}",
+                                py_repr(reason.as_deref())
+                            ),
+                        )),
+                        Some(c) => {
+                            let story = c[1].to_string();
+                            if !known_stories.contains(&story) {
+                                findings.push((
+                                    path.to_string(),
+                                    *ignore_line,
+                                    "TRC-003".to_string(),
+                                    format!("ignore reason names unknown story {story}"),
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+            reset!();
+        } else {
+            reset!();
+        }
+    }
+
+    findings.sort();
+    findings
+}
+
+/// Validate every verifies/plans-marker payload in a Rust source
+/// (TRC-001/004), attached to a test or not — the oracle's
+/// `check_marker_targets`.
+fn gate_check_marker_targets(
+    text: &str,
+    known_reqs: &BTreeSet<String>,
+    path: &str,
+) -> Vec<GateFinding> {
+    let mut findings = Vec::new();
+    for (idx, line) in parser::py_splitlines(text).iter().enumerate() {
+        let line_no = idx + 1;
+        let stripped = line.trim();
+        let payload = GATE_VERIFIES_RE
+            .captures(stripped)
+            .or_else(|| GATE_PLANS_RE.captures(stripped))
+            .map(|c| c[1].to_string());
+        if let Some(payload) = payload {
+            if !is_requirement_id(&payload) {
+                findings.push((
+                    path.to_string(),
+                    line_no,
+                    "TRC-004".to_string(),
+                    format!("malformed marker payload '{payload}' (expected REQ-XX-YY-ZZ-NN)"),
+                ));
+            } else if !known_reqs.contains(&payload) {
+                findings.push((
+                    path.to_string(),
+                    line_no,
+                    "TRC-001".to_string(),
+                    format!("marker references unknown requirement {payload}"),
+                ));
+            }
+        }
+    }
+    findings.sort();
+    findings
+}
+
+/// TRC-006: derived-from (REQ -> US) and has-requirement (US -> REQ) are
+/// double bookkeeping that must stay symmetric; the oracle's `check_backlinks`
+/// reports the missing counterpart at the existing edge's location.
+fn gate_check_backlinks(edges: &[Edge]) -> Vec<GateFinding> {
+    // Keyed by the (REQ, US) pair; a later edge overwrites an earlier one,
+    // matching the oracle's dict comprehension (last wins).
+    let mut derived: BTreeMap<(String, String), (String, usize)> = BTreeMap::new();
+    let mut backlinks: BTreeMap<(String, String), (String, usize)> = BTreeMap::new();
+    for e in edges {
+        if e.kind == "derived-from" && e.to.starts_with("US-") {
+            derived.insert(
+                (e.from.clone(), e.to.clone()),
+                (e.file.clone().unwrap_or_default(), e.line),
+            );
+        }
+    }
+    for e in edges {
+        if e.kind == "has-requirement" && e.from.starts_with("US-") {
+            backlinks.insert(
+                (e.to.clone(), e.from.clone()),
+                (e.file.clone().unwrap_or_default(), e.line),
+            );
+        }
+    }
+    let mut findings = Vec::new();
+    for (pair, (file, line)) in &derived {
+        if !backlinks.contains_key(pair) {
+            findings.push((
+                file.clone(),
+                *line,
+                "TRC-006".to_string(),
+                format!(
+                    "{} is derived-from {}, but the story has no has-requirement backlink",
+                    pair.0, pair.1
+                ),
+            ));
+        }
+    }
+    for (pair, (file, line)) in &backlinks {
+        if !derived.contains_key(pair) {
+            findings.push((
+                file.clone(),
+                *line,
+                "TRC-006".to_string(),
+                format!(
+                    "{} lists {} via has-requirement, but the requirement has no derived-from counterpart",
+                    pair.1, pair.0
+                ),
+            ));
+        }
+    }
+    findings.sort();
+    findings
+}
+
+/// The distinct known requirement IDs referenced by a `verifies` marker (not
+/// `plans`) in the test files — the referenced side of coverage-by-kind.
+fn gate_collect_referenced(test_files: &[(String, String)]) -> BTreeSet<String> {
+    let mut refs = BTreeSet::new();
+    for (_, text) in test_files {
+        for line in parser::py_splitlines(text) {
+            if let Some(c) = GATE_VERIFIES_RE.captures(line.trim())
+                && is_requirement_id(&c[1])
+            {
+                refs.insert(c[1].to_string());
+            }
+        }
+    }
+    refs
+}
+
+// arqix:implements REQ-03-01-06-04
+/// `arqix trace markers` — the ported TDD marker gate. Exit 1 on any finding,
+/// else 0; warnings never affect the exit code.
+pub fn markers_command(format: OutputFormat) -> ExitCode {
+    let kinds = gate_requirement_kinds();
+    let known_reqs: BTreeSet<String> = kinds.keys().cloned().collect();
+    let known_stories = gate_story_ids();
+
+    let corpus = read_corpus();
+    // Every Rust file under tests/ (fixtures already excluded by read_corpus)
+    // and src/ is subject to the same rules; the file paths are cwd-relative
+    // posix, exactly as the oracle reports them.
+    let test_files: Vec<(String, String)> = corpus
+        .iter()
+        .filter(|(p, _)| p.starts_with("tests/") && p.ends_with(".rs"))
+        .cloned()
+        .collect();
+    let src_files: Vec<(String, String)> = corpus
+        .iter()
+        .filter(|(p, _)| p.starts_with("src/") && p.ends_with(".rs"))
+        .cloned()
+        .collect();
+
+    let mut findings: Vec<GateFinding> = Vec::new();
+    for (path, text) in test_files.iter().chain(src_files.iter()) {
+        findings.extend(gate_check_test_file(text, &known_stories, path));
+        findings.extend(gate_check_marker_targets(text, &known_reqs, path));
+    }
+    let model = build_model(&corpus);
+    findings.extend(gate_check_backlinks(&model.edges));
+    findings.sort();
+
+    let referenced: BTreeSet<String> = gate_collect_referenced(&test_files)
+        .intersection(&known_reqs)
+        .cloned()
+        .collect();
+
+    let mut coverage = Map::new();
+    let mut coverage_text_parts = Vec::new();
+    for kind in ["functional", "quality", "constraint"] {
+        let total = kinds.values().filter(|v| v.kind == kind).count();
+        let hit = referenced
+            .iter()
+            .filter(|r| kinds.get(*r).is_some_and(|v| v.kind == kind))
+            .count();
+        coverage.insert(
+            kind.to_string(),
+            json!({ "total": total, "referenced": hit }),
+        );
+        coverage_text_parts.push(format!("{kind} {hit}/{total}"));
+    }
+
+    // Warnings in requirement-id order (the oracle's `sorted(kinds.items())`).
+    let warnings: Vec<(String, String, String)> = kinds
+        .iter()
+        .filter(|(_, info)| !info.declared)
+        .map(|(req_id, info)| {
+            (
+                info.file.clone(),
+                "TRC-KIND-001".to_string(),
+                format!("requirement {req_id} declares no kind; treated as functional"),
+            )
+        })
+        .collect();
+
+    match format {
+        OutputFormat::Json => {
+            let payload = json!({
+                "findings": findings.iter().map(|(f, l, r, m)| json!({
+                    "file": f, "line": l, "rule": r, "message": m,
+                })).collect::<Vec<_>>(),
+                "warnings": warnings.iter().map(|(f, r, m)| json!({
+                    "file": f, "rule": r, "message": m,
+                })).collect::<Vec<_>>(),
+                "tests_files": test_files.len(),
+                "coverage_by_kind": Value::Object(coverage),
+            });
+            emit_json(&payload);
+        }
+        OutputFormat::Text => {
+            let mut out = String::new();
+            for (f, l, r, m) in &findings {
+                out.push_str(&format!("{f}:{l}: {r}: {m}\n"));
+            }
+            for (f, r, m) in &warnings {
+                out.push_str(&format!("{f}: {r}: warning: {m}\n"));
+            }
+            out.push_str(&format!(
+                "checked: {} error(s), {} warning(s) — referenced by verifies markers: {}\n",
+                findings.len(),
+                warnings.len(),
+                coverage_text_parts.join(", "),
+            ));
+            print!("{out}");
+        }
+    }
+
+    if findings.is_empty() {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    }
 }
 
 #[cfg(test)]

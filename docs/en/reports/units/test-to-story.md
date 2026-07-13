@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c2e8228, 2026-07-13
+     Snapshot: 6e0162b, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -410,6 +410,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_run_reports_findings_with_file_and_line_context` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `lint_run_reports_findings_with_file_and_line_context` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
 | `lint_validates_id_shape_against_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
+| `marker_gate_matches_the_oracle_backlink_cases` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
+| `marker_gate_matches_the_oracle_selftest_cases` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `mcp_list_supports_a_lifecycle_filter` | US-05-01-12 | Expose Arqix via MCP over STDIO |
 | `mcp_list_supports_a_lifecycle_filter` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `mcp_search_supports_kind_and_path_filters` | US-05-01-12 | Expose Arqix via MCP over STDIO |
@@ -581,6 +583,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `trace_coverage_supports_json_output` | US-01-01-08 | Generate Governed Coverage Reports |
 | `trace_coverage_supports_json_output` | US-03-01-03 | Generate Coverage Reports |
 | `trace_coverage_supports_json_output` | US-07-01-01 | Review Coverage Evidence |
+| `trace_markers_gates_test_functions_without_a_marker` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `trace_matrix_exports_csv` | US-03-01-02 | Export Trace Matrices |
 | `trace_ratchet_fails_on_a_coverage_regression` | US-04-01-15 | Gate Coverage as a Ratchet |
 | `trace_ratchet_passes_without_regression` | US-04-01-15 | Gate Coverage as a Ratchet |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c2e8228, 2026-07-13
+     Snapshot: 6e0162b, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -39,7 +39,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-02 | Export Trace Matrices | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review | 4 | 0 | 0 | `██████████` 100% |
 | US-03-01-05 | Scan Traceability Information | 5 | 0 | 2 | `███████░░░` 71% |
-| US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 2 | 0 | 2 | `█████░░░░░` 50% |
+| US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-03-01-07 | Filter Traceability Reports for Quality Analysis | 1 | 0 | 2 | `███░░░░░░░` 33% |
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 3 | 0 | 0 | `██████████` 100% |
 | US-03-01-09 | Machine-Check the Done Claim | 2 | 0 | 0 | `██████████` 100% |
