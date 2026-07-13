@@ -20,8 +20,12 @@ export PANDOC_IMAGE
 echo "pulling $PANDOC_IMAGE ..."
 docker pull "$PANDOC_IMAGE"
 
+# Always build the local binary so the render uses this checkout's arqix, not a
+# stale ./target/debug or a globally installed release (cargo install arqix is
+# the published version, where render pdf may still be a stub). The build is
+# incremental and cheap; override ARQIX_BIN to skip it with a chosen binary.
 ARQIX="${ARQIX_BIN:-./target/debug/arqix}"
-if [[ ! -x "$ARQIX" ]]; then
+if [[ -z "${ARQIX_BIN:-}" ]]; then
   echo "building arqix ..."
   cargo build
 fi
