@@ -1159,9 +1159,172 @@ fn dash(value: &Value) -> String {
     }
 }
 
+/// A marker's staleness against version history: possibly stale when its
+/// target requirement or owning story was committed after the marker's own
+/// file (US-03-01-11, ADR-0015). The decision is pure over injected commit
+/// timestamps; `git_last_change` is the only impurity, so unit tests inject
+/// a closure and never touch git.
+fn freshness(model: &Model, last_change: &dyn Fn(&str) -> Option<i64>) -> (Value, ExitCode) {
+    let _ = (model, last_change);
+    let report = json!({
+        "schema_version": SCHEMA_VERSION,
+        "diagnostics": [],
+        "stale": [],
+        "summary": { "evaluated": 0, "stale": 0 },
+    });
+    (report, ExitCode::SUCCESS)
+}
+
+/// The last commit that touched `path`, in unix committer seconds — the one
+/// git shell-out in the binary (ADR-0015). None when the path has no
+/// reachable history (untracked, or no `.git`); freshness treats that as
+/// fresh (REQ-03-01-11-02).
+fn git_last_change(path: &str) -> Option<i64> {
+    let _ = path;
+    None
+}
+
+fn freshness_text(report: &Value) -> String {
+    let mut lines = Vec::new();
+    if let Some(stale) = report["stale"].as_array() {
+        for s in stale {
+            lines.push(format!(
+                "{}: TRC-FRESH-001: {} committed after the marker (possibly stale): {}",
+                s["marker"].as_str().unwrap_or("?"),
+                s["reason"].as_str().unwrap_or("target"),
+                s["requirement"].as_str().unwrap_or("?"),
+            ));
+        }
+    }
+    let evaluated = report["summary"]["evaluated"].as_u64().unwrap_or(0);
+    let stale = report["summary"]["stale"].as_u64().unwrap_or(0);
+    lines.push(format!(
+        "freshness: {stale} possibly stale (of {evaluated} active marker(s))"
+    ));
+    lines.join("\n") + "\n"
+}
+
+/// `arqix trace freshness`
+pub fn freshness_command(format: OutputFormat) -> ExitCode {
+    let model = build_model(&read_corpus());
+    let (report, code) = freshness(&model, &git_last_change);
+    match format {
+        OutputFormat::Json => emit_json(&report),
+        OutputFormat::Text => print!("{}", freshness_text(&report)),
+    }
+    code
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn rs_verifies(req: &str, ignored: bool) -> String {
+        if ignored {
+            format!("// arqix:{} {req}\n#[ignore]\nfn t() {{}}\n", "verifies")
+        } else {
+            format!("// arqix:{} {req}\nfn t() {{}}\n", "verifies")
+        }
+    }
+
+    fn req_doc(id: &str) -> String {
+        format!("---\nid: {id}\n---\nbody\n")
+    }
+
+    // arqix:verifies REQ-03-01-11-01
+    #[test]
+    fn freshness_flags_a_marker_whose_requirement_is_newer() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-99-99-99-01")),
+            ("t.rs".to_string(), rs_verifies("REQ-99-99-99-01", false)),
+        ];
+        let model = build_model(&corpus);
+        // Requirement committed after the marker's own file -> possibly stale.
+        let touched: HashMap<&str, i64> =
+            [("t.rs", 100), ("docs/req.md", 200)].into_iter().collect();
+        let (report, _) = freshness(&model, &|p| touched.get(p).copied());
+        let stale = report["stale"].as_array().expect("stale array");
+        assert_eq!(stale.len(), 1, "the marker is stale: {report}");
+        assert_eq!(stale[0]["marker"], "t.rs:1");
+        assert_eq!(stale[0]["requirement"], "REQ-99-99-99-01");
+        assert_eq!(report["summary"]["evaluated"], 1);
+        assert_eq!(report["summary"]["stale"], 1);
+    }
+
+    // arqix:verifies REQ-03-01-11-01
+    #[test]
+    fn freshness_is_silent_when_the_marker_is_newer() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-99-99-99-01")),
+            ("t.rs".to_string(), rs_verifies("REQ-99-99-99-01", false)),
+        ];
+        let model = build_model(&corpus);
+        // Marker's file committed after the requirement -> current, not stale.
+        let touched: HashMap<&str, i64> =
+            [("t.rs", 200), ("docs/req.md", 100)].into_iter().collect();
+        let (report, _) = freshness(&model, &|p| touched.get(p).copied());
+        assert_eq!(
+            report["summary"]["evaluated"], 1,
+            "the active marker was evaluated: {report}"
+        );
+        assert_eq!(report["stale"].as_array().expect("stale array").len(), 0);
+    }
+
+    // arqix:verifies REQ-03-01-11-01
+    #[test]
+    fn freshness_excludes_ignored_skeleton_markers() {
+        // One active marker (fresh) plus one ignored marker whose requirement
+        // is newer: only the active marker is evaluated, so nothing is stale —
+        // an implementation that evaluated ignored markers would report one.
+        let corpus = vec![
+            ("docs/req1.md".to_string(), req_doc("REQ-99-99-99-01")),
+            ("docs/req2.md".to_string(), req_doc("REQ-99-99-99-02")),
+            (
+                "active.rs".to_string(),
+                rs_verifies("REQ-99-99-99-01", false),
+            ),
+            (
+                "skeleton.rs".to_string(),
+                rs_verifies("REQ-99-99-99-02", true),
+            ),
+        ];
+        let model = build_model(&corpus);
+        let touched: HashMap<&str, i64> = [
+            ("active.rs", 200),
+            ("docs/req1.md", 100),
+            ("skeleton.rs", 100),
+            ("docs/req2.md", 200),
+        ]
+        .into_iter()
+        .collect();
+        let (report, _) = freshness(&model, &|p| touched.get(p).copied());
+        assert_eq!(
+            report["summary"]["evaluated"], 1,
+            "only the active marker is evaluated: {report}"
+        );
+        assert_eq!(
+            report["stale"].as_array().expect("stale array").len(),
+            0,
+            "the ignored marker is skipped even though its requirement is newer: {report}"
+        );
+    }
+
+    // arqix:verifies REQ-03-01-11-02
+    #[test]
+    fn freshness_treats_missing_history_as_fresh() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-99-99-99-01")),
+            ("t.rs".to_string(), rs_verifies("REQ-99-99-99-01", false)),
+        ];
+        let model = build_model(&corpus);
+        // No timestamps for any path -> considered but degraded to fresh.
+        let (report, _) = freshness(&model, &|_| None);
+        assert_eq!(
+            report["summary"]["evaluated"], 1,
+            "the marker is still considered: {report}"
+        );
+        assert_eq!(report["stale"].as_array().expect("stale array").len(), 0);
+    }
 
     // arqix:no-requirement
     #[test]

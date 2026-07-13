@@ -248,6 +248,8 @@ enum TraceCommand {
         #[arg(long)]
         baseline: Option<String>,
     },
+    /// Report active markers gone stale against their target's version history
+    Freshness,
 }
 
 #[derive(Subcommand)]
@@ -366,6 +368,7 @@ fn main() -> ExitCode {
             TraceCommand::Ratchet { baseline } => {
                 trace::ratchet_command(baseline.as_deref(), cli.format)
             }
+            TraceCommand::Freshness => trace::freshness_command(cli.format),
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle { ids, out, stamp } => {
