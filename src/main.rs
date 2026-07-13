@@ -138,6 +138,11 @@ enum Command {
         #[command(subcommand)]
         command: AliasNewCommand,
     },
+    /// Initialise the repository in one command (alias for `doc init`)
+    Init {
+        /// Package path (defaults to the first configured root)
+        path: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -398,6 +403,10 @@ fn main() -> ExitCode {
         Command::Req { command } => alias_new("requirement", command, cli.format),
         Command::Us { command } => alias_new("user-story", command, cli.format),
         Command::Adr { command } => alias_new("adr", command, cli.format),
+        // arqix:implements REQ-01-01-01-03
+        // The top-level init alias dispatches straight into `doc init` — one
+        // code path, no second initialisation surface.
+        Command::Init { path } => templates::init(path.as_deref(), cli.format),
     }
 }
 

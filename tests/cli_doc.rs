@@ -53,7 +53,10 @@ fn init_alias_mirrors_doc_init() {
         "docs/logs",
         "docs/.arqix",
     ] {
-        assert!(repo.join(dir).is_dir(), "{dir} missing from the alias scaffold");
+        assert!(
+            repo.join(dir).is_dir(),
+            "{dir} missing from the alias scaffold"
+        );
     }
 
     // The alias forwards its path argument exactly like `doc init <path>`.
