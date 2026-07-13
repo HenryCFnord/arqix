@@ -1,7 +1,7 @@
 //! Command contract: `trace freshness` — owned by the Trace Engine (arc42
 //! chapter 5, US-03-01-11, ADR-0015). A `verifies`/`implements` marker is
-//! possibly stale when its target requirement or owning story was committed
-//! to version control after the marker's own file.
+//! possibly stale when its target requirement was committed to version
+//! control after the marker's own file.
 //!
 //! Deliberately outside the `cli_trace` conformance suite: freshness is a new
 //! engine-only analysis with no counterpart in the frozen Python oracle, so
@@ -46,10 +46,15 @@ fn write(dir: &Path, rel: &str, text: &str) {
 
 /// Run a git command in `dir` with both author and committer date pinned, so
 /// commit timestamps — and therefore freshness output — are byte-stable.
+/// Ambient global/system git config is neutralised (GIT_CONFIG_GLOBAL/SYSTEM
+/// = /dev/null) so a contributor's `commit.gpgsign`, `core.hooksPath`, or
+/// commit template cannot make the fixture's commits fail.
 fn git(dir: &Path, date: &str, args: &[&str]) {
     let out = Command::new("git")
         .current_dir(dir)
         .args(args)
+        .env("GIT_CONFIG_GLOBAL", "/dev/null")
+        .env("GIT_CONFIG_SYSTEM", "/dev/null")
         .env("GIT_AUTHOR_DATE", date)
         .env("GIT_COMMITTER_DATE", date)
         .env("GIT_AUTHOR_NAME", "t")
