@@ -40,10 +40,10 @@ As a builder, I want the C4 views generated from `workspace.dsl` as committed im
 
 ### Acceptance Criteria
 
-- [ ] The architecture views are rendered from `workspace.dsl` to SVG by a containerised renderer (Kroki), run identically through `just` and in CI.
-- [ ] The generated SVGs are committed under `docs/en/architecture/model/generated/` and embedded in the arc42 chapters, replacing the hand-authored C4 Mermaid.
+- [x] The architecture views are rendered from `workspace.dsl` to SVG by a containerised renderer (Kroki), run identically through `just` and in CI.
+- [x] The generated SVGs are committed under `docs/en/architecture/model/generated/` and embedded in the arc42 chapters, replacing the hand-authored C4 Mermaid.
 - [ ] CI fails when a committed image is stale against a fresh render of the model — the same regenerate-and-diff freshness gate used for the report snapshots.
-- [ ] Mermaid remains available for non-C4 diagrams; only the C4 views become generated images.
+- [x] Mermaid remains available for non-C4 diagrams; only the C4 views become generated images.
 
 ### Notes
 
