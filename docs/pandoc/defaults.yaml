@@ -1,0 +1,11 @@
+# Pandoc defaults for arqix's `render pdf` (REQ-04-01-03-05), applied via
+# --defaults. Paths are relative to the repository root, which the container
+# shim (scripts/pandoc-docker.sh) mounts at its working directory, so a local
+# `just render-pdf` and the pipeline render read the same file.
+#
+# eisvogel and xelatex ship in the fat image (pandoc/extra); rsvg-convert in the
+# same image turns the embedded C4 SVG views into PDF automatically.
+template: eisvogel
+pdf-engine: xelatex
+toc: true
+number-sections: true

@@ -1,6 +1,10 @@
 # arqix task runner — thin wrappers over the real gate and cargo.
 # The process truth lives in scripts/arqix verify and .github/workflows/ci.yml;
-# these recipes only save typing. `just --list` shows everything.
+# these recipes only save typing. Bare `just` lists them.
+
+# Show the available recipes (default)
+list:
+    @just --list
 
 # The daily gate: checkers, marker gate, cargo test, dogfooded arqix verify, markdownlint
 verify:
@@ -41,6 +45,12 @@ render-views:
 render-views-check:
     ./scripts/render_views.sh {{justfile_directory()}}/target/views-fresh
     git --no-pager diff --no-index --exit-code docs/en/architecture/model/generated {{justfile_directory()}}/target/views-fresh
+
+# Render the documentation PDFs via Pandoc in the fat container (needs Docker;
+# pulls pandoc/extra). Extra args pass through to `arqix render pdf`
+# (e.g. `just render-pdf --lang en --out out.pdf`, or specific files).
+render-pdf *ARGS:
+    ./scripts/render_pdf.sh {{ARGS}}
 
 # Everything CI runs, locally
 ci: verify lint conformance
