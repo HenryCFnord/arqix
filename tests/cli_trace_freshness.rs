@@ -12,7 +12,7 @@
 
 mod common;
 
-use common::{run_arqix_in, stdout_json};
+use common::{run_arqix_in, run_arqix_in_env, stdout_json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -136,11 +136,25 @@ fn freshness_is_clean_when_the_test_is_the_later_commit() {
 #[test]
 fn freshness_degrades_without_version_control() {
     let dir = fresh_dir("freshness_no_git");
-    // A corpus with a marker, but no `.git` at all.
+    // A corpus with a marker, but no reachable git repository. The scratch dir
+    // sits under the cargo target dir, which is itself inside the arqix repo,
+    // so `git log` would otherwise resolve upward to arqix's own history and
+    // exercise the empty-output path instead of the genuinely git-absent branch
+    // (git exits non-zero). GIT_CEILING_DIRECTORIES stops git's upward search at
+    // the scratch parent, so the render sees no repository at all.
     write(&dir, "t.rs", &marker_rs());
     write(&dir, "docs/req.md", REQ_MD);
+    let ceiling = dir
+        .parent()
+        .expect("scratch parent")
+        .to_string_lossy()
+        .into_owned();
 
-    let out = run_arqix_in(&dir, &["trace", "freshness", "--format", "json"]);
+    let out = run_arqix_in_env(
+        &dir,
+        &["trace", "freshness", "--format", "json"],
+        &[("GIT_CEILING_DIRECTORIES", &ceiling)],
+    );
     let report = stdout_json(&out);
     assert_eq!(
         report["summary"]["evaluated"], 1,

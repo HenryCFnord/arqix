@@ -1318,6 +1318,21 @@ mod tests {
         format!("---\nid: {id}\n---\nbody\n")
     }
 
+    fn req_doc_iri(id: &str, iri: &str) -> String {
+        format!("---\nid: {id}\niri: {iri}\n---\nbody\n")
+    }
+
+    // A user story whose frontmatter has-requirements the target, so the model
+    // carries a story->requirement edge a story-comparing regression could
+    // follow.
+    fn story_doc(id: &str, req_iri: &str) -> String {
+        format!(
+            "---\nid: {id}\nrdf:\n  type:\n    - arqix:classes/user-story\n\
+             triples:\n  - predicate: arqix:properties/has-requirement\n    \
+             object:\n      - {req_iri}\n---\nbody\n"
+        )
+    }
+
     // arqix:verifies REQ-03-01-11-01
     #[test]
     fn freshness_flags_a_marker_whose_requirement_is_newer() {
@@ -1355,6 +1370,53 @@ mod tests {
             "the active marker was evaluated: {report}"
         );
         assert_eq!(report["stale"].as_array().expect("stale array").len(), 0);
+    }
+
+    // arqix:verifies REQ-03-01-11-01
+    #[test]
+    fn freshness_ignores_owning_story_churn() {
+        // ADR-0015: staleness is measured against the requirement document
+        // only; the owning story is a grouping layer whose churn is not a
+        // signal. The requirement here is OLDER than the marker (so, fresh),
+        // but the owning story is the newest file in the corpus. An
+        // implementation that also compared the marker against the
+        // requirement's story would flag this stale; freshness must stay silent.
+        let corpus = vec![
+            (
+                "docs/story.md".to_string(),
+                story_doc("US-99-99-99", "arqix:requirements/req-99-99-99-01"),
+            ),
+            (
+                "docs/req.md".to_string(),
+                req_doc_iri("REQ-99-99-99-01", "arqix:requirements/req-99-99-99-01"),
+            ),
+            ("t.rs".to_string(), rs_verifies("REQ-99-99-99-01", false)),
+        ];
+        let model = build_model(&corpus);
+        // Guard the fixture: the story must actually link to the requirement,
+        // otherwise a story-comparing regression would have no edge to follow
+        // and the test would pass vacuously.
+        assert!(
+            model.edges.iter().any(|e| e.from == "US-99-99-99"
+                && e.to == "REQ-99-99-99-01"
+                && e.kind == "has-requirement"),
+            "fixture must link the story to the requirement"
+        );
+        let touched: HashMap<&str, i64> =
+            [("t.rs", 200), ("docs/req.md", 100), ("docs/story.md", 300)]
+                .into_iter()
+                .collect();
+        let (report, code) = freshness(&model, &|p| touched.get(p).copied());
+        assert_eq!(
+            report["summary"]["evaluated"], 1,
+            "the active marker was evaluated: {report}"
+        );
+        assert_eq!(
+            report["stale"].as_array().expect("stale array").len(),
+            0,
+            "the newer owning story must not make the marker stale: {report}"
+        );
+        assert_eq!(code, ExitCode::SUCCESS);
     }
 
     // arqix:verifies REQ-03-01-11-01

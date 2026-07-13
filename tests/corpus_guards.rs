@@ -163,6 +163,7 @@ fn adrs_follow_the_path_model_in_the_canonical_governance_language() {
 }
 
 // arqix:verifies REQ-01-01-11-04
+// arqix:verifies REQ-04-01-18-01
 #[test]
 fn architecture_views_are_generated_from_the_c4_model() {
     assert!(
@@ -172,16 +173,61 @@ fn architecture_views_are_generated_from_the_c4_model() {
         "the C4 model source docs/en/architecture/model/workspace.dsl must exist"
     );
     // The views are rendered from the model (ADR-0016): an arc42 unit embeds a
-    // generated image carrying the derived-from provenance marker.
-    let embeds_generated_view = dir_entries("docs/en/architecture/arc42/units")
-        .iter()
-        .map(|p| std::fs::read_to_string(p).unwrap())
-        .any(|text| text.contains("model/generated/") && text.contains("derived from"));
+    // generated SVG via a real Markdown image, the image carries the
+    // derived-from provenance marker, and the referenced file exists on disk
+    // and is non-empty — a bare provenance comment or a dangling path is not a
+    // rendered view.
+    let mut embeds = 0;
+    for unit in dir_entries("docs/en/architecture/arc42/units") {
+        let text = std::fs::read_to_string(&unit).unwrap();
+        if !text.contains("derived from") {
+            continue;
+        }
+        for line in text.lines() {
+            // A Markdown image `![...](<path>.svg)` targeting the generated dir.
+            let Some(open) = line.find("](") else {
+                continue;
+            };
+            if !line[..open].contains("![") {
+                continue;
+            }
+            let rest = &line[open + 2..];
+            let Some(close) = rest.find(')') else {
+                continue;
+            };
+            let target = &rest[..close];
+            if !(target.contains("model/generated/") && target.ends_with(".svg")) {
+                continue;
+            }
+            // Resolve the relative embed against the embedding unit's directory.
+            let resolved = unit.parent().unwrap().join(target);
+            let meta = std::fs::metadata(&resolved).unwrap_or_else(|e| {
+                panic!(
+                    "embedded generated view {} must exist on disk: {e}",
+                    resolved.display()
+                )
+            });
+            assert!(
+                meta.len() > 0,
+                "embedded generated view {} must be non-empty",
+                resolved.display()
+            );
+            embeds += 1;
+        }
+    }
     assert!(
-        embeds_generated_view,
-        "at least one arc42 unit must embed an architecture view generated from the model"
+        embeds > 0,
+        "at least one arc42 unit must embed a generated SVG view \
+         (![...](...model/generated/*.svg)) carrying derived-from provenance"
     );
 }
+
+// The blocking CI freshness gate for the generated views (regenerate and diff
+// against the committed SVGs) is planned, not yet enforced: the diagrams
+// workflow is manual-dispatch and non-blocking while the render is shaken out
+// (roadmap items 5 and 8, ADR-0016). Recorded as a planned claim so the
+// requirement is traceable rather than silently unreferenced.
+// arqix:plans REQ-04-01-18-02
 
 // arqix:verifies REQ-01-01-11-05
 #[test]
