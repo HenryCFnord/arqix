@@ -19,10 +19,11 @@ MODEL_DIR="docs/en/architecture/model"
 OUT="${1:-$MODEL_DIR/generated}"
 # The views declared in workspace.dsl that documents embed.
 VIEWS=("SystemContext" "Containers")
-# Pin the renderer: Kroki renders structurizr via PlantUML, whose layout
-# coordinates depend on the version, so the freshness gate is only stable
-# against a fixed image tag. Override KROKI_IMAGE to match your local pull.
-KROKI_IMAGE="${KROKI_IMAGE:-yuzutech/kroki}"
+# Pin the renderer by digest: Kroki renders structurizr via PlantUML, whose
+# layout coordinates depend on the version, so the freshness gate is only
+# stable against a fixed image. Override KROKI_IMAGE to match your local pull;
+# the digest below is the image the committed SVGs were rendered with.
+KROKI_IMAGE="${KROKI_IMAGE:-yuzutech/kroki@sha256:c16303ecd8ae840a6e3a76efa53468836c6297eeb7b7316845c3b24e8dbd0398}"
 
 KROKI_URL="${KROKI_URL:-}"
 started=""
