@@ -41,7 +41,7 @@ C4Context
     Person(agent, "Coding Agent", "Deterministic story-by-story loops")
     System(arqix, "arqix CLI", "Deterministic documentation-as-code toolchain")
     System_Ext(gitRepo, "Git Repository", "Corpus, configuration, changed files")
-    System_Ext(render, "Render Toolchain", "Configured renderers: Pandoc, a site command")
+    System_Ext(render, "Render Toolchain", "Pandoc for PDF; configured site build, e.g. Zensical")
     System_Ext(ci, "CI & Pages", "Verification gate, site publishing")
     System_Ext(mcp, "MCP Client", "Agent or IDE consuming documentation")
     Rel(maintainer, arqix, "fmt, lint, standards")
