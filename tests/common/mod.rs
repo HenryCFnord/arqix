@@ -73,6 +73,20 @@ pub fn run_arqix_in(dir: &Path, args: &[&str]) -> Output {
         .expect("failed to run arqix")
 }
 
+/// Run the arqix binary with `args` inside `dir`, with extra environment
+/// variables. Used where a test must control the process environment arqix
+/// (or a tool it shells out to) sees — e.g. bounding git's repository search
+/// with `GIT_CEILING_DIRECTORIES` so a scratch corpus under the cargo target
+/// dir is genuinely outside version control.
+pub fn run_arqix_in_env(dir: &Path, args: &[&str], envs: &[(&str, &str)]) -> Output {
+    let mut command = Command::new(arqix_bin());
+    command.current_dir(dir).args(args);
+    for (key, value) in envs {
+        command.env(key, value);
+    }
+    command.output().expect("failed to run arqix")
+}
+
 /// Assert exit code 0, printing stderr on failure.
 pub fn assert_success(output: &Output) {
     assert_eq!(

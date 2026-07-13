@@ -14,9 +14,9 @@
 # then pin PANDOC_IMAGE to the digest (as we did for Kroki).
 set -euo pipefail
 
-# Pinned by digest for a reproducible render (matches scripts/pandoc-docker.sh);
-# override PANDOC_IMAGE to use a different local pull.
-PANDOC_IMAGE="${PANDOC_IMAGE:-pandoc/extra@sha256:dfae5cf73a0e0ad40acf23d2d2c4adf5715e560aeea3324aa87e68faaa2e70c9}"
+# The render image is pinned by digest in one shared place; pandoc-docker.sh
+# sources the same file, so the pre-pull here and the render use one pin.
+source "$(dirname "${BASH_SOURCE[0]}")/pandoc-image.env"
 export PANDOC_IMAGE
 
 echo "pulling $PANDOC_IMAGE ..."

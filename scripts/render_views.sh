@@ -28,7 +28,9 @@ KROKI_IMAGE="${KROKI_IMAGE:-yuzutech/kroki@sha256:c16303ecd8ae840a6e3a76efa53468
 KROKI_URL="${KROKI_URL:-}"
 started=""
 if [[ -z "$KROKI_URL" ]]; then
-  docker run -d --rm --name arqix-kroki -p 8000:8000 "$KROKI_IMAGE" >/dev/null
+  # Bind to loopback only: a bare -p 8000:8000 publishes the unauthenticated
+  # Kroki gateway on every interface for the render window.
+  docker run -d --rm --name arqix-kroki -p 127.0.0.1:8000:8000 "$KROKI_IMAGE" >/dev/null
   started="1"
   KROKI_URL="http://localhost:8000"
   for _ in $(seq 1 30); do curl -sf "$KROKI_URL/health" >/dev/null 2>&1 && break; sleep 1; done

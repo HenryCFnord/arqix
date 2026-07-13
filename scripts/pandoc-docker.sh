@@ -14,9 +14,9 @@
 # for a reproducible render, exactly as render_views.sh pins the Kroki image.
 set -euo pipefail
 
-# Pinned by digest for a reproducible render; override PANDOC_IMAGE to match a
-# local pull. This is the image the committed PDF was rendered with.
-PANDOC_IMAGE="${PANDOC_IMAGE:-pandoc/extra@sha256:dfae5cf73a0e0ad40acf23d2d2c4adf5715e560aeea3324aa87e68faaa2e70c9}"
+# The render image is pinned by digest in one shared place (scripts/pandoc-image.env);
+# override PANDOC_IMAGE to use a different local pull.
+source "$(dirname "${BASH_SOURCE[0]}")/pandoc-image.env"
 
 # No --user: under rootless Docker (the common local setup — note the "IPv4
 # forwarding is disabled" warning) container-root maps to the invoking host user,
