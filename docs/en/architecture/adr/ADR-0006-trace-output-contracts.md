@@ -29,7 +29,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-05
-  updated: 2026-07-05
+  updated: 2026-07-13
   lang: en
   translation-of:
   generated: false
@@ -58,6 +58,9 @@ Trace output is layered; each layer has its own consumer and its own stability p
    - `TRC-COV-002` (warning): a functional requirement is only planned — every `verifies` marker sits on an ignored test.
    - `TRC-KIND-001` (warning): a requirement declares no kind and is treated as functional — the strictest default, made visible instead of silent.
      Exit code 1 is driven by error diagnostics only.
+   `trace freshness` (ADR-0015) is a second layer-2 diagnostics projection over the same graph: it reads git history to judge whether a verifying marker is still current, in the same findings format.
+   - `TRC-FRESH-001` (warning): an active `verifies`/`implements` marker whose target requirement was committed after the marker's own file — its verification may be stale.
+     Unlike coverage, `trace freshness` exits 1 whenever any marker is possibly stale (the findings channel); the verify sub-step is informational (REQ-03-01-11-03), so this never gates the loop.
 3. **Audit products (`trace matrix`, `report bundle`).**
    Stable headers and row models (REQ-03-01-02-03), stable export schemas (REQ-04-01-12-02), generation metadata (REQ-04-01-12-03).
    Schema changes here are contract breaches, not improvements.

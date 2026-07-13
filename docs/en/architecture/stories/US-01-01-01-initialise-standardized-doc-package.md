@@ -18,6 +18,7 @@ triples:
       - arqix:requirements/req-00-00-00-08
       - arqix:requirements/req-01-01-01-01
       - arqix:requirements/req-01-01-01-02
+      - arqix:requirements/req-01-01-01-03
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-01-01
 
@@ -43,10 +44,11 @@ As a maintainer, I want to initialise a new doc package with a standardised dire
 
 ### Acceptance Criteria
 
-- [ ] `arqix doc init <path>` creates `index.md`, `units/`, `pages/`, `artefacts/`, `logs/`, and `.arqix/`.
-- [ ] `index.md` contains frontmatter with `id`, `kind=doc_index`, and `title`.
-- [ ] `id`/`slug` are derived deterministically from `title` based on configurable slug rules.
-- [ ] Existing files are not overwritten without explicit approval.
+- [x] `arqix doc init <path>` creates `index.md`, `units/`, `pages/`, `artefacts/`, `logs/`, and `.arqix/`.
+- [x] `index.md` contains frontmatter with `id`, `kind=doc_index`, and `title`.
+- [x] `id`/`slug` are derived deterministically from `title` based on configurable slug rules.
+- [x] Existing files are not overwritten without explicit approval.
+- [x] `arqix init` behaves exactly like `arqix doc init` for the same arguments.
 
 ### Notes
 

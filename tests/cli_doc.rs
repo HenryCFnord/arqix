@@ -35,6 +35,38 @@ fn doc_init_creates_the_standard_package_scaffold() {
     );
 }
 
+// arqix:verifies REQ-01-01-01-03
+#[test]
+fn init_alias_mirrors_doc_init() {
+    let repo = scratch_copy("minimal", "init_alias_mirrors_doc_init");
+    // The top-level `init` alias runs the same scaffold as `doc init`.
+    let out = run_arqix_in(&repo, &["init"]);
+    assert_success(&out);
+    assert!(
+        repo.join("docs/index.md").is_file(),
+        "init alias must scaffold index.md"
+    );
+    for dir in [
+        "docs/units",
+        "docs/pages",
+        "docs/artefacts",
+        "docs/logs",
+        "docs/.arqix",
+    ] {
+        assert!(
+            repo.join(dir).is_dir(),
+            "{dir} missing from the alias scaffold"
+        );
+    }
+
+    // The alias forwards its path argument exactly like `doc init <path>`.
+    assert_success(&run_arqix_in(&repo, &["init", "pkg"]));
+    assert!(
+        repo.join("pkg/index.md").is_file(),
+        "init alias must forward the path argument to doc init"
+    );
+}
+
 // arqix:verifies REQ-01-01-01-01
 #[test]
 fn doc_init_scaffolds_an_explicit_path() {

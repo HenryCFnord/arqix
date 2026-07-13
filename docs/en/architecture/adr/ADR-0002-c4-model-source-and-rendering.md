@@ -42,9 +42,12 @@ meta:
 
 ### Context
 
-REQ-01-01-11-04 requires architecture views to use Mermaid diagrams in a C4-oriented style.
-That requirement is owed to the publishing target: GitHub Pages renders Mermaid natively, so embedded views must be Mermaid.
-Mermaid, however, is a drawing notation, not a model — hand-maintained Mermaid diagrams drift apart because each diagram repeats the same elements and relationships without a shared source.
+**The rendering half of this decision is superseded by ADR-0016; the single source of truth below still holds.**
+Embedded views are no longer hand-authored Mermaid — they are committed rendered SVG images generated from the model (Kroki), which reverses the "committing rendered images" alternative rejected below.
+The reversal is deliberate: a container render pipeline plus a regenerate-and-diff freshness gate now answer the diffability and toolchain objections that rejected it, and an attempt at an in-process C4-Mermaid drift checker showed that keeping hand-authored diagrams honest is a standing liability.
+
+REQ-01-01-11-04 asks architecture views to present the C4 model in a C4-oriented style (originally hand-authored Mermaid; now generated images).
+Mermaid is a drawing notation, not a model — hand-maintained diagrams drift apart because each repeats the same elements and relationships without a shared source, which is the problem the single source below solves.
 
 ### Decision
 

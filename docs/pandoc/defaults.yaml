@@ -1,0 +1,26 @@
+# Pandoc defaults for arqix's `render pdf` (REQ-04-01-03-05), applied via
+# --defaults. Paths are relative to the repository root, which the container
+# shim (scripts/pandoc-docker.sh) mounts at its working directory, so a local
+# `just render-pdf` and the pipeline render read the same file.
+#
+# eisvogel and xelatex ship in the fat image (pandoc/extra); rsvg-convert in the
+# same image turns the embedded C4 SVG views into PDF automatically.
+template: eisvogel
+# xelatex, not pdflatex: eisvogel's default fonts are OpenType (Source Sans /
+# Serif / Code Pro), and only a Unicode-aware engine (xelatex or lualatex) can
+# load system OTF fonts — pdflatex cannot, so it would fail to build eisvogel as
+# shipped. xelatex also gives the docs' non-ASCII glyphs a real font path.
+pdf-engine: xelatex
+toc: true
+number-sections: true
+
+# Staging moves the assembled pages out of the source tree, so their image links
+# (`../model/generated/…` from the arc42 page, `../../model/generated/…` from a
+# unit) no longer resolve relative to the staged file. resource-path gives pandoc
+# the source anchors those relative paths were written against, so the committed
+# C4 SVGs are found and embedded. Paths are relative to the repo root (mounted at
+# the container's working directory).
+resource-path:
+  - .
+  - docs/en/architecture/arc42
+  - docs/en/architecture/arc42/units

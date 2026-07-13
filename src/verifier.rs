@@ -12,12 +12,13 @@ use std::process::{Command, ExitCode};
 /// The sub-steps the loop can run. Each is invoked as `arqix <args>`, so the
 /// orchestrator depends only on the command interface (ADR-0003). Rendering
 /// and publishing are absent by design (REQ-04-01-05-04).
-const REGISTRY: [(&str, &[&str]); 5] = [
+const REGISTRY: [(&str, &[&str]); 6] = [
     ("format", &["fmt", "--check"]),
     ("lint", &["lint", "run"]),
     ("trace-scan", &["trace", "scan"]),
     ("coverage", &["trace", "coverage"]),
     ("ratchet", &["trace", "ratchet"]),
+    ("freshness", &["trace", "freshness"]),
 ];
 
 // arqix:implements REQ-04-01-05-01
@@ -26,6 +27,7 @@ const REGISTRY: [(&str, &[&str]); 5] = [
 // arqix:implements REQ-04-01-05-04
 // arqix:implements REQ-04-01-14-01
 // arqix:implements REQ-04-01-14-02
+// arqix:implements REQ-03-01-11-03
 /// `arqix verify [--fail-fast | --aggregate]` — runs the sub-steps declared
 /// in the effective `[policies.verify]` configuration, in their configured
 /// order; informational steps report findings without gating.

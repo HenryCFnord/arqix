@@ -10,6 +10,14 @@
 [policies.reports]
 snapshot-strategy = "main-only"
 
+[policies.render]
+# arqix orchestrates Pandoc; the render runs in the fat Pandoc/LaTeX/eisvogel
+# container so a local `just render-pdf` is byte-for-byte the pipeline render —
+# the same local-equals-CI posture as the Kroki view render (ADR-0016). The
+# shim mounts the repo and forwards arqix's pandoc arguments into the container.
+pdf-command = "./scripts/pandoc-docker.sh"
+defaults = "docs/pandoc/defaults.yaml"
+
 [policies.publish]
 site-command = "zensical build"
 # The specification returns to the site in bundled form (US-04-01-17):
@@ -28,4 +36,9 @@ exclude = [
     "architecture/personas",
 ]
 # Brand assets ride into staging so the toolchain can reference them.
-assets = ["assets/arqix-logo-transparent.png"]
+# The generated architecture views (ADR-0016) ride along the same way: the C4
+# SVGs rendered from workspace.dsl reach staging so the docs can embed them.
+assets = [
+    "assets/arqix-logo-transparent.png",
+    "docs/en/architecture/model/generated",
+]

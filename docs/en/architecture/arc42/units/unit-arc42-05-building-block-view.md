@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-12
+  updated: 2026-07-13
   lang: en
   translation-of:
   generated: false
@@ -28,19 +28,7 @@ meta:
 ## Building Block View
 
 <!-- derived from ../model/workspace.dsl (view: Containers) -->
-```mermaid
-C4Container
-    title arqix — Containers
-    Person(agent, "Coding Agent", "")
-    System_Boundary(arqixB, "arqix") {
-        Container(cli, "arqix binary", "Rust", "All commands; effective-config resolution")
-        Container(config, "arqix.toml", "TOML", "Kinds, templates, roots, policies, i18n")
-        Container(corpus, "Documentation Corpus", "Markdown + YAML", "Documents, ontology, trace markers")
-    }
-    Rel(agent, cli, "invokes commands")
-    Rel(cli, config, "resolves at startup")
-    Rel(cli, corpus, "reads, creates, formats, assembles")
-```
+![arqix — Containers](../../model/generated/containers.svg)
 
 The binary decomposes into fifteen components: the CLI entrypoint as composition root, the document parser as shared reading layer, the verification orchestrator sequencing the quality gate, and twelve feature components cut along the requirement clusters:
 
@@ -55,7 +43,7 @@ The binary decomposes into fifteen components: the CLI entrypoint as composition
 | Formatter & Finaliser | Canonical rewrites over the parser CST: `fmt` (key order, directives) and `finalise` (mechanical metadata updates, injected clock); the only mutator of existing source documents ([ADR-0004](../../adr/ADR-0004-finalise-and-the-mechanical-rewriter.md)) | REQ-01-01-03-*, REQ-01-01-06-*, REQ-00-00-00-08 |
 | Linter | Includes, references, ID policy, lifecycle, done claim, translation source | REQ-01-01-04-*, REQ-01-01-18-*, REQ-03-01-09-*, REQ-00-00-00-10 |
 | Assembler | Chapter/include directives, glob expansion, cycle detection, JSONL log | REQ-02-01-09-*, REQ-02-01-11-*, REQ-04-01-01-* |
-| Trace Engine | Marker scan, trace graph, matrices, coverage | REQ-03-01-05-*, REQ-03-01-02-*, REQ-01-01-08-* |
+| Trace Engine | Marker scan, trace graph, matrices, coverage, marker freshness against git history | REQ-03-01-05-*, REQ-03-01-02-*, REQ-01-01-08-*, REQ-03-01-11-* |
 | Report & Export | Audit exports, evidence bundles, stable schemas | REQ-04-01-12-*, REQ-03-01-04-* |
 | Publish & Render Orchestrator | Pandoc/site orchestration per language | REQ-04-01-03-*, REQ-04-01-07-* |
 | Policy Checker | Changed files vs declared change scope | REQ-01-01-07-*, REQ-00-00-00-07 |
@@ -86,11 +74,12 @@ The spine (Entrypoint → Config Resolver → … → Diagnostics & Exit Codes) 
 | `trace scan`, `trace check` | Trace Engine | → Parser (markers, links) + code/test files → graph | REQ-03-01-05-*, REQ-03-01-06-* |
 | `trace coverage`, `trace matrix` | Trace Engine | graph projections; serialisation via Report & Export | REQ-01-01-08-*, REQ-03-01-02-* |
 | `trace ratchet` | Trace Engine | baseline (`--baseline` / configured / committed snapshot) → fail on verified-coverage regression | REQ-04-01-15-*, REQ-04-01-16-* |
+| `trace freshness` | Trace Engine | active markers → git last-change of marker vs target requirement → possibly-stale findings (ADR-0015) | REQ-03-01-11-* |
 | `report bundle` (evidence bundles) | Report & Export | → Trace Engine (graph) → stable schemas | REQ-03-01-04-*, REQ-04-01-12-* |
 | `report knowledge` (OKF export) | Report & Export | → Store (scope, lifecycle) → Assembler (expansion) → concept documents | REQ-05-01-15-* |
 | `publish site --lang`, `render pdf` | Publish & Render Orchestrator | → Assembler → external toolchain (errors forwarded) | REQ-04-01-03-*, REQ-04-01-07-* |
 | `policy check` | Policy Checker | changed-file list (external) → policy from config | REQ-01-01-07-* |
-| `verify` | Verification Orchestrator | → fmt/lint/scan/coverage via the command interface ([ADR-0003](../../adr/ADR-0003-verification-orchestrator.md)) | REQ-04-01-05-* |
+| `verify` | Verification Orchestrator | → fmt/lint/scan/coverage/ratchet/freshness via the command interface ([ADR-0003](../../adr/ADR-0003-verification-orchestrator.md)) | REQ-04-01-05-* |
 | `mcp serve` | MCP Server | transport adapter over Store operations | REQ-05-01-12-* |
 
 This table is the seed for the component test contracts: every row becomes the owning component's command-level test suite, and every flow becomes an integration-test skeleton.
