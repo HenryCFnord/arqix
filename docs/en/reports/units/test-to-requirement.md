@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c561778, 2026-07-13
+     Snapshot: 5503f7b, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -202,8 +202,12 @@
 | `verify_defaults_to_informational_coverage_and_gating_rest` | tests/cli_verify.rs:122 | REQ-04-01-14-03 | active |
 | `verify_emits_per_step_results_in_json_mode` | tests/cli_verify.rs:27 | REQ-04-01-05-03 | active |
 | `verify_excludes_rendering_from_the_default_loop` | tests/cli_verify.rs:38 | REQ-04-01-05-04 | active |
+| `verify_gates_on_a_seeded_marker_violation` | tests/cli_verify.rs:319 | REQ-04-01-14-04 | active |
+| `verify_gates_on_a_seeded_requirements_violation` | tests/cli_verify.rs:279 | REQ-04-01-14-04 | active |
 | `verify_reports_informational_findings_without_gating` | tests/cli_verify.rs:77 | REQ-04-01-14-02 | active |
+| `verify_reports_the_corpus_checks_as_sub_steps` | tests/cli_verify.rs:249 | REQ-04-01-14-04 | active |
 | `verify_runs_exactly_the_configured_steps_in_order` | tests/cli_verify.rs:49 | REQ-04-01-14-01 | active |
 | `verify_runs_freshness_as_an_informational_step` | tests/cli_trace_freshness.rs:171 | REQ-03-01-11-03 | active |
 | `verify_runs_the_configured_sub_steps` | tests/cli_verify.rs:9 | REQ-04-01-05-01 | active |
+| `verify_skips_report_freshness_off_the_default_branch_under_main_only` | tests/cli_verify.rs:361 | REQ-04-01-14-05 | active |
 | `verify_supports_fail_fast_and_aggregate_modes` | tests/cli_verify.rs:17 | REQ-04-01-05-02 | active |

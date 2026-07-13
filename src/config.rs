@@ -141,6 +141,15 @@ impl Default for VerifyPolicy {
             // what gates instead is the regression ratchet. Freshness is
             // likewise informational: a possibly-stale marker prompts review,
             // it does not fail the loop (ADR-0015, REQ-03-01-11-03).
+            //
+            // The ported corpus checks (requirements, frontmatter, markers,
+            // report-freshness) are deliberately NOT in this hard-coded default:
+            // they need a populated corpus (architecture stories/requirements,
+            // an ontology, committed snapshots) and hard-exit where those are
+            // absent, so a fresh `doc init` package must still pass `verify`
+            // (REQ-08-01-01-02). A repository that has a full corpus wires them
+            // into its own `[policies.verify]` profile (REQ-04-01-14-04) — as
+            // arqix does in its own arqix.toml.
             steps: [
                 "format",
                 "lint",
@@ -182,6 +191,24 @@ pub fn verify_policy(dir: &Path) -> VerifyPolicy {
         .and_then(Value::as_str)
         .map(str::to_string);
     policy
+}
+
+// arqix:implements REQ-04-01-14-05
+/// The configured report snapshot strategy (`[policies.reports]
+/// snapshot-strategy`, config-audit row C17): `committed` (the default),
+/// `main-only`, or `on-demand`. Resolving `main-only` against the current
+/// branch is the orchestrator's concern (`src/verifier.rs`), mirroring the
+/// reference sequencer (`scripts/arqix`, step 9).
+pub fn snapshot_strategy(dir: &Path) -> String {
+    let (config, _) = resolve(dir);
+    config
+        .sections
+        .get("policies")
+        .and_then(|p| p.get("reports"))
+        .and_then(|r| r.get("snapshot-strategy"))
+        .and_then(Value::as_str)
+        .unwrap_or("committed")
+        .to_string()
 }
 
 fn json_string_array(value: Option<&Value>) -> Option<Vec<String>> {

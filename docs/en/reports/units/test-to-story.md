@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c561778, 2026-07-13
+     Snapshot: 5503f7b, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -699,10 +699,14 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `verify_emits_per_step_results_in_json_mode` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
 | `verify_excludes_rendering_from_the_default_loop` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_excludes_rendering_from_the_default_loop` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `verify_gates_on_a_seeded_marker_violation` | US-04-01-14 | Configure the Verification Loop |
+| `verify_gates_on_a_seeded_requirements_violation` | US-04-01-14 | Configure the Verification Loop |
 | `verify_reports_informational_findings_without_gating` | US-04-01-14 | Configure the Verification Loop |
+| `verify_reports_the_corpus_checks_as_sub_steps` | US-04-01-14 | Configure the Verification Loop |
 | `verify_runs_exactly_the_configured_steps_in_order` | US-04-01-14 | Configure the Verification Loop |
 | `verify_runs_freshness_as_an_informational_step` | US-03-01-11 | Keep Verified Status Current |
 | `verify_runs_the_configured_sub_steps` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_runs_the_configured_sub_steps` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
+| `verify_skips_report_freshness_off_the_default_branch_under_main_only` | US-04-01-14 | Configure the Verification Loop |
 | `verify_supports_fail_fast_and_aggregate_modes` | US-04-01-05 | Run a One-Command Verification Loop |
 | `verify_supports_fail_fast_and_aggregate_modes` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
