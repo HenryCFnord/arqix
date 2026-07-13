@@ -1,0 +1,21 @@
+# Architecture-view rendering and freshness gate (ADR-0016, US-04-01-18).
+# Renders the C4 views from workspace.dsl to SVG via Kroki and fails if the
+# committed images are stale. Manual-dispatch only for now — a scaffold that
+# gets its first real run here (GitHub runners have Docker); promote it to a
+# required check once the Kroki invocation in scripts/render_views.sh is
+# confirmed. Deliberately NOT part of the blocking ci.yml gate yet.
+name: architecture-diagrams
+
+on:
+  workflow_dispatch:
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render views and check freshness against the committed SVGs
+        run: |
+          ./scripts/render_views.sh "$RUNNER_TEMP/views"
+          git --no-pager diff --no-index --exit-code \
+            docs/en/architecture/model/generated "$RUNNER_TEMP/views"
