@@ -7,6 +7,7 @@
 
 mod assembler;
 mod config;
+mod derivation;
 mod diag;
 mod linter;
 mod mcp;

@@ -9,7 +9,7 @@ use std::process::ExitCode;
 
 pub const SCHEMA_VERSION: u64 = 1;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Diagnostic {
     pub severity: &'static str,
     pub code: &'static str,
