@@ -9,6 +9,8 @@ This script asserts the two implementations still agree on the real corpus:
     coverage   JSON value-equal
     check      JSON value-equal (known and unknown requirement)
     matrix     byte-identical CSV (both types)
+    markers    JSON value-equal (the ported TDD marker gate;
+               oracle: check_trace_markers.py)
 
 Exit codes are compared on every check alongside the output.
 
@@ -31,6 +33,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 ORACLE = SCRIPT_DIR / "arqix_trace.py"
+MARKER_ORACLE = SCRIPT_DIR / "check_trace_markers.py"
 
 
 def run(argv):
@@ -43,6 +46,29 @@ def compare_json(name, rust_bin, oracle_args, rust_args):
     oracle_code, oracle_out = run(
         [sys.executable, str(ORACLE), *oracle_args, "--format", "json"]
     )
+    try:
+        rust_value = json.loads(rust_out)
+        oracle_value = json.loads(oracle_out)
+    except json.JSONDecodeError as err:
+        print(f"FAIL {name}: output is not JSON ({err})")
+        return False
+    if rust_value != oracle_value:
+        print(f"FAIL {name}: JSON values diverge")
+        return False
+    if rust_code != oracle_code:
+        print(f"FAIL {name}: exit codes diverge (rust {rust_code}, oracle {oracle_code})")
+        return False
+    print(f"ok   {name} (value-equal, exit {rust_code})")
+    return True
+
+
+def compare_markers(name, rust_bin):
+    """`trace markers`: the ported TDD marker gate. The oracle is
+    check_trace_markers.py (its own `--json` flag, not arqix_trace.py), so it
+    needs its own comparison — JSON value-equal and equal exit codes on the
+    real corpus."""
+    rust_code, rust_out = run([rust_bin, "trace", "markers", "--format", "json"])
+    oracle_code, oracle_out = run([sys.executable, str(MARKER_ORACLE), "--json"])
     try:
         rust_value = json.loads(rust_out)
         oracle_value = json.loads(oracle_out)
@@ -117,6 +143,7 @@ def main(argv=None):
             ["matrix", "--type", "us-req"],
             ["trace", "matrix", "--type", "us-req"],
         ),
+        compare_markers("trace markers", args.bin),
     ]
     ok = all(checks)
     print(f"conformance: {'ok' if ok else 'FAILED'} ({sum(checks)}/{len(checks)})")
