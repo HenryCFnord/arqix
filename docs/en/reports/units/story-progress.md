@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8bd674, 2026-07-13
+     Snapshot: c2e8228, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -58,7 +58,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-15 | Gate Coverage as a Ratchet | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-16 | Configure the Snapshot Strategy | 1 | 0 | 0 | `██████████` 100% |
 | US-04-01-17 | Publish the Specification as Catalogue Pages | 3 | 0 | 0 | `██████████` 100% |
-| US-04-01-18 | Render Architecture Views from the Model | 0 | 0 | 2 | `░░░░░░░░░░` 0% |
+| US-04-01-18 | Render Architecture Views from the Model | 1 | 1 | 0 | `█████░░░░░` 50% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 4 | 0 | 3 | `█████░░░░░` 57% |
 | US-05-01-04 | Parse Document Structure Deterministically for Automation | 3 | 0 | 0 | `██████████` 100% |
 | US-05-01-06 | Search and Read Documentation via CLI | 2 | 0 | 0 | `██████████` 100% |

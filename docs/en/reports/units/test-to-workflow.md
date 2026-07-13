@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8bd674, 2026-07-13
+     Snapshot: c2e8228, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -26,6 +26,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `architecture_documentation_records_the_consistency_check_extension_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `architecture_documentation_records_the_consistency_check_extension_path` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `architecture_views_are_generated_from_the_c4_model` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `architecture_views_are_generated_from_the_c4_model` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `architecture_views_are_generated_from_the_c4_model` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_applies_the_configured_heading_ownership_default` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_build_fails_clearly_on_include_cycles` | WF-02-01 | Write Docs Alongside Implementation |
@@ -198,6 +199,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `freshness_excludes_ignored_skeleton_markers` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_flags_a_marker_whose_requirement_is_newer` | WF-03-01 | Validate Traceability and Coverage |
+| `freshness_ignores_owning_story_churn` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_is_clean_when_the_test_is_the_later_commit` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_is_silent_when_the_marker_is_newer` | WF-03-01 | Validate Traceability and Coverage |
 | `freshness_treats_missing_history_as_fresh` | WF-03-01 | Validate Traceability and Coverage |

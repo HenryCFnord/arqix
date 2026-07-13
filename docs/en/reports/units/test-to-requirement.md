@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8bd674, 2026-07-13
+     Snapshot: c2e8228, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -12,10 +12,11 @@
 | `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:78 | REQ-01-01-09-06 | active |
 | `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:60 | REQ-01-01-09-02 | active |
 | `agent_instructions_define_story_by_story_scope_rules` | tests/corpus_guards.rs:42 | REQ-01-01-09-01 | active |
-| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:219 | REQ-01-01-15-03 | active |
+| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:265 | REQ-01-01-15-03 | active |
 | `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | tests/corpus_guards.rs:97 | REQ-01-01-11-01 | active |
-| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:186 | REQ-01-01-11-05 | active |
+| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:232 | REQ-01-01-11-05 | active |
 | `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
+| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:166 | REQ-04-01-18-01 | active |
 | `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
@@ -29,7 +30,7 @@
 | `assembly_log_records_carry_stable_field_names` | tests/cli_quality.rs:336 | REQ-05-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
-| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:238 | REQ-01-01-15-04 | active |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
@@ -87,12 +88,13 @@
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
 | `freshness_degrades_without_version_control` | tests/cli_trace_freshness.rs:135 | REQ-03-01-11-02 | active |
-| `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1360 | REQ-03-01-11-01 | active |
+| `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1422 | REQ-03-01-11-01 | active |
 | `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | tests/cli_trace_freshness.rs:76 | REQ-03-01-11-01 | active |
-| `freshness_flags_a_marker_whose_requirement_is_newer` | src/trace.rs:1321 | REQ-03-01-11-01 | active |
+| `freshness_flags_a_marker_whose_requirement_is_newer` | src/trace.rs:1336 | REQ-03-01-11-01 | active |
+| `freshness_ignores_owning_story_churn` | src/trace.rs:1375 | REQ-03-01-11-01 | active |
 | `freshness_is_clean_when_the_test_is_the_later_commit` | tests/cli_trace_freshness.rs:108 | REQ-03-01-11-01 | active |
-| `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1341 | REQ-03-01-11-01 | active |
-| `freshness_treats_missing_history_as_fresh` | src/trace.rs:1399 | REQ-03-01-11-02 | active |
+| `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1356 | REQ-03-01-11-01 | active |
+| `freshness_treats_missing_history_as_fresh` | src/trace.rs:1461 | REQ-03-01-11-02 | active |
 | `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:539 | REQ-00-00-00-04 | active |
 | `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
 | `includes_never_resolve_outside_the_configured_roots` | tests/cli_quality.rs:119 | REQ-02-01-09-02 | active |
@@ -126,7 +128,7 @@
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
-| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:201 | REQ-01-01-15-02 | active |
+| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:247 | REQ-01-01-15-02 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:186 | REQ-04-01-03-04 | active |
@@ -172,6 +174,6 @@
 | `verify_excludes_rendering_from_the_default_loop` | tests/cli_verify.rs:38 | REQ-04-01-05-04 | active |
 | `verify_reports_informational_findings_without_gating` | tests/cli_verify.rs:77 | REQ-04-01-14-02 | active |
 | `verify_runs_exactly_the_configured_steps_in_order` | tests/cli_verify.rs:49 | REQ-04-01-14-01 | active |
-| `verify_runs_freshness_as_an_informational_step` | tests/cli_trace_freshness.rs:157 | REQ-03-01-11-03 | active |
+| `verify_runs_freshness_as_an_informational_step` | tests/cli_trace_freshness.rs:171 | REQ-03-01-11-03 | active |
 | `verify_runs_the_configured_sub_steps` | tests/cli_verify.rs:9 | REQ-04-01-05-01 | active |
 | `verify_supports_fail_fast_and_aggregate_modes` | tests/cli_verify.rs:17 | REQ-04-01-05-02 | active |

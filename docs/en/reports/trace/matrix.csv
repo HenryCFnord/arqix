@@ -52,7 +52,7 @@ REQ-01-01-11-01,constraint,tests/corpus_guards.rs:97,,
 REQ-01-01-11-02,constraint,tests/corpus_guards.rs:119,,
 REQ-01-01-11-03,constraint,,,
 REQ-01-01-11-04,quality,tests/corpus_guards.rs:165,,
-REQ-01-01-11-05,quality,tests/corpus_guards.rs:186,,
+REQ-01-01-11-05,quality,tests/corpus_guards.rs:232,,
 REQ-01-01-12-01,functional,,,
 REQ-01-01-12-02,functional,,,
 REQ-01-01-12-03,functional,,,
@@ -60,9 +60,9 @@ REQ-01-01-13-01,functional,tests/cli_doc.rs:148;tests/cli_doc.rs:208,,src/templa
 REQ-01-01-13-02,functional,tests/cli_doc.rs:161,,src/templates.rs:246
 REQ-01-01-14-01,functional,,,
 REQ-01-01-15-01,constraint,tests/cli.rs:60,,
-REQ-01-01-15-02,constraint,tests/corpus_guards.rs:201,,
-REQ-01-01-15-03,constraint,tests/corpus_guards.rs:219,,
-REQ-01-01-15-04,constraint,tests/corpus_guards.rs:238,,
+REQ-01-01-15-02,constraint,tests/corpus_guards.rs:247,,
+REQ-01-01-15-03,constraint,tests/corpus_guards.rs:265,,
+REQ-01-01-15-04,constraint,tests/corpus_guards.rs:284,,
 REQ-01-01-16-01,functional,tests/cli_config.rs:15;tests/cli_config.rs:28;tests/cli_config.rs:8,,src/config.rs:46;src/config.rs:462
 REQ-01-01-16-02,functional,tests/cli_config.rs:49,,src/config.rs:473
 REQ-01-01-16-03,quality,tests/cli_config.rs:29,,src/config.rs:47
@@ -120,9 +120,9 @@ REQ-03-01-09-02,functional,tests/cli_lint.rs:65,,src/linter.rs:257
 REQ-03-01-10-01,functional,tests/cli_trace.rs:169,,src/trace.rs:285
 REQ-03-01-10-02,functional,tests/cli_trace_results.rs:123;tests/cli_trace_results.rs:44,,src/trace.rs:863
 REQ-03-01-10-03,functional,tests/cli_trace_results.rs:87,,src/trace.rs:864
-REQ-03-01-11-01,functional,src/trace.rs:1321;src/trace.rs:1341;src/trace.rs:1360;tests/cli_trace_freshness.rs:108;tests/cli_trace_freshness.rs:76,,src/trace.rs:1162
-REQ-03-01-11-02,functional,src/trace.rs:1399;tests/cli_trace_freshness.rs:135,,src/trace.rs:1163
-REQ-03-01-11-03,functional,tests/cli_trace_freshness.rs:157,,src/verifier.rs:30
+REQ-03-01-11-01,functional,src/trace.rs:1336;src/trace.rs:1356;src/trace.rs:1375;src/trace.rs:1422;tests/cli_trace_freshness.rs:108;tests/cli_trace_freshness.rs:76,,src/trace.rs:1162
+REQ-03-01-11-02,functional,src/trace.rs:1461;tests/cli_trace_freshness.rs:135,,src/trace.rs:1163
+REQ-03-01-11-03,functional,tests/cli_trace_freshness.rs:171,,src/verifier.rs:30
 REQ-04-01-01-01,quality,tests/cli_quality.rs:326,,
 REQ-04-01-01-02,functional,tests/cli_assemble.rs:105,,src/assembler.rs:26
 REQ-04-01-01-03,functional,,,src/assembler.rs:27
@@ -162,8 +162,8 @@ REQ-04-01-16-01,functional,tests/cli_ratchet.rs:70,,src/config.rs:179;src/trace.
 REQ-04-01-17-01,functional,tests/cli_publish.rs:411,,src/publisher.rs:329
 REQ-04-01-17-02,functional,tests/cli_publish.rs:436,,src/publisher.rs:330
 REQ-04-01-17-03,functional,tests/cli_publish.rs:458,,src/publisher.rs:331
-REQ-04-01-18-01,quality,,,
-REQ-04-01-18-02,quality,,,
+REQ-04-01-18-01,quality,tests/corpus_guards.rs:166,,
+REQ-04-01-18-02,quality,,tests/corpus_guards.rs:230,
 REQ-05-01-02-01,quality,tests/cli_quality.rs:336,,
 REQ-05-01-08-01,functional,tests/cli_doc.rs:252;tests/cli_doc.rs:357,,src/store.rs:145
 REQ-05-01-08-02,functional,,,

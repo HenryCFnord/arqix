@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c8bd674, 2026-07-13
+     Snapshot: c2e8228, 2026-07-13
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -26,6 +26,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `architecture_documentation_records_the_consistency_check_extension_path` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `architecture_documentation_records_the_consistency_check_extension_path` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `architecture_views_are_generated_from_the_c4_model` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `architecture_views_are_generated_from_the_c4_model` | US-04-01-18 | Render Architecture Views from the Model |
 | `architecture_views_are_generated_from_the_c4_model` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `assemble_applies_the_configured_heading_ownership_default` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_build_fails_clearly_on_include_cycles` | US-02-01-11 | Assemble Documentation During Implementation |
@@ -366,6 +367,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `freshness_excludes_ignored_skeleton_markers` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_flags_a_marker_whose_requirement_is_newer` | US-03-01-11 | Keep Verified Status Current |
+| `freshness_ignores_owning_story_churn` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_is_clean_when_the_test_is_the_later_commit` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_is_silent_when_the_marker_is_newer` | US-03-01-11 | Keep Verified Status Current |
 | `freshness_treats_missing_history_as_fresh` | US-03-01-11 | Keep Verified Status Current |
