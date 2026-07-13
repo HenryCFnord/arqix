@@ -21,13 +21,13 @@ const REQ_KIND_CLASSES: [&str; 3] = [
     "constraint",
 ];
 
-struct Edge {
-    from: String,
-    to: String,
-    kind: String,
-    line: usize,
-    ignored: bool,
-    test: Option<String>,
+pub(crate) struct Edge {
+    pub(crate) from: String,
+    pub(crate) to: String,
+    pub(crate) kind: String,
+    pub(crate) line: usize,
+    pub(crate) ignored: bool,
+    pub(crate) test: Option<String>,
     /// Some for frontmatter-triple edges (their location), None for markers.
     file: Option<String>,
 }
@@ -58,15 +58,17 @@ struct Requirement {
     kind_declared: bool,
 }
 
-struct DocInfo {
+pub(crate) struct DocInfo {
     file: String,
-    doctype: String,
+    pub(crate) doctype: String,
+    /// The document's declared `title`, as the report units render it.
+    pub(crate) title: Option<String>,
 }
 
 pub(crate) struct Model {
     requirements: BTreeMap<String, Requirement>,
-    documents: BTreeMap<String, DocInfo>,
-    edges: Vec<Edge>,
+    pub(crate) documents: BTreeMap<String, DocInfo>,
+    pub(crate) edges: Vec<Edge>,
 }
 
 /// Walk the working directory for .md and .rs corpus files (skip .tpl.md and
@@ -155,6 +157,7 @@ fn build_model(corpus: &[(String, String)]) -> Model {
             DocInfo {
                 file: path.clone(),
                 doctype: doctype.clone(),
+                title: doc.title.clone(),
             },
         );
         if let Some(iri) = &doc.iri {
@@ -413,6 +416,53 @@ struct Links {
 /// The corpus trace model, for downstream consumers (the reporter).
 pub(crate) fn corpus_model() -> Model {
     build_model(&read_corpus())
+}
+
+/// The corpus trace model together with the set of retired document ids —
+/// the inputs the report-unit snapshots (ADR-0008) are a pure projection of.
+/// One corpus read feeds both, so retirement is decided over the same bytes
+/// the model was built from.
+pub(crate) fn snapshot_inputs() -> (Model, BTreeSet<String>) {
+    let corpus = read_corpus();
+    let model = build_model(&corpus);
+    let retired = retired_ids(&model, &corpus);
+    (model, retired)
+}
+
+/// Build the trace model from an in-memory corpus, for the report-unit tests
+/// (they project it exactly as the snapshot command does over the real corpus).
+#[cfg(test)]
+pub(crate) fn model_from_corpus(corpus: &[(String, String)]) -> Model {
+    build_model(corpus)
+}
+
+/// The retired document ids for an in-memory corpus, for the report-unit tests.
+#[cfg(test)]
+pub(crate) fn retired_from_corpus(corpus: &[(String, String)]) -> BTreeSet<String> {
+    let model = build_model(corpus);
+    retired_ids(&model, corpus)
+}
+
+/// Document ids whose file declares `lifecycle-status: retired` — they leave
+/// progress denominators (ADR-0010). Mirrors the report oracle's
+/// `RETIRED_RE = ^\s*lifecycle-status:\s*retired\s*$` (multiline) over the
+/// document's own file text.
+fn retired_ids(model: &Model, corpus: &[(String, String)]) -> BTreeSet<String> {
+    let mut retired = BTreeSet::new();
+    for (id, info) in &model.documents {
+        let Some((_, text)) = corpus.iter().find(|(path, _)| path == &info.file) else {
+            continue;
+        };
+        let declares_retired = text.lines().any(|line| {
+            line.trim()
+                .strip_prefix("lifecycle-status:")
+                .is_some_and(|rest| rest.trim() == "retired")
+        });
+        if declares_retired {
+            retired.insert(id.clone());
+        }
+    }
+    retired
 }
 
 /// Resolve a bundle scope: a requirement ID stands for itself, any other
@@ -784,7 +834,7 @@ fn csv_row(fields: &[String]) -> String {
     format!("{}\n", quoted.join(","))
 }
 
-fn matrix_csv(model: &Model, matrix_type: &str) -> String {
+pub(crate) fn matrix_csv(model: &Model, matrix_type: &str) -> String {
     let mut out = String::new();
     if matrix_type == "us-req" {
         out.push_str("story,requirement\n");
