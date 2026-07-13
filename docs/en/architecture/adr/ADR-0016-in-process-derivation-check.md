@@ -32,8 +32,9 @@ meta:
 That marker is a promise no gate enforces: the C4 audit found three phantom or misdirected edges in the model by hand, and nothing stops a hand-edited diagram from drifting away from the model in the same way.
 ADR-0002 anticipated closing this with a `structurizr-cli export -format mermaid` step in CI.
 
-Two facts make that mechanism the wrong first move.
-`structurizr-cli` is a Java tool, absent from this environment and unable to run offline without provisioning, and adopting it cuts against the deliberately closed dependency tree ADR-0014 spent a whole decision defending; its Mermaid export is also not the `C4Context`/`C4Container` dialect the committed diagrams use.
+Two facts make that mechanism the wrong choice for the always-on gate — though not the wrong tool overall.
+ADR-0014's closed dependency tree governs crates linked into the binary (it refused the rmcp SDK and its tokio runtime); it does not govern orchestrated external tools, and arqix already drives Pandoc and a configured site command such as Zensical as optional, user-installed renderers with forwarded errors — `structurizr-cli` fits that same render-toolchain pattern, ideally through its official container.
+But the verification gate must run offline and unconditionally, without a JVM, a Docker daemon, or a network fetch; and `structurizr-cli`'s Mermaid export is a flowchart dialect (`graph`/`subgraph`), not the `C4Context`/`C4Container` dialect the committed diagrams use, so it cannot diff them directly.
 And the committed diagrams are hand-abbreviated: element ids are shortened (`render` for `renderToolchain`), descriptions are truncated, relationship labels are reworded, and the container view shows Structurizr's implied `agent -> cli` edge that is not literally in the model — so no generator reproduces them byte-for-byte without first rewriting every diagram.
 
 ### Decision
@@ -49,7 +50,7 @@ And the committed diagrams are hand-abbreviated: element ids are shortened (`ren
 
 ### Alternatives Considered
 
-- **`structurizr-cli export` then diff (ADR-0002's stated mechanism):** deferred — an external Java toolchain that is absent, offline-hostile, and against the closed dependency tree (ADR-0014); its Mermaid export is not the committed C4 dialect, so it would need a normaliser before it could compare at all.
+- **`structurizr-cli export` then diff (ADR-0002's stated mechanism):** kept for a complementary render/pipeline job, not for the gate. It is an orchestrated external tool like Pandoc and the site command — not a crate in the tree — so the official `structurizr/cli` container can run via `just` exactly as it runs in CI (the local-equals-pipeline pattern arqix already uses). It is deferred *from the gate* because the gate must run offline and always, and because its Mermaid output is the flowchart dialect, not the committed `C4Context` diagrams — so it renders the model (images, PlantUML, graph-Mermaid) or cross-checks topology rather than reproducing the hand-authored views.
 - **A full in-process DSL-to-Mermaid generator with exact-match gating:** deferred — it is the stronger long-term contract (the diagrams become literally generated), but it must first rewrite every committed diagram to the generator's canonical form, discarding the deliberate hand-abbreviations; a checker earns the gate now without touching the corpus, and the generator can build on the same DSL parser later.
 - **Exact-label matching:** rejected for the first slice — the diagrams are hand-abbreviated on purpose, so label comparison would flag the correct diagrams; topology is the derivable invariant.
 
