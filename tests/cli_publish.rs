@@ -10,6 +10,34 @@ use common::{run_arqix_in, scratch_copy};
 /// there is deliberately no built-in renderer and no fallback.
 const NOOP_TOOLCHAIN: &str = "[policies.publish]\nsite-command = \"true\"\n";
 
+// arqix:verifies REQ-04-01-07-03
+#[test]
+fn publish_site_omits_included_fragments() {
+    let repo = scratch_copy("minimal", "publish_site_omits_included_fragments");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::write(
+        repo.join("docs/fragment.md"),
+        "---\nid: frag\ntitle: Frag\n---\n\n## Frag Body\n\nStitched prose.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: pg\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include fragment.md level=+1 -->\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        !repo.join("site-src/fragment.md").exists(),
+        "an included fragment must not be staged as a standalone page"
+    );
+    let page =
+        std::fs::read_to_string(repo.join("site-src/page.md")).expect("site-src/page.md");
+    assert!(
+        page.contains("Frag Body"),
+        "the fragment still reaches the site through its parent page: {page}"
+    );
+}
+
 // arqix:verifies REQ-04-01-07-01
 #[test]
 fn publish_site_publishes_per_language() {
