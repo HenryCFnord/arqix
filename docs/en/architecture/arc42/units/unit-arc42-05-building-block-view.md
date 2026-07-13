@@ -53,7 +53,7 @@ The binary decomposes into fifteen components: the CLI entrypoint as composition
 | Document Store & Catalog | Discovery over the roots, JSON catalog reading declared IDs, backing doc list/read/search | REQ-05-01-08-*, REQ-05-01-10-*, REQ-02-01-06-01 |
 | Template Engine | Kind-based creation, placeholder substitution | REQ-00-00-00-05, REQ-01-01-05-* |
 | Formatter & Finaliser | Canonical rewrites over the parser CST: `fmt` (key order, directives) and `finalise` (mechanical metadata updates, injected clock); the only mutator of existing source documents ([ADR-0004](../../adr/ADR-0004-finalise-and-the-mechanical-rewriter.md)) | REQ-01-01-03-*, REQ-01-01-06-*, REQ-00-00-00-08 |
-| Linter | Includes, references, ID policy, lifecycle, done claim, translation source, architecture-view derivation | REQ-01-01-04-*, REQ-01-01-18-*, REQ-03-01-09-*, REQ-00-00-00-10, REQ-04-01-18-* |
+| Linter | Includes, references, ID policy, lifecycle, done claim, translation source | REQ-01-01-04-*, REQ-01-01-18-*, REQ-03-01-09-*, REQ-00-00-00-10 |
 | Assembler | Chapter/include directives, glob expansion, cycle detection, JSONL log | REQ-02-01-09-*, REQ-02-01-11-*, REQ-04-01-01-* |
 | Trace Engine | Marker scan, trace graph, matrices, coverage, marker freshness against git history | REQ-03-01-05-*, REQ-03-01-02-*, REQ-01-01-08-*, REQ-03-01-11-* |
 | Report & Export | Audit exports, evidence bundles, stable schemas | REQ-04-01-12-*, REQ-03-01-04-* |
@@ -81,7 +81,7 @@ The spine (Entrypoint → Config Resolver → … → Diagnostics & Exit Codes) 
 | `doc search` | Document Store & Catalog | → Parser; index question open (chapter 11) | REQ-02-01-06-01 |
 | `fmt` | Formatter & Finaliser | → Parser CST → canonical rewrite | REQ-01-01-03-* |
 | `finalise` | Formatter & Finaliser | → Parser CST → targeted value edit; injected clock | REQ-01-01-06-* |
-| `lint run` (incl. translation-source and architecture-view derivation checks) | Linter | → Parser/Store (+ C4 model) → findings | REQ-01-01-04-*, REQ-01-01-18-*, REQ-00-00-00-10, REQ-04-01-18-* |
+| `lint run` (incl. translation-source check) | Linter | → Parser/Store → findings | REQ-01-01-04-*, REQ-01-01-18-*, REQ-00-00-00-10 |
 | `assemble build` | Assembler | → Parser (directives) → Store (targets) → `pages/` + JSONL log | REQ-02-01-11-*, REQ-04-01-01-* |
 | `trace scan`, `trace check` | Trace Engine | → Parser (markers, links) + code/test files → graph | REQ-03-01-05-*, REQ-03-01-06-* |
 | `trace coverage`, `trace matrix` | Trace Engine | graph projections; serialisation via Report & Export | REQ-01-01-08-*, REQ-03-01-02-* |

@@ -24,7 +24,6 @@ pub fn run(format: OutputFormat) -> ExitCode {
     check_lifecycle_vocabulary(&docs, &mut diagnostics);
     check_id_policy(&docs, &mut diagnostics);
     check_done_claims(&docs, &mut diagnostics);
-    check_derivation(&docs, &mut diagnostics);
 
     diagnostics.sort_by(|a, b| (&a.file, a.line, a.code).cmp(&(&b.file, b.line, b.code)));
 
@@ -327,92 +326,6 @@ fn check_done_claims(docs: &[Document], diags: &mut Vec<Diagnostic>) {
             }
         }
     }
-}
-
-// arqix:implements REQ-04-01-18-01
-// arqix:implements REQ-04-01-18-02
-/// LNT-DRV: each embedded Mermaid view marked `<!-- derived from … (view: X)
-/// -->` must be structurally derivable from the referenced C4 model
-/// (ADR-0016). Parsing and comparison live in the derivation module; this
-/// walks the corpus, pairs each marker with the mermaid block below it, and
-/// resolves the model file relative to the document.
-fn check_derivation(docs: &[Document], diags: &mut Vec<Diagnostic>) {
-    let mut dsl_cache: HashMap<std::path::PathBuf, Option<String>> = HashMap::new();
-    for d in docs {
-        let dir = Path::new(&d.file)
-            .parent()
-            .unwrap_or_else(|| Path::new("."));
-        let lines: Vec<&str> = d.body.lines().collect();
-        for (idx, line) in lines.iter().enumerate() {
-            let Some((relpath, view)) = crate::derivation::derived_marker(line) else {
-                continue;
-            };
-            let Some(mermaid) = mermaid_after(&lines, idx) else {
-                continue;
-            };
-            let marker_line = d.body_offset + idx;
-            // The marker path is relative to the fragment's assembled location,
-            // not always its source directory, so resolve by searching upward.
-            let Some(dsl_path) = resolve_model(dir, &relpath) else {
-                diags.push(
-                    Diagnostic::error(
-                        "LNT-DRV-003",
-                        format!("derived-from model not found: {relpath}"),
-                    )
-                    .at_line(&d.file, marker_line),
-                );
-                continue;
-            };
-            let dsl_text = dsl_cache
-                .entry(dsl_path.clone())
-                .or_insert_with(|| std::fs::read_to_string(&dsl_path).ok());
-            if let Some(text) = dsl_text {
-                diags.extend(crate::derivation::check(
-                    text,
-                    &mermaid,
-                    &view,
-                    &d.file,
-                    marker_line,
-                ));
-            }
-        }
-    }
-}
-
-/// Resolve a derived-from model path by trying it relative to the document's
-/// directory and then each ancestor: arc42 units are fragments whose marker
-/// paths are written relative to the assembled chapter, one level above the
-/// `units/` source directory. First existing file wins.
-fn resolve_model(doc_dir: &Path, relpath: &str) -> Option<std::path::PathBuf> {
-    let mut base = doc_dir;
-    loop {
-        let candidate = base.join(relpath);
-        if candidate.is_file() {
-            return Some(candidate);
-        }
-        base = base.parent()?;
-    }
-}
-
-/// The text inside the first ```mermaid fence after `marker_idx`, if the very
-/// next non-blank line opens one (the marker sits directly above its block).
-fn mermaid_after(lines: &[&str], marker_idx: usize) -> Option<String> {
-    let mut i = marker_idx + 1;
-    while i < lines.len() && lines[i].trim().is_empty() {
-        i += 1;
-    }
-    if i >= lines.len() || lines[i].trim() != "```mermaid" {
-        return None;
-    }
-    let mut body = String::new();
-    for line in &lines[i + 1..] {
-        if line.trim() == "```" {
-            return Some(body);
-        }
-        body.push_str(line);
-        body.push('\n');
-    }
-    None
 }
 
 /// Extract the path from a genuine `<!-- arqix:include PATH -->` directive.
