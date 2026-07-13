@@ -350,28 +350,47 @@ fn check_derivation(docs: &[Document], diags: &mut Vec<Diagnostic>) {
             let Some(mermaid) = mermaid_after(&lines, idx) else {
                 continue;
             };
-            let dsl_path = dir.join(&relpath);
-            let dsl_text = dsl_cache
-                .entry(dsl_path.clone())
-                .or_insert_with(|| std::fs::read_to_string(&dsl_path).ok());
             let marker_line = d.body_offset + idx;
-            match dsl_text {
-                Some(text) => diags.extend(crate::derivation::check(
-                    text,
-                    &mermaid,
-                    &view,
-                    &d.file,
-                    marker_line,
-                )),
-                None => diags.push(
+            // The marker path is relative to the fragment's assembled location,
+            // not always its source directory, so resolve by searching upward.
+            let Some(dsl_path) = resolve_model(dir, &relpath) else {
+                diags.push(
                     Diagnostic::error(
                         "LNT-DRV-003",
                         format!("derived-from model not found: {relpath}"),
                     )
                     .at_line(&d.file, marker_line),
-                ),
+                );
+                continue;
+            };
+            let dsl_text = dsl_cache
+                .entry(dsl_path.clone())
+                .or_insert_with(|| std::fs::read_to_string(&dsl_path).ok());
+            if let Some(text) = dsl_text {
+                diags.extend(crate::derivation::check(
+                    text,
+                    &mermaid,
+                    &view,
+                    &d.file,
+                    marker_line,
+                ));
             }
         }
+    }
+}
+
+/// Resolve a derived-from model path by trying it relative to the document's
+/// directory and then each ancestor: arc42 units are fragments whose marker
+/// paths are written relative to the assembled chapter, one level above the
+/// `units/` source directory. First existing file wins.
+fn resolve_model(doc_dir: &Path, relpath: &str) -> Option<std::path::PathBuf> {
+    let mut base = doc_dir;
+    loop {
+        let candidate = base.join(relpath);
+        if candidate.is_file() {
+            return Some(candidate);
+        }
+        base = base.parent()?;
     }
 }
 

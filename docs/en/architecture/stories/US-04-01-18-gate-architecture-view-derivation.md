@@ -25,7 +25,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: done
   owner: hcf
   created: 2026-07-13
   updated: 2026-07-13
@@ -40,10 +40,10 @@ As a builder, I want the committed C4 Mermaid views checked against the C4 model
 
 ### Acceptance Criteria
 
-- [ ] `arqix lint run` reports a finding when a Mermaid view marked as derived from the C4 model contains an element the referenced model view does not define.
-- [ ] `arqix lint run` reports a finding when a derived view contains a relationship the model does not justify, accounting for Structurizr's implied container-view edges (a system-level edge pushed down to a container).
-- [ ] The check compares topology — element identity by display name and kind, and relationship endpoints — not the hand-abbreviated ids, labels, or descriptions.
-- [ ] The two current derived views (SystemContext, Containers) pass unchanged.
+- [x] `arqix lint run` reports a finding when a Mermaid view marked as derived from the C4 model contains an element the referenced model view does not define.
+- [x] `arqix lint run` reports a finding when a derived view contains a relationship the model does not justify, accounting for Structurizr's implied container-view edges (a system-level edge pushed down to a container).
+- [x] The check compares topology — element identity by display name and kind, and relationship endpoints — not the hand-abbreviated ids, labels, or descriptions.
+- [x] The two current derived views (SystemContext, Containers) pass unchanged.
 
 ### Notes
 

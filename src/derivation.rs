@@ -128,31 +128,229 @@ fn quoted_strings(line: &str) -> Vec<String> {
     out
 }
 
-fn parse_dsl(_text: &str) -> DslModel {
-    DslModel {
-        elements: Vec::new(),
-        edges: HashSet::new(),
+/// Parse the small Structurizr-DSL subset the model uses: element
+/// declarations (`id = kind "Name" …`), relationships (`src -> dst …`), and
+/// brace nesting so a container knows its enclosing system. Anything else
+/// (views, styles, the workspace header) only balances the brace stack.
+fn parse_dsl(text: &str) -> DslModel {
+    let mut elements = Vec::new();
+    let mut edges = HashSet::new();
+    let mut scope: Vec<Option<String>> = Vec::new();
+    for raw in text.lines() {
+        let line = raw.trim();
+        if line.is_empty() || line.starts_with("//") {
+            continue;
+        }
+        if let Some(element) = parse_dsl_element(line, &scope) {
+            let id = element.id.clone();
+            elements.push(element);
+            if line.ends_with('{') {
+                scope.push(Some(id));
+            }
+        } else if let Some((src, dst)) = parse_dsl_relationship(line) {
+            edges.insert((src, dst));
+        } else if line == "}" {
+            scope.pop();
+        } else if line.ends_with('{') {
+            scope.push(None);
+        }
     }
+    DslModel { elements, edges }
 }
 
-fn parse_mermaid(_text: &str) -> Diagram {
-    Diagram {
-        elements: Vec::new(),
-        rels: Vec::new(),
+/// `<id> = <kind> "Name" [more] [{`: the enclosing element (nearest `Some` on
+/// the brace stack) is the parent; a softwareSystem tagged `"External"` is
+/// external.
+fn parse_dsl_element(line: &str, scope: &[Option<String>]) -> Option<DslElement> {
+    let (id, rest) = line.split_once('=')?;
+    let id = id.trim();
+    if id.is_empty() || !id.chars().all(|c| c.is_alphanumeric() || c == '_') {
+        return None;
     }
+    let (keyword, after) = rest.trim().split_once(char::is_whitespace)?;
+    let kind = match keyword {
+        "person" => Kind::Person,
+        "softwareSystem" => Kind::System,
+        "container" => Kind::Container,
+        "component" => Kind::Component,
+        _ => return None,
+    };
+    let strings = quoted_strings(after);
+    let name = strings.first()?.clone();
+    let external = kind == Kind::System && strings.iter().any(|s| s == "External");
+    let parent = scope.iter().rev().find_map(|s| s.clone());
+    Some(DslElement {
+        id: id.to_string(),
+        kind,
+        name,
+        external,
+        parent,
+    })
+}
+
+/// `<src> -> <dst> ["label"]`: a model relationship by element id.
+fn parse_dsl_relationship(line: &str) -> Option<(String, String)> {
+    let (src, rest) = line.split_once("->")?;
+    let src = src.trim();
+    if src.is_empty() || !src.chars().all(|c| c.is_alphanumeric() || c == '_') {
+        return None;
+    }
+    let dst: String = rest
+        .trim()
+        .chars()
+        .take_while(|c| c.is_alphanumeric() || *c == '_')
+        .collect();
+    (!dst.is_empty()).then(|| (src.to_string(), dst))
+}
+
+/// Parse a C4 Mermaid block into its elements and relationships.
+fn parse_mermaid(text: &str) -> Diagram {
+    let mut elements = Vec::new();
+    let mut rels = Vec::new();
+    for raw in text.lines() {
+        let line = raw.trim();
+        if let Some(element) = parse_c4_element(line) {
+            elements.push(element);
+        } else if let Some(rel) = parse_c4_rel(line) {
+            rels.push(rel);
+        }
+    }
+    Diagram { elements, rels }
+}
+
+/// `Person(id, "Name", …)` / `System[_Ext](…)` / `Container(…)` /
+/// `Component(…)`: the diagram id is the first argument, the name the first
+/// quoted string. `System_Boundary` and layout directives are not elements.
+fn parse_c4_element(line: &str) -> Option<DiaElement> {
+    let (func, args) = line.split_once('(')?;
+    let (kind, external) = match func.trim() {
+        "Person" => (Kind::Person, false),
+        "Person_Ext" => (Kind::Person, true),
+        "System" | "SystemDb" => (Kind::System, false),
+        "System_Ext" | "SystemDb_Ext" => (Kind::System, true),
+        "Container" | "ContainerDb" => (Kind::Container, false),
+        "Component" | "ComponentDb" => (Kind::Component, false),
+        _ => return None,
+    };
+    let id: String = args
+        .chars()
+        .take_while(|c| *c != ',')
+        .collect::<String>()
+        .trim()
+        .to_string();
+    let name = quoted_strings(args).into_iter().next()?;
+    (!id.is_empty()).then_some(DiaElement {
+        id,
+        kind,
+        name,
+        external,
+    })
+}
+
+/// `Rel(src, dst, "label")`: a diagram relationship by diagram id.
+fn parse_c4_rel(line: &str) -> Option<(String, String)> {
+    let args = ["Rel(", "Rel_Back(", "BiRel("]
+        .iter()
+        .find_map(|prefix| line.strip_prefix(prefix))?;
+    let mut parts = args.splitn(3, ',');
+    let src = parts.next()?.trim().to_string();
+    let dst = parts
+        .next()?
+        .trim()
+        .trim_end_matches(')')
+        .trim()
+        .to_string();
+    (!src.is_empty() && !dst.is_empty()).then_some((src, dst))
 }
 
 /// Check one derived Mermaid view against the model, emitting a finding for
 /// each diagram element the model does not define (REQ-04-01-18-01) and each
-/// relationship the model does not justify (REQ-04-01-18-02).
+/// relationship the model does not justify (REQ-04-01-18-02). Elements are
+/// matched by display name so the diagrams' shortened ids validate; free-text
+/// labels are not compared (ADR-0016).
 pub(crate) fn check(
-    _dsl_text: &str,
-    _mermaid_text: &str,
-    _view: &str,
-    _file: &str,
-    _line: usize,
+    dsl_text: &str,
+    mermaid_text: &str,
+    view: &str,
+    file: &str,
+    line: usize,
 ) -> Vec<Diagnostic> {
-    Vec::new()
+    let dsl = parse_dsl(dsl_text);
+    let diagram = parse_mermaid(mermaid_text);
+    let mut diags = Vec::new();
+    let id_name: std::collections::HashMap<&str, &str> = diagram
+        .elements
+        .iter()
+        .map(|e| (e.id.as_str(), e.name.as_str()))
+        .collect();
+
+    for de in &diagram.elements {
+        match dsl.by_name(&de.name) {
+            None => diags.push(
+                Diagnostic::error(
+                    "LNT-DRV-001",
+                    format!(
+                        "view {view}: element \"{}\" is not defined in the model",
+                        de.name
+                    ),
+                )
+                .at_line(file, line),
+            ),
+            Some(me) if me.kind != de.kind => diags.push(
+                Diagnostic::error(
+                    "LNT-DRV-001",
+                    format!(
+                        "view {view}: element \"{}\" is a {} in the diagram but a {} in the model",
+                        de.name,
+                        de.kind.label(),
+                        me.kind.label()
+                    ),
+                )
+                .at_line(file, line),
+            ),
+            Some(me) if de.kind == Kind::System && de.external != me.external => {
+                let (in_diagram, in_model) = if de.external {
+                    ("external", "internal")
+                } else {
+                    ("internal", "external")
+                };
+                diags.push(
+                    Diagnostic::error(
+                        "LNT-DRV-001",
+                        format!(
+                            "view {view}: element \"{}\" is {in_diagram} in the diagram but {in_model} in the model",
+                            de.name
+                        ),
+                    )
+                    .at_line(file, line),
+                );
+            }
+            Some(_) => {}
+        }
+    }
+
+    for (src_id, dst_id) in &diagram.rels {
+        let (Some(src_name), Some(dst_name)) =
+            (id_name.get(src_id.as_str()), id_name.get(dst_id.as_str()))
+        else {
+            continue; // an endpoint not declared in the diagram is not our finding
+        };
+        let (Some(src), Some(dst)) = (dsl.by_name(src_name), dsl.by_name(dst_name)) else {
+            continue; // an unresolved element is already an LNT-DRV-001
+        };
+        if !dsl.justified(&src.id, &dst.id) {
+            diags.push(
+                Diagnostic::error(
+                    "LNT-DRV-002",
+                    format!(
+                        "view {view}: relationship \"{src_name}\" -> \"{dst_name}\" is not justified by the model"
+                    ),
+                )
+                .at_line(file, line),
+            );
+        }
+    }
+    diags
 }
 
 #[cfg(test)]
