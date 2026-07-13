@@ -22,7 +22,8 @@ The mechanics:
 
 - A containerised renderer turns the source into SVG under a generated directory (for the C4 views, `docs/en/architecture/model/generated/`, produced by `just render-views`, ADR-0016).
 - The images ride into the site staging through `[policies.publish] assets` — the toolchain can only reference what reaches staging.
-- A regenerate-and-diff freshness gate keeps the committed image honest against the model, the same pattern the report snapshots use.
+- A regenerate-and-diff freshness gate — regenerate from the model, diff against the committed image — is the intended guard, the same pattern the report snapshots use.
+- That gate is not yet enforcing: it runs only as a manual, non-blocking step (`just render-views-check`, or the architecture-diagrams workflow) while the render is shaken out (roadmap item 5), so after changing the model, re-render and commit the image yourself.
 
 The image is a static asset, so it is visible everywhere — in raw Markdown on GitHub, on the site, and in the PDF — without a renderer at view time.
 

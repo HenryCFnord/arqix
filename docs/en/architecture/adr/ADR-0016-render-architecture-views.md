@@ -45,6 +45,7 @@ This reverses the "committing rendered Structurizr images (PNG/SVG)" alternative
 - Rendering runs a containerised renderer — Kroki, which takes the Structurizr DSL and emits SVG — invoked through a `just` target so the local command is byte-for-byte the pipeline command (arqix's existing `just ci` == CI philosophy).
 - The generated SVGs are committed under `docs/en/architecture/model/generated/` and embedded in the arc42 chapters, replacing the hand-authored C4 Mermaid blocks.
 - The drift guarantee moves from "hand-diagram vs model" to "committed image vs fresh render": CI regenerates the images and fails on any difference, exactly the regenerate-and-diff freshness gate already used for the report snapshots (REQ-04-01-18-02).
+  This gate is the decided design; it is not yet enforcing — the diagrams workflow is manual-dispatch and non-blocking while the render is confirmed (roadmap items 5 and 8), and REQ-04-01-18-02 is carried as a planned claim until it becomes a required check.
 - Rendering needs a container runtime, so generation and the freshness gate live in CI and in `just` (with Docker), not in the offline `arqix verify` binary — the same posture as Pandoc and the site command, which the binary orchestrates but never bundles.
 - Mermaid stays available for non-C4 diagrams; only the C4 architecture views become generated images.
 
