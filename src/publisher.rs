@@ -11,6 +11,7 @@
 use crate::OutputFormat;
 use crate::diag::SCHEMA_VERSION;
 use serde_json::json;
+use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::process::{Command, ExitCode};
 
@@ -54,6 +55,9 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
 
     let mut staged = 0usize;
     let skip = crate::config::skip_dirs(Path::new("."));
+    // Fragments pulled in by an `arqix:include` reach the site through their
+    // parent page; they are never staged as standalone pages (REQ-04-01-07-03).
+    let included = included_targets(&skip);
     for root in crate::config::roots(Path::new(".")) {
         // The language's root: <root>/<lang> where the layout has one; the
         // bare root serves the default language otherwise.
@@ -69,6 +73,14 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         let mut files = Vec::new();
         collect_markdown(&lang_root, &skip, &mut files);
         for file in files {
+            // Skip a fragment another page stitches in — it is published
+            // through that page, not as its own page (REQ-04-01-07-03).
+            if std::fs::canonicalize(&file)
+                .map(|c| included.contains(&c))
+                .unwrap_or(false)
+            {
+                continue;
+            }
             let assembled = match crate::assembler::expand_document(&file) {
                 Ok(text) => text,
                 Err(diagnostic) => {
@@ -108,11 +120,15 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         return code;
     }
 
-    // Configured assets ride along verbatim: the toolchain can only
-    // reference what reaches the staging dir.
+    // Configured assets ride along so the toolchain can reference them. An
+    // asset under a doc root's language dir is staged at the same
+    // language-root-relative path as the pages (which strip that prefix), so a
+    // page's relative link to it resolves (REQ-04-01-07-04); anything else —
+    // e.g. brand assets under `assets/` — is staged verbatim.
     for asset in &policy.assets {
         let source = Path::new(asset);
-        if let Err(code) = copy_asset(source, &PathBuf::from(&policy.staging_dir).join(asset)) {
+        let target = PathBuf::from(&policy.staging_dir).join(staged_asset_rel(asset, lang));
+        if let Err(code) = copy_asset(source, &target) {
             return code;
         }
     }
@@ -498,6 +514,62 @@ fn copy_asset(source: &Path, target: &Path) -> Result<(), ExitCode> {
 
 /// Collect Markdown sources under `dir`, path-sorted, honouring the skip
 /// set; templates (`.tpl.md`) are never published.
+// arqix:implements REQ-04-01-07-04
+/// The staging-relative path for a configured asset. An asset under a doc
+/// root's language directory is placed at the same language-root-relative
+/// location as the pages (which strip that prefix on staging), so a page's
+/// relative link resolves against the staged asset; any other asset keeps its
+/// configured path.
+fn staged_asset_rel(asset: &str, lang: &str) -> PathBuf {
+    for root in crate::config::roots(Path::new(".")) {
+        let lang_root = Path::new(&root).join(lang);
+        let prefix = if lang_root.is_dir() {
+            format!("{}/", lang_root.to_string_lossy().replace('\\', "/"))
+        } else {
+            format!("{root}/")
+        };
+        if let Some(rel) = asset.strip_prefix(&prefix) {
+            return PathBuf::from(rel);
+        }
+    }
+    PathBuf::from(asset)
+}
+
+// arqix:implements REQ-04-01-07-03
+/// The canonical paths of every fragment pulled in by an `arqix:include`
+/// directive anywhere in the corpus roots. Such a fragment is published
+/// through its parent page, never as a standalone page — otherwise the site
+/// carries both the stitched page and each raw fragment (found on arqix.dev).
+fn included_targets(skip: &[String]) -> HashSet<PathBuf> {
+    let mut sources = Vec::new();
+    for root in crate::config::roots(Path::new(".")) {
+        collect_markdown(Path::new(&root), skip, &mut sources);
+    }
+    let mut targets = HashSet::new();
+    for file in &sources {
+        let Ok(text) = std::fs::read_to_string(file) else {
+            continue;
+        };
+        let dir = file.parent().unwrap_or_else(|| Path::new("."));
+        let mut in_fence = false;
+        for line in text.lines() {
+            if line.trim_start().starts_with("```") {
+                in_fence = !in_fence;
+                continue;
+            }
+            if in_fence {
+                continue;
+            }
+            if let Some((target, _)) = crate::linter::include_directive(line)
+                && let Ok(canon) = std::fs::canonicalize(dir.join(&target))
+            {
+                targets.insert(canon);
+            }
+        }
+    }
+    targets
+}
+
 fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
     let entries = match std::fs::read_dir(dir) {
         Ok(entries) => entries,

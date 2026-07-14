@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 1e04431, 2026-07-14
+     Snapshot: 9ec4dd6, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -19,7 +19,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-08 | Generate Governed Coverage Reports | 4 | 0 | 1 | `████████░░` 80% |
 | US-01-01-09 | Govern Agent Workflow Document Standards | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 3 | 0 | 2 | `██████░░░░` 60% |
-| US-01-01-11 | Govern Architecture Documentation Standards | 4 | 0 | 1 | `████████░░` 80% |
+| US-01-01-11 | Govern Architecture Documentation Standards | 6 | 0 | 1 | `████████░░` 86% |
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 4 | 0 | 1 | `████████░░` 80% |
@@ -35,11 +35,11 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-02-01-09 | Use Include Directives During Implementation | 5 | 0 | 1 | `████████░░` 83% |
 | US-02-01-10 | Scaffold Translations During Implementation | 1 | 0 | 4 | `██░░░░░░░░` 20% |
 | US-02-01-11 | Assemble Documentation During Implementation | 4 | 0 | 1 | `████████░░` 80% |
-| US-02-01-12 | Stitch Fragments at Declared Heading Levels | 4 | 0 | 0 | `██████████` 100% |
+| US-02-01-12 | Stitch Fragments at Declared Heading Levels | 5 | 0 | 0 | `██████████` 100% |
 | US-03-01-02 | Export Trace Matrices | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review | 4 | 0 | 0 | `██████████` 100% |
 | US-03-01-05 | Scan Traceability Information | 5 | 0 | 2 | `███████░░░` 71% |
-| US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 2 | 0 | 2 | `█████░░░░░` 50% |
+| US-03-01-06 | Detect Missing Trace Markers for Quality Gaps | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-03-01-07 | Filter Traceability Reports for Quality Analysis | 1 | 0 | 2 | `███░░░░░░░` 33% |
 | US-03-01-08 | Make Trace and Coverage Outputs Reproducible | 3 | 0 | 0 | `██████████` 100% |
 | US-03-01-09 | Machine-Check the Done Claim | 2 | 0 | 0 | `██████████` 100% |
@@ -49,12 +49,12 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-03 | Generate Publishing Outputs | 10 | 0 | 0 | `██████████` 100% |
 | US-04-01-05 | Run a One-Command Verification Loop | 8 | 0 | 0 | `██████████` 100% |
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
-| US-04-01-07 | Publish Language-Aware Sites | 5 | 0 | 0 | `██████████` 100% |
+| US-04-01-07 | Publish Language-Aware Sites | 7 | 0 | 0 | `██████████` 100% |
 | US-04-01-08 | Provide Consistent Exit Codes for CI Gates | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-04-01-10 | Emit Machine-Readable Diagnostics for CI | 4 | 0 | 1 | `████████░░` 80% |
-| US-04-01-12 | Publish Stable Report Exports for Automation | 4 | 0 | 0 | `██████████` 100% |
+| US-04-01-12 | Publish Stable Report Exports for Automation | 5 | 0 | 0 | `██████████` 100% |
 | US-04-01-13 | Publish Navigable Architecture Views Deterministically | 0 | 0 | 3 | `░░░░░░░░░░` 0% |
-| US-04-01-14 | Configure the Verification Loop | 3 | 0 | 0 | `██████████` 100% |
+| US-04-01-14 | Configure the Verification Loop | 5 | 0 | 0 | `██████████` 100% |
 | US-04-01-15 | Gate Coverage as a Ratchet | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-16 | Configure the Snapshot Strategy | 1 | 0 | 0 | `██████████` 100% |
 | US-04-01-17 | Publish the Specification as Catalogue Pages | 3 | 0 | 0 | `██████████` 100% |

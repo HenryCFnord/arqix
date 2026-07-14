@@ -38,7 +38,7 @@ Every object key is sorted (the JSON is emitted from a sorted map), so byte outp
 - **`trace scan`** — the graph: `{"schema_version", "nodes": [...], "edges": [...]}` (ADR-0006 layer 1).
 - **`trace coverage`** — coverage by requirement kind with `TRC-*` diagnostics.
 - **`trace matrix`** — CSV, not JSON (ADR-0006 layer 3).
-- **`verify`** — `{"schema_version", "steps": [{"step", "exit_code", "ok"}], "ok"}`.
+- **`verify`** — `{"schema_version", "steps": [{"step", "exit_code", "ok", "informational", "skipped"}], "ok"}`; `informational` marks a step whose findings do not gate, and `skipped` marks a step the profile declared but the context did not run (report-freshness under a non-gating snapshot strategy).
 - **`assemble build`** — the assembly log `pages/assembly.jsonl`, one JSON object per line with `doc`, `chapter_id`, `out`, `include`, `sha256`, `bytes`, `at_line`.
 
 **`schema_version` axis (ADR-0009):** each interface owns its own version rather than one global number; every contract above currently sits at `1`.

@@ -4,7 +4,8 @@
 
 mod common;
 
-use common::{assert_success, run_arqix_in, scratch_copy};
+use common::{assert_findings, assert_success, run_arqix_in, scratch_copy};
+use std::path::Path;
 
 // arqix:verifies REQ-03-01-04-01
 #[test]
@@ -225,4 +226,107 @@ fn report_knowledge_honours_scope_lifecycle_and_determinism() {
         std::fs::read_to_string(repo.join("knowledge/REQ-99-99-99-01-fixture-requirement.md"))
             .unwrap();
     assert_eq!(first, second, "identical inputs, identical bundle");
+}
+
+/// Write both trace matrices into the committed-snapshot layout the report
+/// freshness gate reads, so a scratch corpus can be gated for freshness.
+fn write_matrices(repo: &Path) {
+    std::fs::create_dir_all(repo.join("docs/en/reports/trace")).unwrap();
+    let req_test = run_arqix_in(repo, &["trace", "matrix", "--type", "req-test"]);
+    std::fs::write(
+        repo.join("docs/en/reports/trace/matrix.csv"),
+        &req_test.stdout,
+    )
+    .unwrap();
+    let us_req = run_arqix_in(repo, &["trace", "matrix", "--type", "us-req"]);
+    std::fs::write(
+        repo.join("docs/en/reports/trace/matrix-us-req.csv"),
+        &us_req.stdout,
+    )
+    .unwrap();
+}
+
+// arqix:verifies REQ-04-01-12-04
+#[test]
+fn report_snapshot_regenerates_units_deterministically() {
+    // Identical corpus and stamp must produce identical units, and the stamp
+    // is embedded verbatim as generation provenance (the injected-clock
+    // discipline keeps the wall clock out of the engine).
+    let repo = scratch_copy(
+        "minimal",
+        "report_snapshot_regenerates_units_deterministically",
+    );
+    assert_success(&run_arqix_in(
+        &repo,
+        &[
+            "report",
+            "snapshot",
+            "--stamp",
+            "abc123, 2026-01-01",
+            "--out",
+            "first",
+        ],
+    ));
+    assert_success(&run_arqix_in(
+        &repo,
+        &[
+            "report",
+            "snapshot",
+            "--stamp",
+            "abc123, 2026-01-01",
+            "--out",
+            "second",
+        ],
+    ));
+    let first = std::fs::read_to_string(repo.join("first/scoreboard.md")).unwrap();
+    let second = std::fs::read_to_string(repo.join("second/scoreboard.md")).unwrap();
+    assert_eq!(first, second, "identical corpus + stamp -> identical units");
+    assert!(
+        first.contains("Snapshot: abc123, 2026-01-01"),
+        "the injected stamp is embedded as provenance: {first}"
+    );
+}
+
+// arqix:verifies REQ-04-01-12-04
+#[test]
+fn report_snapshot_check_passes_on_fresh_snapshots() {
+    let repo = scratch_copy("minimal", "report_snapshot_check_passes_on_fresh_snapshots");
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    write_matrices(&repo);
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_success(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("reports: fresh (8 units, 2 matrices)"),
+        "a freshly generated corpus is fresh: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-04-01-12-04
+#[test]
+fn report_snapshot_check_detects_a_staled_unit() {
+    let repo = scratch_copy("minimal", "report_snapshot_check_detects_a_staled_unit");
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    write_matrices(&repo);
+    assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
+
+    // Mutate one committed unit so it no longer matches the corpus.
+    let unit = repo.join("docs/en/reports/units/scoreboard.md");
+    let mut text = std::fs::read_to_string(&unit).unwrap();
+    text.push_str("\na hand edit the gate must catch\n");
+    std::fs::write(&unit, text).unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("scoreboard.md: stale"),
+        "the staled unit is named: {stdout}"
+    );
 }

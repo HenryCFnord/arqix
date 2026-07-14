@@ -6,6 +6,7 @@
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
 mod assembler;
+mod checkers;
 mod config;
 mod diag;
 mod linter;
@@ -202,6 +203,21 @@ enum UnitCommand {
 enum LintCommand {
     /// Run the configured lint checks
     Run,
+    /// Validate requirement documents against the authoring rules
+    /// (RFC 2119 subset + EARS patterns, ID/kind/metadata/derivation scheme)
+    Requirements {
+        /// Suppress REQ-LNK-006 warnings while derivation is incomplete
+        #[arg(long)]
+        allow_unlinked_stories: bool,
+    },
+    /// Validate frontmatter, canonical formatting, and ontology-vocabulary use
+    /// across the architecture and ontology documents (FMT/FM/ONT rule families)
+    Frontmatter {
+        /// Suppress ONT-005 warnings for owl.inverse-of names that have no
+        /// property document yet
+        #[arg(long)]
+        allow_undefined_inverse: bool,
+    },
 }
 
 /// The `new` half of the creation aliases (REQ-01-01-05-02): `req new`,
@@ -255,6 +271,8 @@ enum TraceCommand {
     },
     /// Report active markers gone stale against their target's version history
     Freshness,
+    /// Gate test functions for trace markers (the ported TDD marker gate)
+    Markers,
 }
 
 #[derive(Subcommand)]
@@ -275,6 +293,18 @@ enum ReportCommand {
     /// Export the corpus as an Open Knowledge Format bundle
     Knowledge {
         /// Bundle output directory (default: knowledge)
+        #[arg(long)]
+        out: Option<String>,
+    },
+    /// Regenerate the question-driven report units from the trace graph (ADR-0008)
+    Snapshot {
+        /// Snapshot stamp embedded as generation provenance (e.g. "<sha>, <date>")
+        #[arg(long)]
+        stamp: Option<String>,
+        /// Verify the committed snapshots are fresh (exit non-zero if stale)
+        #[arg(long)]
+        check: bool,
+        /// Output directory for the unit files (default: docs/en/reports/units)
         #[arg(long)]
         out: Option<String>,
     },
@@ -359,6 +389,12 @@ fn main() -> ExitCode {
         Command::Finalise { date } => rewriter::finalise(&date, cli.format),
         Command::Lint { command } => match command {
             LintCommand::Run => linter::run(cli.format),
+            LintCommand::Requirements {
+                allow_unlinked_stories,
+            } => checkers::requirements::lint(cli.format, allow_unlinked_stories),
+            LintCommand::Frontmatter {
+                allow_undefined_inverse,
+            } => checkers::frontmatter::lint(cli.format, allow_undefined_inverse),
         },
         Command::Assemble { command } => match command {
             AssembleCommand::Build => assembler::build(cli.format),
@@ -374,12 +410,16 @@ fn main() -> ExitCode {
                 trace::ratchet_command(baseline.as_deref(), cli.format)
             }
             TraceCommand::Freshness => trace::freshness_command(cli.format),
+            TraceCommand::Markers => trace::markers_command(cli.format),
         },
         Command::Report { command } => match command {
             ReportCommand::Bundle { ids, out, stamp } => {
                 reporter::bundle(&ids, out.as_deref(), stamp.as_deref(), cli.format)
             }
             ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
+            ReportCommand::Snapshot { stamp, check, out } => {
+                reporter::snapshot(stamp.as_deref(), check, out.as_deref(), cli.format)
+            }
         },
         Command::Publish { command } => match command {
             PublishCommand::Site { lang } => publisher::site(lang.as_deref(), cli.format),

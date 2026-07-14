@@ -10,6 +10,28 @@
 [policies.reports]
 snapshot-strategy = "main-only"
 
+# Self-hosting profile (roadmap phase 5): arqix runs its own corpus gate. The
+# always-Rust checks run everywhere; the ported corpus checks are added here —
+# not in the hard-coded default — because they need a full corpus and a fresh
+# `doc init` package must still pass `verify` (REQ-08-01-01-02). Coverage and
+# freshness stay informational (REQ-04-01-14-03, REQ-03-01-11-03);
+# report-freshness follows the snapshot strategy above (skipped on parallel
+# branches, gating on the default branch — REQ-04-01-14-05).
+[policies.verify]
+steps = [
+    "format",
+    "lint",
+    "trace-scan",
+    "coverage",
+    "ratchet",
+    "freshness",
+    "requirements",
+    "frontmatter",
+    "markers",
+    "report-freshness",
+]
+informational = ["coverage", "freshness"]
+
 [policies.render]
 # arqix orchestrates Pandoc; the render runs in the fat Pandoc/LaTeX/eisvogel
 # container so a local `just render-pdf` is byte-for-byte the pipeline render —
