@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9ec4dd6, 2026-07-14
+     Snapshot: afcc456, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -50,7 +50,7 @@
 | `frontmatter_line_count` | src/assembler.rs:158 | REQ-02-01-12-03 |
 | `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:470 | REQ-01-01-18-01 |
-| `included_targets` | src/publisher.rs:538 | REQ-04-01-07-03 |
+| `included_targets` | src/publisher.rs:560 | REQ-04-01-07-03 |
 | `init` | src/templates.rs:361 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:362 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
@@ -106,10 +106,10 @@
 | `site` | src/publisher.rs:22 | REQ-04-01-07-02 |
 | `snapshot` | src/reporter.rs:789 | REQ-04-01-12-04 |
 | `snapshot_strategy` | src/config.rs:196 | REQ-04-01-14-05 |
-| `stage_catalogue` | src/publisher.rs:320 | REQ-04-01-17-01 |
-| `stage_catalogue` | src/publisher.rs:321 | REQ-04-01-17-02 |
-| `stage_catalogue` | src/publisher.rs:322 | REQ-04-01-17-03 |
-| `staged_asset_rel` | src/publisher.rs:517 | REQ-04-01-07-04 |
+| `stage_catalogue` | src/publisher.rs:342 | REQ-04-01-17-01 |
+| `stage_catalogue` | src/publisher.rs:343 | REQ-04-01-17-02 |
+| `stage_catalogue` | src/publisher.rs:344 | REQ-04-01-17-03 |
+| `staged_asset_rel` | src/publisher.rs:539 | REQ-04-01-07-04 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
