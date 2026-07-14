@@ -169,11 +169,12 @@ fn publish_site_diagnoses_a_failing_toolchain() {
     );
 }
 
-/// A recording fake renderer: writes its argument list to `args.txt` and
-/// the word `rendered` to whatever follows `-o` — enough to observe the
-/// invocation arqix builds without requiring Pandoc in the test image.
+/// A recording fake renderer: appends its argument list to `args.txt` and
+/// writes the word `rendered` to whatever follows `-o` — enough to observe
+/// every invocation arqix builds (one per document, now that PDF splits per
+/// document) without requiring Pandoc in the test image.
 fn install_fake_renderer(repo: &std::path::Path) {
-    let script = "#!/bin/sh\nprintf '%s\\n' \"$@\" > args.txt\nout=\"\"\nprev=\"\"\nfor a in \"$@\"; do\n  if [ \"$prev\" = \"-o\" ]; then out=\"$a\"; fi\n  prev=\"$a\"\ndone\nif [ -n \"$out\" ]; then echo rendered > \"$out\"; fi\n";
+    let script = "#!/bin/sh\nprintf '%s\\n' \"$@\" >> args.txt\nout=\"\"\nprev=\"\"\nfor a in \"$@\"; do\n  if [ \"$prev\" = \"-o\" ]; then out=\"$a\"; fi\n  prev=\"$a\"\ndone\nif [ -n \"$out\" ]; then echo rendered > \"$out\"; fi\n";
     let path = repo.join("fakepandoc.sh");
     std::fs::write(&path, script).unwrap();
     #[cfg(unix)]
@@ -267,30 +268,165 @@ fn render_pdf_supports_defaults_eisvogel_and_package_overrides() {
 fn render_pdf_stores_artefacts_per_configured_mode() {
     let repo = scratch_copy("minimal", "render_pdf_stores_artefacts_per_configured_mode");
     install_fake_renderer(&repo);
+    // A single top-level document so the artefact name is predictable: the
+    // configured mode governs where its PDF lands (per document now, not per
+    // package — REQ-04-01-03-06 granularity moved package->document).
+    std::fs::create_dir_all(repo.join("docs/handbook")).unwrap();
+    std::fs::write(
+        repo.join("docs/handbook/index.md"),
+        "---\nid: handbook\ntitle: Handbook\n---\n\n## Handbook\n\nBody.\n",
+    )
+    .unwrap();
 
     // The default mode stores into the package's artefacts/ directory —
     // the location the doc init scaffold reserves for render products.
     std::fs::write(
         repo.join("arqix.toml"),
-        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\n",
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [ { name = \"handbook\", path = \"handbook\" } ]\n",
     )
     .unwrap();
     common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
     assert!(
-        repo.join("docs/artefacts/docs.pdf").is_file(),
-        "package mode stores the artefact inside the package"
+        repo.join("docs/artefacts/handbook.pdf").is_file(),
+        "package mode stores each document's artefact inside the package"
     );
 
     // The detached mode stores into the configured artefact directory.
     std::fs::write(
         repo.join("arqix.toml"),
-        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\nartefact-mode = \"detached\"\nartefact-dir = \"render-out\"\n",
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\nartefact-mode = \"detached\"\nartefact-dir = \"render-out\"\ndocuments = [ { name = \"handbook\", path = \"handbook\" } ]\n",
     )
     .unwrap();
     common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
     assert!(
-        repo.join("render-out/docs.pdf").is_file(),
+        repo.join("render-out/handbook.pdf").is_file(),
         "detached mode stores the artefact outside the package"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-09
+#[test]
+fn render_pdf_produces_one_artefact_per_document() {
+    // PDF splits per top-level document: two document families produce two
+    // named artefacts, not one concatenated docs.pdf (REQ-04-01-03-09).
+    let repo = scratch_copy("minimal", "render_pdf_produces_one_artefact_per_document");
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [\n  { name = \"alpha\", path = \"alpha\", title = \"Alpha\" },\n  { name = \"beta\", path = \"beta\", title = \"Beta\" },\n]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/alpha")).unwrap();
+    std::fs::write(
+        repo.join("docs/alpha/index.md"),
+        "---\nid: alpha\ntitle: Alpha\n---\n\n## Alpha\n\nAlpha body.\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/beta")).unwrap();
+    std::fs::write(
+        repo.join("docs/beta/index.md"),
+        "---\nid: beta\ntitle: Beta\n---\n\n## Beta\n\nBeta body.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    assert!(
+        repo.join("docs/artefacts/alpha.pdf").is_file(),
+        "the alpha document renders its own artefact"
+    );
+    assert!(
+        repo.join("docs/artefacts/beta.pdf").is_file(),
+        "the beta document renders its own artefact"
+    );
+    assert!(
+        !repo.join("docs/artefacts/docs.pdf").exists(),
+        "the package is no longer concatenated into a single PDF"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-09
+#[test]
+fn render_pdf_drops_included_fragments_from_a_document() {
+    // A fragment that a page includes is inlined by the assembler, so it
+    // must not also appear as a standalone staged input (REQ-04-01-03-09).
+    let repo = scratch_copy(
+        "minimal",
+        "render_pdf_drops_included_fragments_from_a_document",
+    );
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [ { name = \"guide\", path = \"guide\", title = \"Guide\" } ]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/guide/units")).unwrap();
+    std::fs::write(
+        repo.join("docs/guide/index.md"),
+        "---\nid: guide\ntitle: Guide\n---\n\n## Guide\n\nIntro.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/guide/page-01.md"),
+        "---\nid: page-01\ntitle: Page One\n---\n\n## Page One\n\n<!-- arqix:include units/unit-01.md -->\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/guide/units/unit-01.md"),
+        "### Unit One\n\nUnit body from the fragment.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    assert!(
+        !repo.join("render-staging/guide/units/unit-01.md").exists(),
+        "the included fragment is not staged as its own page"
+    );
+    let args = std::fs::read_to_string(repo.join("args.txt")).unwrap();
+    assert!(
+        !args.contains("units/unit-01"),
+        "the included fragment is not a separate renderer input: {args}"
+    );
+    let page = std::fs::read_to_string(repo.join("render-staging/guide/page-01.md")).unwrap();
+    assert!(
+        page.contains("Unit body from the fragment"),
+        "the fragment is inlined into the page that includes it: {page}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-09
+#[test]
+fn render_pdf_passes_each_document_title_as_metadata() {
+    // Each document's title reaches the renderer as explicit metadata, one
+    // running header / title-page source per PDF (REQ-04-01-03-09).
+    let repo = scratch_copy(
+        "minimal",
+        "render_pdf_passes_each_document_title_as_metadata",
+    );
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [\n  { name = \"alpha\", path = \"alpha\", title = \"Alpha\" },\n  { name = \"beta\", path = \"beta\", title = \"Beta\" },\n]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/alpha")).unwrap();
+    std::fs::write(
+        repo.join("docs/alpha/index.md"),
+        "---\nid: alpha\ntitle: Alpha\n---\n\n## Alpha\n\nAlpha body.\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/beta")).unwrap();
+    std::fs::write(
+        repo.join("docs/beta/index.md"),
+        "---\nid: beta\ntitle: Beta\n---\n\n## Beta\n\nBeta body.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    let args = std::fs::read_to_string(repo.join("args.txt")).unwrap();
+    assert!(
+        args.contains("--metadata"),
+        "the renderer is passed document metadata: {args}"
+    );
+    assert!(
+        args.contains("title=Alpha") && args.contains("title=Beta"),
+        "each document's own title is passed as metadata: {args}"
     );
 }
 
