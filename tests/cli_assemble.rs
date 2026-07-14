@@ -143,6 +143,36 @@ fn assemble_build_writes_a_jsonl_log() {
     }
 }
 
+// arqix:verifies REQ-02-01-12-05
+#[test]
+fn assemble_omits_included_fragment_frontmatter() {
+    let repo = scratch_copy("minimal", "assemble_omits_included_fragment_frontmatter");
+    std::fs::write(
+        repo.join("docs/fragment.md"),
+        "---\nid: frag-unit\ntitle: Fragment Unit\nkind: unit\n---\n\n## Fragment Body\n\nProse.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: stitch-fm\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include fragment.md level=+1 -->\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(&repo, &["assemble", "build"]));
+    let page = std::fs::read_to_string(repo.join("pages/page.md")).unwrap();
+    assert!(
+        page.contains("Fragment Body"),
+        "the fragment's content is stitched in: {page}"
+    );
+    assert!(
+        !page.contains("id: frag-unit"),
+        "the fragment's frontmatter must not appear in the assembled page: {page}"
+    );
+    assert!(
+        !page.contains("kind: unit"),
+        "no fragment frontmatter key may leak into the body: {page}"
+    );
+}
+
 // arqix:verifies REQ-02-01-12-01
 #[test]
 fn assemble_shifts_included_headings_to_the_declared_level() {
