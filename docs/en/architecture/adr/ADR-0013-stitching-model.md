@@ -27,7 +27,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-11
-  updated: 2026-07-11
+  updated: 2026-07-14
   lang: en
   translation-of:
   generated: false
@@ -60,7 +60,9 @@ Both are legitimate corpus styles, but mixing them silently produces broken outl
   The parent style is validated by the per-family frontmatter contract (US-01-01-19): whether a body must start with a heading is exactly the contract knob that strand configures.
 - A shift beyond h6 is a structural error (ASM-005) naming the fragment and the heading — never a silent clamp.
 - **Splitting happens on the assembled outline, never on fragment boundaries**: units are not chapters, so the site's `split` stitching mode cuts at a configured heading depth (`split-level`) of the assembled document.
-- **PDF is always single-page**: the assembled document is Pandoc's input, and its `--toc` derives from the same outline — one stitching source for site and PDF.
+- **PDF renders one artefact per top-level document**, not one per package or root: a document is a content family (a directory with an `index.md`, whose subtree is collected) or a standalone top-level page, and its boundaries are declared by `[policies.render] documents` (or auto-discovered from the language root when that list is absent).
+  Each document is staged body-only and its pages are re-levelled by the same rule defined above (`shift = 1 − first_heading_level`), so the document's own title lands at H1 and its sections number cleanly from `1`; the document title is passed to Pandoc as explicit metadata, one title page and running header per PDF.
+  Within a document the assembled outline remains a single stitching source shared with the site, and `--toc` derives from it.
 - The `arqix:chapter` directive is retired from the grammar: the level argument supplies the semantics it never had, and chapter identity remains what it already is — frontmatter ids.
 
 ### Alternatives Considered
