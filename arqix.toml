@@ -17,6 +17,19 @@ snapshot-strategy = "main-only"
 # shim mounts the repo and forwards arqix's pandoc arguments into the container.
 pdf-command = "./scripts/pandoc-docker.sh"
 defaults = "docs/pandoc/defaults.yaml"
+# PDF renders one artefact per top-level document (ADR-0013, REQ-04-01-03-09):
+# a content family (a directory collected as a subtree) or a standalone page.
+# architecture/ is a mere container (no index.md) — its three families are
+# their own documents, and it must not collapse into one.
+documents = [
+    { name = "getting-started", path = "getting-started.md" },
+    { name = "why-arqix", path = "why-arqix.md" },
+    { name = "arc42", path = "architecture/arc42" },
+    { name = "icd", path = "architecture/icd" },
+    { name = "adr", path = "architecture/adr" },
+    { name = "manual", path = "manual" },
+    { name = "blog", path = "blog" },
+]
 
 [policies.publish]
 site-command = "zensical build"
