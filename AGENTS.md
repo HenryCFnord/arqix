@@ -290,6 +290,27 @@ ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
 The tests stay `#[ignore]`d — the default `cargo test` run measures the Rust implementation only.
 A story counts as ported when its suite is green without the override.
 
+## Refactoring
+
+Refactoring follows the four-phase methodology documented in `docs/en/processes/refactoring-methodology.md`: assess, strengthen tests, refactor code, tidy tests.
+The methodology document carries the detail; the rules below are normative.
+
+A pure internal refactor commits characterization tests that pin current behaviour before the refactor lands, mirroring the red-before-green rule: the pinning tests are committed before or together with — never after — the restructuring they protect.
+Reviewers check the commit order.
+
+A refactor that implements a requirement is spec-first: the REQ or ADR precedes the test, then the red commit, then the green commit, exactly as for feature work.
+A refactor that changes no behaviour carries `// arqix:no-requirement` markers on its tests instead — never invent a requirement to justify a pure restructuring.
+
+No consolidation crosses the oracle-fidelity freeze.
+While `scripts/check_frontmatter.py` and `scripts/check_requirements.py` are the active behavioural oracle, no shared helper enters `src/checkers/` or the oracle-mirrored `src/parser.rs`, and the oracle-conformance walks and vocabularies stay as their own copies.
+The freeze lifts only when the self-hosting checker retirement removes the Python oracle.
+
+Shared non-oracle helpers live in neutral `pub(crate)` modules (`src/markdown.rs`, `src/util.rs`, `src/date.rs`), never in `parser.rs` or `checkers/`.
+
+A crate is rejected unless it clears the ADR-0014 bar; prefer a small internal helper over a dependency that removes near-zero code.
+
+A move from hardcoded values to configuration preserves current behaviour by default and keeps one source of truth (ADR-0011): the shipped defaults reproduce present behaviour exactly, and no value is duplicated across the config and the code that consumes it.
+
 ## Documentation
 
 Update documentation when:
