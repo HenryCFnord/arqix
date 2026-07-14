@@ -6,6 +6,7 @@
 // implemented test-first (see AGENTS.md, "Test-driven implementation").
 
 mod assembler;
+mod checkers;
 mod config;
 mod diag;
 mod linter;
@@ -202,6 +203,13 @@ enum UnitCommand {
 enum LintCommand {
     /// Run the configured lint checks
     Run,
+    /// Validate requirement documents against the authoring rules
+    /// (RFC 2119 subset + EARS patterns, ID/kind/metadata/derivation scheme)
+    Requirements {
+        /// Suppress REQ-LNK-006 warnings while derivation is incomplete
+        #[arg(long)]
+        allow_unlinked_stories: bool,
+    },
 }
 
 /// The `new` half of the creation aliases (REQ-01-01-05-02): `req new`,
@@ -361,6 +369,9 @@ fn main() -> ExitCode {
         Command::Finalise { date } => rewriter::finalise(&date, cli.format),
         Command::Lint { command } => match command {
             LintCommand::Run => linter::run(cli.format),
+            LintCommand::Requirements {
+                allow_unlinked_stories,
+            } => checkers::requirements::lint(cli.format, allow_unlinked_stories),
         },
         Command::Assemble { command } => match command {
             AssembleCommand::Build => assembler::build(cli.format),

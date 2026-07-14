@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 86caac9, 2026-07-14
+     Snapshot: 3de6729, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -31,7 +31,9 @@
 | `assembly_log_records_carry_stable_field_names` | tests/cli_quality.rs:336 | REQ-05-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
+| `bad_fixture_reports_kind_and_iri` | src/checkers/requirements.rs:1046 | REQ-01-01-11-06 | active |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
+| `canonical_owner_fixture_is_clean_with_multiple_stories` | src/checkers/requirements.rs:1063 | REQ-01-01-11-06 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:499 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:521 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
@@ -44,6 +46,7 @@
 | `coverage_without_results_is_byte_identical_to_before` | tests/cli_trace_results.rs:123 | REQ-03-01-10-02 | active |
 | `creation_aliases_mirror_doc_new` | tests/cli_quality.rs:245 | REQ-01-01-05-02 | active |
 | `creation_never_overwrites_an_existing_document` | tests/cli_quality.rs:55 | REQ-00-00-00-08 | active |
+| `cross_cutting_requirement_needs_two_distinct_stories` | src/checkers/requirements.rs:1142 | REQ-01-01-11-06 | active |
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | tests/cli_lint.rs:203 | REQ-00-00-00-03 | active |
 | `doc_init_creates_the_standard_package_scaffold` | tests/cli_doc.rs:9 | REQ-01-01-01-01 | active |
 | `doc_init_never_overwrites_agent_instructions` | tests/cli_doc.rs:581 | REQ-01-01-21-02 | active |
@@ -79,6 +82,7 @@
 | `finalise_rejects_a_non_iso_date` | tests/cli_finalise.rs:41 | REQ-01-01-06-01 | active |
 | `finalise_sets_updated_to_the_injected_date` | tests/cli_finalise.rs:9 | REQ-01-01-06-01 | active |
 | `finalise_touches_only_the_meta_updated_field` | tests/cli_finalise.rs:65 | REQ-01-01-06-01 | active |
+| `finding_messages_match_the_oracle_formatting` | src/checkers/requirements.rs:1108 | REQ-01-01-11-06 | active |
 | `fmt_and_config_show_share_one_contract_source` | tests/cli_fmt.rs:102 | REQ-01-01-19-02 | active |
 | `fmt_is_idempotent` | tests/cli_fmt.rs:62 | REQ-00-00-00-01 | active |
 | `fmt_keeps_diffs_focused_on_content` | tests/cli_quality.rs:264 | REQ-02-01-03-01 | active |
@@ -87,6 +91,7 @@
 | `fmt_orders_keys_from_the_configured_contract` | tests/cli_fmt.rs:76 | REQ-01-01-19-01 | active |
 | `fmt_orders_ontology_frontmatter_by_family` | tests/cli_fmt.rs:33 | REQ-01-01-03-01 | active |
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
+| `foreign_owner_fixture_reports_lnk_001` | src/checkers/requirements.rs:1075 | REQ-01-01-11-06 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
 | `freshness_degrades_without_version_control` | tests/cli_trace_freshness.rs:135 | REQ-03-01-11-02 | active |
 | `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1905 | REQ-03-01-11-01 | active |
@@ -96,6 +101,7 @@
 | `freshness_is_clean_when_the_test_is_the_later_commit` | tests/cli_trace_freshness.rs:108 | REQ-03-01-11-01 | active |
 | `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1839 | REQ-03-01-11-01 | active |
 | `freshness_treats_missing_history_as_fresh` | src/trace.rs:1944 | REQ-03-01-11-02 | active |
+| `good_fixture_parses_clean` | src/checkers/requirements.rs:1031 | REQ-01-01-11-06 | active |
 | `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:539 | REQ-00-00-00-04 | active |
 | `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
 | `includes_never_resolve_outside_the_configured_roots` | tests/cli_quality.rs:119 | REQ-02-01-09-02 | active |
@@ -103,6 +109,7 @@
 | `lint_checks_encoded_groups_against_declared_triples` | tests/cli_lint.rs:160 | REQ-01-01-18-04 | active |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | tests/cli_lint.rs:65 | REQ-03-01-09-02 | active |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | tests/cli_lint.rs:91 | REQ-03-01-09-01 | active |
+| `lint_requirements_reports_authoring_violations_as_json` | tests/cli_lint_requirements.rs:66 | REQ-01-01-11-06 | active |
 | `lint_run_checks_that_include_targets_exist` | tests/cli_lint.rs:7 | REQ-01-01-04-01 | active |
 | `lint_run_detects_translation_drift` | tests/cli_lint.rs:55 | REQ-00-00-00-10 | active |
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
@@ -116,6 +123,8 @@
 | `mcp_serve_speaks_jsonrpc_over_stdio` | tests/cli_mcp.rs:51 | REQ-05-01-12-01 | active |
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | tests/cli_mcp.rs:260 | REQ-05-01-12-02 | active |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | tests/cli_mcp.rs:318 | REQ-05-01-12-02 | active |
+| `missing_frontmatter_reports_id_001` | src/checkers/requirements.rs:1096 | REQ-01-01-11-06 | active |
+| `missing_generated_meta_reports_meta_001` | src/checkers/requirements.rs:1087 | REQ-01-01-11-06 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
@@ -152,6 +161,7 @@
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
+| `sentence_checks_match_the_oracle_selftest_cases` | src/checkers/requirements.rs:928 | REQ-01-01-11-06 | active |
 | `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:535 | REQ-04-01-03-02 | active |
 | `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
 | `the_assembly_log_is_a_collectable_artefact` | tests/cli_quality.rs:326 | REQ-04-01-01-01 | active |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 86caac9, 2026-07-14
+     Snapshot: 3de6729, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -19,7 +19,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-08 | Generate Governed Coverage Reports | 4 | 0 | 1 | `████████░░` 80% |
 | US-01-01-09 | Govern Agent Workflow Document Standards | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 3 | 0 | 2 | `██████░░░░` 60% |
-| US-01-01-11 | Govern Architecture Documentation Standards | 4 | 0 | 1 | `████████░░` 80% |
+| US-01-01-11 | Govern Architecture Documentation Standards | 5 | 0 | 1 | `████████░░` 83% |
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 4 | 0 | 1 | `████████░░` 80% |

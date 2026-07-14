@@ -11,6 +11,9 @@ This script asserts the two implementations still agree on the real corpus:
     matrix     byte-identical CSV (both types)
     markers    JSON value-equal (the ported TDD marker gate;
                oracle: check_trace_markers.py)
+    lint requirements
+               JSON value-equal (the ported requirements checker;
+               oracle: check_requirements.py)
 
 Exit codes are compared on every check alongside the output.
 
@@ -34,6 +37,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 ORACLE = SCRIPT_DIR / "arqix_trace.py"
 MARKER_ORACLE = SCRIPT_DIR / "check_trace_markers.py"
+REQUIREMENTS_ORACLE = SCRIPT_DIR / "check_requirements.py"
 
 
 def run(argv):
@@ -69,6 +73,29 @@ def compare_markers(name, rust_bin):
     real corpus."""
     rust_code, rust_out = run([rust_bin, "trace", "markers", "--format", "json"])
     oracle_code, oracle_out = run([sys.executable, str(MARKER_ORACLE), "--json"])
+    try:
+        rust_value = json.loads(rust_out)
+        oracle_value = json.loads(oracle_out)
+    except json.JSONDecodeError as err:
+        print(f"FAIL {name}: output is not JSON ({err})")
+        return False
+    if rust_value != oracle_value:
+        print(f"FAIL {name}: JSON values diverge")
+        return False
+    if rust_code != oracle_code:
+        print(f"FAIL {name}: exit codes diverge (rust {rust_code}, oracle {oracle_code})")
+        return False
+    print(f"ok   {name} (value-equal, exit {rust_code})")
+    return True
+
+
+def compare_requirements(name, rust_bin):
+    """`lint requirements`: the ported requirements checker. The oracle is
+    check_requirements.py (its own `--json` flag, not arqix_trace.py), so it
+    needs its own comparison — JSON value-equal and equal exit codes on the
+    real corpus."""
+    rust_code, rust_out = run([rust_bin, "lint", "requirements", "--format", "json"])
+    oracle_code, oracle_out = run([sys.executable, str(REQUIREMENTS_ORACLE), "--json"])
     try:
         rust_value = json.loads(rust_out)
         oracle_value = json.loads(oracle_out)
@@ -144,6 +171,7 @@ def main(argv=None):
             ["trace", "matrix", "--type", "us-req"],
         ),
         compare_markers("trace markers", args.bin),
+        compare_requirements("lint requirements", args.bin),
     ]
     ok = all(checks)
     print(f"conformance: {'ok' if ok else 'FAILED'} ({sum(checks)}/{len(checks)})")
