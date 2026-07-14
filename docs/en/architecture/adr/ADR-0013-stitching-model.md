@@ -63,8 +63,10 @@ Both are legitimate corpus styles, but mixing them silently produces broken outl
 - **PDF renders one artefact per top-level document**, not one per package or root: a document is a content family (a directory with an `index.md`, whose subtree is collected) or a standalone top-level page, and its boundaries are declared by `[policies.render] documents` (or auto-discovered from the language root when that list is absent).
   Each document is staged body-only.
   A family's `index.md` landing page is not staged as a chapter when the family carries other content: it is a site-navigation stub, and its title becomes the document title rather than a near-empty opening chapter.
-  Each staged page drops its own leading title heading — the one duplicating the page title, exactly as the site staging drops it — and re-levels the remaining body so its first real section lands at H1 (`shift = 1 − first_remaining_heading_level`).
-  The document title is passed to Pandoc as explicit metadata and rendered on the eisvogel title page and running header, so the body opens at the document's actual chapters (a family's units, a page's sections) rather than nesting them one level deep under a repeated wrapper title.
+  Staging then depends on whether the document is a single work or a collection.
+  A single-document page — a unit family's assembled page, or a standalone page — drops its own leading title heading (it duplicates the document title, which rides the title page as metadata) and re-levels the remaining body so its first section lands at H1, opening the body at the actual chapters rather than nesting them under a repeated wrapper title.
+  A collection — several sibling files under one directory, like the decision records or the blog — instead keeps each member's own title as its H1 chapter, with the member's sections re-levelled below it, so each ADR or post survives as an identifiable chapter; a document staging more than one member is treated as a collection.
+  The document title is passed to Pandoc as explicit metadata and rendered on the eisvogel title page and running header.
   Within a document the assembled outline remains a single stitching source shared with the site, and `--toc` derives from it.
 - The `arqix:chapter` directive is retired from the grammar: the level argument supplies the semantics it never had, and chapter identity remains what it already is — frontmatter ids.
 
