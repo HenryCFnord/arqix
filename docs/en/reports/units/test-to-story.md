@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6b49f5c, 2026-07-13
+     Snapshot: 7a6e6f0, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -43,6 +43,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `assemble_build_writes_a_jsonl_log` | US-06-01-02 | Trace Document Assembly Structure |
 | `assemble_build_writes_a_jsonl_log` | US-08-01-02 | Emit a Deterministic Assembly Log for Verification |
 | `assemble_fails_on_heading_overflow` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
+| `assemble_omits_included_fragment_frontmatter` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
 | `assemble_rebases_relative_links_from_included_fragments` | US-04-01-03 | Generate Publishing Outputs |
 | `assemble_rebases_relative_links_from_included_fragments` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `assemble_resolves_relative_levels_at_the_include_position` | US-02-01-12 | Stitch Fragments at Declared Heading Levels |
@@ -490,6 +491,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `publish_site_diagnoses_a_failing_toolchain` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
 | `publish_site_generates_outputs_for_the_configured_target` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_generates_outputs_for_the_configured_target` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `publish_site_omits_included_fragments` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_orchestrates_the_configured_toolchain` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_orchestrates_the_configured_toolchain` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_publishes_per_language` | US-04-01-07 | Publish Language-Aware Sites |
@@ -497,6 +499,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `publish_site_stages_artefact_ready_inputs` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_stages_artefact_ready_inputs` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | US-04-01-17 | Publish the Specification as Catalogue Pages |
+| `publish_site_stages_doc_assets_at_page_relative_paths` | US-04-01-07 | Publish Language-Aware Sites |
 | `release_documents_stay_consistent_with_the_crate_version` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `release_documents_stay_consistent_with_the_crate_version` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `release_documents_stay_consistent_with_the_crate_version` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |
