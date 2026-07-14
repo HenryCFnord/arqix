@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 1a2821b, 2026-07-14
+     Snapshot: 86caac9, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -89,13 +89,13 @@
 | `fmt_sorts_frontmatter_keys_canonically` | tests/cli_fmt.rs:9 | REQ-01-01-03-01 | active |
 | `format_option_is_accepted_globally` | tests/cli.rs:44 | REQ-04-01-10-01 | active |
 | `freshness_degrades_without_version_control` | tests/cli_trace_freshness.rs:135 | REQ-03-01-11-02 | active |
-| `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1422 | REQ-03-01-11-01 | active |
+| `freshness_excludes_ignored_skeleton_markers` | src/trace.rs:1905 | REQ-03-01-11-01 | active |
 | `freshness_flags_a_marker_whose_requirement_changed_after_the_test` | tests/cli_trace_freshness.rs:76 | REQ-03-01-11-01 | active |
-| `freshness_flags_a_marker_whose_requirement_is_newer` | src/trace.rs:1336 | REQ-03-01-11-01 | active |
-| `freshness_ignores_owning_story_churn` | src/trace.rs:1375 | REQ-03-01-11-01 | active |
+| `freshness_flags_a_marker_whose_requirement_is_newer` | src/trace.rs:1819 | REQ-03-01-11-01 | active |
+| `freshness_ignores_owning_story_churn` | src/trace.rs:1858 | REQ-03-01-11-01 | active |
 | `freshness_is_clean_when_the_test_is_the_later_commit` | tests/cli_trace_freshness.rs:108 | REQ-03-01-11-01 | active |
-| `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1356 | REQ-03-01-11-01 | active |
-| `freshness_treats_missing_history_as_fresh` | src/trace.rs:1461 | REQ-03-01-11-02 | active |
+| `freshness_is_silent_when_the_marker_is_newer` | src/trace.rs:1839 | REQ-03-01-11-01 | active |
+| `freshness_treats_missing_history_as_fresh` | src/trace.rs:1944 | REQ-03-01-11-02 | active |
 | `ids_and_slugs_derive_deterministically` | tests/cli_doc.rs:539 | REQ-00-00-00-04 | active |
 | `include_directives_parse_with_and_without_level_arguments` | src/linter.rs:389 | REQ-02-01-09-01 | active |
 | `includes_never_resolve_outside_the_configured_roots` | tests/cli_quality.rs:119 | REQ-02-01-09-02 | active |
@@ -108,6 +108,8 @@
 | `lint_run_reports_duplicate_ids_globally` | tests/cli_lint.rs:14 | REQ-01-01-04-03 | active |
 | `lint_run_reports_findings_with_file_and_line_context` | tests/cli_lint.rs:33 | REQ-01-01-04-04 | active |
 | `lint_validates_id_shape_against_the_configured_pattern` | tests/cli_lint.rs:133 | REQ-01-01-18-01 | active |
+| `marker_gate_matches_the_oracle_backlink_cases` | src/trace.rs:2158 | REQ-03-01-06-04 | active |
+| `marker_gate_matches_the_oracle_selftest_cases` | src/trace.rs:2061 | REQ-03-01-06-04 | active |
 | `mcp_list_supports_a_lifecycle_filter` | tests/cli_mcp.rs:208 | REQ-05-01-12-02 | active |
 | `mcp_search_supports_kind_and_path_filters` | tests/cli_mcp.rs:158 | REQ-05-01-12-02 | active |
 | `mcp_serve_exposes_search_read_and_list_tools` | tests/cli_mcp.rs:90 | REQ-05-01-12-02 | active |
@@ -159,6 +161,7 @@
 | `trace_coverage_identifies_requirements_without_verifying_tests` | tests/cli_trace.rs:47 | REQ-01-01-08-01 | active |
 | `trace_coverage_output_is_deterministic` | tests/cli_trace.rs:70 | REQ-00-00-00-01 | active |
 | `trace_coverage_supports_json_output` | tests/cli_trace.rs:59 | REQ-01-01-08-03 | active |
+| `trace_markers_gates_test_functions_without_a_marker` | tests/cli_trace_markers.rs:14 | REQ-03-01-06-04 | active |
 | `trace_matrix_exports_csv` | tests/cli_trace.rs:107 | REQ-03-01-02-01 | active |
 | `trace_ratchet_fails_on_a_coverage_regression` | tests/cli_ratchet.rs:10 | REQ-04-01-15-01 | active |
 | `trace_ratchet_passes_without_regression` | tests/cli_ratchet.rs:33 | REQ-04-01-15-02 | active |
