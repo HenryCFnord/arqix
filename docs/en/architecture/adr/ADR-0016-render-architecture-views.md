@@ -44,6 +44,9 @@ This reverses the "committing rendered Structurizr images (PNG/SVG)" alternative
 
 - Rendering runs a containerised renderer — Kroki, which takes the Structurizr DSL and emits SVG — invoked through a `just` target so the local command is byte-for-byte the pipeline command (arqix's existing `just ci` == CI philosophy).
 - The generated SVGs are committed under `docs/en/architecture/model/generated/` and embedded in the arc42 chapters, replacing the hand-authored C4 Mermaid blocks.
+- Two variants are rendered from the model: the SVG is the web/site variant, and a PNG variant is committed alongside it for the PDF.
+  The PDF uses the PNG because the committed SVGs carry a generic `font-family="sans-serif"` that rsvg-convert cannot resolve in the render container, so their labels would be tofu; the PNG has its text baked to pixels at Kroki render time.
+  A PDF-only Pandoc Lua filter (`docs/pandoc/svg-to-png.lua`, referenced from `docs/pandoc/defaults.yaml`) rewrites the `model/generated/*.svg` embeds to `*.png`, so authors keep writing `![](…/*.svg)` and the site keeps the scalable SVG.
 - The drift guarantee moves from "hand-diagram vs model" to "committed image vs fresh render": CI regenerates the images and fails on any difference, exactly the regenerate-and-diff freshness gate already used for the report snapshots (REQ-04-01-18-02).
   This gate is the decided design; it is not yet enforcing — the diagrams workflow is manual-dispatch and non-blocking while the render is confirmed (roadmap items 5 and 8), and REQ-04-01-18-02 is carried as a planned claim until it becomes a required check.
 - Rendering needs a container runtime, so generation and the freshness gate live in CI and in `just` (with Docker), not in the offline `arqix verify` binary — the same posture as Pandoc and the site command, which the binary orchestrates but never bundles.
@@ -61,4 +64,5 @@ This reverses the "committing rendered Structurizr images (PNG/SVG)" alternative
 - The closed dependency tree (ADR-0014) is unaffected: the renderer is an orchestrated external tool, not a linked crate.
 - Rendering needs Docker in CI and locally; it is not part of the offline binary, and the freshness gate lives with the other pipeline steps.
 - The in-process derivation checker, its module, and its `LNT-DRV` codes are removed; the `derived from` marker convention (ADR-0002) stands, now honoured by generation rather than a checker.
-- SVG keeps the views scalable, small, and theme-friendly; a later slice may regenerate on model change and wire the images into the PDF and site builds.
+- SVG keeps the views scalable, small, and theme-friendly for the site; the PDF embeds the PNG variant via the `svg-to-png.lua` filter, so the diagram text renders as real pixels rather than tofu.
+- The freshness gate diffs the whole `model/generated/` directory, so both variants stay in lockstep with the model; if a raw PNG proves non-deterministic across renders, `render_views.sh` gains a metadata-chunk strip before the gate can rely on it.
