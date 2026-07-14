@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 5503f7b, 2026-07-13
+     Snapshot: 2397849, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -35,7 +35,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-02-01-09 | Use Include Directives During Implementation | 5 | 0 | 1 | `████████░░` 83% |
 | US-02-01-10 | Scaffold Translations During Implementation | 1 | 0 | 4 | `██░░░░░░░░` 20% |
 | US-02-01-11 | Assemble Documentation During Implementation | 4 | 0 | 1 | `████████░░` 80% |
-| US-02-01-12 | Stitch Fragments at Declared Heading Levels | 4 | 0 | 0 | `██████████` 100% |
+| US-02-01-12 | Stitch Fragments at Declared Heading Levels | 5 | 0 | 0 | `██████████` 100% |
 | US-03-01-02 | Export Trace Matrices | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review | 4 | 0 | 0 | `██████████` 100% |
 | US-03-01-05 | Scan Traceability Information | 5 | 0 | 2 | `███████░░░` 71% |
@@ -49,7 +49,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-03 | Generate Publishing Outputs | 9 | 0 | 0 | `██████████` 100% |
 | US-04-01-05 | Run a One-Command Verification Loop | 8 | 0 | 0 | `██████████` 100% |
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
-| US-04-01-07 | Publish Language-Aware Sites | 5 | 0 | 0 | `██████████` 100% |
+| US-04-01-07 | Publish Language-Aware Sites | 7 | 0 | 0 | `██████████` 100% |
 | US-04-01-08 | Provide Consistent Exit Codes for CI Gates | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-04-01-10 | Emit Machine-Readable Diagnostics for CI | 4 | 0 | 1 | `████████░░` 80% |
 | US-04-01-12 | Publish Stable Report Exports for Automation | 5 | 0 | 0 | `██████████` 100% |
