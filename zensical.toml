@@ -88,18 +88,22 @@ nav = [
       "specification/wf-10-01.md",
     ] },
   ] },
+  # Explicit labels: the generated report units open with a `<!-- GENERATED
+  # SNAPSHOT -->` comment before their H1, so Zensical derives no title and the
+  # auto-label falls back to "none". Labelling each entry here fixes the nav
+  # regardless of the page's derivable title. The `units/index.md` landing is a
+  # redundant stub (the units are listed below), so it is dropped.
   { "Reports" = [
     "reports/README.md",
-    "reports/units/index.md",
-    "reports/units/scoreboard.md",
-    "reports/units/story-progress.md",
-    "reports/units/code-to-requirement.md",
-    "reports/units/test-to-requirement.md",
-    "reports/units/test-to-story.md",
-    "reports/units/test-to-workflow.md",
-    "reports/units/adr-to-requirement.md",
-    "reports/units/doc-to-code.md",
-    "reports/QUESTIONS.md",
+    { "Scoreboard" = "reports/units/scoreboard.md" },
+    { "Story progress" = "reports/units/story-progress.md" },
+    { "Code to requirement" = "reports/units/code-to-requirement.md" },
+    { "Test to requirement" = "reports/units/test-to-requirement.md" },
+    { "Test to story" = "reports/units/test-to-story.md" },
+    { "Test to workflow" = "reports/units/test-to-workflow.md" },
+    { "ADR to requirement" = "reports/units/adr-to-requirement.md" },
+    { "Doc to code" = "reports/units/doc-to-code.md" },
+    { "Question catalog" = "reports/QUESTIONS.md" },
   ] },
   { "Blog" = [
     "blog/index.md",
