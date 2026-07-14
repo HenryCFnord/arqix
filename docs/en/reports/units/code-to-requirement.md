@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 16cefb7, 2026-07-14
+     Snapshot: 1e04431, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -99,9 +99,9 @@
 | `site` | src/publisher.rs:19 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:20 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-02 |
-| `stage_catalogue` | src/publisher.rs:302 | REQ-04-01-17-01 |
-| `stage_catalogue` | src/publisher.rs:303 | REQ-04-01-17-02 |
-| `stage_catalogue` | src/publisher.rs:304 | REQ-04-01-17-03 |
+| `stage_catalogue` | src/publisher.rs:304 | REQ-04-01-17-01 |
+| `stage_catalogue` | src/publisher.rs:305 | REQ-04-01-17-02 |
+| `stage_catalogue` | src/publisher.rs:306 | REQ-04-01-17-03 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:380 | REQ-01-01-20-01 |
