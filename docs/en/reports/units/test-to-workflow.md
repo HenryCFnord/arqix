@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3de6729, 2026-07-14
+     Snapshot: 7a6e6f0, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -221,6 +221,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `init_alias_mirrors_doc_init` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
+| `lint_frontmatter_reports_contract_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_requirements_reports_authoring_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -326,6 +327,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-02-01 | Write Docs Alongside Implementation |
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-05-01 | Use Documentation for Agents and RAG |
 | `search_answers_within_a_second_on_a_thousand_documents` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `selftest_cases_match_the_oracle` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `sentence_checks_match_the_oracle_selftest_cases` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-06-01 | Maintain architecture, ADRs, and glossary |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3de6729, 2026-07-14
+     Snapshot: 7a6e6f0, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -399,6 +399,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `init_alias_mirrors_doc_init` | US-01-01-01 | Initialise Standardised Doc Package |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
+| `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_requirements_reports_authoring_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |
@@ -531,6 +532,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `search_answers_within_a_second_on_a_thousand_documents` | US-02-01-06 | Find and Read Documentation During Implementation |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-05-01-06 | Search and Read Documentation via CLI |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
+| `selftest_cases_match_the_oracle` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `sentence_checks_match_the_oracle_selftest_cases` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
