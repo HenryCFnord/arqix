@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c2e8228, 2026-07-13
+     Snapshot: 16cefb7, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -46,7 +46,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-03-01-10 | Track Planned and Executed Test Evidence | 3 | 0 | 0 | `██████████` 100% |
 | US-03-01-11 | Keep Verified Status Current | 3 | 0 | 0 | `██████████` 100% |
 | US-04-01-01 | Emit a CI-Friendly Assembly Log | 4 | 0 | 3 | `█████░░░░░` 57% |
-| US-04-01-03 | Generate Publishing Outputs | 9 | 0 | 0 | `██████████` 100% |
+| US-04-01-03 | Generate Publishing Outputs | 10 | 0 | 0 | `██████████` 100% |
 | US-04-01-05 | Run a One-Command Verification Loop | 8 | 0 | 0 | `██████████` 100% |
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
 | US-04-01-07 | Publish Language-Aware Sites | 5 | 0 | 0 | `██████████` 100% |

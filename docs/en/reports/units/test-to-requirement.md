@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c2e8228, 2026-07-13
+     Snapshot: 16cefb7, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -31,8 +31,8 @@
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
-| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
-| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
+| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:572 | REQ-04-01-17-02 | active |
+| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:594 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
@@ -114,6 +114,7 @@
 | `mcp_trace_answers_coverage_for_a_requirement_and_a_story` | tests/cli_mcp.rs:260 | REQ-05-01-12-02 | active |
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | tests/cli_mcp.rs:318 | REQ-05-01-12-02 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
+| `pdf_staging_promotes_the_leading_heading_and_omits_title_yaml` | src/publisher.rs:957 | REQ-04-01-03-09 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
 | `policy_check_reads_the_declared_scope_from_the_policy_file` | tests/cli_policy.rs:19 | REQ-01-01-07-01 | active |
@@ -126,15 +127,18 @@
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
 | `publish_site_publishes_per_language` | tests/cli_publish.rs:13 | REQ-04-01-07-01 | active |
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
-| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:547 | REQ-04-01-17-01 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
 | `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:247 | REQ-01-01-15-02 | active |
-| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
-| `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |
-| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:186 | REQ-04-01-03-04 | active |
-| `render_pdf_stores_artefacts_per_configured_mode` | tests/cli_publish.rs:265 | REQ-04-01-03-06 | active |
-| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:236 | REQ-04-01-03-05 | active |
-| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:237 | REQ-04-01-03-08 | active |
+| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:433 | REQ-04-01-03-07 | active |
+| `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:212 | REQ-04-01-03-04 | active |
+| `render_pdf_drops_included_fragments_from_a_document` | tests/cli_publish.rs:346 | REQ-04-01-03-09 | active |
+| `render_pdf_passes_each_document_title_as_metadata` | tests/cli_publish.rs:394 | REQ-04-01-03-09 | active |
+| `render_pdf_produces_one_artefact_per_document` | tests/cli_publish.rs:307 | REQ-04-01-03-09 | active |
+| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:187 | REQ-04-01-03-04 | active |
+| `render_pdf_stores_artefacts_per_configured_mode` | tests/cli_publish.rs:266 | REQ-04-01-03-06 | active |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:237 | REQ-04-01-03-05 | active |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:238 | REQ-04-01-03-08 | active |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | active |
 | `report_bundle_includes_linked_evidence` | tests/cli_report.rs:20 | REQ-03-01-04-02 | active |
 | `report_bundle_output_is_deterministic_and_schema_stable` | tests/cli_report.rs:94 | REQ-04-01-12-02 | active |
@@ -147,7 +151,7 @@
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
-| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:472 | REQ-04-01-03-02 | active |
+| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:608 | REQ-04-01-03-02 | active |
 | `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
 | `the_assembly_log_is_a_collectable_artefact` | tests/cli_quality.rs:326 | REQ-04-01-01-01 | active |
 | `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | tests/cli_quality.rs:207 | REQ-00-00-00-12 | active |
