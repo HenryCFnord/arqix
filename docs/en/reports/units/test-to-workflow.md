@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6e0162b, 2026-07-13
+     Snapshot: 86caac9, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -43,6 +43,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `assemble_build_writes_a_jsonl_log` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_build_writes_a_jsonl_log` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `assemble_fails_on_heading_overflow` | WF-02-01 | Write Docs Alongside Implementation |
+| `assemble_omits_included_fragment_frontmatter` | WF-02-01 | Write Docs Alongside Implementation |
 | `assemble_rebases_relative_links_from_included_fragments` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `assemble_rebases_relative_links_from_included_fragments` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `assemble_resolves_relative_levels_at_the_include_position` | WF-02-01 | Write Docs Alongside Implementation |
@@ -275,6 +276,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_diagnoses_a_failing_toolchain` | WF-05-01 | Use Documentation for Agents and RAG |
 | `publish_site_generates_outputs_for_the_configured_target` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_generates_outputs_for_the_configured_target` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `publish_site_omits_included_fragments` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_orchestrates_the_configured_toolchain` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_orchestrates_the_configured_toolchain` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_publishes_per_language` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -282,6 +284,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_stages_doc_assets_at_page_relative_paths` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

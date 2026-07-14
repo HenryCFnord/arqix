@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 6e0162b, 2026-07-13
+     Snapshot: 86caac9, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -17,22 +17,23 @@
 | `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:232 | REQ-01-01-11-05 | active |
 | `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
 | `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:166 | REQ-04-01-18-01 | active |
-| `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:235 | REQ-02-01-12-04 | active |
+| `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:265 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
 | `assemble_build_generates_outputs_under_pages` | tests/cli_assemble.rs:8 | REQ-02-01-11-01 | active |
 | `assemble_build_refuses_includes_outside_the_repository` | tests/cli_assemble.rs:74 | REQ-00-00-00-13 | active |
 | `assemble_build_writes_a_jsonl_log` | tests/cli_assemble.rs:105 | REQ-04-01-01-02 | active |
-| `assemble_fails_on_heading_overflow` | tests/cli_assemble.rs:200 | REQ-02-01-12-03 | active |
-| `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:273 | REQ-04-01-03-02 | active |
-| `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:175 | REQ-02-01-12-02 | active |
-| `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:146 | REQ-02-01-12-01 | active |
+| `assemble_fails_on_heading_overflow` | tests/cli_assemble.rs:230 | REQ-02-01-12-03 | active |
+| `assemble_omits_included_fragment_frontmatter` | tests/cli_assemble.rs:146 | REQ-02-01-12-05 | active |
+| `assemble_rebases_relative_links_from_included_fragments` | tests/cli_assemble.rs:303 | REQ-04-01-03-02 | active |
+| `assemble_resolves_relative_levels_at_the_include_position` | tests/cli_assemble.rs:205 | REQ-02-01-12-02 | active |
+| `assemble_shifts_included_headings_to_the_declared_level` | tests/cli_assemble.rs:176 | REQ-02-01-12-01 | active |
 | `assembly_log_records_carry_stable_field_names` | tests/cli_quality.rs:336 | REQ-05-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
-| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:436 | REQ-04-01-17-02 | active |
-| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:458 | REQ-04-01-17-03 | active |
+| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:499 | REQ-04-01-17-02 | active |
+| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:521 | REQ-04-01-17-03 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:16 | REQ-00-00-00-06 | active |
@@ -123,20 +124,22 @@
 | `policy_check_reports_violations_as_structured_diagnostics` | tests/cli_policy.rs:94 | REQ-01-01-07-02 | active |
 | `policy_check_supports_warn_only_mode` | tests/cli_policy.rs:77 | REQ-01-01-07-03 | active |
 | `processed_content_is_never_executed` | tests/cli_quality.rs:86 | REQ-00-00-00-14 | active |
-| `publish_site_diagnoses_a_failing_toolchain` | tests/cli_publish.rs:150 | REQ-04-01-07-02 | active |
-| `publish_site_generates_outputs_for_the_configured_target` | tests/cli_publish.rs:86 | REQ-04-01-03-01 | active |
-| `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:110 | REQ-04-01-03-03 | active |
-| `publish_site_publishes_per_language` | tests/cli_publish.rs:13 | REQ-04-01-07-01 | active |
-| `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:54 | REQ-04-01-03-02 | active |
-| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:411 | REQ-04-01-17-01 | active |
+| `publish_site_diagnoses_a_failing_toolchain` | tests/cli_publish.rs:213 | REQ-04-01-07-02 | active |
+| `publish_site_generates_outputs_for_the_configured_target` | tests/cli_publish.rs:149 | REQ-04-01-03-01 | active |
+| `publish_site_omits_included_fragments` | tests/cli_publish.rs:49 | REQ-04-01-07-03 | active |
+| `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:173 | REQ-04-01-03-03 | active |
+| `publish_site_publishes_per_language` | tests/cli_publish.rs:76 | REQ-04-01-07-01 | active |
+| `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:117 | REQ-04-01-03-02 | active |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:474 | REQ-04-01-17-01 | active |
+| `publish_site_stages_doc_assets_at_page_relative_paths` | tests/cli_publish.rs:13 | REQ-04-01-07-04 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
 | `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:247 | REQ-01-01-15-02 | active |
-| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:297 | REQ-04-01-03-07 | active |
-| `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:211 | REQ-04-01-03-04 | active |
-| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:186 | REQ-04-01-03-04 | active |
-| `render_pdf_stores_artefacts_per_configured_mode` | tests/cli_publish.rs:265 | REQ-04-01-03-06 | active |
-| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:236 | REQ-04-01-03-05 | active |
-| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:237 | REQ-04-01-03-08 | active |
+| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:360 | REQ-04-01-03-07 | active |
+| `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:274 | REQ-04-01-03-04 | active |
+| `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:249 | REQ-04-01-03-04 | active |
+| `render_pdf_stores_artefacts_per_configured_mode` | tests/cli_publish.rs:328 | REQ-04-01-03-06 | active |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:299 | REQ-04-01-03-05 | active |
+| `render_pdf_supports_defaults_eisvogel_and_package_overrides` | tests/cli_publish.rs:300 | REQ-04-01-03-08 | active |
 | `report_bundle_exports_an_evidence_bundle_by_id_scope` | tests/cli_report.rs:9 | REQ-03-01-04-01 | active |
 | `report_bundle_includes_linked_evidence` | tests/cli_report.rs:20 | REQ-03-01-04-02 | active |
 | `report_bundle_output_is_deterministic_and_schema_stable` | tests/cli_report.rs:94 | REQ-04-01-12-02 | active |
@@ -149,7 +152,7 @@
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | tests/cli_report.rs:187 | REQ-05-01-15-03 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
-| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:472 | REQ-04-01-03-02 | active |
+| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:535 | REQ-04-01-03-02 | active |
 | `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
 | `the_assembly_log_is_a_collectable_artefact` | tests/cli_quality.rs:326 | REQ-04-01-01-01 | active |
 | `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | tests/cli_quality.rs:207 | REQ-00-00-00-12 | active |
