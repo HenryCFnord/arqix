@@ -39,3 +39,10 @@ variables:
   titlepage-rule-height: 2
   logo: "assets/arqix-logo-transparent.png"
   logo-width: "70mm"
+
+# Task-list checkbox glyphs (U+2610/2611/2612) need a font/fallback the eisvogel
+# default lacks; docs/pandoc/header.tex maps them to DejaVu Sans when the render
+# image ships it, and to a base-LaTeX framed box otherwise (a no-tofu floor that
+# needs no extra packages — the pinned image is a curated TeX Live subset).
+include-in-header:
+  - docs/pandoc/header.tex
