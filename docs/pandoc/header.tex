@@ -4,18 +4,28 @@
 % Pandoc renders Markdown task lists `[ ]` / `[x]` as U+2610 (BALLOT BOX, ☐) and
 % U+2612 (BALLOT BOX WITH X, ☒). eisvogel's default Source Sans lacks those code
 % points, and xelatex does no automatic font fallback, so the boxes come out as
-% tofu. Map the ballot glyphs to a font that carries them when the render image
-% ships one, and fall back to amssymb box symbols otherwise — a no-tofu floor
-% that holds regardless of which fonts the image happens to have.
-\usepackage{newunicodechar}
-\usepackage{amssymb}
+% tofu. We remap the ballot code points to a font that carries them when the
+% render image ships one, and fall back to a box drawn with base LaTeX otherwise.
+%
+% Deliberately package-free beyond fontspec (which eisvogel already loads): the
+% pinned pandoc/extra image is a curated TeX Live subset and lacks newunicodechar
+% and other add-ons, so a missing `\usepackage` would abort the whole render. The
+% \fbox fallback is a no-tofu floor that needs nothing but the LaTeX kernel.
+
+% Base-LaTeX fallback: an empty framed box, and a framed times for the checked
+% state. \fbox, \vphantom, \kern and \times are all LaTeX-kernel — nothing to miss.
+\protected\def\arqixBallotOpen{\fbox{\vphantom{X}\kern0.55em}}
+\protected\def\arqixBallotDone{\fbox{\vphantom{X}$\times$}}
+
+% Prefer a real ballot font when the image has one (fontspec is loaded by
+% eisvogel). \IfFontExistsTF and \newfontfamily are fontspec, always available here.
 \IfFontExistsTF{DejaVu Sans}{%
-  \newfontfamily\ballotfont{DejaVu Sans}%
-  \newunicodechar{☐}{{\ballotfont ☐}}%
-  \newunicodechar{☑}{{\ballotfont ☑}}%
-  \newunicodechar{☒}{{\ballotfont ☒}}%
-}{%
-  \newunicodechar{☐}{\ensuremath{\square}}%
-  \newunicodechar{☑}{\ensuremath{\boxtimes}}%
-  \newunicodechar{☒}{\ensuremath{\boxtimes}}%
-}
+  \newfontfamily\arqixBallotFont{DejaVu Sans}%
+  \protected\def\arqixBallotOpen{{\arqixBallotFont\symbol{"2610}}}%
+  \protected\def\arqixBallotDone{{\arqixBallotFont\symbol{"2612}}}%
+}{}%
+
+% Route the ballot code points through the commands above by making them active.
+\catcode`☐=\active \protected\def☐{\arqixBallotOpen}
+\catcode`☑=\active \protected\def☑{\arqixBallotDone}
+\catcode`☒=\active \protected\def☒{\arqixBallotDone}

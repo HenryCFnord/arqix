@@ -19,11 +19,11 @@ fn pandoc_defaults_wire_the_checkbox_glyph_header() {
     );
     let header = repo_file("docs/pandoc/header.tex");
     assert!(
-        header.contains("newunicodechar") && header.contains("IfFontExistsTF"),
-        "header.tex maps the ballot glyphs behind a font-existence guard"
+        header.contains("IfFontExistsTF"),
+        "header.tex maps the ballot glyphs behind a font-existence guard: {header}"
     );
     assert!(
-        header.contains("amssymb") && header.contains("boxtimes"),
-        "header.tex keeps the amssymb no-tofu fallback"
+        header.contains("\\fbox") && header.contains("catcode"),
+        "header.tex keeps a base-LaTeX no-tofu fallback and remaps the ballot code points: {header}"
     );
 }
