@@ -1,0 +1,21 @@
+% Task-list checkbox glyphs for the PDF render (REQ-04-01-03-05), injected via
+% `include-in-header` in docs/pandoc/defaults.yaml.
+%
+% Pandoc renders Markdown task lists `[ ]` / `[x]` as U+2610 (BALLOT BOX, ☐) and
+% U+2612 (BALLOT BOX WITH X, ☒). eisvogel's default Source Sans lacks those code
+% points, and xelatex does no automatic font fallback, so the boxes come out as
+% tofu. Map the ballot glyphs to a font that carries them when the render image
+% ships one, and fall back to amssymb box symbols otherwise — a no-tofu floor
+% that holds regardless of which fonts the image happens to have.
+\usepackage{newunicodechar}
+\usepackage{amssymb}
+\IfFontExistsTF{DejaVu Sans}{%
+  \newfontfamily\ballotfont{DejaVu Sans}%
+  \newunicodechar{☐}{{\ballotfont ☐}}%
+  \newunicodechar{☑}{{\ballotfont ☑}}%
+  \newunicodechar{☒}{{\ballotfont ☒}}%
+}{%
+  \newunicodechar{☐}{\ensuremath{\square}}%
+  \newunicodechar{☑}{\ensuremath{\boxtimes}}%
+  \newunicodechar{☒}{\ensuremath{\boxtimes}}%
+}
