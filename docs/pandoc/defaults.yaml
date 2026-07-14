@@ -3,8 +3,10 @@
 # shim (scripts/pandoc-docker.sh) mounts at its working directory, so a local
 # `just render-pdf` and the pipeline render read the same file.
 #
-# eisvogel and xelatex ship in the fat image (pandoc/extra); rsvg-convert in the
-# same image turns the embedded C4 SVG views into PDF automatically.
+# eisvogel and xelatex ship in the fat image (pandoc/extra). The C4 architecture
+# views embed as their PNG variant on this PDF path (docs/pandoc/svg-to-png.lua):
+# the committed SVGs use a generic sans-serif that rsvg-convert cannot resolve in
+# the container, so rsvg is off the C4 path entirely (ADR-0016).
 template: eisvogel
 # xelatex, not pdflatex: eisvogel's default fonts are OpenType (Source Sans /
 # Serif / Code Pro), and only a Unicode-aware engine (xelatex or lualatex) can
@@ -46,3 +48,10 @@ variables:
 # needs no extra packages — the pinned image is a curated TeX Live subset).
 include-in-header:
   - docs/pandoc/header.tex
+
+# PDF-only: embed the C4 views as their PNG variant. The committed SVGs use a
+# generic sans-serif that rsvg-convert cannot resolve in the container (labels
+# would be tofu); the PNG has its text baked to pixels at Kroki render time. The
+# website build keeps the SVG — this filter runs on the PDF path only (ADR-0016).
+filters:
+  - docs/pandoc/svg-to-png.lua
