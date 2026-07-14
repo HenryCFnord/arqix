@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-# Render the C4 architecture views from the model to SVG (ADR-0016, US-04-01-18).
+# Render the C4 architecture views from the model to SVG and PNG (ADR-0016,
+# US-04-01-18).
 #
 # docs/en/architecture/model/workspace.dsl is the single source of truth; these
-# SVGs are generated artefacts, committed and kept fresh by the freshness gate
-# (`just render-views-check` / the architecture-diagrams workflow).
+# images are generated artefacts, committed and kept fresh by the freshness gate
+# (`just render-views-check` / the architecture-diagrams workflow). The SVG is
+# the web/site variant; the PNG is the PDF variant (its text is baked to pixels
+# at render time so the PDF never resolves the SVGs' generic sans-serif — see
+# docs/pandoc/svg-to-png.lua).
 #
 # STATUS: scaffold. Authored without a Docker daemon (the arqix.dev dev sandbox
 # had none), so the Kroki invocation below is unverified. First real run happens
@@ -38,13 +42,18 @@ fi
 cleanup() { [[ -n "$started" ]] && docker stop arqix-kroki >/dev/null 2>&1 || true; }
 trap cleanup EXIT
 
+# Two variants per view: SVG for the site, PNG for the PDF (same digest-pinned
+# image and view-key header, so both stay in lockstep with the model).
+FORMATS=("svg" "png")
 mkdir -p "$OUT"
 for view in "${VIEWS[@]}"; do
   slug="$(echo "$view" | tr '[:upper:]' '[:lower:]')"
-  curl -sf "$KROKI_URL/structurizr/svg" \
-    -H "Content-Type: text/plain" \
-    -H "Kroki-Diagram-Options-View-Key: $view" \
-    --data-binary "@$MODEL_DIR/workspace.dsl" \
-    -o "$OUT/$slug.svg"
-  echo "rendered $view -> $OUT/$slug.svg"
+  for fmt in "${FORMATS[@]}"; do
+    curl -sf "$KROKI_URL/structurizr/$fmt" \
+      -H "Content-Type: text/plain" \
+      -H "Kroki-Diagram-Options-View-Key: $view" \
+      --data-binary "@$MODEL_DIR/workspace.dsl" \
+      -o "$OUT/$slug.$fmt"
+    echo "rendered $view -> $OUT/$slug.$fmt"
+  done
 done

@@ -9,8 +9,9 @@
 # embedded C4 SVGs, the defaults file, and the output target — resolves exactly
 # as a local pandoc run would (REQ-04-01-03-04, REQ-04-01-03-05).
 #
-# The image carries eisvogel and rsvg-convert, so the SVG architecture views
-# (ADR-0016) are converted to PDF automatically. Pin PANDOC_IMAGE to a digest
+# The image carries eisvogel and xelatex. The C4 architecture views embed as
+# their PNG variant (docs/pandoc/svg-to-png.lua) because rsvg-convert cannot
+# resolve the SVGs' generic sans-serif (ADR-0016). Pin PANDOC_IMAGE to a digest
 # for a reproducible render, exactly as render_views.sh pins the Kroki image.
 set -euo pipefail
 
