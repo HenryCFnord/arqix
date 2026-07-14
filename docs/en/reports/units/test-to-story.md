@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 2397849, 2026-07-14
+     Snapshot: 9ec4dd6, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -439,6 +439,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-04-01-02 | Check Scope Guardrails in CI |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-08-01-08 | Stay within Declared Change Scope |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | US-04-01-03 | Generate Publishing Outputs |
 | `percent_ties_round_to_even_like_python` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
@@ -512,6 +513,10 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `render_forwards_tool_errors_transparently` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_pdf_accepts_selected_markdown_files` | US-04-01-03 | Generate Publishing Outputs |
 | `render_pdf_accepts_selected_markdown_files` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `render_pdf_drops_included_fragments_from_a_document` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_drops_the_index_landing_and_lifts_units_to_top_level` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_passes_each_document_title_as_metadata` | US-04-01-03 | Generate Publishing Outputs |
+| `render_pdf_produces_one_artefact_per_document` | US-04-01-03 | Generate Publishing Outputs |
 | `render_pdf_renders_via_pandoc` | US-04-01-03 | Generate Publishing Outputs |
 | `render_pdf_renders_via_pandoc` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `render_pdf_stores_artefacts_per_configured_mode` | US-04-01-03 | Generate Publishing Outputs |

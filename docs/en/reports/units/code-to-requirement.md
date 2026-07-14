@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 2397849, 2026-07-14
+     Snapshot: 9ec4dd6, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -48,14 +48,14 @@
 | `frontmatter_line_count` | src/assembler.rs:156 | REQ-02-01-12-01 |
 | `frontmatter_line_count` | src/assembler.rs:157 | REQ-02-01-12-02 |
 | `frontmatter_line_count` | src/assembler.rs:158 | REQ-02-01-12-03 |
-| `heading_ownership` | src/config.rs:358 | REQ-02-01-12-04 |
-| `id_pattern_for_kind` | src/config.rs:434 | REQ-01-01-18-01 |
-| `included_targets` | src/publisher.rs:563 | REQ-04-01-07-03 |
+| `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
+| `id_pattern_for_kind` | src/config.rs:470 | REQ-01-01-18-01 |
+| `included_targets` | src/publisher.rs:538 | REQ-04-01-07-03 |
 | `init` | src/templates.rs:361 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:362 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:399 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:400 | REQ-01-01-19-02 |
+| `kind_contracts` | src/config.rs:435 | REQ-01-01-19-01 |
+| `kind_contracts` | src/config.rs:436 | REQ-01-01-19-02 |
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
@@ -77,12 +77,13 @@
 | `pdf` | src/publisher.rs:183 | REQ-04-01-03-05 |
 | `pdf` | src/publisher.rs:184 | REQ-04-01-03-06 |
 | `pdf` | src/publisher.rs:185 | REQ-04-01-03-07 |
+| `pdf` | src/publisher.rs:186 | REQ-04-01-03-09 |
 | `publish_policy` | src/config.rs:248 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:1025 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:1026 | REQ-04-01-15-02 |
 | `read` | src/store.rs:173 | REQ-05-01-10-01 |
 | `read` | src/store.rs:174 | REQ-05-01-10-03 |
-| `render_policy` | src/config.rs:326 | REQ-04-01-03-08 |
+| `render_policy` | src/config.rs:341 | REQ-04-01-03-08 |
 | `report_freshness_gates` | src/verifier.rs:149 | REQ-04-01-14-05 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
 | `resolve` | src/config.rs:46 | REQ-01-01-16-01 |
@@ -97,7 +98,7 @@
 | `scan` | src/trace.rs:893 | REQ-03-01-05-05 |
 | `search` | src/store.rs:204 | REQ-02-01-06-01 |
 | `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
-| `show` | src/config.rs:500 | REQ-01-01-16-02 |
+| `show` | src/config.rs:536 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:20 | REQ-04-01-03-03 |
@@ -105,15 +106,15 @@
 | `site` | src/publisher.rs:22 | REQ-04-01-07-02 |
 | `snapshot` | src/reporter.rs:789 | REQ-04-01-12-04 |
 | `snapshot_strategy` | src/config.rs:196 | REQ-04-01-14-05 |
-| `stage_catalogue` | src/publisher.rs:345 | REQ-04-01-17-01 |
-| `stage_catalogue` | src/publisher.rs:346 | REQ-04-01-17-02 |
-| `stage_catalogue` | src/publisher.rs:347 | REQ-04-01-17-03 |
-| `staged_asset_rel` | src/publisher.rs:542 | REQ-04-01-07-04 |
+| `stage_catalogue` | src/publisher.rs:320 | REQ-04-01-17-01 |
+| `stage_catalogue` | src/publisher.rs:321 | REQ-04-01-17-02 |
+| `stage_catalogue` | src/publisher.rs:322 | REQ-04-01-17-03 |
+| `staged_asset_rel` | src/publisher.rs:517 | REQ-04-01-07-04 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
-| `templates_dir` | src/config.rs:371 | REQ-01-01-20-01 |
+| `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
 | `tool_result` | src/mcp.rs:143 | REQ-05-01-12-03 |
-| `validate` | src/config.rs:489 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:525 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:29 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:30 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:31 | REQ-04-01-05-03 |

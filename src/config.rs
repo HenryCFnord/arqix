@@ -306,6 +306,17 @@ pub fn change_policy(dir: &Path) -> Option<ChangePolicy> {
     })
 }
 
+/// One declared top-level PDF document (REQ-04-01-03-09): the artefact name,
+/// the language-root-relative path that scopes its members (a directory
+/// collected as a subtree, or a standalone `.md` page), and an optional
+/// title override — otherwise the title is derived from the document's
+/// canonical page.
+pub struct RenderDocument {
+    pub name: String,
+    pub path: String,
+    pub title: Option<String>,
+}
+
 pub struct RenderPolicy {
     /// The renderer invocation, `pandoc` unless configured
     /// (REQ-04-01-03-04); arqix appends inputs, output, and options.
@@ -321,6 +332,10 @@ pub struct RenderPolicy {
     /// `artefact_dir`.
     pub artefact_mode: String,
     pub artefact_dir: String,
+    /// The declared top-level documents (REQ-04-01-03-09); `None` means the
+    /// list is absent and the publisher auto-discovers them from the
+    /// language root.
+    pub documents: Option<Vec<RenderDocument>>,
 }
 
 // arqix:implements REQ-04-01-03-08
@@ -342,12 +357,33 @@ pub fn render_policy(dir: &Path, package: &str) -> RenderPolicy {
             .or_else(|| render.and_then(|r| r.get(name)))
             .and_then(Value::as_str)
     };
+    // The `documents` list is a global render property (not per-package):
+    // it declares the top-level document boundaries for the language root.
+    let documents = render
+        .and_then(|r| r.get("documents"))
+        .and_then(Value::as_array)
+        .map(|entries| {
+            entries
+                .iter()
+                .filter_map(|entry| {
+                    Some(RenderDocument {
+                        name: entry.get("name")?.as_str()?.to_string(),
+                        path: entry.get("path")?.as_str()?.to_string(),
+                        title: entry
+                            .get("title")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                    })
+                })
+                .collect()
+        });
     RenderPolicy {
         pdf_command: key("pdf-command").unwrap_or("pandoc").to_string(),
         defaults: key("defaults").map(str::to_string),
         template: key("template").map(str::to_string),
         artefact_mode: key("artefact-mode").unwrap_or("package").to_string(),
         artefact_dir: key("artefact-dir").unwrap_or("render-out").to_string(),
+        documents,
     }
 }
 

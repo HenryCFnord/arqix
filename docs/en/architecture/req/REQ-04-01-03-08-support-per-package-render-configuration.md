@@ -26,7 +26,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-02
-  updated: 2026-07-10
+  updated: 2026-07-14
   lang: en
   translation-of:
   generated: false
@@ -40,3 +40,4 @@ The arqix CLI SHALL support per-doc-package render configuration and overrides.
 
 Derived from the acceptance criteria of US-04-01-03, US-06-01-05 under the canonical-owner model (see `docs/en/plans/requirements-derivation-2026-07-02/PLANS.md`, decision 10).
 Cross-cutting behaviour is linked via the stories' `has-requirement`, not restated here.
+The `[policies.render]` table carries a `documents` list (`{ name, path, title? }` entries) declaring the top-level document boundaries (REQ-04-01-03-09), alongside the per-package overrides merged from `[policies.render.package.<name>]`.

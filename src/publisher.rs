@@ -102,7 +102,7 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
             }) {
                 continue;
             }
-            if let Err(code) = write_staged(&staging.join(&rel), &doc) {
+            if let Err(code) = write_staged(&staging.join(&rel), &doc, StagingMode::Site) {
                 return code;
             }
             staged += 1;
@@ -183,12 +183,17 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
 // arqix:implements REQ-04-01-03-05
 // arqix:implements REQ-04-01-03-06
 // arqix:implements REQ-04-01-03-07
+// arqix:implements REQ-04-01-03-09
 /// `arqix render pdf [<file>...] [--lang <lang>] [--out <path>]` — the PDF
 /// half of the orchestrator: stage artefact-ready pages (or take the
 /// selected Markdown files verbatim), then invoke the configured renderer
 /// (Pandoc unless overridden) with the configured defaults file and
-/// template; the artefact lands per the configured artefact mode. PDF is
-/// always single-page (ADR-0013): one invocation, one artefact per package.
+/// template; the artefact lands per the configured artefact mode. PDF
+/// renders one artefact per top-level document (ADR-0013, REQ-04-01-03-09):
+/// each declared (or auto-discovered) document is staged body-only, its
+/// headings re-levelled so the title lands at H1, and rendered in its own
+/// Pandoc invocation with the document title as explicit metadata. An
+/// explicit file selection or `--out` keeps the single-invocation path.
 pub fn pdf(
     files: &[String],
     lang: Option<&str>,
@@ -202,6 +207,10 @@ pub fn pdf(
 
     let mut artefacts: Vec<String> = Vec::new();
     let mut renderer = String::new();
+    // An explicit file selection or `--out` keeps the single-invocation
+    // path: one artefact, either the selected files verbatim or the whole
+    // package staged and concatenated. Otherwise PDF splits per document.
+    let single = !files.is_empty() || out.is_some();
     for root in crate::config::roots(Path::new(".")) {
         let package = Path::new(&root)
             .file_name()
@@ -219,104 +228,70 @@ pub fn pdf(
             continue;
         };
 
-        // The renderer's inputs: the selected files verbatim, or the
-        // staged artefact-ready pages of this package in path order.
-        let inputs: Vec<String> = if files.is_empty() {
-            let staging = Path::new("render-staging").join(&package);
-            let mut sources = Vec::new();
-            collect_markdown(&lang_root, &skip, &mut sources);
-            let mut staged = Vec::new();
-            for file in sources {
-                let assembled = match crate::assembler::expand_document(&file) {
-                    Ok(text) => text,
-                    Err(diagnostic) => {
-                        eprintln!(
-                            "error: {}: {}",
-                            diagnostic.file.as_deref().unwrap_or("?"),
-                            diagnostic.message
-                        );
-                        return ExitCode::from(2);
-                    }
-                };
-                let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
-                let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
-                let rel_posix = rel.to_string_lossy().replace('\\', "/");
-                if publish.exclude.iter().any(|e| {
-                    let prefix = e.trim_end_matches('/');
-                    rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
-                }) {
-                    continue;
+        if single {
+            // The renderer's inputs: the selected files verbatim, or the
+            // staged artefact-ready pages of the whole package in path order.
+            let inputs: Vec<String> = if files.is_empty() {
+                let staging = Path::new("render-staging").join(&package);
+                let mut members = Vec::new();
+                collect_markdown(&lang_root, &skip, &mut members);
+                match stage_members(&members, &lang_root, &lang_root, &staging, &publish) {
+                    Ok(staged) => staged,
+                    Err(code) => return code,
                 }
-                let target = staging.join(&rel);
-                if let Err(code) = write_staged(&target, &doc) {
-                    return code;
+            } else {
+                files.to_vec()
+            };
+            if inputs.is_empty() {
+                continue;
+            }
+            let target = match out {
+                Some(path) => PathBuf::from(path),
+                None if policy.artefact_mode == "detached" => {
+                    Path::new(&policy.artefact_dir).join(format!("{package}.pdf"))
                 }
-                staged.push(target.to_string_lossy().to_string());
+                None => lang_root.join("artefacts").join(format!("{package}.pdf")),
+            };
+            if let Err(code) = run_renderer(&policy, &inputs, &target, None) {
+                return code;
             }
-            staged
-        } else {
-            files.to_vec()
-        };
-        if inputs.is_empty() {
-            continue;
-        }
-
-        // The artefact target per the configured mode; an explicit --out
-        // always wins.
-        let target = match out {
-            Some(path) => PathBuf::from(path),
-            None if policy.artefact_mode == "detached" => {
-                Path::new(&policy.artefact_dir).join(format!("{package}.pdf"))
-            }
-            None => lang_root.join("artefacts").join(format!("{package}.pdf")),
-        };
-        if let Some(parent) = target.parent()
-            && let Err(err) = std::fs::create_dir_all(parent)
-        {
-            eprintln!("error: cannot create {}: {err}", parent.display());
-            return ExitCode::from(2);
-        }
-
-        let mut parts = policy.pdf_command.split_whitespace();
-        let Some(program) = parts.next() else {
-            eprintln!("error: [policies.render] pdf-command is empty");
-            return ExitCode::from(2);
-        };
-        let mut command = Command::new(program);
-        command.args(parts).args(&inputs).arg("-o").arg(&target);
-        if let Some(defaults) = &policy.defaults {
-            command.arg("--defaults").arg(defaults);
-        }
-        if let Some(template) = &policy.template {
-            command.arg("--template").arg(template);
-        }
-        // Inherit stdio so the renderer's own output and errors surface
-        // transparently (REQ-04-01-03-07).
-        match command.status() {
-            Ok(status) if status.success() => {}
-            Ok(status) => {
-                eprintln!(
-                    "error: renderer failed: '{}' exited with {}",
-                    policy.pdf_command,
-                    status
-                        .code()
-                        .map_or("signal".to_string(), |c| c.to_string())
-                );
-                return ExitCode::from(2);
-            }
-            Err(err) => {
-                eprintln!(
-                    "error: renderer failed: cannot run '{}': {err}",
-                    policy.pdf_command
-                );
-                return ExitCode::from(2);
-            }
-        }
-        artefacts.push(target.to_string_lossy().to_string());
-
-        // Selected files render once, not once per package.
-        if !files.is_empty() {
+            artefacts.push(target.to_string_lossy().to_string());
+            // The single-invocation path renders once, not once per root.
             break;
+        }
+
+        // One PDF per top-level document (REQ-04-01-03-09): resolve the
+        // declared documents (or auto-discover them from the language root).
+        for document in resolve_documents(&policy, &lang_root, &skip) {
+            let mut members = collect_document_members(&document.path, &skip);
+            // A fragment that another member includes is inlined by the
+            // assembler, never a standalone input (the #71/#83 rule).
+            drop_included_fragments(&mut members);
+            // The index.md landing is a site-navigation stub, not a chapter.
+            drop_landing_index(&mut members, &document.path);
+            order_members(&mut members, &document.path);
+
+            let staging = Path::new("render-staging").join(&document.name);
+            let staged =
+                match stage_members(&members, &lang_root, &document.base, &staging, &publish) {
+                    Ok(staged) => staged,
+                    Err(code) => return code,
+                };
+            if staged.is_empty() {
+                continue;
+            }
+
+            let target = if policy.artefact_mode == "detached" {
+                Path::new(&policy.artefact_dir).join(format!("{}.pdf", document.name))
+            } else {
+                lang_root
+                    .join("artefacts")
+                    .join(format!("{}.pdf", document.name))
+            };
+            if let Err(code) = run_renderer(&policy, &staged, &target, Some(&document.title)) {
+                return code;
+            }
+            artefacts.push(target.to_string_lossy().to_string());
         }
     }
 
@@ -616,13 +591,358 @@ fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
     }
 }
 
-/// Write one staged page: the assembled body under a minimal frontmatter
-/// carrying only what site toolchains consume (the title). Dropping the
-/// arqix identity keys also keeps staged copies out of document discovery
-/// and the trace graph — no duplicate ids from generated artefacts.
-fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCode> {
+/// The ATX heading level of a column-zero `#`-run followed by a space, or
+/// None — the same rule the assembler re-levels against.
+fn heading_level(line: &str) -> Option<i64> {
+    let hashes = line.len() - line.trim_start_matches('#').len();
+    ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
+}
+
+/// The PDF staging plan for a body (REQ-04-01-03-09): whether the leading
+/// heading duplicates the page `title` — and is dropped, exactly as the site
+/// staging drops it, so the title rides the title page as metadata instead of
+/// opening the body — and the shift that lifts the first *kept* heading to H1
+/// (`1 − level`). Fence-aware; inspects only the first two headings.
+fn pdf_staging_plan(body: &str, title: Option<&str>) -> (bool, Option<i64>) {
+    let mut headings: Vec<(i64, String)> = Vec::new();
+    let mut in_fence = false;
+    for line in body.lines() {
+        if line.trim_start().starts_with("```") {
+            in_fence = !in_fence;
+            continue;
+        }
+        if in_fence {
+            continue;
+        }
+        if let Some(level) = heading_level(line) {
+            headings.push((level, line.trim_start_matches('#').trim().to_string()));
+            if headings.len() == 2 {
+                break;
+            }
+        }
+    }
+    let drop_leading = matches!(
+        (headings.first(), title),
+        (Some((_, text)), Some(title)) if text == title
+    );
+    let anchor = if drop_leading {
+        headings.get(1).map(|(level, _)| *level)
+    } else {
+        headings.first().map(|(level, _)| *level)
+    };
+    (drop_leading, anchor.map(|level| 1 - level))
+}
+
+/// One resolved top-level PDF document (REQ-04-01-03-09): its artefact
+/// `name`, the `path` that scopes its members, the `base` its staged pages
+/// are laid out relative to (the directory itself, or a file's parent), and
+/// the `title` passed to the renderer as metadata.
+struct DocTarget {
+    name: String,
+    path: PathBuf,
+    base: PathBuf,
+    title: String,
+}
+
+/// The top-level documents for a language root: the declared `documents`
+/// list, or auto-discovery when it is absent (ADR-0013).
+fn resolve_documents(
+    policy: &crate::config::RenderPolicy,
+    lang_root: &Path,
+    skip: &[String],
+) -> Vec<DocTarget> {
+    match &policy.documents {
+        Some(entries) => entries
+            .iter()
+            .map(|entry| {
+                let path = lang_root.join(&entry.path);
+                let base = if path.is_dir() {
+                    path.clone()
+                } else {
+                    path.parent()
+                        .map(Path::to_path_buf)
+                        .unwrap_or_else(|| lang_root.to_path_buf())
+                };
+                let title = entry
+                    .title
+                    .clone()
+                    .or_else(|| derive_title(&path))
+                    .unwrap_or_else(|| entry.name.clone());
+                DocTarget {
+                    name: entry.name.clone(),
+                    path,
+                    base,
+                    title,
+                }
+            })
+            .collect(),
+        None => {
+            let mut out = Vec::new();
+            discover_documents(lang_root, true, skip, &mut out);
+            out
+        }
+    }
+}
+
+/// Auto-discover documents under `dir`: each immediate `.md` child at the
+/// language root is a standalone document; each directory with an `index.md`
+/// is a document collecting its subtree; a directory without one (a mere
+/// container like `architecture/`) is descended into to find the documents
+/// beneath it.
+fn discover_documents(dir: &Path, is_root: bool, skip: &[String], out: &mut Vec<DocTarget>) {
+    let entries = match std::fs::read_dir(dir) {
+        Ok(entries) => entries,
+        Err(_) => return,
+    };
+    let mut paths: Vec<_> = entries.flatten().map(|e| e.path()).collect();
+    paths.sort();
+    for path in paths {
+        let name = path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or("")
+            .to_string();
+        if path.is_dir() {
+            if path.symlink_metadata().is_ok_and(|m| m.is_symlink()) || skip.contains(&name) {
+                continue;
+            }
+            if path.join("index.md").is_file() {
+                let title = derive_title(&path).unwrap_or_else(|| name.clone());
+                out.push(DocTarget {
+                    name,
+                    base: path.clone(),
+                    path,
+                    title,
+                });
+            } else {
+                discover_documents(&path, false, skip, out);
+            }
+        } else if is_root && name.ends_with(".md") && !name.ends_with(".tpl.md") {
+            let stem = path
+                .file_stem()
+                .and_then(|n| n.to_str())
+                .unwrap_or(&name)
+                .to_string();
+            let base = path.parent().map(Path::to_path_buf).unwrap_or_default();
+            let title = derive_title(&path).unwrap_or_else(|| stem.clone());
+            out.push(DocTarget {
+                name: stem,
+                path: path.clone(),
+                base,
+                title,
+            });
+        }
+    }
+}
+
+/// The document's canonical title: the `index.md` frontmatter title for a
+/// directory document, the file's own for a standalone page.
+fn derive_title(path: &Path) -> Option<String> {
+    let primary = if path.is_dir() {
+        path.join("index.md")
+    } else {
+        path.to_path_buf()
+    };
+    let text = std::fs::read_to_string(&primary).ok()?;
+    crate::parser::parse(&primary.to_string_lossy(), &text).title
+}
+
+/// A document's Markdown members: the whole subtree of a directory document,
+/// or the single file of a standalone page.
+fn collect_document_members(path: &Path, skip: &[String]) -> Vec<PathBuf> {
+    let mut members = Vec::new();
+    if path.is_dir() {
+        collect_markdown(path, skip, &mut members);
+    } else if path.is_file() {
+        members.push(path.to_path_buf());
+    }
+    members
+}
+
+/// Drop every member that another member includes: the assembler inlines it
+/// into its includer, so it must not also render as a standalone input.
+fn drop_included_fragments(members: &mut Vec<PathBuf>) {
+    let mut targets: std::collections::HashSet<PathBuf> = std::collections::HashSet::new();
+    for member in members.iter() {
+        let Ok(text) = std::fs::read_to_string(member) else {
+            continue;
+        };
+        let dir = member.parent().unwrap_or_else(|| Path::new("."));
+        let mut in_fence = false;
+        for line in text.lines() {
+            if line.trim_start().starts_with("```") {
+                in_fence = !in_fence;
+                continue;
+            }
+            if in_fence {
+                continue;
+            }
+            if let Some((target, _)) = crate::linter::include_directive(line)
+                && let Ok(canon) = dir.join(&target).canonicalize()
+            {
+                targets.insert(canon);
+            }
+        }
+    }
+    members.retain(|m| match m.canonicalize() {
+        Ok(canon) => !targets.contains(&canon),
+        Err(_) => true,
+    });
+}
+
+/// Drop a family's `index.md` landing page from the PDF inputs when the family
+/// carries other content (REQ-04-01-03-09): it is a site-navigation stub, and
+/// its title already becomes the document title via metadata, so staging it
+/// would only add a near-empty opening chapter. A family that is nothing but
+/// its `index.md` keeps it, so a single-page document still renders.
+fn drop_landing_index(members: &mut Vec<PathBuf>, doc_path: &Path) {
+    if !doc_path.is_dir() || members.len() <= 1 {
+        return;
+    }
+    let index = doc_path.join("index.md");
+    members.retain(|member| *member != index);
+}
+
+/// Order a document's members path-sorted. A family's `index.md` landing is
+/// already dropped for multi-page documents (`drop_landing_index`); a lone
+/// index simply sorts to the front.
+fn order_members(members: &mut [PathBuf], doc_path: &Path) {
+    members.sort();
+    if doc_path.is_dir() {
+        let index = doc_path.join("index.md");
+        if let Some(pos) = members.iter().position(|m| *m == index) {
+            members[..=pos].rotate_right(1);
+        }
+    }
+}
+
+/// Stage a document's members into `staging`, laid out relative to `base`,
+/// as body-only PDF pages (REQ-04-01-03-09). The publish scope
+/// (`[policies.publish] exclude`) is evaluated language-root-relative, as on
+/// the site path.
+fn stage_members(
+    members: &[PathBuf],
+    lang_root: &Path,
+    base: &Path,
+    staging: &Path,
+    publish: &crate::config::PublishPolicy,
+) -> Result<Vec<String>, ExitCode> {
+    let mut staged = Vec::new();
+    for file in members {
+        let assembled = match crate::assembler::expand_document(file) {
+            Ok(text) => text,
+            Err(diagnostic) => {
+                eprintln!(
+                    "error: {}: {}",
+                    diagnostic.file.as_deref().unwrap_or("?"),
+                    diagnostic.message
+                );
+                return Err(ExitCode::from(2));
+            }
+        };
+        let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
+        let rel_posix = file
+            .strip_prefix(lang_root)
+            .unwrap_or(file)
+            .to_string_lossy()
+            .replace('\\', "/");
+        if publish.exclude.iter().any(|e| {
+            let prefix = e.trim_end_matches('/');
+            rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
+        }) {
+            continue;
+        }
+        let rel = file.strip_prefix(base).unwrap_or(file);
+        let target = staging.join(rel);
+        write_staged(&target, &doc, StagingMode::Pdf)?;
+        staged.push(target.to_string_lossy().to_string());
+    }
+    Ok(staged)
+}
+
+/// Run the configured renderer over `inputs` to `target`, forwarding the
+/// configured defaults/template and, when given, the document title as
+/// explicit metadata. Stdio is inherited so tool output surfaces
+/// transparently (REQ-04-01-03-07).
+fn run_renderer(
+    policy: &crate::config::RenderPolicy,
+    inputs: &[String],
+    target: &Path,
+    title: Option<&str>,
+) -> Result<(), ExitCode> {
+    if let Some(parent) = target.parent()
+        && let Err(err) = std::fs::create_dir_all(parent)
+    {
+        eprintln!("error: cannot create {}: {err}", parent.display());
+        return Err(ExitCode::from(2));
+    }
+    let mut parts = policy.pdf_command.split_whitespace();
+    let Some(program) = parts.next() else {
+        eprintln!("error: [policies.render] pdf-command is empty");
+        return Err(ExitCode::from(2));
+    };
+    let mut command = Command::new(program);
+    command.args(parts).args(inputs).arg("-o").arg(target);
+    if let Some(defaults) = &policy.defaults {
+        command.arg("--defaults").arg(defaults);
+    }
+    if let Some(template) = &policy.template {
+        command.arg("--template").arg(template);
+    }
+    if let Some(title) = title {
+        command.arg("--metadata").arg(format!("title={title}"));
+    }
+    match command.status() {
+        Ok(status) if status.success() => Ok(()),
+        Ok(status) => {
+            eprintln!(
+                "error: renderer failed: '{}' exited with {}",
+                policy.pdf_command,
+                status
+                    .code()
+                    .map_or("signal".to_string(), |c| c.to_string())
+            );
+            Err(ExitCode::from(2))
+        }
+        Err(err) => {
+            eprintln!(
+                "error: renderer failed: cannot run '{}': {err}",
+                policy.pdf_command
+            );
+            Err(ExitCode::from(2))
+        }
+    }
+}
+
+/// How a page is staged: the `Site` toolchain wants a `title:` YAML header
+/// with the leading duplicate heading dropped; the `Pdf` path wants the body
+/// only, re-levelled so its first heading lands at H1 (ADR-0013).
+#[derive(Clone, Copy, PartialEq)]
+enum StagingMode {
+    Site,
+    Pdf,
+}
+
+/// Write one staged page: the assembled body reduced to what the target
+/// consumes. Dropping the arqix identity keys also keeps staged copies out
+/// of document discovery and the trace graph — no duplicate ids from
+/// generated artefacts.
+///
+/// `Site` emits a minimal `title:` frontmatter and drops the one leading
+/// `## <Title>` duplicate (the toolchain renders the title as the page H1).
+/// `Pdf` emits body only — nothing must compete with the document title the
+/// publisher passes as metadata — and re-levels every heading so the page's
+/// first heading lands at H1, restoring the document title as a real `#`
+/// and giving Pandoc a clean `1 / 1.1 / 1.1.1` outline (REQ-04-01-03-09).
+fn write_staged(
+    path: &Path,
+    doc: &crate::parser::Document,
+    mode: StagingMode,
+) -> Result<(), ExitCode> {
     let mut out = String::new();
-    if let Some(title) = &doc.title {
+    if mode == StagingMode::Site
+        && let Some(title) = &doc.title
+    {
         // Always a quoted YAML scalar: a colon in an unquoted title is
         // invalid YAML, and the toolchain then silently falls back to the
         // file slug (found on arqix.dev with WF-08-01).
@@ -638,17 +958,59 @@ fn write_staged(path: &Path, doc: &crate::parser::Document) -> Result<(), ExitCo
         .as_ref()
         .map(|title| format!("## {title}"))
         .unwrap_or_default();
+    // Pdf mode drops the page's own leading title (it rides the title page as
+    // metadata) and shifts the remaining outline so its first kept heading
+    // becomes h1 — the same delta the assembler applies to an included fragment
+    // (src/assembler.rs, `shift = target - first`).
+    let (drop_leading, shift) = match mode {
+        StagingMode::Pdf => pdf_staging_plan(&doc.body, doc.title.as_deref()),
+        StagingMode::Site => (false, None),
+    };
     let mut leading_heading_seen = false;
+    let mut in_fence = false;
     for line in doc.body.lines() {
         let trimmed = line.trim();
-        // Directives and marker comments never reach the toolchain.
-        if trimmed.starts_with("<!--") && trimmed.ends_with("-->") && trimmed.contains("arqix:") {
+        // Fenced code is opaque: no headings, no directives.
+        if trimmed.starts_with("```") {
+            in_fence = !in_fence;
+            out.push_str(line);
+            out.push('\n');
             continue;
         }
-        if !leading_heading_seen && trimmed.starts_with('#') {
-            leading_heading_seen = true;
-            if trimmed == duplicate_heading {
-                continue;
+        // Directives and marker comments never reach the toolchain.
+        if !in_fence
+            && trimmed.starts_with("<!--")
+            && trimmed.ends_with("-->")
+            && trimmed.contains("arqix:")
+        {
+            continue;
+        }
+        if !in_fence && let Some(level) = heading_level(line) {
+            if mode == StagingMode::Site {
+                if !leading_heading_seen {
+                    leading_heading_seen = true;
+                    if trimmed == duplicate_heading {
+                        continue;
+                    }
+                }
+            } else {
+                // Pdf: drop the page's own leading title, then lift the rest.
+                if !leading_heading_seen {
+                    leading_heading_seen = true;
+                    if drop_leading {
+                        continue;
+                    }
+                }
+                if let Some(shift) = shift {
+                    // Clamp defensively into h1..h6: staging must never fail the
+                    // whole render on an odd body outline.
+                    let effective = (level + shift).clamp(1, 6) as usize;
+                    let rest = &line[line.len() - line.trim_start_matches('#').len()..];
+                    out.push_str(&"#".repeat(effective));
+                    out.push_str(rest);
+                    out.push('\n');
+                    continue;
+                }
             }
         }
         out.push_str(line);
@@ -684,7 +1046,7 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-staged-title-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("wf.md");
-        super::write_staged(&path, &doc).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Site).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(
             staged.starts_with("---\ntitle: \"Automation Agent: Story-by-story\"\n---\n"),
@@ -702,11 +1064,66 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-staged-frontmatter-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("x.md");
-        super::write_staged(&path, &doc).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Site).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(staged.contains("title: \"A Title\""));
         assert!(!staged.contains("iri:") && !staged.contains("id: X-01"));
         assert!(!staged.contains("arqix:references-artefact"));
         assert!(staged.contains("Body."));
+    }
+
+    // arqix:verifies REQ-04-01-03-09
+    #[test]
+    fn pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level() {
+        // The PDF path stages body-only and drops the page's own leading title
+        // (it rides the title page as metadata instead), then re-levels the
+        // remaining body so its first real section lands at H1 — the body opens
+        // at the actual chapters, not one level deep under a wrapper title
+        // (REQ-04-01-03-09).
+        let doc = crate::parser::parse(
+            "docs/x.md",
+            "---\nid: X-01\ntitle: Context Model\niri: arqix:x/x-01\n---\n\n## Context Model\n\n### Overview\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-pdf-staging-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("x.md");
+        super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            !staged.contains("Context Model"),
+            "the page's own leading title is dropped, not kept as a chapter: {staged}"
+        );
+        assert!(
+            staged.lines().any(|l| l == "# Overview"),
+            "the first real section lifts to H1: {staged}"
+        );
+        assert!(
+            !staged.contains("title:") && !staged.contains("---"),
+            "the PDF path emits no per-page title YAML or frontmatter: {staged}"
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn pdf_staging_keeps_a_leading_heading_that_is_not_the_title() {
+        // Only the leading title duplicate is dropped: a page whose first
+        // heading is not its title keeps it, re-levelled to H1.
+        let doc = crate::parser::parse(
+            "docs/x.md",
+            "---\nid: X-01\ntitle: Some Title\niri: arqix:x/x-01\n---\n\n## A Section\n\n### Deeper\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-pdf-staging-keep-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("x.md");
+        super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            staged.lines().any(|l| l == "# A Section"),
+            "a non-title leading heading is kept and promoted to H1: {staged}"
+        );
+        assert!(
+            staged.lines().any(|l| l == "## Deeper"),
+            "deeper headings shift with it: {staged}"
+        );
     }
 }

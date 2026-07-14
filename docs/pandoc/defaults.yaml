@@ -24,3 +24,18 @@ resource-path:
   - .
   - docs/en/architecture/arc42
   - docs/en/architecture/arc42/units
+
+# eisvogel title-page variables (REQ-04-01-03-05). These are constant across
+# documents; each document's own title and date arrive from the publisher as
+# metadata (--metadata title=…, REQ-04-01-03-09), so the title page and running
+# header are per-document. Colours are hex without a leading '#' and must be
+# quoted — a bare '#' starts a YAML comment. The logo resolves through the
+# resource-path above; the asset already rides into staging (arqix.toml).
+variables:
+  titlepage: true
+  titlepage-color: "1F2430"
+  titlepage-text-color: "FFFFFF"
+  titlepage-rule-color: "5CC8FF"
+  titlepage-rule-height: 2
+  logo: "assets/arqix-logo-transparent.png"
+  logo-width: "70mm"

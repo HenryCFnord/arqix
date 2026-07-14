@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 2397849, 2026-07-14
+     Snapshot: 9ec4dd6, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -261,6 +261,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `percent_ties_round_to_even_like_python` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -307,6 +308,10 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `render_forwards_tool_errors_transparently` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_accepts_selected_markdown_files` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_pdf_accepts_selected_markdown_files` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `render_pdf_drops_included_fragments_from_a_document` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_drops_the_index_landing_and_lifts_units_to_top_level` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_passes_each_document_title_as_metadata` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `render_pdf_produces_one_artefact_per_document` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_pdf_renders_via_pandoc` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `render_pdf_renders_via_pandoc` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `render_pdf_stores_artefacts_per_configured_mode` | WF-04-01 | Run CI Gates and Publish artefacts |

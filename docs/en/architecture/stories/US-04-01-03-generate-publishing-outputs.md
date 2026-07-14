@@ -22,6 +22,7 @@ triples:
       - arqix:requirements/req-04-01-03-06
       - arqix:requirements/req-04-01-03-07
       - arqix:requirements/req-04-01-03-08
+      - arqix:requirements/req-04-01-03-09
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-04-01
 
@@ -35,7 +36,7 @@ meta:
   lifecycle-status: done
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-12
+  updated: 2026-07-14
   lang: en
   translation-of:
   generated: false
@@ -53,6 +54,7 @@ As a DevOps engineer, I want to generate publishing outputs, so that documentati
 - [x] Pandoc `--defaults` is supported, and `--template eisvogel` is supported when configured.
 - [x] Artefacts are stored according to configured artefact mode and tool errors are forwarded cleanly.
 - [x] Per-doc-package render configuration and overrides are supported.
+- [x] `arqix render pdf` produces one PDF artefact per top-level document, each with its own title and clean section numbering.
 
 ### Notes
 
