@@ -39,5 +39,7 @@ When rendering a PDF, arqix SHALL produce one artefact per top-level document.
 
 A top-level document is a content family (a directory with an `index.md`, whose subtree is collected) or a standalone top-level page.
 Boundaries are declared by `[policies.render] documents` (`{ name, path, title? }` entries), or auto-discovered when that list is absent (ADR-0013).
-Each document stages body-only pages whose first heading is re-levelled to H1, so its title lands as a real `#` heading and its sections number cleanly from `1`; the document title is passed to the renderer as explicit metadata.
+Each document stages body-only pages.
+A family's `index.md` landing page is dropped from the staged inputs when the family carries other content, and every staged page drops its own leading title heading and re-levels the remaining body so its first real section lands at H1, so the body opens at the document's actual chapters rather than nesting them under a repeated wrapper title.
+The document title is passed to the renderer as explicit metadata, one title page and running header per PDF.
 Fragments that another member includes are dropped from the document's staged inputs, exactly as the assembler inlines them.

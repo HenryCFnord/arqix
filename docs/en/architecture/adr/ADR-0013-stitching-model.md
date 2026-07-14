@@ -61,7 +61,10 @@ Both are legitimate corpus styles, but mixing them silently produces broken outl
 - A shift beyond h6 is a structural error (ASM-005) naming the fragment and the heading — never a silent clamp.
 - **Splitting happens on the assembled outline, never on fragment boundaries**: units are not chapters, so the site's `split` stitching mode cuts at a configured heading depth (`split-level`) of the assembled document.
 - **PDF renders one artefact per top-level document**, not one per package or root: a document is a content family (a directory with an `index.md`, whose subtree is collected) or a standalone top-level page, and its boundaries are declared by `[policies.render] documents` (or auto-discovered from the language root when that list is absent).
-  Each document is staged body-only and its pages are re-levelled by the same rule defined above (`shift = 1 − first_heading_level`), so the document's own title lands at H1 and its sections number cleanly from `1`; the document title is passed to Pandoc as explicit metadata, one title page and running header per PDF.
+  Each document is staged body-only.
+  A family's `index.md` landing page is not staged as a chapter when the family carries other content: it is a site-navigation stub, and its title becomes the document title rather than a near-empty opening chapter.
+  Each staged page drops its own leading title heading — the one duplicating the page title, exactly as the site staging drops it — and re-levels the remaining body so its first real section lands at H1 (`shift = 1 − first_remaining_heading_level`).
+  The document title is passed to Pandoc as explicit metadata and rendered on the eisvogel title page and running header, so the body opens at the document's actual chapters (a family's units, a page's sections) rather than nesting them one level deep under a repeated wrapper title.
   Within a document the assembled outline remains a single stitching source shared with the site, and `--toc` derives from it.
 - The `arqix:chapter` directive is retired from the grammar: the level argument supplies the semantics it never had, and chapter identity remains what it already is — frontmatter ids.
 
