@@ -10,7 +10,7 @@ status: active
 This page takes you from an empty repository to a corpus that arqix scaffolds, traces, verifies, and publishes.
 Every command and every output block below is real: the sequence was run as-is against the current build.
 
-## 1. Install
+## Install
 
 ```bash
 cargo install arqix
@@ -18,7 +18,7 @@ cargo install arqix
 
 You need a current stable Rust toolchain; the [crate](https://crates.io/crates/arqix) installs the latest release, `--git https://github.com/HenryCFnord/arqix` the development state.
 
-## 2. Scaffold a documentation package
+## Scaffold a documentation package
 
 ```bash
 git init my-docs && cd my-docs
@@ -32,7 +32,7 @@ initialised documentation package
 This creates `docs/index.md`, the entry point of the package.
 All arqix commands resolve their configuration from `arqix.toml` in the working directory; no file means defaults, and `docs/` is the default root.
 
-## 3. Create your first requirement
+## Create your first requirement
 
 ```bash
 arqix doc new requirement --title "Parse frontmatter"
@@ -59,7 +59,7 @@ meta:
 When a document is read, the parser shall expose its frontmatter as structured data.
 ```
 
-## 4. Close the loop with a marker
+## Close the loop with a marker
 
 Traceability in arqix does not stop at documents: a comment marker attaches a test to the requirement it proves.
 Create a test — any code tree works, the marker is just a comment:
@@ -90,7 +90,7 @@ coverage: 0 error(s), 0 warning(s)
 An `arqix:implements` marker in source code adds the third column the same way.
 Markers on `#[ignore]`d tests count as *planned*, not verified — a red skeleton is a promise, not proof.
 
-## 5. Verify the corpus
+## Verify the corpus
 
 ```bash
 arqix verify
@@ -109,7 +109,7 @@ One command runs the configured sub-steps: formatting, structural lint, the trac
 Coverage is informational by default — it measures progress and never gates a change — while the ratchet gates *regressions*: a requirement that was verified must stay verified unless it is retired.
 The steps and their treatment are configuration, not convention; see the [verify policy](processes/configuration.md#the-verify-policy).
 
-## 6. Publish the site
+## Publish the site
 
 arqix stages artefact-ready pages and orchestrates a site toolchain — it never renders HTML itself.
 Configure the toolchain (Zensical is the recommended default) and point it at the staging directory:
