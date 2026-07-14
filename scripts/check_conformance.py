@@ -17,6 +17,9 @@ This script asserts the two implementations still agree on the real corpus:
     lint frontmatter
                JSON value-equal (the ported frontmatter/formatting/ontology
                checker; oracle: check_frontmatter.py)
+    report snapshot
+               byte-identical report units under one stamp, plus matching
+               freshness `--check` exit codes (oracle: arqix_report.py)
 
 Exit codes are compared on every check alongside the output.
 
@@ -35,6 +38,7 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -42,6 +46,7 @@ ORACLE = SCRIPT_DIR / "arqix_trace.py"
 MARKER_ORACLE = SCRIPT_DIR / "check_trace_markers.py"
 REQUIREMENTS_ORACLE = SCRIPT_DIR / "check_requirements.py"
 FRONTMATTER_ORACLE = SCRIPT_DIR / "check_frontmatter.py"
+REPORT_ORACLE = SCRIPT_DIR / "arqix_report.py"
 
 
 def run(argv):
@@ -139,6 +144,43 @@ def compare_frontmatter(name, rust_bin):
     return True
 
 
+def compare_snapshot(name, rust_bin):
+    """`report snapshot`: the ported question-driven report units (ADR-0008).
+    The oracle is arqix_report.py (its own `--snapshot`/`--check` flags, not
+    arqix_trace.py), so it needs its own comparison. Generate the units with
+    both implementations under the same stamp into separate trees and assert
+    byte-identical files, then assert the freshness `--check` exit codes agree
+    on the real corpus."""
+    stamp = "conformance, 2026-01-01"
+    with tempfile.TemporaryDirectory() as tmp:
+        rust_out = Path(tmp) / "rust"
+        oracle_out = Path(tmp) / "oracle"
+        run([rust_bin, "report", "snapshot", "--stamp", stamp, "--out", str(rust_out)])
+        run(
+            [sys.executable, str(REPORT_ORACLE), "--snapshot", stamp, "--out", str(oracle_out)]
+        )
+        rust_files = {p.name: p.read_bytes() for p in sorted(rust_out.glob("*.md"))}
+        oracle_files = {p.name: p.read_bytes() for p in sorted(oracle_out.glob("*.md"))}
+        if rust_files.keys() != oracle_files.keys():
+            print(
+                f"FAIL {name}: unit set diverges "
+                f"(rust {sorted(rust_files)}, oracle {sorted(oracle_files)})"
+            )
+            return False
+        for filename in oracle_files:
+            if rust_files[filename] != oracle_files[filename]:
+                print(f"FAIL {name}: {filename} bytes diverge")
+                return False
+
+    rust_code, _ = run([rust_bin, "report", "snapshot", "--check"])
+    oracle_code, _ = run([sys.executable, str(REPORT_ORACLE), "--check"])
+    if rust_code != oracle_code:
+        print(f"FAIL {name}: --check exit codes diverge (rust {rust_code}, oracle {oracle_code})")
+        return False
+    print(f"ok   {name} (byte-identical units, --check exit {rust_code})")
+    return True
+
+
 def compare_bytes(name, rust_bin, oracle_args, rust_args):
     rust_code, rust_out = run([rust_bin, *rust_args])
     oracle_code, oracle_out = run([sys.executable, str(ORACLE), *oracle_args])
@@ -200,6 +242,7 @@ def main(argv=None):
         compare_markers("trace markers", args.bin),
         compare_requirements("lint requirements", args.bin),
         compare_frontmatter("lint frontmatter", args.bin),
+        compare_snapshot("report snapshot", args.bin),
     ]
     ok = all(checks)
     print(f"conformance: {'ok' if ok else 'FAILED'} ({sum(checks)}/{len(checks)})")

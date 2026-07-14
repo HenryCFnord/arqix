@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 7a6e6f0, 2026-07-14
+     Snapshot: 5503f7b, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -58,6 +58,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `canonical_owner_fixture_is_clean_with_multiple_stories` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `catalogue_entries_carry_anchors_and_coverage_status` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `catalogue_pages_are_deterministic` | US-04-01-17 | Publish the Specification as Catalogue Pages |
+| `code_unit_lists_implements_markers_without_a_fn` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
@@ -438,6 +439,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-04-01-02 | Check Scope Guardrails in CI |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-08-01-08 | Stay within Declared Change Scope |
+| `percent_ties_round_to_even_like_python` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-08-01-08 | Stay within Declared Change Scope |
@@ -528,7 +530,12 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
+| `report_snapshot_check_detects_a_staled_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_check_passes_on_fresh_snapshots` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_regenerates_units_deterministically` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `retired_ids_finds_the_retired_story` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
+| `scoreboard_shows_full_verified_functional` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-02-01-06 | Find and Read Documentation During Implementation |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-05-01-06 | Search and Read Documentation via CLI |
 | `search_answers_within_a_second_on_a_thousand_documents` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
@@ -536,9 +543,15 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `sentence_checks_match_the_oracle_selftest_cases` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `story_progress_counts_the_verified_requirement` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `story_progress_excludes_retired_stories` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `table_cells_escape_pipes` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `templates_and_validation_share_the_contract_source` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `templates_and_validation_share_the_contract_source` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
 | `templates_and_validation_share_the_contract_source` | US-08-01-10 | Use Metadata Contracts Deterministically |
+| `test_to_requirement_lists_the_active_test` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `test_to_story_joins_through_the_requirement` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `test_to_workflow_joins_through_the_story` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `the_assembly_log_is_a_collectable_artefact` | US-04-01-01 | Emit a CI-Friendly Assembly Log |
 | `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | US-04-01-05 | Run a One-Command Verification Loop |
 | `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | US-08-01-13 | Run One-Command Verification in Agent Workflows |
@@ -669,6 +682,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `unit_new_help_explains_location_metadata_and_ids` | US-02-01-02 | Create Units Quickly During Implementation |
 | `unit_new_help_explains_location_metadata_and_ids` | US-05-01-01 | Create Units for Retrieval and Automation |
 | `unit_new_help_explains_location_metadata_and_ids` | US-06-01-01 | Create Modular Document Units |
+| `units_are_deterministic` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `unresolved_references_stay_visible_in_trace_outputs` | US-03-01-05 | Scan Traceability Information |
 | `usage_error_exits_with_code_2` | US-01-01-14 | Lint Translation Metadata and Drift |
 | `usage_error_exits_with_code_2` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |
