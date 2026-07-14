@@ -393,6 +393,55 @@ fn render_pdf_drops_included_fragments_from_a_document() {
 
 // arqix:verifies REQ-04-01-03-09
 #[test]
+fn render_pdf_drops_the_index_landing_and_lifts_units_to_top_level() {
+    // A family's index.md landing is a site-navigation stub, not a PDF
+    // chapter: it is dropped when the family carries other content, and the
+    // content page's own leading title is dropped so its units lift to H1
+    // instead of nesting under a wrapper title (REQ-04-01-03-09).
+    let repo = scratch_copy(
+        "minimal",
+        "render_pdf_drops_the_index_landing_and_lifts_units_to_top_level",
+    );
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [ { name = \"guide\", path = \"guide\", title = \"Guide\" } ]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/guide/units")).unwrap();
+    std::fs::write(
+        repo.join("docs/guide/index.md"),
+        "---\nid: guide\ntitle: Guide\n---\n\n## Guide\n\nStart with the assembled document.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/guide/page-01.md"),
+        "---\nid: page-01\ntitle: Page One\n---\n\n## Page One\n\n<!-- arqix:include units/unit-01.md -->\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/guide/units/unit-01.md"),
+        "### Unit One\n\nUnit body.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    assert!(
+        !repo.join("render-staging/guide/index.md").exists(),
+        "the index.md landing is not staged as a chapter"
+    );
+    let page = std::fs::read_to_string(repo.join("render-staging/guide/page-01.md")).unwrap();
+    assert!(
+        !page.contains("Page One"),
+        "the page's own leading title is dropped: {page}"
+    );
+    assert!(
+        page.lines().any(|l| l == "# Unit One"),
+        "the unit lifts to a top-level H1 chapter: {page}"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-09
+#[test]
 fn render_pdf_passes_each_document_title_as_metadata() {
     // Each document's title reaches the renderer as explicit metadata, one
     // running header / title-page source per PDF (REQ-04-01-03-09).
