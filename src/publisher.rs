@@ -251,6 +251,8 @@ pub fn pdf(
             // A fragment that another member includes is inlined by the
             // assembler, never a standalone input (the #71/#83 rule).
             drop_included_fragments(&mut members);
+            // The index.md landing is a site-navigation stub, not a chapter.
+            drop_landing_index(&mut members, &document.path);
             order_members(&mut members, &document.path);
 
             let staging = Path::new("render-staging").join(&document.name);
@@ -524,19 +526,39 @@ fn heading_level(line: &str) -> Option<i64> {
     ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
 }
 
-/// The level of a body's first heading, skipping fenced code.
-fn first_body_heading_level(body: &str) -> Option<i64> {
+/// The PDF staging plan for a body (REQ-04-01-03-09): whether the leading
+/// heading duplicates the page `title` — and is dropped, exactly as the site
+/// staging drops it, so the title rides the title page as metadata instead of
+/// opening the body — and the shift that lifts the first *kept* heading to H1
+/// (`1 − level`). Fence-aware; inspects only the first two headings.
+fn pdf_staging_plan(body: &str, title: Option<&str>) -> (bool, Option<i64>) {
+    let mut headings: Vec<(i64, String)> = Vec::new();
     let mut in_fence = false;
     for line in body.lines() {
         if line.trim_start().starts_with("```") {
             in_fence = !in_fence;
             continue;
         }
-        if !in_fence && let Some(level) = heading_level(line) {
-            return Some(level);
+        if in_fence {
+            continue;
+        }
+        if let Some(level) = heading_level(line) {
+            headings.push((level, line.trim_start_matches('#').trim().to_string()));
+            if headings.len() == 2 {
+                break;
+            }
         }
     }
-    None
+    let drop_leading = matches!(
+        (headings.first(), title),
+        (Some((_, text)), Some(title)) if text == title
+    );
+    let anchor = if drop_leading {
+        headings.get(1).map(|(level, _)| *level)
+    } else {
+        headings.first().map(|(level, _)| *level)
+    };
+    (drop_leading, anchor.map(|level| 1 - level))
 }
 
 /// One resolved top-level PDF document (REQ-04-01-03-09): its artefact
@@ -696,8 +718,22 @@ fn drop_included_fragments(members: &mut Vec<PathBuf>) {
     });
 }
 
-/// Order a document's members path-sorted, with the document-root `index.md`
-/// leading so the family's landing page opens the PDF.
+/// Drop a family's `index.md` landing page from the PDF inputs when the family
+/// carries other content (REQ-04-01-03-09): it is a site-navigation stub, and
+/// its title already becomes the document title via metadata, so staging it
+/// would only add a near-empty opening chapter. A family that is nothing but
+/// its `index.md` keeps it, so a single-page document still renders.
+fn drop_landing_index(members: &mut Vec<PathBuf>, doc_path: &Path) {
+    if !doc_path.is_dir() || members.len() <= 1 {
+        return;
+    }
+    let index = doc_path.join("index.md");
+    members.retain(|member| *member != index);
+}
+
+/// Order a document's members path-sorted. A family's `index.md` landing is
+/// already dropped for multi-page documents (`drop_landing_index`); a lone
+/// index simply sorts to the front.
 fn order_members(members: &mut [PathBuf], doc_path: &Path) {
     members.sort();
     if doc_path.is_dir() {
@@ -850,12 +886,13 @@ fn write_staged(
         .as_ref()
         .map(|title| format!("## {title}"))
         .unwrap_or_default();
-    // Pdf mode shifts the whole page so its first heading becomes h1, the
-    // same delta the assembler applies to an included fragment
+    // Pdf mode drops the page's own leading title (it rides the title page as
+    // metadata) and shifts the remaining outline so its first kept heading
+    // becomes h1 — the same delta the assembler applies to an included fragment
     // (src/assembler.rs, `shift = target - first`).
-    let shift = match mode {
-        StagingMode::Pdf => first_body_heading_level(&doc.body).map(|first| 1 - first),
-        StagingMode::Site => None,
+    let (drop_leading, shift) = match mode {
+        StagingMode::Pdf => pdf_staging_plan(&doc.body, doc.title.as_deref()),
+        StagingMode::Site => (false, None),
     };
     let mut leading_heading_seen = false;
     let mut in_fence = false;
@@ -884,15 +921,24 @@ fn write_staged(
                         continue;
                     }
                 }
-            } else if let Some(shift) = shift {
-                // Clamp defensively into h1..h6: staging must never fail the
-                // whole render on an odd body outline.
-                let effective = (level + shift).clamp(1, 6) as usize;
-                let rest = &line[line.len() - line.trim_start_matches('#').len()..];
-                out.push_str(&"#".repeat(effective));
-                out.push_str(rest);
-                out.push('\n');
-                continue;
+            } else {
+                // Pdf: drop the page's own leading title, then lift the rest.
+                if !leading_heading_seen {
+                    leading_heading_seen = true;
+                    if drop_leading {
+                        continue;
+                    }
+                }
+                if let Some(shift) = shift {
+                    // Clamp defensively into h1..h6: staging must never fail the
+                    // whole render on an odd body outline.
+                    let effective = (level + shift).clamp(1, 6) as usize;
+                    let rest = &line[line.len() - line.trim_start_matches('#').len()..];
+                    out.push_str(&"#".repeat(effective));
+                    out.push_str(rest);
+                    out.push('\n');
+                    continue;
+                }
             }
         }
         out.push_str(line);
@@ -956,11 +1002,12 @@ mod tests {
 
     // arqix:verifies REQ-04-01-03-09
     #[test]
-    fn pdf_staging_promotes_the_leading_heading_and_omits_title_yaml() {
-        // The PDF path stages body-only and re-levels the page so its first
-        // heading becomes H1: the document title returns as a real `#` and
-        // Pandoc numbers cleanly, while nothing competes with the title the
-        // publisher passes as metadata (REQ-04-01-03-09).
+    fn pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level() {
+        // The PDF path stages body-only and drops the page's own leading title
+        // (it rides the title page as metadata instead), then re-levels the
+        // remaining body so its first real section lands at H1 — the body opens
+        // at the actual chapters, not one level deep under a wrapper title
+        // (REQ-04-01-03-09).
         let doc = crate::parser::parse(
             "docs/x.md",
             "---\nid: X-01\ntitle: Context Model\niri: arqix:x/x-01\n---\n\n## Context Model\n\n### Overview\n\nBody.\n",
@@ -971,16 +1018,40 @@ mod tests {
         super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(
-            staged.lines().any(|l| l == "# Context Model"),
-            "the leading heading is retained and promoted to H1: {staged}"
+            !staged.contains("Context Model"),
+            "the page's own leading title is dropped, not kept as a chapter: {staged}"
         );
         assert!(
-            staged.lines().any(|l| l == "## Overview"),
-            "deeper headings shift with it: {staged}"
+            staged.lines().any(|l| l == "# Overview"),
+            "the first real section lifts to H1: {staged}"
         );
         assert!(
             !staged.contains("title:") && !staged.contains("---"),
             "the PDF path emits no per-page title YAML or frontmatter: {staged}"
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn pdf_staging_keeps_a_leading_heading_that_is_not_the_title() {
+        // Only the leading title duplicate is dropped: a page whose first
+        // heading is not its title keeps it, re-levelled to H1.
+        let doc = crate::parser::parse(
+            "docs/x.md",
+            "---\nid: X-01\ntitle: Some Title\niri: arqix:x/x-01\n---\n\n## A Section\n\n### Deeper\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-pdf-staging-keep-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("x.md");
+        super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            staged.lines().any(|l| l == "# A Section"),
+            "a non-title leading heading is kept and promoted to H1: {staged}"
+        );
+        assert!(
+            staged.lines().any(|l| l == "## Deeper"),
+            "deeper headings shift with it: {staged}"
         );
     }
 }
