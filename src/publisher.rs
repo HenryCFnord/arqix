@@ -102,7 +102,7 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
             }) {
                 continue;
             }
-            if let Err(code) = write_staged(&staging.join(&rel), &doc, StagingMode::Site) {
+            if let Err(code) = write_staged(&staging.join(&rel), &doc, StagingMode::Site, false) {
                 return code;
             }
             staged += 1;
@@ -235,7 +235,17 @@ pub fn pdf(
                 let staging = Path::new("render-staging").join(&package);
                 let mut members = Vec::new();
                 collect_markdown(&lang_root, &skip, &mut members);
-                match stage_members(&members, &lang_root, &lang_root, &staging, &publish) {
+                // The whole package is many files concatenated into one PDF:
+                // each keeps its own title as a chapter (collection semantics).
+                let is_collection = members.len() > 1;
+                match stage_members(
+                    &members,
+                    &lang_root,
+                    &lang_root,
+                    &staging,
+                    &publish,
+                    is_collection,
+                ) {
                     Ok(staged) => staged,
                     Err(code) => return code,
                 }
@@ -271,12 +281,24 @@ pub fn pdf(
             drop_landing_index(&mut members, &document.path);
             order_members(&mut members, &document.path);
 
+            // A document that stages several members is a collection (each ADR,
+            // each blog post is its own chapter): keep each member's leading
+            // title as its H1. A single-member document (a unit family's
+            // assembled page, a standalone page) drops the wrapper title and
+            // lifts its sections to chapters (REQ-04-01-03-09).
+            let is_collection = members.len() > 1;
             let staging = Path::new("render-staging").join(&document.name);
-            let staged =
-                match stage_members(&members, &lang_root, &document.base, &staging, &publish) {
-                    Ok(staged) => staged,
-                    Err(code) => return code,
-                };
+            let staged = match stage_members(
+                &members,
+                &lang_root,
+                &document.base,
+                &staging,
+                &publish,
+                is_collection,
+            ) {
+                Ok(staged) => staged,
+                Err(code) => return code,
+            };
             if staged.is_empty() {
                 continue;
             }
@@ -598,12 +620,21 @@ fn heading_level(line: &str) -> Option<i64> {
     ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
 }
 
-/// The PDF staging plan for a body (REQ-04-01-03-09): whether the leading
-/// heading duplicates the page `title` — and is dropped, exactly as the site
-/// staging drops it, so the title rides the title page as metadata instead of
-/// opening the body — and the shift that lifts the first *kept* heading to H1
+/// The PDF staging plan for a body (REQ-04-01-03-09): whether to drop the
+/// leading heading and the shift that lifts the first *kept* heading to H1
 /// (`1 − level`). Fence-aware; inspects only the first two headings.
-fn pdf_staging_plan(body: &str, title: Option<&str>) -> (bool, Option<i64>) {
+///
+/// A single-document page (a unit family's assembled page, a standalone page)
+/// drops its own leading title — it duplicates the document title, which rides
+/// the title page as metadata — and lifts its sections to chapters. A
+/// collection member (one ADR, one blog post: `keep_leading_title`) instead
+/// keeps its title as its H1 chapter, with its sections as subsections, so the
+/// member's identity survives.
+fn pdf_staging_plan(
+    body: &str,
+    title: Option<&str>,
+    keep_leading_title: bool,
+) -> (bool, Option<i64>) {
     let mut headings: Vec<(i64, String)> = Vec::new();
     let mut in_fence = false;
     for line in body.lines() {
@@ -621,10 +652,11 @@ fn pdf_staging_plan(body: &str, title: Option<&str>) -> (bool, Option<i64>) {
             }
         }
     }
-    let drop_leading = matches!(
+    let leading_is_title = matches!(
         (headings.first(), title),
         (Some((_, text)), Some(title)) if text == title
     );
+    let drop_leading = leading_is_title && !keep_leading_title;
     let anchor = if drop_leading {
         headings.get(1).map(|(level, _)| *level)
     } else {
@@ -826,6 +858,7 @@ fn stage_members(
     base: &Path,
     staging: &Path,
     publish: &crate::config::PublishPolicy,
+    keep_leading_title: bool,
 ) -> Result<Vec<String>, ExitCode> {
     let mut staged = Vec::new();
     for file in members {
@@ -854,7 +887,7 @@ fn stage_members(
         }
         let rel = file.strip_prefix(base).unwrap_or(file);
         let target = staging.join(rel);
-        write_staged(&target, &doc, StagingMode::Pdf)?;
+        write_staged(&target, &doc, StagingMode::Pdf, keep_leading_title)?;
         staged.push(target.to_string_lossy().to_string());
     }
     Ok(staged)
@@ -938,6 +971,7 @@ fn write_staged(
     path: &Path,
     doc: &crate::parser::Document,
     mode: StagingMode,
+    keep_leading_title: bool,
 ) -> Result<(), ExitCode> {
     let mut out = String::new();
     if mode == StagingMode::Site
@@ -963,7 +997,7 @@ fn write_staged(
     // becomes h1 — the same delta the assembler applies to an included fragment
     // (src/assembler.rs, `shift = target - first`).
     let (drop_leading, shift) = match mode {
-        StagingMode::Pdf => pdf_staging_plan(&doc.body, doc.title.as_deref()),
+        StagingMode::Pdf => pdf_staging_plan(&doc.body, doc.title.as_deref(), keep_leading_title),
         StagingMode::Site => (false, None),
     };
     let mut leading_heading_seen = false;
@@ -1046,7 +1080,7 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-staged-title-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("wf.md");
-        super::write_staged(&path, &doc, super::StagingMode::Site).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Site, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(
             staged.starts_with("---\ntitle: \"Automation Agent: Story-by-story\"\n---\n"),
@@ -1064,7 +1098,7 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-staged-frontmatter-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("x.md");
-        super::write_staged(&path, &doc, super::StagingMode::Site).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Site, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(staged.contains("title: \"A Title\""));
         assert!(!staged.contains("iri:") && !staged.contains("id: X-01"));
@@ -1087,7 +1121,7 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-pdf-staging-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("x.md");
-        super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Pdf, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(
             !staged.contains("Context Model"),
@@ -1115,7 +1149,7 @@ mod tests {
         let dir = std::env::temp_dir().join("arqix-pdf-staging-keep-test");
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("x.md");
-        super::write_staged(&path, &doc, super::StagingMode::Pdf).unwrap();
+        super::write_staged(&path, &doc, super::StagingMode::Pdf, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
         assert!(
             staged.lines().any(|l| l == "# A Section"),
@@ -1124,6 +1158,32 @@ mod tests {
         assert!(
             staged.lines().any(|l| l == "## Deeper"),
             "deeper headings shift with it: {staged}"
+        );
+    }
+
+    // arqix:verifies REQ-04-01-03-09
+    #[test]
+    fn pdf_staging_collection_member_keeps_its_title_as_a_chapter() {
+        // A collection member (an ADR, a blog post) keeps its own title as its
+        // H1 chapter with its sections as subsections, so the member's identity
+        // survives — unlike a single-document page, which drops its wrapper
+        // title (REQ-04-01-03-09).
+        let doc = crate::parser::parse(
+            "docs/adr/ADR-0001-x.md",
+            "---\nid: ADR-0001\ntitle: My Decision\niri: arqix:adrs/adr-0001\n---\n\n## My Decision\n\n### Context\n\nBody.\n",
+        );
+        let dir = std::env::temp_dir().join("arqix-pdf-collection-test");
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("adr.md");
+        super::write_staged(&path, &doc, super::StagingMode::Pdf, true).unwrap();
+        let staged = std::fs::read_to_string(&path).unwrap();
+        assert!(
+            staged.lines().any(|l| l == "# My Decision"),
+            "the member keeps its title as its H1 chapter: {staged}"
+        );
+        assert!(
+            staged.lines().any(|l| l == "## Context"),
+            "its sections become subsections: {staged}"
         );
     }
 }
