@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 9ec4dd6, 2026-07-14
+     Snapshot: afcc456, 2026-07-14
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -34,8 +34,8 @@
 | `bad_fixture_reports_kind_and_iri` | src/checkers/requirements.rs:1046 | REQ-01-01-11-06 | active |
 | `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
 | `canonical_owner_fixture_is_clean_with_multiple_stories` | src/checkers/requirements.rs:1063 | REQ-01-01-11-06 | active |
-| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:684 | REQ-04-01-17-02 | active |
-| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:706 | REQ-04-01-17-03 | active |
+| `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:728 | REQ-04-01-17-02 | active |
+| `catalogue_pages_are_deterministic` | tests/cli_publish.rs:750 | REQ-04-01-17-03 | active |
 | `code_unit_lists_implements_markers_without_a_fn` | src/reporter.rs:990 | REQ-04-01-12-04 | active |
 | `config_show_renders_the_effective_configuration_as_json` | tests/cli_config.rs:49 | REQ-01-01-16-02 | active |
 | `config_validate_accepts_a_missing_file_as_pure_defaults` | tests/cli_config.rs:15 | REQ-01-01-16-01 | active |
@@ -129,7 +129,8 @@
 | `missing_frontmatter_reports_id_001` | src/checkers/requirements.rs:1096 | REQ-01-01-11-06 | active |
 | `missing_generated_meta_reports_meta_001` | src/checkers/requirements.rs:1087 | REQ-01-01-11-06 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
-| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1075 | REQ-04-01-03-09 | active |
+| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1164 | REQ-04-01-03-09 | active |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1109 | REQ-04-01-03-09 | active |
 | `percent_ties_round_to_even_like_python` | src/reporter.rs:1013 | REQ-04-01-12-04 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
@@ -144,15 +145,16 @@
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:173 | REQ-04-01-03-03 | active |
 | `publish_site_publishes_per_language` | tests/cli_publish.rs:76 | REQ-04-01-07-01 | active |
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:117 | REQ-04-01-03-02 | active |
-| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:659 | REQ-04-01-17-01 | active |
+| `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:703 | REQ-04-01-17-01 | active |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | tests/cli_publish.rs:13 | REQ-04-01-07-04 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
 | `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:247 | REQ-01-01-15-02 | active |
-| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:545 | REQ-04-01-03-07 | active |
+| `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:589 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:275 | REQ-04-01-03-04 | active |
 | `render_pdf_drops_included_fragments_from_a_document` | tests/cli_publish.rs:409 | REQ-04-01-03-09 | active |
 | `render_pdf_drops_the_index_landing_and_lifts_units_to_top_level` | tests/cli_publish.rs:457 | REQ-04-01-03-09 | active |
-| `render_pdf_passes_each_document_title_as_metadata` | tests/cli_publish.rs:506 | REQ-04-01-03-09 | active |
+| `render_pdf_keeps_member_titles_in_a_collection_document` | tests/cli_publish.rs:506 | REQ-04-01-03-09 | active |
+| `render_pdf_passes_each_document_title_as_metadata` | tests/cli_publish.rs:550 | REQ-04-01-03-09 | active |
 | `render_pdf_produces_one_artefact_per_document` | tests/cli_publish.rs:370 | REQ-04-01-03-09 | active |
 | `render_pdf_renders_via_pandoc` | tests/cli_publish.rs:250 | REQ-04-01-03-04 | active |
 | `render_pdf_stores_artefacts_per_configured_mode` | tests/cli_publish.rs:329 | REQ-04-01-03-06 | active |
@@ -177,7 +179,7 @@
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
 | `selftest_cases_match_the_oracle` | src/checkers/frontmatter.rs:1312 | REQ-01-01-11-07 | active |
 | `sentence_checks_match_the_oracle_selftest_cases` | src/checkers/requirements.rs:928 | REQ-01-01-11-06 | active |
-| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:720 | REQ-04-01-03-02 | active |
+| `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:764 | REQ-04-01-03-02 | active |
 | `story_progress_counts_the_verified_requirement` | src/reporter.rs:915 | REQ-04-01-12-04 | active |
 | `story_progress_excludes_retired_stories` | src/reporter.rs:933 | REQ-04-01-12-04 | active |
 | `table_cells_escape_pipes` | src/reporter.rs:1007 | REQ-04-01-12-04 | active |

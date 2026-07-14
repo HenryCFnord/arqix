@@ -505,6 +505,50 @@ fn render_pdf_drops_the_index_landing_and_lifts_units_to_top_level() {
 
 // arqix:verifies REQ-04-01-03-09
 #[test]
+fn render_pdf_keeps_member_titles_in_a_collection_document() {
+    // A collection document (several sibling files, like adr/ or blog/) keeps
+    // each member's title as its own H1 chapter, unlike a single-document page
+    // that drops the wrapper title (REQ-04-01-03-09).
+    let repo = scratch_copy(
+        "minimal",
+        "render_pdf_keeps_member_titles_in_a_collection_document",
+    );
+    install_fake_renderer(&repo);
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[policies.render]\npdf-command = \"./fakepandoc.sh\"\ndocuments = [ { name = \"records\", path = \"records\", title = \"Records\" } ]\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("docs/records")).unwrap();
+    std::fs::write(
+        repo.join("docs/records/index.md"),
+        "---\nid: records\ntitle: Records\n---\n\n## Records\n\nLanding.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/records/rec-01.md"),
+        "---\nid: rec-01\ntitle: First Record\n---\n\n## First Record\n\n### Context\n\nBody.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/records/rec-02.md"),
+        "---\nid: rec-02\ntitle: Second Record\n---\n\n## Second Record\n\n### Context\n\nBody.\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["render", "pdf"]));
+    let rec1 = std::fs::read_to_string(repo.join("render-staging/records/rec-01.md")).unwrap();
+    assert!(
+        rec1.lines().any(|l| l == "# First Record") && rec1.lines().any(|l| l == "## Context"),
+        "a collection member keeps its title as an H1 chapter with sections below: {rec1}"
+    );
+    assert!(
+        !repo.join("render-staging/records/index.md").exists(),
+        "the landing index is still dropped"
+    );
+}
+
+// arqix:verifies REQ-04-01-03-09
+#[test]
 fn render_pdf_passes_each_document_title_as_metadata() {
     // Each document's title reaches the renderer as explicit metadata, one
     // running header / title-page source per PDF (REQ-04-01-03-09).
