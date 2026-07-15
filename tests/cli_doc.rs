@@ -559,7 +559,7 @@ fn ids_and_slugs_derive_deterministically() {
     assert_eq!(first["id"], "ADR-0001");
 }
 
-// arqix:verifies REQ-01-01-21-01
+// arqix:verifies REQ-08-01-24-01
 #[test]
 fn doc_init_scaffolds_agent_instructions() {
     let repo = scratch_copy("minimal", "doc_init_scaffolds_agent_instructions");
@@ -578,7 +578,7 @@ fn doc_init_scaffolds_agent_instructions() {
     }
 }
 
-// arqix:verifies REQ-01-01-21-02
+// arqix:verifies REQ-08-01-24-02
 #[test]
 fn doc_init_never_overwrites_agent_instructions() {
     let repo = scratch_copy("minimal", "doc_init_never_overwrites_agent_instructions");
@@ -591,10 +591,10 @@ fn doc_init_never_overwrites_agent_instructions() {
     );
 }
 
-// arqix:verifies REQ-01-01-22-01
+// arqix:verifies REQ-08-01-25-01
 #[test]
 fn doc_new_honours_the_kinds_declared_directory() {
-    // US-01-01-22: creation and validation read the same declared `dir`
+    // US-08-01-25: creation and validation read the same declared `dir`
     // (ADR-0011 one source) — a configured family's document lands where
     // its directory-based checks expect it.
     let repo = scratch_copy("minimal", "doc_new_honours_the_kinds_declared_directory");

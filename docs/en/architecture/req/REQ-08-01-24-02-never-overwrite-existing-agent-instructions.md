@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-21-02
+id: REQ-08-01-24-02
 title: Never Overwrite Existing Agent Instructions
 slug: never-overwrite-existing-agent-instructions
-iri: arqix:requirements/req-01-01-21-02
+iri: arqix:requirements/req-08-01-24-02
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-01-01-21
+      - arqix:user-stories/us-08-01-24
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -37,5 +37,5 @@ Where an agent instruction document already exists, `arqix doc init` SHALL leave
 
 ### Notes
 
-Derived from US-01-01-21 (agent-onboarding strand).
+Derived from US-08-01-24 (agent-onboarding strand).
 The same never-overwrite discipline the template scaffold follows (REQ-01-01-20-02): authored content always wins over generated starting points.

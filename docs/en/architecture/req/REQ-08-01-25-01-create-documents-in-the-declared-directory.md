@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-22-01
+id: REQ-08-01-25-01
 title: Create Documents in the Declared Directory
 slug: create-documents-in-the-declared-directory
-iri: arqix:requirements/req-01-01-22-01
+iri: arqix:requirements/req-08-01-25-01
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-01-01-22
+      - arqix:user-stories/us-08-01-25
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -37,5 +37,5 @@ When a `[kinds.<family>]` contract declares a `dir`, arqix SHALL create document
 
 ### Notes
 
-Derived from US-01-01-22 (authoring-ergonomics band, knowledge-repository intake gap G2).
+Derived from US-08-01-25 (authoring-ergonomics band, knowledge-repository intake gap G2).
 The declared `dir` already governs the family's validation (US-01-01-19); this requirement binds creation to the same single source (ADR-0011), and an unconfigured family keeps the `<first-root>/<kind>/` default, so present behaviour is preserved exactly.
