@@ -117,7 +117,8 @@ mod tests {
     fn headings_outside_fences_ignores_headings_inside_fenced_code() {
         // The `## Not a heading` and the trailing `# Also fenced` sit inside
         // fences and must be skipped; only the two real headings survive.
-        let text = "# Real\n\n```\n## Not a heading\n```\n\n## Also Real\n\n```sh\n# Also fenced\n```\n";
+        let text =
+            "# Real\n\n```\n## Not a heading\n```\n\n## Also Real\n\n```sh\n# Also fenced\n```\n";
         let got: Vec<(i64, &str)> = headings_outside_fences(text).collect();
         assert_eq!(got, vec![(1, "Real"), (2, "Also Real")]);
     }
@@ -125,10 +126,7 @@ mod tests {
     // arqix:no-requirement
     #[test]
     fn included_target_set_collects_canonical_directive_targets() {
-        let dir = std::env::temp_dir().join(format!(
-            "arqix-md-{}-included",
-            std::process::id()
-        ));
+        let dir = std::env::temp_dir().join(format!("arqix-md-{}-included", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         let fragment = dir.join("fragment.md");
