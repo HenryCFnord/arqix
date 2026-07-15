@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 99538e8, 2026-07-15
+     Snapshot: 705e1fd, 2026-07-15
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -61,8 +61,8 @@
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `lint` | src/checkers/frontmatter.rs:1194 | REQ-01-01-11-07 |
 | `lint` | src/checkers/requirements.rs:864 | REQ-01-01-11-06 |
-| `list` | src/store.rs:145 | REQ-05-01-08-01 |
-| `list` | src/store.rs:146 | REQ-05-01-08-03 |
+| `list` | src/store.rs:127 | REQ-05-01-08-01 |
+| `list` | src/store.rs:128 | REQ-05-01-08-03 |
 | `marker_body` | src/trace.rs:290 | REQ-03-01-10-01 |
 | `markers_command` | src/trace.rs:1734 | REQ-03-01-06-04 |
 | `matrix_command` | src/trace.rs:990 | REQ-03-01-02-01 |
@@ -81,8 +81,8 @@
 | `publish_policy` | src/config.rs:248 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:1025 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:1026 | REQ-04-01-15-02 |
-| `read` | src/store.rs:173 | REQ-05-01-10-01 |
-| `read` | src/store.rs:174 | REQ-05-01-10-03 |
+| `read` | src/store.rs:155 | REQ-05-01-10-01 |
+| `read` | src/store.rs:156 | REQ-05-01-10-03 |
 | `render_policy` | src/config.rs:341 | REQ-04-01-03-08 |
 | `report_freshness_gates` | src/verifier.rs:149 | REQ-04-01-14-05 |
 | `resolve` | src/config.rs:45 | REQ-00-00-00-06 |
@@ -96,7 +96,7 @@
 | `scan` | src/trace.rs:891 | REQ-03-01-05-02 |
 | `scan` | src/trace.rs:892 | REQ-03-01-05-04 |
 | `scan` | src/trace.rs:893 | REQ-03-01-05-05 |
-| `search` | src/store.rs:204 | REQ-02-01-06-01 |
+| `search` | src/store.rs:186 | REQ-02-01-06-01 |
 | `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
 | `show` | src/config.rs:536 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-01 |
@@ -130,8 +130,8 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
-| — | src/main.rs:443 | REQ-01-01-05-02 |
-| — | src/main.rs:447 | REQ-01-01-01-03 |
+| — | src/main.rs:444 | REQ-01-01-05-02 |
+| — | src/main.rs:448 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/templates.rs:274 | REQ-01-01-18-01 |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 99538e8, 2026-07-15
+     Snapshot: 705e1fd, 2026-07-15
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -129,8 +129,8 @@
 | `missing_frontmatter_reports_id_001` | src/checkers/requirements.rs:1096 | REQ-01-01-11-06 | active |
 | `missing_generated_meta_reports_meta_001` | src/checkers/requirements.rs:1087 | REQ-01-01-11-06 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
-| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1106 | REQ-04-01-03-09 | active |
-| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1053 | REQ-04-01-03-09 | active |
+| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1081 | REQ-04-01-03-09 | active |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1028 | REQ-04-01-03-09 | active |
 | `percent_ties_round_to_even_like_python` | src/reporter.rs:1013 | REQ-04-01-12-04 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
