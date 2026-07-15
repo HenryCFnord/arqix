@@ -260,4 +260,28 @@ mod tests {
             "paths are posix-normalized"
         );
     }
+
+    /// The store inherits the shared walker's directory-symlink non-following:
+    /// a `link` to a real directory is never traversed, so its files are not
+    /// parsed twice. Pinned directly here (not only via the publisher's test)
+    /// so the store's own guarantee is guarded in its own module.
+    // arqix:no-requirement
+    #[test]
+    #[cfg(unix)]
+    fn walk_never_follows_directory_symlinks() {
+        let root = fresh_dir("walk-symlink");
+        std::fs::create_dir_all(root.join("real")).unwrap();
+        std::fs::write(root.join("real/inside.md"), "---\nid: X\n---\n\nBody.\n").unwrap();
+        std::os::unix::fs::symlink(root.join("real"), root.join("link")).unwrap();
+        let mut docs = Vec::new();
+        walk(&root, &[], &mut docs);
+        // `real/inside.md` is parsed once via the real directory; the `link`
+        // symlink to the same directory is skipped, not traversed.
+        assert_eq!(docs.len(), 1, "symlinked directory is not re-traversed");
+        assert!(
+            docs[0].file.ends_with("/real/inside.md"),
+            "{}",
+            docs[0].file
+        );
+    }
 }
