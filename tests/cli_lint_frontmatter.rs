@@ -1,8 +1,8 @@
 //! Command contract: `lint frontmatter` — the ported frontmatter, formatting,
 //! and ontology-vocabulary checker (REQ-01-01-11-07). Owned by the Linter noun
-//! family (arc42 chapter 5, ADR-0005); the Python checker
-//! `scripts/check_frontmatter.py` remains the conformance oracle for the grace
-//! period (arc42 chapter 8, oracle policy).
+//! family (arc42 chapter 5, ADR-0005); ported from the retired Python checker
+//! `scripts/check_frontmatter.py` (arc42 chapter 8, oracle policy; the oracle's
+//! selftest fixtures are mirrored inline in src/checkers/frontmatter.rs).
 
 mod common;
 

@@ -1,11 +1,11 @@
 //! Neutral, oracle-free helpers shared across the non-checker modules:
 //! POSIX path normalization and the sorted markdown directory walk.
 //!
-//! This module deliberately lives outside `parser.rs` and `checkers/`, which
-//! are faithful ports of the Python oracle and held under the oracle-fidelity
-//! freeze. The helpers here are used by the assembler, store, reporter,
-//! publisher, linter, rewriter, and trace engine — none of them oracle-mirrored
-//! — so they can share one copy without pulling neutral code under the freeze.
+//! This module deliberately lives outside `parser.rs` and `checkers/`: those
+//! own the checker contracts (faithful ports of the retired Python oracles),
+//! and a general-purpose helper belongs in a neutral home, not inside a
+//! contract owner. The helpers here are used by the assembler, store,
+//! reporter, publisher, linter, rewriter, and trace engine.
 
 use std::path::{Path, PathBuf};
 

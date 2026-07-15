@@ -24,14 +24,15 @@ The methodology scaffold that every slice leans on.
 
 Independent of the gate; can start once Phase 0 lands.
 
-- [ ] Slice 1 — test-baseline-hygiene.
-- [ ] Slice 2 — markdown-scan-helpers (`src/markdown.rs`).
-- [ ] Slice 3 — path-and-walker-helpers (`src/util.rs`); walkdir rejection note.
+- [x] Slice 1 — test-baseline-hygiene.
+- [x] Slice 2 — markdown-scan-helpers (`src/markdown.rs`).
+- [x] Slice 3 — path-and-walker-helpers (`src/util.rs`); walkdir rejection note.
 - [ ] Slice 12 — splitter-contract-docs (documentation close-out; no gate dependency).
+  In review; likely superseded once the oracle retires and the three splitter contracts consolidate to one.
 
-## The gate (pending)
+## The gate
 
-- [ ] Slice 4 — oracle-retirement-gate (task #78, self-hosting strand). Flips the freeze.
+- [x] Slice 4 — oracle-retirement-gate (task #78, self-hosting strand). Executed as the full retirement (owner decision 2026-07-15): all five Python oracle scripts removed after conformance, their selftest fixtures mirrored into the Rust suite first, the Rust `arqix verify` is the authoritative corpus gate, and the freeze is closed. Slices 5-7 unblock.
 
 ## Phase B — Post-gate band (pending)
 

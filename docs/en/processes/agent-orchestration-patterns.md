@@ -107,6 +107,6 @@ Concrete uses on the roadmap's horizon, in rough order of leverage:
 
 ## Pointers
 
-- The gate and its rules: AGENTS.md, `scripts/arqix verify`, the checker scripts under `scripts/`.
+- The gate and its rules: AGENTS.md and `just verify` (cargo test, the dogfooded `arqix verify`, markdownlint).
 - The authoring contract for agents: the ICD (`docs/en/architecture/icd/`), especially the input-grammars unit.
 - The documentation production policy the panel pattern produced: ADR-0009.

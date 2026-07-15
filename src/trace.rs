@@ -1,8 +1,9 @@
-//! Trace Engine: the Rust port of the Python oracle (scripts/arqix_trace.py).
+//! Trace Engine: ported from the retired Python oracle (scripts/arqix_trace.py,
+//! removed 2026-07-15 after conformance; see git history).
 //! Builds the canonical trace graph from markers and frontmatter triples,
 //! and projects coverage, per-requirement checks, and matrices (ADR-0006
-//! layers, ADR-0007 node identity). The oracle remains the conformance
-//! reference: `arqix trace …` must be JSON-value-equal to it on the corpus.
+//! layers, ADR-0007 node identity). The retired oracle's selftest cases are
+//! mirrored in this module's tests, which own the trace contract.
 
 use crate::OutputFormat;
 use crate::parser::{self, is_requirement_id};
@@ -1354,15 +1355,15 @@ pub fn freshness_command(format: OutputFormat) -> ExitCode {
     code
 }
 
-// --- Marker gate (the Rust port of scripts/check_trace_markers.py) --------
+// --- Marker gate (ported from the retired scripts/check_trace_markers.py) --
 //
 // The TDD marker gate: every test function carries a `verifies`/`plans`
 // marker or an explicit no-requirement annotation (TRC-002/005), markers
 // resolve to existing requirements (TRC-001/004), ignored tests name a known
 // owning story (TRC-003), and derived-from/has-requirement backlinks stay
-// symmetric (TRC-006). The Python checker remains the conformance oracle for
-// the grace period, so `arqix trace markers --format json` must be
-// JSON-value-equal to `check_trace_markers.py --json` on the corpus.
+// symmetric (TRC-006). Ported from the retired `check_trace_markers.py`; it
+// was JSON-value-equal to the oracle at retirement, and the oracle's selftest
+// cases are mirrored below as the owning specification.
 
 const MARKER_REQ_DIR: &str = "docs/en/architecture/req";
 const MARKER_STORY_DIR: &str = "docs/en/architecture/stories";
@@ -1421,7 +1422,7 @@ fn kind_short(class: &str) -> String {
     .to_string()
 }
 
-/// Map requirement ID -> kind, mirroring `check_trace_markers.py`'s
+/// Map requirement ID -> kind, mirroring the retired `check_trace_markers.py`'s
 /// `known_requirement_kinds`: glob `docs/en/architecture/req/REQ-*.md`, key
 /// by the filename's `REQ-XX-YY-ZZ-NN`, and take the first
 /// `arqix:classes/<kind>` found anywhere in the file (functional by default,
@@ -2111,7 +2112,8 @@ mod tests {
     // arqix:verifies REQ-03-01-06-04
     #[test]
     fn marker_gate_matches_the_oracle_selftest_cases() {
-        // The oracle's SELFTEST_CASES (check_trace_markers.py), ported verbatim.
+        // The retired oracle's SELFTEST_CASES (check_trace_markers.py), ported
+        // verbatim; this mirror is now the owning specification.
         // Each source is a single-line literal (with `\n` escapes) so no
         // physical line of this file is itself a whole-line marker the gate
         // would read out of its own source.
@@ -2250,5 +2252,369 @@ mod tests {
             let rules: Vec<&str> = findings.iter().map(|(_, _, r, _)| r.as_str()).collect();
             assert_eq!(rules, expected, "case {name:?}: rules mismatch");
         }
+    }
+
+    // The block below ports the remaining behaviours the retired Python
+    // oracle's selftest pinned (scripts/arqix_trace.py, removed with the
+    // checker retirement) that had no Rust mirror yet, so the executable
+    // specification survives the retirement. Marker strings inside fixtures
+    // are assembled in pieces so the marker gate never reads them as real
+    // markers, following the existing fixture idiom above.
+
+    /// A requirement doc with an explicit rdf type class.
+    fn req_doc_kind(id: &str, class: &str) -> String {
+        format!("---\nid: {id}\nrdf:\n  type:\n    - arqix:classes/{class}\n---\nbody\n")
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn md_implements_marker_becomes_an_edge() {
+        let marker = format!("<!-- arqix:{} REQ-99-99-99-01 -->\n", "implements");
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-99-99-99-01")),
+            ("docs/impl.md".to_string(), marker),
+        ];
+        let model = build_model(&corpus);
+        let edges: Vec<_> = model
+            .edges
+            .iter()
+            .filter(|e| e.kind == "implements")
+            .collect();
+        assert_eq!(edges.len(), 1, "one implements edge");
+        assert_eq!(edges[0].to, "REQ-99-99-99-01");
+        // A markdown marker attaches to no test function (the oracle pinned
+        // `test is None` for md marker edges).
+        assert!(edges[0].test.is_none(), "md markers carry no test name");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn rs_marker_inside_a_string_literal_is_ignored() {
+        // The .rs scan requires a `//` comment prefix after trimming; a marker
+        // quoted inside a string literal is source text, not a claim.
+        let line = format!("    \"// arqix:{} REQ-11-11-11-01\",\n", "verifies");
+        let corpus = vec![("t.rs".to_string(), line)];
+        let model = build_model(&corpus);
+        assert!(model.edges.is_empty(), "no edge from a quoted marker");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn body_reference_to_an_unknown_target_stays_visible() {
+        // The unresolved analogue of the resolved body-reference test above:
+        // the edge keeps the raw IRI instead of disappearing.
+        let marker = format!(
+            "<!-- arqix:{} arqix:adrs/adr-9999 -->\n",
+            "references-artefact"
+        );
+        let src =
+            format!("---\nid: unit-icd-01\niri: arqix:units/unit-icd-01\n---\n## t\n\n{marker}");
+        let corpus = vec![("docs/unit.md".to_string(), src)];
+        let model = build_model(&corpus);
+        let edges: Vec<_> = model
+            .edges
+            .iter()
+            .filter(|e| e.kind == "references-artefact")
+            .collect();
+        assert_eq!(edges.len(), 1);
+        assert_eq!(edges[0].to, "arqix:adrs/adr-9999", "raw IRI survives");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn requirement_discovery_reads_kind_from_frontmatter() {
+        let corpus = vec![
+            (
+                "docs/f.md".to_string(),
+                req_doc_kind("REQ-11-11-11-01", "functional-requirement"),
+            ),
+            (
+                "docs/q.md".to_string(),
+                req_doc_kind("REQ-11-11-11-02", "quality-requirement"),
+            ),
+        ];
+        let model = build_model(&corpus);
+        assert_eq!(model.requirements["REQ-11-11-11-01"].kind, "functional");
+        assert_eq!(model.requirements["REQ-11-11-11-02"].kind, "quality");
+        assert!(model.requirements["REQ-11-11-11-02"].kind_declared);
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn unresolved_reference_emits_an_unresolved_requirement_node() {
+        let corpus = vec![("t.rs".to_string(), rs_verifies("REQ-99-88-77-66", false))];
+        let model = build_model(&corpus);
+        let graph = graph(&model);
+        let nodes = graph["nodes"].as_array().expect("nodes");
+        let unresolved: Vec<_> = nodes
+            .iter()
+            .filter(|n| n["unresolved"].as_bool() == Some(true))
+            .collect();
+        assert_eq!(unresolved.len(), 1, "one unresolved node: {graph}");
+        assert_eq!(unresolved[0]["id"], "REQ-99-88-77-66");
+        assert_eq!(unresolved[0]["type"], "requirement");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn uncovered_functional_requirement_is_a_trc_cov_001_error() {
+        let corpus = vec![(
+            "docs/req.md".to_string(),
+            req_doc_kind("REQ-11-11-11-01", "functional-requirement"),
+        )];
+        let model = build_model(&corpus);
+        let (report, code) = coverage(&model, None);
+        assert_eq!(code, ExitCode::from(1));
+        let diags = report["diagnostics"].as_array().expect("diagnostics");
+        assert_eq!(diags.len(), 1, "{report}");
+        assert_eq!(diags[0]["code"], "TRC-COV-001");
+        assert_eq!(diags[0]["severity"], "error");
+        assert_eq!(diags[0]["file"], "docs/req.md");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn covered_requirement_without_kind_warns_trc_kind_001() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-11-11-11-01")),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let model = build_model(&corpus);
+        let (report, code) = coverage(&model, None);
+        // A warning is not an error: the gate stays green.
+        assert_eq!(code, ExitCode::SUCCESS);
+        let diags = report["diagnostics"].as_array().expect("diagnostics");
+        assert_eq!(diags.len(), 1, "{report}");
+        assert_eq!(diags[0]["code"], "TRC-KIND-001");
+        assert_eq!(diags[0]["severity"], "warning");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn trace_json_outputs_carry_the_schema_version() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-11-11-11-01")),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let model = build_model(&corpus);
+        assert_eq!(graph(&model)["schema_version"], SCHEMA_VERSION);
+        assert_eq!(coverage(&model, None).0["schema_version"], SCHEMA_VERSION);
+        assert_eq!(
+            check(&model, "REQ-11-11-11-01").0["schema_version"],
+            SCHEMA_VERSION
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn verified_functional_requirement_passes_coverage_with_counts() {
+        let corpus = vec![
+            (
+                "docs/req.md".to_string(),
+                req_doc_kind("REQ-11-11-11-01", "functional-requirement"),
+            ),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let model = build_model(&corpus);
+        let (report, code) = coverage(&model, None);
+        assert_eq!(code, ExitCode::SUCCESS);
+        assert_eq!(
+            report["summary"]["functional"],
+            serde_json::json!({ "total": 1, "verified": 1, "planned": 0, "uncovered": 0 })
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn uncovered_quality_requirement_is_not_a_finding() {
+        let corpus = vec![(
+            "docs/q.md".to_string(),
+            req_doc_kind("REQ-11-11-11-02", "quality-requirement"),
+        )];
+        let model = build_model(&corpus);
+        let (report, code) = coverage(&model, None);
+        assert_eq!(code, ExitCode::SUCCESS);
+        assert!(
+            report["diagnostics"]
+                .as_array()
+                .expect("diagnostics")
+                .is_empty(),
+            "coverage findings fire for functional requirements only: {report}"
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn ignored_marker_plans_instead_of_verifying() {
+        let corpus = vec![
+            (
+                "docs/req.md".to_string(),
+                req_doc_kind("REQ-11-11-11-01", "functional-requirement"),
+            ),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", true)),
+        ];
+        let model = build_model(&corpus);
+        let (report, code) = coverage(&model, None);
+        assert_eq!(code, ExitCode::SUCCESS, "planned is not an error");
+        assert_eq!(
+            report["summary"]["functional"],
+            serde_json::json!({ "total": 1, "verified": 0, "planned": 1, "uncovered": 0 })
+        );
+        let diags = report["diagnostics"].as_array().expect("diagnostics");
+        assert_eq!(diags[0]["code"], "TRC-COV-002");
+        assert_eq!(diags[0]["severity"], "warning");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn check_reports_locations_and_derivation_for_a_requirement() {
+        let req = "---\nid: REQ-11-11-11-01\ntriples:\n  - predicate: arqix:properties/derived-from\n    object: arqix:user-stories/us-11-11-11\n---\nbody\n";
+        let story = "---\nid: US-11-11-11\niri: arqix:user-stories/us-11-11-11\n---\nbody\n";
+        let corpus = vec![
+            ("docs/req.md".to_string(), req.to_string()),
+            ("docs/story.md".to_string(), story.to_string()),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let model = build_model(&corpus);
+        let (report, code) = check(&model, "REQ-11-11-11-01");
+        assert_eq!(code, ExitCode::SUCCESS);
+        assert_eq!(
+            report["verifies"],
+            serde_json::json!([{ "file": "t.rs", "line": 1, "ignored": false, "test": "t" }])
+        );
+        assert_eq!(report["implements"], serde_json::json!([]));
+        assert_eq!(report["derived_from"], serde_json::json!(["US-11-11-11"]));
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn check_on_unknown_requirement_is_a_finding() {
+        let corpus = vec![("docs/req.md".to_string(), req_doc("REQ-11-11-11-01"))];
+        let model = build_model(&corpus);
+        let (report, code) = check(&model, "REQ-00-11-22-33");
+        assert_eq!(code, ExitCode::from(1));
+        assert_eq!(report["error"], "unknown requirement");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn coverage_story_falls_back_to_the_requirement_id() {
+        // Without a derived-from triple the owning story derives from the id.
+        let corpus = vec![("docs/req.md".to_string(), req_doc("REQ-11-11-11-01"))];
+        let model = build_model(&corpus);
+        let (report, _) = coverage(&model, None);
+        assert_eq!(report["requirements"][0]["story"], "US-11-11-11");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn inline_object_and_unresolved_workflow_iri_stay_visible() {
+        // An inline (non-list) triple object becomes an edge keeping the raw
+        // unresolvable IRI, and the graph shows it as an unknown-typed
+        // unresolved node.
+        let story = "---\nid: US-22-22-22\nrdf:\n  type:\n    - arqix:classes/user-story\ntriples:\n  - predicate: arqix:properties/is-part-of-workflow\n    object: arqix:workflows/wf-22-22\n---\nbody\n";
+        let corpus = vec![("docs/story.md".to_string(), story.to_string())];
+        let model = build_model(&corpus);
+        assert!(
+            model
+                .edges
+                .iter()
+                .any(|e| e.kind == "is-part-of-workflow" && e.to == "arqix:workflows/wf-22-22"),
+            "the inline object keeps its raw IRI"
+        );
+        let graph = graph(&model);
+        let unresolved: Vec<_> = graph["nodes"]
+            .as_array()
+            .expect("nodes")
+            .iter()
+            .filter(|n| n["unresolved"].as_bool() == Some(true))
+            .cloned()
+            .collect();
+        assert_eq!(
+            unresolved,
+            vec![serde_json::json!({
+                "id": "arqix:workflows/wf-22-22",
+                "type": "unknown",
+                "unresolved": true,
+            })]
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn us_req_matrix_lists_derived_pairs() {
+        let req = "---\nid: REQ-11-11-11-01\ntriples:\n  - predicate: arqix:properties/derived-from\n    object: arqix:user-stories/us-11-11-11\n---\nbody\n";
+        let story = "---\nid: US-11-11-11\niri: arqix:user-stories/us-11-11-11\n---\nbody\n";
+        let corpus = vec![
+            ("docs/req.md".to_string(), req.to_string()),
+            ("docs/story.md".to_string(), story.to_string()),
+        ];
+        let model = build_model(&corpus);
+        let csv = matrix_csv(&model, "us-req");
+        let lines: Vec<&str> = csv.lines().collect();
+        assert_eq!(lines[0], "story,requirement");
+        assert_eq!(lines[1], "US-11-11-11,REQ-11-11-11-01");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn story_document_becomes_a_typed_node() {
+        let story = "---\nid: US-22-22-22\ntitle: Example Story\nrdf:\n  type:\n    - arqix:classes/user-story\n---\nbody\n";
+        let corpus = vec![("docs/story.md".to_string(), story.to_string())];
+        let model = build_model(&corpus);
+        let graph = graph(&model);
+        let node = graph["nodes"]
+            .as_array()
+            .expect("nodes")
+            .iter()
+            .find(|n| n["id"] == "US-22-22-22")
+            .expect("story node")
+            .clone();
+        assert_eq!(node["type"], "user-story");
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn artefact_nodes_use_the_path_identity() {
+        // ADR-0007: an artefact node's id IS its path, with `file` repeating it.
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-11-11-11-01")),
+            ("a.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let model = build_model(&corpus);
+        let graph = graph(&model);
+        let artefacts: Vec<_> = graph["nodes"]
+            .as_array()
+            .expect("nodes")
+            .iter()
+            .filter(|n| n["type"] == "artefact")
+            .cloned()
+            .collect();
+        assert_eq!(
+            artefacts,
+            vec![serde_json::json!({ "id": "a.rs", "type": "artefact", "file": "a.rs" })]
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn model_is_deterministic_regardless_of_input_order() {
+        let corpus = vec![
+            ("docs/req.md".to_string(), req_doc("REQ-11-11-11-01")),
+            (
+                "docs/story.md".to_string(),
+                story_doc("US-11-11-11", "arqix:requirements/req-11-11-11-01"),
+            ),
+            ("t.rs".to_string(), rs_verifies("REQ-11-11-11-01", false)),
+        ];
+        let reversed: Vec<_> = corpus.iter().rev().cloned().collect();
+        let a = build_model(&corpus);
+        let b = build_model(&reversed);
+        assert_eq!(graph(&a), graph(&b), "graph is input-order independent");
+        assert_eq!(
+            coverage(&a, None).0,
+            coverage(&b, None).0,
+            "coverage is input-order independent"
+        );
     }
 }

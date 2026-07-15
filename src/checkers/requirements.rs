@@ -1,5 +1,6 @@
 //! Requirements checker (`arqix lint requirements`): the Rust port of the
-//! reference oracle `scripts/check_requirements.py`. It validates requirement
+//! reference oracle `scripts/check_requirements.py` (retired 2026-07-15 after
+//! conformance; see git history). It validates requirement
 //! documents under `docs/en/architecture/req/` against the user stories and
 //! the authoring rules of `docs/en/processes/requirements-style-guide.md`
 //! (RFC 2119 subset + EARS sentence patterns).
@@ -7,9 +8,9 @@
 //! The port is behaviour-faithful to the oracle: same rule IDs, same message
 //! strings, the same `(path, rule, message)` finding order, and the same exit
 //! codes (0 no findings, 1 findings — errors OR warnings, 2 usage/I-O error).
-//! The Python script stays the conformance oracle for the grace period (arc42
-//! chapter 8, oracle policy; roadmap phase 5 item 9). It has its own frontmatter
-//! reader (not the shared parser, which ports a different oracle), so this
+//! The retired script's selftest fixtures are mirrored in this module's tests,
+//! which own the specification (arc42 chapter 8, oracle policy). It has its
+//! own frontmatter reader (not the shared parser, which ports a different oracle), so this
 //! module reproduces that reader exactly rather than reusing the store's.
 
 use crate::OutputFormat;

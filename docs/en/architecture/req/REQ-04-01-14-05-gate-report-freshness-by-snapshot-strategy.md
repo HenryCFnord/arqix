@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-13
-  updated: 2026-07-13
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -38,5 +38,5 @@ Where the configured snapshot strategy does not gate report freshness in the cur
 ### Notes
 
 Derived from US-04-01-14 and the snapshot strategy (config-audit row C17, US-04-01-16).
-The strategy `committed` gates everywhere, `on-demand` never gates, and `main-only` gates only on the default branch — the resolution the reference sequencer performs (`scripts/arqix`, step 9).
+The strategy `committed` gates everywhere, `on-demand` never gates, and `main-only` gates only on the default branch — the resolution the verify orchestrator performs (`src/verifier.rs`).
 A skipped sub-step is reported in the per-step result (`skipped: true`) so the gate is visible, and it never contributes a finding, so a legitimately stale snapshot on a parallel branch never fails the loop.

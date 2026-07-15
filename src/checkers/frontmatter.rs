@@ -1,5 +1,6 @@
 //! Frontmatter checker (`arqix lint frontmatter`): the Rust port of the
-//! reference oracle `scripts/check_frontmatter.py`. It validates the
+//! reference oracle `scripts/check_frontmatter.py` (retired 2026-07-15 after
+//! conformance; see git history). It validates the
 //! architecture documents (stories, requirements, personas, workflows, ADRs,
 //! arc42/ICD units and pages) and the ontology documents (classes, properties,
 //! individuals, index) for frontmatter consistency, canonical formatting, and
@@ -10,9 +11,9 @@
 //! The port is behaviour-faithful to the oracle: same rule IDs (FMT-*, FM-*,
 //! ONT-*), same message strings, the same `(path, rule, message)` finding
 //! order, and the same exit codes (0 no findings, 1 findings — errors OR
-//! warnings, 2 usage/I-O error). The Python script stays the conformance
-//! oracle for the grace period (arc42 chapter 8, oracle policy; roadmap phase 5
-//! item 9). It has its own frontmatter reader (the order-preserving `Doc`
+//! warnings, 2 usage/I-O error). The retired script's selftest fixtures are
+//! mirrored in this module's tests, which own the specification (arc42
+//! chapter 8, oracle policy). It has its own frontmatter reader (the order-preserving `Doc`
 //! parser, not the shared store parser), so this module reproduces that reader
 //! exactly rather than reusing the store's.
 

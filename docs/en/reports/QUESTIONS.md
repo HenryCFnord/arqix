@@ -19,5 +19,5 @@ The catalog is deliberately non-exhaustive — new questions are added here firs
 Regenerate all built units with:
 
 ```text
-python3 scripts/arqix_report.py --snapshot "<sha>, <date>"
+arqix report snapshot --stamp "<sha>, <date>"
 ```

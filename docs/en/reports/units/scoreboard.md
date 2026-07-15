@@ -1,7 +1,7 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-03 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 705e1fd, 2026-07-15
-     Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
+     Snapshot: 4c36b6e, 2026-07-15
+     Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # What share of the requirements is verifiably implemented?
 

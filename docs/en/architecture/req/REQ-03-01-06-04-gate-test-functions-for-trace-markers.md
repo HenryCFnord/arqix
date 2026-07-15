@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-13
-  updated: 2026-07-13
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -37,5 +37,5 @@ When `arqix trace markers` runs, arqix SHALL report every test function without 
 
 ### Notes
 
-Ports the TDD marker gate of `scripts/check_trace_markers.py` (TRC-001 through TRC-006) into the binary as the self-hosting slice of the oracle policy (arc42 chapter 8, roadmap phase 5 item 9).
+Ports the TDD marker gate of the retired `scripts/check_trace_markers.py` (TRC-001 through TRC-006) into the binary as the self-hosting slice of the oracle policy (arc42 chapter 8, roadmap phase 5 item 9); its selftest cases are mirrored in the trace engine's test module.
 Cross-cutting behaviour is linked via the story's `has-requirement`, not restated here.

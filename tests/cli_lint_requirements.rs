@@ -1,7 +1,8 @@
 //! Command contract: `lint requirements` — the ported requirements checker
 //! (REQ-01-01-11-06). Owned by the Linter noun family (arc42 chapter 5,
-//! ADR-0005); the Python checker `scripts/check_requirements.py` remains the
-//! conformance oracle for the grace period (arc42 chapter 8, oracle policy).
+//! ADR-0005); ported from the retired Python checker
+//! `scripts/check_requirements.py` (arc42 chapter 8, oracle policy; the
+//! oracle's selftest fixtures are mirrored inline in src/checkers/requirements.rs).
 
 mod common;
 

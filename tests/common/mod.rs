@@ -2,7 +2,7 @@
 //!
 //! Every test in `tests/cli_*.rs` maps to a row of the command-ownership
 //! table in arc42 chapter 5 and carries an `arqix:verifies REQ-…` marker
-//! (validated by `scripts/check_trace_markers.py`). Tests for
+//! (validated by `arqix trace markers`). Tests for
 //! not-yet-implemented stories are `#[ignore]`d; implementing a story
 //! test-first means removing the ignore, showing the red run, then coding
 //! until green (see AGENTS.md, "Test-driven implementation").

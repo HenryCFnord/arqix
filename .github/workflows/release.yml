@@ -1,6 +1,6 @@
 # Release validation: a human creates the tag (RELEASING.md — agents
 # prepare, a human releases); this workflow then proves the tagged state is
-# releasable by running the full gate and the conformance cross-check.
+# releasable by running the full gate.
 # The site follows main until 1.0.0 (pages.yml); the PDF job (render pdf
 # via the pinned pandoc/extra container, Eisvogel template) joins here
 # with the US-04-01-03 slice and attaches its artefacts to the release.
@@ -26,11 +26,14 @@ jobs:
       - name: Build arqix
         run: cargo build
 
-      - name: Full gate
-        run: python3 scripts/arqix verify
+      - name: Cargo tests
+        run: cargo test --quiet
 
-      - name: Oracle conformance
-        run: python3 scripts/check_conformance.py
+      - name: Dogfooded arqix verify (the corpus gate)
+        run: ./target/debug/arqix verify
+
+      - name: Markdown lint
+        run: npx --yes markdownlint-cli2@0.23.0
 
       - name: Release-document consistency
         run: cargo test --test cli release_documents_stay_consistent_with_the_crate_version

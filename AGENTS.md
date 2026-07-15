@@ -64,7 +64,7 @@ The standard planning package lives under:
 
 Reviewed `PLANS.md` artefacts are the preferred basis for later implementation work by a coding agent.
 
-During implementation, agents record progress in `STATUS.md` and do not rewrite the reviewed `PLANS.md`; the verification loop `python3 scripts/arqix verify` must pass before every commit.
+During implementation, agents record progress in `STATUS.md` and do not rewrite the reviewed `PLANS.md`; the verification loop `just verify` (cargo test, the dogfooded `arqix verify`, markdownlint) must pass before every commit.
 
 The initial planning branch and draft planning artefacts may be created during intake before implementation starts.
 
@@ -276,19 +276,13 @@ Implementing a story follows this order, and the order is normative:
 
 Additional rules:
 
-- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; a test that deliberately verifies no requirement (an implementation-detail or oracle-conformance pin) carries `// arqix:no-requirement` instead — exactly one of the two, on every test function including unit tests under `src/`. `scripts/check_trace_markers.py` validates markers against the requirements corpus and must pass before every commit.
+- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; a test that deliberately verifies no requirement (an implementation-detail or oracle-conformance pin) carries `// arqix:no-requirement` instead — exactly one of the two, on every test function including unit tests under `src/`. `arqix trace markers` validates markers against the requirements corpus and must pass before every commit.
 - Every ignored test must name its owning story in the ignore reason (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
 - Tests must be deterministic: no wall clock (dates are injected, see ADR-0004), no network, no dependence on test execution order.
   Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
 - Do not delete or weaken a skeleton test to get to green; if a contract turns out wrong, change the requirement first and reference the change in the PR.
 
-Conformance runs: the test helpers honour an `ARQIX_BIN` override, so the same skeleton tests double as the conformance suite for the Python oracle (arc42 chapter 8).
-Command families implemented in Python are exercised with
-
-ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
-
-The tests stay `#[ignore]`d — the default `cargo test` run measures the Rust implementation only.
-A story counts as ported when its suite is green without the override.
+The test helpers honour an `ARQIX_BIN` override — a generic binary switch for the harness; the default `cargo test` run measures the checked-out implementation.
 
 ## Refactoring
 
@@ -301,9 +295,7 @@ Reviewers check the commit order.
 A refactor that implements a requirement is spec-first: the REQ or ADR precedes the test, then the red commit, then the green commit, exactly as for feature work.
 A refactor that changes no behaviour carries `// arqix:no-requirement` markers on its tests instead — never invent a requirement to justify a pure restructuring.
 
-No consolidation crosses the oracle-fidelity freeze.
-While `scripts/check_frontmatter.py` and `scripts/check_requirements.py` are the active behavioural oracle, no shared helper enters `src/checkers/` or the oracle-mirrored `src/parser.rs`, and the oracle-conformance walks and vocabularies stay as their own copies.
-The freeze lifts only when the self-hosting checker retirement removes the Python oracle.
+Consolidation inside the contract-owning modules (`src/checkers/`, `src/parser.rs`, `src/trace.rs`) follows the same characterization-first rules as everywhere else: the reference-fixture tests mirrored in their test modules are the behavioural pin — extend the pin before touching an unpinned seam, and never weaken it to make a consolidation fit.
 
 Shared non-oracle helpers live in neutral `pub(crate)` modules (`src/markdown.rs`, `src/util.rs`, `src/date.rs`), never in `parser.rs` or `checkers/`.
 

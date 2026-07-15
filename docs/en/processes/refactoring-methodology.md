@@ -12,7 +12,7 @@ It is modelled on the sibling [requirements style guide](requirements-style-guid
 Refactoring in this repository runs a four-phase loop, and the order matters:
 
 1. **Assess.** Identify the maintainability or testability cost — duplication, a hardcoded value that a repository owner could legitimately want different, an untested seam — and classify the change as either behaviour-preserving or behaviour-visible.
-   The assessment records the target locations, the ADR constraints that bind, and whether the change is gated on anything (most often the oracle-fidelity freeze below).
+   The assessment records the target locations, the ADR constraints that bind, and whether the change is gated on anything.
 2. **Strengthen tests.** Before changing production code, raise the test coverage around the seam so that the current behaviour is pinned.
    For a behaviour-preserving change this means characterization tests; for a behaviour-visible change it means a spec and a failing test that expresses the new contract.
 3. **Refactor code.** Make the smallest change that resolves the assessed cost, keeping the strengthened tests green (for a behaviour-preserving change) or turning the new failing test green (for a behaviour-visible change).
@@ -41,17 +41,12 @@ Those follow the spec-first order:
 The red commit precedes the green commit, and reviewers check that order, exactly as they do for story work.
 Requirement text follows the [requirements style guide](requirements-style-guide.md); an architectural decision follows the ADR conventions under `docs/en/architecture/adr/`.
 
-## The oracle-fidelity freeze
+## Contract-owning modules
 
-Two Python checkers — `scripts/check_frontmatter.py` and `scripts/check_requirements.py` — are the active behavioural oracle for the frontmatter and requirements gates.
-The Rust checkers under `src/checkers/` and the oracle-mirrored reading layer in `src/parser.rs` are deliberately faithful ports: each is an independently auditable mirror of its Python counterpart, held to identical findings on identical inputs.
-
-While that oracle is active, consolidation inside `src/checkers/` or into `src/parser.rs` is frozen, even when a clone is byte-identical and the merge looks mechanically trivial.
-The reason is not correctness risk in the merge itself but audit clarity: folding two mirrored checkers together, or routing them through shared machinery, erodes the one-to-one correspondence that makes the freeze auditable and invites silent engine-versus-oracle drift during the grace period.
-
-The freeze lifts when the Python checkers retire — the self-hosting checker-retirement work tracked as task #78.
-Consolidations that are safe in isolation but touch these modules ride that retirement rather than landing ahead of it, so the freeze audit stays clean.
-Helpers that are genuinely oracle-neutral — internal to `assembler.rs`, `publisher.rs`, `rewriter.rs`, and similar non-mirrored modules — are not covered by the freeze and can be consolidated now.
+`src/checkers/`, `src/parser.rs`, and `src/trace.rs` own the checker, parsing, and trace contracts.
+Their reference fixtures are mirrored case by case in their test modules (`selftest_cases_match_the_oracle` and its siblings); those pins are the executable specification of each contract.
+Consolidation inside these modules follows the normal characterization-first rules of this methodology: extend the pin before touching an unpinned seam, keep it green through the change, and never weaken it to make a consolidation fit.
+The provenance of each port lives in the refactor-program plan package and git history, not here.
 
 ## Where shared helpers live
 

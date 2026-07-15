@@ -1,7 +1,7 @@
 //! Command contract: `trace markers` — the ported TDD marker gate
-//! (REQ-03-01-06-04). Owned by the Trace Engine (arc42 chapter 5); the
-//! Python checker `scripts/check_trace_markers.py` remains the conformance
-//! oracle for the grace period (arc42 chapter 8, oracle policy).
+//! (REQ-03-01-06-04). Owned by the Trace Engine (arc42 chapter 5); ported
+//! from the retired Python checker `scripts/check_trace_markers.py` (arc42
+//! chapter 8, oracle policy; its selftest cases are mirrored in src/trace.rs).
 
 mod common;
 

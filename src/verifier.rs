@@ -150,9 +150,8 @@ fn overall_exit(codes: &[i64]) -> u8 {
 /// Whether the report-freshness sub-step gates in the current context. The
 /// report snapshot strategy (config-audit row C17) decides: `committed` gates
 /// everywhere, `on-demand` never gates, and `main-only` gates only on the
-/// default branch — the resolution the reference sequencer performs
-/// (`scripts/arqix`, step 9). A non-gating context skips the step rather than
-/// running a check that must not fail there.
+/// default branch (REQ-04-01-14-05). A non-gating context skips the step
+/// rather than running a check that must not fail there.
 fn report_freshness_gates(dir: &std::path::Path) -> bool {
     match crate::config::snapshot_strategy(dir).as_str() {
         "on-demand" => false,

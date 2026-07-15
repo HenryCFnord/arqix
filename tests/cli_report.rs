@@ -330,3 +330,55 @@ fn report_snapshot_check_detects_a_staled_unit() {
         "the staled unit is named: {stdout}"
     );
 }
+
+// arqix:verifies REQ-04-01-12-04
+#[test]
+fn report_snapshot_check_detects_a_missing_unit() {
+    // The missing-file branch of the freshness contract (previously pinned
+    // only by the retired Python oracle): a deleted committed unit is a
+    // finding, not a silent skip.
+    let repo = scratch_copy("minimal", "report_snapshot_check_detects_a_missing_unit");
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    write_matrices(&repo);
+    assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
+
+    std::fs::remove_file(repo.join("docs/en/reports/units/scoreboard.md")).unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("scoreboard.md: missing"),
+        "the missing unit is named: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-04-01-12-04
+#[test]
+fn report_snapshot_check_detects_a_stale_matrix() {
+    // The matrix half of the freshness contract: a committed matrix that no
+    // longer matches a fresh regeneration is stale.
+    let repo = scratch_copy("minimal", "report_snapshot_check_detects_a_stale_matrix");
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    write_matrices(&repo);
+    assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
+
+    let matrix = repo.join("docs/en/reports/trace/matrix.csv");
+    let mut text = std::fs::read_to_string(&matrix).unwrap();
+    text.push_str("junk,row,that,does,not,belong\n");
+    std::fs::write(&matrix, text).unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("matrix.csv: stale"),
+        "the stale matrix is named: {stdout}"
+    );
+}

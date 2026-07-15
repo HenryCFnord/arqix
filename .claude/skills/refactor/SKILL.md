@@ -18,26 +18,15 @@ Decide which shape the change is before writing any code, because the two shapes
 
 If a passing characterization test cannot pin the current behaviour before you start, the change is not ready: either the seam needs a test that does not yet exist, or the change is actually behaviour-visible and belongs on the spec-first path.
 
-## Check the oracle-fidelity freeze before anything else
+## Contract-owning modules
 
-This is the gating question for every arqix refactor.
-`scripts/check_frontmatter.py` and `scripts/check_requirements.py` are the active behavioural oracle, and the Rust checkers under `src/checkers/` and the reading layer in `src/parser.rs` are deliberately faithful ports held to identical findings on identical inputs.
-
-Before touching a target, answer:
-
-- Does the target live under `src/checkers/` or in `src/parser.rs`?
-  If yes, it is under the freeze — consolidation is blocked even when a clone is byte-identical and the merge looks trivial.
-- Are the Python checkers still the active oracle, or has the checker-retirement work (task #78) landed?
-  While the oracle is active, a freeze-covered consolidation either rides task #78 or lands in both the Rust and Python sources at once from a single origin — never Rust-only.
-- Is the target genuinely oracle-neutral — internal to `assembler.rs`, `publisher.rs`, `rewriter.rs`, or a similar non-mirrored module?
-  Those are not covered by the freeze and can be consolidated now.
-
-When in doubt, treat the target as frozen and defer it rather than risk silent engine-versus-oracle drift during the grace period.
+`src/checkers/`, `src/parser.rs`, and `src/trace.rs` own the checker, parsing, and trace contracts; their reference fixtures are mirrored in their test modules (`selftest_cases_match_the_oracle` and siblings) as the behavioural pin.
+Consolidation there follows the same characterization-first rules as everywhere else: extend the pin before touching an unpinned seam, and keep it green through the change.
 
 ## Where a new shared helper goes
 
 A helper shared across modules lands in a fresh, neutral `pub(crate)` module named for what it does — `src/markdown.rs` for markdown primitives, `src/util.rs` for path and directory-walk helpers, `src/date.rs` for calendar and ISO-date helpers.
-Never host a general-purpose helper in `src/parser.rs` or under `src/checkers/`: those are the oracle-mirrored surface, and putting neutral code there pulls it back under the freeze.
+Never host a general-purpose helper in `src/parser.rs` or under `src/checkers/`: those modules own the checker contracts, and a general-purpose helper belongs in a neutral home, not inside a contract owner.
 
 ## Behaviour-preserving: characterization tests first
 
@@ -65,10 +54,10 @@ Consolidate the duplicated walks into one internal helper; do not adopt a crate 
 
 When a refactor turns a hardcoded value into configuration, obey the two `ADR-0011` rules: the default configuration reproduces today's value exactly so an unconfigured corpus stays byte-identical, and the value is resolved in exactly one place.
 The substance of a check stays in code — the RFC 2119 and EARS keyword contracts, the lifecycle rung sets and their invariants (`ADR-0010`), and the `arqix:` marker prefix — because exposing them as free configuration would hollow the check.
-A double-bookkept value that is also mirrored in a Python oracle inherits the freeze: land the one-source move in both at once or wait for the oracle retirement.
+A double-bookkept value keeps exactly one source after the move; the mirrored fixture tests pin the resolved behaviour.
 `docs/en/plans/refinement-2026-07-09/CONFIG-AUDIT.md` tracks the outstanding configuration rows.
 
 ## Close out
 
-Run `python3 scripts/arqix verify` before every commit — it runs the checkers, the marker gate, `cargo test`, and the dogfooded `arqix verify` in one command.
+Run `just verify` before every commit — it runs `cargo test`, the dogfooded `arqix verify` (the corpus checks), and markdownlint in one command.
 Keep the refactor in focused commits per `AGENTS.md` `## Commits`, and commit the tests before or together with — never after — the code they pin.

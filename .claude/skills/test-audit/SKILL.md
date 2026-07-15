@@ -21,7 +21,7 @@ Keep the two apart from the code edit: strengthening lands first, tidying last, 
 
 - A helper that moves into a fresh neutral module (`src/markdown.rs`, `src/util.rs`, `src/date.rs`) earns direct unit tests at its new home; a helper only reachable through an integration test today is under-pinned for an extraction.
 - Characterization tests assert the current output for the inputs that distinguish this helper from a naive rewrite — the edge cases the assessment flags (fence toggling, exotic line separators in `py_splitlines` index space, leap-year and days-in-month boundaries, POSIX path normalization) — not just the happy path.
-- Do not add coverage inside `src/checkers/` or the oracle-mirrored `src/parser.rs` under the oracle-fidelity freeze; pin those behaviours from the outside via the existing conformance suite until the checker-retirement gate (task #78) lifts.
+- Coverage inside `src/checkers/` and `src/parser.rs` follows the same rules as everywhere else; the mirrored reference-fixture tests (`selftest_cases_match_the_oracle` and siblings) are the behavioural pin to extend.
 
 ## Placement: unit versus integration
 
@@ -39,7 +39,7 @@ Keep the two apart from the code edit: strengthening lands first, tidying last, 
 
 - Every test function — inline unit tests under `src/` included — carries exactly one marker directly above it: `// arqix:verifies REQ-…` when it proves a requirement, or `// arqix:no-requirement` for an implementation-detail or oracle-conformance pin.
 - A behaviour-preserving characterization test that pins internal behaviour with no requirement of its own is `// arqix:no-requirement`; a test driven by a new REQ or ADR (a spec-first, behaviour-visible change) is `// arqix:verifies`.
-- `python3 scripts/check_trace_markers.py` validates the markers and must pass; run it, `cargo test`, and `python3 scripts/arqix verify` before the phase's commit.
+- `arqix trace markers` validates the markers and must pass; run it, `cargo test`, and `just verify` before the phase's commit.
 
 ## Determinism
 

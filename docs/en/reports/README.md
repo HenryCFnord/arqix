@@ -7,7 +7,7 @@ Three layers live here:
 | --- | --- | --- |
 | Question units (human) | One generated Markdown file per question — story progress, scoreboard, test traceability, ADR links, code views | [`units/`](units/) |
 | Audit products (machine/audit) | Stable CSV matrices per ADR-0006 layer 3 | [`trace/`](trace/) |
-| Live answers | The commands themselves — always current, never stale | `python3 scripts/arqix trace …` |
+| Live answers | The commands themselves — always current, never stale | `arqix trace …` |
 
 ## Units
 
@@ -26,10 +26,10 @@ All committed files here are snapshots (each carries its commit + date in a gene
 Refresh with:
 
 ```text
-python3 scripts/arqix_report.py --snapshot "<sha>, <date>"
-python3 scripts/arqix trace matrix > docs/en/reports/trace/matrix.csv
-python3 scripts/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
+arqix report snapshot --stamp "<sha>, <date>"
+arqix trace matrix > docs/en/reports/trace/matrix.csv
+arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
 ```
 
-Regeneration stays manual (`just reports`), but staleness is gated: `scripts/arqix_report.py --check` runs inside `scripts/arqix verify` (and therefore in CI) and fails when any committed snapshot no longer matches the corpus.
+Regeneration stays manual (`just reports`), but staleness is gated: `arqix report snapshot --check` runs inside `arqix verify` (and therefore in CI) and fails when any committed snapshot no longer matches the corpus.
 The live answer is always the command.

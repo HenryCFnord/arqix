@@ -3,8 +3,8 @@
 This guide defines the normative authoring rules for requirement documents under `docs/en/architecture/req/`.
 It combines a strict subset of RFC 2119 keywords with the EARS sentence patterns so that every requirement is deterministic to parse, classify, and verify.
 
-`scripts/check_requirements.py` enforces these rules mechanically.
-This guide is the human-readable contract behind that checker and the later arqix implementation.
+`arqix lint requirements` enforces these rules mechanically.
+This guide is the human-readable contract behind that checker.
 
 ## References
 

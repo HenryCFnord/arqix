@@ -1,7 +1,7 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 705e1fd, 2026-07-15
-     Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
+     Snapshot: 4c36b6e, 2026-07-15
+     Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
 
@@ -537,6 +537,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
+| `report_snapshot_check_detects_a_missing_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_check_detects_a_stale_matrix` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_check_detects_a_staled_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_check_passes_on_fresh_snapshots` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_regenerates_units_deterministically` | US-04-01-12 | Publish Stable Report Exports for Automation |
