@@ -27,3 +27,4 @@ This is a mapping only; it introduces no new rules.
   - Daily gate for any change: `python3 scripts/arqix verify` runs the checkers, the marker gate, `cargo test`, and the dogfooded `arqix verify` (format, lint, trace scan, informational coverage, ratchet) in one command.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are documented in `docs/en/processes/requirements-style-guide.md`.
   - Markdown authoring rules (markdownlint via `.markdownlint.jsonc`, one sentence per line, markers above their block) are documented in `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2` on touched Markdown.
+  - Refactoring follows the four-phase loop (assess, strengthen tests, refactor, tidy) and the oracle-fidelity freeze documented in `docs/en/processes/refactoring-methodology.md`; the normative rules live in AGENTS.md `## Refactoring`.
