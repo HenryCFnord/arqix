@@ -128,7 +128,7 @@ fn write_outputs(pages: &[(PathBuf, String)], records: &[Value]) -> Result<(), E
 pub(crate) fn expand_document(file: &Path) -> Result<String, Diagnostic> {
     let mut stack = Vec::new();
     let mut records = Vec::new();
-    let rel = file.to_string_lossy().replace('\\', "/");
+    let rel = crate::util::to_posix(file);
     let walk = Walk {
         doc_rel: &rel,
         out_rel: "",
@@ -462,7 +462,7 @@ fn normalized_parts(path: &Path) -> Vec<String> {
 /// The output page path for a source file: its path relative to the matching
 /// configured root, remapped under `pages/`.
 fn out_path(file: &str, roots: &[String]) -> String {
-    let normalized = file.replace('\\', "/");
+    let normalized = crate::util::to_posix_str(file);
     for root in roots {
         let prefix = format!("{}/", root.trim_end_matches('/'));
         if let Some(rest) = normalized.strip_prefix(&prefix) {
@@ -489,7 +489,7 @@ fn chapter_id(file: &Path, text: &str) -> String {
 
 /// A stable relative display path (forward slashes) for a fragment.
 fn rel(file: &Path) -> String {
-    file.to_string_lossy().replace('\\', "/")
+    crate::util::to_posix(file)
 }
 
 /// Canonicalise a path for cycle comparison, falling back to the path itself

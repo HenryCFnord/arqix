@@ -28,35 +28,17 @@ pub fn documents() -> Vec<Document> {
 }
 
 fn walk(dir: &Path, skip: &[String], docs: &mut Vec<Document>) {
-    let entries = match std::fs::read_dir(dir) {
-        Ok(entries) => entries,
-        Err(_) => return,
-    };
-    let mut paths: Vec<_> = entries.flatten().map(|e| e.path()).collect();
-    paths.sort();
+    // The traversal (sorted, depth-first, symlink-safe, skip-dirs-pruned,
+    // `.md` / not-`.tpl.md`) is the shared walker; the store-specific leaf
+    // action is to read and parse each file.
+    let mut paths = Vec::new();
+    crate::util::collect_markdown(dir, skip, &mut paths);
     for path in paths {
-        if path.is_dir() {
-            // Never traverse directory symlinks: a parent link forms a
-            // cycle that makes the walk unbounded, and the trace oracle's
-            // rglob does not follow them either.
-            if path.symlink_metadata().is_ok_and(|m| m.is_symlink()) {
-                continue;
-            }
-            let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-            if !skip.iter().any(|s| s == name) {
-                walk(&path, skip, docs);
-            }
-            continue;
-        }
-        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-        if !name.ends_with(".md") || name.ends_with(".tpl.md") {
-            continue;
-        }
         if let Ok(text) = std::fs::read_to_string(&path) {
             // Normalise to forward slashes so the `file` field is identical
             // across platforms and consistent with the trace engine
             // (trace.rs) and assembler, which do the same.
-            let rel = path.to_string_lossy().replace('\\', "/");
+            let rel = crate::util::to_posix(&path);
             docs.push(parser::parse(&rel, &text));
         }
     }

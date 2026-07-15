@@ -20,6 +20,7 @@ mod rewriter;
 mod store;
 mod templates;
 mod trace;
+mod util;
 mod verifier;
 
 use clap::{Parser, Subcommand, ValueEnum};

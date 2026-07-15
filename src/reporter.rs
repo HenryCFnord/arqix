@@ -149,7 +149,7 @@ pub fn knowledge(out: Option<&str>, format: OutputFormat) -> ExitCode {
             let Ok(rel) = file.strip_prefix(&lang_root) else {
                 continue;
             };
-            let rel_posix = rel.to_string_lossy().replace('\\', "/");
+            let rel_posix = crate::util::to_posix(rel);
             // The publish scope and the lifecycle: excluded subtrees and
             // retired documents never become living knowledge (ADR-0010).
             if policy.exclude.iter().any(|e| {
