@@ -76,7 +76,7 @@ fn check_id_policy(docs: &[Document], diags: &mut Vec<Diagnostic>) {
         let mut seq_owners: std::collections::HashMap<(String, String), String> =
             std::collections::HashMap::new();
         for doc in docs {
-            let posix = doc.file.replace('\\', "/");
+            let posix = crate::util::to_posix_str(&doc.file);
             if !posix.starts_with(&format!("{}/", contract.dir)) {
                 continue;
             }

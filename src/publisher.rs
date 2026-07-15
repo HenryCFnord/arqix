@@ -71,7 +71,7 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         };
 
         let mut files = Vec::new();
-        collect_markdown(&lang_root, &skip, &mut files);
+        crate::util::collect_markdown(&lang_root, &skip, &mut files);
         for file in files {
             // Skip a fragment another page stitches in — it is published
             // through that page, not as its own page (REQ-04-01-07-03).
@@ -95,7 +95,7 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
             let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
             let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
             // The publish scope: excluded subtrees never leave the repo.
-            let rel_posix = rel.to_string_lossy().replace('\\', "/");
+            let rel_posix = crate::util::to_posix(&rel);
             if policy.exclude.iter().any(|e| {
                 let prefix = e.trim_end_matches('/');
                 rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
@@ -234,7 +234,7 @@ pub fn pdf(
             let inputs: Vec<String> = if files.is_empty() {
                 let staging = Path::new("render-staging").join(&package);
                 let mut members = Vec::new();
-                collect_markdown(&lang_root, &skip, &mut members);
+                crate::util::collect_markdown(&lang_root, &skip, &mut members);
                 // The whole package is many files concatenated into one PDF:
                 // each keeps its own title as a chapter (collection semantics).
                 let is_collection = members.len() > 1;
@@ -546,7 +546,7 @@ fn staged_asset_rel(asset: &str, lang: &str) -> PathBuf {
     for root in crate::config::roots(Path::new(".")) {
         let lang_root = Path::new(&root).join(lang);
         let prefix = if lang_root.is_dir() {
-            format!("{}/", lang_root.to_string_lossy().replace('\\', "/"))
+            format!("{}/", crate::util::to_posix(&lang_root))
         } else {
             format!("{root}/")
         };
@@ -565,30 +565,9 @@ fn staged_asset_rel(asset: &str, lang: &str) -> PathBuf {
 fn included_targets(skip: &[String]) -> HashSet<PathBuf> {
     let mut sources = Vec::new();
     for root in crate::config::roots(Path::new(".")) {
-        collect_markdown(Path::new(&root), skip, &mut sources);
+        crate::util::collect_markdown(Path::new(&root), skip, &mut sources);
     }
     crate::markdown::included_target_set(&sources)
-}
-
-fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
-    let entries = match std::fs::read_dir(dir) {
-        Ok(entries) => entries,
-        Err(_) => return,
-    };
-    let mut paths: Vec<_> = entries.flatten().map(|e| e.path()).collect();
-    paths.sort();
-    for path in paths {
-        let name = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-        if path.is_dir() {
-            if !path.symlink_metadata().is_ok_and(|m| m.is_symlink())
-                && !skip.iter().any(|s| s == name)
-            {
-                collect_markdown(&path, skip, files);
-            }
-        } else if name.ends_with(".md") && !name.ends_with(".tpl.md") {
-            files.push(path);
-        }
-    }
 }
 
 /// The PDF staging plan for a body (REQ-04-01-03-09): whether to drop the
@@ -744,7 +723,7 @@ fn derive_title(path: &Path) -> Option<String> {
 fn collect_document_members(path: &Path, skip: &[String]) -> Vec<PathBuf> {
     let mut members = Vec::new();
     if path.is_dir() {
-        collect_markdown(path, skip, &mut members);
+        crate::util::collect_markdown(path, skip, &mut members);
     } else if path.is_file() {
         members.push(path.to_path_buf());
     }
@@ -813,11 +792,7 @@ fn stage_members(
             }
         };
         let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
-        let rel_posix = file
-            .strip_prefix(lang_root)
-            .unwrap_or(file)
-            .to_string_lossy()
-            .replace('\\', "/");
+        let rel_posix = crate::util::to_posix(file.strip_prefix(lang_root).unwrap_or(file));
         if publish.exclude.iter().any(|e| {
             let prefix = e.trim_end_matches('/');
             rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
@@ -1126,5 +1101,69 @@ mod tests {
             staged.lines().any(|l| l == "## Context"),
             "its sections become subsections: {staged}"
         );
+    }
+
+    /// Characterization pin for the markdown walker's traversal contract
+    /// (slice 3): per-level sort order, depth-first recursion, `skip-dirs`
+    /// pruning, the `.md` / not-`.tpl.md` filter, and non-markdown exclusion.
+    /// Pins `collect_markdown` before it moves into `crate::util`, so the
+    /// extraction proves byte-identical.
+    // arqix:no-requirement
+    #[test]
+    fn collect_markdown_pins_traversal_order_and_filters() {
+        let root = fresh_dir("walk-order");
+        std::fs::create_dir_all(root.join("sub")).unwrap();
+        std::fs::create_dir_all(root.join("node_modules")).unwrap();
+        for rel in [
+            "z.md",
+            "a.md",
+            "b.tpl.md",
+            "c.txt",
+            "sub/m.md",
+            "sub/n.tpl.md",
+            "node_modules/skipped.md",
+        ] {
+            std::fs::write(root.join(rel), "x").unwrap();
+        }
+        let mut files = Vec::new();
+        crate::util::collect_markdown(&root, &["node_modules".to_string()], &mut files);
+        let got: Vec<String> = files
+            .iter()
+            .map(|p| {
+                p.strip_prefix(&root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/")
+            })
+            .collect();
+        // Sorted per level, depth-first: `sub` sorts before `z.md`, so its
+        // member is emitted before it; `.tpl.md`, `.txt`, and the skip-dir
+        // are all excluded.
+        assert_eq!(got, vec!["a.md", "sub/m.md", "z.md"]);
+    }
+
+    /// Directory symlinks are never followed (cycle-safety and rglob parity).
+    // arqix:no-requirement
+    #[test]
+    #[cfg(unix)]
+    fn collect_markdown_never_follows_directory_symlinks() {
+        let root = fresh_dir("walk-symlink");
+        std::fs::create_dir_all(root.join("real")).unwrap();
+        std::fs::write(root.join("real/inside.md"), "x").unwrap();
+        std::os::unix::fs::symlink(root.join("real"), root.join("link")).unwrap();
+        let mut files = Vec::new();
+        crate::util::collect_markdown(&root, &[], &mut files);
+        let got: Vec<String> = files
+            .iter()
+            .map(|p| {
+                p.strip_prefix(&root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/")
+            })
+            .collect();
+        // `real/inside.md` is reached once via the real directory; the `link`
+        // symlink to the same directory is skipped, not traversed.
+        assert_eq!(got, vec!["real/inside.md"]);
     }
 }

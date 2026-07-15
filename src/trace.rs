@@ -103,7 +103,7 @@ fn walk(dir: &Path, out: &mut Vec<(String, String)>) {
         }
         if let Ok(text) = std::fs::read_to_string(&path) {
             let rel = path.strip_prefix("./").unwrap_or(&path);
-            out.push((rel.to_string_lossy().replace('\\', "/"), text));
+            out.push((crate::util::to_posix(rel), text));
         }
     }
 }

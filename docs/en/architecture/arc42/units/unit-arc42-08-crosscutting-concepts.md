@@ -30,6 +30,9 @@ meta:
 Each concept below is a system-wide contract with its own cross-cutting requirement; components implement them via the shared spine (chapter 5).
 
 - **Determinism** — byte-identical outputs for identical inputs and configuration; stable ordering, no ambient state (REQ-00-00-00-01).
+  - **Corpus traversal** — the markdown corpus walk reproduces Python `sorted(dir.rglob('*.md'))` byte for byte: each directory level is sorted, directory symlinks are never followed, and `*.tpl.md` templates are excluded.
+    It is one shared internal helper (`src/util.rs` `collect_markdown`, consumed by the store and the publisher); the trace engine keeps its own oracle-pinned walk, and the checker walks stay under the oracle freeze.
+    `walkdir` is deliberately not adopted (ADR-0014 dependency posture): it would still need the same manual sort, skip-directory, and extension filtering wrapped around it to match the oracle, so it removes almost no code while adding a supply-chain dependency and a silent ordering- or symlink-drift risk.
 - **Diagnostics contract** — every diagnostic is available as documented JSON with severity, stable code, message, and source location (REQ-00-00-00-03, REQ-04-01-10-*); coverage gaps use the same shape, and trace outputs are layered with per-layer stability promises (ADR-0006).
 - **Exit codes** — `0` success, `1` findings or gate failure, `2` usage error; stable across releases (REQ-00-00-00-02, REQ-04-01-08-01).
 - **Effective configuration** — one resolution path from `arqix.toml` through defaults and overrides; `config show` renders exactly what commands act on (REQ-00-00-00-06).

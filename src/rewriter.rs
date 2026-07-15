@@ -66,7 +66,7 @@ const ONT_INDIVIDUAL_KEYS: [&str; 8] = [
 /// built-in defaults by the same directory mapping the frontmatter checker
 /// uses to pick the family.
 fn key_order(file: &str) -> Vec<String> {
-    let posix = file.replace('\\', "/");
+    let posix = crate::util::to_posix_str(file);
     for contract in crate::config::kind_contracts(std::path::Path::new(".")) {
         if posix.starts_with(&format!("{}/", contract.dir))
             && let Some(order) = contract.key_order
