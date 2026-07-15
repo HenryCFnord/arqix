@@ -1,7 +1,7 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 705e1fd, 2026-07-15
-     Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
+     Snapshot: 4c36b6e, 2026-07-15
+     Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
 
@@ -332,6 +332,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | WF-05-01 | Use Documentation for Agents and RAG |
+| `report_snapshot_check_detects_a_missing_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_snapshot_check_detects_a_stale_matrix` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_check_detects_a_staled_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_check_passes_on_fresh_snapshots` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_regenerates_units_deterministically` | WF-04-01 | Run CI Gates and Publish artefacts |
