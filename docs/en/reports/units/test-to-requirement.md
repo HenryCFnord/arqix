@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: afcc456, 2026-07-14
+     Snapshot: 99538e8, 2026-07-15
      Regenerate: python3 scripts/arqix_report.py --snapshot "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -8,15 +8,15 @@
 | test | location | requirement | status |
 | --- | --- | --- | --- |
 | `a_fresh_package_passes_the_verification_loop_directly` | tests/cli_quality.rs:391 | REQ-08-01-01-02 | active |
-| `adrs_follow_the_path_model_in_the_canonical_governance_language` | tests/corpus_guards.rs:119 | REQ-01-01-11-02 | active |
-| `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:78 | REQ-01-01-09-06 | active |
-| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:60 | REQ-01-01-09-02 | active |
-| `agent_instructions_define_story_by_story_scope_rules` | tests/corpus_guards.rs:42 | REQ-01-01-09-01 | active |
-| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:265 | REQ-01-01-15-03 | active |
-| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | tests/corpus_guards.rs:97 | REQ-01-01-11-01 | active |
-| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:232 | REQ-01-01-11-05 | active |
-| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:165 | REQ-01-01-11-04 | active |
-| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:166 | REQ-04-01-18-01 | active |
+| `adrs_follow_the_path_model_in_the_canonical_governance_language` | tests/corpus_guards.rs:122 | REQ-01-01-11-02 | active |
+| `agent_extension_points_carry_no_normative_process_rules` | tests/corpus_guards.rs:81 | REQ-01-01-09-06 | active |
+| `agent_instructions_define_plan_editing_constraints_and_the_verification_loop` | tests/corpus_guards.rs:63 | REQ-01-01-09-02 | active |
+| `agent_instructions_define_story_by_story_scope_rules` | tests/corpus_guards.rs:45 | REQ-01-01-09-01 | active |
+| `agent_instructions_restrict_agents_to_release_preparation` | tests/corpus_guards.rs:268 | REQ-01-01-15-03 | active |
+| `arc42_documentation_is_structured_into_assemblable_units_per_chapter` | tests/corpus_guards.rs:100 | REQ-01-01-11-01 | active |
+| `architecture_documentation_records_the_consistency_check_extension_path` | tests/corpus_guards.rs:235 | REQ-01-01-11-05 | active |
+| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:168 | REQ-01-01-11-04 | active |
+| `architecture_views_are_generated_from_the_c4_model` | tests/corpus_guards.rs:169 | REQ-04-01-18-01 | active |
 | `assemble_applies_the_configured_heading_ownership_default` | tests/cli_assemble.rs:265 | REQ-02-01-12-04 | active |
 | `assemble_build_fails_clearly_on_include_cycles` | tests/cli_assemble.rs:16 | REQ-02-01-11-03 | active |
 | `assemble_build_fails_on_output_collisions_across_roots` | tests/cli_assemble.rs:44 | REQ-02-01-11-01 | active |
@@ -32,7 +32,7 @@
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:348 | REQ-06-01-02-01 | active |
 | `assembly_outcomes_are_reviewable_from_log_and_exit_code` | tests/cli_quality.rs:349 | REQ-08-01-02-01 | active |
 | `bad_fixture_reports_kind_and_iri` | src/checkers/requirements.rs:1046 | REQ-01-01-11-06 | active |
-| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:284 | REQ-01-01-15-04 | active |
+| `breaking_releases_require_migration_notes_and_changelog_entries` | tests/corpus_guards.rs:287 | REQ-01-01-15-04 | active |
 | `canonical_owner_fixture_is_clean_with_multiple_stories` | src/checkers/requirements.rs:1063 | REQ-01-01-11-06 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:728 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:750 | REQ-04-01-17-03 | active |
@@ -129,8 +129,8 @@
 | `missing_frontmatter_reports_id_001` | src/checkers/requirements.rs:1096 | REQ-01-01-11-06 | active |
 | `missing_generated_meta_reports_meta_001` | src/checkers/requirements.rs:1087 | REQ-01-01-11-06 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
-| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1164 | REQ-04-01-03-09 | active |
-| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1109 | REQ-04-01-03-09 | active |
+| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1106 | REQ-04-01-03-09 | active |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1053 | REQ-04-01-03-09 | active |
 | `percent_ties_round_to_even_like_python` | src/reporter.rs:1013 | REQ-04-01-12-04 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
@@ -148,7 +148,7 @@
 | `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:703 | REQ-04-01-17-01 | active |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | tests/cli_publish.rs:13 | REQ-04-01-07-04 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
-| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:247 | REQ-01-01-15-02 | active |
+| `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:250 | REQ-01-01-15-02 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:589 | REQ-04-01-03-07 | active |
 | `render_pdf_accepts_selected_markdown_files` | tests/cli_publish.rs:275 | REQ-04-01-03-04 | active |
 | `render_pdf_drops_included_fragments_from_a_document` | tests/cli_publish.rs:409 | REQ-04-01-03-09 | active |
