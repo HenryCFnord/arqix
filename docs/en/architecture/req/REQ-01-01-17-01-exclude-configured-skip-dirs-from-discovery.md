@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-08
-  updated: 2026-07-10
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -38,4 +38,4 @@ Where `skip-dirs` is configured, arqix SHALL exclude the named directories from 
 ### Notes
 
 Discovery means the document store walk under the configured roots (`doc list/read/search`, lint, fmt, assemble).
-The trace corpus walk is out of scope: its skip set mirrors the Python oracle and stays fixed while the oracle serves as the conformance cross-check.
+The trace corpus walk is out of scope here: its skip set was pinned to the now-retired Python oracle; consolidating it is post-retirement refactor work (arc42 chapter 8).

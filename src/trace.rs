@@ -2,8 +2,8 @@
 //! removed 2026-07-15 after conformance; see git history).
 //! Builds the canonical trace graph from markers and frontmatter triples,
 //! and projects coverage, per-requirement checks, and matrices (ADR-0006
-//! layers, ADR-0007 node identity). The oracle remains the conformance
-//! reference: `arqix trace …` must be JSON-value-equal to it on the corpus.
+//! layers, ADR-0007 node identity). The retired oracle's selftest cases are
+//! mirrored in this module's tests, which own the trace contract.
 
 use crate::OutputFormat;
 use crate::parser::{self, is_requirement_id};
@@ -1361,9 +1361,9 @@ pub fn freshness_command(format: OutputFormat) -> ExitCode {
 // marker or an explicit no-requirement annotation (TRC-002/005), markers
 // resolve to existing requirements (TRC-001/004), ignored tests name a known
 // owning story (TRC-003), and derived-from/has-requirement backlinks stay
-// symmetric (TRC-006). The Python checker remains the conformance oracle for
-// the grace period, so `arqix trace markers --format json` must be
-// JSON-value-equal to the retired `check_trace_markers.py --json` at retirement.
+// symmetric (TRC-006). Ported from the retired `check_trace_markers.py`; it
+// was JSON-value-equal to the oracle at retirement, and the oracle's selftest
+// cases are mirrored below as the owning specification.
 
 const MARKER_REQ_DIR: &str = "docs/en/architecture/req";
 const MARKER_STORY_DIR: &str = "docs/en/architecture/stories";
@@ -2282,6 +2282,9 @@ mod tests {
             .collect();
         assert_eq!(edges.len(), 1, "one implements edge");
         assert_eq!(edges[0].to, "REQ-99-99-99-01");
+        // A markdown marker attaches to no test function (the oracle pinned
+        // `test is None` for md marker edges).
+        assert!(edges[0].test.is_none(), "md markers carry no test name");
     }
 
     // arqix:no-requirement

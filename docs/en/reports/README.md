@@ -7,7 +7,7 @@ Three layers live here:
 | --- | --- | --- |
 | Question units (human) | One generated Markdown file per question — story progress, scoreboard, test traceability, ADR links, code views | [`units/`](units/) |
 | Audit products (machine/audit) | Stable CSV matrices per ADR-0006 layer 3 | [`trace/`](trace/) |
-| Live answers | The commands themselves — always current, never stale | `python3 scripts/arqix trace …` |
+| Live answers | The commands themselves — always current, never stale | `arqix trace …` |
 
 ## Units
 

@@ -1,8 +1,8 @@
 //! Document Parser: the shared reading layer (arc42 chapter 5). Parses a
 //! Markdown document's YAML frontmatter into the semantic model consumed by
 //! the store, the linter, the trace engine, and (via the raw frontmatter
-//! lines) the mechanical rewriter. This is the Rust port of the Python
-//! oracle's `parse_document`; the two must agree on the corpus.
+//! lines) the mechanical rewriter. Ported from the retired Python oracle's
+//! `parse_document` (value-equal on the corpus at retirement).
 
 /// Requirement kind subclasses; their coarse document type is "requirement".
 const REQ_KIND_CLASSES: [&str; 3] = [

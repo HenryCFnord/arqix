@@ -7,5 +7,5 @@ answer is always the command.
 
 | File | Content | Regenerate with |
 | --- | --- | --- |
-| `matrix.csv` | requirement ↔ marker matrix (verified/planned/implements) | `python3 scripts/arqix trace matrix > docs/en/reports/trace/matrix.csv` |
-| `matrix-us-req.csv` | story ↔ requirement matrix from the ontology (`derived-from`, 482 pairs) | `python3 scripts/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv` |
+| `matrix.csv` | requirement ↔ marker matrix (verified/planned/implements) | `arqix trace matrix > docs/en/reports/trace/matrix.csv` |
+| `matrix-us-req.csv` | story ↔ requirement matrix from the ontology (`derived-from`, 482 pairs) | `arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv` |

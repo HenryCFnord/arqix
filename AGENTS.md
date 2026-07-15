@@ -282,13 +282,8 @@ Additional rules:
   Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
 - Do not delete or weaken a skeleton test to get to green; if a contract turns out wrong, change the requirement first and reference the change in the PR.
 
-Conformance runs: the test helpers honour an `ARQIX_BIN` override, so the same skeleton tests double as the conformance suite for the Python oracle (arc42 chapter 8).
-Command families implemented in Python are exercised with
-
-ARQIX_BIN=$PWD/scripts/arqix cargo test --test cli_trace -- --ignored
-
-The tests stay `#[ignore]`d — the default `cargo test` run measures the Rust implementation only.
-A story counts as ported when its suite is green without the override.
+The test helpers honour an `ARQIX_BIN` override; while the Python oracles were active, the same skeleton tests doubled as their conformance suite (arc42 chapter 8).
+The oracles retired on 2026-07-15 after every suite was green without the override, so the default `cargo test` run is the only measurement left; the override remains a generic binary switch for the harness.
 
 ## Refactoring
 

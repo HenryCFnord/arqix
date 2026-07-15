@@ -97,14 +97,21 @@ def verify(fmt, fail_fast):
         # the marker gate, and the strategy-aware report-freshness check.
         steps.append(("arqix-verify", [binary, "verify"], True))
     else:
-        # Without a built binary the corpus checks are not gated at all.
-        # Warn audibly so a local run is not silently ungated; CI builds the
-        # binary first, so this only fires for un-built local checkouts.
+        # Without a built binary the corpus checks cannot run, and a gate
+        # that silently skips them would report a false green (the retired
+        # Python steps used to cover this case). Fail hard instead; CI
+        # builds the binary first, so this only fires for un-built local
+        # checkouts.
         print(
-            "warning: no arqix binary (build with `cargo build` or set ARQIX_BIN); "
-            "the corpus checks are skipped this run",
+            "error: no arqix binary (build with `cargo build` or set ARQIX_BIN); "
+            "the corpus checks cannot run, so the gate fails",
             file=sys.stderr,
         )
+        steps.append(
+            ("arqix-verify",
+             [sys.executable, "-c",
+              "import sys; print('no arqix binary: corpus checks not run'); sys.exit(1)"],
+             True))
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
         # policy). Skipped where Node/npx is unavailable, like cargo-test.

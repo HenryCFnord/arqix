@@ -26,7 +26,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -43,7 +43,7 @@ Turn a releasable tree into an immutable, validated release — changelog, tag, 
 
 ### Steps
 
-1. Verify the tree is releasable: the full gate, the conformance cross-check, and fresh report snapshots.
+1. Verify the tree is releasable: the full gate and fresh report snapshots.
 2. Confirm the release documents agree: the changelog's top section matches the crate version (machine-checked by the test suite).
 3. Stamp the release: replace the unreleased marker with the ISO date (agent work, lands via review).
 4. Tag the release on the default branch and push the tag; the release pipeline re-validates the exact tagged state.
