@@ -332,7 +332,7 @@ fn expand(
             // is the tool that flags it.
         }
 
-        if let Some(level) = heading_level(line) {
+        if let Some(level) = crate::markdown::heading_level(line) {
             let effective = level + shift;
             // A shift out of the h1..h6 range is a structural error, never
             // a silent clamp (ASM-005).
@@ -371,26 +371,12 @@ fn expand(
     Ok(out)
 }
 
-/// The ATX heading level of a line (column-zero `#`s followed by a space),
-/// or None for anything else.
-fn heading_level(line: &str) -> Option<i64> {
-    let hashes = line.len() - line.trim_start_matches('#').len();
-    ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
-}
-
-/// The first heading of a fragment, skipping fenced code.
+/// The first heading of a fragment, skipping fenced code. Thin delegate over
+/// the shared `markdown::headings_outside_fences` scan (Phase A slice 2).
 fn first_heading_level(text: &str) -> Option<i64> {
-    let mut in_fence = false;
-    for line in text.lines() {
-        if line.trim_start().starts_with("```") {
-            in_fence = !in_fence;
-            continue;
-        }
-        if !in_fence && let Some(level) = heading_level(line) {
-            return Some(level);
-        }
-    }
-    None
+    crate::markdown::headings_outside_fences(text)
+        .next()
+        .map(|(level, _)| level)
 }
 
 /// Rewrite the inline link targets of one fragment line so they resolve from

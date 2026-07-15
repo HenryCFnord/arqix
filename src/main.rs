@@ -10,6 +10,7 @@ mod checkers;
 mod config;
 mod diag;
 mod linter;
+mod markdown;
 mod mcp;
 mod parser;
 mod policy;

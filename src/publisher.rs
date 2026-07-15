@@ -567,29 +567,7 @@ fn included_targets(skip: &[String]) -> HashSet<PathBuf> {
     for root in crate::config::roots(Path::new(".")) {
         collect_markdown(Path::new(&root), skip, &mut sources);
     }
-    let mut targets = HashSet::new();
-    for file in &sources {
-        let Ok(text) = std::fs::read_to_string(file) else {
-            continue;
-        };
-        let dir = file.parent().unwrap_or_else(|| Path::new("."));
-        let mut in_fence = false;
-        for line in text.lines() {
-            if line.trim_start().starts_with("```") {
-                in_fence = !in_fence;
-                continue;
-            }
-            if in_fence {
-                continue;
-            }
-            if let Some((target, _)) = crate::linter::include_directive(line)
-                && let Ok(canon) = std::fs::canonicalize(dir.join(&target))
-            {
-                targets.insert(canon);
-            }
-        }
-    }
-    targets
+    crate::markdown::included_target_set(&sources)
 }
 
 fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
@@ -613,13 +591,6 @@ fn collect_markdown(dir: &Path, skip: &[String], files: &mut Vec<PathBuf>) {
     }
 }
 
-/// The ATX heading level of a column-zero `#`-run followed by a space, or
-/// None — the same rule the assembler re-levels against.
-fn heading_level(line: &str) -> Option<i64> {
-    let hashes = line.len() - line.trim_start_matches('#').len();
-    ((1..=6).contains(&hashes) && line[hashes..].starts_with(' ')).then_some(hashes as i64)
-}
-
 /// The PDF staging plan for a body (REQ-04-01-03-09): whether to drop the
 /// leading heading and the shift that lifts the first *kept* heading to H1
 /// (`1 − level`). Fence-aware; inspects only the first two headings.
@@ -635,26 +606,15 @@ fn pdf_staging_plan(
     title: Option<&str>,
     keep_leading_title: bool,
 ) -> (bool, Option<i64>) {
-    let mut headings: Vec<(i64, String)> = Vec::new();
-    let mut in_fence = false;
-    for line in body.lines() {
-        if line.trim_start().starts_with("```") {
-            in_fence = !in_fence;
-            continue;
-        }
-        if in_fence {
-            continue;
-        }
-        if let Some(level) = heading_level(line) {
-            headings.push((level, line.trim_start_matches('#').trim().to_string()));
-            if headings.len() == 2 {
-                break;
-            }
-        }
-    }
+    // Only the first two headings decide the plan; the shared scan is
+    // fence-aware, and `doc.body` outlives this call, so the text can stay
+    // borrowed.
+    let headings: Vec<(i64, &str)> = crate::markdown::headings_outside_fences(body)
+        .take(2)
+        .collect();
     let leading_is_title = matches!(
         (headings.first(), title),
-        (Some((_, text)), Some(title)) if text == title
+        (Some((_, text)), Some(title)) if *text == title
     );
     let drop_leading = leading_is_title && !keep_leading_title;
     let anchor = if drop_leading {
@@ -794,28 +754,7 @@ fn collect_document_members(path: &Path, skip: &[String]) -> Vec<PathBuf> {
 /// Drop every member that another member includes: the assembler inlines it
 /// into its includer, so it must not also render as a standalone input.
 fn drop_included_fragments(members: &mut Vec<PathBuf>) {
-    let mut targets: std::collections::HashSet<PathBuf> = std::collections::HashSet::new();
-    for member in members.iter() {
-        let Ok(text) = std::fs::read_to_string(member) else {
-            continue;
-        };
-        let dir = member.parent().unwrap_or_else(|| Path::new("."));
-        let mut in_fence = false;
-        for line in text.lines() {
-            if line.trim_start().starts_with("```") {
-                in_fence = !in_fence;
-                continue;
-            }
-            if in_fence {
-                continue;
-            }
-            if let Some((target, _)) = crate::linter::include_directive(line)
-                && let Ok(canon) = dir.join(&target).canonicalize()
-            {
-                targets.insert(canon);
-            }
-        }
-    }
+    let targets = crate::markdown::included_target_set(members);
     members.retain(|m| match m.canonicalize() {
         Ok(canon) => !targets.contains(&canon),
         Err(_) => true,
@@ -1019,7 +958,7 @@ fn write_staged(
         {
             continue;
         }
-        if !in_fence && let Some(level) = heading_level(line) {
+        if !in_fence && let Some(level) = crate::markdown::heading_level(line) {
             if mode == StagingMode::Site {
                 if !leading_heading_seen {
                     leading_heading_seen = true;
