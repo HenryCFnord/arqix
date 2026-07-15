@@ -1066,6 +1066,13 @@ fn write_staged(
 
 #[cfg(test)]
 mod tests {
+    fn fresh_dir(name: &str) -> std::path::PathBuf {
+        let dir = std::env::temp_dir().join(format!("arqix-pub-{}-{name}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
     // arqix:no-requirement
     #[test]
     fn staged_titles_survive_yaml_special_characters() {
@@ -1077,8 +1084,7 @@ mod tests {
             "docs/wf.md",
             "---\nid: WF-X\ntitle: \"Automation Agent: Story-by-story\"\n---\n\nBody.\n",
         );
-        let dir = std::env::temp_dir().join("arqix-staged-title-test");
-        std::fs::create_dir_all(&dir).unwrap();
+        let dir = fresh_dir("title");
         let path = dir.join("wf.md");
         super::write_staged(&path, &doc, super::StagingMode::Site, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
@@ -1095,8 +1101,7 @@ mod tests {
             "docs/x.md",
             "---\nid: X-01\ntitle: A Title\niri: arqix:x/x-01\n---\n\n## A Title\n\nBody.\n<!-- arqix:references-artefact arqix:x/y -->\n",
         );
-        let dir = std::env::temp_dir().join("arqix-staged-frontmatter-test");
-        std::fs::create_dir_all(&dir).unwrap();
+        let dir = fresh_dir("frontmatter");
         let path = dir.join("x.md");
         super::write_staged(&path, &doc, super::StagingMode::Site, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
@@ -1118,8 +1123,7 @@ mod tests {
             "docs/x.md",
             "---\nid: X-01\ntitle: Context Model\niri: arqix:x/x-01\n---\n\n## Context Model\n\n### Overview\n\nBody.\n",
         );
-        let dir = std::env::temp_dir().join("arqix-pdf-staging-test");
-        std::fs::create_dir_all(&dir).unwrap();
+        let dir = fresh_dir("pdf-drop");
         let path = dir.join("x.md");
         super::write_staged(&path, &doc, super::StagingMode::Pdf, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
@@ -1146,8 +1150,7 @@ mod tests {
             "docs/x.md",
             "---\nid: X-01\ntitle: Some Title\niri: arqix:x/x-01\n---\n\n## A Section\n\n### Deeper\n\nBody.\n",
         );
-        let dir = std::env::temp_dir().join("arqix-pdf-staging-keep-test");
-        std::fs::create_dir_all(&dir).unwrap();
+        let dir = fresh_dir("pdf-keep");
         let path = dir.join("x.md");
         super::write_staged(&path, &doc, super::StagingMode::Pdf, false).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
@@ -1172,8 +1175,7 @@ mod tests {
             "docs/adr/ADR-0001-x.md",
             "---\nid: ADR-0001\ntitle: My Decision\niri: arqix:adrs/adr-0001\n---\n\n## My Decision\n\n### Context\n\nBody.\n",
         );
-        let dir = std::env::temp_dir().join("arqix-pdf-collection-test");
-        std::fs::create_dir_all(&dir).unwrap();
+        let dir = fresh_dir("pdf-collection");
         let path = dir.join("adr.md");
         super::write_staged(&path, &doc, super::StagingMode::Pdf, true).unwrap();
         let staged = std::fs::read_to_string(&path).unwrap();
