@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4c36b6e, 2026-07-15
+     Snapshot: 036d0ec, 2026-07-15
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -51,8 +51,8 @@
 | `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:470 | REQ-01-01-18-01 |
 | `included_targets` | src/publisher.rs:560 | REQ-04-01-07-03 |
-| `init` | src/templates.rs:361 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:362 | REQ-01-01-01-02 |
+| `init` | src/templates.rs:368 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:369 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:435 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:436 | REQ-01-01-19-02 |
@@ -135,7 +135,7 @@
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/templates.rs:274 | REQ-01-01-18-01 |
-| — | src/templates.rs:391 | REQ-01-01-20-02 |
-| — | src/templates.rs:424 | REQ-01-01-21-01 |
-| — | src/templates.rs:425 | REQ-01-01-21-02 |
+| — | src/templates.rs:398 | REQ-01-01-20-02 |
+| — | src/templates.rs:431 | REQ-01-01-21-01 |
+| — | src/templates.rs:432 | REQ-01-01-21-02 |
 | — | src/trace.rs:1034 | REQ-04-01-16-01 |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4c36b6e, 2026-07-15
+     Snapshot: 036d0ec, 2026-07-15
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -30,6 +30,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-19 | Configure Frontmatter Contracts | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-20 | Create Documents from Template Files | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-21 | Scaffold Agent Instructions on Init | 2 | 0 | 0 | `██████████` 100% |
+| US-01-01-22 | Create Documents in the Kinds Declared Directory | 1 | 0 | 0 | `██████████` 100% |
 | US-02-01-03 | Format Documents During Implementation | 5 | 0 | 0 | `██████████` 100% |
 | US-02-01-06 | Find and Read Documentation During Implementation | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-02-01-09 | Use Include Directives During Implementation | 5 | 0 | 1 | `████████░░` 83% |

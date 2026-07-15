@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4c36b6e, 2026-07-15
+     Snapshot: 036d0ec, 2026-07-15
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -262,6 +262,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_generates_ids_from_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
+| `doc_new_honours_the_kinds_declared_directory` | US-01-01-22 | Create Documents in the Kinds Declared Directory |
 | `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |

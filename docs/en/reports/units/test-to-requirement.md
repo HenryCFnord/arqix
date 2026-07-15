@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4c36b6e, 2026-07-15
+     Snapshot: 036d0ec, 2026-07-15
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -68,6 +68,7 @@
 | `doc_new_fails_clearly_on_a_missing_template_file` | tests/cli_doc.rs:477 | REQ-01-01-20-03 | active |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | tests/cli_doc.rs:148 | REQ-01-01-13-01 | active |
 | `doc_new_generates_ids_from_the_configured_pattern` | tests/cli_doc.rs:498 | REQ-01-01-18-01 | active |
+| `doc_new_honours_the_kinds_declared_directory` | tests/cli_doc.rs:594 | REQ-01-01-22-01 | active |
 | `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:415 | REQ-01-01-20-01 | active |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:99 | REQ-00-00-00-13 | active |
 | `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:228 | REQ-00-00-00-05 | active |

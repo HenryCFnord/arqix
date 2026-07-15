@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 4c36b6e, 2026-07-15
+     Snapshot: 036d0ec, 2026-07-15
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -139,6 +139,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_generates_ids_from_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_honours_the_kinds_declared_directory` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
