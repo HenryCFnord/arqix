@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -34,7 +34,8 @@ Known at specification time:
 
 - Python/Rust checker drift: the oracle policy is decided (chapter 8 — scripts stay the oracle until the Rust port passes conformance, then cross-check, then removal).
   The **trace** family has now passed conformance (the `cli_trace` suite is green with the Rust binary and its output is value-equal to the oracle on the real corpus), so the trace oracle is in its cross-check phase.
-  Remaining debt: `check_requirements.py`/`check_frontmatter.py` are still the active oracle; their Rust ports and conformance suites are Phase 5 work.
+  The **frontmatter** and **requirements** families have now followed: their Rust ports (`arqix lint frontmatter` / `arqix lint requirements`) are conformant with `check_frontmatter.py` / `check_requirements.py` — JSON value-equal on the real corpus via `scripts/check_conformance.py` — so those two oracles are in their cross-check phase too, and the Rust `arqix verify` step is the authoritative corpus gate.
+  Remaining debt: the three demoted Python oracles (`arqix_trace.py`, `check_frontmatter.py`, `check_requirements.py`) are still carried as CI cross-checks through the grace period; retiring them (removing the scripts once the grace period closes) is the final self-hosting step.
 - Performance budgets are unvalidated guesses until a real 1000-document corpus exists; decide when the corpus reaches ~500 documents or the first performance measurement exists.
 - Mermaid views are hand-derived from `workspace.dsl` (ADR-0002).
   The first CI PR landed the gate without the structurizr-cli export: switching the views from hand-derived to generated is a diagram-pipeline change of its own, and joins CI as a separate slice.

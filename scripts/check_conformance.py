@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Trace-oracle conformance cross-check (arc42 chapter 8, oracle policy).
+"""Oracle conformance cross-check (arc42 chapter 8, oracle policy).
 
-The Rust trace engine owns the `trace` contract; the Python oracle
-(scripts/arqix_trace.py) is retained as a cross-check for a grace period.
-This script asserts the two implementations still agree on the real corpus:
+The Rust engine owns the trace, frontmatter, and requirements contracts;
+the Python oracles (scripts/arqix_trace.py, check_frontmatter.py,
+check_requirements.py) are retained as cross-checks for a grace period.
+This script asserts the implementations still agree on the real corpus:
 
     scan       JSON value-equal
     coverage   JSON value-equal

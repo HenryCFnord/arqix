@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-06
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -47,4 +47,5 @@ Each concept below is a system-wide contract with its own cross-cutting requirem
     The Rust trace engine (`src/trace.rs`) is ported and conformant: the `cli_trace` suite passes 7/7 with the Rust binary, and `trace scan`/`coverage` are JSON-value-equal — while `trace matrix` is byte-identical CSV — to the oracle on the real corpus.
     Per the policy above, the trace oracle therefore enters its **cross-check** phase: `scripts/arqix_trace.py` is retained only as a CI cross-check against the Rust output for a grace period, after which it is retired and the Rust implementation owns the `trace` contract.
     The Rust binary also now runs the whole `verify` loop over this repository (`arqix verify`: format, lint, trace-scan, coverage), so the toolchain verifies its own corpus.
-    `check_requirements.py`/`check_frontmatter.py` remain the active oracle — their Rust ports are Phase 5 work.
+    The frontmatter and requirements checkers have now joined it: their Rust ports (`arqix lint frontmatter` / `arqix lint requirements`) are conformant with `check_frontmatter.py` / `check_requirements.py` — JSON value-equal on the real corpus, asserted by `scripts/check_conformance.py` — so those two Python oracles likewise enter their **cross-check** phase, retained only as a CI cross-check for a grace period, after which they are retired and the Rust engine owns the frontmatter/requirements contract.
+    The dogfooded `arqix verify` step is now the authoritative corpus gate for both families (its configured `[policies.verify]` runs `lint frontmatter` and `lint requirements`); the Python checkers no longer gate the corpus directly, exactly as the trace oracle no longer does.

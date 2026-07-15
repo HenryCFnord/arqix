@@ -130,8 +130,13 @@ def verify(fmt, fail_fast):
          [python, str(SCRIPT_DIR / "arqix_trace.py"), "--selftest"], True),
         ("selftest-report",
          [python, str(SCRIPT_DIR / "arqix_report.py"), "--selftest"], True),
-        ("frontmatter", [python, str(SCRIPT_DIR / "check_frontmatter.py")], True),
-        ("requirements", [python, str(SCRIPT_DIR / "check_requirements.py")], True),
+        # The frontmatter and requirements checkers are ported and conformant
+        # (scripts/check_conformance.py), so their Python oracles are demoted
+        # to that cross-check and no longer gate the corpus here — exactly as
+        # the trace oracle has no gating step (arc42 ch8 oracle policy). The
+        # Rust ports gate instead, via the dogfooded `arqix verify` step below.
+        # Their selftests stay: they prove the oracles the cross-check compares
+        # against, mirroring selftest-trace-oracle.
         ("trace-markers", [python, str(SCRIPT_DIR / "check_trace_markers.py")], True),
     ]
     if snapshot_strategy() != "on-demand":
@@ -144,11 +149,13 @@ def verify(fmt, fail_fast):
     if binary := arqix_binary():
         # Dogfooding (roadmap phase 5, owner decision 2026-07-11): the
         # product's own orchestrator gates the corpus checks — format,
-        # lint, trace-scan, and the coverage ratchet, with coverage
-        # informational per the configured [policies.verify]. The Python
-        # steps above stay because they check what the product does not
-        # own yet: the checkers themselves, the requirement semantics,
-        # the marker gate, and the report snapshots.
+        # lint (including the frontmatter and requirements checkers, now
+        # product-owned), trace-scan, and the coverage ratchet, with
+        # coverage informational per the configured [policies.verify]. The
+        # Python steps above stay only for what the product does not own as
+        # a gate yet: the marker gate and the report snapshots, plus the
+        # selftests that prove the oracles the conformance cross-check still
+        # compares against.
         steps.append(("arqix-verify", [binary, "verify"], True))
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
