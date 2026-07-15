@@ -570,3 +570,78 @@ pub fn show(format: OutputFormat) -> ExitCode {
     }
     ExitCode::SUCCESS
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // arqix:no-requirement
+    #[test]
+    fn json_string_array_collects_string_elements() {
+        let value = serde_json::json!(["alpha", "beta"]);
+        assert_eq!(
+            json_string_array(Some(&value)),
+            Some(vec!["alpha".to_string(), "beta".to_string()])
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn json_string_array_rejects_missing_non_array_and_non_string() {
+        assert_eq!(json_string_array(None), None);
+        assert_eq!(json_string_array(Some(&serde_json::json!("scalar"))), None);
+        assert_eq!(json_string_array(Some(&serde_json::json!(["ok", 1]))), None);
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn string_array_collects_string_elements() {
+        let value = toml::Value::from(vec!["alpha", "beta"]);
+        assert_eq!(
+            string_array(&value),
+            Ok(vec!["alpha".to_string(), "beta".to_string()])
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn string_array_reports_offending_type_str() {
+        assert_eq!(
+            string_array(&toml::Value::from(42_i64)),
+            Err("integer".to_string())
+        );
+        let mixed = toml::Value::Array(vec![toml::Value::from("ok"), toml::Value::from(1_i64)]);
+        assert_eq!(string_array(&mixed), Err("integer".to_string()));
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn toml_to_json_maps_scalars_and_arrays() {
+        assert_eq!(
+            toml_to_json(&toml::Value::from("hi")),
+            serde_json::json!("hi")
+        );
+        assert_eq!(
+            toml_to_json(&toml::Value::from(7_i64)),
+            serde_json::json!(7)
+        );
+        assert_eq!(
+            toml_to_json(&toml::Value::from(true)),
+            serde_json::json!(true)
+        );
+        assert_eq!(
+            toml_to_json(&toml::Value::from(vec!["a", "b"])),
+            serde_json::json!(["a", "b"])
+        );
+    }
+
+    // arqix:no-requirement
+    #[test]
+    fn toml_to_json_maps_tables_to_objects() {
+        let value: toml::Value = toml::from_str("name = \"x\"\ncount = 3").expect("valid toml");
+        assert_eq!(
+            toml_to_json(&value),
+            serde_json::json!({"name": "x", "count": 3})
+        );
+    }
+}
