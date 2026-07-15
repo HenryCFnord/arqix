@@ -26,8 +26,14 @@ jobs:
       - name: Build arqix
         run: cargo build
 
-      - name: Full gate
-        run: python3 scripts/arqix verify
+      - name: Cargo tests
+        run: cargo test --quiet
+
+      - name: Dogfooded arqix verify (the corpus gate)
+        run: ./target/debug/arqix verify
+
+      - name: Markdown lint
+        run: npx --yes markdownlint-cli2@0.23.0
 
       - name: Release-document consistency
         run: cargo test --test cli release_documents_stay_consistent_with_the_crate_version

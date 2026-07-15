@@ -64,7 +64,7 @@ The standard planning package lives under:
 
 Reviewed `PLANS.md` artefacts are the preferred basis for later implementation work by a coding agent.
 
-During implementation, agents record progress in `STATUS.md` and do not rewrite the reviewed `PLANS.md`; the verification loop `python3 scripts/arqix verify` must pass before every commit.
+During implementation, agents record progress in `STATUS.md` and do not rewrite the reviewed `PLANS.md`; the verification loop `just verify` (cargo test, the dogfooded `arqix verify`, markdownlint) must pass before every commit.
 
 The initial planning branch and draft planning artefacts may be created during intake before implementation starts.
 
@@ -282,8 +282,7 @@ Additional rules:
   Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
 - Do not delete or weaken a skeleton test to get to green; if a contract turns out wrong, change the requirement first and reference the change in the PR.
 
-The test helpers honour an `ARQIX_BIN` override; while the Python oracles were active, the same skeleton tests doubled as their conformance suite (arc42 chapter 8).
-The oracles retired on 2026-07-15 after every suite was green without the override, so the default `cargo test` run is the only measurement left; the override remains a generic binary switch for the harness.
+The test helpers honour an `ARQIX_BIN` override — a generic binary switch for the harness; the default `cargo test` run measures the checked-out implementation.
 
 ## Refactoring
 
@@ -296,8 +295,7 @@ Reviewers check the commit order.
 A refactor that implements a requirement is spec-first: the REQ or ADR precedes the test, then the red commit, then the green commit, exactly as for feature work.
 A refactor that changes no behaviour carries `// arqix:no-requirement` markers on its tests instead — never invent a requirement to justify a pure restructuring.
 
-The oracle-fidelity freeze is closed (checker retirement, 2026-07-15): every Python oracle passed its conformance suite, its selftest fixtures are mirrored in the Rust test suite, and the scripts are removed — the Rust engine owns the checker, trace, marker-gate, and report contracts.
-Consolidation inside `src/checkers/`, `src/parser.rs`, and `src/trace.rs` follows the normal rules of this section: characterization-first against the mirrored fixture tests, never behind them.
+Consolidation inside the contract-owning modules (`src/checkers/`, `src/parser.rs`, `src/trace.rs`) follows the same characterization-first rules as everywhere else: the reference-fixture tests mirrored in their test modules are the behavioural pin — extend the pin before touching an unpinned seam, and never weaken it to make a consolidation fit.
 
 Shared non-oracle helpers live in neutral `pub(crate)` modules (`src/markdown.rs`, `src/util.rs`, `src/date.rs`), never in `parser.rs` or `checkers/`.
 

@@ -73,7 +73,7 @@ fn agent_instructions_define_plan_editing_constraints_and_the_verification_loop(
         "AGENTS.md must say where agents record implementation progress"
     );
     assert!(
-        agents.contains("scripts/arqix verify"),
+        agents.contains("just verify"),
         "AGENTS.md must name the required arqix verification loop"
     );
 }

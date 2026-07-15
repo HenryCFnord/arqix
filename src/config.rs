@@ -197,8 +197,8 @@ pub fn verify_policy(dir: &Path) -> VerifyPolicy {
 /// The configured report snapshot strategy (`[policies.reports]
 /// snapshot-strategy`, config-audit row C17): `committed` (the default),
 /// `main-only`, or `on-demand`. Resolving `main-only` against the current
-/// branch is the orchestrator's concern (`src/verifier.rs`), mirroring the
-/// reference sequencer (`scripts/arqix`, step 9).
+/// branch is the orchestrator's concern (`src/verifier.rs`,
+/// REQ-04-01-14-05).
 pub fn snapshot_strategy(dir: &Path) -> String {
     let (config, _) = resolve(dir);
     config

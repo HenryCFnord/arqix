@@ -73,5 +73,5 @@ Provide CI gates for quality, and publish bilingual site outputs (Zensical-first
 
 ### Automation
 
-- CI: `.github/workflows/ci.yml` runs the daily gate (`scripts/arqix verify`) and the Rust lints on every PR and push to main (the oracle conformance cross-check retired with the Python oracles, 2026-07-15)
+- CI: `.github/workflows/ci.yml` runs the build, cargo tests, the dogfooded `arqix verify` (the corpus gate), markdownlint, and the Rust lints on every PR and push to main
 - just: `just ci` mirrors the pipeline locally

@@ -24,7 +24,7 @@ This is a mapping only; it introduces no new rules.
   - When working on `docs/en/architecture/stories/` or `docs/en/architecture/req/`, run `target/debug/arqix lint requirements`.
   - When touching any document under `docs/en/architecture/` or `docs/ontology/`, run `target/debug/arqix lint frontmatter`.
   - When touching Rust code under `src/` or `tests/`, run `target/debug/arqix trace markers` and `cargo test`.
-  - Daily gate for any change: `python3 scripts/arqix verify` runs `cargo test`, the dogfooded `arqix verify` (format, lint including the frontmatter/requirements checkers, trace scan, informational coverage, ratchet, the marker gate, report freshness), and markdownlint in one command.
+  - Daily gate for any change: `just verify` runs `cargo test`, the dogfooded `arqix verify` (format, lint including the frontmatter/requirements checkers, trace scan, informational coverage, ratchet, the marker gate, report freshness), and markdownlint in one command.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are documented in `docs/en/processes/requirements-style-guide.md`.
   - Markdown authoring rules (markdownlint via `.markdownlint.jsonc`, one sentence per line, markers above their block) are documented in `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2` on touched Markdown.
   - Refactoring follows the four-phase loop (assess, strengthen tests, refactor, tidy) documented in `docs/en/processes/refactoring-methodology.md`; the normative rules live in AGENTS.md `## Refactoring`.

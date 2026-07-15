@@ -1,9 +1,7 @@
-# The repository gate (roadmap phase 5): the same checks the daily gate and
-# `just ci` run locally. Coverage stays informational inside `arqix verify`
-# while the corpus is under construction. The Python oracles retired on
-# 2026-07-15 (arc42 chapter 8 oracle policy): the Rust binary owns every
-# corpus check, so the gate is cargo test + the dogfooded `arqix verify`
-# + markdownlint.
+# The repository gate: the same checks `just ci` runs locally — cargo test,
+# the dogfooded `arqix verify` (the corpus checks), markdownlint, and the
+# Rust lints. Coverage stays informational inside `arqix verify` while the
+# corpus is under construction.
 name: ci
 
 on:
@@ -74,8 +72,14 @@ jobs:
             gh workflow run pages.yml --ref main
           fi
 
-      - name: Daily gate (cargo test, dogfooded arqix verify, markdownlint)
-        run: python3 scripts/arqix verify
+      - name: Cargo tests
+        run: cargo test --quiet
+
+      - name: Dogfooded arqix verify (the corpus gate)
+        run: ./target/debug/arqix verify
+
+      - name: Markdown lint
+        run: npx --yes markdownlint-cli2@0.23.0
 
       - name: Rust lints
         run: |

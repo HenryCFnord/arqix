@@ -1,14 +1,17 @@
-# arqix task runner — thin wrappers over the real gate and cargo.
-# The process truth lives in scripts/arqix verify and .github/workflows/ci.yml;
-# these recipes only save typing. Bare `just` lists them.
+# arqix task runner — thin wrappers over the gate and cargo.
+# The process truth lives in .github/workflows/ci.yml; these recipes only
+# save typing. Bare `just` lists them.
 
 # Show the available recipes (default)
 list:
     @just --list
 
-# The daily gate: cargo test, dogfooded arqix verify (the corpus checks), markdownlint
+# The daily gate: cargo test, the dogfooded arqix verify (the corpus checks), markdownlint
 verify:
-    python3 scripts/arqix verify
+    cargo build
+    cargo test --quiet
+    ./target/debug/arqix verify
+    npx --yes markdownlint-cli2@0.23.0
 
 # Rust test suite
 test:
@@ -20,7 +23,7 @@ lint:
     cargo fmt --check
 
 # Markdown hygiene over the corpus (rules: .markdownlint.jsonc).
-# Pinned to the same version as the gate (scripts/arqix verify).
+# Pinned to the same version as the gate (just verify).
 lint-md:
     npx --yes markdownlint-cli2@0.23.0
 

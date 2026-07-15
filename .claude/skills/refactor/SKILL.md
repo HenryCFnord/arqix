@@ -18,11 +18,10 @@ Decide which shape the change is before writing any code, because the two shapes
 
 If a passing characterization test cannot pin the current behaviour before you start, the change is not ready: either the seam needs a test that does not yet exist, or the change is actually behaviour-visible and belongs on the spec-first path.
 
-## The oracle-fidelity freeze is closed
+## Contract-owning modules
 
-The freeze that once blocked consolidation inside `src/checkers/` and `src/parser.rs` closed with the checker retirement on 2026-07-15 (task #78): every Python oracle passed conformance, its selftest fixtures are mirrored in the Rust test suite, and the scripts were removed — the Rust engine owns the contracts.
-
-The previously frozen modules now refactor under the same characterization-first rules as everything else, with one obligation carried over: the mirrored oracle-fixture tests (`selftest_cases_match_the_oracle` and siblings in `src/checkers/` and `src/trace.rs`) are the behavioural pin — keep them green through any consolidation, and extend them first when the seam you touch is not pinned.
+`src/checkers/`, `src/parser.rs`, and `src/trace.rs` own the checker, parsing, and trace contracts; their reference fixtures are mirrored in their test modules (`selftest_cases_match_the_oracle` and siblings) as the behavioural pin.
+Consolidation there follows the same characterization-first rules as everywhere else: extend the pin before touching an unpinned seam, and keep it green through the change.
 
 ## Where a new shared helper goes
 
@@ -55,10 +54,10 @@ Consolidate the duplicated walks into one internal helper; do not adopt a crate 
 
 When a refactor turns a hardcoded value into configuration, obey the two `ADR-0011` rules: the default configuration reproduces today's value exactly so an unconfigured corpus stays byte-identical, and the value is resolved in exactly one place.
 The substance of a check stays in code — the RFC 2119 and EARS keyword contracts, the lifecycle rung sets and their invariants (`ADR-0010`), and the `arqix:` marker prefix — because exposing them as free configuration would hollow the check.
-A double-bookkept value that is also mirrored in a Python oracle inherits the freeze: land the one-source move in both at once or wait for the oracle retirement.
+A double-bookkept value keeps exactly one source after the move; the mirrored fixture tests pin the resolved behaviour.
 `docs/en/plans/refinement-2026-07-09/CONFIG-AUDIT.md` tracks the outstanding configuration rows.
 
 ## Close out
 
-Run `python3 scripts/arqix verify` before every commit — it runs the checkers, the marker gate, `cargo test`, and the dogfooded `arqix verify` in one command.
+Run `just verify` before every commit — it runs `cargo test`, the dogfooded `arqix verify` (the corpus checks), and markdownlint in one command.
 Keep the refactor in focused commits per `AGENTS.md` `## Commits`, and commit the tests before or together with — never after — the code they pin.
