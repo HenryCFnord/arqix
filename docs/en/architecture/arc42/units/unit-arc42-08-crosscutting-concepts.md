@@ -45,3 +45,8 @@ Each concept below is a system-wide contract with its own cross-cutting requirem
     Per the policy above, the trace oracle therefore enters its **cross-check** phase: `scripts/arqix_trace.py` is retained only as a CI cross-check against the Rust output for a grace period, after which it is retired and the Rust implementation owns the `trace` contract.
     The Rust binary also now runs the whole `verify` loop over this repository (`arqix verify`: format, lint, trace-scan, coverage), so the toolchain verifies its own corpus.
     `check_requirements.py`/`check_frontmatter.py` remain the active oracle — their Rust ports are Phase 5 work.
+- **Line splitting and frontmatter parsing** — three deliberately separate splitter contracts, not one shared splitter (REQ-00-00-00-01, ADR-0004).
+  The parser's semantic split (`parser::py_splitlines`) mirrors Python `str.splitlines` over its full boundary set (form feed, NEL, the Unicode line and paragraph separators), so every `body_offset`, trace, and lint line number is indexed in the oracle's line space.
+  The rewriter's frontmatter split (`rewriter::split_frontmatter`) is byte-lossless instead: it breaks only on `\n`, preserves the exact opening-fence bytes and their terminator, and never depends on the line ending, so `fmt` leaves an already-conforming document byte-identical (ADR-0004).
+  The Rust checkers keep their own oracle-faithful copies of the split under the freeze, so their findings match the Python reference exactly.
+  The assembler's `frontmatter_line_count` stays a fourth local counter over `str::lines()`: folding it into the parser's `body_offset` would mix two line-index spaces and force a re-parse of the fragment, so it is deliberately left as-is.
