@@ -157,6 +157,17 @@ def verify(fmt, fail_fast):
         # selftests that prove the oracles the conformance cross-check still
         # compares against.
         steps.append(("arqix-verify", [binary, "verify"], True))
+    else:
+        # Without a built binary the corpus checks (format, lint incl.
+        # frontmatter/requirements, trace-scan, ratchet) are not gated at
+        # all — the same binary-only condition the trace family already has.
+        # Warn audibly so a local run is not silently ungated; CI builds the
+        # binary first, so this only fires for un-built local checkouts.
+        print(
+            "warning: no arqix binary (build with `cargo build` or set ARQIX_BIN); "
+            "the frontmatter/requirements/trace corpus checks are skipped this run",
+            file=sys.stderr,
+        )
     if shutil.which("npx"):
         # Markdown hygiene per .markdownlint.jsonc (ADR-0009 documentation
         # policy). Skipped where Node/npx is unavailable, like cargo-test.
