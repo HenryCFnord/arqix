@@ -4,7 +4,7 @@
 
 mod common;
 
-use common::{assert_success, fixture, run_arqix_in, scratch_copy, stdout_json};
+use common::{assert_findings, assert_success, fixture, run_arqix_in, scratch_copy, stdout_json};
 
 // arqix:verifies REQ-01-01-01-01
 #[test]
@@ -615,5 +615,97 @@ fn doc_new_honours_the_kinds_declared_directory() {
             .unwrap_or("")
             .starts_with("docs/decisions/"),
         "the declared [kinds.adr] dir is the creation target: {result}"
+    );
+}
+
+// arqix:verifies REQ-01-01-23-01
+#[test]
+fn doc_new_instantiates_the_kinds_declared_template() {
+    // US-01-01-23: the [kinds.<family>].template contract names the template
+    // file directly, instead of relying on the one template directory.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_instantiates_the_kinds_declared_template",
+    );
+    std::fs::create_dir_all(repo.join("tpl")).unwrap();
+    std::fs::write(
+        repo.join("tpl/adr.tpl.md"),
+        "---\nid: {id}\ntitle: {title}\n---\n\n## {title}\n\nCustom body.\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.adr]\ndir = \"docs/decisions\"\ntemplate = \"tpl/adr.tpl.md\"\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["doc", "new", "adr", "--title", "Use Kroki"]);
+    assert_success(&out);
+    let text = std::fs::read_to_string(repo.join("docs/decisions/ADR-0001.md")).unwrap();
+    assert!(
+        text.contains("Custom body."),
+        "the declared template is instantiated: {text}"
+    );
+    assert!(
+        text.contains("id: ADR-0001"),
+        "placeholders substituted: {text}"
+    );
+    assert!(text.contains("## Use Kroki"), "title substituted: {text}");
+}
+
+// arqix:verifies REQ-01-01-23-01
+#[test]
+fn doc_new_treats_a_missing_declared_template_as_a_config_error() {
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_treats_a_missing_declared_template_as_a_config_error",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.adr]\ndir = \"docs/decisions\"\ntemplate = \"tpl/nowhere.tpl.md\"\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["doc", "new", "adr", "--title", "X"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "a declared-but-missing template is a config error: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(
+        !repo.join("docs/decisions/ADR-0001.md").exists(),
+        "nothing is written on a config error"
+    );
+}
+
+// arqix:verifies REQ-01-01-23-02
+#[test]
+fn doc_new_rejects_unknown_template_placeholders() {
+    // A typo in a placeholder must become a finding, not a silent literal
+    // in the created document.
+    let repo = scratch_copy("minimal", "doc_new_rejects_unknown_template_placeholders");
+    std::fs::create_dir_all(repo.join("tpl")).unwrap();
+    std::fs::write(
+        repo.join("tpl/adr.tpl.md"),
+        "---\nid: {id}\ntitle: {titel}\n---\n\n## {id}\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.adr]\ndir = \"docs/decisions\"\ntemplate = \"tpl/adr.tpl.md\"\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "adr", "--title", "X", "--format", "json"],
+    );
+    assert_findings(&out);
+    let report = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        report.contains("TPL-002") && report.contains("titel"),
+        "the finding names the unknown placeholder: {report}"
+    );
+    assert!(
+        !repo.join("docs/decisions/ADR-0001.md").exists(),
+        "nothing is written when the template is invalid"
     );
 }
