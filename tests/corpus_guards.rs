@@ -3,6 +3,9 @@
 //!
 //! Each test reads the real repository files via `CARGO_MANIFEST_DIR`, like
 //! `release_documents_stay_consistent_with_the_crate_version` in `tests/cli.rs`.
+//! It also holds the config-wiring guards for the PDF render defaults
+//! (`docs/pandoc`), asserting the repository's own Pandoc configuration stays
+//! wired together.
 
 use std::path::{Path, PathBuf};
 
@@ -297,5 +300,44 @@ fn breaking_releases_require_migration_notes_and_changelog_entries() {
     assert!(
         releasing.contains("CHANGELOG.md"),
         "RELEASING.md must tie migration notes to changelog entries"
+    );
+}
+
+// arqix:no-requirement
+#[test]
+fn pandoc_defaults_wire_the_checkbox_glyph_header() {
+    let defaults = read("docs/pandoc/defaults.yaml");
+    assert!(
+        defaults.contains("include-in-header:") && defaults.contains("docs/pandoc/header.tex"),
+        "defaults.yaml must wire in the checkbox-glyph header: {defaults}"
+    );
+    let header = read("docs/pandoc/header.tex");
+    assert!(
+        header.contains("IfFontExistsTF"),
+        "header.tex maps the ballot glyphs behind a font-existence guard: {header}"
+    );
+    assert!(
+        header.contains("\\fbox") && header.contains("catcode"),
+        "header.tex keeps a base-LaTeX no-tofu fallback and remaps the ballot code points: {header}"
+    );
+}
+
+// arqix:no-requirement
+#[test]
+fn pandoc_defaults_wire_the_c4_png_filter() {
+    let defaults = read("docs/pandoc/defaults.yaml");
+    assert!(
+        defaults.contains("filters:") && defaults.contains("docs/pandoc/svg-to-png.lua"),
+        "defaults.yaml must wire in the SVG->PNG filter: {defaults}"
+    );
+    let filter = read("docs/pandoc/svg-to-png.lua");
+    assert!(
+        filter.contains("model/generated") && filter.contains("png"),
+        "the filter rewrites the C4 view embeds to their PNG variant"
+    );
+    let render = read("scripts/render_views.sh");
+    assert!(
+        render.contains("structurizr/$fmt") && render.contains("\"svg\" \"png\""),
+        "render_views.sh renders both the svg and png variant: {render}"
     );
 }
