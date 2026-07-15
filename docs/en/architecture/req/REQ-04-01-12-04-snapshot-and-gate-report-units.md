@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-13
-  updated: 2026-07-13
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -38,5 +38,5 @@ When `arqix report snapshot` runs, arqix SHALL regenerate the committed report u
 ### Notes
 
 The question-driven report units are deterministic projections of the trace model (ADR-0008): identical corpus, identical bytes, with the snapshot stamp injected rather than read from the wall clock.
-The Python `scripts/arqix_report.py` remains the conformance oracle for the grace period (arc42 chapter 8, oracle policy); the Rust command must reproduce its output byte-for-byte.
+Ported from the Python `scripts/arqix_report.py`, which retired after passing conformance (arc42 chapter 8, oracle policy); the Rust command owns the contract, with the oracle's selftest projections mirrored in its test module.
 Derived from the acceptance criteria of US-04-01-12 under the canonical-owner model.

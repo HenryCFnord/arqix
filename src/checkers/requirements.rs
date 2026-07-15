@@ -1,5 +1,6 @@
 //! Requirements checker (`arqix lint requirements`): the Rust port of the
-//! reference oracle `scripts/check_requirements.py`. It validates requirement
+//! reference oracle `scripts/check_requirements.py` (retired 2026-07-15 after
+//! conformance; see git history). It validates requirement
 //! documents under `docs/en/architecture/req/` against the user stories and
 //! the authoring rules of `docs/en/processes/requirements-style-guide.md`
 //! (RFC 2119 subset + EARS sentence patterns).

@@ -41,17 +41,15 @@ Those follow the spec-first order:
 The red commit precedes the green commit, and reviewers check that order, exactly as they do for story work.
 Requirement text follows the [requirements style guide](requirements-style-guide.md); an architectural decision follows the ADR conventions under `docs/en/architecture/adr/`.
 
-## The oracle-fidelity freeze
+## The oracle-fidelity freeze (closed)
 
-Two Python checkers — `scripts/check_frontmatter.py` and `scripts/check_requirements.py` — are the active behavioural oracle for the frontmatter and requirements gates.
-The Rust checkers under `src/checkers/` and the oracle-mirrored reading layer in `src/parser.rs` are deliberately faithful ports: each is an independently auditable mirror of its Python counterpart, held to identical findings on identical inputs.
+The freeze protected the checker ports while their Python originals were the active behavioural oracle: consolidation inside `src/checkers/` or into `src/parser.rs` was blocked, even for byte-identical clones, so each port stayed an independently auditable line-for-line mirror of its Python counterpart.
 
-While that oracle is active, consolidation inside `src/checkers/` or into `src/parser.rs` is frozen, even when a clone is byte-identical and the merge looks mechanically trivial.
-The reason is not correctness risk in the merge itself but audit clarity: folding two mirrored checkers together, or routing them through shared machinery, erodes the one-to-one correspondence that makes the freeze auditable and invites silent engine-versus-oracle drift during the grace period.
+It closed with the checker retirement on 2026-07-15 (task #78).
+Every Python oracle — the frontmatter and requirements checkers, the trace engine, the marker gate, and the report units — passed its conformance suite on the real corpus, the oracle selftest fixtures are mirrored in the Rust test suite (`selftest_cases_match_the_oracle` and its siblings), and the scripts were removed; the Rust engine owns those contracts.
 
-The freeze lifts when the Python checkers retire — the self-hosting checker-retirement work tracked as task #78.
-Consolidations that are safe in isolation but touch these modules ride that retirement rather than landing ahead of it, so the freeze audit stays clean.
-Helpers that are genuinely oracle-neutral — internal to `assembler.rs`, `publisher.rs`, `rewriter.rs`, and similar non-mirrored modules — are not covered by the freeze and can be consolidated now.
+Post-retirement, the previously frozen modules refactor under the normal characterization-first rules of this methodology: the mirrored fixture tests are the behavioural pin, and a consolidation that keeps them green is a refactor like any other.
+The retired scripts remain in git history as the provenance record of each port.
 
 ## Where shared helpers live
 

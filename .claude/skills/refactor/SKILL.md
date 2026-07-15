@@ -18,26 +18,16 @@ Decide which shape the change is before writing any code, because the two shapes
 
 If a passing characterization test cannot pin the current behaviour before you start, the change is not ready: either the seam needs a test that does not yet exist, or the change is actually behaviour-visible and belongs on the spec-first path.
 
-## Check the oracle-fidelity freeze before anything else
+## The oracle-fidelity freeze is closed
 
-This is the gating question for every arqix refactor.
-`scripts/check_frontmatter.py` and `scripts/check_requirements.py` are the active behavioural oracle, and the Rust checkers under `src/checkers/` and the reading layer in `src/parser.rs` are deliberately faithful ports held to identical findings on identical inputs.
+The freeze that once blocked consolidation inside `src/checkers/` and `src/parser.rs` closed with the checker retirement on 2026-07-15 (task #78): every Python oracle passed conformance, its selftest fixtures are mirrored in the Rust test suite, and the scripts were removed — the Rust engine owns the contracts.
 
-Before touching a target, answer:
-
-- Does the target live under `src/checkers/` or in `src/parser.rs`?
-  If yes, it is under the freeze — consolidation is blocked even when a clone is byte-identical and the merge looks trivial.
-- Are the Python checkers still the active oracle, or has the checker-retirement work (task #78) landed?
-  While the oracle is active, a freeze-covered consolidation either rides task #78 or lands in both the Rust and Python sources at once from a single origin — never Rust-only.
-- Is the target genuinely oracle-neutral — internal to `assembler.rs`, `publisher.rs`, `rewriter.rs`, or a similar non-mirrored module?
-  Those are not covered by the freeze and can be consolidated now.
-
-When in doubt, treat the target as frozen and defer it rather than risk silent engine-versus-oracle drift during the grace period.
+The previously frozen modules now refactor under the same characterization-first rules as everything else, with one obligation carried over: the mirrored oracle-fixture tests (`selftest_cases_match_the_oracle` and siblings in `src/checkers/` and `src/trace.rs`) are the behavioural pin — keep them green through any consolidation, and extend them first when the seam you touch is not pinned.
 
 ## Where a new shared helper goes
 
 A helper shared across modules lands in a fresh, neutral `pub(crate)` module named for what it does — `src/markdown.rs` for markdown primitives, `src/util.rs` for path and directory-walk helpers, `src/date.rs` for calendar and ISO-date helpers.
-Never host a general-purpose helper in `src/parser.rs` or under `src/checkers/`: those are the oracle-mirrored surface, and putting neutral code there pulls it back under the freeze.
+Never host a general-purpose helper in `src/parser.rs` or under `src/checkers/`: those modules own the checker contracts, and a general-purpose helper belongs in a neutral home, not inside a contract owner.
 
 ## Behaviour-preserving: characterization tests first
 

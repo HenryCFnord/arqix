@@ -32,7 +32,7 @@ Independent of the gate; can start once Phase 0 lands.
 
 ## The gate
 
-- [x] Slice 4 — oracle-retirement-gate (task #78, self-hosting strand). Frontmatter/requirements checkers demoted to CI cross-check (conformant per `check_conformance.py`); the Rust `arqix verify` step is the authoritative corpus gate. Freeze transitions to conformance-guarded (the Python scripts remain as grace-period cross-checks until retired).
+- [x] Slice 4 — oracle-retirement-gate (task #78, self-hosting strand). Executed as the full retirement (owner decision 2026-07-15): all five Python oracle scripts removed after conformance, their selftest fixtures mirrored into the Rust suite first, the Rust `arqix verify` is the authoritative corpus gate, and the freeze is closed. Slices 5-7 unblock.
 
 ## Phase B — Post-gate band (pending)
 

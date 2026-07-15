@@ -255,15 +255,16 @@ fn write_concept(
     Ok(())
 }
 
-// --- Report-unit snapshots (the Rust port of scripts/arqix_report.py) -----
+// --- Report-unit snapshots (ported from the retired scripts/arqix_report.py)
 //
 // Every unit answers exactly one named question from the living catalog in
 // docs/en/reports/QUESTIONS.md (ADR-0008); the presentation follows the
 // question, not the data structure. Units are deterministic projections of
 // the trace model — identical corpus, identical bytes — and the snapshot
 // stamp (commit + date) is injected via `--stamp`, never taken from the wall
-// clock. The Python `arqix_report.py` stays the conformance oracle for the
-// grace period, so `arqix report snapshot` must reproduce it byte-for-byte.
+// clock. Ported from the retired Python oracle `arqix_report.py` (removed
+// 2026-07-15 after conformance; see git history) — the selftest projections
+// are mirrored in this module's snapshot_tests.
 
 const UNITS_DIR: &str = "docs/en/reports/units";
 const TRACE_DIR: &str = "docs/en/reports/trace";
@@ -286,13 +287,13 @@ const UNITS: [(&str, Unit); 8] = [
 
 /// The generated provenance header shared by every unit — do-not-edit notice,
 /// the answered question and its catalog id, the injected snapshot stamp, and
-/// the regeneration recipe (still the oracle command, as provenance).
+/// the regeneration recipe.
 fn header(question: &str, qid: &str, snapshot: &str) -> String {
     format!(
         "<!-- GENERATED SNAPSHOT — do not edit by hand.\n\
          \x20    Question: {qid} (see docs/en/reports/QUESTIONS.md)\n\
          \x20    Snapshot: {snapshot}\n\
-         \x20    Regenerate: python3 scripts/arqix_report.py --snapshot \"<sha>, <date>\" -->\n\
+         \x20    Regenerate: arqix report snapshot --stamp \"<sha>, <date>\" -->\n\
          \n# {question}\n"
     )
 }
@@ -790,8 +791,8 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
 /// `arqix report snapshot [--stamp <text>] [--check] [--out <dir>]` — the
 /// question-driven report units (ADR-0008). `--stamp` (re)generates them from
 /// the trace graph with the injected provenance stamp; `--check` gates the
-/// committed snapshots for freshness. The Python `arqix_report.py` remains the
-/// conformance oracle for the grace period (arc42 chapter 8).
+/// committed snapshots for freshness. The Rust engine owns this contract; the
+/// Python oracle retired after conformance (arc42 chapter 8).
 pub fn snapshot(
     stamp: Option<&str>,
     check: bool,
@@ -810,7 +811,7 @@ pub fn snapshot(
 
 #[cfg(test)]
 mod snapshot_tests {
-    //! The Rust port of `arqix_report.py`'s `--selftest`: the same projections
+    //! The mirror of the retired `arqix_report.py`'s `--selftest`: the same projections
     //! over the same in-memory corpus, asserted line-for-line.
     use super::*;
     use crate::trace::{coverage_report, model_from_corpus, retired_from_corpus};

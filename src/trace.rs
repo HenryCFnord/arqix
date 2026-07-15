@@ -1,4 +1,5 @@
-//! Trace Engine: the Rust port of the Python oracle (scripts/arqix_trace.py).
+//! Trace Engine: ported from the retired Python oracle (scripts/arqix_trace.py,
+//! removed 2026-07-15 after conformance; see git history).
 //! Builds the canonical trace graph from markers and frontmatter triples,
 //! and projects coverage, per-requirement checks, and matrices (ADR-0006
 //! layers, ADR-0007 node identity). The oracle remains the conformance
@@ -1354,7 +1355,7 @@ pub fn freshness_command(format: OutputFormat) -> ExitCode {
     code
 }
 
-// --- Marker gate (the Rust port of scripts/check_trace_markers.py) --------
+// --- Marker gate (ported from the retired scripts/check_trace_markers.py) --
 //
 // The TDD marker gate: every test function carries a `verifies`/`plans`
 // marker or an explicit no-requirement annotation (TRC-002/005), markers
@@ -1362,7 +1363,7 @@ pub fn freshness_command(format: OutputFormat) -> ExitCode {
 // owning story (TRC-003), and derived-from/has-requirement backlinks stay
 // symmetric (TRC-006). The Python checker remains the conformance oracle for
 // the grace period, so `arqix trace markers --format json` must be
-// JSON-value-equal to `check_trace_markers.py --json` on the corpus.
+// JSON-value-equal to the retired `check_trace_markers.py --json` at retirement.
 
 const MARKER_REQ_DIR: &str = "docs/en/architecture/req";
 const MARKER_STORY_DIR: &str = "docs/en/architecture/stories";
@@ -1421,7 +1422,7 @@ fn kind_short(class: &str) -> String {
     .to_string()
 }
 
-/// Map requirement ID -> kind, mirroring `check_trace_markers.py`'s
+/// Map requirement ID -> kind, mirroring the retired `check_trace_markers.py`'s
 /// `known_requirement_kinds`: glob `docs/en/architecture/req/REQ-*.md`, key
 /// by the filename's `REQ-XX-YY-ZZ-NN`, and take the first
 /// `arqix:classes/<kind>` found anywhere in the file (functional by default,
@@ -2111,7 +2112,8 @@ mod tests {
     // arqix:verifies REQ-03-01-06-04
     #[test]
     fn marker_gate_matches_the_oracle_selftest_cases() {
-        // The oracle's SELFTEST_CASES (check_trace_markers.py), ported verbatim.
+        // The retired oracle's SELFTEST_CASES (check_trace_markers.py), ported
+        // verbatim; this mirror is now the owning specification.
         // Each source is a single-line literal (with `\n` escapes) so no
         // physical line of this file is itself a whole-line marker the gate
         // would read out of its own source.

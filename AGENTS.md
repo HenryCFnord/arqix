@@ -276,7 +276,7 @@ Implementing a story follows this order, and the order is normative:
 
 Additional rules:
 
-- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; a test that deliberately verifies no requirement (an implementation-detail or oracle-conformance pin) carries `// arqix:no-requirement` instead — exactly one of the two, on every test function including unit tests under `src/`. `scripts/check_trace_markers.py` validates markers against the requirements corpus and must pass before every commit.
+- Every test that verifies a requirement carries an `// arqix:verifies REQ-…` marker comment directly above the test function; a test that deliberately verifies no requirement (an implementation-detail or oracle-conformance pin) carries `// arqix:no-requirement` instead — exactly one of the two, on every test function including unit tests under `src/`. `arqix trace markers` validates markers against the requirements corpus and must pass before every commit.
 - Every ignored test must name its owning story in the ignore reason (`#[ignore = "US-XX-YY-ZZ: not implemented"]`).
 - Tests must be deterministic: no wall clock (dates are injected, see ADR-0004), no network, no dependence on test execution order.
   Mutating commands run on `scratch_copy` fixtures, never on the shared fixture.
@@ -301,9 +301,8 @@ Reviewers check the commit order.
 A refactor that implements a requirement is spec-first: the REQ or ADR precedes the test, then the red commit, then the green commit, exactly as for feature work.
 A refactor that changes no behaviour carries `// arqix:no-requirement` markers on its tests instead — never invent a requirement to justify a pure restructuring.
 
-No consolidation crosses the oracle-fidelity freeze.
-While `scripts/check_frontmatter.py` and `scripts/check_requirements.py` are the active behavioural oracle, no shared helper enters `src/checkers/` or the oracle-mirrored `src/parser.rs`, and the oracle-conformance walks and vocabularies stay as their own copies.
-The freeze lifts only when the self-hosting checker retirement removes the Python oracle.
+The oracle-fidelity freeze is closed (checker retirement, 2026-07-15): every Python oracle passed its conformance suite, its selftest fixtures are mirrored in the Rust test suite, and the scripts are removed — the Rust engine owns the checker, trace, marker-gate, and report contracts.
+Consolidation inside `src/checkers/`, `src/parser.rs`, and `src/trace.rs` follows the normal rules of this section: characterization-first against the mirrored fixture tests, never behind them.
 
 Shared non-oracle helpers live in neutral `pub(crate)` modules (`src/markdown.rs`, `src/util.rs`, `src/date.rs`), never in `parser.rs` or `checkers/`.
 

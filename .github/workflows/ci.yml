@@ -1,7 +1,9 @@
 # The repository gate (roadmap phase 5): the same checks the daily gate and
 # `just ci` run locally. Coverage stays informational inside `arqix verify`
-# while the corpus is under construction; the conformance cross-check keeps
-# the Rust trace engine value-equal to the Python oracle (arc42 chapter 8).
+# while the corpus is under construction. The Python oracles retired on
+# 2026-07-15 (arc42 chapter 8 oracle policy): the Rust binary owns every
+# corpus check, so the gate is cargo test + the dogfooded `arqix verify`
+# + markdownlint.
 name: ci
 
 on:
@@ -53,11 +55,11 @@ jobs:
           # rewrites the snapshot stamp (commit + date), so diffing after
           # regenerating would commit on every push. --check regenerates
           # with the stamp already in the files and compares content.
-          if python3 scripts/arqix_report.py --check; then
+          if ./target/debug/arqix report snapshot --check; then
             echo "snapshots fresh, nothing to refresh"
             exit 0
           fi
-          python3 scripts/arqix_report.py --snapshot "$(git rev-parse --short HEAD), $(date +%F)"
+          ./target/debug/arqix report snapshot --stamp "$(git rev-parse --short HEAD), $(date +%F)"
           ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
           ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
           if ! git diff --quiet -- docs/en/reports; then
@@ -72,16 +74,10 @@ jobs:
             gh workflow run pages.yml --ref main
           fi
 
-      - name: Daily gate (selftests, checkers, marker gate, report freshness, cargo test, dogfooded arqix verify, markdownlint)
+      - name: Daily gate (cargo test, dogfooded arqix verify, markdownlint)
         run: python3 scripts/arqix verify
 
       - name: Rust lints
         run: |
           cargo clippy --all-targets -- -D warnings
           cargo fmt --check
-
-      - name: Trace-oracle conformance cross-check (chapter 8)
-        run: python3 scripts/check_conformance.py
-
-      - name: Conformance suite against the oracle (ARQIX_BIN)
-        run: ARQIX_BIN="$PWD/scripts/arqix" cargo test --test cli_trace

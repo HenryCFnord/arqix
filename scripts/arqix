@@ -1,25 +1,23 @@
 #!/usr/bin/env python3
-"""Python reference implementation of the arqix command surface.
+"""The repository gate sequencer.
 
-Dispatcher mirroring the Rust binary's command tree (ADR-0005): implemented
-command families are delegated to their oracle module; everything else
-exits with code 70, exactly like the Rust stubs, so this script can stand
-in for the binary via the ARQIX_BIN override in the test harness.
+Historically this was the dispatcher over the Python reference oracles
+(trace, marker gate, report units, and the frontmatter/requirements
+checkers). Those oracles retired on 2026-07-15 (task #78, arc42 chapter 8
+oracle policy): every contract they carried passed its conformance suite,
+their selftest fixtures are mirrored in the Rust test suite, and the Rust
+binary owns the checks. See git history for the retired scripts.
 
-Implemented here (per the oracle policy in arc42 chapter 8):
-  trace scan|check|coverage|matrix  -> arqix_trace.py
-  verify                            -> sequencer over the checker scripts
+What remains is the one-command daily gate:
 
-Everything else is deliberately NOT implemented in Python (parser/fmt/
-finalise, publish/render, mcp live in Rust only).
+    python3 scripts/arqix verify
 
-`verify` sequences the repository gate: the checker selftests, the
-Python reference checkers, the report-freshness check, cargo-test
-(skipped when no Cargo.toml is present), the product's own
-`arqix verify` (dogfooded whenever a binary exists; it runs format,
-lint, trace-scan, coverage, and ratchet per the configured policy,
-with coverage informational while the corpus is under construction),
-and markdownlint.
+sequences cargo-test (skipped when no Cargo.toml is present), the
+product's own `arqix verify` (the authoritative corpus gate: format,
+lint including the frontmatter/requirements checkers, trace-scan,
+coverage/ratchet/freshness per the configured [policies.verify], the
+marker gate, and the strategy-aware report-freshness check), and
+markdownlint. Every other subcommand belongs to the Rust binary.
 """
 
 import json
@@ -29,9 +27,6 @@ import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(SCRIPT_DIR))
-
-EXIT_UNIMPLEMENTED = 70
 
 
 def split_options(argv):
@@ -74,31 +69,6 @@ def run_step(name, argv):
 MARKDOWNLINT_CLI2 = "markdownlint-cli2@0.23.0"
 
 
-def snapshot_strategy():
-    """`[policies.reports] snapshot-strategy` (C17): how the freshness gate
-    treats the committed snapshots. `committed` gates everywhere (default),
-    `main-only` gates only on the default branch, `on-demand` never gates."""
-    import os
-    path = Path("arqix.toml")
-    strategy = "committed"
-    if path.is_file():
-        import tomllib
-        try:
-            config = tomllib.loads(path.read_text(encoding="utf-8"))
-            strategy = (config.get("policies", {}).get("reports", {})
-                        .get("snapshot-strategy", "committed"))
-        except tomllib.TOMLDecodeError:
-            pass
-    if strategy == "main-only":
-        branch = os.environ.get("GITHUB_REF_NAME")
-        if branch is None:
-            probe = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"],
-                                   capture_output=True, text=True)
-            branch = probe.stdout.strip() if probe.returncode == 0 else ""
-        return "committed" if branch in ("main", "master") else "on-demand"
-    return strategy
-
-
 def arqix_binary():
     """The Rust binary for the dogfooded verify step: the ARQIX_BIN
     override, or the debug build if present."""
@@ -106,8 +76,8 @@ def arqix_binary():
     override = os.environ.get("ARQIX_BIN")
     if override and Path(override).is_file():
         # Never dogfood ourselves: an ARQIX_BIN pointing back at this
-        # dispatcher (the conformance harness does that) would recurse
-        # through the verify step forever — fall through to the build.
+        # sequencer would recurse through the verify step forever — fall
+        # through to the build.
         if Path(override).resolve() != Path(__file__).resolve():
             return override
     default = Path("target/debug/arqix")
@@ -116,56 +86,23 @@ def arqix_binary():
 
 def verify(fmt, fail_fast):
     """Sequence the repository gate (approximates REQ-04-01-05-01..03)."""
-    python = sys.executable
-    steps = [
-        # The load-bearing checkers prove themselves first: a checker whose
-        # own selftest fails must not be trusted to gate anything.
-        ("selftest-frontmatter",
-         [python, str(SCRIPT_DIR / "check_frontmatter.py"), "--selftest"], True),
-        ("selftest-requirements",
-         [python, str(SCRIPT_DIR / "check_requirements.py"), "--selftest"], True),
-        ("selftest-trace-markers",
-         [python, str(SCRIPT_DIR / "check_trace_markers.py"), "--selftest"], True),
-        ("selftest-trace-oracle",
-         [python, str(SCRIPT_DIR / "arqix_trace.py"), "--selftest"], True),
-        ("selftest-report",
-         [python, str(SCRIPT_DIR / "arqix_report.py"), "--selftest"], True),
-        # The frontmatter and requirements checkers are ported and conformant
-        # (scripts/check_conformance.py), so their Python oracles are demoted
-        # to that cross-check and no longer gate the corpus here — exactly as
-        # the trace oracle has no gating step (arc42 ch8 oracle policy). The
-        # Rust ports gate instead, via the dogfooded `arqix verify` step below.
-        # Their selftests stay: they prove the oracles the cross-check compares
-        # against, mirroring selftest-trace-oracle.
-        ("trace-markers", [python, str(SCRIPT_DIR / "check_trace_markers.py")], True),
-    ]
-    if snapshot_strategy() != "on-demand":
-        steps.append(
-            ("report-freshness",
-             [python, str(SCRIPT_DIR / "arqix_report.py"), "--check"], True))
-
+    steps = []
     if Path("Cargo.toml").exists():
         steps.append(("cargo-test", ["cargo", "test", "--quiet"], True))
     if binary := arqix_binary():
-        # Dogfooding (roadmap phase 5, owner decision 2026-07-11): the
-        # product's own orchestrator gates the corpus checks — format,
-        # lint (including the frontmatter and requirements checkers, now
-        # product-owned), trace-scan, and the coverage ratchet, with
-        # coverage informational per the configured [policies.verify]. The
-        # Python steps above stay only for what the product does not own as
-        # a gate yet: the marker gate and the report snapshots, plus the
-        # selftests that prove the oracles the conformance cross-check still
-        # compares against.
+        # The product's own orchestrator is the authoritative corpus gate
+        # (roadmap phase 5, oracle retirement 2026-07-15): format, lint
+        # including the frontmatter and requirements checkers, trace-scan,
+        # coverage/ratchet/freshness per the configured [policies.verify],
+        # the marker gate, and the strategy-aware report-freshness check.
         steps.append(("arqix-verify", [binary, "verify"], True))
     else:
-        # Without a built binary the corpus checks (format, lint incl.
-        # frontmatter/requirements, trace-scan, ratchet) are not gated at
-        # all — the same binary-only condition the trace family already has.
+        # Without a built binary the corpus checks are not gated at all.
         # Warn audibly so a local run is not silently ungated; CI builds the
         # binary first, so this only fires for un-built local checkouts.
         print(
             "warning: no arqix binary (build with `cargo build` or set ARQIX_BIN); "
-            "the frontmatter/requirements/trace corpus checks are skipped this run",
+            "the corpus checks are skipped this run",
             file=sys.stderr,
         )
     if shutil.which("npx"):
@@ -202,11 +139,6 @@ def verify(fmt, fail_fast):
     return 1 if failed else 0
 
 
-def unimplemented(command):
-    print(f"error: `arqix {command}` is not implemented yet", file=sys.stderr)
-    return EXIT_UNIMPLEMENTED
-
-
 def main():
     fmt, args = split_options(sys.argv[1:])
     if not args:
@@ -214,13 +146,6 @@ def main():
         return 2
 
     command, rest = args[0], args[1:]
-
-    if command == "trace":
-        if not rest:
-            print("error: a trace verb is required", file=sys.stderr)
-            return 2
-        import arqix_trace
-        return arqix_trace.run(rest[0], rest[1:], fmt)
 
     if command == "verify":
         fail_fast = False
@@ -234,14 +159,11 @@ def main():
                 return 2
         return verify(fmt, fail_fast)
 
-    known = {
-        "config", "doc", "unit", "fmt", "finalise", "lint", "assemble",
-        "report", "publish", "render", "policy", "mcp",
-    }
-    if command in known:
-        return unimplemented(command)
-
-    print(f"error: unrecognized subcommand '{command}'", file=sys.stderr)
+    print(
+        f"error: `arqix {command}` lives in the Rust binary "
+        "(cargo build; target/debug/arqix) — this sequencer only runs `verify`",
+        file=sys.stderr,
+    )
     return 2
 
 

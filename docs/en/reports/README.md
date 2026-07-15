@@ -26,10 +26,10 @@ All committed files here are snapshots (each carries its commit + date in a gene
 Refresh with:
 
 ```text
-python3 scripts/arqix_report.py --snapshot "<sha>, <date>"
-python3 scripts/arqix trace matrix > docs/en/reports/trace/matrix.csv
-python3 scripts/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
+arqix report snapshot --stamp "<sha>, <date>"
+arqix trace matrix > docs/en/reports/trace/matrix.csv
+arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
 ```
 
-Regeneration stays manual (`just reports`), but staleness is gated: `scripts/arqix_report.py --check` runs inside `scripts/arqix verify` (and therefore in CI) and fails when any committed snapshot no longer matches the corpus.
+Regeneration stays manual (`just reports`), but staleness is gated: `arqix report snapshot --check` runs inside `arqix verify` (and therefore in CI) and fails when any committed snapshot no longer matches the corpus.
 The live answer is always the command.

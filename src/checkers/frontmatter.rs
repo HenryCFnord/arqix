@@ -1,5 +1,6 @@
 //! Frontmatter checker (`arqix lint frontmatter`): the Rust port of the
-//! reference oracle `scripts/check_frontmatter.py`. It validates the
+//! reference oracle `scripts/check_frontmatter.py` (retired 2026-07-15 after
+//! conformance; see git history). It validates the
 //! architecture documents (stories, requirements, personas, workflows, ADRs,
 //! arc42/ICD units and pages) and the ontology documents (classes, properties,
 //! individuals, index) for frontmatter consistency, canonical formatting, and

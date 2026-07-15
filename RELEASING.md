@@ -17,8 +17,8 @@ This process is governed by US-01-01-15 (REQ-01-01-15-01..04); the version-consi
 
 ## Release steps
 
-1. Verify the tree is releasable: `python3 scripts/arqix verify` (all gating steps green), `python3 scripts/check_conformance.py` (oracle parity), `just ci` for the full CI mirror.
-2. Confirm the report snapshots are fresh (`python3 scripts/arqix_report.py --check`) and the roadmap coverage number matches the marker gate.
+1. Verify the tree is releasable: `python3 scripts/arqix verify` (all gating steps green), `just ci` for the full CI mirror.
+2. Confirm the report snapshots are fresh (`./target/debug/arqix report snapshot --check`) and the roadmap coverage number matches the marker gate.
 3. Stamp the release: replace `— unreleased` in the top CHANGELOG section with the ISO date.
 4. Commit, tag `vX.Y.Z` on `main`, push the tag, and create the GitHub release with the CHANGELOG section as its body.
 5. Publish the crate: `cargo publish` (a `cargo publish --dry-run` first never hurts).

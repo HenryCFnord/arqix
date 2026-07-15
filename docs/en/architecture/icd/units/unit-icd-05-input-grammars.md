@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-06
-  updated: 2026-07-06
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -29,7 +29,7 @@ meta:
 
 The inputs an author — human or AI agent — writes for arqix to read.
 These are the contracts agents most need, because agents are the primary authors of markers, directives, and triples.
-The parsers live in `src/trace.rs` (markers), `src/linter.rs` (include directives, consumed by the assembler), and `src/parser.rs` (frontmatter triples); the oracle `scripts/arqix_trace.py` is the conformance reference for the marker and frontmatter grammars.
+The parsers live in `src/trace.rs` (markers), `src/linter.rs` (include directives, consumed by the assembler), and `src/parser.rs` (frontmatter triples); they own the marker and frontmatter grammars, ported from the retired Python oracle (arc42 chapter 8) whose selftest cases are mirrored in their test modules.
 
 ### Trace markers
 
