@@ -226,3 +226,56 @@ pub fn search(query: &str, format: OutputFormat) -> ExitCode {
     }
     ExitCode::SUCCESS
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn fresh_dir(name: &str) -> std::path::PathBuf {
+        let dir = std::env::temp_dir().join(format!("arqix-store-{}-{name}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
+    /// Characterization pin for `walk` (slice 3): it applies the shared
+    /// traversal (sorted, depth-first, `skip-dirs`-pruned, `.md` /
+    /// not-`.tpl.md`) and its store-specific leaf action — parse each file
+    /// and record its posix-normalized path as `doc.file`. Pins the behaviour
+    /// before the traversal core moves into `crate::util`.
+    // arqix:no-requirement
+    #[test]
+    fn walk_parses_the_filtered_tree_in_traversal_order() {
+        let root = fresh_dir("walk");
+        std::fs::create_dir_all(root.join("sub")).unwrap();
+        std::fs::create_dir_all(root.join("node_modules")).unwrap();
+        for rel in [
+            "z.md",
+            "a.md",
+            "b.tpl.md",
+            "c.txt",
+            "sub/m.md",
+            "node_modules/skipped.md",
+        ] {
+            std::fs::write(root.join(rel), "---\nid: X\n---\n\nBody.\n").unwrap();
+        }
+        let mut docs = Vec::new();
+        walk(&root, &["node_modules".to_string()], &mut docs);
+        // Same filtered, sorted, depth-first set as the raw walker: `sub`
+        // sorts before `z.md`, so its member is parsed before it; `.tpl.md`,
+        // `.txt`, and the skip-dir are excluded.
+        assert_eq!(docs.len(), 3);
+        assert!(docs[0].file.ends_with("/a.md"), "first: {}", docs[0].file);
+        assert!(
+            docs[1].file.ends_with("/sub/m.md"),
+            "second: {}",
+            docs[1].file
+        );
+        assert!(docs[2].file.ends_with("/z.md"), "third: {}", docs[2].file);
+        // Each recorded `file` is posix-normalized (no backslashes).
+        assert!(
+            docs.iter().all(|d| !d.file.contains('\\')),
+            "paths are posix-normalized"
+        );
+    }
+}

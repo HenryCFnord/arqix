@@ -1127,4 +1127,68 @@ mod tests {
             "its sections become subsections: {staged}"
         );
     }
+
+    /// Characterization pin for the markdown walker's traversal contract
+    /// (slice 3): per-level sort order, depth-first recursion, `skip-dirs`
+    /// pruning, the `.md` / not-`.tpl.md` filter, and non-markdown exclusion.
+    /// Pins `collect_markdown` before it moves into `crate::util`, so the
+    /// extraction proves byte-identical.
+    // arqix:no-requirement
+    #[test]
+    fn collect_markdown_pins_traversal_order_and_filters() {
+        let root = fresh_dir("walk-order");
+        std::fs::create_dir_all(root.join("sub")).unwrap();
+        std::fs::create_dir_all(root.join("node_modules")).unwrap();
+        for rel in [
+            "z.md",
+            "a.md",
+            "b.tpl.md",
+            "c.txt",
+            "sub/m.md",
+            "sub/n.tpl.md",
+            "node_modules/skipped.md",
+        ] {
+            std::fs::write(root.join(rel), "x").unwrap();
+        }
+        let mut files = Vec::new();
+        super::collect_markdown(&root, &["node_modules".to_string()], &mut files);
+        let got: Vec<String> = files
+            .iter()
+            .map(|p| {
+                p.strip_prefix(&root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/")
+            })
+            .collect();
+        // Sorted per level, depth-first: `sub` sorts before `z.md`, so its
+        // member is emitted before it; `.tpl.md`, `.txt`, and the skip-dir
+        // are all excluded.
+        assert_eq!(got, vec!["a.md", "sub/m.md", "z.md"]);
+    }
+
+    /// Directory symlinks are never followed (cycle-safety and rglob parity).
+    // arqix:no-requirement
+    #[test]
+    #[cfg(unix)]
+    fn collect_markdown_never_follows_directory_symlinks() {
+        let root = fresh_dir("walk-symlink");
+        std::fs::create_dir_all(root.join("real")).unwrap();
+        std::fs::write(root.join("real/inside.md"), "x").unwrap();
+        std::os::unix::fs::symlink(root.join("real"), root.join("link")).unwrap();
+        let mut files = Vec::new();
+        super::collect_markdown(&root, &[], &mut files);
+        let got: Vec<String> = files
+            .iter()
+            .map(|p| {
+                p.strip_prefix(&root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/")
+            })
+            .collect();
+        // `real/inside.md` is reached once via the real directory; the `link`
+        // symlink to the same directory is skipped, not traversed.
+        assert_eq!(got, vec!["real/inside.md"]);
+    }
 }
