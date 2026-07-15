@@ -709,3 +709,51 @@ fn doc_new_rejects_unknown_template_placeholders() {
         "nothing is written when the template is invalid"
     );
 }
+
+// arqix:verifies REQ-01-01-24-01
+#[test]
+fn doc_new_places_the_document_at_the_explicit_directory() {
+    // US-01-01-24: the explicit --dir wins over the declared contract and
+    // the <first-root>/<kind>/ default.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_places_the_document_at_the_explicit_directory",
+    );
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc",
+            "new",
+            "adr",
+            "--dir",
+            "contexts/geo/decisions",
+            "--title",
+            "Use Kroki",
+        ],
+    );
+    assert_success(&out);
+    assert!(
+        repo.join("contexts/geo/decisions/ADR-0001.md").exists(),
+        "the document lands at the explicit directory"
+    );
+}
+
+// arqix:verifies REQ-01-01-24-01
+#[test]
+fn doc_new_rejects_an_escaping_explicit_directory() {
+    // Containment (REQ-00-00-00-13): absolute paths and `..` never become
+    // write targets.
+    let repo = scratch_copy("minimal", "doc_new_rejects_an_escaping_explicit_directory");
+    for dir in ["../outside", "/tmp/outside"] {
+        let out = run_arqix_in(&repo, &["doc", "new", "adr", "--dir", dir, "--title", "X"]);
+        assert_eq!(
+            out.status.code(),
+            Some(2),
+            "an escaping --dir is a usage error: {dir}"
+        );
+    }
+    assert!(
+        !repo.join("../outside").exists(),
+        "nothing is written outside the repository"
+    );
+}
