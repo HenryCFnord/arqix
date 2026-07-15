@@ -645,6 +645,24 @@ fn check_requirement_file(
     Some((req_id, derived))
 }
 
+/// One user story's coupling-relevant frontmatter.
+struct StoryRecord {
+    path: String,
+    id: String,
+    personas: Vec<String>,
+    workflows: Vec<String>,
+}
+
+// arqix:implements REQ-01-01-11-08
+// arqix:implements REQ-01-01-11-09
+fn story_workflow_checks(
+    _stories: &BTreeMap<String, StoryRecord>,
+    _workflows: &BTreeMap<String, BTreeSet<String>>,
+    _consolidation: &BTreeSet<String>,
+    _findings: &mut Vec<Finding>,
+) {
+}
+
 fn load_stories(
     story_dir: &str,
     findings: &mut Vec<Finding>,
@@ -1197,5 +1215,109 @@ mod tests {
             parse_frontmatter("---\nexternal-references: []\nmeta:\n  lang: en\n---\nbody\n")
                 .expect("fm");
         assert!(!f2.top.contains_key("external-references"));
+    }
+
+    // --- story-workflow coupling (US-WF-001, US-PER-001) -----------------
+
+    fn story(id: &str, persona: &str, workflow: &str) -> (String, StoryRecord) {
+        (
+            format!("arqix:user-stories/{}", id.to_lowercase()),
+            StoryRecord {
+                path: format!("{id}.md"),
+                id: id.to_string(),
+                personas: vec![format!("arqix:personas/{persona}")],
+                workflows: vec![format!("arqix:workflows/{workflow}")],
+            },
+        )
+    }
+
+    fn workflow(id: &str, personas: &[&str]) -> (String, BTreeSet<String>) {
+        (
+            format!("arqix:workflows/{id}"),
+            personas
+                .iter()
+                .map(|p| format!("arqix:personas/{p}"))
+                .collect(),
+        )
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    #[test]
+    fn story_in_a_workflow_its_id_does_not_encode_is_reported() {
+        let stories = BTreeMap::from([story("US-01-01-21", "per-01", "wf-08-01")]);
+        let workflows = BTreeMap::from([workflow("wf-01-01", &["per-01"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-WF-001"]);
+        assert_eq!(
+            findings[0].message,
+            "id US-01-01-21 encodes workflow 'arqix:workflows/wf-01-01', \
+             is-part-of-workflow names ['arqix:workflows/wf-08-01']"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    #[test]
+    fn story_without_a_workflow_is_reported() {
+        let (iri, mut record) = story("US-01-01-21", "per-01", "wf-01-01");
+        record.workflows.clear();
+        let stories = BTreeMap::from([(iri, record)]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &BTreeMap::new(), &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-WF-001"]);
+        assert_eq!(
+            findings[0].message,
+            "id US-01-01-21 encodes workflow 'arqix:workflows/wf-01-01', \
+             is-part-of-workflow names none"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn persona_missing_from_the_workflow_is_reported() {
+        let stories = BTreeMap::from([story("US-01-01-21", "per-08", "wf-01-01")]);
+        let workflows = BTreeMap::from([workflow("wf-01-01", &["per-01"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-PER-001"]);
+        assert_eq!(
+            findings[0].message,
+            "persona 'arqix:personas/per-08' is not declared on workflow \
+             'arqix:workflows/wf-01-01' (has-primary-persona/has-relevant-persona)"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn consolidation_persona_attaches_to_any_workflow() {
+        let stories = BTreeMap::from([story("US-04-01-17", "per-10", "wf-04-01")]);
+        let workflows = BTreeMap::from([workflow("wf-04-01", &["per-09"])]);
+        let consolidation = BTreeSet::from(["arqix:personas/per-10".to_string()]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &consolidation, &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn coupled_story_is_clean_and_relevant_personas_count() {
+        // per-08 is only a relevant (not primary) persona of wf-09-01.
+        let stories = BTreeMap::from([story("US-09-01-03", "per-08", "wf-09-01")]);
+        let workflows = BTreeMap::from([workflow("wf-09-01", &["per-01", "per-08"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn unresolvable_workflow_reference_skips_the_persona_check() {
+        // Graph resolution is a linter concern; the coupling check only reads
+        // workflows that exist.
+        let stories = BTreeMap::from([story("US-01-01-21", "per-08", "wf-01-01")]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &BTreeMap::new(), &BTreeSet::new(), &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
     }
 }

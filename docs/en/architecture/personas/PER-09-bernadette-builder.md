@@ -11,6 +11,7 @@ rdf:
 triples: []
 
 properties:
+  consolidation: true
   role: engineering user who changes the corpus
   description: Writes code, documentation, architecture decisions, and CI wiring in one flow. Values speed, deterministic local checks that match CI, and reproducible publishing.
 
@@ -20,7 +21,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false

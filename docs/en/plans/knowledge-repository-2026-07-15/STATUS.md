@@ -38,6 +38,8 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 
 Pending band 2; see the PLANS.md table (A1-A4 ontology/entity, B1-B2 evidence/provenance, C5 lifecycle, D6 crosswalk, D7 queries, X8 splitter consolidation).
 
+- Owner note (2026-07-15) for the A-slices: the story-workflow coupling lint (US-WF-001/US-PER-001, PR #94) hardcodes today's persona/workflow ontology; when the ontology becomes configuration, this linting must become configurable with it.
+
 ## Context
 
 The oracle retirement (refactor slice 4, task #78) completed 2026-07-15 via PR #88: the Rust engine owns every corpus check, `just verify` is the daily gate, and the pre-0.2.0 refactor program's remaining slices (R5-R7) fold into band 1 above.
