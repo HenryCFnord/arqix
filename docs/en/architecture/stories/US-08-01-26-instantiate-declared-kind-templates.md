@@ -1,8 +1,8 @@
 ---
-id: US-01-01-23
+id: US-08-01-26
 title: Instantiate Declared Kind Templates
 slug: instantiate-declared-kind-templates
-iri: arqix:user-stories/us-01-01-23
+iri: arqix:user-stories/us-08-01-26
 
 rdf:
   type:
@@ -13,10 +13,10 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
-      - arqix:requirements/req-01-01-23-01
-      - arqix:requirements/req-01-01-23-02
+      - arqix:requirements/req-08-01-26-01
+      - arqix:requirements/req-08-01-26-02
   - predicate: arqix:properties/is-part-of-workflow
-    object: arqix:workflows/wf-01-01
+    object: arqix:workflows/wf-08-01
 
 properties:
   priority: medium

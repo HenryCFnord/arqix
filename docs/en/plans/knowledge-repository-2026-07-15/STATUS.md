@@ -18,7 +18,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 ## Band 1 — pre-v0.2.0
 
 - [x] K0 — doc-new-kind-dir (gap G2): US-08-01-25 + REQ-08-01-25-01, spec-first red/green; merged via PR #90.
-- [x] K1 — kind-template-key (gap G1): US-01-01-23 + REQ-01-01-23-01/-02, spec-first red/green; `[kinds.<family>].template` + TPL-002 for unknown placeholders.
+- [x] K1 — kind-template-key (gap G1): US-08-01-26 + REQ-08-01-26-01/-02, spec-first red/green; `[kinds.<family>].template` + TPL-002 for unknown placeholders.
 - [ ] K2 — doc-new-target-path (gap G3): explicit placement argument, containment-guarded.
 - [ ] K3 — source-record-kind (gap G5): URL-plus-local-copy provenance kind.
 - [ ] K4 — normative-statement-export (P5): the sentence classification as data.

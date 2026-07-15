@@ -430,7 +430,7 @@ pub struct KindContract {
     /// uniqueness scope, and — through its named groups — generation
     /// (`seq`) and consistency checks (`story`).
     pub id_pattern: Option<String>,
-    /// The family's template file (REQ-01-01-23-01), repository-relative;
+    /// The family's template file (REQ-08-01-26-01), repository-relative;
     /// `doc new` instantiates it instead of the template-directory lookup.
     pub template: Option<String>,
 }

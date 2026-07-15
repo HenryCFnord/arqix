@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-23-01
+id: REQ-08-01-26-01
 title: Instantiate the Declared Template
 slug: instantiate-the-declared-template
-iri: arqix:requirements/req-01-01-23-01
+iri: arqix:requirements/req-08-01-26-01
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-01-01-23
+      - arqix:user-stories/us-08-01-26
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -37,6 +37,6 @@ When a `[kinds.<family>]` contract declares a `template`, arqix SHALL instantiat
 
 ### Notes
 
-Derived from US-01-01-23 (authoring-ergonomics band, knowledge-repository intake gap G1).
+Derived from US-08-01-26 (authoring-ergonomics band, knowledge-repository intake gap G1).
 The path is repository-relative; a declared-but-missing template is a configuration error (exit 2), mirroring the configured `[templates] dir` contract (US-01-01-20).
 Without a declared `template`, resolution stays exactly as today, so present behaviour is preserved.

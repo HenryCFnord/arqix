@@ -618,10 +618,10 @@ fn doc_new_honours_the_kinds_declared_directory() {
     );
 }
 
-// arqix:verifies REQ-01-01-23-01
+// arqix:verifies REQ-08-01-26-01
 #[test]
 fn doc_new_instantiates_the_kinds_declared_template() {
-    // US-01-01-23: the [kinds.<family>].template contract names the template
+    // US-08-01-26: the [kinds.<family>].template contract names the template
     // file directly, instead of relying on the one template directory.
     let repo = scratch_copy(
         "minimal",
@@ -652,7 +652,7 @@ fn doc_new_instantiates_the_kinds_declared_template() {
     assert!(text.contains("## Use Kroki"), "title substituted: {text}");
 }
 
-// arqix:verifies REQ-01-01-23-01
+// arqix:verifies REQ-08-01-26-01
 #[test]
 fn doc_new_treats_a_missing_declared_template_as_a_config_error() {
     let repo = scratch_copy(
@@ -677,7 +677,7 @@ fn doc_new_treats_a_missing_declared_template_as_a_config_error() {
     );
 }
 
-// arqix:verifies REQ-01-01-23-02
+// arqix:verifies REQ-08-01-26-02
 #[test]
 fn doc_new_rejects_unknown_template_placeholders() {
     // A typo in a placeholder must become a finding, not a silent literal

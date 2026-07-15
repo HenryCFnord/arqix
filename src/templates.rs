@@ -112,9 +112,9 @@ fn template(
     slug: &str,
     format: OutputFormat,
 ) -> Result<String, ExitCode> {
-    // A declared [kinds.<family>].template wins (REQ-01-01-23-01): the
+    // A declared [kinds.<family>].template wins (REQ-08-01-26-01): the
     // contract names the file directly, and only this path validates the
-    // placeholder vocabulary (REQ-01-01-23-02) — the directory and embedded
+    // placeholder vocabulary (REQ-08-01-26-02) — the directory and embedded
     // paths keep their present behaviour.
     if let Some(declared) = crate::config::kind_contracts(Path::new("."))
         .into_iter()
