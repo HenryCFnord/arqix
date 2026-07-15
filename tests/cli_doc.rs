@@ -590,3 +590,30 @@ fn doc_init_never_overwrites_agent_instructions() {
         "authored agent instructions always win over the scaffold"
     );
 }
+
+// arqix:verifies REQ-01-01-22-01
+#[test]
+fn doc_new_honours_the_kinds_declared_directory() {
+    // US-01-01-22: creation and validation read the same declared `dir`
+    // (ADR-0011 one source) — a configured family's document lands where
+    // its directory-based checks expect it.
+    let repo = scratch_copy("minimal", "doc_new_honours_the_kinds_declared_directory");
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.adr]\ndir = \"docs/decisions\"\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "adr", "--dry-run", "--format", "json"],
+    );
+    assert_success(&out);
+    let result = stdout_json(&out);
+    assert!(
+        result["path"]
+            .as_str()
+            .unwrap_or("")
+            .starts_with("docs/decisions/"),
+        "the declared [kinds.adr] dir is the creation target: {result}"
+    );
+}

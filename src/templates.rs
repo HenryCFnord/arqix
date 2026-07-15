@@ -298,7 +298,14 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
 
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
-    let dir = PathBuf::from(&root).join(kind);
+    // The declared [kinds.<family>] dir is the creation target when the
+    // family has a contract (REQ-01-01-22-01): creation and validation read
+    // the same source (ADR-0011). Unconfigured kinds keep <first-root>/<kind>/.
+    let dir = crate::config::kind_contracts(Path::new("."))
+        .into_iter()
+        .find(|contract| contract.family == kind)
+        .map(|contract| PathBuf::from(contract.dir))
+        .unwrap_or_else(|| PathBuf::from(&root).join(kind));
     let path = dir.join(format!("{id}.md"));
 
     if path.exists() {
