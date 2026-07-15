@@ -710,10 +710,10 @@ fn doc_new_rejects_unknown_template_placeholders() {
     );
 }
 
-// arqix:verifies REQ-01-01-24-01
+// arqix:verifies REQ-08-01-27-01
 #[test]
 fn doc_new_places_the_document_at_the_explicit_directory() {
-    // US-01-01-24: the explicit --dir wins over the declared contract and
+    // US-08-01-27: the explicit --dir wins over the declared contract and
     // the <first-root>/<kind>/ default.
     let repo = scratch_copy(
         "minimal",
@@ -738,7 +738,7 @@ fn doc_new_places_the_document_at_the_explicit_directory() {
     );
 }
 
-// arqix:verifies REQ-01-01-24-01
+// arqix:verifies REQ-08-01-27-01
 #[test]
 fn doc_new_rejects_an_escaping_explicit_directory() {
     // Containment (REQ-00-00-00-13): absolute paths and `..` never become

@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-24-01
+id: REQ-08-01-27-01
 title: Place Documents at the Given Directory
 slug: place-documents-at-the-given-directory
-iri: arqix:requirements/req-01-01-24-01
+iri: arqix:requirements/req-08-01-27-01
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-01-01-24
+      - arqix:user-stories/us-08-01-27
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -37,6 +37,6 @@ When the caller passes an explicit target directory, arqix SHALL create the docu
 
 ### Notes
 
-Derived from US-01-01-24 (authoring-ergonomics band, knowledge-repository intake gap G3).
+Derived from US-08-01-27 (authoring-ergonomics band, knowledge-repository intake gap G3).
 The explicit directory takes precedence over the declared `[kinds.<family>].dir` (REQ-01-01-22-01) and the `<first-root>/<kind>/` default.
 An absolute path or a path containing `..` is rejected as a usage error before anything is written (filesystem containment, REQ-00-00-00-13).

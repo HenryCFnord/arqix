@@ -293,7 +293,7 @@ fn valid_kind(kind: &str) -> bool {
 pub struct NewOptions<'a> {
     pub title: Option<&'a str>,
     pub id: Option<&'a str>,
-    /// Explicit repository-relative target directory (REQ-01-01-24-01);
+    /// Explicit repository-relative target directory (REQ-08-01-27-01);
     /// wins over the declared kind dir and the default placement.
     pub dir: Option<&'a str>,
     pub dry_run: bool,
@@ -358,7 +358,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
 
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
-    // Placement precedence: the explicit --dir (REQ-01-01-24-01), then the
+    // Placement precedence: the explicit --dir (REQ-08-01-27-01), then the
     // declared [kinds.<family>] dir (REQ-08-01-25-01, one source with
     // validation per ADR-0011), then the <first-root>/<kind>/ default.
     let dir = match options.dir {

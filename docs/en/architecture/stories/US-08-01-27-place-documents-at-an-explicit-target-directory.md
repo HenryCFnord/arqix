@@ -1,8 +1,8 @@
 ---
-id: US-01-01-24
+id: US-08-01-27
 title: Place Documents at an Explicit Target Directory
 slug: place-documents-at-an-explicit-target-directory
-iri: arqix:user-stories/us-01-01-24
+iri: arqix:user-stories/us-08-01-27
 
 rdf:
   type:
@@ -13,9 +13,9 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
-      - arqix:requirements/req-01-01-24-01
+      - arqix:requirements/req-08-01-27-01
   - predicate: arqix:properties/is-part-of-workflow
-    object: arqix:workflows/wf-01-01
+    object: arqix:workflows/wf-08-01
 
 properties:
   priority: medium
