@@ -17,7 +17,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 
 ## Band 1 — pre-v0.2.0
 
-- [x] K0 — doc-new-kind-dir (gap G2): US-01-01-22 + REQ-01-01-22-01, spec-first red/green; merged via PR #90.
+- [x] K0 — doc-new-kind-dir (gap G2): US-08-01-25 + REQ-08-01-25-01, spec-first red/green; merged via PR #90.
 - [ ] K1 — kind-template-key (gap G1): `[kinds.<family>].template` + validated placeholder vocabulary.
 - [ ] K2 — doc-new-target-path (gap G3): explicit placement argument, containment-guarded.
 - [ ] K3 — source-record-kind (gap G5): URL-plus-local-copy provenance kind.
@@ -37,6 +37,8 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 ## Band 3 — post-v0.2.0
 
 Pending band 2; see the PLANS.md table (A1-A4 ontology/entity, B1-B2 evidence/provenance, C5 lifecycle, D6 crosswalk, D7 queries, X8 splitter consolidation).
+
+- Owner note (2026-07-15) for the A-slices: the story-workflow coupling lint (US-WF-001/US-PER-001, PR #94) hardcodes today's persona/workflow ontology; when the ontology becomes configuration, this linting must become configurable with it.
 
 ## Context
 

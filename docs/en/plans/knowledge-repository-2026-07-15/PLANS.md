@@ -20,7 +20,7 @@ Ordered so each slice builds on the previous one's surface; K-slices come from t
 
 | # | Slice | Source | Goal | Shape | Size |
 | --- | --- | --- | --- | --- | --- |
-| K0 | doc-new-kind-dir | gap G2 | `doc new` creates in the declared `[kinds.<family>].dir` | spec-first | done (US-01-01-22, PR #90) |
+| K0 | doc-new-kind-dir | gap G2 | `doc new` creates in the declared `[kinds.<family>].dir` | spec-first | done (US-08-01-25, PR #90) |
 | K1 | kind-template-key | gap G1 | `[kinds.<family>].template` names the template file; the placeholder vocabulary is documented and validated (unknown placeholders are findings, not silent literals) | spec-first | S/M |
 | K2 | doc-new-target-path | gap G3 | an explicit `--dir` (or context) argument places a document at `contexts/<context>/terms/<term>.md`-style paths, containment-guarded | spec-first | S |
 | K3 | source-record-kind | gap G5 | a `source` document kind for URL-plus-local-copy provenance (uri, access date, local-copy path, sha-256, licence, anchor); binaries stay outside the tracked corpus | spec-first | M |

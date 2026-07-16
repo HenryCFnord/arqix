@@ -1,8 +1,8 @@
 ---
-id: US-01-01-21
+id: US-08-01-24
 title: Scaffold Agent Instructions on Init
 slug: scaffold-agent-instructions-on-init
-iri: arqix:user-stories/us-01-01-21
+iri: arqix:user-stories/us-08-01-24
 
 rdf:
   type:
@@ -13,10 +13,10 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
-      - arqix:requirements/req-01-01-21-01
-      - arqix:requirements/req-01-01-21-02
+      - arqix:requirements/req-08-01-24-01
+      - arqix:requirements/req-08-01-24-02
   - predicate: arqix:properties/is-part-of-workflow
-    object: arqix:workflows/wf-01-01
+    object: arqix:workflows/wf-08-01
 
 properties:
   priority: medium
@@ -28,7 +28,7 @@ meta:
   lifecycle-status: done
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false

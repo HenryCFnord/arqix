@@ -1,8 +1,8 @@
 ---
-id: REQ-01-01-21-01
+id: REQ-08-01-24-01
 title: Scaffold Agent Instructions on Init
 slug: scaffold-agent-instructions-on-init
-iri: arqix:requirements/req-01-01-21-01
+iri: arqix:requirements/req-08-01-24-01
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-01-01-21
+      - arqix:user-stories/us-08-01-24
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -37,5 +37,5 @@ When `arqix doc init` initialises a repository without an agent instruction docu
 
 ### Notes
 
-Derived from US-01-01-21 (agent-onboarding strand).
+Derived from US-08-01-24 (agent-onboarding strand).
 The scaffold is a starting point for the repository's own normative rules (REQ-01-01-09-01), not a finished process document.

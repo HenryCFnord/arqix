@@ -45,7 +45,7 @@ fn next_counter(docs: &[Document], prefix: &str) -> u64 {
 const DEFAULT_TEMPLATE: &str = include_str!("templates/default.tpl.md");
 
 /// The agent-instructions scaffold `doc init` writes to the repository
-/// root (US-01-01-21): a starting point for the repository's own
+/// root (US-08-01-24): a starting point for the repository's own
 /// normative rules, naming the verification loop and the corpus entry
 /// points.
 const AGENTS_TEMPLATE: &str = include_str!("templates/agents.tpl.md");
@@ -299,7 +299,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
     // The declared [kinds.<family>] dir is the creation target when the
-    // family has a contract (REQ-01-01-22-01): creation and validation read
+    // family has a contract (REQ-08-01-25-01): creation and validation read
     // the same source (ADR-0011). Unconfigured kinds keep <first-root>/<kind>/.
     let dir = crate::config::kind_contracts(Path::new("."))
         .into_iter()
@@ -428,8 +428,8 @@ pub fn init(path: Option<&str>, format: OutputFormat) -> ExitCode {
         return ExitCode::from(2);
     }
 
-    // arqix:implements REQ-01-01-21-01
-    // arqix:implements REQ-01-01-21-02
+    // arqix:implements REQ-08-01-24-01
+    // arqix:implements REQ-08-01-24-02
     // The agent-instructions scaffold at the repository root; authored
     // instructions always win, so an existing file is never touched.
     let agents = Path::new("AGENTS.md");

@@ -20,6 +20,8 @@ triples:
       - arqix:requirements/req-01-01-11-05
       - arqix:requirements/req-01-01-11-06
       - arqix:requirements/req-01-01-11-07
+      - arqix:requirements/req-01-01-11-08
+      - arqix:requirements/req-01-01-11-09
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-01-01
 
@@ -33,7 +35,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-02
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false
@@ -50,6 +52,7 @@ As a maintainer, I want architecture and governance documentation to follow the 
 - [ ] A multi-layer documentation strategy is used across handbook, CLI help, man page, and rustdoc.
 - [ ] Mermaid diagrams are used in a C4-oriented way for views.
 - [ ] A future documentation consistency check is documented as an extension path.
+- [ ] `lint requirements` reports stories whose id, workflow, or persona break the membership convention, with consolidation personas exempt.
 
 ### Notes
 

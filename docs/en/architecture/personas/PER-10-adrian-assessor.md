@@ -11,6 +11,7 @@ rdf:
 triples: []
 
 properties:
+  consolidation: true
   role: evaluating user who consumes the corpus as evidence and data
   description: Traces requirements to implementation and verification, evaluates reproducible evidence chains, and feeds machine-readable documentation into automated and agentic workflows.
 
@@ -20,7 +21,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-12
-  updated: 2026-07-12
+  updated: 2026-07-15
   lang: en
   translation-of:
   generated: false

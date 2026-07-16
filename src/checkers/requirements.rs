@@ -22,6 +22,8 @@ use std::sync::OnceLock;
 
 const REQ_DIR: &str = "docs/en/architecture/req";
 const STORY_DIR: &str = "docs/en/architecture/stories";
+const WORKFLOW_DIR: &str = "docs/en/architecture/workflows";
+const PERSONA_DIR: &str = "docs/en/architecture/personas";
 
 /// The three requirement subclasses and their coarse kind.
 const KIND_CLASSES: [(&str, &str); 3] = [
@@ -226,6 +228,7 @@ struct Triple {
 struct Fields {
     top: HashMap<String, String>,
     meta: HashMap<String, String>,
+    properties: HashMap<String, String>,
     rdf_types: Vec<String>,
     triples: Vec<Triple>,
 }
@@ -310,6 +313,15 @@ fn parse_frontmatter(text: &str) -> Option<(Fields, String)> {
             if !value.is_empty() {
                 fields
                     .meta
+                    .insert(caps.get(1).unwrap().as_str().to_string(), value.to_string());
+            }
+        } else if section.as_deref() == Some("properties")
+            && let Some(caps) = p.top_key.captures(line)
+        {
+            let value = caps.get(2).unwrap().as_str().trim();
+            if !value.is_empty() {
+                fields
+                    .properties
                     .insert(caps.get(1).unwrap().as_str().to_string(), value.to_string());
             }
         }
@@ -645,10 +657,122 @@ fn check_requirement_file(
     Some((req_id, derived))
 }
 
-fn load_stories(
-    story_dir: &str,
+/// One user story's cross-file frontmatter: derivation links plus the
+/// workflow/persona edges the coupling checks read.
+struct StoryRecord {
+    path: String,
+    id: String,
+    has_requirement: Vec<String>,
+    personas: Vec<String>,
+    workflows: Vec<String>,
+}
+
+/// The membership convention from the ontology property document
+/// `has-persona`: the story id encodes the owning workflow (US-WF-001), and
+/// the story's persona is declared on that workflow via has-primary-persona
+/// or has-relevant-persona (US-PER-001) — unless the persona document marks
+/// itself `consolidation: true`, in which case the story attaches to the
+/// workflow its content belongs to.
+// arqix:implements REQ-01-01-11-08
+// arqix:implements REQ-01-01-11-09
+fn story_workflow_checks(
+    stories: &BTreeMap<String, StoryRecord>,
+    workflows: &BTreeMap<String, BTreeSet<String>>,
+    consolidation: &BTreeSet<String>,
     findings: &mut Vec<Finding>,
-) -> BTreeMap<String, (String, Vec<String>)> {
+) {
+    for story in stories.values() {
+        let Some(caps) = patterns().us_id.captures(&story.id) else {
+            continue; // US-ID-001 already reported by load_stories
+        };
+        let expected_wf = format!(
+            "arqix:workflows/wf-{}-{}",
+            caps.get(1).unwrap().as_str(),
+            caps.get(2).unwrap().as_str()
+        );
+        if story.workflows != [expected_wf.clone()] {
+            let found = if story.workflows.is_empty() {
+                "none".to_string()
+            } else {
+                py_list_repr(&story.workflows)
+            };
+            findings.push(Finding::error(
+                &story.path,
+                "US-WF-001",
+                format!(
+                    "id {} encodes workflow {}, is-part-of-workflow names {found}",
+                    story.id,
+                    py_repr(&expected_wf)
+                ),
+            ));
+        }
+        for persona in &story.personas {
+            if consolidation.contains(persona) {
+                continue;
+            }
+            for wf in &story.workflows {
+                if let Some(declared) = workflows.get(wf)
+                    && !declared.contains(persona)
+                {
+                    findings.push(Finding::error(
+                        &story.path,
+                        "US-PER-001",
+                        format!(
+                            "persona {} is not declared on workflow {} \
+                             (has-primary-persona/has-relevant-persona)",
+                            py_repr(persona),
+                            py_repr(wf)
+                        ),
+                    ));
+                }
+            }
+        }
+    }
+}
+
+/// Map each workflow IRI to its declared persona IRIs (primary + relevant).
+fn load_workflows(workflow_dir: &str) -> BTreeMap<String, BTreeSet<String>> {
+    let mut workflows = BTreeMap::new();
+    for path in sorted_md_files(workflow_dir) {
+        let text = read_universal(&path);
+        let Some((fields, _)) = parse_frontmatter(&text) else {
+            continue;
+        };
+        let Some(iri) = fields.top.get("iri").cloned() else {
+            continue;
+        };
+        let mut personas: BTreeSet<String> = BTreeSet::new();
+        personas.extend(triple_objects(
+            &fields,
+            "arqix:properties/has-primary-persona",
+        ));
+        personas.extend(triple_objects(
+            &fields,
+            "arqix:properties/has-relevant-persona",
+        ));
+        workflows.insert(iri, personas);
+    }
+    workflows
+}
+
+/// The persona IRIs whose documents carry `consolidation: true`.
+fn load_consolidation_personas(persona_dir: &str) -> BTreeSet<String> {
+    let mut personas = BTreeSet::new();
+    for path in sorted_md_files(persona_dir) {
+        let text = read_universal(&path);
+        let Some((fields, _)) = parse_frontmatter(&text) else {
+            continue;
+        };
+        if fields.properties.get("consolidation").map(String::as_str) == Some("true")
+            && let Some(iri) = fields.top.get("iri")
+        {
+            personas.insert(iri.clone());
+        }
+    }
+    personas
+}
+
+fn load_stories(story_dir: &str, findings: &mut Vec<Finding>) -> BTreeMap<String, StoryRecord> {
     let mut stories = BTreeMap::new();
     for path in sorted_md_files(story_dir) {
         let text = read_universal(&path);
@@ -669,15 +793,21 @@ fn load_stories(
             continue;
         }
         let iri = format!("arqix:user-stories/{}", story_id.to_lowercase());
-        let has_req = triple_objects(&fields, "arqix:properties/has-requirement");
-        stories.insert(iri, (path, has_req));
+        let record = StoryRecord {
+            path,
+            id: story_id,
+            has_requirement: triple_objects(&fields, "arqix:properties/has-requirement"),
+            personas: triple_objects(&fields, "arqix:properties/has-persona"),
+            workflows: triple_objects(&fields, "arqix:properties/is-part-of-workflow"),
+        };
+        stories.insert(iri, record);
     }
     stories
 }
 
 fn cross_file_checks(
     requirements: &BTreeMap<String, (String, Vec<String>)>,
-    stories: &BTreeMap<String, (String, Vec<String>)>,
+    stories: &BTreeMap<String, StoryRecord>,
     allow_unlinked: bool,
     findings: &mut Vec<Finding>,
 ) {
@@ -689,7 +819,7 @@ fn cross_file_checks(
                     "REQ-LNK-003",
                     format!("derived-from references missing story {story_iri}"),
                 ));
-            } else if !stories[story_iri].1.contains(req_iri) {
+            } else if !stories[story_iri].has_requirement.contains(req_iri) {
                 findings.push(Finding::error(
                     path,
                     "REQ-LNK-005",
@@ -701,25 +831,25 @@ fn cross_file_checks(
         }
     }
 
-    for (story_iri, (path, has_req)) in stories {
-        for req_iri in has_req {
+    for (story_iri, story) in stories {
+        for req_iri in &story.has_requirement {
             if !requirements.contains_key(req_iri) {
                 findings.push(Finding::error(
-                    path,
+                    &story.path,
                     "REQ-LNK-004",
                     format!("has-requirement references missing requirement {req_iri}"),
                 ));
             } else if !requirements[req_iri].1.contains(story_iri) {
                 findings.push(Finding::error(
-                    path,
+                    &story.path,
                     "REQ-LNK-005",
                     format!("has-requirement {req_iri} has no matching derived-from"),
                 ));
             }
         }
-        if has_req.is_empty() && !allow_unlinked {
+        if story.has_requirement.is_empty() && !allow_unlinked {
             findings.push(Finding::warning(
-                path,
+                &story.path,
                 "REQ-LNK-006",
                 "story has no has-requirement link".to_string(),
             ));
@@ -799,6 +929,11 @@ fn run_checks(allow_unlinked: bool) -> Option<Vec<Finding>> {
     }
 
     cross_file_checks(&requirements, &stories, allow_unlinked, &mut findings);
+    if Path::new(WORKFLOW_DIR).is_dir() {
+        let workflows = load_workflows(WORKFLOW_DIR);
+        let consolidation = load_consolidation_personas(PERSONA_DIR);
+        story_workflow_checks(&stories, &workflows, &consolidation, &mut findings);
+    }
     findings.sort_by(|a, b| {
         (a.path.as_str(), a.rule, a.message.as_str()).cmp(&(
             b.path.as_str(),
@@ -1197,5 +1332,110 @@ mod tests {
             parse_frontmatter("---\nexternal-references: []\nmeta:\n  lang: en\n---\nbody\n")
                 .expect("fm");
         assert!(!f2.top.contains_key("external-references"));
+    }
+
+    // --- story-workflow coupling (US-WF-001, US-PER-001) -----------------
+
+    fn story(id: &str, persona: &str, workflow: &str) -> (String, StoryRecord) {
+        (
+            format!("arqix:user-stories/{}", id.to_lowercase()),
+            StoryRecord {
+                path: format!("{id}.md"),
+                id: id.to_string(),
+                has_requirement: Vec::new(),
+                personas: vec![format!("arqix:personas/{persona}")],
+                workflows: vec![format!("arqix:workflows/{workflow}")],
+            },
+        )
+    }
+
+    fn workflow(id: &str, personas: &[&str]) -> (String, BTreeSet<String>) {
+        (
+            format!("arqix:workflows/{id}"),
+            personas
+                .iter()
+                .map(|p| format!("arqix:personas/{p}"))
+                .collect(),
+        )
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    #[test]
+    fn story_in_a_workflow_its_id_does_not_encode_is_reported() {
+        let stories = BTreeMap::from([story("US-01-01-21", "per-01", "wf-08-01")]);
+        let workflows = BTreeMap::from([workflow("wf-01-01", &["per-01"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-WF-001"]);
+        assert_eq!(
+            findings[0].message,
+            "id US-01-01-21 encodes workflow 'arqix:workflows/wf-01-01', \
+             is-part-of-workflow names ['arqix:workflows/wf-08-01']"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    #[test]
+    fn story_without_a_workflow_is_reported() {
+        let (iri, mut record) = story("US-01-01-21", "per-01", "wf-01-01");
+        record.workflows.clear();
+        let stories = BTreeMap::from([(iri, record)]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &BTreeMap::new(), &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-WF-001"]);
+        assert_eq!(
+            findings[0].message,
+            "id US-01-01-21 encodes workflow 'arqix:workflows/wf-01-01', \
+             is-part-of-workflow names none"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn persona_missing_from_the_workflow_is_reported() {
+        let stories = BTreeMap::from([story("US-01-01-21", "per-08", "wf-01-01")]);
+        let workflows = BTreeMap::from([workflow("wf-01-01", &["per-01"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert_eq!(rules_of(&findings), vec!["US-PER-001"]);
+        assert_eq!(
+            findings[0].message,
+            "persona 'arqix:personas/per-08' is not declared on workflow \
+             'arqix:workflows/wf-01-01' (has-primary-persona/has-relevant-persona)"
+        );
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn consolidation_persona_attaches_to_any_workflow() {
+        let stories = BTreeMap::from([story("US-04-01-17", "per-10", "wf-04-01")]);
+        let workflows = BTreeMap::from([workflow("wf-04-01", &["per-09"])]);
+        let consolidation = BTreeSet::from(["arqix:personas/per-10".to_string()]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &consolidation, &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
+    }
+
+    // arqix:verifies REQ-01-01-11-08
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn coupled_story_is_clean_and_relevant_personas_count() {
+        // per-08 is only a relevant (not primary) persona of wf-09-01.
+        let stories = BTreeMap::from([story("US-09-01-03", "per-08", "wf-09-01")]);
+        let workflows = BTreeMap::from([workflow("wf-09-01", &["per-01", "per-08"])]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &workflows, &BTreeSet::new(), &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
+    }
+
+    // arqix:verifies REQ-01-01-11-09
+    #[test]
+    fn unresolvable_workflow_reference_skips_the_persona_check() {
+        // Graph resolution is a linter concern; the coupling check only reads
+        // workflows that exist.
+        let stories = BTreeMap::from([story("US-01-01-21", "per-08", "wf-01-01")]);
+        let mut findings = Vec::new();
+        story_workflow_checks(&stories, &BTreeMap::new(), &BTreeSet::new(), &mut findings);
+        assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
     }
 }
