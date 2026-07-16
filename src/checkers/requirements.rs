@@ -1263,6 +1263,7 @@ mod tests {
             "REQ-01-01-01-01-test-requirement.md",
             "REQ-01-01-01-01-test-requirement.md",
             no_iri,
+            &default_meta(),
             &mut findings,
         );
         assert!(findings.iter().any(|f| f.rule == "REQ-ID-003"
@@ -1304,6 +1305,7 @@ mod tests {
             "REQ-00-00-00-01-test-requirement.md",
             "REQ-00-00-00-01-test-requirement.md",
             &one,
+            &default_meta(),
             &mut findings,
         );
         assert!(findings.iter().any(|f| f.rule == "REQ-LNK-002"));
