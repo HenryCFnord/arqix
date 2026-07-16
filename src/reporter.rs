@@ -10,7 +10,7 @@ use crate::diag::SCHEMA_VERSION;
 use crate::trace::Model;
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 // arqix:implements REQ-03-01-04-01
@@ -834,43 +834,31 @@ fn unit_lines_of_code(
     snapshot: &str,
     _retired: &BTreeSet<String>,
 ) -> String {
+    // The unit is freshness-gated, so it must be a function of the tracked
+    // tree: git-tracked .rs files when git answers, a recursive directory
+    // walk as the fallback for corpora outside version control.
+    let files = tracked_rust_files().unwrap_or_else(walked_rust_files);
     let mut components: BTreeMap<String, (u64, u64, u64)> = BTreeMap::new();
-    let mut visit = |component: &str, dir: &Path| {
-        let Ok(entries) = std::fs::read_dir(dir) else {
-            return;
-        };
-        let mut paths: Vec<_> = entries.flatten().map(|e| e.path()).collect();
-        paths.sort();
-        for path in paths {
-            if path.extension().and_then(|e| e.to_str()) == Some("rs")
-                && let Ok(text) = std::fs::read_to_string(&path)
-            {
-                let entry = components.entry(component.to_string()).or_default();
-                entry.0 += 1;
-                entry.1 += text.lines().count() as u64;
-                entry.2 += text.lines().filter(|l| !l.trim().is_empty()).count() as u64;
+    for path in files {
+        let posix = crate::util::to_posix(&path);
+        let component = if let Some(rest) = posix.strip_prefix("src/") {
+            match rest.split_once('/') {
+                Some((sub, _)) => format!("src/{sub}"),
+                None => "src".to_string(),
             }
-        }
-    };
-    visit("src", Path::new("src"));
-    if let Ok(entries) = std::fs::read_dir("src") {
-        let mut dirs: Vec<_> = entries
-            .flatten()
-            .map(|e| e.path())
-            .filter(|p| p.is_dir())
-            .collect();
-        dirs.sort();
-        for dir in dirs {
-            visit(
-                &format!(
-                    "src/{}",
-                    dir.file_name().unwrap_or_default().to_string_lossy()
-                ),
-                &dir,
-            );
-        }
+        } else if posix.starts_with("tests/") {
+            "tests".to_string()
+        } else {
+            continue;
+        };
+        let Ok(text) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let entry = components.entry(component).or_default();
+        entry.0 += 1;
+        entry.1 += text.lines().count() as u64;
+        entry.2 += text.lines().filter(|l| !l.trim().is_empty()).count() as u64;
     }
-    visit("tests", Path::new("tests"));
 
     let mut out = header(
         "How large is the codebase (lines of code, by component)?",
@@ -892,6 +880,56 @@ fn unit_lines_of_code(
         total.0, total.1, total.2
     ));
     out
+}
+
+/// The git-tracked Rust sources, or None when git is absent or the corpus
+/// is not a repository.
+fn tracked_rust_files() -> Option<Vec<PathBuf>> {
+    // Only trust git when the corpus itself is the repository — a scratch
+    // corpus nested inside some outer repository would answer with an
+    // empty tracked set.
+    if !Path::new(".git").exists() {
+        return None;
+    }
+    let out = std::process::Command::new("git")
+        .args(["ls-files", "--", "*.rs"])
+        .output()
+        .ok()?;
+    if !out.status.success() {
+        return None;
+    }
+    Some(
+        String::from_utf8_lossy(&out.stdout)
+            .lines()
+            .map(PathBuf::from)
+            .collect(),
+    )
+}
+
+/// Fallback for corpora outside version control: every .rs file under src/
+/// and tests/, path-sorted.
+fn walked_rust_files() -> Vec<PathBuf> {
+    fn walk(dir: &Path, out: &mut Vec<PathBuf>) {
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        let mut children: Vec<PathBuf> = entries.flatten().map(|e| e.path()).collect();
+        children.sort();
+        for path in children {
+            if path.symlink_metadata().is_ok_and(|m| m.is_symlink()) {
+                continue;
+            }
+            if path.is_dir() {
+                walk(&path, out);
+            } else if path.extension().and_then(|e| e.to_str()) == Some("rs") {
+                out.push(path);
+            }
+        }
+    }
+    let mut files = Vec::new();
+    walk(Path::new("src"), &mut files);
+    walk(Path::new("tests"), &mut files);
+    files
 }
 
 /// Q-10: the test suite's code coverage, rendered from a cargo-llvm-cov
