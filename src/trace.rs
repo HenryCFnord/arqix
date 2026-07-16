@@ -830,7 +830,7 @@ fn csv_field(s: &str) -> String {
     }
 }
 
-fn csv_row(fields: &[String]) -> String {
+pub(crate) fn csv_row(fields: &[String]) -> String {
     let quoted: Vec<String> = fields.iter().map(|f| csv_field(f)).collect();
     format!("{}\n", quoted.join(","))
 }

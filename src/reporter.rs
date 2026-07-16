@@ -268,6 +268,7 @@ fn write_concept(
 
 const UNITS_DIR: &str = "docs/en/reports/units";
 const TRACE_DIR: &str = "docs/en/reports/trace";
+const STATEMENTS_PATH: &str = "docs/en/reports/requirements/normative-statements.csv";
 
 /// One report unit: its filename and the projection that renders it. The
 /// signature is uniform so the set can be iterated; a unit ignores the inputs
@@ -764,6 +765,16 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
             }
         }
     }
+    // arqix:implements REQ-07-01-08-02
+    match std::fs::read_to_string(STATEMENTS_PATH) {
+        Err(_) => stale.push((STATEMENTS_PATH.to_string(), "missing")),
+        Ok(text) => {
+            if statements_csv() != text {
+                stale.push((STATEMENTS_PATH.to_string(), "stale"));
+            }
+        }
+    }
+
     for (filename, matrix_type) in [("matrix.csv", "req-test"), ("matrix-us-req.csv", "us-req")] {
         let path = Path::new(TRACE_DIR).join(filename);
         match std::fs::read_to_string(&path) {
@@ -780,7 +791,10 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
         println!("FAIL {path}: {why} — regenerate with `just reports`");
     }
     if stale.is_empty() {
-        println!("reports: fresh ({} units, 2 matrices)", UNITS.len());
+        println!(
+            "reports: fresh ({} units, 2 matrices, 1 export)",
+            UNITS.len()
+        );
         ExitCode::SUCCESS
     } else {
         ExitCode::from(1)
@@ -807,6 +821,26 @@ pub fn snapshot(
         return ExitCode::from(2);
     };
     snapshot_generate(out.unwrap_or(UNITS_DIR), stamp, format)
+}
+
+/// The normative-statement export as one CSV string: header plus one row
+/// per requirement, projected from the requirements checker.
+fn statements_csv() -> String {
+    let mut out = String::from("requirement,kind,modality,pattern,subject\n");
+    for row in crate::checkers::requirements::statement_rows() {
+        out.push_str(&crate::trace::csv_row(&row));
+    }
+    out
+}
+
+// arqix:implements REQ-07-01-08-01
+/// `arqix report statements` — every requirement's normative-sentence
+/// classification (modality, EARS pattern, subject) as CSV on stdout, the
+/// same shape as `trace matrix`. The committed copy under
+/// docs/en/reports/requirements/ refreshes with the snapshots.
+pub fn statements(_format: OutputFormat) -> ExitCode {
+    print!("{}", statements_csv());
+    ExitCode::SUCCESS
 }
 
 #[cfg(test)]

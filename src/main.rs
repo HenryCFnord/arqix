@@ -306,6 +306,8 @@ enum ReportCommand {
         #[arg(long)]
         out: Option<String>,
     },
+    /// Export every requirement's normative-sentence classification as CSV
+    Statements,
     /// Regenerate the question-driven report units from the trace graph (ADR-0008)
     Snapshot {
         /// Snapshot stamp embedded as generation provenance (e.g. "<sha>, <date>")
@@ -429,6 +431,7 @@ fn main() -> ExitCode {
                 reporter::bundle(&ids, out.as_deref(), stamp.as_deref(), cli.format)
             }
             ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
+            ReportCommand::Statements => reporter::statements(cli.format),
             ReportCommand::Snapshot { stamp, check, out } => {
                 reporter::snapshot(stamp.as_deref(), check, out.as_deref(), cli.format)
             }

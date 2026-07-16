@@ -21,7 +21,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] K1 — kind-template-key (gap G1): US-08-01-26 + REQ-08-01-26-01/-02, spec-first red/green; `[kinds.<family>].template` + TPL-002 for unknown placeholders.
 - [x] K2 — doc-new-target-path (gap G3): US-08-01-27 + REQ-08-01-27-01, spec-first red/green; `--dir` on `doc new` and the aliases, containment-guarded.
 - [x] K3 — source-record-kind (gap G5): US-08-01-28 + REQ-08-01-28-01/-02/-03, spec-first red/green; `arqix:classes/source` as a full ontology member (owner decision 2026-07-16, option a) with the SRC rule family in `lint frontmatter`, `[kinds.source]` creation surface, and SRC-0001 as the first corpus record.
-- [ ] K4 — normative-statement-export (P5): the sentence classification as data.
+- [x] K4 — normative-statement-export (P5): US-07-01-08 + REQ-07-01-08-01/-02, spec-first red/green; `arqix report statements` (CSV: id, kind, modality, EARS pattern, subject) with the committed export under the snapshot freshness gate.
 - [ ] R5 — checker-internal-dedup (refactor slice 5, `src/date.rs`).
 - [ ] R6 — required-meta-one-source (refactor slice 6, the high-value item).
 - [ ] R7 — frontmatter-vocab-config (refactor slice 7; may slip past the release).
