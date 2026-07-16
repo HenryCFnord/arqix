@@ -113,3 +113,47 @@ fn lint_requirements_reports_authoring_violations_as_json() {
     assert_eq!(report["summary"]["errors"], 3, "{report}");
     assert_eq!(report["summary"]["warnings"], 0, "{report}");
 }
+
+// arqix:verifies REQ-01-01-19-03
+#[test]
+fn lint_requirements_resolves_the_configured_required_meta() {
+    // One source (ADR-0011): REQ-META-001 checks the effective
+    // [kinds.req].required-meta contract, not a hardcoded key set.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_requirements_resolves_the_configured_required_meta",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.req]\ndir = \"docs/en/architecture/req\"\nrequired-meta = [\"owner\", \"lang\"]\n",
+    )
+    .unwrap();
+    let story_dir = repo.join("docs/en/architecture/stories");
+    let req_dir = repo.join("docs/en/architecture/req");
+    std::fs::create_dir_all(&story_dir).unwrap();
+    std::fs::create_dir_all(&req_dir).unwrap();
+    std::fs::write(story_dir.join("US-09-09-09-sample-story.md"), STORY).unwrap();
+    std::fs::write(
+        req_dir.join("REQ-09-09-09-01-sample.md"),
+        "---\nid: REQ-09-09-09-01\ntitle: Sample\nslug: sample\niri: arqix:requirements/req-09-09-09-01\n\nrdf:\n  type:\n    - arqix:classes/functional-requirement\n\ntriples:\n  - predicate: arqix:properties/derived-from\n    object: arqix:user-stories/us-09-09-09\n\nmeta:\n  owner: hcf\n  lang: en\n---\n\n## Requirement\n\nWhen `arqix lint requirements` runs, arqix SHALL honour the configured contract.\n",
+    )
+    .unwrap();
+
+    // The shrunk contract is satisfied: no REQ-META-001 findings.
+    let out = run_arqix_in(&repo, &["lint", "requirements"]);
+    common::assert_success(&out);
+
+    // A grown contract bites: a missing configured key is a finding.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.req]\ndir = \"docs/en/architecture/req\"\nrequired-meta = [\"owner\", \"lang\", \"reviewed\"]\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "requirements"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("meta.reviewed"),
+        "the configured key is named: {stdout}"
+    );
+}

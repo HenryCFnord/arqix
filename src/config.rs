@@ -433,6 +433,9 @@ pub struct KindContract {
     /// The family's template file (REQ-08-01-26-01), repository-relative;
     /// `doc new` instantiates it instead of the template-directory lookup.
     pub template: Option<String>,
+    /// The family's required meta keys (REQ-01-01-19-03) — the one contract
+    /// the formatter and both checkers validate against.
+    pub required_meta: Option<Vec<String>>,
 }
 
 // arqix:implements REQ-01-01-19-01
@@ -465,6 +468,7 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
                             .get("template")
                             .and_then(Value::as_str)
                             .map(str::to_string),
+                        required_meta: json_string_array(entry.get("required-meta")),
                     })
                 })
                 .collect()
