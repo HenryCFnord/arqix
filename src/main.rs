@@ -172,6 +172,10 @@ enum DocCommand {
         /// Explicit ID instead of the generated one (uniqueness still checked)
         #[arg(long)]
         id: Option<String>,
+        /// Explicit repository-relative target directory (wins over the
+        /// kind's declared dir and the default placement)
+        #[arg(long)]
+        dir: Option<String>,
         /// Report the planned ID and target path without writing
         #[arg(long)]
         dry_run: bool,
@@ -234,6 +238,10 @@ enum AliasNewCommand {
         /// Explicit ID instead of the generated one (uniqueness still checked)
         #[arg(long)]
         id: Option<String>,
+        /// Explicit repository-relative target directory (wins over the
+        /// kind's declared dir and the default placement)
+        #[arg(long)]
+        dir: Option<String>,
         /// Plan the creation without writing the file
         #[arg(long)]
         dry_run: bool,
@@ -368,12 +376,14 @@ fn main() -> ExitCode {
                 kind,
                 title,
                 id,
+                dir,
                 dry_run,
             } => templates::new_document(
                 &kind,
                 templates::NewOptions {
                     title: title.as_deref(),
                     id: id.as_deref(),
+                    dir: dir.as_deref(),
                     dry_run,
                 },
                 cli.format,
@@ -455,12 +465,18 @@ fn main() -> ExitCode {
 /// The creation aliases dispatch exactly like `doc new <kind>` — one code
 /// path, no second creation surface (REQ-01-01-05-02).
 fn alias_new(kind: &str, command: AliasNewCommand, format: OutputFormat) -> ExitCode {
-    let AliasNewCommand::New { title, id, dry_run } = command;
+    let AliasNewCommand::New {
+        title,
+        id,
+        dir,
+        dry_run,
+    } = command;
     templates::new_document(
         kind,
         templates::NewOptions {
             title: title.as_deref(),
             id: id.as_deref(),
+            dir: dir.as_deref(),
             dry_run,
         },
         format,

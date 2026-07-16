@@ -293,6 +293,9 @@ fn valid_kind(kind: &str) -> bool {
 pub struct NewOptions<'a> {
     pub title: Option<&'a str>,
     pub id: Option<&'a str>,
+    /// Explicit repository-relative target directory (REQ-08-01-27-01);
+    /// wins over the declared kind dir and the default placement.
+    pub dir: Option<&'a str>,
     pub dry_run: bool,
 }
 
@@ -355,14 +358,32 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
 
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
-    // The declared [kinds.<family>] dir is the creation target when the
-    // family has a contract (REQ-08-01-25-01): creation and validation read
-    // the same source (ADR-0011). Unconfigured kinds keep <first-root>/<kind>/.
-    let dir = crate::config::kind_contracts(Path::new("."))
-        .into_iter()
-        .find(|contract| contract.family == kind)
-        .map(|contract| PathBuf::from(contract.dir))
-        .unwrap_or_else(|| PathBuf::from(&root).join(kind));
+    // Placement precedence: the explicit --dir (REQ-08-01-27-01), then the
+    // declared [kinds.<family>] dir (REQ-08-01-25-01, one source with
+    // validation per ADR-0011), then the <first-root>/<kind>/ default.
+    let dir = match options.dir {
+        Some(explicit) => {
+            let path = Path::new(explicit);
+            if path.is_absolute()
+                || path
+                    .components()
+                    .any(|c| matches!(c, std::path::Component::ParentDir))
+            {
+                // Containment (REQ-00-00-00-13): the repository is the only
+                // write target, so escapes are usage errors, never writes.
+                eprintln!(
+                    "error: --dir must be a repository-relative path without '..': {explicit}"
+                );
+                return ExitCode::from(2);
+            }
+            PathBuf::from(explicit)
+        }
+        None => crate::config::kind_contracts(Path::new("."))
+            .into_iter()
+            .find(|contract| contract.family == kind)
+            .map(|contract| PathBuf::from(contract.dir))
+            .unwrap_or_else(|| PathBuf::from(&root).join(kind)),
+    };
     let path = dir.join(format!("{id}.md"));
 
     if path.exists() {
