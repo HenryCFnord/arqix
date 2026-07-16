@@ -110,7 +110,44 @@ fn template(
     namespace: &str,
     title: &str,
     slug: &str,
+    format: OutputFormat,
 ) -> Result<String, ExitCode> {
+    // A declared [kinds.<family>].template wins (REQ-08-01-26-01): the
+    // contract names the file directly, and only this path validates the
+    // placeholder vocabulary (REQ-08-01-26-02) — the directory and embedded
+    // paths keep their present behaviour.
+    if let Some(declared) = crate::config::kind_contracts(Path::new("."))
+        .into_iter()
+        .find(|contract| contract.family == kind)
+        .and_then(|contract| contract.template)
+    {
+        let text = match std::fs::read_to_string(&declared) {
+            Ok(text) => text,
+            Err(err) => {
+                eprintln!(
+                    "error: no template for kind '{kind}': [kinds.{kind}] declares {declared}: {err}"
+                );
+                return Err(ExitCode::from(2));
+            }
+        };
+        let rendered = substitute(&text, id, kind, namespace, title, slug);
+        if let Some(unknown) = leftover_placeholder(&rendered) {
+            // A typo in a placeholder must become a finding, never a silent
+            // literal in the created document.
+            let diagnostic = Diagnostic::error(
+                "TPL-002",
+                format!(
+                    "template {declared} uses unknown placeholder '{{{unknown}}}' \
+                     (known: id, title, slug, iri_slug, kind, namespace, lifecycle)"
+                ),
+            )
+            .at(&declared);
+            diag::emit(&[diagnostic], format);
+            return Err(ExitCode::from(1));
+        }
+        return Ok(rendered);
+    }
+
     let (dir, configured) = template_dir();
     let path = dir.join(format!("{kind}.tpl.md"));
     let text = match std::fs::read_to_string(&path) {
@@ -124,14 +161,34 @@ fn template(
         }
         Err(_) => default_template(kind, namespace),
     };
-    Ok(text
-        .replace("{id}", id)
+    Ok(substitute(&text, id, kind, namespace, title, slug))
+}
+
+/// The documented placeholder vocabulary, applied to any template source.
+fn substitute(
+    text: &str,
+    id: &str,
+    kind: &str,
+    namespace: &str,
+    title: &str,
+    slug: &str,
+) -> String {
+    text.replace("{id}", id)
         .replace("{title}", title)
         .replace("{slug}", slug)
         .replace("{iri_slug}", &id.to_lowercase())
         .replace("{kind}", kind)
         .replace("{namespace}", namespace)
-        .replace("{lifecycle}", lifecycle_for(kind)))
+        .replace("{lifecycle}", lifecycle_for(kind))
+}
+
+/// The first braced lowercase identifier left after substitution — an
+/// unknown placeholder. YAML literals such as `{}` never match.
+fn leftover_placeholder(text: &str) -> Option<String> {
+    regex::Regex::new(r"\{([a-z_]+)\}")
+        .expect("static regex")
+        .captures(text)
+        .map(|c| c[1].to_string())
 }
 
 /// Mint the next ID from a configured id-pattern (ADR-0012): the pattern
@@ -322,7 +379,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             eprintln!("error: cannot create {}: {err}", dir.display());
             return ExitCode::from(2);
         }
-        let content = match template(&id, kind, &namespace, &title, &slug) {
+        let content = match template(&id, kind, &namespace, &title, &slug, format) {
             Ok(content) => content,
             Err(code) => return code,
         };

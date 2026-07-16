@@ -430,6 +430,9 @@ pub struct KindContract {
     /// uniqueness scope, and — through its named groups — generation
     /// (`seq`) and consistency checks (`story`).
     pub id_pattern: Option<String>,
+    /// The family's template file (REQ-08-01-26-01), repository-relative;
+    /// `doc new` instantiates it instead of the template-directory lookup.
+    pub template: Option<String>,
 }
 
 // arqix:implements REQ-01-01-19-01
@@ -456,6 +459,10 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
                         key_order: json_string_array(entry.get("key-order")),
                         id_pattern: entry
                             .get("id-pattern")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                        template: entry
+                            .get("template")
                             .and_then(Value::as_str)
                             .map(str::to_string),
                     })
