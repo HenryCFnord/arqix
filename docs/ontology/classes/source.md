@@ -42,3 +42,7 @@ The class carries a provenance contract, enforced by `arqix lint frontmatter` (t
 
 Completeness is a finalisation contract: a record still in `draft` may hold an incomplete skeleton, but once it leaves draft the four required fields must be present.
 Malformed values are findings in every lifecycle state.
+
+A local copy is committed only when its licence permits redistribution (this repository is public).
+Otherwise the copy stays untracked at the recorded path, and the record still pins the uri, the access date, and the digest — whoever needs the text takes their own copy and verifies it against the digest.
+The checker deliberately never requires the copy to exist, so both cases pass the same contract.
