@@ -53,6 +53,18 @@ const REQUIRED_META: [&str; 6] = [
     "generated",
 ];
 
+/// The effective required-meta contract for the req family: the configured
+/// `[kinds.req].required-meta` (REQ-01-01-19-03, one source with the
+/// formatter and the frontmatter checker), or the built-in six keys.
+// arqix:implements REQ-01-01-19-03
+fn effective_required_meta() -> Vec<String> {
+    crate::config::kind_contracts(Path::new("."))
+        .into_iter()
+        .find(|c| c.family == "req")
+        .and_then(|c| c.required_meta)
+        .unwrap_or_else(|| REQUIRED_META.iter().map(|s| s.to_string()).collect())
+}
+
 /// Keyword subset expected per kind; a mismatch is the EARS-005 warning.
 fn kind_keywords(kind: &str) -> Option<&'static [&'static str]> {
     match kind {
@@ -473,6 +485,7 @@ fn check_requirement_file(
     path: &str,
     filename: &str,
     text: &str,
+    required_meta: &[String],
     findings: &mut Vec<Finding>,
 ) -> Option<(String, Vec<String>)> {
     let (fields, body) = match parse_frontmatter(text) {
@@ -571,8 +584,8 @@ fn check_requirement_file(
         ));
     }
 
-    for key in REQUIRED_META {
-        if !fields.meta.contains_key(key) {
+    for key in required_meta {
+        if !fields.meta.contains_key(key.as_str()) {
             findings.push(Finding::error(
                 path,
                 "REQ-META-001",
@@ -889,11 +902,12 @@ fn run_checks(allow_unlinked: bool) -> Option<Vec<Finding>> {
     let mut requirements: BTreeMap<String, (String, Vec<String>)> = BTreeMap::new();
     let mut req_ids: Vec<(String, String)> = Vec::new();
     if Path::new(REQ_DIR).is_dir() {
+        let required_meta = effective_required_meta();
         for path in sorted_md_files(REQ_DIR) {
             let text = read_universal(&path);
             let name = basename(&path);
             if let Some((req_id, derived)) =
-                check_requirement_file(&path, &name, &text, &mut findings)
+                check_requirement_file(&path, &name, &text, &required_meta, &mut findings)
             {
                 req_ids.push((req_id.clone(), path.clone()));
                 requirements.insert(
@@ -997,6 +1011,10 @@ fn sorted_md_files(dir: &str) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn default_meta() -> Vec<String> {
+        REQUIRED_META.iter().map(|s| s.to_string()).collect()
+    }
 
     fn rules_of(findings: &[Finding]) -> Vec<&str> {
         let mut set: BTreeSet<&str> = BTreeSet::new();
@@ -1118,7 +1136,13 @@ mod tests {
     #[test]
     fn good_fixture_parses_clean() {
         let mut findings = Vec::new();
-        let result = check_requirement_file("selftest", GOOD_NAME, GOOD_REQ, &mut findings);
+        let result = check_requirement_file(
+            "selftest",
+            GOOD_NAME,
+            GOOD_REQ,
+            &default_meta(),
+            &mut findings,
+        );
         assert!(
             findings.is_empty(),
             "unexpected findings: {:?}",
@@ -1142,7 +1166,7 @@ mod tests {
                 "iri: arqix:requirements/wrong",
             );
         let mut findings = Vec::new();
-        check_requirement_file("selftest", GOOD_NAME, &bad, &mut findings);
+        check_requirement_file("selftest", GOOD_NAME, &bad, &default_meta(), &mut findings);
         assert_eq!(rules_of(&findings), vec!["REQ-ID-003", "REQ-KIND-001"]);
     }
 
@@ -1154,7 +1178,13 @@ mod tests {
             "object:\n      - arqix:user-stories/us-01-01-01\n      - arqix:user-stories/us-02-01-01",
         );
         let mut findings = Vec::new();
-        check_requirement_file("selftest", GOOD_NAME, &multi, &mut findings);
+        check_requirement_file(
+            "selftest",
+            GOOD_NAME,
+            &multi,
+            &default_meta(),
+            &mut findings,
+        );
         assert!(findings.is_empty(), "unexpected: {:?}", rules_of(&findings));
     }
 
@@ -1166,7 +1196,13 @@ mod tests {
             "object:\n      - arqix:user-stories/us-02-01-01\n      - arqix:user-stories/us-01-01-01",
         );
         let mut findings = Vec::new();
-        check_requirement_file("selftest", GOOD_NAME, &foreign, &mut findings);
+        check_requirement_file(
+            "selftest",
+            GOOD_NAME,
+            &foreign,
+            &default_meta(),
+            &mut findings,
+        );
         assert_eq!(rules_of(&findings), vec!["REQ-LNK-001"]);
     }
 
@@ -1175,7 +1211,13 @@ mod tests {
     fn missing_generated_meta_reports_meta_001() {
         let missing = GOOD_REQ.replace("  generated: false\n", "");
         let mut findings = Vec::new();
-        check_requirement_file("selftest", GOOD_NAME, &missing, &mut findings);
+        check_requirement_file(
+            "selftest",
+            GOOD_NAME,
+            &missing,
+            &default_meta(),
+            &mut findings,
+        );
         assert_eq!(rules_of(&findings), vec!["REQ-META-001"]);
     }
 
@@ -1183,7 +1225,13 @@ mod tests {
     #[test]
     fn missing_frontmatter_reports_id_001() {
         let mut findings = Vec::new();
-        let result = check_requirement_file("selftest", "x.md", "no frontmatter\n", &mut findings);
+        let result = check_requirement_file(
+            "selftest",
+            "x.md",
+            "no frontmatter\n",
+            &default_meta(),
+            &mut findings,
+        );
         assert!(result.is_none());
         assert_eq!(rules_of(&findings), vec!["REQ-ID-001"]);
         assert_eq!(findings[0].message, "missing frontmatter");
@@ -1196,7 +1244,13 @@ mod tests {
     fn finding_messages_match_the_oracle_formatting() {
         // REQ-ID-002: `%r` of the offending id.
         let mut findings = Vec::new();
-        check_requirement_file("p.md", "p.md", "---\nid: bogus\n---\nbody\n", &mut findings);
+        check_requirement_file(
+            "p.md",
+            "p.md",
+            "---\nid: bogus\n---\nbody\n",
+            &default_meta(),
+            &mut findings,
+        );
         assert!(
             findings.iter().any(|f| f.rule == "REQ-ID-002"
                 && f.message == "id 'bogus' does not match REQ-XX-YY-ZZ-NN")
@@ -1220,7 +1274,13 @@ mod tests {
             "object:\n      - arqix:user-stories/us-02-01-01\n      - arqix:user-stories/us-01-01-01",
         );
         let mut findings = Vec::new();
-        check_requirement_file("selftest", GOOD_NAME, &foreign, &mut findings);
+        check_requirement_file(
+            "selftest",
+            GOOD_NAME,
+            &foreign,
+            &default_meta(),
+            &mut findings,
+        );
         assert!(findings.iter().any(|f| f.rule == "REQ-LNK-001"
             && f.message == "story-bound requirement must list its owning story 'arqix:user-stories/us-01-01-01' as the first derived-from object, found ['arqix:user-stories/us-02-01-01', 'arqix:user-stories/us-01-01-01']"));
     }
