@@ -5,6 +5,7 @@
 //! (REQ-01-01-06-*, the clock is never read ambiently).
 
 use crate::OutputFormat;
+use crate::date::valid_iso_date;
 use crate::diag::{self, Diagnostic};
 use std::fs;
 use std::process::ExitCode;
@@ -288,34 +289,6 @@ fn set_updated(text: &str, date: &str) -> (FinaliseResult, Option<String>) {
     }
     out.push_str(rest);
     (FinaliseResult::Updated, Some(out))
-}
-
-/// A real ISO-8601 calendar date in `YYYY-MM-DD` — shape and calendar both
-/// (REQ-01-01-06-01), so finalise can never stamp a value its own
-/// frontmatter rules reject.
-fn valid_iso_date(s: &str) -> bool {
-    let bytes = s.as_bytes();
-    if bytes.len() != 10 || bytes[4] != b'-' || bytes[7] != b'-' {
-        return false;
-    }
-    let digits = |r: std::ops::Range<usize>| -> Option<u32> {
-        s.get(r)
-            .filter(|p| p.bytes().all(|b| b.is_ascii_digit()))?
-            .parse()
-            .ok()
-    };
-    let (Some(year), Some(month), Some(day)) = (digits(0..4), digits(5..7), digits(8..10)) else {
-        return false;
-    };
-    let leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-    let days = match month {
-        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
-        4 | 6 | 9 | 11 => 30,
-        2 if leap => 29,
-        2 => 28,
-        _ => return false,
-    };
-    (1..=days).contains(&day)
 }
 
 // arqix:implements REQ-01-01-06-01

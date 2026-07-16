@@ -18,6 +18,10 @@
 //! exactly rather than reusing the store's.
 
 use crate::OutputFormat;
+use crate::checkers::shared::{
+    Finding, basename, collect_md, py_list_repr, py_repr, read_universal, repr_opt,
+};
+use crate::date::is_calendar_date;
 use regex::Regex;
 use std::collections::{HashMap, HashSet};
 use std::path::Path;
@@ -115,81 +119,6 @@ fn strs(items: &[&str]) -> Vec<String> {
     items.iter().map(|s| s.to_string()).collect()
 }
 
-// --- findings -----------------------------------------------------------
-
-struct Finding {
-    path: String,
-    rule: &'static str,
-    level: &'static str,
-    message: String,
-}
-
-impl Finding {
-    fn error(path: &str, rule: &'static str, message: String) -> Self {
-        Finding {
-            path: path.to_string(),
-            rule,
-            level: "error",
-            message,
-        }
-    }
-
-    fn warning(path: &str, rule: &'static str, message: String) -> Self {
-        Finding {
-            path: path.to_string(),
-            rule,
-            level: "warning",
-            message,
-        }
-    }
-}
-
-// --- Python-compatible formatting helpers -------------------------------
-
-/// Reproduce CPython's `repr()` for a string: single quotes unless the value
-/// contains a single quote and no double quote, with `\`, the quote, and the
-/// control characters escaped. The corpus is ASCII, so the non-ASCII branch
-/// (CPython's printable/`\x`/`\u` handling) is not exercised in practice.
-fn py_repr(s: &str) -> String {
-    let has_single = s.contains('\'');
-    let has_double = s.contains('"');
-    let quote = if has_single && !has_double { '"' } else { '\'' };
-    let mut out = String::with_capacity(s.len() + 2);
-    out.push(quote);
-    for c in s.chars() {
-        match c {
-            '\\' => out.push_str("\\\\"),
-            '\t' => out.push_str("\\t"),
-            '\n' => out.push_str("\\n"),
-            '\r' => out.push_str("\\r"),
-            c if c == quote => {
-                out.push('\\');
-                out.push(c);
-            }
-            c if (c as u32) < 0x20 || (c as u32) == 0x7f => {
-                out.push_str(&format!("\\x{:02x}", c as u32));
-            }
-            c => out.push(c),
-        }
-    }
-    out.push(quote);
-    out
-}
-
-/// `%r` of an optional value: `None` when absent (CPython `repr(None)`).
-fn repr_opt(value: Option<&str>) -> String {
-    match value {
-        Some(s) => py_repr(s),
-        None => "None".to_string(),
-    }
-}
-
-/// `%s`/`str()` of a Python list of strings: `['a', 'b']` (each element `repr`'d).
-fn py_list_repr(items: &[String]) -> String {
-    let inner: Vec<String> = items.iter().map(|s| py_repr(s)).collect();
-    format!("[{}]", inner.join(", "))
-}
-
 // --- compiled patterns (once) -------------------------------------------
 
 struct Patterns {
@@ -211,47 +140,6 @@ fn patterns() -> &'static Patterns {
         iso_date: Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap(),
         index_entry: Regex::new(r"(?m)^- ([a-z0-9-]+)$").unwrap(),
     })
-}
-
-// --- calendar validity (faithful to datetime.date.fromisoformat) --------
-
-fn is_leap(year: i64) -> bool {
-    (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
-}
-
-fn days_in_month(year: i64, month: u32) -> u32 {
-    match month {
-        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
-        4 | 6 | 9 | 11 => 30,
-        2 => {
-            if is_leap(year) {
-                29
-            } else {
-                28
-            }
-        }
-        _ => 0,
-    }
-}
-
-/// True when a shape-valid `YYYY-MM-DD` string is a real calendar date, the way
-/// `datetime.date.fromisoformat` accepts it (year 1..=9999, valid month/day).
-fn is_calendar_date(value: &str) -> bool {
-    let parts: Vec<&str> = value.split('-').collect();
-    if parts.len() != 3 {
-        return false;
-    }
-    let (year, month, day) = match (
-        parts[0].parse::<i64>(),
-        parts[1].parse::<u32>(),
-        parts[2].parse::<u32>(),
-    ) {
-        (Ok(y), Ok(m), Ok(d)) => (y, m, d),
-        _ => return false,
-    };
-    (1..=9999).contains(&year)
-        && (1..=12).contains(&month)
-        && (1..=days_in_month(year, month)).contains(&day)
 }
 
 // --- configured family contract (US-01-01-19, ADR-0011/0012) ------------
@@ -1306,35 +1194,6 @@ pub fn lint(format: OutputFormat, allow_undefined_inverse: bool) -> ExitCode {
     }
     let findings = run_checks(&contract, allow_undefined_inverse);
     report(&findings, format)
-}
-
-// --- filesystem helpers -------------------------------------------------
-
-fn collect_md(dir: &Path, out: &mut Vec<String>) {
-    let entries = match std::fs::read_dir(dir) {
-        Ok(e) => e,
-        Err(_) => return,
-    };
-    for entry in entries.flatten() {
-        let p = entry.path();
-        if p.is_dir() {
-            collect_md(&p, out);
-        } else if p.extension().and_then(|e| e.to_str()) == Some("md") {
-            out.push(p.to_string_lossy().replace('\\', "/"));
-        }
-    }
-}
-
-/// The basename of a POSIX-style path.
-fn basename(path: &str) -> String {
-    path.rsplit('/').next().unwrap_or(path).to_string()
-}
-
-/// Read a file the way CPython's `read_text` does: UTF-8 with universal newline
-/// translation (`\r\n` and lone `\r` become `\n`).
-fn read_universal(path: &str) -> String {
-    let raw = std::fs::read_to_string(path).unwrap_or_default();
-    raw.replace("\r\n", "\n").replace('\r', "\n")
 }
 
 #[cfg(test)]
