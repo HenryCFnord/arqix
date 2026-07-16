@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3ce0612, 2026-07-16
+     Snapshot: e1b6b7c, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -417,6 +417,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_requirements_reports_authoring_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `lint_requirements_resolves_the_configured_required_meta` | US-01-01-19 | Configure Frontmatter Contracts |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |
 | `lint_run_checks_that_include_targets_exist` | US-02-01-04 | Lint Documents Before Commit |
 | `lint_run_checks_that_include_targets_exist` | US-03-01-01 | Lint Documents for Traceability Gaps |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 3ce0612, 2026-07-16
+     Snapshot: e1b6b7c, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -40,6 +40,7 @@
 | `coverage_command` | src/trace.rs:917 | REQ-03-01-10-03 |
 | `coverage_unit` | src/reporter.rs:900 | REQ-07-01-10-01 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
+| `effective_required_meta` | src/checkers/requirements.rs:59 | REQ-01-01-19-03 |
 | `finalise` | src/rewriter.rs:294 | REQ-01-01-06-01 |
 | `finalise` | src/rewriter.rs:295 | REQ-01-01-06-02 |
 | `finalise` | src/rewriter.rs:296 | REQ-01-01-06-03 |
@@ -53,18 +54,18 @@
 | `frontmatter_line_count` | src/assembler.rs:157 | REQ-02-01-12-02 |
 | `frontmatter_line_count` | src/assembler.rs:158 | REQ-02-01-12-03 |
 | `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
-| `id_pattern_for_kind` | src/config.rs:477 | REQ-01-01-18-01 |
+| `id_pattern_for_kind` | src/config.rs:481 | REQ-01-01-18-01 |
 | `init` | src/templates.rs:446 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:447 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:64 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:438 | REQ-01-01-19-01 |
-| `kind_contracts` | src/config.rs:439 | REQ-01-01-19-02 |
+| `kind_contracts` | src/config.rs:441 | REQ-01-01-19-01 |
+| `kind_contracts` | src/config.rs:442 | REQ-01-01-19-02 |
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `linked_targets` | src/publisher.rs:704 | REQ-04-01-07-03 |
 | `lint` | src/checkers/frontmatter.rs:1187 | REQ-01-01-11-07 |
-| `lint` | src/checkers/requirements.rs:977 | REQ-01-01-11-06 |
+| `lint` | src/checkers/requirements.rs:991 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
 | `list` | src/store.rs:128 | REQ-05-01-08-03 |
 | `marker_body` | src/trace.rs:291 | REQ-03-01-10-01 |
@@ -102,7 +103,7 @@
 | `scan` | src/trace.rs:894 | REQ-03-01-05-05 |
 | `search` | src/store.rs:186 | REQ-02-01-06-01 |
 | `serve` | src/mcp.rs:17 | REQ-05-01-12-01 |
-| `show` | src/config.rs:543 | REQ-01-01-16-02 |
+| `show` | src/config.rs:547 | REQ-01-01-16-02 |
 | `site` | src/publisher.rs:18 | REQ-04-01-03-01 |
 | `site` | src/publisher.rs:19 | REQ-04-01-03-02 |
 | `site` | src/publisher.rs:20 | REQ-04-01-03-03 |
@@ -115,14 +116,14 @@
 | `stage_catalogue` | src/publisher.rs:390 | REQ-04-01-17-03 |
 | `staged_asset_rel` | src/publisher.rs:683 | REQ-04-01-07-04 |
 | `statements` | src/reporter.rs:970 | REQ-07-01-08-01 |
-| `story_workflow_checks` | src/checkers/requirements.rs:653 | REQ-01-01-11-08 |
-| `story_workflow_checks` | src/checkers/requirements.rs:654 | REQ-01-01-11-09 |
+| `story_workflow_checks` | src/checkers/requirements.rs:666 | REQ-01-01-11-08 |
+| `story_workflow_checks` | src/checkers/requirements.rs:667 | REQ-01-01-11-09 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
 | `tool_result` | src/mcp.rs:143 | REQ-05-01-12-03 |
 | `unit_lines_of_code` | src/reporter.rs:830 | REQ-07-01-09-01 |
-| `validate` | src/config.rs:532 | REQ-01-01-16-01 |
+| `validate` | src/config.rs:536 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:29 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:30 | REQ-04-01-05-02 |
 | `verify` | src/verifier.rs:31 | REQ-04-01-05-03 |
@@ -134,7 +135,7 @@
 | `verify` | src/verifier.rs:37 | REQ-03-01-11-03 |
 | `verify_policy` | src/config.rs:169 | REQ-04-01-14-01 |
 | `verify_policy` | src/config.rs:170 | REQ-04-01-14-03 |
-| — | src/checkers/requirements.rs:345 | REQ-07-01-08-01 |
+| — | src/checkers/requirements.rs:357 | REQ-07-01-08-01 |
 | — | src/config.rs:188 | REQ-04-01-16-01 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
