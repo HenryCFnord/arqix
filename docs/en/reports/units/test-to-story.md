@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e331116, 2026-07-16
+     Snapshot: e005727, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -517,12 +517,15 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `publish_site_orchestrates_the_configured_toolchain` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_publishes_per_language` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_publishes_per_language` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `publish_site_removes_stale_staged_pages` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_rewrites_csv_links_to_the_table_pages` | US-04-01-19 | Publish CSV Artefacts as Readable Tables |
+| `publish_site_stages_a_linked_include_target_as_a_page` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_stages_artefact_ready_inputs` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_stages_artefact_ready_inputs` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `publish_site_stages_csv_artefacts_as_tables` | US-04-01-19 | Publish CSV Artefacts as Readable Tables |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | US-04-01-07 | Publish Language-Aware Sites |
+| `publish_site_still_omits_unlinked_fragments` | US-04-01-07 | Publish Language-Aware Sites |
 | `release_documents_stay_consistent_with_the_crate_version` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `release_documents_stay_consistent_with_the_crate_version` | US-04-01-09 | Run Governed Release Preparation Workflows |
 | `release_documents_stay_consistent_with_the_crate_version` | US-08-01-17 | Prepare Releases within Explicit Automation Boundaries |

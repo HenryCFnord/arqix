@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e331116, 2026-07-16
+     Snapshot: e005727, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -54,7 +54,6 @@
 | `frontmatter_line_count` | src/assembler.rs:158 | REQ-02-01-12-03 |
 | `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:477 | REQ-01-01-18-01 |
-| `included_targets` | src/publisher.rs:695 | REQ-04-01-07-03 |
 | `init` | src/templates.rs:446 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:447 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
@@ -63,6 +62,7 @@
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
+| `linked_targets` | src/publisher.rs:704 | REQ-04-01-07-03 |
 | `lint` | src/checkers/frontmatter.rs:1299 | REQ-01-01-11-07 |
 | `lint` | src/checkers/requirements.rs:1046 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
@@ -77,11 +77,11 @@
 | `new_document` | src/templates.rs:304 | REQ-00-00-00-13 |
 | `new_document` | src/templates.rs:305 | REQ-01-01-13-01 |
 | `new_document` | src/templates.rs:306 | REQ-01-01-13-02 |
-| `pdf` | src/publisher.rs:219 | REQ-04-01-03-04 |
-| `pdf` | src/publisher.rs:220 | REQ-04-01-03-05 |
-| `pdf` | src/publisher.rs:221 | REQ-04-01-03-06 |
-| `pdf` | src/publisher.rs:222 | REQ-04-01-03-07 |
-| `pdf` | src/publisher.rs:223 | REQ-04-01-03-09 |
+| `pdf` | src/publisher.rs:228 | REQ-04-01-03-04 |
+| `pdf` | src/publisher.rs:229 | REQ-04-01-03-05 |
+| `pdf` | src/publisher.rs:230 | REQ-04-01-03-06 |
+| `pdf` | src/publisher.rs:231 | REQ-04-01-03-07 |
+| `pdf` | src/publisher.rs:232 | REQ-04-01-03-09 |
 | `publish_policy` | src/config.rs:248 | REQ-04-01-03-03 |
 | `ratchet_command` | src/trace.rs:1026 | REQ-04-01-15-01 |
 | `ratchet_command` | src/trace.rs:1027 | REQ-04-01-15-02 |
@@ -110,10 +110,10 @@
 | `site` | src/publisher.rs:22 | REQ-04-01-07-02 |
 | `snapshot` | src/reporter.rs:805 | REQ-04-01-12-04 |
 | `snapshot_strategy` | src/config.rs:196 | REQ-04-01-14-05 |
-| `stage_catalogue` | src/publisher.rs:379 | REQ-04-01-17-01 |
-| `stage_catalogue` | src/publisher.rs:380 | REQ-04-01-17-02 |
-| `stage_catalogue` | src/publisher.rs:381 | REQ-04-01-17-03 |
-| `staged_asset_rel` | src/publisher.rs:674 | REQ-04-01-07-04 |
+| `stage_catalogue` | src/publisher.rs:388 | REQ-04-01-17-01 |
+| `stage_catalogue` | src/publisher.rs:389 | REQ-04-01-17-02 |
+| `stage_catalogue` | src/publisher.rs:390 | REQ-04-01-17-03 |
+| `staged_asset_rel` | src/publisher.rs:683 | REQ-04-01-07-04 |
 | `statements` | src/reporter.rs:970 | REQ-07-01-08-01 |
 | `story_workflow_checks` | src/checkers/requirements.rs:722 | REQ-01-01-11-08 |
 | `story_workflow_checks` | src/checkers/requirements.rs:723 | REQ-01-01-11-09 |
@@ -143,8 +143,10 @@
 | — | src/main.rs:476 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
-| — | src/publisher.rs:118 | REQ-04-01-19-01 |
-| — | src/publisher.rs:97 | REQ-04-01-19-02 |
+| — | src/publisher.rs:106 | REQ-04-01-19-02 |
+| — | src/publisher.rs:127 | REQ-04-01-19-01 |
+| — | src/publisher.rs:58 | REQ-04-01-07-05 |
+| — | src/publisher.rs:86 | REQ-04-01-07-03 |
 | — | src/reporter.rs:769 | REQ-07-01-08-02 |
 | — | src/templates.rs:334 | REQ-01-01-18-01 |
 | — | src/templates.rs:476 | REQ-01-01-20-02 |

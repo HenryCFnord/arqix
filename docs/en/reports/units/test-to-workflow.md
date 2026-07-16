@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e331116, 2026-07-16
+     Snapshot: e005727, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -312,12 +312,15 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_orchestrates_the_configured_toolchain` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_publishes_per_language` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_publishes_per_language` | WF-05-01 | Use Documentation for Agents and RAG |
+| `publish_site_removes_stale_staged_pages` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_rewrites_csv_links_to_the_table_pages` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_stages_a_linked_include_target_as_a_page` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_csv_artefacts_as_tables` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_still_omits_unlinked_fragments` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

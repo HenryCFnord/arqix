@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e331116, 2026-07-16
+     Snapshot: e005727, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -48,7 +48,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-03 | Generate Publishing Outputs | 10 | 0 | 0 | `██████████` 100% |
 | US-04-01-05 | Run a One-Command Verification Loop | 8 | 0 | 0 | `██████████` 100% |
 | US-04-01-06 | Build Deterministic Page Artefacts in CI | 2 | 0 | 0 | `██████████` 100% |
-| US-04-01-07 | Publish Language-Aware Sites | 7 | 0 | 0 | `██████████` 100% |
+| US-04-01-07 | Publish Language-Aware Sites | 8 | 0 | 0 | `██████████` 100% |
 | US-04-01-08 | Provide Consistent Exit Codes for CI Gates | 1 | 0 | 3 | `██░░░░░░░░` 25% |
 | US-04-01-10 | Emit Machine-Readable Diagnostics for CI | 4 | 0 | 1 | `████████░░` 80% |
 | US-04-01-12 | Publish Stable Report Exports for Automation | 5 | 0 | 0 | `██████████` 100% |

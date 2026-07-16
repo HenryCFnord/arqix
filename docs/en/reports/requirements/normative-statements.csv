@@ -149,6 +149,7 @@ REQ-04-01-07-01,functional,SHALL,event-driven,arqix
 REQ-04-01-07-02,functional,SHALL,unwanted-behaviour,arqix
 REQ-04-01-07-03,functional,SHALL NOT,event-driven,arqix
 REQ-04-01-07-04,functional,SHALL,event-driven,arqix
+REQ-04-01-07-05,functional,SHALL,event-driven,arqix
 REQ-04-01-08-01,functional,SHALL,ubiquitous,The arqix CLI
 REQ-04-01-08-02,functional,SHALL,ubiquitous,The stderr messaging
 REQ-04-01-08-03,functional,MAY,ubiquitous,The arqix CLI

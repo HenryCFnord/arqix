@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e331116, 2026-07-16
+     Snapshot: e005727, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -148,8 +148,8 @@
 | `missing_generated_meta_reports_meta_001` | src/checkers/requirements.rs:1269 | REQ-01-01-11-06 | active |
 | `multi_clause_sentences_classify_as_complex` | src/checkers/requirements.rs:1386 | REQ-07-01-08-01 | active |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
-| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1216 | REQ-04-01-03-09 | active |
-| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1163 | REQ-04-01-03-09 | active |
+| `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1252 | REQ-04-01-03-09 | active |
+| `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1199 | REQ-04-01-03-09 | active |
 | `percent_ties_round_to_even_like_python` | src/reporter.rs:1182 | REQ-04-01-12-04 | active |
 | `persona_missing_from_the_workflow_is_reported` | src/checkers/requirements.rs:1484 | REQ-01-01-11-09 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
@@ -164,11 +164,14 @@
 | `publish_site_omits_included_fragments` | tests/cli_publish.rs:49 | REQ-04-01-07-03 | active |
 | `publish_site_orchestrates_the_configured_toolchain` | tests/cli_publish.rs:173 | REQ-04-01-03-03 | active |
 | `publish_site_publishes_per_language` | tests/cli_publish.rs:76 | REQ-04-01-07-01 | active |
+| `publish_site_removes_stale_staged_pages` | tests/cli_publish.rs:903 | REQ-04-01-07-05 | active |
 | `publish_site_rewrites_csv_links_to_the_table_pages` | tests/cli_publish.rs:831 | REQ-04-01-19-02 | active |
+| `publish_site_stages_a_linked_include_target_as_a_page` | tests/cli_publish.rs:855 | REQ-04-01-07-03 | active |
 | `publish_site_stages_artefact_ready_inputs` | tests/cli_publish.rs:117 | REQ-04-01-03-02 | active |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | tests/cli_publish.rs:703 | REQ-04-01-17-01 | active |
 | `publish_site_stages_csv_artefacts_as_tables` | tests/cli_publish.rs:798 | REQ-04-01-19-01 | active |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | tests/cli_publish.rs:13 | REQ-04-01-07-04 | active |
+| `publish_site_still_omits_unlinked_fragments` | tests/cli_publish.rs:884 | REQ-04-01-07-03 | active |
 | `release_documents_stay_consistent_with_the_crate_version` | tests/cli.rs:60 | REQ-01-01-15-01 | active |
 | `release_process_documents_semver_and_the_versioned_contracts` | tests/corpus_guards.rs:250 | REQ-01-01-15-02 | active |
 | `render_forwards_tool_errors_transparently` | tests/cli_publish.rs:589 | REQ-04-01-03-07 | active |
