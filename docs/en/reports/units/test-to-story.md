@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 485ad49, 2026-07-16
+     Snapshot: 0cd8cce, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -451,6 +451,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | US-08-01-12 | Use MCP Tools Deterministically in Agent Workflows |
 | `missing_frontmatter_reports_id_001` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `missing_generated_meta_reports_meta_001` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `multi_clause_sentences_classify_as_complex` | US-07-01-08 | Export the Normative-Statement Classification |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-04-01-02 | Check Scope Guardrails in CI |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | US-08-01-08 | Stay within Declared Change Scope |
@@ -516,9 +517,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `publish_site_orchestrates_the_configured_toolchain` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_publishes_per_language` | US-04-01-07 | Publish Language-Aware Sites |
 | `publish_site_publishes_per_language` | US-05-01-13 | Expose Language-Aware Site Outputs Deterministically |
+| `publish_site_rewrites_csv_links_to_the_table_pages` | US-04-01-19 | Publish CSV Artefacts as Readable Tables |
 | `publish_site_stages_artefact_ready_inputs` | US-04-01-03 | Generate Publishing Outputs |
 | `publish_site_stages_artefact_ready_inputs` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | US-04-01-17 | Publish the Specification as Catalogue Pages |
+| `publish_site_stages_csv_artefacts_as_tables` | US-04-01-19 | Publish CSV Artefacts as Readable Tables |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | US-04-01-07 | Publish Language-Aware Sites |
 | `release_documents_stay_consistent_with_the_crate_version` | US-01-01-15 | Operationalise the Release Process with SemVer |
 | `release_documents_stay_consistent_with_the_crate_version` | US-04-01-09 | Run Governed Release Preparation Workflows |
@@ -555,9 +558,11 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_snapshot_check_detects_a_missing_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_check_detects_a_stale_matrix` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_check_detects_a_stale_statements_export` | US-07-01-08 | Export the Normative-Statement Classification |
 | `report_snapshot_check_detects_a_staled_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_check_passes_on_fresh_snapshots` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_regenerates_units_deterministically` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_statements_exports_the_classification` | US-07-01-08 | Export the Normative-Statement Classification |
 | `retired_ids_finds_the_retired_story` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |
 | `scoreboard_shows_full_verified_functional` | US-04-01-12 | Publish Stable Report Exports for Automation |

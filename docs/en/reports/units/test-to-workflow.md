@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 485ad49, 2026-07-16
+     Snapshot: 0cd8cce, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -273,6 +273,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `mcp_trace_reports_an_unknown_id_as_a_tool_error` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `missing_frontmatter_reports_id_001` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `missing_generated_meta_reports_meta_001` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `multi_clause_sentences_classify_as_complex` | WF-07-01 | Review Evidence Chains and Exports |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `mutating_commands_leave_files_outside_the_roots_untouched` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -311,9 +312,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `publish_site_orchestrates_the_configured_toolchain` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_publishes_per_language` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_publishes_per_language` | WF-05-01 | Use Documentation for Agents and RAG |
+| `publish_site_rewrites_csv_links_to_the_table_pages` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_artefact_ready_inputs` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `publish_site_stages_catalogue_pages_per_workflow_group` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `publish_site_stages_csv_artefacts_as_tables` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `publish_site_stages_doc_assets_at_page_relative_paths` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `release_documents_stay_consistent_with_the_crate_version` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -350,9 +353,11 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_snapshot_check_detects_a_missing_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_check_detects_a_stale_matrix` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_snapshot_check_detects_a_stale_statements_export` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_snapshot_check_detects_a_staled_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_check_passes_on_fresh_snapshots` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_regenerates_units_deterministically` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_statements_exports_the_classification` | WF-07-01 | Review Evidence Chains and Exports |
 | `retired_ids_finds_the_retired_story` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `scoreboard_shows_full_verified_functional` | WF-04-01 | Run CI Gates and Publish artefacts |

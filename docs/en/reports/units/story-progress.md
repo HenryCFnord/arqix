@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 485ad49, 2026-07-16
+     Snapshot: 0cd8cce, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -58,6 +58,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-04-01-16 | Configure the Snapshot Strategy | 1 | 0 | 0 | `██████████` 100% |
 | US-04-01-17 | Publish the Specification as Catalogue Pages | 3 | 0 | 0 | `██████████` 100% |
 | US-04-01-18 | Render Architecture Views from the Model | 1 | 1 | 0 | `█████░░░░░` 50% |
+| US-04-01-19 | Publish CSV Artefacts as Readable Tables | 2 | 0 | 0 | `██████████` 100% |
 | US-05-01-02 | Emit a Machine-Readable Assembly Log | 4 | 0 | 3 | `█████░░░░░` 57% |
 | US-05-01-04 | Parse Document Structure Deterministically for Automation | 3 | 0 | 0 | `██████████` 100% |
 | US-05-01-06 | Search and Read Documentation via CLI | 2 | 0 | 0 | `██████████` 100% |
@@ -77,6 +78,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-07-01-04 | Review Trace Graphs as Audit Evidence | 2 | 0 | 0 | `██████████` 100% |
 | US-07-01-05 | Filter Traceability Reports for Audit Review | 1 | 0 | 0 | `██████████` 100% |
 | US-07-01-06 | Export Deterministic Trace and Coverage Evidence | 3 | 0 | 0 | `██████████` 100% |
+| US-07-01-08 | Export the Normative-Statement Classification | 2 | 0 | 0 | `██████████` 100% |
 | US-08-01-01 | Initialize a Doc Package Deterministically and Safely | 6 | 0 | 0 | `██████████` 100% |
 | US-08-01-02 | Emit a Deterministic Assembly Log for Verification | 4 | 0 | 3 | `█████░░░░░` 57% |
 | US-08-01-05 | Create Documents Deterministically from Templates | 4 | 0 | 3 | `█████░░░░░` 57% |
