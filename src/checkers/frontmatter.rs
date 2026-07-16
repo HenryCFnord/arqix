@@ -1196,13 +1196,6 @@ pub fn lint(format: OutputFormat, allow_undefined_inverse: bool) -> ExitCode {
     report(&findings, format)
 }
 
-// --- filesystem helpers -------------------------------------------------
-
-/// The basename of a POSIX-style path.
-
-/// Read a file the way CPython's `read_text` does: UTF-8 with universal newline
-/// translation (`\r\n` and lone `\r` become `\n`).
-
 #[cfg(test)]
 mod tests {
     use super::*;
