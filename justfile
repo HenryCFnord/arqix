@@ -35,6 +35,12 @@ reports:
     ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
     ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
 
+# Measure test coverage (cargo-llvm-cov) and render the Q-10 unit from it.
+coverage:
+    cargo llvm-cov --json --output-path target/llvm-cov/summary.json
+    cargo build
+    ./target/debug/arqix report coverage --input target/llvm-cov/summary.json --stamp "$(git rev-parse --short HEAD), $(date +%F)"
+
 # Render the C4 views from the model to committed SVGs (needs Docker; ADR-0016)
 render-views:
     ./scripts/render_views.sh

@@ -13,8 +13,8 @@ The catalog is deliberately non-exhaustive — new questions are added here firs
 | Q-06 | Which workflow belongs to which integration test? | join test → story → workflow | [units/test-to-workflow.md](units/test-to-workflow.md) | built |
 | Q-07 | Which ADRs are linked to which requirements? | `guides-implementation-of` edges | [units/adr-to-requirement.md](units/adr-to-requirement.md) | built |
 | Q-08 | Where is the documentation for a given piece of code? | needs a code→doc convention | [units/doc-to-code.md](units/doc-to-code.md) | partial — convention is an open design decision |
-| Q-09 | How large is the codebase (lines of code, by component)? | external (e.g. tokei) joined against the graph | — | needs external data |
-| Q-10 | What is the code coverage of the test suite? | external (e.g. tarpaulin) joined against `verifies` edges | — | needs external data |
+| Q-09 | How large is the codebase (lines of code, by component)? | internal line counter | [units/lines-of-code.md](units/lines-of-code.md) | built |
+| Q-10 | What is the code coverage of the test suite? | cargo-llvm-cov via `arqix report coverage` | [units/test-coverage.md](units/test-coverage.md) | built (CI-generated, outside the snapshot gate) |
 
 Regenerate all built units with:
 
