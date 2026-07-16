@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 0cd8cce, 2026-07-16
+     Snapshot: e331116, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -554,6 +554,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_coverage_renders_the_unit_from_a_summary` | US-07-01-10 | Report the Test-Suite Code Coverage |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_snapshot_check_detects_a_missing_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
@@ -561,6 +562,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_snapshot_check_detects_a_stale_statements_export` | US-07-01-08 | Export the Normative-Statement Classification |
 | `report_snapshot_check_detects_a_staled_unit` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_check_passes_on_fresh_snapshots` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_generates_the_lines_of_code_unit` | US-07-01-09 | Report the Codebase Size by Component |
 | `report_snapshot_regenerates_units_deterministically` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_statements_exports_the_classification` | US-07-01-08 | Export the Normative-Statement Classification |
 | `retired_ids_finds_the_retired_story` | US-04-01-12 | Publish Stable Report Exports for Automation |

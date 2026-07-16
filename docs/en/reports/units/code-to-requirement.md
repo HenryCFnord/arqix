@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 0cd8cce, 2026-07-16
+     Snapshot: e331116, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -38,6 +38,7 @@
 | `coverage_command` | src/trace.rs:914 | REQ-01-01-08-03 |
 | `coverage_command` | src/trace.rs:916 | REQ-03-01-10-02 |
 | `coverage_command` | src/trace.rs:917 | REQ-03-01-10-03 |
+| `coverage_unit` | src/reporter.rs:900 | REQ-07-01-10-01 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
 | `finalise` | src/rewriter.rs:321 | REQ-01-01-06-01 |
 | `finalise` | src/rewriter.rs:322 | REQ-01-01-06-02 |
@@ -107,19 +108,20 @@
 | `site` | src/publisher.rs:20 | REQ-04-01-03-03 |
 | `site` | src/publisher.rs:21 | REQ-04-01-07-01 |
 | `site` | src/publisher.rs:22 | REQ-04-01-07-02 |
-| `snapshot` | src/reporter.rs:804 | REQ-04-01-12-04 |
+| `snapshot` | src/reporter.rs:805 | REQ-04-01-12-04 |
 | `snapshot_strategy` | src/config.rs:196 | REQ-04-01-14-05 |
 | `stage_catalogue` | src/publisher.rs:379 | REQ-04-01-17-01 |
 | `stage_catalogue` | src/publisher.rs:380 | REQ-04-01-17-02 |
 | `stage_catalogue` | src/publisher.rs:381 | REQ-04-01-17-03 |
 | `staged_asset_rel` | src/publisher.rs:674 | REQ-04-01-07-04 |
-| `statements` | src/reporter.rs:836 | REQ-07-01-08-01 |
+| `statements` | src/reporter.rs:970 | REQ-07-01-08-01 |
 | `story_workflow_checks` | src/checkers/requirements.rs:722 | REQ-01-01-11-08 |
 | `story_workflow_checks` | src/checkers/requirements.rs:723 | REQ-01-01-11-09 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
 | `tool_result` | src/mcp.rs:143 | REQ-05-01-12-03 |
+| `unit_lines_of_code` | src/reporter.rs:830 | REQ-07-01-09-01 |
 | `validate` | src/config.rs:532 | REQ-01-01-16-01 |
 | `verify` | src/verifier.rs:29 | REQ-04-01-05-01 |
 | `verify` | src/verifier.rs:30 | REQ-04-01-05-02 |
@@ -137,13 +139,13 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
-| — | src/main.rs:457 | REQ-01-01-05-02 |
-| — | src/main.rs:461 | REQ-01-01-01-03 |
+| — | src/main.rs:472 | REQ-01-01-05-02 |
+| — | src/main.rs:476 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/publisher.rs:118 | REQ-04-01-19-01 |
 | — | src/publisher.rs:97 | REQ-04-01-19-02 |
-| — | src/reporter.rs:768 | REQ-07-01-08-02 |
+| — | src/reporter.rs:769 | REQ-07-01-08-02 |
 | — | src/templates.rs:334 | REQ-01-01-18-01 |
 | — | src/templates.rs:476 | REQ-01-01-20-02 |
 | — | src/templates.rs:509 | REQ-08-01-24-01 |

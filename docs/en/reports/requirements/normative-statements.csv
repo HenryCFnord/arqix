@@ -192,6 +192,8 @@ REQ-05-01-15-03,functional,SHALL,event-driven,arqix
 REQ-06-01-02-01,quality,SHOULD,ubiquitous,The assembly log
 REQ-07-01-08-01,functional,SHALL,event-driven,arqix
 REQ-07-01-08-02,functional,SHALL,event-driven,arqix
+REQ-07-01-09-01,functional,SHALL,event-driven,arqix
+REQ-07-01-10-01,functional,SHALL,event-driven,arqix
 REQ-08-01-01-01,quality,SHOULD,ubiquitous,Failure diagnostics
 REQ-08-01-01-02,quality,SHOULD,ubiquitous,The generated doc package
 REQ-08-01-02-01,quality,SHOULD,ubiquitous,Assembly outcomes

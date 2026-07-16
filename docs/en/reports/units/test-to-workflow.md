@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 0cd8cce, 2026-07-16
+     Snapshot: e331116, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -349,6 +349,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-07-01 | Review Evidence Chains and Exports |
+| `report_coverage_renders_the_unit_from_a_summary` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_snapshot_check_detects_a_missing_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
@@ -356,6 +357,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_snapshot_check_detects_a_stale_statements_export` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_snapshot_check_detects_a_staled_unit` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_snapshot_check_passes_on_fresh_snapshots` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `report_snapshot_generates_the_lines_of_code_unit` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_snapshot_regenerates_units_deterministically` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_statements_exports_the_classification` | WF-07-01 | Review Evidence Chains and Exports |
 | `retired_ids_finds_the_retired_story` | WF-04-01 | Run CI Gates and Publish artefacts |
