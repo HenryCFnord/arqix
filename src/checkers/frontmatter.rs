@@ -936,8 +936,9 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
     }
 }
 
-/// The four provenance fields a finalised source record must carry.
-const SOURCE_REQUIRED: [&str; 4] = ["uri", "accessed", "local-copy", "sha256"];
+/// The provenance fields a finalised source record must carry; the local
+/// copy and its digest are optional but travel as a pair.
+const SOURCE_REQUIRED: [&str; 2] = ["uri", "accessed"];
 
 /// The provenance contract of `arqix:classes/source` (the SRC rule family),
 /// keyed on the document's rdf.type rather than a family directory: any
@@ -974,6 +975,15 @@ fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
                 ));
             }
         }
+    }
+    // A copy without its digest (or the reverse) pretends more than it
+    // pins; a record without either is a source that holds no copy.
+    if doc.properties.contains_key("local-copy") != doc.properties.contains_key("sha256") {
+        findings.push(Finding::error(
+            path,
+            "SRC-002",
+            "properties.local-copy and properties.sha256 must be given together".to_string(),
+        ));
     }
 
     if let Some(accessed) = doc.properties.get("accessed")
@@ -1818,7 +1828,7 @@ id-pattern = '^note-(?P<seq>\d+)$'
     fn finalised_source_without_provenance_is_reported() {
         let incomplete = GOOD_SOURCE
             .replace("  uri: https://raw.githubusercontent.com/markdownlint/markdownlint/main/docs/RULES.md\n", "")
-            .replace("  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n", "");
+            .replace("  accessed: 2026-07-16\n", "");
         let findings = source_findings(&incomplete);
         assert_eq!(src_rules(&findings), vec!["SRC-002", "SRC-002"]);
         assert_eq!(
@@ -1827,8 +1837,48 @@ id-pattern = '^note-(?P<seq>\d+)$'
         );
         assert_eq!(
             findings[1].message,
-            "finalised source is missing properties.sha256"
+            "finalised source is missing properties.accessed"
         );
+    }
+
+    // A licence that forbids redistribution means no copy at all: uri and
+    // access date finalise the record, and no path or digest pretends
+    // a copy exists.
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn finalised_source_without_a_copy_is_clean() {
+        let no_copy = GOOD_SOURCE
+            .replace("  local-copy: sources/markdownlint-rules.md\n", "")
+            .replace(
+                "  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n",
+                "",
+            );
+        let findings = source_findings(&no_copy);
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn a_lone_copy_or_digest_is_reported() {
+        for dropped in [
+            "  local-copy: sources/markdownlint-rules.md\n",
+            "  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n",
+        ] {
+            let lone = GOOD_SOURCE.replace(dropped, "");
+            let findings = source_findings(&lone);
+            assert_eq!(src_rules(&findings), vec!["SRC-002"], "dropped {dropped}");
+            assert_eq!(
+                findings[0].message,
+                "properties.local-copy and properties.sha256 must be given together"
+            );
+            // The pairing holds in every lifecycle state.
+            let draft = lone.replace("lifecycle-status: final", "lifecycle-status: draft");
+            assert_eq!(src_rules(&source_findings(&draft)), vec!["SRC-002"]);
+        }
     }
 
     // arqix:verifies REQ-08-01-28-02

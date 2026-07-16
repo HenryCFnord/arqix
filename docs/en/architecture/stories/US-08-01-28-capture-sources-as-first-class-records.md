@@ -42,7 +42,7 @@ As a coding agent, I want external sources captured as first-class source docume
 ### Acceptance Criteria
 
 - [ ] The ontology defines `arqix:classes/source` as a knowledge artefact, and `lint frontmatter` enforces its provenance contract (the SRC rule family) on every document of that class.
-- [ ] A source record carries `uri`, `accessed`, `local-copy`, and `sha256` in its properties (`licence` and `anchor` optional); completeness is enforced once the record leaves draft.
+- [ ] A source record carries `uri` and `accessed` in its properties (enforced once the record leaves draft) and, when a copy is held, `local-copy` plus `sha256` as a pair (`licence` and `anchor` optional).
 - [ ] Malformed values — a non-calendar `accessed`, a digest that is not sixty-four lowercase hex characters, a `local-copy` that escapes the repository or lies inside a documentation root — are findings in every lifecycle state.
 - [ ] `arqix doc new source` creates a conforming draft record from the declared `[kinds.source]` contract (directory, template, id-pattern).
 

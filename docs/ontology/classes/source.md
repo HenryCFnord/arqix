@@ -36,13 +36,11 @@ The class carries a provenance contract, enforced by `arqix lint frontmatter` (t
 
 - `properties.uri` — where the source lives.
 - `properties.accessed` — the calendar date the copy was taken.
-- `properties.local-copy` — the repository-relative path of the verbatim copy; it stays outside the documentation roots, so copies never enter the tracked corpus.
-- `properties.sha256` — the digest of the local copy, sixty-four lowercase hexadecimal characters.
+- `properties.local-copy` and `properties.sha256` — the repository-relative path of the verbatim copy and its digest (sixty-four lowercase hexadecimal characters), given together when a copy is held; the copy stays outside the documentation roots, so it never enters the tracked corpus.
 - `properties.licence` and `properties.anchor` — optional: the licence the copy is held under, and a fragment or section anchor inside the source.
 
-Completeness is a finalisation contract: a record still in `draft` may hold an incomplete skeleton, but once it leaves draft the four required fields must be present.
+Completeness is a finalisation contract: a record still in `draft` may hold an incomplete skeleton, but once it leaves draft the uri and the access date must be present.
 Malformed values are findings in every lifecycle state.
 
-A local copy is committed only when its licence permits redistribution (this repository is public).
-Otherwise the copy stays untracked at the recorded path, and the record still pins the uri, the access date, and the digest — whoever needs the text takes their own copy and verifies it against the digest.
-The checker deliberately never requires the copy to exist, so both cases pass the same contract.
+A local copy is held only when its licence permits redistribution (this repository is public).
+Otherwise there is no local copy: the record carries the uri and the access date, and neither a path nor a digest pretends a copy exists — `local-copy` and `sha256` travel as a pair.
