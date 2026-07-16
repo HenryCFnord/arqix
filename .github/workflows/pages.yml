@@ -20,9 +20,14 @@ permissions:
   pages: write
   id-token: write
 
+# Serialise, never cancel: every snapshot-refreshing merge produces TWO runs
+# about a minute apart (the merge push, then ci.yml's re-dispatch after the
+# auto-commit), and cancel-in-progress killed whichever was mid-deploy —
+# the stutter that needed manual re-runs. Queued runs still collapse to the
+# newest, so the last deploy always wins.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
