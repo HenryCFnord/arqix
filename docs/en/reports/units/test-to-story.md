@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 036d0ec, 2026-07-15
+     Snapshot: b674e56, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -125,6 +125,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `config_validate_identifies_the_failing_key` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_validate_identifies_the_failing_key` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
 | `config_validate_identifies_the_failing_key` | US-08-01-20 | Read Effective Config Deterministically Before Execution |
+| `consolidation_persona_attaches_to_any_workflow` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `coupled_story_is_clean_and_relevant_personas_count` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `coverage_joins_junit_outcomes_by_test_name` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `coverage_without_results_is_byte_identical_to_before` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `creation_aliases_mirror_doc_new` | US-01-01-05 | Create Documents from Configured Templates |
@@ -174,8 +176,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `doc_init_creates_the_standard_package_scaffold` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_creates_the_standard_package_scaffold` | US-02-01-01 | Initialize a Doc Package with One Command |
-| `doc_init_never_overwrites_agent_instructions` | US-01-01-21 | Scaffold Agent Instructions on Init |
-| `doc_init_scaffolds_agent_instructions` | US-01-01-21 | Scaffold Agent Instructions on Init |
+| `doc_init_never_overwrites_agent_instructions` | US-08-01-24 | Scaffold Agent Instructions on Init |
+| `doc_init_scaffolds_agent_instructions` | US-08-01-24 | Scaffold Agent Instructions on Init |
 | `doc_init_scaffolds_an_explicit_path` | US-01-01-01 | Initialise Standardised Doc Package |
 | `doc_init_scaffolds_an_explicit_path` | US-02-01-01 | Initialize a Doc Package with One Command |
 | `doc_init_scaffolds_the_default_template_files` | US-01-01-20 | Create Documents from Template Files |
@@ -262,7 +264,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_generates_ids_from_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
-| `doc_new_honours_the_kinds_declared_directory` | US-01-01-22 | Create Documents in the Kinds Declared Directory |
+| `doc_new_honours_the_kinds_declared_directory` | US-08-01-25 | Create Documents in the Kinds Declared Directory |
 | `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
@@ -443,6 +445,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | US-04-01-03 | Generate Publishing Outputs |
 | `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | US-04-01-03 | Generate Publishing Outputs |
 | `percent_ties_round_to_even_like_python` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `persona_missing_from_the_workflow_is_reported` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-04-01-02 | Check Scope Guardrails in CI |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | US-08-01-08 | Stay within Declared Change Scope |
@@ -553,8 +556,10 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `sentence_checks_match_the_oracle_selftest_cases` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
+| `story_in_a_workflow_its_id_does_not_encode_is_reported` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `story_progress_counts_the_verified_requirement` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `story_progress_excludes_retired_stories` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `story_without_a_workflow_is_reported` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `table_cells_escape_pipes` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `templates_and_validation_share_the_contract_source` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `templates_and_validation_share_the_contract_source` | US-05-01-03 | Expose Machine-Usable Metadata Contracts |
@@ -693,6 +698,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `unit_new_help_explains_location_metadata_and_ids` | US-05-01-01 | Create Units for Retrieval and Automation |
 | `unit_new_help_explains_location_metadata_and_ids` | US-06-01-01 | Create Modular Document Units |
 | `units_are_deterministic` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `unresolvable_workflow_reference_skips_the_persona_check` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `unresolved_references_stay_visible_in_trace_outputs` | US-03-01-05 | Scan Traceability Information |
 | `usage_error_exits_with_code_2` | US-01-01-14 | Lint Translation Metadata and Drift |
 | `usage_error_exits_with_code_2` | US-04-01-04 | Gate Bilingual Documentation Quality in CI |

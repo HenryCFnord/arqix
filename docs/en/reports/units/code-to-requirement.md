@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 036d0ec, 2026-07-15
+     Snapshot: b674e56, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -60,7 +60,7 @@
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `lint` | src/checkers/frontmatter.rs:1195 | REQ-01-01-11-07 |
-| `lint` | src/checkers/requirements.rs:865 | REQ-01-01-11-06 |
+| `lint` | src/checkers/requirements.rs:1000 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
 | `list` | src/store.rs:128 | REQ-05-01-08-03 |
 | `marker_body` | src/trace.rs:291 | REQ-03-01-10-01 |
@@ -110,6 +110,8 @@
 | `stage_catalogue` | src/publisher.rs:343 | REQ-04-01-17-02 |
 | `stage_catalogue` | src/publisher.rs:344 | REQ-04-01-17-03 |
 | `staged_asset_rel` | src/publisher.rs:539 | REQ-04-01-07-04 |
+| `story_workflow_checks` | src/checkers/requirements.rs:676 | REQ-01-01-11-08 |
+| `story_workflow_checks` | src/checkers/requirements.rs:677 | REQ-01-01-11-09 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
@@ -136,6 +138,6 @@
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/templates.rs:274 | REQ-01-01-18-01 |
 | — | src/templates.rs:398 | REQ-01-01-20-02 |
-| — | src/templates.rs:431 | REQ-01-01-21-01 |
-| — | src/templates.rs:432 | REQ-01-01-21-02 |
+| — | src/templates.rs:431 | REQ-08-01-24-01 |
+| — | src/templates.rs:432 | REQ-08-01-24-02 |
 | — | src/trace.rs:1034 | REQ-04-01-16-01 |

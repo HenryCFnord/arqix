@@ -53,8 +53,10 @@ REQ-01-01-11-02,constraint,tests/corpus_guards.rs:122,,
 REQ-01-01-11-03,constraint,,,
 REQ-01-01-11-04,quality,tests/corpus_guards.rs:168,,
 REQ-01-01-11-05,quality,tests/corpus_guards.rs:235,,
-REQ-01-01-11-06,functional,src/checkers/requirements.rs:1032;src/checkers/requirements.rs:1047;src/checkers/requirements.rs:1064;src/checkers/requirements.rs:1076;src/checkers/requirements.rs:1088;src/checkers/requirements.rs:1097;src/checkers/requirements.rs:1109;src/checkers/requirements.rs:1143;src/checkers/requirements.rs:929;tests/cli_lint_requirements.rs:67,,src/checkers/requirements.rs:865
+REQ-01-01-11-06,functional,src/checkers/requirements.rs:1064;src/checkers/requirements.rs:1167;src/checkers/requirements.rs:1182;src/checkers/requirements.rs:1199;src/checkers/requirements.rs:1211;src/checkers/requirements.rs:1223;src/checkers/requirements.rs:1232;src/checkers/requirements.rs:1244;src/checkers/requirements.rs:1278;tests/cli_lint_requirements.rs:67,,src/checkers/requirements.rs:1000
 REQ-01-01-11-07,functional,src/checkers/frontmatter.rs:1313;src/checkers/frontmatter.rs:1535;tests/cli_lint_frontmatter.rs:43,,src/checkers/frontmatter.rs:1195
+REQ-01-01-11-08,functional,src/checkers/requirements.rs:1362;src/checkers/requirements.rs:1377;src/checkers/requirements.rs:1419,,src/checkers/requirements.rs:676
+REQ-01-01-11-09,functional,src/checkers/requirements.rs:1393;src/checkers/requirements.rs:1408;src/checkers/requirements.rs:1420;src/checkers/requirements.rs:1431,,src/checkers/requirements.rs:677
 REQ-01-01-12-01,functional,,,
 REQ-01-01-12-02,functional,,,
 REQ-01-01-12-03,functional,,,
@@ -80,9 +82,6 @@ REQ-01-01-19-03,functional,tests/cli_fmt.rs:126,,
 REQ-01-01-20-01,functional,tests/cli_doc.rs:415,,src/config.rs:407;src/templates.rs:101
 REQ-01-01-20-02,functional,tests/cli_doc.rs:448,,src/templates.rs:398
 REQ-01-01-20-03,functional,tests/cli_doc.rs:477,,src/templates.rs:102
-REQ-01-01-21-01,functional,tests/cli_doc.rs:562,,src/templates.rs:431
-REQ-01-01-21-02,functional,tests/cli_doc.rs:581,,src/templates.rs:432
-REQ-01-01-22-01,functional,tests/cli_doc.rs:594,,
 REQ-02-01-03-01,quality,tests/cli_quality.rs:264,,
 REQ-02-01-06-01,functional,tests/cli_doc.rs:300,,src/store.rs:186
 REQ-02-01-06-02,functional,,,
@@ -193,3 +192,6 @@ REQ-08-01-01-01,quality,tests/cli_quality.rs:364,,
 REQ-08-01-01-02,quality,tests/cli_quality.rs:391,,
 REQ-08-01-02-01,quality,tests/cli_quality.rs:349,,
 REQ-08-01-05-01,functional,,,
+REQ-08-01-24-01,functional,tests/cli_doc.rs:562,,src/templates.rs:431
+REQ-08-01-24-02,functional,tests/cli_doc.rs:581,,src/templates.rs:432
+REQ-08-01-25-01,functional,tests/cli_doc.rs:594,,

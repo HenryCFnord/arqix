@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 036d0ec, 2026-07-15
+     Snapshot: b674e56, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -19,7 +19,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-08 | Generate Governed Coverage Reports | 4 | 0 | 1 | `████████░░` 80% |
 | US-01-01-09 | Govern Agent Workflow Document Standards | 3 | 0 | 3 | `█████░░░░░` 50% |
 | US-01-01-10 | Define Schema-Backed Metadata Contracts | 3 | 0 | 2 | `██████░░░░` 60% |
-| US-01-01-11 | Govern Architecture Documentation Standards | 6 | 0 | 1 | `████████░░` 86% |
+| US-01-01-11 | Govern Architecture Documentation Standards | 8 | 0 | 1 | `████████░░` 89% |
 | US-01-01-12 | Govern Glossary Term Metadata and IDs | 2 | 0 | 3 | `████░░░░░░` 40% |
 | US-01-01-13 | Govern Deterministic Document Creation via Templates | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-14 | Lint Translation Metadata and Drift | 4 | 0 | 1 | `████████░░` 80% |
@@ -29,8 +29,6 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-01-01-18 | Configure the ID Policy | 5 | 0 | 0 | `██████████` 100% |
 | US-01-01-19 | Configure Frontmatter Contracts | 4 | 0 | 0 | `██████████` 100% |
 | US-01-01-20 | Create Documents from Template Files | 4 | 0 | 0 | `██████████` 100% |
-| US-01-01-21 | Scaffold Agent Instructions on Init | 2 | 0 | 0 | `██████████` 100% |
-| US-01-01-22 | Create Documents in the Kinds Declared Directory | 1 | 0 | 0 | `██████████` 100% |
 | US-02-01-03 | Format Documents During Implementation | 5 | 0 | 0 | `██████████` 100% |
 | US-02-01-06 | Find and Read Documentation During Implementation | 3 | 0 | 2 | `██████░░░░` 60% |
 | US-02-01-09 | Use Include Directives During Implementation | 5 | 0 | 1 | `████████░░` 83% |
@@ -86,5 +84,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-16 | Scan Traceability Deterministically within Verification Loops | 2 | 0 | 0 | `██████████` 100% |
 | US-08-01-19 | Detect Missing Trace Markers for a Requirement | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-22 | Make Trace and Coverage Outputs Deterministic | 3 | 0 | 0 | `██████████` 100% |
+| US-08-01-24 | Scaffold Agent Instructions on Init | 2 | 0 | 0 | `██████████` 100% |
+| US-08-01-25 | Create Documents in the Kinds Declared Directory | 1 | 0 | 0 | `██████████` 100% |
 
 Retired stories excluded from this view (ADR-0010): 42.

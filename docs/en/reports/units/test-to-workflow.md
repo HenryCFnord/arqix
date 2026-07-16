@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 036d0ec, 2026-07-15
+     Snapshot: b674e56, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -79,6 +79,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `config_validate_identifies_the_failing_key` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `config_validate_identifies_the_failing_key` | WF-05-01 | Use Documentation for Agents and RAG |
 | `config_validate_identifies_the_failing_key` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `consolidation_persona_attaches_to_any_workflow` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `coupled_story_is_clean_and_relevant_personas_count` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `coverage_joins_junit_outcomes_by_test_name` | WF-03-01 | Validate Traceability and Coverage |
 | `coverage_without_results_is_byte_identical_to_before` | WF-03-01 | Validate Traceability and Coverage |
 | `creation_aliases_mirror_doc_new` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -98,8 +100,8 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `diagnostics_are_machine_readable_with_the_tool_wide_shape` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_init_creates_the_standard_package_scaffold` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_creates_the_standard_package_scaffold` | WF-02-01 | Write Docs Alongside Implementation |
-| `doc_init_never_overwrites_agent_instructions` | WF-01-01 | Establish Standards and Repository Hygiene |
-| `doc_init_scaffolds_agent_instructions` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_init_never_overwrites_agent_instructions` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_init_scaffolds_agent_instructions` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_init_scaffolds_an_explicit_path` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_init_scaffolds_an_explicit_path` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_init_scaffolds_the_default_template_files` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -139,7 +141,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_generates_ids_from_the_configured_pattern` | WF-01-01 | Establish Standards and Repository Hygiene |
-| `doc_new_honours_the_kinds_declared_directory` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_honours_the_kinds_declared_directory` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
@@ -265,6 +267,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `percent_ties_round_to_even_like_python` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `persona_missing_from_the_workflow_is_reported` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -348,8 +351,10 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `sentence_checks_match_the_oracle_selftest_cases` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `staged_pages_do_not_duplicate_the_title_heading` | WF-06-01 | Maintain architecture, ADRs, and glossary |
+| `story_in_a_workflow_its_id_does_not_encode_is_reported` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `story_progress_counts_the_verified_requirement` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `story_progress_excludes_retired_stories` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `story_without_a_workflow_is_reported` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `table_cells_escape_pipes` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `templates_and_validation_share_the_contract_source` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `templates_and_validation_share_the_contract_source` | WF-05-01 | Use Documentation for Agents and RAG |
@@ -404,6 +409,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `unit_new_help_explains_location_metadata_and_ids` | WF-05-01 | Use Documentation for Agents and RAG |
 | `unit_new_help_explains_location_metadata_and_ids` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `units_are_deterministic` | WF-04-01 | Run CI Gates and Publish artefacts |
+| `unresolvable_workflow_reference_skips_the_persona_check` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `unresolved_references_stay_visible_in_trace_outputs` | WF-03-01 | Validate Traceability and Coverage |
 | `usage_error_exits_with_code_2` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `usage_error_exits_with_code_2` | WF-04-01 | Run CI Gates and Publish artefacts |
