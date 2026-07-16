@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c1973d9, 2026-07-16
+     Snapshot: 485ad49, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -10,6 +10,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | test | story | title |
 | --- | --- | --- |
 | `a_fresh_package_passes_the_verification_loop_directly` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
+| `a_lone_copy_or_digest_is_reported` | US-08-01-28 | Capture Sources as First-Class Records |
 | `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `adrs_follow_the_path_model_in_the_canonical_governance_language` | US-06-01-07 | Maintain Architecture and Governance Documentation Consistently |
 | `agent_extension_points_carry_no_normative_process_rules` | US-01-01-09 | Govern Agent Workflow Document Standards |
@@ -59,6 +60,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `catalogue_entries_carry_anchors_and_coverage_status` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `catalogue_pages_are_deterministic` | US-04-01-17 | Publish the Specification as Catalogue Pages |
 | `code_unit_lists_implements_markers_without_a_fn` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `complete_final_source_is_clean` | US-08-01-28 | Capture Sources as First-Class Records |
 | `config_show_renders_the_effective_configuration_as_json` | US-01-01-16 | Validate Repository Configuration and Inspect Effective Config |
 | `config_show_renders_the_effective_configuration_as_json` | US-04-01-11 | Inspect Effective Config for CI Reproducibility |
 | `config_show_renders_the_effective_configuration_as_json` | US-05-01-11 | Consume Effective Configuration as Automation Baseline |
@@ -296,7 +298,9 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_read_retrieves_a_document_by_id` | US-05-01-10 | Read Structured Document Sections with Stable Selectors |
 | `doc_read_retrieves_a_document_by_id` | US-08-01-09 | Read Precise Document Sections for Scoped Execution |
 | `doc_search_finds_documents_by_full_text` | US-02-01-06 | Find and Read Documentation During Implementation |
+| `draft_source_without_provenance_is_clean` | US-08-01-28 | Capture Sources as First-Class Records |
 | `empty_link_cases_stay_visible_in_the_matrix` | US-03-01-02 | Export Trace Matrices |
+| `escaping_or_corpus_resident_local_copy_is_reported` | US-08-01-28 | Capture Sources as First-Class Records |
 | `failed_outcomes_demote_the_verifying_claim` | US-03-01-10 | Track Planned and Executed Test Evidence |
 | `failure_diagnostics_name_the_stop_condition` | US-08-01-01 | Initialize a Doc Package Deterministically and Safely |
 | `finalise_fails_clearly_on_unsupported_frontmatter` | US-01-01-06 | Finalise Document Metadata Mechanically |
@@ -314,6 +318,8 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `finalise_touches_only_the_meta_updated_field` | US-01-01-06 | Finalise Document Metadata Mechanically |
 | `finalise_touches_only_the_meta_updated_field` | US-02-01-08 | Finalise Metadata without Touching Content |
 | `finalise_touches_only_the_meta_updated_field` | US-08-01-06 | Finalise Metadata Safely and Deterministically |
+| `finalised_source_without_a_copy_is_clean` | US-08-01-28 | Capture Sources as First-Class Records |
+| `finalised_source_without_provenance_is_reported` | US-08-01-28 | Capture Sources as First-Class Records |
 | `finding_messages_match_the_oracle_formatting` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `fmt_and_config_show_share_one_contract_source` | US-01-01-19 | Configure Frontmatter Contracts |
 | `fmt_is_idempotent` | US-01-01-03 | Format Documents Canonically |
@@ -428,6 +434,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_run_reports_findings_with_file_and_line_context` | US-03-01-01 | Lint Documents for Traceability Gaps |
 | `lint_run_reports_findings_with_file_and_line_context` | US-08-01-04 | Lint Documents with Actionable Diagnostics |
 | `lint_validates_id_shape_against_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
+| `malformed_provenance_values_are_reported` | US-08-01-28 | Capture Sources as First-Class Records |
 | `marker_gate_matches_the_oracle_backlink_cases` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `marker_gate_matches_the_oracle_selftest_cases` | US-03-01-06 | Detect Missing Trace Markers for Quality Gaps |
 | `mcp_list_supports_a_lifecycle_filter` | US-05-01-12 | Expose Arqix via MCP over STDIO |
@@ -559,6 +566,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `search_answers_within_a_second_on_a_thousand_documents` | US-06-01-09 | Retrieve Architecture Documentation Quickly |
 | `selftest_cases_match_the_oracle` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `sentence_checks_match_the_oracle_selftest_cases` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `source_iri_outside_the_namespace_is_reported` | US-08-01-28 | Capture Sources as First-Class Records |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-04-01-03 | Generate Publishing Outputs |
 | `staged_pages_do_not_duplicate_the_title_heading` | US-06-01-05 | Generate Publishable Documentation Outputs |
 | `story_in_a_workflow_its_id_does_not_encode_is_reported` | US-01-01-11 | Govern Architecture Documentation Standards |

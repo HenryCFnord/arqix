@@ -54,7 +54,7 @@ REQ-01-01-11-03,constraint,,,
 REQ-01-01-11-04,quality,tests/corpus_guards.rs:168,,
 REQ-01-01-11-05,quality,tests/corpus_guards.rs:235,,
 REQ-01-01-11-06,functional,src/checkers/requirements.rs:1064;src/checkers/requirements.rs:1167;src/checkers/requirements.rs:1182;src/checkers/requirements.rs:1199;src/checkers/requirements.rs:1211;src/checkers/requirements.rs:1223;src/checkers/requirements.rs:1232;src/checkers/requirements.rs:1244;src/checkers/requirements.rs:1278;tests/cli_lint_requirements.rs:67,,src/checkers/requirements.rs:1000
-REQ-01-01-11-07,functional,src/checkers/frontmatter.rs:1313;src/checkers/frontmatter.rs:1535;tests/cli_lint_frontmatter.rs:43,,src/checkers/frontmatter.rs:1195
+REQ-01-01-11-07,functional,src/checkers/frontmatter.rs:1417;src/checkers/frontmatter.rs:1639;tests/cli_lint_frontmatter.rs:43,,src/checkers/frontmatter.rs:1299
 REQ-01-01-11-08,functional,src/checkers/requirements.rs:1362;src/checkers/requirements.rs:1377;src/checkers/requirements.rs:1419,,src/checkers/requirements.rs:676
 REQ-01-01-11-09,functional,src/checkers/requirements.rs:1393;src/checkers/requirements.rs:1408;src/checkers/requirements.rs:1420;src/checkers/requirements.rs:1431,,src/checkers/requirements.rs:677
 REQ-01-01-12-01,functional,,,
@@ -198,3 +198,6 @@ REQ-08-01-25-01,functional,tests/cli_doc.rs:594,,
 REQ-08-01-26-01,functional,tests/cli_doc.rs:621;tests/cli_doc.rs:655,,
 REQ-08-01-26-02,functional,tests/cli_doc.rs:680,,
 REQ-08-01-27-01,functional,tests/cli_doc.rs:713;tests/cli_doc.rs:741,,
+REQ-08-01-28-01,functional,src/checkers/frontmatter.rs:1801;src/checkers/frontmatter.rs:1814,,src/checkers/frontmatter.rs:948
+REQ-08-01-28-02,functional,src/checkers/frontmatter.rs:1802;src/checkers/frontmatter.rs:1826;src/checkers/frontmatter.rs:1847;src/checkers/frontmatter.rs:1864;src/checkers/frontmatter.rs:1884,,src/checkers/frontmatter.rs:949
+REQ-08-01-28-03,functional,src/checkers/frontmatter.rs:1803;src/checkers/frontmatter.rs:1901;src/checkers/frontmatter.rs:1928,,src/checkers/frontmatter.rs:950

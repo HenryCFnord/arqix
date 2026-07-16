@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: c1973d9, 2026-07-16
+     Snapshot: 485ad49, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -30,6 +30,9 @@
 | `check_id_policy` | src/linter.rs:37 | REQ-01-01-18-01 |
 | `check_id_policy` | src/linter.rs:38 | REQ-01-01-18-04 |
 | `check_lifecycle_vocabulary` | src/linter.rs:257 | REQ-03-01-09-02 |
+| `check_source` | src/checkers/frontmatter.rs:948 | REQ-08-01-28-01 |
+| `check_source` | src/checkers/frontmatter.rs:949 | REQ-08-01-28-02 |
+| `check_source` | src/checkers/frontmatter.rs:950 | REQ-08-01-28-03 |
 | `coverage_command` | src/trace.rs:912 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:913 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:914 | REQ-01-01-08-03 |
@@ -59,7 +62,7 @@
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
-| `lint` | src/checkers/frontmatter.rs:1195 | REQ-01-01-11-07 |
+| `lint` | src/checkers/frontmatter.rs:1299 | REQ-01-01-11-07 |
 | `lint` | src/checkers/requirements.rs:1000 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
 | `list` | src/store.rs:128 | REQ-05-01-08-03 |
