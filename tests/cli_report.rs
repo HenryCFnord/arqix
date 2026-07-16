@@ -382,3 +382,86 @@ fn report_snapshot_check_detects_a_stale_matrix() {
         "the stale matrix is named: {stdout}"
     );
 }
+
+fn write_statements(repo: &Path) {
+    std::fs::create_dir_all(repo.join("docs/en/reports/requirements")).unwrap();
+    let statements = run_arqix_in(repo, &["report", "statements"]);
+    std::fs::write(
+        repo.join("docs/en/reports/requirements/normative-statements.csv"),
+        &statements.stdout,
+    )
+    .unwrap();
+}
+
+// arqix:verifies REQ-07-01-08-01
+#[test]
+fn report_statements_exports_the_classification() {
+    // The projection of the checker's EARS/RFC-2119 classification: one CSV
+    // row per requirement — id, kind, modality, pattern, subject.
+    let repo = scratch_copy("minimal", "report_statements_exports_the_classification");
+    std::fs::create_dir_all(repo.join("docs/en/architecture/req")).unwrap();
+    std::fs::write(
+        repo.join("docs/en/architecture/req/REQ-01-01-01-01-generate-unique-ids.md"),
+        "---\nid: REQ-01-01-01-01\ntitle: Generate Unique IDs\nslug: generate-unique-ids\niri: arqix:requirements/req-01-01-01-01\n\nrdf:\n  type:\n    - arqix:classes/functional-requirement\n\ntriples:\n  - predicate: arqix:properties/derived-from\n    object: arqix:user-stories/us-01-01-01\n\nproperties:\n  priority: high\n\nmeta:\n  lifecycle-status: active\n  owner: hcf\n  created: 2026-07-16\n  updated: 2026-07-16\n  lang: en\n  generated: false\n---\n\n## Requirement\n\nWhen `arqix doc new` is invoked without `--id`, arqix SHALL generate a unique document ID from the configured policy.\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "statements"]);
+    assert_success(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    let mut lines = stdout.lines();
+    assert_eq!(
+        lines.next(),
+        Some("requirement,kind,modality,pattern,subject"),
+        "the CSV header: {stdout}"
+    );
+    assert_eq!(
+        lines.next(),
+        Some("REQ-01-01-01-01,functional,SHALL,event-driven,arqix"),
+        "the classified row: {stdout}"
+    );
+
+    // Determinism: the same corpus state exports byte-identically.
+    let again = run_arqix_in(&repo, &["report", "statements"]);
+    assert_eq!(out.stdout, again.stdout, "byte-identical repeat run");
+}
+
+// arqix:verifies REQ-07-01-08-02
+#[test]
+fn report_snapshot_check_detects_a_stale_statements_export() {
+    // The statements half of the freshness contract, mirroring the units
+    // and matrices: stale content and a missing file are both findings.
+    let repo = scratch_copy(
+        "minimal",
+        "report_snapshot_check_detects_a_stale_statements_export",
+    );
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    write_matrices(&repo);
+    write_statements(&repo);
+    assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
+
+    let export = repo.join("docs/en/reports/requirements/normative-statements.csv");
+    let mut text = std::fs::read_to_string(&export).unwrap();
+    text.push_str("junk,row,that,does,not,belong\n");
+    std::fs::write(&export, text).unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("normative-statements.csv: stale"),
+        "the stale export is named: {stdout}"
+    );
+
+    std::fs::remove_file(&export).unwrap();
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("normative-statements.csv: missing"),
+        "the missing export is named: {stdout}"
+    );
+}
