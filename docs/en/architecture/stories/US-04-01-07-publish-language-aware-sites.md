@@ -20,6 +20,7 @@ triples:
       - arqix:requirements/req-04-01-07-02
       - arqix:requirements/req-04-01-07-03
       - arqix:requirements/req-04-01-07-04
+      - arqix:requirements/req-04-01-07-05
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-04-01
 
@@ -33,7 +34,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-30
-  updated: 2026-07-12
+  updated: 2026-07-16
   lang: en
   translation-of:
   generated: false

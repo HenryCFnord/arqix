@@ -53,11 +53,19 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         Path::new(&policy.staging_dir).join(lang)
     };
 
+    // Staging is generated output: a stale tree makes a local build disagree
+    // with a fresh CI checkout (REQ-04-01-07-05).
+    // arqix:implements REQ-04-01-07-05
+    let _ = std::fs::remove_dir_all(&staging);
+
     let mut staged = 0usize;
     let skip = crate::config::skip_dirs(Path::new("."));
     // Fragments pulled in by an `arqix:include` reach the site through their
-    // parent page; they are never staged as standalone pages (REQ-04-01-07-03).
+    // parent page and are not staged as standalone pages — unless a corpus
+    // page links to them: the landing page embeds the scoreboard unit, the
+    // report catalog links it, so it serves both roles (REQ-04-01-07-03).
     let included = included_targets(&skip);
+    let linked = linked_targets(&skip);
     for root in crate::config::roots(Path::new(".")) {
         // The language's root: <root>/<lang> where the layout has one; the
         // bare root serves the default language otherwise.
@@ -75,8 +83,9 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         for file in files {
             // Skip a fragment another page stitches in — it is published
             // through that page, not as its own page (REQ-04-01-07-03).
+            // arqix:implements REQ-04-01-07-03
             if std::fs::canonicalize(&file)
-                .map(|c| included.contains(&c))
+                .map(|c| included.contains(&c) && !linked.contains(&c))
                 .unwrap_or(false)
             {
                 continue;
@@ -697,6 +706,33 @@ fn staged_asset_rel(asset: &str, lang: &str) -> PathBuf {
 /// directive anywhere in the corpus roots. Such a fragment is published
 /// through its parent page, never as a standalone page — otherwise the site
 /// carries both the stitched page and each raw fragment (found on arqix.dev).
+/// Every corpus file that a relative Markdown link points at — the set that
+/// keeps a link-referenced include target on the site as its own page.
+fn linked_targets(skip: &[String]) -> HashSet<PathBuf> {
+    let re = regex::Regex::new(r"\]\(([^)\s]+?\.md)(?:#[^)]*)?\)").expect("static regex");
+    let mut sources = Vec::new();
+    for root in crate::config::roots(Path::new(".")) {
+        crate::util::collect_markdown(Path::new(&root), skip, &mut sources);
+    }
+    let mut linked = HashSet::new();
+    for file in &sources {
+        let Ok(text) = std::fs::read_to_string(file) else {
+            continue;
+        };
+        let dir = file.parent().unwrap_or(Path::new("."));
+        for caps in re.captures_iter(&text) {
+            let target = &caps[1];
+            if target.starts_with("http://") || target.starts_with("https://") {
+                continue;
+            }
+            if let Ok(resolved) = std::fs::canonicalize(dir.join(target)) {
+                linked.insert(resolved);
+            }
+        }
+    }
+    linked
+}
+
 fn included_targets(skip: &[String]) -> HashSet<PathBuf> {
     let mut sources = Vec::new();
     for root in crate::config::roots(Path::new(".")) {
