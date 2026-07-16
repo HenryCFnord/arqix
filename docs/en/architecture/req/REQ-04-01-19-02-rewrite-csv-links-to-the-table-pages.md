@@ -1,8 +1,8 @@
 ---
-id: REQ-04-01-18-02
+id: REQ-04-01-19-02
 title: Rewrite CSV Links to the Table Pages
 slug: rewrite-csv-links-to-the-table-pages
-iri: arqix:requirements/req-04-01-18-02
+iri: arqix:requirements/req-04-01-19-02
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-04-01-18
+      - arqix:user-stories/us-04-01-19
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -38,4 +38,4 @@ When `arqix publish site` stages a corpus page, arqix SHALL rewrite the page's r
 ### Notes
 
 The repository view keeps the raw-CSV link (GitHub renders CSVs); the site gets the page that exists there.
-Derived from US-04-01-18.
+Derived from US-04-01-19.

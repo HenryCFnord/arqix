@@ -1,8 +1,8 @@
 ---
-id: REQ-04-01-18-01
+id: REQ-04-01-19-01
 title: Stage CSV Artefacts as Table Pages
 slug: stage-csv-artefacts-as-table-pages
-iri: arqix:requirements/req-04-01-18-01
+iri: arqix:requirements/req-04-01-19-01
 
 rdf:
   type:
@@ -11,7 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
-      - arqix:user-stories/us-04-01-18
+      - arqix:user-stories/us-04-01-19
   - predicate: arqix:properties/has-verification-method
     object:
 
@@ -38,4 +38,4 @@ When `arqix publish site` stages the corpus, arqix SHALL stage every corpus CSV 
 ### Notes
 
 Generated at staging time (never committed), titled by the file name, with a provenance line naming the source CSV.
-Derived from US-04-01-18.
+Derived from US-04-01-19.

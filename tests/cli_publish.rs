@@ -795,7 +795,7 @@ fn staged_pages_do_not_duplicate_the_title_heading() {
     );
 }
 
-// arqix:verifies REQ-04-01-18-01
+// arqix:verifies REQ-04-01-19-01
 #[test]
 fn publish_site_stages_csv_artefacts_as_tables() {
     let repo = scratch_copy("minimal", "publish_site_stages_csv_artefacts_as_tables");
@@ -828,7 +828,7 @@ fn publish_site_stages_csv_artefacts_as_tables() {
     );
 }
 
-// arqix:verifies REQ-04-01-18-02
+// arqix:verifies REQ-04-01-19-02
 #[test]
 fn publish_site_rewrites_csv_links_to_the_table_pages() {
     let repo = scratch_copy(

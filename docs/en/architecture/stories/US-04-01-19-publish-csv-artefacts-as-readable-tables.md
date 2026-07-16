@@ -1,8 +1,8 @@
 ---
-id: US-04-01-18
+id: US-04-01-19
 title: Publish CSV Artefacts as Readable Tables
 slug: publish-csv-artefacts-as-readable-tables
-iri: arqix:user-stories/us-04-01-18
+iri: arqix:user-stories/us-04-01-19
 
 rdf:
   type:
@@ -13,8 +13,8 @@ triples:
     object: arqix:personas/per-09
   - predicate: arqix:properties/has-requirement
     object:
-      - arqix:requirements/req-04-01-18-01
-      - arqix:requirements/req-04-01-18-02
+      - arqix:requirements/req-04-01-19-01
+      - arqix:requirements/req-04-01-19-02
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-04-01
 
