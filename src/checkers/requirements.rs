@@ -110,7 +110,21 @@ fn patterns() -> &'static Patterns {
         // The EARS core clause: "the <system> <KEYWORD> <response>". A leading
         // article is optional so bare system names ("arqix SHALL ...") work.
         let core = r"(?:[Tt]he\s+)?\S.*?\s(?:SHALL NOT|SHALL|SHOULD NOT|SHOULD|MAY)\s\S.*";
+        // Most specific first: the simple patterns' permissive core clause
+        // also matches multi-clause sentences, so complex must be tried
+        // before them or it can never win — the label is exported data
+        // (report statements), so it must name what the sentence is. Its
+        // `{2,}` quantifier keeps single-clause sentences out.
         let ears = vec![
+            (
+                "complex",
+                Regex::new(
+                    &(r"^(?:(?:While|When|Where)\s+.+?,\s+|If\s+.+?,\s+then\s+){2,}".to_string()
+                        + core
+                        + r"\.$"),
+                )
+                .unwrap(),
+            ),
             (
                 "unwanted-behaviour",
                 Regex::new(&(r"^If\s+.+?,\s+then\s+".to_string() + core + r"\.$")).unwrap(),
@@ -126,15 +140,6 @@ fn patterns() -> &'static Patterns {
             (
                 "optional-feature",
                 Regex::new(&(r"^Where\s+.+?,\s+".to_string() + core + r"\.$")).unwrap(),
-            ),
-            (
-                "complex",
-                Regex::new(
-                    &(r"^(?:(?:While|When|Where)\s+.+?,\s+|If\s+.+?,\s+then\s+){2,}".to_string()
-                        + core
-                        + r"\.$"),
-                )
-                .unwrap(),
             ),
             (
                 "ubiquitous",
@@ -1373,6 +1378,51 @@ mod tests {
             parse_frontmatter("---\nexternal-references: []\nmeta:\n  lang: en\n---\nbody\n")
                 .expect("fm");
         assert!(!f2.top.contains_key("external-references"));
+    }
+
+    // The most specific pattern wins: a multi-clause sentence classifies as
+    // complex, never as its leading clause's simple pattern — the label is
+    // exported data (report statements), so it must name what the sentence is.
+    // arqix:verifies REQ-07-01-08-01
+    #[test]
+    fn multi_clause_sentences_classify_as_complex() {
+        assert_eq!(
+            classify_sentence(
+                "While the corpus is loaded, When `arqix verify` runs, \
+                 arqix SHALL exit with the gate result."
+            ),
+            Some("complex")
+        );
+        assert_eq!(
+            classify_sentence(
+                "While the aircraft is on ground, If reverse thrust is commanded, \
+                 then the engine control system SHALL enable reverse thrust."
+            ),
+            Some("complex")
+        );
+        // Single-clause sentences keep their simple patterns.
+        assert_eq!(
+            classify_sentence("The arqix CLI SHALL exit deterministically."),
+            Some("ubiquitous")
+        );
+        assert_eq!(
+            classify_sentence(
+                "When `arqix doc new` runs, arqix SHALL generate a unique document ID."
+            ),
+            Some("event-driven")
+        );
+        assert_eq!(
+            classify_sentence("While a lock is held, arqix SHALL queue further writes."),
+            Some("state-driven")
+        );
+        assert_eq!(
+            classify_sentence("If the id is taken, then arqix SHALL reject the request."),
+            Some("unwanted-behaviour")
+        );
+        assert_eq!(
+            classify_sentence("Where a sunroof is fitted, the car SHALL have a roof control."),
+            Some("optional-feature")
+        );
     }
 
     // --- story-workflow coupling (US-WF-001, US-PER-001) -----------------
