@@ -565,3 +565,39 @@ fn run_arxix_coverage(repo: &Path) -> std::process::Output {
         ],
     )
 }
+
+// arqix:verifies REQ-07-01-09-01
+#[test]
+fn lines_of_code_counts_tracked_files_only() {
+    // The unit is freshness-gated, so it must be a function of the tracked
+    // tree: an untracked local scratch file must not shift the counts.
+    let repo = scratch_copy("minimal", "lines_of_code_counts_tracked_files_only");
+    std::fs::create_dir_all(repo.join("src")).unwrap();
+    std::fs::write(repo.join("src/main.rs"), "fn main() {}\n").unwrap();
+    let git = |args: &[&str]| {
+        assert!(
+            std::process::Command::new("git")
+                .args(args)
+                .current_dir(&repo)
+                .output()
+                .expect("git runs")
+                .status
+                .success(),
+            "git {args:?}"
+        );
+    };
+    git(&["init", "-q"]);
+    git(&["add", "src/main.rs"]);
+    std::fs::write(repo.join("src/scratch.rs"), "// untracked local file\n").unwrap();
+
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    let unit = std::fs::read_to_string(repo.join("docs/en/reports/units/lines-of-code.md"))
+        .expect("lines-of-code unit");
+    assert!(
+        unit.contains("| src | 1 | 1 | 1 |"),
+        "only the tracked file counts: {unit}"
+    );
+}

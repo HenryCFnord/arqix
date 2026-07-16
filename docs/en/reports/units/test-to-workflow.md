@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e1b6b7c, 2026-07-16
+     Snapshot: 08b96b9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -234,6 +234,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `include_directives_parse_with_and_without_level_arguments` | WF-02-01 | Write Docs Alongside Implementation |
 | `includes_never_resolve_outside_the_configured_roots` | WF-02-01 | Write Docs Alongside Implementation |
 | `init_alias_mirrors_doc_init` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `lines_of_code_counts_tracked_files_only` | WF-07-01 | Review Evidence Chains and Exports |
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_frontmatter_reports_contract_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |

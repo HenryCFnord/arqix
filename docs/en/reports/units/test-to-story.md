@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e1b6b7c, 2026-07-16
+     Snapshot: 08b96b9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -412,6 +412,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `include_directives_parse_with_and_without_level_arguments` | US-02-01-09 | Use Include Directives During Implementation |
 | `includes_never_resolve_outside_the_configured_roots` | US-02-01-09 | Use Include Directives During Implementation |
 | `init_alias_mirrors_doc_init` | US-01-01-01 | Initialise Standardised Doc Package |
+| `lines_of_code_counts_tracked_files_only` | US-07-01-09 | Report the Codebase Size by Component |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |

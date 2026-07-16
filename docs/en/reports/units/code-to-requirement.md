@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e1b6b7c, 2026-07-16
+     Snapshot: 08b96b9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -38,7 +38,7 @@
 | `coverage_command` | src/trace.rs:914 | REQ-01-01-08-03 |
 | `coverage_command` | src/trace.rs:916 | REQ-03-01-10-02 |
 | `coverage_command` | src/trace.rs:917 | REQ-03-01-10-03 |
-| `coverage_unit` | src/reporter.rs:900 | REQ-07-01-10-01 |
+| `coverage_unit` | src/reporter.rs:938 | REQ-07-01-10-01 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
 | `effective_required_meta` | src/checkers/requirements.rs:59 | REQ-01-01-19-03 |
 | `finalise` | src/rewriter.rs:294 | REQ-01-01-06-01 |
@@ -115,7 +115,7 @@
 | `stage_catalogue` | src/publisher.rs:389 | REQ-04-01-17-02 |
 | `stage_catalogue` | src/publisher.rs:390 | REQ-04-01-17-03 |
 | `staged_asset_rel` | src/publisher.rs:683 | REQ-04-01-07-04 |
-| `statements` | src/reporter.rs:970 | REQ-07-01-08-01 |
+| `statements` | src/reporter.rs:1008 | REQ-07-01-08-01 |
 | `story_workflow_checks` | src/checkers/requirements.rs:666 | REQ-01-01-11-08 |
 | `story_workflow_checks` | src/checkers/requirements.rs:667 | REQ-01-01-11-09 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
