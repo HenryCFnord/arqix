@@ -2,5 +2,8 @@
   // markdownlint-cli2 runner config: which files to lint and what to skip.
   // Rules live in .markdownlint.jsonc. Run arg-free: npx markdownlint-cli2
   "globs": ["**/*.md"],
-  "ignores": ["node_modules", "**/target", "pages", "site-src", "site-build", ".claude/worktrees"]
+  // sources/ holds verbatim local copies of external documents (the source
+  // records under docs/en/sources point at them) — third-party text is not
+  // linted against the authoring rules.
+  "ignores": ["node_modules", "**/target", "pages", "site-src", "site-build", ".claude/worktrees", "sources"]
 }

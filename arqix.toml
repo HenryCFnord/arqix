@@ -32,6 +32,16 @@ steps = [
 ]
 informational = ["coverage", "freshness"]
 
+# Source records (US-08-01-28, knowledge-repository K3): external sources as
+# first-class documents of arqix:classes/source. The class carries the
+# provenance contract (SRC rules, enforced by lint frontmatter on rdf.type);
+# this entry adds the creation surface — directory, declared template
+# (placeholder-validated, TPL-002), and the generative id-pattern.
+[kinds.source]
+dir = "docs/en/sources"
+template = "docs/en/templates/source.tpl.md"
+id-pattern = "^SRC-(?P<seq>\\d{4})$"
+
 [policies.render]
 # arqix orchestrates Pandoc; the render runs in the fat Pandoc/LaTeX/eisvogel
 # container so a local `just render-pdf` is byte-for-byte the pipeline render —

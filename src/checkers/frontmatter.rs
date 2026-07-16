@@ -936,13 +936,95 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
     }
 }
 
+/// The four provenance fields a finalised source record must carry.
+const SOURCE_REQUIRED: [&str; 4] = ["uri", "accessed", "local-copy", "sha256"];
+
 /// The provenance contract of `arqix:classes/source` (the SRC rule family),
 /// keyed on the document's rdf.type rather than a family directory: any
 /// repository that types a document as a source gets the checks.
+/// Completeness (SRC-002) applies once the record leaves draft; a present
+/// but malformed value (SRC-003..005) is a finding in every lifecycle state.
 // arqix:implements REQ-08-01-28-01
 // arqix:implements REQ-08-01-28-02
 // arqix:implements REQ-08-01-28-03
-fn check_source(_doc: &Doc, _roots: &[String], _findings: &mut Vec<Finding>) {}
+fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
+    let path = &doc.path;
+
+    let doc_id = doc.scalars.get("id").cloned().unwrap_or_default();
+    let iri = doc.scalars.get("iri").cloned().unwrap_or_default();
+    if !doc_id.is_empty() {
+        let expected_iri = format!("arqix:sources/{}", doc_id.to_lowercase());
+        if !iri.is_empty() && iri != expected_iri {
+            findings.push(Finding::error(
+                path,
+                "SRC-001",
+                format!("iri {}, expected {}", py_repr(&iri), py_repr(&expected_iri)),
+            ));
+        }
+    }
+
+    let draft = doc.meta.get("lifecycle-status").map(String::as_str) == Some("draft");
+    if !draft {
+        for key in SOURCE_REQUIRED {
+            if !doc.properties.contains_key(key) {
+                findings.push(Finding::error(
+                    path,
+                    "SRC-002",
+                    format!("finalised source is missing properties.{key}"),
+                ));
+            }
+        }
+    }
+
+    if let Some(accessed) = doc.properties.get("accessed")
+        && !is_calendar_date(accessed)
+    {
+        findings.push(Finding::error(
+            path,
+            "SRC-003",
+            format!(
+                "properties.accessed {} is not a calendar date",
+                py_repr(accessed)
+            ),
+        ));
+    }
+
+    if let Some(digest) = doc.properties.get("sha256")
+        && !(digest.len() == 64
+            && digest
+                .bytes()
+                .all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase()))
+    {
+        findings.push(Finding::error(
+            path,
+            "SRC-004",
+            format!(
+                "properties.sha256 {} is not a 64-character lowercase hex digest",
+                py_repr(digest)
+            ),
+        ));
+    }
+
+    if let Some(copy) = doc.properties.get("local-copy") {
+        let p = Path::new(copy);
+        let escapes = p.is_absolute()
+            || p.components()
+                .any(|c| matches!(c, std::path::Component::ParentDir));
+        let in_corpus = roots
+            .iter()
+            .any(|root| copy == root || copy.starts_with(&format!("{root}/")));
+        if escapes || in_corpus {
+            findings.push(Finding::error(
+                path,
+                "SRC-005",
+                format!(
+                    "properties.local-copy {} escapes the repository or lies inside a documentation root",
+                    py_repr(copy)
+                ),
+            ));
+        }
+    }
+}
 
 struct Vocab {
     classes: HashSet<String>,
@@ -1105,6 +1187,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         all_iris,
     };
 
+    let roots = crate::config::roots(Path::new("."));
     let mut seen_ids: HashMap<String, String> = HashMap::new();
     let mut seen_iris: HashMap<String, String> = HashMap::new();
     for doc in &docs {
@@ -1114,6 +1197,9 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         }
         check_frontmatter(doc, contract, &mut findings);
         check_vocabulary(doc, &vocab, &mut findings, allow_undefined_inverse);
+        if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
+            check_source(doc, &roots, &mut findings);
+        }
         for (kind, seen) in [
             ("id", &mut seen_ids as &mut HashMap<String, String>),
             ("iri", &mut seen_iris),
@@ -1708,16 +1794,17 @@ id-pattern = '^note-(?P<seq>\d+)$'
     #[test]
     fn complete_final_source_is_clean() {
         let findings = source_findings(GOOD_SOURCE);
-        assert!(findings.is_empty(), "unexpected: {:?}", src_rules(&findings));
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
     }
 
     // arqix:verifies REQ-08-01-28-01
     #[test]
     fn source_iri_outside_the_namespace_is_reported() {
-        let bad = GOOD_SOURCE.replace(
-            "iri: arqix:sources/src-0001",
-            "iri: arqix:classes/src-0001",
-        );
+        let bad = GOOD_SOURCE.replace("iri: arqix:sources/src-0001", "iri: arqix:classes/src-0001");
         let findings = source_findings(&bad);
         assert_eq!(src_rules(&findings), vec!["SRC-001"]);
         assert_eq!(
@@ -1754,7 +1841,11 @@ id-pattern = '^note-(?P<seq>\d+)$'
             .replace("  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n", "")
             .replace("lifecycle-status: final", "lifecycle-status: draft");
         let findings = source_findings(&skeleton);
-        assert!(findings.is_empty(), "unexpected: {:?}", src_rules(&findings));
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
     }
 
     // arqix:verifies REQ-08-01-28-03
