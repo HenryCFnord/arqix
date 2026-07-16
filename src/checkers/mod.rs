@@ -5,5 +5,7 @@
 //! the faithful-port shape — a pure checker over the corpus that produces the
 //! oracle's exact findings and exit codes — added as a sibling module here.
 
+pub(crate) mod shared;
+
 pub mod frontmatter;
 pub mod requirements;

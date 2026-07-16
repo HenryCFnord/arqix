@@ -8,6 +8,7 @@
 mod assembler;
 mod checkers;
 mod config;
+mod date;
 mod diag;
 mod linter;
 mod markdown;
