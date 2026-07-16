@@ -851,3 +851,66 @@ fn publish_site_rewrites_csv_links_to_the_table_pages() {
         "the CSV link points at the staged table page: {staged}"
     );
 }
+
+// arqix:verifies REQ-04-01-07-03
+#[test]
+fn publish_site_stages_a_linked_include_target_as_a_page() {
+    // The scoreboard case: the landing page includes the unit AND the
+    // catalog links it — it must exist at its own URL.
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_stages_a_linked_include_target_as_a_page",
+    );
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::write(repo.join("docs/unit.md"), "# Unit\n\ncontent\n").unwrap();
+    std::fs::write(
+        repo.join("docs/landing.md"),
+        "---\nid: landing\ntitle: Landing\n---\n\n## Landing\n\n<!-- arqix:include unit.md -->\n",
+    )
+    .unwrap();
+    std::fs::write(
+        repo.join("docs/catalog.md"),
+        "---\nid: catalog\ntitle: Catalog\n---\n\n## Catalog\n\nSee [the unit](unit.md).\n",
+    )
+    .unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        repo.join("site-src/unit.md").exists(),
+        "a linked include target stays a standalone page"
+    );
+}
+
+// arqix:verifies REQ-04-01-07-03
+#[test]
+fn publish_site_still_omits_unlinked_fragments() {
+    let repo = scratch_copy("minimal", "publish_site_still_omits_unlinked_fragments");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::write(repo.join("docs/fragment.md"), "just stitched text\n").unwrap();
+    std::fs::write(
+        repo.join("docs/page.md"),
+        "---\nid: page-y\ntitle: Page\n---\n\n## Page\n\n<!-- arqix:include fragment.md -->\n",
+    )
+    .unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        !repo.join("site-src/fragment.md").exists(),
+        "an unlinked fragment reaches the site only through its parent"
+    );
+}
+
+// arqix:verifies REQ-04-01-07-05
+#[test]
+fn publish_site_removes_stale_staged_pages() {
+    let repo = scratch_copy("minimal", "publish_site_removes_stale_staged_pages");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::create_dir_all(repo.join("site-src")).unwrap();
+    std::fs::write(repo.join("site-src/ghost.md"), "a stale staged page\n").unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    assert!(
+        !repo.join("site-src/ghost.md").exists(),
+        "staging starts from a clean tree"
+    );
+}

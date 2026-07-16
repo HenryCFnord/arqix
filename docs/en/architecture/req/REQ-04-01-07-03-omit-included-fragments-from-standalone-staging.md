@@ -25,7 +25,7 @@ meta:
   lifecycle-status: active
   owner: hcf
   created: 2026-07-13
-  updated: 2026-07-13
+  updated: 2026-07-16
   lang: en
   translation-of:
   generated: false
@@ -33,9 +33,11 @@ meta:
 
 ## Requirement
 
-When publishing the site, arqix SHALL NOT stage a document that another published page includes; the fragment reaches the site through its parent page.
+When publishing the site, arqix SHALL NOT stage a document that another published page includes and no corpus page links to; a linked include target stays a standalone page.
 
 ### Notes
+
+A true stitching fragment is referenced only by its include; a page that is also link-referenced (the landing page embeds the scoreboard unit, the report catalog links it) serves both roles and must exist at its own URL.
 
 Without this, the site carries both the stitched page and each raw fragment — the arc42 overview appeared once as the assembled page and again as its individual units (found on arqix.dev).
 The stitched page is the unit of publication; its fragments are content within it.
