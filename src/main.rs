@@ -308,6 +308,18 @@ enum ReportCommand {
     },
     /// Export every requirement's normative-sentence classification as CSV
     Statements,
+    /// Render the test-coverage unit from a cargo-llvm-cov JSON export
+    Coverage {
+        /// The cargo-llvm-cov JSON export to render from
+        #[arg(long)]
+        input: String,
+        /// Generation stamp recorded in the unit header (e.g. "<sha>, <date>")
+        #[arg(long)]
+        stamp: String,
+        /// Output file (default: docs/en/reports/units/test-coverage.md)
+        #[arg(long)]
+        out: Option<String>,
+    },
     /// Regenerate the question-driven report units from the trace graph (ADR-0008)
     Snapshot {
         /// Snapshot stamp embedded as generation provenance (e.g. "<sha>, <date>")
@@ -432,6 +444,9 @@ fn main() -> ExitCode {
             }
             ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
             ReportCommand::Statements => reporter::statements(cli.format),
+            ReportCommand::Coverage { input, stamp, out } => {
+                reporter::coverage_unit(&input, &stamp, out.as_deref(), cli.format)
+            }
             ReportCommand::Snapshot { stamp, check, out } => {
                 reporter::snapshot(stamp.as_deref(), check, out.as_deref(), cli.format)
             }

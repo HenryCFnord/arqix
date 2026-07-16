@@ -19,6 +19,8 @@ Three layers live here:
 - [Which ADRs are linked to which requirements?](units/adr-to-requirement.md) (Q-07)
 - [Which code implements which requirement?](units/code-to-requirement.md) (Q-04)
 - [Where is the documentation for a given piece of code?](units/doc-to-code.md) (Q-08)
+- [How large is the codebase?](units/lines-of-code.md) (Q-09)
+- [What is the code coverage of the test suite?](units/test-coverage.md) (Q-10)
 
 ## Regeneration and staleness
 

@@ -39,6 +39,10 @@ jobs:
       # freshness gate, and main regains freshness right here — regenerate,
       # auto-commit, then verify the fresh state. Removing this step switches
       # to the "next change brings the regeneration along" variant.
+      - name: Install cargo-llvm-cov (main only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: taiki-e/install-action@cargo-llvm-cov
+
       - name: Refresh report snapshots (main only)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
@@ -61,6 +65,9 @@ jobs:
           ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
           ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
           ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
+          # Q-10: the coverage unit is CI-generated, outside the snapshot gate.
+          cargo llvm-cov --json --output-path /tmp/coverage.json
+          ./target/debug/arqix report coverage --input /tmp/coverage.json --stamp "$(git rev-parse --short HEAD), $(date +%F)"
           if ! git diff --quiet -- docs/en/reports; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
