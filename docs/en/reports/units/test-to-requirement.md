@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 21d811e, 2026-07-16
+     Snapshot: c1973d9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -74,7 +74,9 @@
 | `doc_new_honours_the_kinds_declared_directory` | tests/cli_doc.rs:594 | REQ-08-01-25-01 | active |
 | `doc_new_instantiates_the_configured_template_file` | tests/cli_doc.rs:415 | REQ-01-01-20-01 | active |
 | `doc_new_instantiates_the_kinds_declared_template` | tests/cli_doc.rs:621 | REQ-08-01-26-01 | active |
+| `doc_new_places_the_document_at_the_explicit_directory` | tests/cli_doc.rs:713 | REQ-08-01-27-01 | active |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | tests/cli_doc.rs:99 | REQ-00-00-00-13 | active |
+| `doc_new_rejects_an_escaping_explicit_directory` | tests/cli_doc.rs:741 | REQ-08-01-27-01 | active |
 | `doc_new_rejects_unknown_template_placeholders` | tests/cli_doc.rs:680 | REQ-08-01-26-02 | active |
 | `doc_new_substitutes_the_title_into_the_template` | tests/cli_doc.rs:228 | REQ-00-00-00-05 | active |
 | `doc_new_treats_a_missing_declared_template_as_a_config_error` | tests/cli_doc.rs:655 | REQ-08-01-26-01 | active |

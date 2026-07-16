@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 21d811e, 2026-07-16
+     Snapshot: c1973d9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -144,12 +144,14 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_honours_the_kinds_declared_directory` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_instantiates_the_configured_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_instantiates_the_kinds_declared_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_places_the_document_at_the_explicit_directory` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-05-01 | Use Documentation for Agents and RAG |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_rejects_an_escaping_explicit_directory` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_rejects_unknown_template_placeholders` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_substitutes_the_title_into_the_template` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_substitutes_the_title_into_the_template` | WF-02-01 | Write Docs Alongside Implementation |

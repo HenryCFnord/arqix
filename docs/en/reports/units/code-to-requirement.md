@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 21d811e, 2026-07-16
+     Snapshot: c1973d9, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -51,8 +51,8 @@
 | `heading_ownership` | src/config.rs:394 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:477 | REQ-01-01-18-01 |
 | `included_targets` | src/publisher.rs:560 | REQ-04-01-07-03 |
-| `init` | src/templates.rs:425 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:426 | REQ-01-01-01-02 |
+| `init` | src/templates.rs:446 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:447 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:438 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:439 | REQ-01-01-19-02 |
@@ -68,11 +68,11 @@
 | `matrix_command` | src/trace.rs:991 | REQ-03-01-02-01 |
 | `matrix_command` | src/trace.rs:992 | REQ-03-01-02-02 |
 | `matrix_command` | src/trace.rs:993 | REQ-03-01-02-03 |
-| `new_document` | src/templates.rs:299 | REQ-00-00-00-05 |
-| `new_document` | src/templates.rs:300 | REQ-00-00-00-09 |
-| `new_document` | src/templates.rs:301 | REQ-00-00-00-13 |
-| `new_document` | src/templates.rs:302 | REQ-01-01-13-01 |
-| `new_document` | src/templates.rs:303 | REQ-01-01-13-02 |
+| `new_document` | src/templates.rs:302 | REQ-00-00-00-05 |
+| `new_document` | src/templates.rs:303 | REQ-00-00-00-09 |
+| `new_document` | src/templates.rs:304 | REQ-00-00-00-13 |
+| `new_document` | src/templates.rs:305 | REQ-01-01-13-01 |
+| `new_document` | src/templates.rs:306 | REQ-01-01-13-02 |
 | `pdf` | src/publisher.rs:182 | REQ-04-01-03-04 |
 | `pdf` | src/publisher.rs:183 | REQ-04-01-03-05 |
 | `pdf` | src/publisher.rs:184 | REQ-04-01-03-06 |
@@ -132,12 +132,12 @@
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
-| — | src/main.rs:444 | REQ-01-01-05-02 |
-| — | src/main.rs:448 | REQ-01-01-01-03 |
+| — | src/main.rs:454 | REQ-01-01-05-02 |
+| — | src/main.rs:458 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
-| — | src/templates.rs:331 | REQ-01-01-18-01 |
-| — | src/templates.rs:455 | REQ-01-01-20-02 |
-| — | src/templates.rs:488 | REQ-08-01-24-01 |
-| — | src/templates.rs:489 | REQ-08-01-24-02 |
+| — | src/templates.rs:334 | REQ-01-01-18-01 |
+| — | src/templates.rs:476 | REQ-01-01-20-02 |
+| — | src/templates.rs:509 | REQ-08-01-24-01 |
+| — | src/templates.rs:510 | REQ-08-01-24-02 |
 | — | src/trace.rs:1034 | REQ-04-01-16-01 |
