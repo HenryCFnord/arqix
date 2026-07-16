@@ -33,6 +33,7 @@ reports:
     ./target/debug/arqix report snapshot --stamp "$(git rev-parse --short HEAD), $(date +%F)"
     ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
     ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
+    ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
 
 # Render the C4 views from the model to committed SVGs (needs Docker; ADR-0016)
 render-views:

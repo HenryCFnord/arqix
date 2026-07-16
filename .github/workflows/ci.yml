@@ -60,6 +60,7 @@ jobs:
           ./target/debug/arqix report snapshot --stamp "$(git rev-parse --short HEAD), $(date +%F)"
           ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
           ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
+          ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
           if ! git diff --quiet -- docs/en/reports; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

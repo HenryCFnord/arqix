@@ -296,11 +296,12 @@ fn report_snapshot_check_passes_on_fresh_snapshots() {
         &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
     ));
     write_matrices(&repo);
+    write_statements(&repo);
     let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
     assert_success(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("reports: fresh (8 units, 2 matrices)"),
+        stdout.contains("reports: fresh (8 units, 2 matrices, 1 export)"),
         "a freshly generated corpus is fresh: {stdout}"
     );
 }
@@ -314,6 +315,7 @@ fn report_snapshot_check_detects_a_staled_unit() {
         &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
     ));
     write_matrices(&repo);
+    write_statements(&repo);
     assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
 
     // Mutate one committed unit so it no longer matches the corpus.
@@ -343,6 +345,7 @@ fn report_snapshot_check_detects_a_missing_unit() {
         &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
     ));
     write_matrices(&repo);
+    write_statements(&repo);
     assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
 
     std::fs::remove_file(repo.join("docs/en/reports/units/scoreboard.md")).unwrap();
@@ -367,6 +370,7 @@ fn report_snapshot_check_detects_a_stale_matrix() {
         &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
     ));
     write_matrices(&repo);
+    write_statements(&repo);
     assert_success(&run_arqix_in(&repo, &["report", "snapshot", "--check"]));
 
     let matrix = repo.join("docs/en/reports/trace/matrix.csv");

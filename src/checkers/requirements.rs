@@ -401,6 +401,47 @@ fn core_subject(sentence: &str) -> Option<String> {
     Some(subject)
 }
 
+/// One CSV-ready classification row per requirement document — id, kind,
+/// modality, EARS pattern, subject — projected from exactly the functions
+/// `lint requirements` enforces with, so export and checker cannot
+/// disagree. A document without exactly one normative sentence exports
+/// with empty classification fields (the checker owns that finding).
+// arqix:implements REQ-07-01-08-01
+pub(crate) fn statement_rows() -> Vec<[String; 5]> {
+    let mut rows = Vec::new();
+    for path in sorted_md_files(REQ_DIR) {
+        let text = read_universal(&path);
+        let Some((fields, body)) = parse_frontmatter(&text) else {
+            continue;
+        };
+        let req_id = fields.top.get("id").cloned().unwrap_or_default();
+        if req_id.is_empty() {
+            continue;
+        }
+        let kinds: Vec<&'static str> = fields
+            .rdf_types
+            .iter()
+            .filter_map(|t| KIND_CLASSES.iter().find(|(k, _)| k == t).map(|(_, v)| *v))
+            .collect();
+        let kind = if kinds.len() == 1 {
+            kinds[0].to_string()
+        } else {
+            String::new()
+        };
+        let sentences = normative_sentences(&body);
+        let (modality, pattern, subject) = match sentences.as_slice() {
+            [sentence] => (
+                keywords_in(sentence).0.join(";"),
+                classify_sentence(sentence).unwrap_or_default().to_string(),
+                core_subject(sentence).unwrap_or_default(),
+            ),
+            _ => (String::new(), String::new(), String::new()),
+        };
+        rows.push([req_id, kind, modality, pattern, subject]);
+    }
+    rows
+}
+
 fn check_sentence(
     path: &str,
     sentence: &str,

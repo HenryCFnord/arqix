@@ -1,0 +1,205 @@
+requirement,kind,modality,pattern,subject
+REQ-00-00-00-01,constraint,SHALL,ubiquitous,The arqix CLI
+REQ-00-00-00-02,functional,SHALL,ubiquitous,The arqix CLI
+REQ-00-00-00-03,functional,SHALL,event-driven,arqix
+REQ-00-00-00-04,functional,SHALL,ubiquitous,The arqix CLI
+REQ-00-00-00-05,functional,SHALL,event-driven,arqix
+REQ-00-00-00-06,functional,SHALL,ubiquitous,The arqix CLI
+REQ-00-00-00-07,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-00-00-00-08,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-00-00-00-09,functional,SHALL,optional-feature,the command
+REQ-00-00-00-10,functional,SHALL,event-driven,arqix
+REQ-00-00-00-11,quality,SHOULD,ubiquitous,Search and read commands
+REQ-00-00-00-12,quality,SHOULD,ubiquitous,The verification loop
+REQ-00-00-00-13,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-00-00-00-14,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-01-01-01-01,functional,SHALL,event-driven,arqix
+REQ-01-01-01-02,functional,SHALL,event-driven,arqix
+REQ-01-01-01-03,quality,SHOULD,ubiquitous,The arqix CLI
+REQ-01-01-02-01,functional,SHALL,event-driven,arqix
+REQ-01-01-02-02,functional,SHALL,ubiquitous,The arqix CLI
+REQ-01-01-02-03,quality,SHOULD,ubiquitous,The `unit new` command help
+REQ-01-01-03-01,functional,SHALL,event-driven,arqix
+REQ-01-01-03-02,functional,SHALL,event-driven,arqix
+REQ-01-01-03-03,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-01-01-04-01,functional,SHALL,event-driven,arqix
+REQ-01-01-04-02,functional,SHALL,event-driven,arqix
+REQ-01-01-04-03,functional,SHALL,event-driven,arqix
+REQ-01-01-04-04,functional,SHALL,event-driven,the diagnostic
+REQ-01-01-04-05,functional,SHALL,unwanted-behaviour,arqix
+REQ-01-01-05-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-01-01-05-02,quality,SHOULD,ubiquitous,The arqix CLI
+REQ-01-01-05-03,functional,SHALL,event-driven,arqix
+REQ-01-01-06-01,functional,SHALL,event-driven,arqix
+REQ-01-01-06-02,functional,SHALL NOT,unwanted-behaviour,`arqix finalise`
+REQ-01-01-06-03,functional,SHALL,unwanted-behaviour,`arqix finalise`
+REQ-01-01-07-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-01-01-07-02,functional,SHALL,event-driven,arqix
+REQ-01-01-07-03,functional,SHALL,optional-feature,`arqix policy check`
+REQ-01-01-08-01,functional,SHALL,event-driven,arqix
+REQ-01-01-08-02,functional,SHALL,event-driven,arqix
+REQ-01-01-08-03,functional,SHALL,ubiquitous,The coverage report
+REQ-01-01-09-01,constraint,SHALL,ubiquitous,The agent instruction document
+REQ-01-01-09-02,constraint,SHALL,ubiquitous,The agent instruction document
+REQ-01-01-09-03,constraint,SHALL,ubiquitous,The plan document
+REQ-01-01-09-04,quality,SHOULD,ubiquitous,The agent instruction and plan document structures
+REQ-01-01-09-05,functional,SHALL,event-driven,its agent-specific extension points
+REQ-01-01-09-06,constraint,SHALL NOT,ubiquitous,Agent-specific extension points
+REQ-01-01-10-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-01-01-10-02,functional,SHALL,event-driven,arqix
+REQ-01-01-10-03,constraint,SHALL,ubiquitous,The template and validation subsystems
+REQ-01-01-11-01,constraint,SHALL,ubiquitous,The arc42 architecture document
+REQ-01-01-11-02,constraint,SHALL,ubiquitous,ADRs
+REQ-01-01-11-03,constraint,SHALL,ubiquitous,The documentation strategy
+REQ-01-01-11-04,quality,SHOULD,ubiquitous,Architecture views
+REQ-01-01-11-05,quality,SHOULD,ubiquitous,The architecture documentation
+REQ-01-01-11-06,functional,SHALL,event-driven,arqix
+REQ-01-01-11-07,functional,SHALL,event-driven,arqix
+REQ-01-01-11-08,functional,SHALL,event-driven,arqix
+REQ-01-01-11-09,functional,SHALL,event-driven,arqix
+REQ-01-01-12-01,functional,SHALL,event-driven,arqix
+REQ-01-01-12-02,functional,SHALL,ubiquitous,The arqix CLI
+REQ-01-01-12-03,functional,SHALL,event-driven,arqix
+REQ-01-01-13-01,functional,SHALL,event-driven,arqix
+REQ-01-01-13-02,functional,SHALL,event-driven,arqix
+REQ-01-01-14-01,functional,SHALL,ubiquitous,The set of translation-required kinds or domains
+REQ-01-01-15-01,constraint,SHALL,ubiquitous,The repository
+REQ-01-01-15-02,constraint,SHALL,ubiquitous,The release process
+REQ-01-01-15-03,constraint,SHALL NOT,ubiquitous,Coding agents
+REQ-01-01-15-04,constraint,SHALL,unwanted-behaviour,the release preparation
+REQ-01-01-16-01,functional,SHALL,event-driven,arqix
+REQ-01-01-16-02,functional,SHALL,event-driven,arqix
+REQ-01-01-16-03,quality,SHOULD,ubiquitous,Configuration diagnostics
+REQ-01-01-17-01,functional,SHALL,optional-feature,arqix
+REQ-01-01-17-02,functional,SHALL,state-driven,arqix
+REQ-01-01-18-01,functional,SHALL,event-driven,arqix
+REQ-01-01-18-02,functional,SHALL,event-driven,arqix
+REQ-01-01-18-03,functional,SHALL,optional-feature,arqix
+REQ-01-01-18-04,functional,SHALL,optional-feature,arqix
+REQ-01-01-19-01,functional,SHALL,event-driven,arqix
+REQ-01-01-19-02,functional,SHALL,ubiquitous,arqix
+REQ-01-01-19-03,functional,SHALL,event-driven,arqix
+REQ-01-01-20-01,functional,SHALL,event-driven,arqix
+REQ-01-01-20-02,functional,SHALL,event-driven,arqix
+REQ-01-01-20-03,functional,SHALL,unwanted-behaviour,arqix
+REQ-02-01-03-01,quality,SHOULD,ubiquitous,The formatting output
+REQ-02-01-06-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-02-01-06-02,functional,SHALL,event-driven,arqix
+REQ-02-01-06-03,functional,SHALL,unwanted-behaviour,arqix
+REQ-02-01-09-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-02-01-09-02,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-02-01-09-03,functional,SHALL,event-driven,arqix
+REQ-02-01-10-01,functional,SHALL,event-driven,arqix
+REQ-02-01-10-02,functional,SHALL,event-driven,arqix
+REQ-02-01-10-03,functional,SHALL,unwanted-behaviour,the translation scaffolding
+REQ-02-01-10-04,functional,SHALL,event-driven,arqix
+REQ-02-01-11-01,functional,SHALL,event-driven,arqix
+REQ-02-01-11-02,functional,SHALL,optional-feature,arqix
+REQ-02-01-11-03,functional,SHALL,unwanted-behaviour,arqix
+REQ-02-01-12-01,functional,SHALL,event-driven,arqix
+REQ-02-01-12-02,functional,SHALL,event-driven,arqix
+REQ-02-01-12-03,functional,SHALL,unwanted-behaviour,arqix
+REQ-02-01-12-04,functional,SHALL,optional-feature,arqix
+REQ-02-01-12-05,functional,SHALL,event-driven,it
+REQ-03-01-02-01,functional,SHALL,event-driven,arqix
+REQ-03-01-02-02,functional,SHALL,ubiquitous,The arqix CLI
+REQ-03-01-02-03,functional,SHALL,ubiquitous,The exported CSV
+REQ-03-01-02-04,quality,SHOULD,ubiquitous,Empty-link cases
+REQ-03-01-04-01,functional,SHALL,event-driven,arqix
+REQ-03-01-04-02,functional,SHALL,ubiquitous,The exported bundle
+REQ-03-01-04-03,quality,SHOULD,ubiquitous,The exported bundle
+REQ-03-01-05-01,functional,SHALL,event-driven,arqix
+REQ-03-01-05-02,functional,SHALL,event-driven,arqix
+REQ-03-01-05-03,functional,SHALL,event-driven,arqix
+REQ-03-01-05-04,functional,SHALL,event-driven,arqix
+REQ-03-01-05-05,constraint,SHALL NOT,ubiquitous,The arqix CLI
+REQ-03-01-06-01,functional,SHALL,event-driven,arqix
+REQ-03-01-06-02,functional,SHALL,event-driven,arqix
+REQ-03-01-06-03,functional,SHALL,ubiquitous,The trace check report
+REQ-03-01-06-04,functional,SHALL,event-driven,arqix
+REQ-03-01-07-01,functional,SHALL,event-driven,arqix
+REQ-03-01-07-02,functional,SHALL,ubiquitous,Each report finding
+REQ-03-01-09-01,functional,SHALL,event-driven,arqix
+REQ-03-01-09-02,functional,SHALL,event-driven,arqix
+REQ-03-01-10-01,functional,SHALL,event-driven,arqix
+REQ-03-01-10-02,functional,SHALL,event-driven,arqix
+REQ-03-01-10-03,functional,SHALL NOT,optional-feature,the corresponding verifying claim
+REQ-03-01-11-01,functional,SHALL,event-driven,arqix
+REQ-03-01-11-02,functional,SHALL NOT,unwanted-behaviour,arqix
+REQ-03-01-11-03,functional,SHALL,optional-feature,`arqix verify`
+REQ-04-01-01-01,quality,SHOULD,ubiquitous,The assembly log
+REQ-04-01-01-02,functional,SHALL,event-driven,arqix
+REQ-04-01-01-03,functional,SHALL,ubiquitous,The assembly log path
+REQ-04-01-01-04,functional,SHALL,event-driven,arqix
+REQ-04-01-01-05,functional,SHALL,ubiquitous,Each assembly log record
+REQ-04-01-03-01,functional,SHALL,event-driven,arqix
+REQ-04-01-03-02,functional,SHALL,ubiquitous,The assembled pages
+REQ-04-01-03-03,functional,SHALL,optional-feature,arqix
+REQ-04-01-03-04,functional,SHALL,event-driven,arqix
+REQ-04-01-03-05,functional,SHALL,ubiquitous,The arqix CLI
+REQ-04-01-03-06,functional,SHALL,event-driven,arqix
+REQ-04-01-03-07,functional,SHALL,unwanted-behaviour,arqix
+REQ-04-01-03-08,functional,SHALL,ubiquitous,The arqix CLI
+REQ-04-01-03-09,functional,SHALL,event-driven,arqix
+REQ-04-01-05-01,functional,SHALL,event-driven,arqix
+REQ-04-01-05-02,functional,SHALL,ubiquitous,The verification loop
+REQ-04-01-05-03,functional,SHALL,optional-feature,the verification loop
+REQ-04-01-05-04,constraint,SHALL NOT,ubiquitous,The default verification loop
+REQ-04-01-07-01,functional,SHALL,event-driven,arqix
+REQ-04-01-07-02,functional,SHALL,unwanted-behaviour,arqix
+REQ-04-01-07-03,functional,SHALL NOT,event-driven,arqix
+REQ-04-01-07-04,functional,SHALL,event-driven,arqix
+REQ-04-01-08-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-04-01-08-02,functional,SHALL,ubiquitous,The stderr messaging
+REQ-04-01-08-03,functional,MAY,ubiquitous,The arqix CLI
+REQ-04-01-10-01,functional,SHALL,ubiquitous,Each supported command
+REQ-04-01-10-02,functional,SHALL,ubiquitous,JSON diagnostics
+REQ-04-01-12-01,functional,SHALL,ubiquitous,Audit-oriented report exports
+REQ-04-01-12-02,functional,SHALL,ubiquitous,Export schemas and column ordering
+REQ-04-01-12-03,functional,SHALL,ubiquitous,Report metadata
+REQ-04-01-12-04,functional,SHALL,event-driven,arqix
+REQ-04-01-13-01,functional,SHALL,event-driven,arqix
+REQ-04-01-13-02,functional,SHALL,ubiquitous,and architecture pages
+REQ-04-01-13-03,functional,SHALL,event-driven,arqix
+REQ-04-01-14-01,functional,SHALL,event-driven,arqix
+REQ-04-01-14-02,functional,SHALL,optional-feature,arqix
+REQ-04-01-14-03,functional,SHALL,ubiquitous,The default verify configuration
+REQ-04-01-14-04,functional,SHALL,event-driven,arqix
+REQ-04-01-14-05,functional,SHALL,optional-feature,`arqix verify`
+REQ-04-01-15-01,functional,SHALL,event-driven,arqix
+REQ-04-01-15-02,functional,SHALL,event-driven,the coverage ratchet
+REQ-04-01-16-01,functional,SHALL,optional-feature,arqix
+REQ-04-01-17-01,functional,SHALL,optional-feature,`arqix publish site`
+REQ-04-01-17-02,functional,SHALL,ubiquitous,Each catalogue entry
+REQ-04-01-17-03,functional,SHALL,event-driven,repeated staging
+REQ-04-01-18-01,quality,SHALL,ubiquitous,The published architecture views
+REQ-04-01-18-02,quality,SHALL,event-driven,the verification gate
+REQ-05-01-02-01,quality,SHOULD,ubiquitous,The assembly log records
+REQ-05-01-08-01,functional,SHALL,event-driven,arqix
+REQ-05-01-08-02,functional,SHALL,ubiquitous,Each catalog entry
+REQ-05-01-08-03,functional,SHALL,event-driven,arqix
+REQ-05-01-10-01,functional,SHALL,event-driven,arqix
+REQ-05-01-10-02,functional,SHALL,ubiquitous,The structured read output
+REQ-05-01-10-03,functional,SHALL,unwanted-behaviour,the diagnostic
+REQ-05-01-12-01,functional,SHALL,event-driven,arqix
+REQ-05-01-12-02,functional,SHALL,ubiquitous,The MCP server
+REQ-05-01-12-03,constraint,SHALL,ubiquitous,The MCP transport handling
+REQ-05-01-15-01,functional,SHALL,ubiquitous,The arqix CLI
+REQ-05-01-15-02,functional,SHALL,event-driven,arqix
+REQ-05-01-15-03,functional,SHALL,event-driven,arqix
+REQ-06-01-02-01,quality,SHOULD,ubiquitous,The assembly log
+REQ-07-01-08-01,functional,SHALL,event-driven,arqix
+REQ-07-01-08-02,functional,SHALL,event-driven,arqix
+REQ-08-01-01-01,quality,SHOULD,ubiquitous,Failure diagnostics
+REQ-08-01-01-02,quality,SHOULD,ubiquitous,The generated doc package
+REQ-08-01-02-01,quality,SHOULD,ubiquitous,Assembly outcomes
+REQ-08-01-05-01,functional,SHALL,unwanted-behaviour,arqix
+REQ-08-01-24-01,functional,SHALL,event-driven,arqix
+REQ-08-01-24-02,functional,SHALL,optional-feature,`arqix doc init`
+REQ-08-01-25-01,functional,SHALL,event-driven,arqix
+REQ-08-01-26-01,functional,SHALL,event-driven,arqix
+REQ-08-01-26-02,functional,SHALL,event-driven,arqix
+REQ-08-01-27-01,functional,SHALL,event-driven,arqix
+REQ-08-01-28-01,functional,SHALL,event-driven,arqix
+REQ-08-01-28-02,functional,SHALL,event-driven,arqix
+REQ-08-01-28-03,functional,SHALL,event-driven,arqix
