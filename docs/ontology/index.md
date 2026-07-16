@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-03-27
-  updated: 2026-07-02
+  updated: 2026-07-16
   lang: en
   generated: false
 ---
@@ -47,3 +47,4 @@ It keeps the planning, implementation, and verification model intentionally smal
 - unit-test
 - integration-test
 - verification-method
+- source

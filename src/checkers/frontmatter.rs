@@ -936,6 +936,106 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
     }
 }
 
+/// The provenance fields a finalised source record must carry; the local
+/// copy and its digest are optional but travel as a pair.
+const SOURCE_REQUIRED: [&str; 2] = ["uri", "accessed"];
+
+/// The provenance contract of `arqix:classes/source` (the SRC rule family),
+/// keyed on the document's rdf.type rather than a family directory: any
+/// repository that types a document as a source gets the checks.
+/// Completeness (SRC-002) applies once the record leaves draft; a present
+/// but malformed value (SRC-003..005) is a finding in every lifecycle state.
+// arqix:implements REQ-08-01-28-01
+// arqix:implements REQ-08-01-28-02
+// arqix:implements REQ-08-01-28-03
+fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
+    let path = &doc.path;
+
+    let doc_id = doc.scalars.get("id").cloned().unwrap_or_default();
+    let iri = doc.scalars.get("iri").cloned().unwrap_or_default();
+    if !doc_id.is_empty() {
+        let expected_iri = format!("arqix:sources/{}", doc_id.to_lowercase());
+        if !iri.is_empty() && iri != expected_iri {
+            findings.push(Finding::error(
+                path,
+                "SRC-001",
+                format!("iri {}, expected {}", py_repr(&iri), py_repr(&expected_iri)),
+            ));
+        }
+    }
+
+    let draft = doc.meta.get("lifecycle-status").map(String::as_str) == Some("draft");
+    if !draft {
+        for key in SOURCE_REQUIRED {
+            if !doc.properties.contains_key(key) {
+                findings.push(Finding::error(
+                    path,
+                    "SRC-002",
+                    format!("finalised source is missing properties.{key}"),
+                ));
+            }
+        }
+    }
+    // A copy without its digest (or the reverse) pretends more than it
+    // pins; a record without either is a source that holds no copy.
+    if doc.properties.contains_key("local-copy") != doc.properties.contains_key("sha256") {
+        findings.push(Finding::error(
+            path,
+            "SRC-002",
+            "properties.local-copy and properties.sha256 must be given together".to_string(),
+        ));
+    }
+
+    if let Some(accessed) = doc.properties.get("accessed")
+        && !is_calendar_date(accessed)
+    {
+        findings.push(Finding::error(
+            path,
+            "SRC-003",
+            format!(
+                "properties.accessed {} is not a calendar date",
+                py_repr(accessed)
+            ),
+        ));
+    }
+
+    if let Some(digest) = doc.properties.get("sha256")
+        && !(digest.len() == 64
+            && digest
+                .bytes()
+                .all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase()))
+    {
+        findings.push(Finding::error(
+            path,
+            "SRC-004",
+            format!(
+                "properties.sha256 {} is not a 64-character lowercase hex digest",
+                py_repr(digest)
+            ),
+        ));
+    }
+
+    if let Some(copy) = doc.properties.get("local-copy") {
+        let p = Path::new(copy);
+        let escapes = p.is_absolute()
+            || p.components()
+                .any(|c| matches!(c, std::path::Component::ParentDir));
+        let in_corpus = roots
+            .iter()
+            .any(|root| copy == root || copy.starts_with(&format!("{root}/")));
+        if escapes || in_corpus {
+            findings.push(Finding::error(
+                path,
+                "SRC-005",
+                format!(
+                    "properties.local-copy {} escapes the repository or lies inside a documentation root",
+                    py_repr(copy)
+                ),
+            ));
+        }
+    }
+}
+
 struct Vocab {
     classes: HashSet<String>,
     properties: HashSet<String>,
@@ -1097,6 +1197,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         all_iris,
     };
 
+    let roots = crate::config::roots(Path::new("."));
     let mut seen_ids: HashMap<String, String> = HashMap::new();
     let mut seen_iris: HashMap<String, String> = HashMap::new();
     for doc in &docs {
@@ -1106,6 +1207,9 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         }
         check_frontmatter(doc, contract, &mut findings);
         check_vocabulary(doc, &vocab, &mut findings, allow_undefined_inverse);
+        if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
+            check_source(doc, &roots, &mut findings);
+        }
         for (kind, seen) in [
             ("id", &mut seen_ids as &mut HashMap<String, String>),
             ("iri", &mut seen_iris),
@@ -1673,5 +1777,164 @@ id-pattern = '^note-(?P<seq>\d+)$'
         assert_eq!(doc.triples.len(), 1);
         assert_eq!(doc.triples[0].0, "arqix:properties/points-at");
         assert_eq!(doc.triples[0].1, vec!["arqix:classes/widget".to_string()]);
+    }
+
+    // --- the source provenance contract (SRC rule family) -----------------
+
+    const GOOD_SOURCE: &str = "---\nid: SRC-0001\ntitle: Markdownlint Rule Reference\nslug: markdownlint-rule-reference\niri: arqix:sources/src-0001\n\nrdf:\n  type:\n    - arqix:classes/source\n\ntriples: []\n\nproperties:\n  uri: https://raw.githubusercontent.com/markdownlint/markdownlint/main/docs/RULES.md\n  accessed: 2026-07-16\n  local-copy: sources/markdownlint-rules.md\n  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n  licence: MIT\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: final\n  owner: hcf\n  created: 2026-07-16\n  updated: 2026-07-16\n  lang: en\n  generated: false\n---\n\n## Markdownlint Rule Reference\n\nA selftest fixture source.\n";
+
+    fn source_findings(text: &str) -> Vec<Finding> {
+        let doc = Doc::new(
+            "SRC-0001-markdownlint-rule-reference.md".to_string(),
+            text.to_string(),
+            "source".to_string(),
+        );
+        let mut findings = Vec::new();
+        check_source(&doc, &["docs".to_string()], &mut findings);
+        findings
+    }
+
+    fn src_rules(findings: &[Finding]) -> Vec<&str> {
+        findings.iter().map(|f| f.rule).collect()
+    }
+
+    // arqix:verifies REQ-08-01-28-01
+    // arqix:verifies REQ-08-01-28-02
+    // arqix:verifies REQ-08-01-28-03
+    #[test]
+    fn complete_final_source_is_clean() {
+        let findings = source_findings(GOOD_SOURCE);
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-01
+    #[test]
+    fn source_iri_outside_the_namespace_is_reported() {
+        let bad = GOOD_SOURCE.replace("iri: arqix:sources/src-0001", "iri: arqix:classes/src-0001");
+        let findings = source_findings(&bad);
+        assert_eq!(src_rules(&findings), vec!["SRC-001"]);
+        assert_eq!(
+            findings[0].message,
+            "iri 'arqix:classes/src-0001', expected 'arqix:sources/src-0001'"
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn finalised_source_without_provenance_is_reported() {
+        let incomplete = GOOD_SOURCE
+            .replace("  uri: https://raw.githubusercontent.com/markdownlint/markdownlint/main/docs/RULES.md\n", "")
+            .replace("  accessed: 2026-07-16\n", "");
+        let findings = source_findings(&incomplete);
+        assert_eq!(src_rules(&findings), vec!["SRC-002", "SRC-002"]);
+        assert_eq!(
+            findings[0].message,
+            "finalised source is missing properties.uri"
+        );
+        assert_eq!(
+            findings[1].message,
+            "finalised source is missing properties.accessed"
+        );
+    }
+
+    // A licence that forbids redistribution means no copy at all: uri and
+    // access date finalise the record, and no path or digest pretends
+    // a copy exists.
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn finalised_source_without_a_copy_is_clean() {
+        let no_copy = GOOD_SOURCE
+            .replace("  local-copy: sources/markdownlint-rules.md\n", "")
+            .replace(
+                "  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n",
+                "",
+            );
+        let findings = source_findings(&no_copy);
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn a_lone_copy_or_digest_is_reported() {
+        for dropped in [
+            "  local-copy: sources/markdownlint-rules.md\n",
+            "  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n",
+        ] {
+            let lone = GOOD_SOURCE.replace(dropped, "");
+            let findings = source_findings(&lone);
+            assert_eq!(src_rules(&findings), vec!["SRC-002"], "dropped {dropped}");
+            assert_eq!(
+                findings[0].message,
+                "properties.local-copy and properties.sha256 must be given together"
+            );
+            // The pairing holds in every lifecycle state.
+            let draft = lone.replace("lifecycle-status: final", "lifecycle-status: draft");
+            assert_eq!(src_rules(&source_findings(&draft)), vec!["SRC-002"]);
+        }
+    }
+
+    // arqix:verifies REQ-08-01-28-02
+    #[test]
+    fn draft_source_without_provenance_is_clean() {
+        let skeleton = GOOD_SOURCE
+            .replace("  uri: https://raw.githubusercontent.com/markdownlint/markdownlint/main/docs/RULES.md\n", "")
+            .replace("  accessed: 2026-07-16\n", "")
+            .replace("  local-copy: sources/markdownlint-rules.md\n", "")
+            .replace("  sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070\n", "")
+            .replace("lifecycle-status: final", "lifecycle-status: draft");
+        let findings = source_findings(&skeleton);
+        assert!(
+            findings.is_empty(),
+            "unexpected: {:?}",
+            src_rules(&findings)
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-03
+    #[test]
+    fn malformed_provenance_values_are_reported() {
+        let malformed = GOOD_SOURCE
+            .replace("accessed: 2026-07-16", "accessed: yesterday")
+            .replace(
+                "sha256: cbed8b0810f7d5fc478b1a1f9949041ac42f122902cc87a27271fbc5a8093070",
+                "sha256: BEEF",
+            );
+        let findings = source_findings(&malformed);
+        assert_eq!(src_rules(&findings), vec!["SRC-003", "SRC-004"]);
+        assert_eq!(
+            findings[0].message,
+            "properties.accessed 'yesterday' is not a calendar date"
+        );
+        assert_eq!(
+            findings[1].message,
+            "properties.sha256 'BEEF' is not a 64-character lowercase hex digest"
+        );
+        // Malformed values are findings even in draft (only absence is excused).
+        let draft = malformed.replace("lifecycle-status: final", "lifecycle-status: draft");
+        assert_eq!(
+            src_rules(&source_findings(&draft)),
+            vec!["SRC-003", "SRC-004"]
+        );
+    }
+
+    // arqix:verifies REQ-08-01-28-03
+    #[test]
+    fn escaping_or_corpus_resident_local_copy_is_reported() {
+        for copy in ["../outside.md", "/tmp/outside.md", "docs/en/copy.md"] {
+            let bad = GOOD_SOURCE.replace(
+                "local-copy: sources/markdownlint-rules.md",
+                &format!("local-copy: {copy}"),
+            );
+            let findings = source_findings(&bad);
+            assert_eq!(src_rules(&findings), vec!["SRC-005"], "copy {copy}");
+        }
     }
 }
