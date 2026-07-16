@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-07 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: b674e56, 2026-07-16
+     Snapshot: 21d811e, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which ADRs are linked to which requirements?

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: b674e56, 2026-07-16
+     Snapshot: 21d811e, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -266,12 +266,14 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_generates_ids_from_the_configured_pattern` | US-01-01-18 | Configure the ID Policy |
 | `doc_new_honours_the_kinds_declared_directory` | US-08-01-25 | Create Documents in the Kinds Declared Directory |
 | `doc_new_instantiates_the_configured_template_file` | US-01-01-20 | Create Documents from Template Files |
+| `doc_new_instantiates_the_kinds_declared_template` | US-08-01-26 | Instantiate Declared Kind Templates |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-01-01-07 | Enforce Scope Guardrails for Automation Agents |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-02-01-09 | Use Include Directives During Implementation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-04-01-02 | Check Scope Guardrails in CI |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-05-01-04 | Parse Document Structure Deterministically for Automation |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-06-01-04 | Compose Modular Documents with Chapter and Include Directives |
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-08-01-08 | Stay within Declared Change Scope |
+| `doc_new_rejects_unknown_template_placeholders` | US-08-01-26 | Instantiate Declared Kind Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
@@ -283,6 +285,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_substitutes_the_title_into_the_template` | US-08-01-05 | Create Documents Deterministically from Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
 | `doc_new_substitutes_the_title_into_the_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
+| `doc_new_treats_a_missing_declared_template_as_a_config_error` | US-08-01-26 | Instantiate Declared Kind Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_writes_into_the_configured_kind_location` | US-08-01-23 | Create Documents without Ambiguity via Templates |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: b674e56, 2026-07-16
+     Snapshot: 21d811e, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -86,5 +86,6 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-22 | Make Trace and Coverage Outputs Deterministic | 3 | 0 | 0 | `██████████` 100% |
 | US-08-01-24 | Scaffold Agent Instructions on Init | 2 | 0 | 0 | `██████████` 100% |
 | US-08-01-25 | Create Documents in the Kinds Declared Directory | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-26 | Instantiate Declared Kind Templates | 2 | 0 | 0 | `██████████` 100% |
 
 Retired stories excluded from this view (ADR-0010): 42.
