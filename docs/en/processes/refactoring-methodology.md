@@ -3,7 +3,7 @@
 This guide explains how refactoring is carried out in this repository and why the safeguards around it exist.
 It is a descriptive companion to the process contract, not a source of process authority.
 
-The normative rules — when a refactor is allowed, what it must commit, and in what order — live in the `## Refactoring` section of [AGENTS.md](../../../AGENTS.md) and only there.
+The normative rules — when a refactor is allowed, what it must commit, and in what order — live in the `## Refactoring` section of `AGENTS.md` and only there.
 Where this guide and AGENTS.md appear to say the same thing, AGENTS.md governs; this document exists to give the rationale, the worked shape, and the boundaries that a rule sentence cannot carry.
 It is modelled on the sibling [requirements style guide](requirements-style-guide.md) and [markdown style guide](markdown-style-guide.md): a human-readable contract behind a set of mechanically or reviewer-enforced rules.
 
@@ -18,7 +18,7 @@ Refactoring in this repository runs a four-phase loop, and the order matters:
 3. **Refactor code.** Make the smallest change that resolves the assessed cost, keeping the strengthened tests green (for a behaviour-preserving change) or turning the new failing test green (for a behaviour-visible change).
 4. **Tidy tests.** Once the refactor lands, fold any scaffolding, remove now-redundant pins, and leave the suite expressing the intended contract rather than the path taken to reach it.
 
-The loop is deliberately test-first in both of its shapes, mirroring the red-before-green order that [AGENTS.md](../../../AGENTS.md) already requires for story implementation.
+The loop is deliberately test-first in both of its shapes, mirroring the red-before-green order that `AGENTS.md` already requires for story implementation.
 
 ## Behaviour-preserving refactors: characterization tests first
 
@@ -84,7 +84,7 @@ When a hardcoded value is also double-bookkept between the Rust engine and a Pyt
 
 ## References
 
-- [AGENTS.md](../../../AGENTS.md) — the canonical process contract; its `## Refactoring` section holds the normative rules this guide explains.
+- `AGENTS.md` — the canonical process contract; its `## Refactoring` section holds the normative rules this guide explains.
 - [ADR-0001 — Agent Instruction Document Layout](../architecture/adr/ADR-0001-agent-instruction-document-layout.md) — CLAUDE.md is a thin adapter, AGENTS.md is canonical, skills are non-normative.
 - [ADR-0010 — Lifecycle Vocabularies](../architecture/adr/ADR-0010-lifecycle-vocabularies.md) — the rung sets and done-claim invariant that stay in code.
 - [ADR-0011 — Configuration Boundary](../architecture/adr/ADR-0011-configuration-boundary.md) — convention versus configuration, defaults-preserve, and one-source.

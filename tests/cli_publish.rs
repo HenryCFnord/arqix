@@ -794,3 +794,60 @@ fn staged_pages_do_not_duplicate_the_title_heading() {
         "only the leading duplicate goes; deeper headings stay: {staged}"
     );
 }
+
+// arqix:verifies REQ-04-01-19-01
+#[test]
+fn publish_site_stages_csv_artefacts_as_tables() {
+    let repo = scratch_copy("minimal", "publish_site_stages_csv_artefacts_as_tables");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::create_dir_all(repo.join("docs/reports")).unwrap();
+    std::fs::write(
+        repo.join("docs/reports/matrix.csv"),
+        "requirement,kind\nREQ-1,functional\n\"a,b\",pipe|cell\n",
+    )
+    .unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let staged =
+        std::fs::read_to_string(repo.join("site-src/reports/matrix.md")).expect("staged table");
+    assert!(
+        staged.contains("| requirement | kind |"),
+        "the CSV header becomes the table header: {staged}"
+    );
+    assert!(
+        staged.contains("| REQ-1 | functional |"),
+        "rows become table rows: {staged}"
+    );
+    assert!(
+        staged.contains("| a,b | pipe\\|cell |"),
+        "quoted fields and pipes survive escaped: {staged}"
+    );
+    assert!(
+        !repo.join("site-src/reports/matrix.csv").exists(),
+        "the raw CSV never reaches the staging tree"
+    );
+}
+
+// arqix:verifies REQ-04-01-19-02
+#[test]
+fn publish_site_rewrites_csv_links_to_the_table_pages() {
+    let repo = scratch_copy(
+        "minimal",
+        "publish_site_rewrites_csv_links_to_the_table_pages",
+    );
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+    std::fs::create_dir_all(repo.join("docs/reports")).unwrap();
+    std::fs::write(repo.join("docs/reports/matrix.csv"), "a,b\n1,2\n").unwrap();
+    std::fs::write(
+        repo.join("docs/reports/README.md"),
+        "---\nid: reports-readme\ntitle: Reports\n---\n\n## Reports\n\nSee [matrix.csv](matrix.csv) for the data.\n",
+    )
+    .unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let staged = std::fs::read_to_string(repo.join("site-src/reports/README.md")).expect("staged");
+    assert!(
+        staged.contains("[matrix.csv](matrix.md)"),
+        "the CSV link points at the staged table page: {staged}"
+    );
+}

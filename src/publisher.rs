@@ -92,6 +92,10 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
                     return ExitCode::from(2);
                 }
             };
+            // Relative CSV links point at the staged table pages on the
+            // site; the committed page keeps linking the raw CSV.
+            // arqix:implements REQ-04-01-19-02
+            let assembled = rewrite_csv_links(&assembled);
             let doc = crate::parser::parse(&file.to_string_lossy(), &assembled);
             let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
             // The publish scope: excluded subtrees never leave the repo.
@@ -104,6 +108,39 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
             }
             if let Err(code) = write_staged(&staging.join(&rel), &doc, StagingMode::Site, false) {
                 return code;
+            }
+            staged += 1;
+        }
+
+        // The site toolchain renders Markdown only, so every corpus CSV is
+        // staged as a generated table page at its corpus location — the CSV
+        // stays the single committed artefact (US-04-01-19).
+        // arqix:implements REQ-04-01-19-01
+        let mut csvs = Vec::new();
+        collect_csv(&lang_root, &skip, &mut csvs);
+        for file in csvs {
+            let rel = file.strip_prefix(&lang_root).unwrap_or(&file).to_path_buf();
+            let rel_posix = crate::util::to_posix(&rel);
+            if policy.exclude.iter().any(|e| {
+                let prefix = e.trim_end_matches('/');
+                rel_posix == prefix || rel_posix.starts_with(&format!("{prefix}/"))
+            }) {
+                continue;
+            }
+            let Ok(text) = std::fs::read_to_string(&file) else {
+                continue;
+            };
+            let page = csv_table_page(&file.to_string_lossy(), &text);
+            let target = staging.join(rel.with_extension("md"));
+            if let Some(parent) = target.parent()
+                && let Err(err) = std::fs::create_dir_all(parent)
+            {
+                eprintln!("error: cannot create {}: {err}", parent.display());
+                return ExitCode::from(2);
+            }
+            if let Err(err) = std::fs::write(&target, page) {
+                eprintln!("error: cannot write {}: {err}", target.display());
+                return ExitCode::from(2);
             }
             staged += 1;
         }
@@ -500,6 +537,104 @@ fn first_paragraph(body: &str) -> String {
 
 /// Copy one configured asset (file or directory tree) into the staging
 /// dir; a missing source is a config error naming the path.
+/// Rewrite relative Markdown links to `.csv` targets onto the staged `.md`
+/// table pages; absolute URLs stay untouched.
+fn rewrite_csv_links(text: &str) -> String {
+    let re = regex::Regex::new(r"\]\(([^)\s]+?)\.csv\)").expect("static regex");
+    re.replace_all(text, |caps: &regex::Captures| {
+        let target = &caps[1];
+        if target.starts_with("http://")
+            || target.starts_with("https://")
+            || target.starts_with('/')
+        {
+            caps[0].to_string()
+        } else {
+            format!("]({target}.md)")
+        }
+    })
+    .into_owned()
+}
+
+/// Collect CSV files under `dir`, path-sorted, honouring the skip list —
+/// the CSV sibling of `collect_markdown`.
+fn collect_csv(dir: &Path, skip: &[String], out: &mut Vec<PathBuf>) {
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return;
+    };
+    let mut children: Vec<PathBuf> = entries.flatten().map(|e| e.path()).collect();
+    children.sort();
+    for path in children {
+        let name = path.file_name().unwrap_or_default().to_string_lossy();
+        if path.symlink_metadata().is_ok_and(|m| m.is_symlink()) {
+            continue;
+        }
+        if path.is_dir() {
+            if !skip.contains(&name.to_string()) {
+                collect_csv(&path, skip, out);
+            }
+        } else if name.ends_with(".csv") {
+            out.push(path);
+        }
+    }
+}
+
+/// One minimal RFC-4180 record: fields split on unquoted commas, quoted
+/// fields unwrapped, doubled quotes collapsed.
+fn csv_record(line: &str) -> Vec<String> {
+    let mut fields = Vec::new();
+    let mut field = String::new();
+    let mut in_quotes = false;
+    let mut chars = line.chars().peekable();
+    while let Some(c) = chars.next() {
+        match c {
+            '"' if in_quotes && chars.peek() == Some(&'"') => {
+                field.push('"');
+                chars.next();
+            }
+            '"' => in_quotes = !in_quotes,
+            ',' if !in_quotes => fields.push(std::mem::take(&mut field)),
+            c => field.push(c),
+        }
+    }
+    fields.push(field);
+    fields
+}
+
+/// The generated table page for one staged CSV: heading, provenance line,
+/// and the rows as a Markdown table with pipes escaped.
+fn csv_table_page(source: &str, text: &str) -> String {
+    let name = Path::new(source)
+        .file_name()
+        .unwrap_or_default()
+        .to_string_lossy()
+        .into_owned();
+    let mut out = format!(
+        "# {name}
+
+Generated at staging time from `{source}`.
+
+"
+    );
+    let mut lines = text.lines().filter(|l| !l.trim().is_empty());
+    let Some(header) = lines.next() else {
+        return out;
+    };
+    let cells = |line: &str| -> String {
+        let escaped: Vec<String> = csv_record(line)
+            .iter()
+            .map(|f| f.replace('|', "\\|"))
+            .collect();
+        format!("| {} |\n", escaped.join(" | "))
+    };
+    let header_cells = csv_record(header).len();
+    out.push_str(&cells(header));
+    out.push_str(&format!("|{}\n", " --- |".repeat(header_cells)));
+    for line in lines {
+        out.push_str(&cells(line));
+    }
+    out
+}
+
 fn copy_asset(source: &Path, target: &Path) -> Result<(), ExitCode> {
     if source.is_dir() {
         let entries = match std::fs::read_dir(source) {
