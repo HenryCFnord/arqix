@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e005727, 2026-07-16
+     Snapshot: 3ce0612, 2026-07-16
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -30,9 +30,9 @@
 | `check_id_policy` | src/linter.rs:37 | REQ-01-01-18-01 |
 | `check_id_policy` | src/linter.rs:38 | REQ-01-01-18-04 |
 | `check_lifecycle_vocabulary` | src/linter.rs:257 | REQ-03-01-09-02 |
-| `check_source` | src/checkers/frontmatter.rs:948 | REQ-08-01-28-01 |
-| `check_source` | src/checkers/frontmatter.rs:949 | REQ-08-01-28-02 |
-| `check_source` | src/checkers/frontmatter.rs:950 | REQ-08-01-28-03 |
+| `check_source` | src/checkers/frontmatter.rs:836 | REQ-08-01-28-01 |
+| `check_source` | src/checkers/frontmatter.rs:837 | REQ-08-01-28-02 |
+| `check_source` | src/checkers/frontmatter.rs:838 | REQ-08-01-28-03 |
 | `coverage_command` | src/trace.rs:912 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:913 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:914 | REQ-01-01-08-03 |
@@ -40,13 +40,13 @@
 | `coverage_command` | src/trace.rs:917 | REQ-03-01-10-03 |
 | `coverage_unit` | src/reporter.rs:900 | REQ-07-01-10-01 |
 | `documents` | src/store.rs:13 | REQ-01-01-17-01 |
-| `finalise` | src/rewriter.rs:321 | REQ-01-01-06-01 |
-| `finalise` | src/rewriter.rs:322 | REQ-01-01-06-02 |
-| `finalise` | src/rewriter.rs:323 | REQ-01-01-06-03 |
-| `finalise` | src/rewriter.rs:324 | REQ-00-00-00-08 |
-| `fmt` | src/rewriter.rs:191 | REQ-01-01-03-01 |
-| `fmt` | src/rewriter.rs:192 | REQ-01-01-03-02 |
-| `fmt` | src/rewriter.rs:193 | REQ-01-01-03-03 |
+| `finalise` | src/rewriter.rs:294 | REQ-01-01-06-01 |
+| `finalise` | src/rewriter.rs:295 | REQ-01-01-06-02 |
+| `finalise` | src/rewriter.rs:296 | REQ-01-01-06-03 |
+| `finalise` | src/rewriter.rs:297 | REQ-00-00-00-08 |
+| `fmt` | src/rewriter.rs:192 | REQ-01-01-03-01 |
+| `fmt` | src/rewriter.rs:193 | REQ-01-01-03-02 |
+| `fmt` | src/rewriter.rs:194 | REQ-01-01-03-03 |
 | `freshness` | src/trace.rs:1215 | REQ-03-01-11-01 |
 | `freshness` | src/trace.rs:1216 | REQ-03-01-11-02 |
 | `frontmatter_line_count` | src/assembler.rs:156 | REQ-02-01-12-01 |
@@ -56,15 +56,15 @@
 | `id_pattern_for_kind` | src/config.rs:477 | REQ-01-01-18-01 |
 | `init` | src/templates.rs:446 | REQ-01-01-01-01 |
 | `init` | src/templates.rs:447 | REQ-01-01-01-02 |
-| `key_order` | src/rewriter.rs:63 | REQ-01-01-19-01 |
+| `key_order` | src/rewriter.rs:64 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:438 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:439 | REQ-01-01-19-02 |
 | `knowledge` | src/reporter.rs:125 | REQ-05-01-15-01 |
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `linked_targets` | src/publisher.rs:704 | REQ-04-01-07-03 |
-| `lint` | src/checkers/frontmatter.rs:1299 | REQ-01-01-11-07 |
-| `lint` | src/checkers/requirements.rs:1046 | REQ-01-01-11-06 |
+| `lint` | src/checkers/frontmatter.rs:1187 | REQ-01-01-11-07 |
+| `lint` | src/checkers/requirements.rs:977 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
 | `list` | src/store.rs:128 | REQ-05-01-08-03 |
 | `marker_body` | src/trace.rs:291 | REQ-03-01-10-01 |
@@ -115,8 +115,8 @@
 | `stage_catalogue` | src/publisher.rs:390 | REQ-04-01-17-03 |
 | `staged_asset_rel` | src/publisher.rs:683 | REQ-04-01-07-04 |
 | `statements` | src/reporter.rs:970 | REQ-07-01-08-01 |
-| `story_workflow_checks` | src/checkers/requirements.rs:722 | REQ-01-01-11-08 |
-| `story_workflow_checks` | src/checkers/requirements.rs:723 | REQ-01-01-11-09 |
+| `story_workflow_checks` | src/checkers/requirements.rs:653 | REQ-01-01-11-08 |
+| `story_workflow_checks` | src/checkers/requirements.rs:654 | REQ-01-01-11-09 |
 | `template` | src/templates.rs:101 | REQ-01-01-20-01 |
 | `template` | src/templates.rs:102 | REQ-01-01-20-03 |
 | `templates_dir` | src/config.rs:407 | REQ-01-01-20-01 |
@@ -134,13 +134,14 @@
 | `verify` | src/verifier.rs:37 | REQ-03-01-11-03 |
 | `verify_policy` | src/config.rs:169 | REQ-04-01-14-01 |
 | `verify_policy` | src/config.rs:170 | REQ-04-01-14-03 |
-| — | src/checkers/requirements.rs:414 | REQ-07-01-08-01 |
+| — | src/checkers/requirements.rs:345 | REQ-07-01-08-01 |
 | — | src/config.rs:188 | REQ-04-01-16-01 |
 | — | src/config.rs:22 | REQ-01-01-17-02 |
 | — | src/config.rs:82 | REQ-01-01-17-01 |
+| — | src/date.rs:48 | REQ-01-01-06-01 |
 | — | src/linter.rs:348 | REQ-02-01-09-01 |
-| — | src/main.rs:472 | REQ-01-01-05-02 |
-| — | src/main.rs:476 | REQ-01-01-01-03 |
+| — | src/main.rs:473 | REQ-01-01-05-02 |
+| — | src/main.rs:477 | REQ-01-01-01-03 |
 | — | src/mcp.rs:73 | REQ-05-01-12-02 |
 | — | src/policy.rs:35 | REQ-01-01-07-01 |
 | — | src/publisher.rs:106 | REQ-04-01-19-02 |
