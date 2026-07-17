@@ -103,8 +103,8 @@ The full plan lives in `docs/en/plans/knowledge-repository-2026-07-15/` (IDEA, P
 5. [ ] **K4 — normative-statement export** (P5): the requirements checker's EARS/RFC-2119 sentence classification exported as data — a projection, no new parsing.
 6. [ ] **R5 — checker-internal dedup** (refactor slice 5): hoist byte-identical checker helpers, consolidate date validation into `src/date.rs`.
 7. [ ] **R6 — required-meta one source** (refactor slice 6): REQ-META-001 resolves the effective `[kinds.<family>].required-meta` contract instead of a hardcoded const — the program's one high-value correctness item.
-8. [ ] **R7 — frontmatter-vocab config** (refactor slice 7): `[frontmatter] section-kinds` and `allowed-external-types` become configuration with byte-identical defaults; may slip past the release.
-9. [ ] **Release v0.2.0**: RELEASING.md steps, CHANGELOG stamped, tag by the owner.
+8. [ ] **R7 — frontmatter-vocab config** (refactor slice 7): `[frontmatter] section-kinds` and `allowed-external-types` become configuration with byte-identical defaults; slipped past the release as planned — sequenced after the band-3 ontology-as-config ADR, which decides what is derived rather than configured.
+9. [x] **Release v0.2.0**: RELEASING.md steps, CHANGELOG stamped, tagged and published by the owner 2026-07-16.
 
 Landed alongside band 1: the story-workflow coupling lint (US-WF-001/US-PER-001 with the consolidation-persona exemption as corpus data, PR #94) — the numbering scheme is now machine-enforced.
 
