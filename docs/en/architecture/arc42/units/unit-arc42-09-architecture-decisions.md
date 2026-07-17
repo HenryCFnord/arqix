@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-03
-  updated: 2026-07-11
+  updated: 2026-07-17
   lang: en
   translation-of:
   generated: false
@@ -45,5 +45,8 @@ Decisions are kept as ADRs under `../adr/`, maintained per the path model with a
 | [ADR-0012](../../adr/ADR-0012-id-policy-model.md) | ID policy model: declared triples are the source of truth for relations, the ID is an opaque label; per-family patterns govern shape, uniqueness, and generation, named groups activate optional consistency checks; defaults reproduce the current shapes | accepted |
 | [ADR-0013](../../adr/ADR-0013-stitching-model.md) | Stitching model: include directives declare heading levels (absolute or relative), the assembler re-levels whole fragments; heading ownership is corpus policy; site splits cut the assembled outline, never fragment boundaries; PDF is always single-page; `arqix:chapter` retired | accepted |
 | [ADR-0014](../../adr/ADR-0014-mcp-transport.md) | MCP transport: `mcp serve` implements the required protocol subset directly over stdio (blocking JSON-RPC loop, `serde_json`), no SDK dependency; scripted-session tests own spec conformance; revisit trigger is a requirement beyond the subset (HTTP/SSE, resources, prompts) | accepted |
+| [ADR-0015](../../adr/ADR-0015-marker-freshness.md) | Marker freshness by git arithmetic: a marker is possibly-stale when its target requirement was committed after the marker's own file; exposed as `trace freshness`, informational in `verify` | accepted |
+| [ADR-0016](../../adr/ADR-0016-render-architecture-views.md) | Architecture views are generated from `workspace.dsl` via a containerised renderer (Kroki) into committed SVGs with a regenerate-and-diff freshness gate; the in-process C4-Mermaid checker is withdrawn | accepted |
+| [ADR-0017](../../adr/ADR-0017-process-profiles-and-the-layered-ontology.md) | Process profiles and the layered ontology: rules stay code, their activation and binding become configuration, vocabulary becomes layered corpus data (reserved core, module vocabularies, project ontology) validated by an ONT meta-rule family; guarded lifecycle stays core, domain status is declared vocabulary | proposed |
 
 Decision records predating the ADR directory live in the planning packages under `docs/en/plans/` (ID scheme, canonical-owner model, atomicity, subject conventions).

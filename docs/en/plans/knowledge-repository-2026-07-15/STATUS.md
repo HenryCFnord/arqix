@@ -36,7 +36,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] D4 — evidence granularity: option A, statement-level anchors with sparse opt-in claims (owner, 2026-07-17).
   Owner note: paragraph- or section-level anchors (any heading depth, not only `##`) are expected to suffice in most cases, so the claim marker must anchor coarser blocks naturally, with statement precision available where a single sentence carries the evidence.
 - Reframing note (owner, 2026-07-17): D1 and D2 are hard-coupled and widen into one design question — arqix as a catalog of configurable processes (hardwired rules acting as switches/gates, selected per project) plus a layered ontology (reserved core vocabulary, module vocabularies, project extension) that the checker validates.
-  The A1 ADR takes that scope; analysis delivered in session, decision pending.
+  The A1 ADR takes that scope; the draft exists as ADR-0017 (decision-status `proposed`, 2026-07-17) and awaits the owner's review — D1 and D2 close when it is accepted.
 - External decision input (2026-07-17): a second arqix-governed corpus (PSI language) filed structured feedback against the 0.2.0 build, recorded as the second intake in this package (FEEDBACK-2026-07-17-psi.md) and mapped into the roadmap ("Beyond 0.2.0 — toward 0.3.0").
   It supplies the second real-world use case whose absence was the D1 briefing's strongest contra, and it independently demands the configurable kinds, vocabularies, relations, namespaces, and gates the reframed ADR is about.
 
