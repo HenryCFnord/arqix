@@ -31,14 +31,19 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 
 - [ ] D1 — slice-8 ADR scope (absorb entity/relation questions?).
 - [ ] D2 — G7 lifecycle vocabularies versus status namespace.
-- [ ] D3 — PR #87 splitter close-out fate.
-- [ ] D4 — evidence granularity (statement versus section first).
+- [x] D3 — PR #87 splitter close-out fate: option C (owner, 2026-07-17).
+  PR #87 is closed, the four-splitter-contracts insight is rewritten in present tense into arc42 chapter 8, and X8 drops out of the band-3 table (consolidation without user-visible value; the chapter-8 note records why it stays unplanned).
+- [x] D4 — evidence granularity: option A, statement-level anchors with sparse opt-in claims (owner, 2026-07-17).
+  Owner note: paragraph- or section-level anchors (any heading depth, not only `##`) are expected to suffice in most cases, so the claim marker must anchor coarser blocks naturally, with statement precision available where a single sentence carries the evidence.
+- Reframing note (owner, 2026-07-17): D1 and D2 are hard-coupled and widen into one design question — arqix as a catalog of configurable processes (hardwired rules acting as switches/gates, selected per project) plus a layered ontology (reserved core vocabulary, module vocabularies, project extension) that the checker validates.
+  The A1 ADR takes that scope; analysis delivered in session, decision pending.
 
 ## Band 3 — post-v0.2.0
 
 Pending band 2; see the PLANS.md table (A1-A4 ontology/entity, B1-B2 evidence/provenance, C5 lifecycle, D6 crosswalk, D7 queries, X8 splitter consolidation).
 
 - Owner note (2026-07-15) for the A-slices: the story-workflow coupling lint (US-WF-001/US-PER-001, PR #94) hardcodes today's persona/workflow ontology; when the ontology becomes configuration, this linting must become configurable with it.
+- X8 (splitter consolidation) is removed from the planned slices per decision D3; the rationale lives in arc42 chapter 8 (line splitting and frontmatter parsing).
 
 ## Context
 
