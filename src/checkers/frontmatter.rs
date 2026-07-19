@@ -54,6 +54,30 @@ const SECTION_KINDS: [&str; 9] = [
     "manual-chapter",
 ];
 
+// arqix:implements REQ-08-01-29-01
+/// The effective section-kind vocabulary: the configured
+/// `[frontmatter].section-kinds`, or the built-in list.
+fn effective_section_kinds() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .section_kinds
+            .unwrap_or_else(|| SECTION_KINDS.iter().map(|s| s.to_string()).collect())
+    })
+}
+
+// arqix:implements REQ-08-01-29-02
+/// The effective external-type vocabulary: the configured
+/// `[frontmatter].allowed-external-types`, or the built-in list.
+fn effective_external_types() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .allowed_external_types
+            .unwrap_or_else(|| NON_ARQIX_TYPES.iter().map(|s| s.to_string()).collect())
+    })
+}
+
 /// The canonical top-level key order and required keys shared by the
 /// architecture families.
 const ARCH_ORDER: [&str; 9] = [
@@ -794,7 +818,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
     }
 
     if let Some(section_kind) = doc.properties.get("section-kind")
-        && !SECTION_KINDS.contains(&section_kind.as_str())
+        && !effective_section_kinds().iter().any(|k| k == section_kind)
     {
         findings.push(Finding::error(
             path,
@@ -964,7 +988,7 @@ fn check_vocabulary(
                     format!("rdf.type {rdf_type} is not a defined ontology class"),
                 ));
             }
-        } else if !NON_ARQIX_TYPES.contains(&rdf_type.as_str()) {
+        } else if !effective_external_types().iter().any(|t| t == rdf_type) {
             findings.push(Finding::error(
                 path,
                 "ONT-002",
