@@ -176,6 +176,13 @@ fn lint_requirements_binds_coupling_rules_to_the_story_module() {
         "triples:\n  - predicate: arqix:properties/is-part-of-workflow\n    object: arqix:workflows/wf-01-01",
     );
     std::fs::write(story_dir.join("US-09-09-09-sample-story.md"), &story).unwrap();
+    let req_dir = repo.join("docs/en/architecture/req");
+    std::fs::create_dir_all(&req_dir).unwrap();
+    std::fs::write(
+        req_dir.join("REQ-09-09-09-01-sample.md"),
+        "---\nid: REQ-09-09-09-01\ntitle: Sample\nslug: sample\niri: arqix:requirements/req-09-09-09-01\n\nrdf:\n  type:\n    - arqix:classes/functional-requirement\n\ntriples:\n  - predicate: arqix:properties/derived-from\n    object: arqix:user-stories/us-09-09-09\n\nmeta:\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  lifecycle-status: active\n  generated: false\n---\n\n## Requirement\n\nWhen `arqix lint requirements` runs, arqix SHALL honour the configured contract.\n",
+    )
+    .unwrap();
 
     // Unconfigured: every module is effective, the contradiction is a finding.
     let out = run_arqix_in(&repo, &["lint", "requirements"]);

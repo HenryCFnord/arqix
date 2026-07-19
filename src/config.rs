@@ -17,7 +17,8 @@ const CONFIG_FILE: &str = "arqix.toml";
 const SCHEMA_VERSION: u64 = 1;
 
 /// Known optional table sections accepted (and not yet validated) in v1.
-const KNOWN_SECTIONS: [&str; 5] = ["kinds", "templates", "policies", "i18n", "frontmatter"];
+const KNOWN_SECTIONS: [&str; 6] =
+    ["kinds", "templates", "policies", "i18n", "frontmatter", "process"];
 
 // arqix:implements REQ-01-01-17-02
 /// Directories document discovery never descends into unless overridden by
@@ -436,6 +437,18 @@ pub struct KindContract {
     /// The family's required meta keys (REQ-01-01-19-03) — the one contract
     /// the formatter and both checkers validate against.
     pub required_meta: Option<Vec<String>>,
+}
+
+// arqix:implements REQ-08-01-31-01
+/// The configured process modules (`[process].modules`, ADR-0017): `None`
+/// means no selection was made and every module is effective.
+pub fn process_modules(base: &Path) -> Option<Vec<String>> {
+    let (config, _) = resolve(base);
+    config
+        .sections
+        .get("process")
+        .and_then(Value::as_object)
+        .and_then(|s| json_string_array(s.get("modules")))
 }
 
 /// The configured frontmatter vocabularies (`[frontmatter]`): the vocabulary
