@@ -283,6 +283,100 @@ fn derive_claim_triples(
     out
 }
 
+#[cfg(test)]
+mod round_trip_properties {
+    use super::{format_text, split_frontmatter};
+    use proptest::prelude::*;
+
+    fn fm_line() -> impl Strategy<Value = String> {
+        prop_oneof![
+            prop::sample::select(vec![
+                "id: X-1",
+                "title: A Title",
+                "rdf:",
+                "  type:",
+                "    - arqix:classes/widget",
+                "triples: []",
+                "properties: {}",
+                "custom-key: value",
+                "  nested: true",
+                "",
+                "meta:",
+                "  lang: en",
+                "trailing-space:  ",
+            ])
+            .prop_map(str::to_string),
+            "[a-z]{1,8}: [a-zA-Z0-9 äöü]{0,12}",
+        ]
+    }
+
+    fn body() -> impl Strategy<Value = String> {
+        prop::collection::vec(
+            prop::sample::select(vec![
+                "",
+                "## Heading",
+                "Prose with täxt.",
+                "```rust",
+                "# not a heading",
+                "```",
+                "- a list item",
+            ])
+            .prop_map(str::to_string),
+            0..8,
+        )
+        .prop_map(|lines| lines.join("\n"))
+    }
+
+    fn document() -> impl Strategy<Value = String> {
+        (
+            prop::collection::vec(fm_line(), 0..12),
+            body(),
+            prop::bool::ANY,
+        )
+            .prop_map(|(fm, body, crlf)| {
+                let eol = if crlf { "\r\n" } else { "\n" };
+                let mut text = format!("---{eol}");
+                for line in fm {
+                    text.push_str(&line);
+                    text.push_str(eol);
+                }
+                text.push_str(&format!("---{eol}{eol}{body}\n"));
+                text
+            })
+    }
+
+    proptest! {
+        // arqix:no-requirement
+        #[test]
+        fn split_and_reassemble_is_the_identity(text in document()) {
+            // Rule 2 (round trip): the byte-lossless split contract — the
+            // opening fence, the raw lines, and the verbatim rest compose
+            // back to the exact input, CRLF and trailing whitespace included.
+            let Some((open, fm_lines, rest)) = split_frontmatter(&text) else {
+                return Err(TestCaseError::fail("generated document must split"));
+            };
+            let mut rebuilt = String::from(open);
+            for line in &fm_lines {
+                rebuilt.push_str(line);
+                rebuilt.push('\n');
+            }
+            rebuilt.push_str(rest);
+            prop_assert_eq!(rebuilt, text);
+        }
+
+        // arqix:verifies REQ-00-00-00-01
+        #[test]
+        fn formatting_twice_is_formatting_once(text in document()) {
+            // Rule 2's second face: whatever fmt normalizes, it must be at
+            // rest afterwards — a second pass changes nothing, for every
+            // generated document, not only the corpus.
+            let once = format_text("docs/en/notes/n.md", &text).unwrap_or_else(|| text.clone());
+            let twice = format_text("docs/en/notes/n.md", &once).unwrap_or_else(|| once.clone());
+            prop_assert_eq!(twice, once);
+        }
+    }
+}
+
 // arqix:implements REQ-01-01-03-01
 // arqix:implements REQ-01-01-03-02
 // arqix:implements REQ-01-01-03-03
