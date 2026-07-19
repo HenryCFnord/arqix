@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arqix graph explorer</title>
+<style>
+  :root {
+    --bg: #14161a; --panel: #1d2026; --line: #2c313a; --text: #d6dae2;
+    --muted: #8b93a1; --accent: #6ea8fe;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #app { display: flex; height: 100%; }
+  #side { width: 240px; flex: none; background: var(--panel); border-right: 1px solid var(--line);
+    padding: 12px; overflow-y: auto; }
+  #side h1 { font-size: 14px; margin: 0 0 2px; }
+  #side .sub { color: var(--muted); font-size: 11px; margin-bottom: 10px; }
+  #side h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--muted); margin: 14px 0 6px; }
+  #search { width: 100%; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px;
+    background: var(--bg); color: var(--text); }
+  label.row { display: flex; align-items: center; gap: 6px; padding: 2px 0; cursor: pointer; }
+  label.row .swatch { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  label.row .count { margin-left: auto; color: var(--muted); font-size: 11px; }
+  #stage { flex: 1; position: relative; }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+  canvas.dragging { cursor: grabbing; }
+  #tip { position: absolute; pointer-events: none; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 4px; padding: 6px 9px; max-width: 320px;
+    display: none; box-shadow: 0 4px 14px rgba(0,0,0,.4); }
+  #tip .t-id { font-weight: 600; }
+  #tip .t-meta { color: var(--muted); font-size: 11px; }
+  #hint { position: absolute; right: 10px; bottom: 8px; color: var(--muted); font-size: 11px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="side">
+    <h1>arqix graph explorer</h1>
+    <div class="sub" id="stamp"></div>
+    <input id="search" type="search" placeholder="Search id or title…">
+    <h2>Layers</h2>
+    <label class="row"><input id="code-layer" type="checkbox"> code artefacts &amp; markers</label>
+    <h2>Types</h2>
+    <div id="types"></div>
+    <h2>Lifecycle</h2>
+    <div id="lifecycles"></div>
+  </div>
+  <div id="stage">
+    <canvas id="canvas"></canvas>
+    <div id="tip"></div>
+    <div id="hint">drag to pan · wheel to zoom · drag a node to pin the layout</div>
+  </div>
+</div>
+<script>
+/*__VENDOR_JS__*/
+</script>
+<script>
+"use strict";
+const GRAPH = /*__GRAPH_DATA__*/ {nodes: [], edges: []};
+
+// A stable palette keyed by node type; unlisted types get hashed hues.
+const PALETTE = {
+  "requirement": "#6ea8fe", "user-story": "#63d0a0", "adr": "#e8a34e",
+  "unit": "#b790f0", "document": "#8b93a1", "document-page": "#c0c7d1",
+  "persona": "#ef85b0", "workflow": "#5fc9d8", "source": "#e4d465",
+  "verification-method": "#89e06a", "artefact": "#596273", "unknown": "#4a5160"
+};
+function color(type) {
+  if (PALETTE[type]) return PALETTE[type];
+  let h = 0;
+  for (const c of type) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return "hsl(" + h + ",45%,60%)";
+}
+const isCode = n => n.type === "artefact";
+
+const nodes = GRAPH.nodes.map(n => Object.assign({}, n));
+const byId = new Map(nodes.map(n => [n.id, n]));
+const links = GRAPH.edges
+  .filter(e => byId.has(e.from) && byId.has(e.to))
+  .map(e => ({source: e.from, target: e.to, kind: e.kind}));
+document.getElementById("stamp").textContent =
+  nodes.length + " nodes · " + links.length + " edges";
+
+// Degree drives node radius: hubs read as hubs.
+const degree = new Map();
+for (const l of links) {
+  degree.set(l.source, (degree.get(l.source) || 0) + 1);
+  degree.set(l.target, (degree.get(l.target) || 0) + 1);
+}
+const radius = n => 3 + Math.min(9, Math.sqrt(degree.get(n.id) || 0));
+
+// Filter state: hidden types, hidden lifecycles, the code layer, the search.
+const hiddenTypes = new Set();
+const hiddenLife = new Set();
+let codeLayer = false;
+let query = "";
+function visible(n) {
+  if (isCode(n) && !codeLayer) return false;
+  if (hiddenTypes.has(n.type)) return false;
+  if (n.lifecycle && hiddenLife.has(n.lifecycle)) return false;
+  return true;
+}
+function matches(n) {
+  if (!query) return true;
+  const hay = (n.id + " " + (n.title || "")).toLowerCase();
+  return hay.includes(query);
+}
+
+// Sidebar: one checkbox per type and per lifecycle value, with counts.
+function facet(containerId, values, hidden, swatches) {
+  const container = document.getElementById(containerId);
+  const counts = new Map();
+  for (const v of values) counts.set(v, (counts.get(v) || 0) + 1);
+  for (const [value, count] of [...counts.entries()].sort()) {
+    const label = document.createElement("label");
+    label.className = "row";
+    const box = document.createElement("input");
+    box.type = "checkbox";
+    box.checked = true;
+    box.addEventListener("change", () => {
+      box.checked ? hidden.delete(value) : hidden.add(value);
+      restyle();
+    });
+    label.appendChild(box);
+    if (swatches) {
+      const dot = document.createElement("span");
+      dot.className = "swatch";
+      dot.style.background = color(value);
+      label.appendChild(dot);
+    }
+    label.appendChild(document.createTextNode(value));
+    const c = document.createElement("span");
+    c.className = "count";
+    c.textContent = count;
+    label.appendChild(c);
+    container.appendChild(label);
+  }
+}
+facet("types", nodes.filter(n => !isCode(n)).map(n => n.type), hiddenTypes, true);
+facet("lifecycles", nodes.map(n => n.lifecycle).filter(Boolean), hiddenLife, false);
+document.getElementById("code-layer").addEventListener("change", e => {
+  codeLayer = e.target.checked;
+  restyle();
+});
+document.getElementById("search").addEventListener("input", e => {
+  query = e.target.value.trim().toLowerCase();
+  draw();
+});
+
+// The simulation runs over all nodes once; filters only change what is drawn,
+// so toggling a layer never re-shuffles the layout.
+const sim = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(n => n.id).distance(46).strength(0.25))
+  .force("charge", d3.forceManyBody().strength(-42).distanceMax(420))
+  .force("x", d3.forceX(0).strength(0.045))
+  .force("y", d3.forceY(0).strength(0.045))
+  .force("collide", d3.forceCollide(n => radius(n) + 2))
+  .on("tick", draw);
+function restyle() { draw(); }
+
+// Canvas rendering with device-pixel awareness, pan/zoom transform, hover
+// tooltip, click-to-highlight neighbourhood, and node dragging.
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const tip = document.getElementById("tip");
+let tx = 0, ty = 0, scale = 1;
+let hover = null, selected = null;
+function resize() {
+  const r = canvas.getBoundingClientRect();
+  canvas.width = r.width * devicePixelRatio;
+  canvas.height = r.height * devicePixelRatio;
+  tx = tx || r.width / 2;
+  ty = ty || r.height / 2;
+  draw();
+}
+addEventListener("resize", resize);
+
+const neighbours = new Map();
+for (const l of links) {
+  if (!neighbours.has(l.source.id || l.source)) neighbours.set(l.source.id || l.source, new Set());
+  if (!neighbours.has(l.target.id || l.target)) neighbours.set(l.target.id || l.target, new Set());
+}
+function rebuildNeighbours() {
+  neighbours.clear();
+  for (const l of links) {
+    const a = l.source.id, b = l.target.id;
+    if (!neighbours.has(a)) neighbours.set(a, new Set());
+    if (!neighbours.has(b)) neighbours.set(b, new Set());
+    neighbours.get(a).add(b);
+    neighbours.get(b).add(a);
+  }
+}
+
+function draw() {
+  if (neighbours.size === 0 && links.length) rebuildNeighbours();
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(tx, ty);
+  ctx.scale(scale, scale);
+  const focus = selected || hover;
+  const inFocus = id => !focus
+    || id === focus.id
+    || (neighbours.get(focus.id) || new Set()).has(id);
+
+  ctx.lineWidth = 0.6 / scale;
+  for (const l of links) {
+    if (!visible(l.source) || !visible(l.target)) continue;
+    const lit = focus && (l.source.id === focus.id || l.target.id === focus.id);
+    ctx.strokeStyle = lit ? "rgba(110,168,254,.85)" : "rgba(140,150,165,.16)";
+    ctx.beginPath();
+    ctx.moveTo(l.source.x, l.source.y);
+    ctx.lineTo(l.target.x, l.target.y);
+    ctx.stroke();
+  }
+  for (const n of nodes) {
+    if (!visible(n)) continue;
+    const dim = (focus && !inFocus(n.id)) || !matches(n);
+    ctx.globalAlpha = dim ? 0.18 : 1;
+    ctx.fillStyle = color(n.type);
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI);
+    ctx.fill();
+    if (n === focus) {
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 1.4 / scale;
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+  // Labels appear when zoomed in enough to read them, or on the focus set.
+  if (scale > 1.4 || focus || query) {
+    ctx.font = 10 / scale + "px system-ui, sans-serif";
+    ctx.fillStyle = "rgba(214,218,226,.9)";
+    for (const n of nodes) {
+      if (!visible(n)) continue;
+      const show = scale > 1.4 ? matches(n) : (focus ? inFocus(n.id) : matches(n) && query);
+      if (!show) continue;
+      ctx.fillText(n.id, n.x + radius(n) + 2 / scale, n.y + 3 / scale);
+    }
+  }
+}
+
+function pick(mx, my) {
+  const x = (mx - tx) / scale, y = (my - ty) / scale;
+  let best = null, bestD = 64 / (scale * scale);
+  for (const n of nodes) {
+    if (!visible(n)) continue;
+    const dx = n.x - x, dy = n.y - y;
+    const d = dx * dx + dy * dy;
+    const r = radius(n) + 3 / scale;
+    if (d < r * r && d < bestD) { best = n; bestD = d; }
+  }
+  return best;
+}
+
+let dragNode = null, panning = false, px = 0, py = 0, moved = false;
+canvas.addEventListener("mousedown", e => {
+  const m = mouse(e);
+  dragNode = pick(m.x, m.y);
+  moved = false;
+  if (dragNode) {
+    sim.alphaTarget(0.25).restart();
+  } else {
+    panning = true;
+    canvas.classList.add("dragging");
+  }
+  px = m.x; py = m.y;
+});
+canvas.addEventListener("mousemove", e => {
+  const m = mouse(e);
+  if (dragNode) {
+    dragNode.fx = (m.x - tx) / scale;
+    dragNode.fy = (m.y - ty) / scale;
+    moved = true;
+  } else if (panning) {
+    tx += m.x - px; ty += m.y - py;
+    px = m.x; py = m.y;
+    moved = true;
+    draw();
+  } else {
+    const n = pick(m.x, m.y);
+    if (n !== hover) { hover = n; draw(); }
+    if (n) {
+      tip.style.display = "block";
+      tip.style.left = m.x + 14 + "px";
+      tip.style.top = m.y + 10 + "px";
+      tip.innerHTML = "";
+      const idEl = document.createElement("div");
+      idEl.className = "t-id";
+      idEl.textContent = n.id;
+      const meta = document.createElement("div");
+      meta.className = "t-meta";
+      meta.textContent = [n.type, n.lifecycle, n.title].filter(Boolean).join(" · ");
+      tip.append(idEl, meta);
+    } else {
+      tip.style.display = "none";
+    }
+  }
+});
+addEventListener("mouseup", e => {
+  if (dragNode) sim.alphaTarget(0);
+  if (!moved) {
+    const m = mouse(e);
+    const n = pick(m.x, m.y);
+    selected = n === selected ? null : n;
+    draw();
+  }
+  dragNode = null;
+  panning = false;
+  canvas.classList.remove("dragging");
+});
+canvas.addEventListener("wheel", e => {
+  e.preventDefault();
+  const m = mouse(e);
+  const factor = Math.exp(-e.deltaY * 0.0016);
+  const next = Math.min(8, Math.max(0.15, scale * factor));
+  tx = m.x - (m.x - tx) * (next / scale);
+  ty = m.y - (m.y - ty) * (next / scale);
+  scale = next;
+  draw();
+}, {passive: false});
+function mouse(e) {
+  const r = canvas.getBoundingClientRect();
+  return {x: e.clientX - r.left, y: e.clientY - r.top};
+}
+
+resize();
+</script>
+</body>
+</html>

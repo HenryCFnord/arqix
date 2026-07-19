@@ -166,6 +166,19 @@ pub fn site(lang: Option<&str>, format: OutputFormat) -> ExitCode {
         return code;
     }
 
+    // The graph explorer stages with the site (ADR-0020): regenerated from
+    // the current corpus, never committed. Default language only — the page
+    // projects the whole corpus, not a translation.
+    // arqix:implements REQ-08-01-42-03
+    if lang == default_lang {
+        let target = staging.join("graph.html");
+        if let Err(err) = std::fs::write(&target, crate::reporter::graph_page()) {
+            eprintln!("error: cannot write {}: {err}", target.display());
+            return ExitCode::from(2);
+        }
+        staged += 1;
+    }
+
     // Configured assets ride along so the toolchain can reference them. An
     // asset under a doc root's language dir is staged at the same
     // language-root-relative path as the pages (which strip that prefix), so a

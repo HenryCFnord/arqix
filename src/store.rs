@@ -68,7 +68,7 @@ fn document_json(d: &Document) -> Value {
 }
 
 /// The declared `meta.lifecycle-status` frontmatter value, if any.
-fn lifecycle_status(d: &Document) -> Option<&str> {
+pub(crate) fn lifecycle_status(d: &Document) -> Option<&str> {
     d.frontmatter
         .iter()
         .find_map(|line| line.trim().strip_prefix("lifecycle-status:"))

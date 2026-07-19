@@ -322,6 +322,12 @@ enum ReportCommand {
         #[arg(long)]
         provenance: bool,
     },
+    /// Render the corpus graph as a self-contained interactive HTML page
+    Graph {
+        /// Target file for the explorer page (stdout when omitted)
+        #[arg(long)]
+        out: Option<String>,
+    },
     /// Render the test-coverage unit from a cargo-llvm-cov JSON export
     Coverage {
         /// The cargo-llvm-cov JSON export to render from
@@ -461,6 +467,7 @@ fn main() -> ExitCode {
             ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
             ReportCommand::Statements => reporter::statements(cli.format),
             ReportCommand::Claims { provenance } => reporter::claims(provenance, cli.format),
+            ReportCommand::Graph { out } => reporter::graph(out.as_deref(), cli.format),
             ReportCommand::Coverage { input, stamp, out } => {
                 reporter::coverage_unit(&input, &stamp, out.as_deref(), cli.format)
             }
