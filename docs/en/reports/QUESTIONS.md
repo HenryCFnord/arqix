@@ -17,6 +17,7 @@ The catalog is deliberately non-exhaustive — new questions are added here firs
 | Q-10 | What is the code coverage of the test suite? | cargo-llvm-cov via `arqix report coverage` | [units/test-coverage.md](units/test-coverage.md) | built (CI-generated, outside the snapshot gate) |
 | Q-11 | Which external sources does the corpus rest on? | source-record frontmatter | [units/source-catalog.md](units/source-catalog.md) | built |
 | Q-12 | How much of the corpus carries evidence claims? | claim markers (ADR-0018) | [units/evidence-coverage.md](units/evidence-coverage.md) | built |
+| Q-13 | How does the corpus map onto external standards? | mapping edges (ADR-0022) | [units/crosswalk.md](units/crosswalk.md) | built |
 
 Regenerate all built units with:
 

@@ -69,6 +69,7 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | ONT-007 | A declared edge violates its predicate's declared `rdfs.domain` or `rdfs.range` (subclass closure; declaration opts in). |
 | ONT-008 | A `sub-class-of` cycle beyond the root self-reference. |
 | ONT-009 | A corpus document redefines a reserved-core IRI with different semantics (type, subclass parents, domain, or range). |
+| ONT-010 | A declared triple names an external predicate outside `[frontmatter].allowed-external-properties`. |
 
 ### SRC — source provenance (`lint frontmatter`, keyed on `arqix:classes/source`)
 
