@@ -372,6 +372,13 @@ fn story_of(req_id: &str) -> Value {
     }
 }
 
+// arqix:implements REQ-08-01-42-01
+/// The core graph of the current corpus, as `trace scan --format json` emits
+/// it — the shared model behind the machine surface and the explorer page.
+pub(crate) fn graph_json() -> Value {
+    graph(&build_model(&read_corpus()))
+}
+
 fn graph(model: &Model) -> Value {
     let mut nodes = Vec::new();
     let known: std::collections::BTreeSet<&String> = model.documents.keys().collect();

@@ -914,3 +914,21 @@ fn publish_site_removes_stale_staged_pages() {
         "staging starts from a clean tree"
     );
 }
+
+// arqix:verifies REQ-08-01-42-03
+#[test]
+fn publish_site_stages_the_graph_explorer() {
+    // ADR-0020: the explorer reaches readers through the site without a
+    // committed copy — staging regenerates it from the current corpus.
+    let repo = scratch_copy("minimal", "publish_site_stages_the_graph_explorer");
+    std::fs::write(repo.join("arqix.toml"), NOOP_TOOLCHAIN).unwrap();
+
+    common::assert_success(&run_arqix_in(&repo, &["publish", "site"]));
+    let staged = repo.join("site-src/graph.html");
+    assert!(staged.is_file(), "the explorer page stages with the site");
+    let page = std::fs::read_to_string(&staged).unwrap();
+    assert!(
+        page.contains("forceSimulation"),
+        "the staged page embeds the layout engine"
+    );
+}

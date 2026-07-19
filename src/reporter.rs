@@ -483,6 +483,90 @@ pub fn claims(provenance: bool, _format: OutputFormat) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+/// The explorer shell and the vendored layout engine (ADR-0020): the shell
+/// is project code, the engine is the pinned d3-force concatenation whose
+/// digest the SRC contract verifies (SRC-0005).
+const EXPLORER_TEMPLATE: &str = include_str!("assets/graph-explorer.html");
+const VENDOR_JS: &str = include_str!("assets/d3-force-bundle.min.js");
+
+// arqix:implements REQ-08-01-42-01
+// arqix:implements REQ-08-01-42-02
+/// The rendered explorer page: the trace core graph enriched with each
+/// document's title and declared lifecycle status, embedded with the
+/// vendored engine into the self-contained shell — no external resource.
+pub(crate) fn graph_page() -> String {
+    let mut payload = crate::trace::graph_json();
+    let mut titles: BTreeMap<String, String> = BTreeMap::new();
+    let mut lifecycles: BTreeMap<String, String> = BTreeMap::new();
+    for doc in crate::store::documents() {
+        let Some(id) = doc.id.clone() else { continue };
+        if let Some(title) = &doc.title {
+            titles.insert(id.clone(), title.clone());
+        }
+        if let Some(status) = crate::store::lifecycle_status(&doc) {
+            lifecycles.insert(id, status.to_string());
+        }
+    }
+    // Enrichment decorates existing nodes and never invents new ones
+    // (ADR-0007): unknown ids simply stay bare.
+    if let Some(nodes) = payload["nodes"].as_array_mut() {
+        for node in nodes {
+            let Some(id) = node["id"].as_str().map(str::to_string) else {
+                continue;
+            };
+            let Some(node) = node.as_object_mut() else {
+                continue;
+            };
+            if let Some(title) = titles.get(&id) {
+                node.insert("title".into(), serde_json::json!(title));
+            }
+            if let Some(status) = lifecycles.get(&id) {
+                node.insert("lifecycle".into(), serde_json::json!(status));
+            }
+        }
+    }
+    let data = serde_json::json!({
+        "schema_version": payload["schema_version"],
+        "nodes": payload["nodes"],
+        "edges": payload["edges"],
+    });
+    // `</` never occurs in JSON syntax itself, only inside string values,
+    // where `\/` is a legal escape — so the embedded data can never close
+    // the surrounding script element early.
+    let data = serde_json::to_string(&data)
+        .expect("serializable graph")
+        .replace("</", "<\\/");
+    EXPLORER_TEMPLATE
+        .replacen("/*__VENDOR_JS__*/", VENDOR_JS, 1)
+        .replacen("/*__GRAPH_DATA__*/ {nodes: [], edges: []}", &data, 1)
+}
+
+// arqix:implements REQ-08-01-42-01
+/// `arqix report graph [--out <path>]` — the corpus graph as one
+/// self-contained interactive HTML page (ADR-0020), written to `--out` or
+/// stdout.
+pub fn graph(out: Option<&str>, _format: OutputFormat) -> ExitCode {
+    let page = graph_page();
+    match out {
+        Some(path) => {
+            if let Some(parent) = std::path::Path::new(path).parent()
+                && !parent.as_os_str().is_empty()
+                && let Err(err) = std::fs::create_dir_all(parent)
+            {
+                eprintln!("error: cannot create {}: {err}", parent.display());
+                return ExitCode::from(2);
+            }
+            if let Err(err) = std::fs::write(path, page) {
+                eprintln!("error: cannot write {path}: {err}");
+                return ExitCode::from(2);
+            }
+            println!("graph explorer written to {path}");
+        }
+        None => print!("{page}"),
+    }
+    ExitCode::SUCCESS
+}
+
 // arqix:implements REQ-08-01-40-05
 /// Q-12: the evidence numbers — never a gate (ADR-0018).
 fn unit_evidence_coverage(
