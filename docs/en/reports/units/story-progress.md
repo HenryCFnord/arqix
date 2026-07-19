@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: cbfe29e, 2026-07-19
+     Snapshot: 59ff9d4, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -100,5 +100,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-33 | Derive Placement and Id From Kind Templates | 2 | 0 | 0 | `██████████` 100% |
 | US-08-01-34 | Verify the Local Copy Against Its Digest | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-35 | Declare Vocabularies for Named Property Fields | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-36 | Validate the Ontology Against Itself | 2 | 0 | 0 | `██████████` 100% |
+| US-08-01-37 | Project the Source Catalog | 1 | 0 | 0 | `██████████` 100% |
 
 Retired stories excluded from this view (ADR-0010): 42.

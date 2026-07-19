@@ -313,3 +313,116 @@ fn lint_frontmatter_validates_declared_property_vocabularies() {
         "expected FM-009 naming field and value: {stdout}"
     );
 }
+
+const THING_CLASS: &str = "---\nid: class-thing\nlabel: thing\niri: arqix:classes/thing\n\nrdf:\n  type:\n    - rdfs:Class\n\nrdfs:\n  sub-class-of:\n    - arqix:classes/thing\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nowl: {}\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## Thing\n\nA fixture root class.\n";
+
+// arqix:verifies REQ-08-01-36-01
+#[test]
+fn lint_frontmatter_checks_edges_against_domain_and_range() {
+    // ONT-007: declaring rdfs.domain/range opts the property into the
+    // contract; subject and resolvable object types must lie inside the
+    // declared classes, subclass closure included.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_checks_edges_against_domain_and_range",
+    );
+    let classes = repo.join("docs/ontology/classes");
+    let props = repo.join("docs/ontology/properties");
+    std::fs::create_dir_all(&classes).unwrap();
+    std::fs::create_dir_all(&props).unwrap();
+    std::fs::write(classes.join("thing.md"), THING_CLASS).unwrap();
+    std::fs::write(
+        classes.join("item.md"),
+        THING_CLASS
+            .replace("class-thing", "class-item")
+            .replace("label: thing", "label: item")
+            .replace("iri: arqix:classes/thing", "iri: arqix:classes/item")
+            .replace("## Thing", "## Item"),
+    )
+    .unwrap();
+    std::fs::write(
+        classes.join("other.md"),
+        THING_CLASS
+            .replace("class-thing", "class-other")
+            .replace("label: thing", "label: other")
+            .replace("arqix:classes/thing", "arqix:classes/other")
+            .replace("## Thing", "## Other"),
+    )
+    .unwrap();
+    let prop = "---\nid: property-points-at\nlabel: points-at\niri: arqix:properties/points-at\n\nrdf:\n  type:\n    - rdf:Property\n\nrdfs:\n  domain:\n    - arqix:classes/thing\n  range:\n    - arqix:classes/thing\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## points-at\n\nA fixture property.\n";
+    std::fs::write(props.join("points-at.md"), prop).unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY
+        .replace("lang: de", "lang: en")
+        .replace("rdfs:Class", "arqix:classes/item")
+        .replace(
+            "triples: []",
+            "triples:\n  - predicate: arqix:properties/points-at\n    object: arqix:user-stories/us-09-09-09",
+        );
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &doc).unwrap();
+
+    // item is a subclass of thing: subject and object satisfy the contract.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+
+    // A domain outside the subject's closure is ONT-007.
+    std::fs::write(
+        props.join("points-at.md"),
+        prop.replace(
+            "domain:\n    - arqix:classes/thing",
+            "domain:\n    - arqix:classes/other",
+        ),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-007") && stdout.contains("points-at"),
+        "expected ONT-007 for the domain violation: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-08-01-36-02
+#[test]
+fn lint_frontmatter_reports_subclass_cycles() {
+    // ONT-008: a sub-class-of cycle longer than the root self-reference.
+    let repo = scratch_copy("minimal", "lint_frontmatter_reports_subclass_cycles");
+    let classes = repo.join("docs/ontology/classes");
+    std::fs::create_dir_all(&classes).unwrap();
+    std::fs::write(
+        classes.join("a.md"),
+        THING_CLASS
+            .replace("class-thing", "class-a")
+            .replace("label: thing", "label: a")
+            .replace("iri: arqix:classes/thing", "iri: arqix:classes/a")
+            .replace(
+                "sub-class-of:\n    - arqix:classes/thing",
+                "sub-class-of:\n    - arqix:classes/b",
+            )
+            .replace("## Thing", "## A"),
+    )
+    .unwrap();
+    std::fs::write(
+        classes.join("b.md"),
+        THING_CLASS
+            .replace("class-thing", "class-b")
+            .replace("label: thing", "label: b")
+            .replace("iri: arqix:classes/thing", "iri: arqix:classes/b")
+            .replace(
+                "sub-class-of:\n    - arqix:classes/thing",
+                "sub-class-of:\n    - arqix:classes/a",
+            )
+            .replace("## Thing", "## B"),
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-008"),
+        "expected ONT-008 for the a<->b cycle: {stdout}"
+    );
+}

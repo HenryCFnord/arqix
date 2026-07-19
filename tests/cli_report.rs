@@ -301,7 +301,7 @@ fn report_snapshot_check_passes_on_fresh_snapshots() {
     assert_success(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("reports: fresh (9 units, 2 matrices, 1 export)"),
+        stdout.contains("reports: fresh (10 units, 2 matrices, 1 export)"),
         "a freshly generated corpus is fresh: {stdout}"
     );
 }
@@ -599,5 +599,32 @@ fn lines_of_code_counts_tracked_files_only() {
     assert!(
         unit.contains("| src | 1 | 1 | 1 |"),
         "only the tracked file counts: {unit}"
+    );
+}
+
+// arqix:verifies REQ-08-01-37-01
+#[test]
+fn report_snapshot_renders_the_source_catalog() {
+    // FR-A3: one deterministic row per source document, provenance columns
+    // projected from the frontmatter, under the snapshot gate.
+    let repo = scratch_copy("minimal", "report_snapshot_renders_the_source_catalog");
+    let src_dir = repo.join("docs/en/sources");
+    std::fs::create_dir_all(&src_dir).unwrap();
+    std::fs::write(
+        src_dir.join("SRC-0001.md"),
+        "---\nid: SRC-0001\ntitle: Sample Source\nslug: sample-source\niri: arqix:sources/src-0001\n\nrdf:\n  type:\n    - arqix:classes/source\n\ntriples: []\n\nproperties:\n  uri: https://example.org/sample\n  accessed: 2026-07-19\n  licence: MIT\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: final\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## Sample Source\n\nA fixture record.\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    let unit = repo.join("docs/en/reports/units/source-catalog.md");
+    let text = std::fs::read_to_string(&unit).expect("source-catalog.md rendered");
+    assert!(
+        text.contains("SRC-0001")
+            && text.contains("https://example.org/sample")
+            && text.contains("MIT"),
+        "expected the projected provenance row: {text}"
     );
 }

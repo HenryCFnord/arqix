@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: cbfe29e, 2026-07-19
+     Snapshot: 59ff9d4, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -417,8 +417,10 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lines_of_code_counts_tracked_files_only` | US-07-01-09 | Report the Codebase Size by Component |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
+| `lint_frontmatter_checks_edges_against_domain_and_range` | US-08-01-36 | Validate the Ontology Against Itself |
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_frontmatter_reports_dangling_triple_objects` | US-08-01-30 | Resolve Every Declared Triple Target |
+| `lint_frontmatter_reports_subclass_cycles` | US-08-01-36 | Validate the Ontology Against Itself |
 | `lint_frontmatter_resolves_the_configured_external_types` | US-08-01-29 | Configure the Frontmatter Vocabularies |
 | `lint_frontmatter_resolves_the_configured_section_kinds` | US-08-01-29 | Configure the Frontmatter Vocabularies |
 | `lint_frontmatter_validates_declared_property_vocabularies` | US-08-01-35 | Declare Vocabularies for Named Property Fields |
@@ -577,6 +579,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_snapshot_check_passes_on_fresh_snapshots` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_snapshot_generates_the_lines_of_code_unit` | US-07-01-09 | Report the Codebase Size by Component |
 | `report_snapshot_regenerates_units_deterministically` | US-04-01-12 | Publish Stable Report Exports for Automation |
+| `report_snapshot_renders_the_source_catalog` | US-08-01-37 | Project the Source Catalog |
 | `report_statements_exports_the_classification` | US-07-01-08 | Export the Normative-Statement Classification |
 | `retired_ids_finds_the_retired_story` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | US-01-01-19 | Configure Frontmatter Contracts |

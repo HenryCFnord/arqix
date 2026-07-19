@@ -50,6 +50,8 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] FR-B2: US-08-01-33 + REQ-08-01-33-01/-02, spec-first red/green; `[kinds.<family>].id-template` and `dir-template` derive id and placement from `--set` values and the slug, `--id`/`--dir` stay overrides.
 - [x] FR-A2 (digest half): US-08-01-34 + REQ-08-01-34-01, spec-first red/green; SRC-006 verifies the local copy's bytes against the recorded sha256 (missing copy or stale digest, one finding each); the configurable field set stays with the ontology work.
 - [x] FR-C1: US-08-01-35 + REQ-08-01-35-01, spec-first red/green; `[kinds.<family>.vocab]` declares controlled vocabularies for named `properties` fields, FM-009 validates them — the ADR-0017 domain-state axis is machine-checked.
+- [x] ONT meta rules: US-08-01-36 + REQ-08-01-36-01/-02, spec-first red/green; ONT-007 checks every edge against the declared rdfs.domain/range (subclass closure, declaration opts in), ONT-008 reports sub-class-of cycles beyond the root self-reference — the corpus's 33 declared domains/ranges hold over all 1476 edges.
+- [x] FR-A3: US-08-01-37 + REQ-08-01-37-01, spec-first red/green; source-catalog.md as the tenth report unit (Q-11) under the snapshot drift gate.
 - [x] FR-B3 close-out by investigation: duplicate id and iri are corpus-wide findings (FM-006, linter duplicate-id) and `doc new` checks id uniqueness at creation; the missing slug-per-context check needs the bounded-context concept (FR-C3) and moves there.
 
 Band 2 is decided; the remaining PLANS.md table slices are A2-A4 (ontology/entity), B1-B2 (evidence/provenance), C5 (lifecycle), D6 (crosswalk), and D7 (queries).

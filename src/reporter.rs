@@ -275,7 +275,7 @@ const STATEMENTS_PATH: &str = "docs/en/reports/requirements/normative-statements
 /// it does not need.
 type Unit = fn(&Model, &Value, &str, &BTreeSet<String>) -> String;
 
-const UNITS: [(&str, Unit); 9] = [
+const UNITS: [(&str, Unit); 10] = [
     ("story-progress.md", unit_story_progress),
     ("scoreboard.md", unit_scoreboard),
     ("test-to-requirement.md", unit_test_to_requirement),
@@ -285,7 +285,99 @@ const UNITS: [(&str, Unit); 9] = [
     ("code-to-requirement.md", unit_code_to_requirement),
     ("doc-to-code.md", unit_doc_to_code),
     ("lines-of-code.md", unit_lines_of_code),
+    ("source-catalog.md", unit_source_catalog),
 ];
+
+// arqix:implements REQ-08-01-37-01
+/// Q-11: one deterministic row per source document, provenance columns
+/// projected from the frontmatter (never hand-edited).
+fn unit_source_catalog(
+    _model: &Model,
+    _coverage: &Value,
+    snapshot: &str,
+    _retired: &BTreeSet<String>,
+) -> String {
+    let mut lines = vec![header(
+        "Which external sources does the corpus rest on?",
+        "Q-11",
+        snapshot,
+    )];
+    lines.push("| id | title | uri | accessed | licence | local copy |".to_string());
+    lines.push("| --- | --- | --- | --- | --- | --- |".to_string());
+    let mut rows: Vec<(String, String)> = Vec::new();
+    for doc in crate::store::documents() {
+        // The parser stores class tokens without the arqix:classes/ prefix.
+        if !doc.classes.iter().any(|c| c == "source") {
+            continue;
+        }
+        let id = doc.id.clone().unwrap_or_default();
+        let title = doc.title.clone().unwrap_or_default();
+        let props = frontmatter_properties(&doc.file);
+        let get = |key: &str| props.get(key).cloned().unwrap_or_else(|| "—".to_string());
+        // Angle brackets keep the generated table markdownlint-clean (MD034).
+        let uri = match props.get("uri") {
+            Some(uri) => format!("<{uri}>"),
+            None => "—".to_string(),
+        };
+        let copy = match (props.get("local-copy"), props.get("sha256")) {
+            (Some(copy), Some(digest)) => {
+                format!("`{copy}` ({})", &digest[..digest.len().min(12)])
+            }
+            _ => "none".to_string(),
+        };
+        rows.push((
+            id.clone(),
+            format!(
+                "| {id} | {title} | {uri} | {} | {} | {copy} |",
+                get("accessed"),
+                get("licence")
+            ),
+        ));
+    }
+    rows.sort();
+    lines.extend(rows.into_iter().map(|(_, row)| row));
+    lines.push(String::new());
+    lines.push(
+        "One row per document of `arqix:classes/source`; the provenance contract \
+         behind the columns is the SRC rule family."
+            .to_string(),
+    );
+    lines.join("\n") + "\n"
+}
+
+/// The scalar `properties` of one document, scanned from its frontmatter
+/// lines (two-space keys under the `properties:` section).
+fn frontmatter_properties(file: &str) -> BTreeMap<String, String> {
+    let mut props = BTreeMap::new();
+    let Ok(text) = std::fs::read_to_string(file) else {
+        return props;
+    };
+    let mut in_fm = false;
+    let mut in_props = false;
+    for line in text.lines() {
+        if line == "---" {
+            if in_fm {
+                break;
+            }
+            in_fm = true;
+            continue;
+        }
+        if !in_fm {
+            continue;
+        }
+        if !line.starts_with(' ') {
+            in_props = line == "properties:";
+            continue;
+        }
+        if in_props && let Some((key, value)) = line.trim_start().split_once(':') {
+            let value = value.trim();
+            if !value.is_empty() {
+                props.insert(key.to_string(), value.to_string());
+            }
+        }
+    }
+    props
+}
 
 /// The generated provenance header shared by every unit — do-not-edit notice,
 /// the answered question and its catalog id, the injected snapshot stamp, and

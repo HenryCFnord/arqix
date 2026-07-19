@@ -1,13 +1,13 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-09 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: cbfe29e, 2026-07-19
+     Snapshot: 59ff9d4, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How large is the codebase (lines of code, by component)?
 
 | component | files | lines | non-blank |
 | --- | --- | --- | --- |
-| src | 18 | 10198 | 9626 |
-| src/checkers | 4 | 3512 | 3314 |
-| tests | 23 | 6466 | 5977 |
-| total | 45 | 20176 | 18917 |
+| src | 18 | 10290 | 9716 |
+| src/checkers | 4 | 3654 | 3452 |
+| tests | 23 | 6606 | 6110 |
+| total | 45 | 20550 | 19278 |

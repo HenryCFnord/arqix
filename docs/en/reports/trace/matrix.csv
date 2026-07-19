@@ -54,7 +54,7 @@ REQ-01-01-11-03,constraint,,,
 REQ-01-01-11-04,quality,tests/corpus_guards.rs:168,,
 REQ-01-01-11-05,quality,tests/corpus_guards.rs:235,,
 REQ-01-01-11-06,functional,src/checkers/requirements.rs:1035;src/checkers/requirements.rs:1138;src/checkers/requirements.rs:1159;src/checkers/requirements.rs:1176;src/checkers/requirements.rs:1194;src/checkers/requirements.rs:1212;src/checkers/requirements.rs:1227;src/checkers/requirements.rs:1245;src/checkers/requirements.rs:1292;tests/cli_lint_requirements.rs:67,,src/checkers/requirements.rs:994
-REQ-01-01-11-07,functional,src/checkers/frontmatter.rs:1383;src/checkers/frontmatter.rs:1605;tests/cli_lint_frontmatter.rs:43,,src/checkers/frontmatter.rs:1294
+REQ-01-01-11-07,functional,src/checkers/frontmatter.rs:1525;src/checkers/frontmatter.rs:1747;tests/cli_lint_frontmatter.rs:43,,src/checkers/frontmatter.rs:1436
 REQ-01-01-11-08,functional,src/checkers/requirements.rs:1422;src/checkers/requirements.rs:1437;src/checkers/requirements.rs:1479,,src/checkers/requirements.rs:666
 REQ-01-01-11-09,functional,src/checkers/requirements.rs:1453;src/checkers/requirements.rs:1468;src/checkers/requirements.rs:1480;src/checkers/requirements.rs:1491,,src/checkers/requirements.rs:667
 REQ-01-01-12-01,functional,,,
@@ -158,7 +158,7 @@ REQ-04-01-10-02,functional,,,
 REQ-04-01-12-01,functional,tests/cli_report.rs:68,,src/reporter.rs:19
 REQ-04-01-12-02,functional,tests/cli_report.rs:95,,src/reporter.rs:20
 REQ-04-01-12-03,functional,tests/cli_report.rs:115,,src/reporter.rs:21
-REQ-04-01-12-04,functional,src/reporter.rs:1122;src/reporter.rs:1133;src/reporter.rs:1140;src/reporter.rs:1153;src/reporter.rs:1164;src/reporter.rs:1175;src/reporter.rs:1186;src/reporter.rs:1197;src/reporter.rs:1205;src/reporter.rs:1214;src/reporter.rs:1220;tests/cli_report.rs:249;tests/cli_report.rs:290;tests/cli_report.rs:309;tests/cli_report.rs:336;tests/cli_report.rs:362,,src/reporter.rs:805
+REQ-04-01-12-04,functional,src/reporter.rs:1214;src/reporter.rs:1225;src/reporter.rs:1232;src/reporter.rs:1245;src/reporter.rs:1256;src/reporter.rs:1267;src/reporter.rs:1278;src/reporter.rs:1289;src/reporter.rs:1297;src/reporter.rs:1306;src/reporter.rs:1312;tests/cli_report.rs:249;tests/cli_report.rs:290;tests/cli_report.rs:309;tests/cli_report.rs:336;tests/cli_report.rs:362,,src/reporter.rs:897
 REQ-04-01-13-01,functional,,,
 REQ-04-01-13-02,functional,,,
 REQ-04-01-13-03,functional,,,
@@ -191,10 +191,10 @@ REQ-05-01-15-01,functional,tests/cli_report.rs:146,,src/reporter.rs:125
 REQ-05-01-15-02,functional,tests/cli_report.rs:147,,src/reporter.rs:126
 REQ-05-01-15-03,functional,tests/cli_report.rs:188,,src/reporter.rs:127
 REQ-06-01-02-01,quality,tests/cli_quality.rs:348,,
-REQ-07-01-08-01,functional,src/checkers/requirements.rs:1355;tests/cli_report.rs:400,,src/checkers/requirements.rs:357;src/reporter.rs:1008
-REQ-07-01-08-02,functional,tests/cli_report.rs:433,,src/reporter.rs:769
-REQ-07-01-09-01,functional,tests/cli_report.rs:473;tests/cli_report.rs:569,,src/reporter.rs:830
-REQ-07-01-10-01,functional,tests/cli_report.rs:512,,src/reporter.rs:938
+REQ-07-01-08-01,functional,src/checkers/requirements.rs:1355;tests/cli_report.rs:400,,src/checkers/requirements.rs:357;src/reporter.rs:1100
+REQ-07-01-08-02,functional,tests/cli_report.rs:433,,src/reporter.rs:861
+REQ-07-01-09-01,functional,tests/cli_report.rs:473;tests/cli_report.rs:569,,src/reporter.rs:922
+REQ-07-01-10-01,functional,tests/cli_report.rs:512,,src/reporter.rs:1030
 REQ-08-01-01-01,quality,tests/cli_quality.rs:364,,
 REQ-08-01-01-02,quality,tests/cli_quality.rs:391,,
 REQ-08-01-02-01,quality,tests/cli_quality.rs:349,,
@@ -205,9 +205,9 @@ REQ-08-01-25-01,functional,tests/cli_doc.rs:594,,
 REQ-08-01-26-01,functional,tests/cli_doc.rs:621;tests/cli_doc.rs:655,,
 REQ-08-01-26-02,functional,tests/cli_doc.rs:680,,
 REQ-08-01-27-01,functional,tests/cli_doc.rs:713;tests/cli_doc.rs:741,,
-REQ-08-01-28-01,functional,src/checkers/frontmatter.rs:1767;src/checkers/frontmatter.rs:1780,,src/checkers/frontmatter.rs:894
-REQ-08-01-28-02,functional,src/checkers/frontmatter.rs:1768;src/checkers/frontmatter.rs:1792;src/checkers/frontmatter.rs:1813;src/checkers/frontmatter.rs:1830;src/checkers/frontmatter.rs:1850,,src/checkers/frontmatter.rs:895
-REQ-08-01-28-03,functional,src/checkers/frontmatter.rs:1769;src/checkers/frontmatter.rs:1867;src/checkers/frontmatter.rs:1894,,src/checkers/frontmatter.rs:896
+REQ-08-01-28-01,functional,src/checkers/frontmatter.rs:1909;src/checkers/frontmatter.rs:1922,,src/checkers/frontmatter.rs:894
+REQ-08-01-28-02,functional,src/checkers/frontmatter.rs:1910;src/checkers/frontmatter.rs:1934;src/checkers/frontmatter.rs:1955;src/checkers/frontmatter.rs:1972;src/checkers/frontmatter.rs:1992,,src/checkers/frontmatter.rs:895
+REQ-08-01-28-03,functional,src/checkers/frontmatter.rs:1911;src/checkers/frontmatter.rs:2009;src/checkers/frontmatter.rs:2036,,src/checkers/frontmatter.rs:896
 REQ-08-01-29-01,functional,tests/cli_lint_frontmatter.rs:92,,src/checkers/frontmatter.rs:57;src/config.rs:475
 REQ-08-01-29-02,functional,tests/cli_lint_frontmatter.rs:133,,src/checkers/frontmatter.rs:69;src/config.rs:476
 REQ-08-01-30-01,functional,tests/cli_lint_frontmatter.rs:174,,
@@ -217,3 +217,6 @@ REQ-08-01-33-01,functional,tests/cli_doc.rs:840,,src/templates.rs:404
 REQ-08-01-33-02,functional,tests/cli_doc.rs:841,,src/templates.rs:482
 REQ-08-01-34-01,functional,tests/cli_lint_frontmatter.rs:218,,src/checkers/frontmatter.rs:984
 REQ-08-01-35-01,functional,tests/cli_lint_frontmatter.rs:273,,src/checkers/frontmatter.rs:332;src/checkers/frontmatter.rs:848
+REQ-08-01-36-01,functional,tests/cli_lint_frontmatter.rs:319,,src/checkers/frontmatter.rs:1200;src/checkers/frontmatter.rs:1287
+REQ-08-01-36-02,functional,tests/cli_lint_frontmatter.rs:387,,src/checkers/frontmatter.rs:1288
+REQ-08-01-37-01,functional,tests/cli_report.rs:605,,src/reporter.rs:291
