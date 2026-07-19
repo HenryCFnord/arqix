@@ -18,6 +18,7 @@ triples:
       - arqix:requirements/req-00-00-00-03
       - arqix:requirements/req-04-01-10-01
       - arqix:requirements/req-04-01-10-02
+      - arqix:requirements/req-04-01-10-03
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-04-01
 
@@ -47,6 +48,7 @@ As a DevOps engineer, I want arqix commands to emit machine-readable diagnostics
 - [ ] JSON diagnostics include at minimum `severity`, `code`, `message`, `source.path`, and `source.line` when available.
 - [ ] Commands produce exit codes consistent with the documented failure contract.
 - [ ] Diagnostics output is deterministic for identical inputs.
+- [ ] Every findings surface answers `--format json` with the one shared payload (`schema_version`, `diagnostics`); no command carries a private findings shape.
 
 ### Notes
 
