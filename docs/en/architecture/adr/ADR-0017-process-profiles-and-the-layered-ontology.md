@@ -11,7 +11,7 @@ rdf:
 triples: []
 
 properties:
-  decision-status: proposed
+  decision-status: accepted
 
 external-references: []
 
@@ -19,7 +19,7 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-17
-  updated: 2026-07-17
+  updated: 2026-07-19
   lang: en
   translation-of:
   generated: false
