@@ -167,7 +167,7 @@ fn template(
     Ok(substitute(&text, id, kind, namespace, title, slug))
 }
 
-// arqix:implements REQ-08-01-32-01
+// arqix:implements REQ-08-01-27-02
 /// Fill the template's own placeholders from `--set key=value` pairs. A key
 /// the template does not use is a TPL-003 finding — a typo never vanishes
 /// silently.
@@ -349,7 +349,7 @@ pub struct NewOptions<'a> {
     /// wins over the declared kind dir and the default placement.
     pub dir: Option<&'a str>,
     pub dry_run: bool,
-    /// Raw `--set key=value` pairs (REQ-08-01-32-01); each fills the
+    /// Raw `--set key=value` pairs (REQ-08-01-27-02); each fills the
     /// template's own `{key}` placeholder.
     pub sets: &'a [String],
 }
@@ -391,7 +391,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 return ExitCode::from(2);
             }
             if let Some(holder) = docs.iter().find(|doc| doc.id.as_deref() == Some(explicit)) {
-                // arqix:implements REQ-08-01-39-01
+                // arqix:implements REQ-08-01-27-03
                 let diagnostic = Diagnostic::error(
                     "TPL-004",
                     format!("id {explicit} is already used by {}", holder.file),

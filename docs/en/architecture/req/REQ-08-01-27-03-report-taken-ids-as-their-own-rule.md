@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-39-01
+id: REQ-08-01-27-03
 title: Report Taken Ids as Their Own Rule
 slug: report-taken-ids-as-their-own-rule
-iri: arqix:requirements/req-08-01-39-01
+iri: arqix:requirements/req-08-01-27-03
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-27
       - arqix:user-stories/us-08-01-39
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix doc new` is asked for an id another document already carries, arqix 
 ### Notes
 
 TPL-002 keeps covering unknown template placeholders only.
-Derived from US-08-01-39.
+Derived from US-08-01-27.
