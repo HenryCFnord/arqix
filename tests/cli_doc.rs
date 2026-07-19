@@ -818,3 +818,68 @@ fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
     );
     assert_eq!(out.status.code(), Some(2), "expected usage exit 2");
 }
+
+// arqix:verifies REQ-08-01-33-01
+// arqix:verifies REQ-08-01-33-02
+#[test]
+fn doc_new_derives_id_and_placement_from_kind_templates() {
+    // FR-B2: the kind declares how id and target path derive from --set
+    // values and the slug; overrides and template-less kinds are unchanged.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_derives_id_and_placement_from_kind_templates",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.term]\ndir = \"docs/terms\"\nid-template = \"{context}-{slug}\"\ndir-template = \"contexts/{context}/terms\"\ntemplate = \"tpl/term.tpl.md\"\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("tpl")).unwrap();
+    std::fs::write(
+        repo.join("tpl/term.tpl.md"),
+        "---\nid: {id}\ntitle: {title}\ncontext: {context}\n---\n\n## {title}\n\nBody.\n",
+    )
+    .unwrap();
+
+    // Id and placement derive from the templates.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc", "new", "term", "--title", "Intent", "--set", "context=tmforum",
+        ],
+    );
+    assert_success(&out);
+    let created = repo.join("contexts/tmforum/terms/tmforum-intent.md");
+    let text = std::fs::read_to_string(&created).expect("document at the derived path");
+    assert!(
+        text.contains("id: tmforum-intent") && text.contains("context: tmforum"),
+        "expected the derived id in the document: {text}"
+    );
+
+    // An uncovered placeholder is an error naming it.
+    let out = run_arqix_in(&repo, &["doc", "new", "term", "--title", "Other"]);
+    assert!(
+        out.status.code() != Some(0),
+        "expected a non-zero exit without the covering --set"
+    );
+    let all = format!(
+        "{}{}",
+        String::from_utf8_lossy(&out.stdout),
+        String::from_utf8_lossy(&out.stderr)
+    );
+    assert!(all.contains("context"), "the placeholder is named: {all}");
+
+    // Explicit --id and --dir stay overrides.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc", "new", "term", "--title", "Third", "--set", "context=itu", "--id",
+            "custom-id", "--dir", "docs/terms",
+        ],
+    );
+    assert_success(&out);
+    assert!(
+        repo.join("docs/terms/custom-id.md").is_file(),
+        "explicit --id/--dir win over the templates"
+    );
+}
