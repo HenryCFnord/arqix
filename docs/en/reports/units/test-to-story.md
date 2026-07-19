@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 08b96b9, 2026-07-16
+     Snapshot: cbfe29e, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -255,6 +255,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-10 | Use Metadata Contracts Deterministically |
 | `doc_new_creates_a_document_from_the_configured_template` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_defaults_keep_the_current_id_shapes` | US-01-01-18 | Configure the ID Policy |
+| `doc_new_derives_id_and_placement_from_kind_templates` | US-08-01-33 | Derive Placement and Id From Kind Templates |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-02-01-10 | Scaffold Translations During Implementation |
@@ -262,6 +263,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-14 | Scaffold Translations Deterministically from Source IDs |
 | `doc_new_dry_run_reports_the_plan_without_writing` | US-08-01-23 | Create Documents without Ambiguity via Templates |
 | `doc_new_fails_clearly_on_a_missing_template_file` | US-01-01-20 | Create Documents from Template Files |
+| `doc_new_fills_set_placeholders_and_reports_unused_keys` | US-08-01-32 | Fill Template Placeholders at Creation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-02-01-07 | Create Conforming Documents Quickly via Templates |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | US-08-01-23 | Create Documents without Ambiguity via Templates |
@@ -416,7 +418,13 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
+| `lint_frontmatter_reports_dangling_triple_objects` | US-08-01-30 | Resolve Every Declared Triple Target |
+| `lint_frontmatter_resolves_the_configured_external_types` | US-08-01-29 | Configure the Frontmatter Vocabularies |
+| `lint_frontmatter_resolves_the_configured_section_kinds` | US-08-01-29 | Configure the Frontmatter Vocabularies |
+| `lint_frontmatter_validates_declared_property_vocabularies` | US-08-01-35 | Declare Vocabularies for Named Property Fields |
+| `lint_frontmatter_verifies_the_local_copy_digest` | US-08-01-34 | Verify the Local Copy Against Its Digest |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
+| `lint_requirements_binds_coupling_rules_to_the_story_module` | US-08-01-31 | Bind the Coupling Rules to the Story Module |
 | `lint_requirements_reports_authoring_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_requirements_resolves_the_configured_required_meta` | US-01-01-19 | Configure Frontmatter Contracts |
 | `lint_run_checks_that_include_targets_exist` | US-01-01-04 | Lint Documents Deterministically |

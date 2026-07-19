@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 08b96b9, 2026-07-16
+     Snapshot: cbfe29e, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -134,11 +134,13 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_creates_a_document_from_the_configured_template` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_creates_a_document_from_the_configured_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_defaults_keep_the_current_id_shapes` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_derives_id_and_placement_from_kind_templates` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-06-01 | Maintain architecture, ADRs, and glossary |
 | `doc_new_dry_run_reports_the_plan_without_writing` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_fails_clearly_on_a_missing_template_file` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `doc_new_fills_set_placeholders_and_reports_unused_keys` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_generates_a_unique_id_from_the_configured_policy` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -238,7 +240,13 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_frontmatter_reports_contract_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
+| `lint_frontmatter_reports_dangling_triple_objects` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_resolves_the_configured_external_types` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_resolves_the_configured_section_kinds` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_validates_declared_property_vocabularies` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_verifies_the_local_copy_digest` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
+| `lint_requirements_binds_coupling_rules_to_the_story_module` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_requirements_reports_authoring_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_requirements_resolves_the_configured_required_meta` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_run_checks_that_include_targets_exist` | WF-01-01 | Establish Standards and Repository Hygiene |
