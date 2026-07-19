@@ -111,7 +111,7 @@ Proposed: an optional, configurable `fmt` mode normalizing body prose to one sen
 - FR-B1 extends K1: the placeholder vocabulary is validated (TPL-002), but only `id`/`title`/`slug` have values; landed as repeatable `--set key=value` with TPL-003 for unused keys (US-08-01-32).
 - FR-B2 extends K0 and the ADR-0012 id policy from flat dirs and sequential ids to path patterns and derived ids; landed as `[kinds.<family>].id-template`/`dir-template` (US-08-01-33).
 - FR-B3 is covered corpus-wide at lint time (duplicate id and iri, FM-006) and at creation time for ids (`doc new` rejects a taken id, explicit or template-minted); the remaining slug-per-context check needs the bounded-context concept and moves to FR-C3.
-- FR-C1 is R7 plus decision D2 — direct external demand for project vocabularies on named fields.
+- FR-C1 is R7 plus decision D2 — direct external demand for project vocabularies on named fields; landed as `[kinds.<family>.vocab]` with FM-009 (US-08-01-35).
 - FR-C2 and FR-C3 are the layered-ontology core: project-defined, checker-validated properties and namespaces.
 - FR-E1 extends the diagnostics contract (REQ-00-00-00-03) to the creation and verify surfaces.
 - FR-E2 is the process-catalog thesis stated by a user: the configured `verify` steps should be able to express the whole project gate.
