@@ -744,3 +744,54 @@ fn report_claims_projects_computed_provenance_on_demand() {
         "expected computed provenance columns: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-42-01
+#[test]
+fn report_graph_embeds_the_corpus_graph() {
+    // ADR-0020: the explorer page carries the trace core graph as embedded
+    // data — nodes with type and lifecycle status, edges with their kind.
+    let repo = scratch_copy("minimal", "report_graph_embeds_the_corpus_graph");
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("US-09-09-09-sample-story.md"),
+        "---\nid: US-09-09-09\ntitle: Sample Story\nslug: sample-story\niri: arqix:user-stories/us-09-09-09\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples:\n  - predicate: arqix:properties/has-requirement\n    object:\n      - arqix:requirements/req-99-99-99-01\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  generated: false\n---\n\n## Sample Story\n\nBody.\n",
+    )
+    .unwrap();
+
+    let out = run_arqix_in(&repo, &["report", "graph", "--out", "graph.html"]);
+    assert_success(&out);
+    let page = std::fs::read_to_string(repo.join("graph.html")).expect("explorer page written");
+    assert!(
+        page.contains("US-09-09-09")
+            && page.contains("REQ-99-99-99-01")
+            && page.contains("has-requirement"),
+        "expected the story node, its requirement, and the edge kind embedded"
+    );
+    assert!(
+        page.contains("\"lifecycle\"") && page.contains("draft"),
+        "expected document nodes to carry their declared lifecycle status"
+    );
+}
+
+// arqix:verifies REQ-08-01-42-02
+#[test]
+fn report_graph_writes_a_self_contained_page() {
+    // ADR-0020: data and the vendored layout engine are embedded — the page
+    // references no external resource.
+    let repo = scratch_copy("minimal", "report_graph_writes_a_self_contained_page");
+    let out = run_arqix_in(&repo, &["report", "graph", "--out", "graph.html"]);
+    assert_success(&out);
+    let page = std::fs::read_to_string(repo.join("graph.html")).expect("explorer page written");
+    assert!(
+        page.contains("forceSimulation"),
+        "expected the vendored layout engine embedded in the page"
+    );
+    assert!(
+        !page.contains("<script src=")
+            && !page.contains("src=\"http")
+            && !page.contains("href=\"http")
+            && !page.contains("<link rel="),
+        "the page must reference no external resource"
+    );
+}
