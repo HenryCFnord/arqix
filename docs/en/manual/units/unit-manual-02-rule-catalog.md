@@ -105,6 +105,13 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | US-WF-001 | The story id encodes one workflow but `is-part-of-workflow` names another (story-driven module). |
 | US-PER-001 | The story's persona is not declared on its workflow; consolidation personas are exempt (story-driven module). |
 
+### CLM — claim markers (`lint frontmatter`)
+
+| Rule | Meaning |
+| --- | --- |
+| CLM-001 | A claim marker is unclosed, misses `supported-by`, or carries an unknown key. |
+| CLM-002 | A claim `confidence` is outside the effective vocabulary (`[frontmatter].claim-confidence` or the built-in default). |
+
 ### LNT — corpus linter (`lint run`)
 
 | Rule | Meaning |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8f67f69, 2026-07-19
+     Snapshot: 78298fb, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -205,6 +205,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `fmt_is_idempotent` | WF-07-01 | Review Evidence Chains and Exports |
 | `fmt_is_idempotent` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `fmt_keeps_diffs_focused_on_content` | WF-02-01 | Write Docs Alongside Implementation |
+| `fmt_lifts_claim_markers_into_derived_triples` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `fmt_never_changes_body_text` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `fmt_never_changes_body_text` | WF-02-01 | Write Docs Alongside Implementation |
 | `fmt_never_changes_body_text` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
@@ -240,6 +241,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lines_of_code_counts_tracked_files_only` | WF-07-01 | Review Evidence Chains and Exports |
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
+| `lint_frontmatter_checks_derived_triples_like_declared_ones` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_checks_edges_against_domain_and_range` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_checks_paths_against_the_dir_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_reports_contract_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
@@ -247,6 +249,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_frontmatter_reports_subclass_cycles` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_resolves_the_configured_external_types` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_resolves_the_configured_section_kinds` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_validates_claim_markers` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_validates_declared_property_vocabularies` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_verifies_the_local_copy_digest` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | WF-03-01 | Validate Traceability and Coverage |
@@ -366,6 +369,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-03-01 | Validate Traceability and Coverage |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-04-01 | Run CI Gates and Publish artefacts |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | WF-07-01 | Review Evidence Chains and Exports |
+| `report_claims_exports_markers_and_counts_coverage` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `report_coverage_renders_the_unit_from_a_summary` | WF-07-01 | Review Evidence Chains and Exports |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | WF-05-01 | Use Documentation for Agents and RAG |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | WF-05-01 | Use Documentation for Agents and RAG |

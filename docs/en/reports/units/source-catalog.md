@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-11 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8f67f69, 2026-07-19
+     Snapshot: 78298fb, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which external sources does the corpus rest on?

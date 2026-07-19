@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8f67f69, 2026-07-19
+     Snapshot: 78298fb, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -373,6 +373,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `fmt_is_idempotent` | US-08-01-21 | Emit Machine-Readable Diagnostics for Agent Workflows |
 | `fmt_is_idempotent` | US-08-01-22 | Make Trace and Coverage Outputs Deterministic |
 | `fmt_keeps_diffs_focused_on_content` | US-02-01-03 | Format Documents During Implementation |
+| `fmt_lifts_claim_markers_into_derived_triples` | US-08-01-40 | Anchor Evidence in the Text and Derive the Edge |
 | `fmt_never_changes_body_text` | US-01-01-03 | Format Documents Canonically |
 | `fmt_never_changes_body_text` | US-02-01-03 | Format Documents During Implementation |
 | `fmt_never_changes_body_text` | US-08-01-03 | Format Documents Deterministically within Scope |
@@ -418,6 +419,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lines_of_code_counts_tracked_files_only` | US-07-01-09 | Report the Codebase Size by Component |
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
+| `lint_frontmatter_checks_derived_triples_like_declared_ones` | US-08-01-40 | Anchor Evidence in the Text and Derive the Edge |
 | `lint_frontmatter_checks_edges_against_domain_and_range` | US-08-01-36 | Validate the Ontology Against Itself |
 | `lint_frontmatter_checks_paths_against_the_dir_template` | US-08-01-38 | Hold Documents to Their Kinds Placement Contract |
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
@@ -425,6 +427,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_frontmatter_reports_subclass_cycles` | US-08-01-36 | Validate the Ontology Against Itself |
 | `lint_frontmatter_resolves_the_configured_external_types` | US-08-01-29 | Configure the Frontmatter Vocabularies |
 | `lint_frontmatter_resolves_the_configured_section_kinds` | US-08-01-29 | Configure the Frontmatter Vocabularies |
+| `lint_frontmatter_validates_claim_markers` | US-08-01-40 | Anchor Evidence in the Text and Derive the Edge |
 | `lint_frontmatter_validates_declared_property_vocabularies` | US-08-01-35 | Declare Vocabularies for Named Property Fields |
 | `lint_frontmatter_verifies_the_local_copy_digest` | US-08-01-34 | Verify the Local Copy Against Its Digest |
 | `lint_reports_each_unverified_requirement_of_a_done_story` | US-03-01-09 | Machine-Check the Done Claim |
@@ -571,6 +574,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-03-01-04 | Export Scoped Evidence Bundles for Quality Review |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-04-01-12 | Publish Stable Report Exports for Automation |
 | `report_bundle_writes_reviewable_markdown_csv_and_json` | US-07-01-07 | Publish Stable Compliance-Ready Report Exports |
+| `report_claims_exports_markers_and_counts_coverage` | US-08-01-41 | Export Claims and Report Evidence Coverage |
 | `report_coverage_renders_the_unit_from_a_summary` | US-07-01-10 | Report the Test-Suite Code Coverage |
 | `report_knowledge_exports_an_okf_bundle_with_mapped_fields` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |
 | `report_knowledge_honours_scope_lifecycle_and_determinism` | US-05-01-15 | Export the Corpus as an OKF Knowledge Bundle |

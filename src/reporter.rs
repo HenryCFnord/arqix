@@ -269,13 +269,14 @@ fn write_concept(
 const UNITS_DIR: &str = "docs/en/reports/units";
 const TRACE_DIR: &str = "docs/en/reports/trace";
 const STATEMENTS_PATH: &str = "docs/en/reports/requirements/normative-statements.csv";
+const CLAIMS_PATH: &str = "docs/en/reports/claims.csv";
 
 /// One report unit: its filename and the projection that renders it. The
 /// signature is uniform so the set can be iterated; a unit ignores the inputs
 /// it does not need.
 type Unit = fn(&Model, &Value, &str, &BTreeSet<String>) -> String;
 
-const UNITS: [(&str, Unit); 10] = [
+const UNITS: [(&str, Unit); 11] = [
     ("story-progress.md", unit_story_progress),
     ("scoreboard.md", unit_scoreboard),
     ("test-to-requirement.md", unit_test_to_requirement),
@@ -286,6 +287,7 @@ const UNITS: [(&str, Unit); 10] = [
     ("doc-to-code.md", unit_doc_to_code),
     ("lines-of-code.md", unit_lines_of_code),
     ("source-catalog.md", unit_source_catalog),
+    ("evidence-coverage.md", unit_evidence_coverage),
 ];
 
 // arqix:implements REQ-08-01-37-01
@@ -377,6 +379,87 @@ fn frontmatter_properties(file: &str) -> BTreeMap<String, String> {
         }
     }
     props
+}
+
+/// One RFC-4180-minimal CSV field: quoted when it carries a comma, quote,
+/// or newline.
+fn csv_field(value: &str) -> String {
+    if value.contains(',') || value.contains('"') || value.contains('\n') {
+        format!("\"{}\"", value.replace('"', "\"\""))
+    } else {
+        value.to_string()
+    }
+}
+
+// arqix:implements REQ-08-01-41-01
+/// The claims projection: one row per claim marker, in file order.
+fn claims_csv() -> String {
+    let mut lines = vec!["file,supported_by,confidence,anchor".to_string()];
+    for doc in crate::store::documents() {
+        let Ok(text) = std::fs::read_to_string(&doc.file) else {
+            continue;
+        };
+        let file = crate::util::to_posix_str(&doc.file);
+        for (target, confidence, anchor) in crate::rewriter::claim_annotations(&text) {
+            lines.push(format!(
+                "{},{},{},{}",
+                csv_field(&file),
+                csv_field(&target),
+                csv_field(&confidence),
+                csv_field(&anchor)
+            ));
+        }
+    }
+    lines.join("\n") + "\n"
+}
+
+// arqix:implements REQ-08-01-41-01
+/// `arqix report claims` — the claim markers as data.
+pub fn claims(_format: OutputFormat) -> ExitCode {
+    print!("{}", claims_csv());
+    ExitCode::SUCCESS
+}
+
+// arqix:implements REQ-08-01-41-02
+/// Q-12: the evidence numbers — never a gate (ADR-0018).
+fn unit_evidence_coverage(
+    _model: &Model,
+    _coverage: &Value,
+    snapshot: &str,
+    _retired: &BTreeSet<String>,
+) -> String {
+    let mut claims = 0usize;
+    let mut documents: BTreeSet<String> = BTreeSet::new();
+    let mut sources: BTreeSet<String> = BTreeSet::new();
+    for doc in crate::store::documents() {
+        let Ok(text) = std::fs::read_to_string(&doc.file) else {
+            continue;
+        };
+        let annotations = crate::rewriter::claim_annotations(&text);
+        if annotations.is_empty() {
+            continue;
+        }
+        claims += annotations.len();
+        documents.insert(doc.file.clone());
+        sources.extend(annotations.into_iter().map(|(t, _, _)| t));
+    }
+    let mut lines = vec![header(
+        "How much of the corpus carries evidence claims?",
+        "Q-12",
+        snapshot,
+    )];
+    lines.push("| measure | count |".to_string());
+    lines.push("| --- | ---: |".to_string());
+    lines.push(format!("| claims | {claims} |"));
+    lines.push(format!("| documents with claims | {} |", documents.len()));
+    lines.push(format!("| distinct sources cited | {} |", sources.len()));
+    lines.push(String::new());
+    lines.push(
+        "Coverage is a report number, never a gate: claims are sparse and \
+         opt-in (ADR-0018)."
+            .to_string(),
+    );
+    lines.join("\n") + "\n"
 }
 
 /// The generated provenance header shared by every unit — do-not-edit notice,
@@ -858,6 +941,16 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
             }
         }
     }
+    // arqix:implements REQ-08-01-41-01
+    match std::fs::read_to_string(CLAIMS_PATH) {
+        Err(_) => stale.push((CLAIMS_PATH.to_string(), "missing")),
+        Ok(text) => {
+            if claims_csv() != text {
+                stale.push((CLAIMS_PATH.to_string(), "stale"));
+            }
+        }
+    }
+
     // arqix:implements REQ-07-01-08-02
     match std::fs::read_to_string(STATEMENTS_PATH) {
         Err(_) => stale.push((STATEMENTS_PATH.to_string(), "missing")),
@@ -885,7 +978,7 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
     }
     if stale.is_empty() {
         println!(
-            "reports: fresh ({} units, 2 matrices, 1 export)",
+            "reports: fresh ({} units, 2 matrices, 2 exports)",
             UNITS.len()
         );
         ExitCode::SUCCESS

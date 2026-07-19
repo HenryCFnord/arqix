@@ -80,13 +80,14 @@ fn effective_external_types() -> &'static [String] {
 
 /// The canonical top-level key order and required keys shared by the
 /// architecture families.
-const ARCH_ORDER: [&str; 9] = [
+const ARCH_ORDER: [&str; 10] = [
     "id",
     "title",
     "slug",
     "iri",
     "rdf",
     "triples",
+    "derived-triples",
     "properties",
     "external-references",
     "meta",
@@ -220,6 +221,7 @@ impl Contract {
                     "rdf",
                     "rdfs",
                     "triples",
+                    "derived-triples",
                     "properties",
                     "external-references",
                     "owl",
@@ -238,6 +240,7 @@ impl Contract {
                     "rdfs",
                     "owl",
                     "triples",
+                    "derived-triples",
                     "properties",
                     "external-references",
                     "meta",
@@ -253,6 +256,7 @@ impl Contract {
                     "iri",
                     "rdf",
                     "triples",
+                    "derived-triples",
                     "properties",
                     "external-references",
                     "meta",
@@ -494,7 +498,9 @@ impl Doc {
                             .insert(caps.get(1).unwrap().as_str().to_string(), value.to_string());
                     }
                 }
-            } else if section.as_deref() == Some("triples") {
+            } else if section.as_deref() == Some("triples")
+                || section.as_deref() == Some("derived-triples")
+            {
                 if let Some(caps) = p.triple_pred.captures(line) {
                     let predicate = caps.get(1).unwrap().as_str().trim().to_string();
                     self.triples.push((predicate, Vec::new()));
@@ -1305,6 +1311,97 @@ fn check_graph_contract(
     }
 }
 
+/// The built-in confidence vocabulary for claim markers.
+const CLAIM_CONFIDENCE: [&str; 3] = ["high", "inferred", "estimated"];
+
+// arqix:implements REQ-08-01-40-01
+/// The effective claim-confidence vocabulary: the configured
+/// `[frontmatter].claim-confidence`, or the built-in default.
+fn effective_claim_confidence() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .claim_confidence
+            .unwrap_or_else(|| CLAIM_CONFIDENCE.iter().map(|s| s.to_string()).collect())
+    })
+}
+
+// arqix:implements REQ-08-01-40-01
+/// CLM-001/CLM-002: every claim marker names a supported-by target, carries
+/// only known keys, and keeps its confidence inside the effective
+/// vocabulary. The marker grammar is validated here; the edge itself is the
+/// formatter's derived triple (ADR-0018).
+fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
+    let pair_re = Regex::new(r#"^([a-z-]+)=("[^"]*"|[^\s"]+)\s*"#).expect("static regex");
+    for line in doc.text.lines() {
+        let trimmed = line.trim_start();
+        let Some(rest) = trimmed.strip_prefix("<!-- arqix:claim") else {
+            continue;
+        };
+        let Some(body) = rest.strip_suffix("-->") else {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-001",
+                format!("claim marker is not closed: {}", py_repr(trimmed)),
+            ));
+            continue;
+        };
+        let mut cursor = body.trim_start();
+        let mut keys: Vec<(String, String)> = Vec::new();
+        let mut malformed = false;
+        while !cursor.trim().is_empty() {
+            match pair_re.captures(cursor) {
+                Some(caps) => {
+                    let value = caps[2].trim_matches('"').to_string();
+                    keys.push((caps[1].to_string(), value));
+                    cursor = &cursor[caps[0].len()..];
+                }
+                None => {
+                    malformed = true;
+                    break;
+                }
+            }
+        }
+        if malformed {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-001",
+                format!("claim marker is malformed near {}", py_repr(cursor.trim())),
+            ));
+            continue;
+        }
+        for (key, _) in &keys {
+            if !["supported-by", "confidence", "anchor"].contains(&key.as_str()) {
+                findings.push(Finding::error(
+                    &doc.path,
+                    "CLM-001",
+                    format!("claim marker carries unknown key {}", py_repr(key)),
+                ));
+            }
+        }
+        if !keys.iter().any(|(k, _)| k == "supported-by") {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-001",
+                "claim marker misses supported-by".to_string(),
+            ));
+        }
+        if let Some((_, confidence)) = keys.iter().find(|(k, _)| k == "confidence")
+            && !effective_claim_confidence().iter().any(|c| c == confidence)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-002",
+                format!(
+                    "claim confidence {} is not in the vocabulary {}",
+                    py_repr(confidence),
+                    py_list_repr(effective_claim_confidence())
+                ),
+            ));
+        }
+    }
+}
+
 fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding> {
     let mut findings = Vec::new();
     let docs = load_docs(contract);
@@ -1397,6 +1494,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
             &types_by_iri,
             &mut findings,
         );
+        check_claim_markers(doc, &mut findings);
         if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
             check_source(doc, &roots, &mut findings);
         }
@@ -1878,7 +1976,8 @@ id-pattern = '^note-(?P<seq>\d+)$'
                     == "top-level keys out of canonical order: \
                     ['id', 'slug', 'title', 'iri', 'rdf', 'triples', 'properties', \
                     'external-references', 'meta'] (expected order ['id', 'title', 'slug', \
-                    'iri', 'rdf', 'triples', 'properties', 'external-references', 'meta'])")
+                    'iri', 'rdf', 'triples', 'derived-triples', 'properties', \
+                    'external-references', 'meta'])")
         );
     }
 

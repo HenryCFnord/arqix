@@ -15,13 +15,14 @@ use std::process::ExitCode;
 /// FAMILIES), so already-conforming documents are left byte-identical.
 /// Every architecture/documentation family shares one order; the three
 /// ontology families interleave label/rdfs/owl differently.
-const DOC_KEYS: [&str; 9] = [
+const DOC_KEYS: [&str; 10] = [
     "id",
     "title",
     "slug",
     "iri",
     "rdf",
     "triples",
+    "derived-triples",
     "properties",
     "external-references",
     "meta",
@@ -166,7 +167,7 @@ fn canonical_index(block: &(Option<String>, Vec<String>), order: &[String]) -> u
 fn format_text(file: &str, text: &str) -> Option<String> {
     let order = key_order(file);
     let (open, fm_lines, rest) = split_frontmatter(text)?;
-    let blocks = group_blocks(&fm_lines);
+    let blocks = derive_claim_triples(group_blocks(&fm_lines), rest);
 
     let mut known: Vec<&(Option<String>, Vec<String>)> =
         blocks.iter().filter(|b| is_known(b, &order)).collect();
@@ -187,6 +188,99 @@ fn format_text(file: &str, text: &str) -> Option<String> {
     }
     out.push_str(rest);
     Some(out)
+}
+
+// arqix:implements REQ-08-01-40-02
+/// The supported-by targets of the body's claim markers, deduplicated and
+/// sorted. Deliberately tolerant of marker defects — the strict grammar is
+/// the frontmatter checker's CLM contract; the lifting takes what it can
+/// read so a healable document heals.
+fn claim_targets(body: &str) -> Vec<String> {
+    // Line-anchored like the CLM checker: a marker owns its line (the house
+    // marker convention), so a marker quoted in prose or code is never lifted.
+    let re = regex::Regex::new(r#"^<!-- arqix:claim\s[^>]*?supported-by=([^\s"]+)"#)
+        .expect("static regex");
+    let mut targets: Vec<String> = body
+        .lines()
+        .filter_map(|line| re.captures(line.trim_start()))
+        .map(|c| c[1].to_string())
+        .collect();
+    targets.sort();
+    targets.dedup();
+    targets
+}
+
+// arqix:implements REQ-08-01-41-01
+/// Every claim annotation of a body, line-anchored like `claim_targets`:
+/// (supported-by, confidence, anchor) in document order.
+pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String)> {
+    let attr = regex::Regex::new(r#"([a-z-]+)=("[^"]*"|[^\s"]+)"#).expect("static regex");
+    let mut out = Vec::new();
+    for line in text.lines() {
+        let trimmed = line.trim_start();
+        if !trimmed.starts_with("<!-- arqix:claim ") {
+            continue;
+        }
+        let mut target = String::new();
+        let mut confidence = String::new();
+        let mut anchor = String::new();
+        for caps in attr.captures_iter(trimmed) {
+            let value = caps[2].trim_matches('"').to_string();
+            match &caps[1] {
+                "supported-by" => target = value,
+                "confidence" => confidence = value,
+                "anchor" => anchor = value,
+                _ => {}
+            }
+        }
+        if !target.is_empty() {
+            out.push((target, confidence, anchor));
+        }
+    }
+    out
+}
+
+// arqix:implements REQ-08-01-40-02
+/// Own the `derived-triples` section (ADR-0018): drop whatever the document
+/// carries and re-derive it from the claim markers — inserted directly after
+/// the `triples` block, absent when no markers exist.
+fn derive_claim_triples(
+    blocks: Vec<(Option<String>, Vec<String>)>,
+    body: &str,
+) -> Vec<(Option<String>, Vec<String>)> {
+    let targets = claim_targets(body);
+    let mut out: Vec<(Option<String>, Vec<String>)> = Vec::new();
+    let mut inserted = false;
+    for block in blocks {
+        if block.0.as_deref() == Some("derived-triples") {
+            continue;
+        }
+        let is_triples = block.0.as_deref() == Some("triples");
+        out.push(block);
+        if is_triples && !targets.is_empty() {
+            let mut lines = vec![
+                "derived-triples:".to_string(),
+                "  - predicate: arqix:properties/supported-by".to_string(),
+                "    object:".to_string(),
+            ];
+            lines.extend(targets.iter().map(|t| format!("      - {t}")));
+            lines.push(String::new());
+            out.push((Some("derived-triples".to_string()), lines));
+            inserted = true;
+        }
+    }
+    if !targets.is_empty() && !inserted {
+        // No triples block to attach to: the section still exists, at the end.
+        let mut lines = vec![
+            "derived-triples:".to_string(),
+            "  - predicate: arqix:properties/supported-by".to_string(),
+            "    object:".to_string(),
+        ];
+        lines.extend(targets.iter().map(|t| format!("      - {t}")));
+        lines.push(String::new());
+        out.push((Some("derived-triples".to_string()), lines));
+    }
+    out
 }
 
 // arqix:implements REQ-01-01-03-01

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 8f67f69, 2026-07-19
+     Snapshot: 78298fb, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -104,5 +104,7 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-37 | Project the Source Catalog | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-38 | Hold Documents to Their Kinds Placement Contract | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-39 | Name Each Creation Defect Distinctly | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-40 | Anchor Evidence in the Text and Derive the Edge | 3 | 0 | 0 | `██████████` 100% |
+| US-08-01-41 | Export Claims and Report Evidence Coverage | 2 | 0 | 0 | `██████████` 100% |
 
 Retired stories excluded from this view (ADR-0010): 42.

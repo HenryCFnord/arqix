@@ -34,6 +34,7 @@ reports:
     ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
     ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
     ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
+    ./target/debug/arqix report claims > docs/en/reports/claims.csv
 
 # Measure test coverage (cargo-llvm-cov) and render the Q-10 unit from it.
 coverage:
