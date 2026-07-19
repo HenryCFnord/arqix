@@ -480,3 +480,109 @@ fn lint_frontmatter_checks_paths_against_the_dir_template() {
         "expected FM-010 naming the unresolved placeholder: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-40-01
+#[test]
+fn lint_frontmatter_validates_claim_markers() {
+    // CLM-001 for a malformed marker, CLM-002 for a confidence outside the
+    // effective vocabulary; a well-formed marker passes.
+    let repo = scratch_copy("minimal", "lint_frontmatter_validates_claim_markers");
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let base = STORY.replace("lang: de", "lang: en");
+    let path = dir.join("US-09-09-09-sample-story.md");
+
+    // Well-formed with a default-vocabulary confidence: no finding.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 confidence=high -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+
+    // Missing supported-by is CLM-001.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim confidence=high -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    assert!(
+        String::from_utf8_lossy(&out.stdout).contains("CLM-001"),
+        "expected CLM-001 for the missing supported-by"
+    );
+
+    // An unknown key is CLM-001 too.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 trust=full -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    assert!(
+        String::from_utf8_lossy(&out.stdout).contains("CLM-001"),
+        "expected CLM-001 for the unknown key"
+    );
+
+    // A confidence outside the vocabulary is CLM-002; configuring the
+    // vocabulary admits it.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 confidence=verified -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    assert!(
+        String::from_utf8_lossy(&out.stdout).contains("CLM-002"),
+        "expected CLM-002 for the unknown confidence"
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[frontmatter]\nclaim-confidence = [\"verified\"]\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+}
+
+// arqix:verifies REQ-08-01-40-03
+#[test]
+fn lint_frontmatter_checks_derived_triples_like_declared_ones() {
+    // The derived section joins the graph checks: ONT-003 resolution and the
+    // declared range of supported-by, with the optional key accepted by the
+    // format contract.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_checks_derived_triples_like_declared_ones",
+    );
+    let props = repo.join("docs/ontology/properties");
+    std::fs::create_dir_all(&props).unwrap();
+    std::fs::write(
+        props.join("supported-by.md"),
+        "---\nid: property-supported-by\nlabel: supported-by\niri: arqix:properties/supported-by\n\nrdf:\n  type:\n    - rdf:Property\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## supported-by\n\nA fixture property.\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY.replace("lang: de", "lang: en").replace(
+        "triples: []",
+        "triples: []\n\nderived-triples:\n  - predicate: arqix:properties/supported-by\n    object:\n      - arqix:sources/src-0404",
+    );
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &doc).unwrap();
+
+    // The dangling derived target is ONT-003; the key itself is legal.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-003") && stdout.contains("arqix:sources/src-0404"),
+        "expected ONT-003 for the dangling derived target: {stdout}"
+    );
+    assert!(
+        !stdout.contains("FMT-003"),
+        "derived-triples is a legal optional key: {stdout}"
+    );
+}

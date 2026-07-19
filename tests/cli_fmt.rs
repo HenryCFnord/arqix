@@ -148,3 +148,75 @@ fn scaffolded_documents_satisfy_the_default_meta_contract() {
         );
     }
 }
+
+// arqix:verifies REQ-08-01-40-02
+#[test]
+fn fmt_lifts_claim_markers_into_derived_triples() {
+    // ADR-0018: the derived-triples section is formatter-owned — derived
+    // from the claim markers, deduplicated, sorted, absent without markers.
+    let repo = scratch_copy("minimal", "fmt_lifts_claim_markers_into_derived_triples");
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = "---\nid: US-09-09-09\ntitle: Sample Story\nslug: sample-story\niri: arqix:user-stories/us-09-09-09\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  generated: false\n---\n\n## Sample Story\n\n<!-- arqix:claim supported-by=arqix:sources/src-0002 -->\nA supported sentence.\n\n<!-- arqix:claim supported-by=arqix:sources/src-0001 confidence=high -->\nAnother supported sentence.\n\n<!-- arqix:claim supported-by=arqix:sources/src-0001 anchor=\"2.1\" -->\nThe same source again.\n";
+    let path = dir.join("US-09-09-09-sample-story.md");
+    std::fs::write(&path, doc).unwrap();
+
+    // The lifting: deduplicated, sorted targets in the derived section.
+    assert_success(&run_arqix_in(&repo, &["fmt"]));
+    let text = std::fs::read_to_string(&path).unwrap();
+    let src1 = text
+        .find("arqix:sources/src-0001")
+        .expect("src-0001 lifted");
+    let src2 = text
+        .find("arqix:sources/src-0002")
+        .expect("src-0002 lifted");
+    assert!(
+        text.contains("derived-triples:")
+            && text.contains("arqix:properties/supported-by")
+            && src1 < src2,
+        "expected the sorted derived section: {text}"
+    );
+    assert_eq!(
+        text.matches("arqix:sources/src-0001").count(),
+        2,
+        "one derived entry plus the body marker, no duplicate: {text}"
+    );
+
+    // Idempotent: a second run changes nothing.
+    let before = std::fs::read_to_string(&path).unwrap();
+    assert_success(&run_arqix_in(&repo, &["fmt"]));
+    assert_eq!(before, std::fs::read_to_string(&path).unwrap());
+
+    // Drift: a hand edit fails check mode and does not survive fmt.
+    std::fs::write(
+        &path,
+        before.replace("arqix:sources/src-0002", "arqix:sources/src-0009"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["fmt", "--check"]);
+    assert!(
+        out.status.code() != Some(0),
+        "expected check mode to report the drift"
+    );
+    assert_success(&run_arqix_in(&repo, &["fmt"]));
+    let healed = std::fs::read_to_string(&path).unwrap();
+    assert!(
+        healed.contains("arqix:sources/src-0002"),
+        "the section is derived from the markers again: {healed}"
+    );
+
+    // No markers, no section.
+    let stripped: String = healed
+        .lines()
+        .filter(|l| !l.starts_with("<!-- arqix:claim"))
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    std::fs::write(&path, stripped).unwrap();
+    assert_success(&run_arqix_in(&repo, &["fmt"]));
+    let text = std::fs::read_to_string(&path).unwrap();
+    assert!(
+        !text.contains("derived-triples:"),
+        "the section vanishes with the markers: {text}"
+    );
+}
