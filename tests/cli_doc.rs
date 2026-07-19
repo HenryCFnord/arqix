@@ -618,7 +618,7 @@ fn doc_new_honours_the_kinds_declared_directory() {
     );
 }
 
-// arqix:verifies REQ-08-01-26-01
+// arqix:verifies REQ-08-01-25-02
 #[test]
 fn doc_new_instantiates_the_kinds_declared_template() {
     // US-08-01-26: the [kinds.<family>].template contract names the template
@@ -652,7 +652,7 @@ fn doc_new_instantiates_the_kinds_declared_template() {
     assert!(text.contains("## Use Kroki"), "title substituted: {text}");
 }
 
-// arqix:verifies REQ-08-01-26-01
+// arqix:verifies REQ-08-01-25-02
 #[test]
 fn doc_new_treats_a_missing_declared_template_as_a_config_error() {
     let repo = scratch_copy(
@@ -677,7 +677,7 @@ fn doc_new_treats_a_missing_declared_template_as_a_config_error() {
     );
 }
 
-// arqix:verifies REQ-08-01-26-02
+// arqix:verifies REQ-08-01-25-03
 #[test]
 fn doc_new_rejects_unknown_template_placeholders() {
     // A typo in a placeholder must become a finding, not a silent literal
@@ -837,8 +837,8 @@ fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
     assert_eq!(out.status.code(), Some(2), "expected usage exit 2");
 }
 
-// arqix:verifies REQ-08-01-33-01
-// arqix:verifies REQ-08-01-33-02
+// arqix:verifies REQ-08-01-25-04
+// arqix:verifies REQ-08-01-25-05
 #[test]
 fn doc_new_derives_id_and_placement_from_kind_templates() {
     // FR-B2: the kind declares how id and target path derive from --set

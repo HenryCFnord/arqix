@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-33-01
+id: REQ-08-01-25-04
 title: Mint Ids From the Declared Id Template
 slug: mint-ids-from-the-declared-id-template
-iri: arqix:requirements/req-08-01-33-01
+iri: arqix:requirements/req-08-01-25-04
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-25
       - arqix:user-stories/us-08-01-33
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix doc new` runs without an explicit `--id` and the kind declares an `i
 ### Notes
 
 The minted id passes the same validity and uniqueness checks as an explicit `--id`.
-Derived from US-08-01-33.
+Derived from US-08-01-25.

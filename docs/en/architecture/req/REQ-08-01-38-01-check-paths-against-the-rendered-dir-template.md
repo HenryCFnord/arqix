@@ -37,5 +37,5 @@ When `arqix lint frontmatter` checks a document whose kind declares a `dir-templ
 
 ### Notes
 
-Rule FM-010; the checker-side direction of the creation contract (REQ-08-01-33-02).
+Rule FM-010; the checker-side direction of the creation contract (REQ-08-01-25-05).
 Derived from US-08-01-38.

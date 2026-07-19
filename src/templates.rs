@@ -113,9 +113,9 @@ fn template(
     sets: &[(String, String)],
     format: OutputFormat,
 ) -> Result<String, ExitCode> {
-    // A declared [kinds.<family>].template wins (REQ-08-01-26-01): the
+    // A declared [kinds.<family>].template wins (REQ-08-01-25-02): the
     // contract names the file directly, and only this path validates the
-    // placeholder vocabulary (REQ-08-01-26-02) — the directory and embedded
+    // placeholder vocabulary (REQ-08-01-25-03) — the directory and embedded
     // paths keep their present behaviour.
     if let Some(declared) = crate::config::kind_contracts(Path::new("."))
         .into_iter()
@@ -402,7 +402,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             explicit.to_string()
         }
-        // arqix:implements REQ-08-01-33-01
+        // arqix:implements REQ-08-01-25-04
         None if contract.as_ref().is_some_and(|c| c.id_template.is_some()) => {
             let template = contract
                 .as_ref()
@@ -480,7 +480,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             PathBuf::from(explicit)
         }
-        // arqix:implements REQ-08-01-33-02
+        // arqix:implements REQ-08-01-25-05
         None if contract.as_ref().is_some_and(|c| c.dir_template.is_some()) => {
             let template = contract
                 .as_ref()

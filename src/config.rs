@@ -437,16 +437,16 @@ pub struct KindContract {
     /// uniqueness scope, and — through its named groups — generation
     /// (`seq`) and consistency checks (`story`).
     pub id_pattern: Option<String>,
-    /// The family's template file (REQ-08-01-26-01), repository-relative;
+    /// The family's template file (REQ-08-01-25-02), repository-relative;
     /// `doc new` instantiates it instead of the template-directory lookup.
     pub template: Option<String>,
     /// The family's required meta keys (REQ-01-01-19-03) — the one contract
     /// the formatter and both checkers validate against.
     pub required_meta: Option<Vec<String>>,
-    /// The family's id derivation (REQ-08-01-33-01): a template such as
+    /// The family's id derivation (REQ-08-01-25-04): a template such as
     /// `{context}-{slug}` filled from `--set` values and the derived slug.
     pub id_template: Option<String>,
-    /// The family's placement derivation (REQ-08-01-33-02): a directory
+    /// The family's placement derivation (REQ-08-01-25-05): a directory
     /// template such as `contexts/{context}/terms`.
     pub dir_template: Option<String>,
 }
