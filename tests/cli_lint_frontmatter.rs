@@ -426,3 +426,57 @@ fn lint_frontmatter_reports_subclass_cycles() {
         "expected ONT-008 for the a<->b cycle: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-38-01
+#[test]
+fn lint_frontmatter_checks_paths_against_the_dir_template() {
+    // FM-010: the checker-side direction of the placement contract — the
+    // parent directory must equal the dir-template rendered from the
+    // document's own properties.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_checks_paths_against_the_dir_template",
+    );
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.term]\ndir = \"contexts\"\ndir-template = \"contexts/{context}/terms\"\n",
+    )
+    .unwrap();
+    let right = repo.join("contexts/tmforum/terms");
+    let wrong = repo.join("contexts/itu/terms");
+    std::fs::create_dir_all(&right).unwrap();
+    std::fs::create_dir_all(&wrong).unwrap();
+    let doc = STORY
+        .replace("lang: de", "lang: en")
+        .replace("properties: {}", "properties:\n  context: tmforum");
+    std::fs::write(right.join("sample.md"), &doc).unwrap();
+
+    // Path and context agree: no finding.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+
+    // The same document under another context is FM-010.
+    std::fs::rename(right.join("sample.md"), wrong.join("sample.md")).unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("FM-010") && stdout.contains("contexts/tmforum/terms"),
+        "expected FM-010 naming the rendered directory: {stdout}"
+    );
+
+    // A document missing the property the template names is FM-010 too.
+    std::fs::write(
+        wrong.join("sample.md"),
+        doc.replace("properties:\n  context: tmforum", "properties: {}"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("FM-010") && stdout.contains("context"),
+        "expected FM-010 naming the unresolved placeholder: {stdout}"
+    );
+}

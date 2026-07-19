@@ -391,8 +391,9 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 return ExitCode::from(2);
             }
             if let Some(holder) = docs.iter().find(|doc| doc.id.as_deref() == Some(explicit)) {
+                // arqix:implements REQ-08-01-39-01
                 let diagnostic = Diagnostic::error(
-                    "TPL-002",
+                    "TPL-004",
                     format!("id {explicit} is already used by {}", holder.file),
                 )
                 .at(&holder.file);
@@ -425,7 +426,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 .find(|doc| doc.id.as_deref() == Some(minted.as_str()))
             {
                 let diagnostic = Diagnostic::error(
-                    "TPL-002",
+                    "TPL-004",
                     format!("id {minted} is already used by {}", holder.file),
                 )
                 .at(&holder.file);

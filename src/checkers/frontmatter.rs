@@ -187,6 +187,9 @@ struct Contract {
     /// (REQ-08-01-35-01): the domain-state axis next to the guarded
     /// lifecycle.
     family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
+    /// Declared placement templates per family (REQ-08-01-38-01): the
+    /// checker-side direction of the kind's dir-template.
+    family_dir_templates: HashMap<String, String>,
 }
 
 impl Contract {
@@ -262,6 +265,7 @@ impl Contract {
             family_meta: HashMap::new(),
             family_patterns: HashMap::new(),
             family_vocab: HashMap::new(),
+            family_dir_templates: HashMap::new(),
         }
     }
 
@@ -328,6 +332,12 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
             contract
                 .family_patterns
                 .insert(family.clone(), pattern.to_string());
+        }
+        // arqix:implements REQ-08-01-38-01
+        if let Some(template) = entry.get("dir-template").and_then(|v| v.as_str()) {
+            contract
+                .family_dir_templates
+                .insert(family.clone(), template.to_string());
         }
         // arqix:implements REQ-08-01-35-01
         if let Some(vocab) = entry.get("vocab").and_then(|v| v.as_table()) {
@@ -843,6 +853,49 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
                 py_repr(section_kind)
             ),
         ));
+    }
+
+    // arqix:implements REQ-08-01-38-01
+    // The placement contract: the parent directory must equal the kind's
+    // dir-template rendered from the document's own properties.
+    if let Some(template) = contract.family_dir_templates.get(&doc.family) {
+        let mut rendered = template.clone();
+        for (key, value) in &doc.properties {
+            rendered = rendered.replace(&format!("{{{key}}}"), value);
+        }
+        if let Some(slug) = doc.scalars.get("slug") {
+            rendered = rendered.replace("{slug}", slug);
+        }
+        rendered = rendered.replace("{kind}", &doc.family);
+        if let Some(open) = rendered.find('{') {
+            let placeholder: String = rendered[open + 1..]
+                .chars()
+                .take_while(|c| *c != '}')
+                .collect();
+            findings.push(Finding::error(
+                path,
+                "FM-010",
+                format!(
+                    "dir-template placeholder '{{{placeholder}}}' has no value in this document"
+                ),
+            ));
+        } else {
+            let parent = Path::new(path)
+                .parent()
+                .map(|p| p.to_string_lossy().replace('\\', "/"))
+                .unwrap_or_default();
+            if parent != rendered {
+                findings.push(Finding::error(
+                    path,
+                    "FM-010",
+                    format!(
+                        "document lies in {}, dir-template renders {}",
+                        py_repr(&parent),
+                        py_repr(&rendered)
+                    ),
+                ));
+            }
+        }
     }
 
     // arqix:implements REQ-08-01-35-01

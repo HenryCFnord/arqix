@@ -43,6 +43,7 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | FM-007 | `properties.section-kind` is outside the effective vocabulary (`[frontmatter].section-kinds` or built-in). |
 | FM-008 | `meta.lifecycle-status` is outside the document nature's guarded vocabulary (ADR-0010). |
 | FM-009 | A `properties` field value is outside the kind's declared vocabulary (`[kinds.<family>.vocab]`). |
+| FM-010 | The parent directory does not equal the kind's `dir-template` rendered from the document's own properties. |
 
 ### FMT — canonical formatting (`lint frontmatter`)
 
@@ -133,8 +134,9 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | Rule | Meaning |
 | --- | --- |
 | TPL-001 | `doc new` refuses to overwrite an existing file. |
-| TPL-002 | A template uses an unknown placeholder, or the requested id is already taken. |
+| TPL-002 | A template uses an unknown placeholder. |
 | TPL-003 | A `--set` key the template does not use. |
+| TPL-004 | The requested id — explicit or minted from an id-template — is already taken. |
 | ASM-001 | An include cycle. |
 | ASM-002 | An include target cannot be read. |
 | ASM-003 | An output collision: two sources generate the same page. |
@@ -144,5 +146,3 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | CFG-001 | `arqix.toml` is not parseable, or a value has the wrong type. |
 | CFG-002 | An unknown configuration key (ignored under schema v1, warning). |
 | POL-001 | A changed file lies outside the declared change scope. |
-
-TPL-002 covers two defects today; splitting the taken-id case into its own rule is open cleanup.
