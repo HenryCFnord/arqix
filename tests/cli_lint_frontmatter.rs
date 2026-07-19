@@ -586,3 +586,75 @@ fn lint_frontmatter_checks_derived_triples_like_declared_ones() {
         "derived-triples is a legal optional key: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-40-06
+// arqix:verifies REQ-08-01-40-07
+#[test]
+fn lint_frontmatter_validates_the_provenance_carriers() {
+    // ADR-0019: the inline dictionary shares the provenance vocabulary
+    // (CLM-003 for the review verdict), and record= must resolve to a claim
+    // document (CLM-004).
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_validates_the_provenance_carriers",
+    );
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.claim]\ndir = \"docs/en/claims\"\n",
+    )
+    .unwrap();
+    let claims = repo.join("docs/en/claims");
+    std::fs::create_dir_all(&claims).unwrap();
+    std::fs::write(
+        claims.join("CLM-0001.md"),
+        "---\nid: CLM-0001\ntitle: A Claim Record\nslug: a-claim-record\niri: arqix:claims/clm-0001\n\nrdf:\n  type:\n    - arqix:classes/claim\n\ntriples: []\n\nproperties:\n  review-status: confirmed\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## A Claim Record\n\nA fixture record.\n",
+    )
+    .unwrap();
+    let class_dir = repo.join("docs/ontology/classes");
+    std::fs::create_dir_all(&class_dir).unwrap();
+    std::fs::write(
+        class_dir.join("claim.md"),
+        "---\nid: class-claim\nlabel: claim\niri: arqix:classes/claim\n\nrdf:\n  type:\n    - rdfs:Class\n\nrdfs:\n  sub-class-of:\n    - arqix:classes/claim\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nowl: {}\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## Claim\n\nA fixture class.\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let base = STORY.replace("lang: de", "lang: en");
+    let path = dir.join("US-09-09-09-sample-story.md");
+
+    // Inline provenance keys and a resolving record pass.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 reviewed-by=hcf reviewed=2026-07-19 review-status=confirmed record=CLM-0001 -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+
+    // A verdict outside the vocabulary is CLM-003.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 review-status=maybe -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    assert!(
+        String::from_utf8_lossy(&out.stdout).contains("CLM-003"),
+        "expected CLM-003 for the unknown verdict"
+    );
+
+    // A record that resolves to nothing is CLM-004.
+    std::fs::write(
+        &path,
+        format!("{base}\n<!-- arqix:claim supported-by=arqix:sources/src-0001 record=CLM-9999 -->\nA supported sentence.\n"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("CLM-004") && stdout.contains("CLM-9999"),
+        "expected CLM-004 naming the dangling record: {stdout}"
+    );
+}
