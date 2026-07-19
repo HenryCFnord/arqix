@@ -117,7 +117,7 @@ The remaining two — ontology-ADR scope and lifecycle vocabularies — are refr
 Band 3 then builds the knowledge layers on those decisions, in dependency order:
 
 - **Process catalog and ontology as configuration**: the structural ADR (process profiles, the reserved core vocabulary, entity identity, external vocabularies, versioning properties), vocabulary derivation from the ontology, configurable IRI namespaces, and generalized reference-target resolution (gap G6) — the coupling lint and its persona exemption become configurable here (owner note in the plan's STATUS.md), and R7 lands as the first implementation slice.
-- **Evidence and provenance**: the claim mechanism landed (ADR-0018 — body anchors, fmt-derived `supported-by` edges, declared confidence vocabulary); still open are the coverage report unit, the claims export, and the provenance layer (review records, W3C-PROV orientation — gap G4).
+- **Evidence and provenance**: the claim mechanism landed (ADR-0018 — body anchors, fmt-derived `supported-by` edges, declared confidence vocabulary); the coverage unit (Q-12) and the claims export landed with it; still open is the provenance layer (review records, W3C-PROV orientation — gap G4).
 - **Lifecycle, crosswalks, queries**: configurable lifecycle vocabularies (gap G7), a crosswalk report unit over the mapping edges, and a declarative query surface over the entity/triple graph with MCP as the transport — deliberately last.
 
 ### External feedback: the PSI corpus (2026-07-17)
