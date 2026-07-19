@@ -1,6 +1,6 @@
 [package]
 name = "arqix"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2024"
 authors = ["Hendrik Oppenberg (HenryCFnord)"]
 description = "A Rust CLI for structured technical documentation and Architecture-as-Code workflows"

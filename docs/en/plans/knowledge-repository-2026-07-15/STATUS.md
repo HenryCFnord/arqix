@@ -25,7 +25,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] R5 — checker-internal-dedup (refactor slice 5): the byte-identical checker helpers (Finding, py_repr family, IO walkers) hoisted into `src/checkers/shared.rs`, both date validations consolidated into `src/date.rs` side by side (semantics deliberately unmerged); the trace engine's divergent `py_repr` untouched.
 - [x] R6 — required-meta-one-source (refactor slice 6): REQ-META-001 resolves the effective `[kinds.req].required-meta` contract (REQ-01-01-19-03, which the frontmatter checker and formatter already honoured) instead of the hardcoded six-key const — validation and configuration can no longer disagree.
 - [ ] R7 — frontmatter-vocab-config (refactor slice 7; may slip past the release).
-- [ ] Release v0.2.0 (RELEASING.md; the owner tags and publishes).
+- [x] Release v0.2.0 — tagged and published by the owner 2026-07-16; band 1 closes, band 2 (the owner decision gate D1-D4) is next.
 
 ## Band 2 — decision gate (owner)
 

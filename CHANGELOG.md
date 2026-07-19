@@ -4,6 +4,10 @@ All notable changes to arqix are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning follows the policy in [RELEASING.md](RELEASING.md).
 Breaking changes carry a **Migration** note in their entry.
 
+## [0.3.0] — unreleased
+
+Nothing yet.
+
 ## [0.2.0] — 2026-07-16
 
 ### Added
