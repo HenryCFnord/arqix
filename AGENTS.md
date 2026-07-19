@@ -318,6 +318,10 @@ Keep documentation concise, practical, and aligned with actual behavior.
 Markdown follows the markdownlint rule set configured in `.markdownlint.jsonc` plus two project conventions: write one sentence per line (never wrap a sentence for column width, never put two sentences on one line; separate paragraphs with a blank line), and place any `<!-- arqix:… -->` marker or directive on its own line directly above the block it annotates.
 The full rules and rationale are in `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2` on touched Markdown.
 
+Corpus documents — ADRs, arc42 chapters, ontology, requirements, stories — describe the thing itself: the forces, the decision, its effect, stated so they stay true without the reader knowing who decided what and when.
+Do not paraphrase a problem through its history: decision attribution, dates as narrative, and plan-package codenames (slice, band, or decision labels) do not belong in corpus documents.
+Process history lives where it is the content: the plan packages under `docs/en/plans/` and the roadmap.
+
 ## Commits
 
 Make focused commits.

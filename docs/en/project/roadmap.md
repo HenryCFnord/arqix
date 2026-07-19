@@ -99,25 +99,35 @@ The full plan lives in `docs/en/plans/knowledge-repository-2026-07-15/` (IDEA, P
 1. [x] **K0 — kind-declared directory** (gap G2): `doc new` creates in the declared `[kinds.<family>].dir`, one source with validation (US-08-01-25, PR #90).
 2. [x] **K1 — declared kind templates** (gap G1): `[kinds.<family>].template` names the template file, and the placeholder vocabulary is validated — an unknown placeholder is a TPL-002 finding, never a silent literal (US-08-01-26, PR #92).
 3. [x] **K2 — explicit target directory** (gap G3): `--dir` on `doc new` and the creation aliases, containment-guarded (US-08-01-27, PR #93).
-4. [ ] **K3 — source-record kind** (gap G5): a `source` document kind for URL-plus-local-copy provenance (uri, access date, local-copy path, sha-256, licence, anchor).
-5. [ ] **K4 — normative-statement export** (P5): the requirements checker's EARS/RFC-2119 sentence classification exported as data — a projection, no new parsing.
-6. [ ] **R5 — checker-internal dedup** (refactor slice 5): hoist byte-identical checker helpers, consolidate date validation into `src/date.rs`.
-7. [ ] **R6 — required-meta one source** (refactor slice 6): REQ-META-001 resolves the effective `[kinds.<family>].required-meta` contract instead of a hardcoded const — the program's one high-value correctness item.
+4. [x] **K3 — source-record kind** (gap G5): a `source` document kind for URL-plus-local-copy provenance (uri, access date, local-copy path, sha-256, licence, anchor) with the SRC rule family in `lint frontmatter` (PR #96).
+5. [x] **K4 — normative-statement export** (P5): the requirements checker's EARS/RFC-2119 sentence classification exported as data — a projection, no new parsing (PR #97).
+6. [x] **R5 — checker-internal dedup** (refactor slice 5): hoist byte-identical checker helpers, consolidate date validation into `src/date.rs` (PR #102).
+7. [x] **R6 — required-meta one source** (refactor slice 6): REQ-META-001 resolves the effective `[kinds.<family>].required-meta` contract instead of a hardcoded const — the program's one high-value correctness item (PR #103).
 8. [ ] **R7 — frontmatter-vocab config** (refactor slice 7): `[frontmatter] section-kinds` and `allowed-external-types` become configuration with byte-identical defaults; slipped past the release as planned — sequenced after the band-3 ontology-as-config ADR, which decides what is derived rather than configured.
 9. [x] **Release v0.2.0**: RELEASING.md steps, CHANGELOG stamped, tagged and published by the owner 2026-07-16.
 
 Landed alongside band 1: the story-workflow coupling lint (US-WF-001/US-PER-001 with the consolidation-persona exemption as corpus data, PR #94) — the numbering scheme is now machine-enforced.
 
-## Beyond 0.2.0
+## Beyond 0.2.0 — toward 0.3.0
 
-Band 2 of the knowledge-repository plan is a decision gate, not code: the owner settles the deferred questions (ontology-ADR scope, lifecycle vocabularies, the splitter-contract close-out, evidence granularity) before band 3 starts.
+Band 2 of the knowledge-repository plan is a decision gate, not code: the owner settles the deferred questions before band 3 starts.
+Two are decided (2026-07-17): the splitter-contract close-out (PR #87 closed, the four-contract analysis rewritten into arc42 chapter 8, consolidation deliberately unplanned) and evidence granularity (statement-level anchors with sparse opt-in claims; paragraph- and section-level anchors at any heading depth are the expected common case).
+The remaining two — ontology-ADR scope and lifecycle vocabularies — are reframed by the owner into one design question: arqix as a catalog of configurable processes whose hardwired rules act as switches and gates, over a layered ontology — a reserved core vocabulary, module vocabularies, project extensions — that the checker validates.
 
 Band 3 then builds the knowledge layers on those decisions, in dependency order:
 
-- **Ontology as configuration**: the structural ADR (entity identity, external vocabularies, versioning properties), vocabulary derivation from the ontology, configurable IRI namespaces, and generalized mapping-target resolution (gap G6) — the coupling lint and its persona exemption become configurable here (owner note in the plan's STATUS.md).
+- **Process catalog and ontology as configuration**: the structural ADR (process profiles, the reserved core vocabulary, entity identity, external vocabularies, versioning properties), vocabulary derivation from the ontology, configurable IRI namespaces, and generalized reference-target resolution (gap G6) — the coupling lint and its persona exemption become configurable here (owner note in the plan's STATUS.md), and R7 lands as the first implementation slice.
 - **Evidence and provenance**: the evidence/claims model and a W3C-PROV-oriented provenance layer as one design space, then the implementation slices (claim/supportedBy edges, confidence vocabulary, provenance-field validation — gap G4).
 - **Lifecycle, crosswalks, queries**: configurable lifecycle vocabularies (gap G7), a crosswalk report unit over the mapping edges, and a declarative query surface over the entity/triple graph with MCP as the transport — deliberately last.
-- **Splitter consolidation**: one splitter contract now that the oracle constraint is gone (per the band-2 decision on PR #87).
+
+### External feedback: the PSI corpus (2026-07-17)
+
+A second arqix-governed corpus — PSI language, a bounded-context terminology pipeline (source records, per-context upstream terms, canonical cross-context mappings, planned OWL/SKOS/SHACL projections) — filed structured feedback against the 0.2.0 build.
+The full record is the second intake in the plan package (`docs/en/plans/knowledge-repository-2026-07-15/FEEDBACK-2026-07-17-psi.md`); it is the second real-world datapoint for the band-3 ADR and maps onto the plan as follows.
+
+- Decision input for the process/ontology ADR: FR-A1 (validate every frontmatter reference target and fail on dangling edges — gap G6, ranked highest by the user), FR-C1 (project-defined controlled vocabularies — R7 and decision D2), FR-C2 (typed, resolved relation predicates), FR-C3 (bounded contexts as enforced namespaces), FR-A2 (configurable provenance contracts with on-disk digest verification, generalizing the K3 SRC family), FR-E2 (the configured `verify` steps express the whole project gate).
+- Independently shippable 0.3.0 candidates that need no ADR: FR-B1 (placeholder substitution arguments on `doc new`), FR-B2 (kind-declared path and id patterns), FR-B3 (creation-time uniqueness checks), FR-E1 (uniform machine-readable findings across commands), FR-E3 (opt-in one-sentence-per-line `fmt` normalization).
+- Later bands: FR-A3 (configurable catalog projections) alongside crosswalks and queries; FR-D1/FR-D2 (semantic projections, competency-question traceability) after the evidence layer.
 
 Candidate for 0.3.0 (owner idea 2026-07-12): an interactive graph explorer over the trace graph — the corpus as a navigable node-link view with kind/status filters, in the spirit of Obsidian's graph view; likely a self-contained page generated into the published site from the `trace scan` JSON.
 
