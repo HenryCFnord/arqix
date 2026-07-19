@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-12 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 338d6bd, 2026-07-19
+     Snapshot: 78298fb, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How much of the corpus carries evidence claims?
