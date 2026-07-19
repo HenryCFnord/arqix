@@ -337,10 +337,6 @@ fn lint_frontmatter_checks_edges_against_domain_and_range() {
             .replace("class-thing", "class-item")
             .replace("label: thing", "label: item")
             .replace("iri: arqix:classes/thing", "iri: arqix:classes/item")
-            .replace(
-                "sub-class-of:\n    - arqix:classes/thing",
-                "sub-class-of:\n    - arqix:classes/thing",
-            )
             .replace("## Thing", "## Item"),
     )
     .unwrap();

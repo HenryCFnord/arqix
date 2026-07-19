@@ -1160,6 +1160,98 @@ fn load_docs(contract: &Contract) -> Vec<Doc> {
     docs
 }
 
+/// The reflexive-transitive sub-class-of closure of one class.
+fn class_closure(start: &str, subclass: &HashMap<String, Vec<String>>) -> HashSet<String> {
+    let mut seen: HashSet<String> = HashSet::new();
+    let mut stack = vec![start.to_string()];
+    while let Some(class) = stack.pop() {
+        if !seen.insert(class.clone()) {
+            continue;
+        }
+        if let Some(parents) = subclass.get(&class) {
+            stack.extend(parents.iter().cloned());
+        }
+    }
+    seen
+}
+
+/// Whether a class reaches itself through sub-class-of edges other than its
+/// own root self-reference (REQ-08-01-36-02).
+fn in_subclass_cycle(start: &str, subclass: &HashMap<String, Vec<String>>) -> bool {
+    let mut seen: HashSet<String> = HashSet::new();
+    let mut stack: Vec<String> = subclass
+        .get(start)
+        .map(|parents| parents.iter().filter(|p| *p != start).cloned().collect())
+        .unwrap_or_default();
+    while let Some(class) = stack.pop() {
+        if class == start {
+            return true;
+        }
+        if !seen.insert(class.clone()) {
+            continue;
+        }
+        if let Some(parents) = subclass.get(&class) {
+            stack.extend(parents.iter().filter(|p| *p != &class).cloned());
+        }
+    }
+    false
+}
+
+// arqix:implements REQ-08-01-36-01
+/// ONT-007: a triple whose predicate declares a domain or range must keep
+/// its subject and every resolvable object inside the declared classes,
+/// subclass closure included; declaring opts the property in.
+fn check_graph_contract(
+    doc: &Doc,
+    subclass: &HashMap<String, Vec<String>>,
+    domains: &HashMap<String, Vec<String>>,
+    ranges: &HashMap<String, Vec<String>>,
+    types_by_iri: &HashMap<String, Vec<String>>,
+    findings: &mut Vec<Finding>,
+) {
+    let satisfies = |types: &[String], declared: &[String]| {
+        types.iter().any(|t| {
+            class_closure(t, subclass)
+                .iter()
+                .any(|c| declared.contains(c))
+        })
+    };
+    for (predicate, objects) in &doc.triples {
+        if let Some(domain) = domains.get(predicate)
+            && !doc.rdf_types.is_empty()
+            && !satisfies(&doc.rdf_types, domain)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "ONT-007",
+                format!(
+                    "triple predicate {predicate}: subject types {} lie outside the declared domain {}",
+                    py_list_repr(&doc.rdf_types),
+                    py_list_repr(domain)
+                ),
+            ));
+        }
+        if let Some(range) = ranges.get(predicate) {
+            for object in objects {
+                if let Some(object_types) = types_by_iri.get(object)
+                    && !object_types.is_empty()
+                    && !satisfies(object_types, range)
+                {
+                    findings.push(Finding::error(
+                        &doc.path,
+                        "ONT-007",
+                        format!(
+                            "triple {predicate} object {object}: types {} lie outside the declared range {}",
+                            py_list_repr(object_types),
+                            py_list_repr(range)
+                        ),
+                    ));
+                }
+            }
+        }
+    }
+}
+
 fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding> {
     let mut findings = Vec::new();
     let docs = load_docs(contract);
@@ -1192,6 +1284,48 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         all_iris,
     };
 
+    // arqix:implements REQ-08-01-36-01
+    // arqix:implements REQ-08-01-36-02
+    // The graph contract (ONT-007/ONT-008): declared domains and ranges,
+    // and the sub-class-of hierarchy, validated over every document.
+    let mut subclass: HashMap<String, Vec<String>> = HashMap::new();
+    let mut domains: HashMap<String, Vec<String>> = HashMap::new();
+    let mut ranges: HashMap<String, Vec<String>> = HashMap::new();
+    let mut types_by_iri: HashMap<String, Vec<String>> = HashMap::new();
+    for doc in &docs {
+        if let Some(iri) = doc.scalars.get("iri") {
+            types_by_iri.insert(iri.clone(), doc.rdf_types.clone());
+            if doc.family == "ont-class"
+                && let Some(parents) = doc.rdfs.get("sub-class-of")
+            {
+                subclass.insert(iri.clone(), parents.clone());
+            }
+            if doc.family == "ont-property" {
+                if let Some(domain) = doc.rdfs.get("domain") {
+                    domains.insert(iri.clone(), domain.clone());
+                }
+                if let Some(range) = doc.rdfs.get("range") {
+                    ranges.insert(iri.clone(), range.clone());
+                }
+            }
+        }
+    }
+    for doc in &docs {
+        if doc.family != "ont-class" || !doc.fm_ok {
+            continue;
+        }
+        let Some(iri) = doc.scalars.get("iri") else {
+            continue;
+        };
+        if in_subclass_cycle(iri, &subclass) {
+            findings.push(Finding::error(
+                &doc.path,
+                "ONT-008",
+                format!("sub-class-of cycle through {iri}"),
+            ));
+        }
+    }
+
     let roots = crate::config::roots(Path::new("."));
     let mut seen_ids: HashMap<String, String> = HashMap::new();
     let mut seen_iris: HashMap<String, String> = HashMap::new();
@@ -1202,6 +1336,14 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         }
         check_frontmatter(doc, contract, &mut findings);
         check_vocabulary(doc, &vocab, &mut findings, allow_undefined_inverse);
+        check_graph_contract(
+            doc,
+            &subclass,
+            &domains,
+            &ranges,
+            &types_by_iri,
+            &mut findings,
+        );
         if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
             check_source(doc, &roots, &mut findings);
         }
