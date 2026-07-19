@@ -604,7 +604,7 @@ fn lines_of_code_counts_tracked_files_only() {
     );
 }
 
-// arqix:verifies REQ-08-01-37-01
+// arqix:verifies REQ-08-01-28-05
 #[test]
 fn report_snapshot_renders_the_source_catalog() {
     // FR-A3: one deterministic row per source document, provenance columns

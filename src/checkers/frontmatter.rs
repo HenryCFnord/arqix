@@ -1040,7 +1040,7 @@ fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
         }
     }
 
-    // arqix:implements REQ-08-01-34-01
+    // arqix:implements REQ-08-01-28-04
     // The digest pins what was read (SRC-006): with a clean path shape
     // (SRC-005) and a well-formed digest (SRC-004), the copy must exist and
     // its bytes must hash to the recorded value — one cause, one finding.

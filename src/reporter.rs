@@ -290,7 +290,7 @@ const UNITS: [(&str, Unit); 11] = [
     ("evidence-coverage.md", unit_evidence_coverage),
 ];
 
-// arqix:implements REQ-08-01-37-01
+// arqix:implements REQ-08-01-28-05
 /// Q-11: one deterministic row per source document, provenance columns
 /// projected from the frontmatter (never hand-edited).
 fn unit_source_catalog(

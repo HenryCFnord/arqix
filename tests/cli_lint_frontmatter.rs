@@ -215,7 +215,7 @@ fn lint_frontmatter_reports_dangling_triple_objects() {
     common::assert_success(&out);
 }
 
-// arqix:verifies REQ-08-01-34-01
+// arqix:verifies REQ-08-01-28-04
 #[test]
 fn lint_frontmatter_verifies_the_local_copy_digest() {
     // FR-A2: a well-formed local-copy/sha256 pair is checked against the
