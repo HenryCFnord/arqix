@@ -88,3 +88,79 @@ fn lint_frontmatter_reports_contract_violations_as_json() {
     assert_eq!(report["summary"]["errors"], 1, "{report}");
     assert_eq!(report["summary"]["warnings"], 0, "{report}");
 }
+
+// arqix:verifies REQ-08-01-29-01
+#[test]
+fn lint_frontmatter_resolves_the_configured_section_kinds() {
+    // Vocabulary binding is configuration (ADR-0017): FM-007 gates against
+    // [frontmatter].section-kinds when the corpus configures it.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_resolves_the_configured_section_kinds",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[frontmatter]\nsection-kinds = [\"term-page\"]\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/en/notes");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY
+        .replace("lang: de", "lang: en")
+        .replace("properties: {}", "properties:\n  section-kind: term-page");
+    std::fs::write(dir.join("sample.md"), &doc).unwrap();
+
+    // The configured kind passes.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+
+    // A built-in kind outside the configured vocabulary is now a finding.
+    std::fs::write(
+        dir.join("sample.md"),
+        doc.replace("section-kind: term-page", "section-kind: arc42-chapter"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("FM-007") && stdout.contains("arc42-chapter"),
+        "expected FM-007 against the unlisted kind: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-08-01-29-02
+#[test]
+fn lint_frontmatter_resolves_the_configured_external_types() {
+    // Vocabulary binding is configuration (ADR-0017): ONT-002 accepts a
+    // non-arqix rdf.type only from [frontmatter].allowed-external-types.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_resolves_the_configured_external_types",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[frontmatter]\nallowed-external-types = [\"skos:Concept\"]\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/en/notes");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY
+        .replace("lang: de", "lang: en")
+        .replace("rdfs:Class", "skos:Concept");
+    std::fs::write(dir.join("sample.md"), &doc).unwrap();
+
+    // The configured external type passes.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+
+    // A built-in type outside the configured vocabulary is now a finding.
+    std::fs::write(dir.join("sample.md"), doc.replace("skos:Concept", "rdfs:Class")).unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-002") && stdout.contains("rdfs:Class"),
+        "expected ONT-002 against the unlisted type: {stdout}"
+    );
+}
