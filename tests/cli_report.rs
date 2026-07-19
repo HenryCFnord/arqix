@@ -604,7 +604,7 @@ fn lines_of_code_counts_tracked_files_only() {
     );
 }
 
-// arqix:verifies REQ-08-01-37-01
+// arqix:verifies REQ-08-01-28-05
 #[test]
 fn report_snapshot_renders_the_source_catalog() {
     // FR-A3: one deterministic row per source document, provenance columns
@@ -631,8 +631,8 @@ fn report_snapshot_renders_the_source_catalog() {
     );
 }
 
-// arqix:verifies REQ-08-01-41-01
-// arqix:verifies REQ-08-01-41-02
+// arqix:verifies REQ-08-01-40-04
+// arqix:verifies REQ-08-01-40-05
 #[test]
 fn report_claims_exports_markers_and_counts_coverage() {
     // ADR-0018 data side: the claims projection and the evidence numbers.
@@ -685,5 +685,62 @@ fn report_claims_exports_markers_and_counts_coverage() {
     assert!(
         out.status.code() != Some(0),
         "expected the stale claims export to fail the check"
+    );
+}
+
+// arqix:verifies REQ-08-01-40-08
+#[test]
+fn report_claims_projects_computed_provenance_on_demand() {
+    // ADR-0019 carrier one: history-derived columns on demand, never in the
+    // gated export.
+    let repo = scratch_copy(
+        "minimal",
+        "report_claims_projects_computed_provenance_on_demand",
+    );
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("US-09-09-09-sample-story.md"),
+        "---\nid: US-09-09-09\ntitle: Sample Story\nslug: sample-story\niri: arqix:user-stories/us-09-09-09\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  generated: false\n---\n\n## Sample Story\n\n<!-- arqix:claim supported-by=arqix:sources/src-0001 -->\nA supported sentence.\n",
+    )
+    .unwrap();
+
+    // Without history the plain projection prints unchanged.
+    let out = run_arqix_in(&repo, &["report", "claims", "--provenance"]);
+    assert_success(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.starts_with("file,supported_by,confidence,anchor\n"),
+        "expected the plain header without history: {stdout}"
+    );
+
+    // With history the computed columns appear.
+    for args in [
+        vec!["init", "-q"],
+        vec!["config", "user.email", "prov@example.org"],
+        vec!["config", "user.name", "Prov Tester"],
+        vec!["add", "."],
+        vec![
+            "commit",
+            "-q",
+            "-m",
+            "add corpus\n\nCo-Authored-By: Claude <noreply@anthropic.com>",
+        ],
+    ] {
+        let out = std::process::Command::new("git")
+            .args(&args)
+            .current_dir(&repo)
+            .output()
+            .expect("git runs");
+        assert!(out.status.success(), "git {args:?} failed");
+    }
+    let out = run_arqix_in(&repo, &["report", "claims", "--provenance"]);
+    assert_success(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.starts_with("file,supported_by,confidence,anchor,author,date,commit,agent\n")
+            && stdout.contains("Prov Tester")
+            && stdout.contains(",yes"),
+        "expected computed provenance columns: {stdout}"
     );
 }

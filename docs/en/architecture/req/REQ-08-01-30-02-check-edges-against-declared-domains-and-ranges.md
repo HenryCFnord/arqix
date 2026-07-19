@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-36-01
+id: REQ-08-01-30-02
 title: Check Edges Against Declared Domains and Ranges
 slug: check-edges-against-declared-domains-and-ranges
-iri: arqix:requirements/req-08-01-36-01
+iri: arqix:requirements/req-08-01-30-02
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-30
       - arqix:user-stories/us-08-01-36
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix lint frontmatter` checks a declared triple whose predicate declares 
 ### Notes
 
 Rule ONT-007; declaring `rdfs.domain`/`rdfs.range` opts a property into the contract.
-Derived from US-08-01-36.
+Derived from US-08-01-30.

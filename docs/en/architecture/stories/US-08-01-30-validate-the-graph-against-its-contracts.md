@@ -1,7 +1,7 @@
 ---
 id: US-08-01-30
-title: Resolve Every Declared Triple Target
-slug: resolve-every-declared-triple-target
+title: Validate the Graph Against Its Contracts
+slug: validate-the-graph-against-its-contracts
 iri: arqix:user-stories/us-08-01-30
 
 rdf:
@@ -14,6 +14,9 @@ triples:
   - predicate: arqix:properties/has-requirement
     object:
       - arqix:requirements/req-08-01-30-01
+      - arqix:requirements/req-08-01-30-02
+      - arqix:requirements/req-08-01-30-03
+      - arqix:requirements/req-08-01-30-04
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -33,15 +36,18 @@ meta:
   generated: false
 ---
 
-## Resolve Every Declared Triple Target
+## Validate the Graph Against Its Contracts
 
-As a knowledge engineer, I want every declared triple object resolved against the corpus, so that a reference to a document that does not exist is a finding instead of a silently green gate.
+As a knowledge engineer, I want every declared edge and placement checked against the ontology's contracts, so that the graph is validated data instead of decoration.
 
 ### Acceptance Criteria
 
 - [ ] A triple whose object is an `arqix:` IRI carried by no corpus document is a `lint frontmatter` finding naming the IRI and the referencing document.
 - [ ] Objects outside the `arqix:` namespace are not resolved; external vocabularies stay usable as opaque references.
 - [ ] Body reference markers keep their own resolution (LNT-003); this check covers the frontmatter graph.
+- [ ] A triple whose predicate declares `rdfs.domain` or `rdfs.range` is an ONT-007 finding when the subject's or the resolvable object's types lie outside the declared classes, subclass closure included.
+- [ ] A `sub-class-of` cycle longer than a class's own root self-reference is an ONT-008 finding.
+- [ ] With a declared `dir-template`, a document whose parent directory does not equal the template rendered from its own properties is an FM-010 finding.
 
 ### Notes
 

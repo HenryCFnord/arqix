@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-33-02
+id: REQ-08-01-25-05
 title: Place Documents by the Declared Dir Template
 slug: place-documents-by-the-declared-dir-template
-iri: arqix:requirements/req-08-01-33-02
+iri: arqix:requirements/req-08-01-25-05
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-25
       - arqix:user-stories/us-08-01-33
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix doc new` runs without an explicit `--dir` and the kind declares a `d
 ### Notes
 
 Placement precedence stays: explicit `--dir`, then `dir-template`, then the declared `dir`, then the default.
-Derived from US-08-01-33.
+Derived from US-08-01-25.

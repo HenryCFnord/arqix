@@ -1,7 +1,7 @@
 ---
 id: US-08-01-28
-title: Capture Sources as First-Class Records
-slug: capture-sources-as-first-class-records
+title: Capture and Account for Sources
+slug: capture-and-account-for-sources
 iri: arqix:user-stories/us-08-01-28
 
 rdf:
@@ -16,6 +16,8 @@ triples:
       - arqix:requirements/req-08-01-28-01
       - arqix:requirements/req-08-01-28-02
       - arqix:requirements/req-08-01-28-03
+      - arqix:requirements/req-08-01-28-04
+      - arqix:requirements/req-08-01-28-05
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -29,15 +31,15 @@ meta:
   lifecycle-status: draft
   owner: hcf
   created: 2026-07-16
-  updated: 2026-07-16
+  updated: 2026-07-19
   lang: en
   translation-of:
   generated: false
 ---
 
-## Capture Sources as First-Class Records
+## Capture and Account for Sources
 
-As a coding agent, I want external sources captured as first-class source documents with URL-plus-local-copy provenance, so that every claim the corpus derives from an external source stays verifiable against what was actually read.
+As a knowledge engineer, I want external sources captured as verified first-class records and accounted for in one catalog, so that every claim the corpus derives from a source stays checkable against what was actually read.
 
 ### Acceptance Criteria
 
@@ -45,6 +47,8 @@ As a coding agent, I want external sources captured as first-class source docume
 - [ ] A source record carries `uri` and `accessed` in its properties (enforced once the record leaves draft) and, when a copy is held, `local-copy` plus `sha256` as a pair (`licence` and `anchor` optional).
 - [ ] Malformed values — a non-calendar `accessed`, a digest that is not sixty-four lowercase hex characters, a `local-copy` that escapes the repository or lies inside a documentation root — are findings in every lifecycle state.
 - [ ] `arqix doc new source` creates a conforming draft record from the declared `[kinds.source]` contract (directory, template, id-pattern).
+- [ ] A source record whose local copy is missing, or whose bytes do not hash to the recorded `sha256`, is an SRC-006 finding naming the path.
+- [ ] `report snapshot` renders the source catalog: one row per source record, sorted by id, provenance columns from the frontmatter, under the snapshot drift gate.
 
 ### Notes
 

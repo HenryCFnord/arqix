@@ -509,6 +509,90 @@ fn sha256_hex(data: &[u8]) -> String {
 }
 
 #[cfg(test)]
+mod link_rebasing_properties {
+    use super::{normalized_parts, rebased_target};
+    use proptest::prelude::*;
+    use std::path::Path;
+
+    /// The file a target reaches from a directory, as normalized parts;
+    /// None when it escapes the repository root.
+    fn resolved(dir: &str, target: &str) -> Option<Vec<String>> {
+        let file = target.split('#').next().unwrap_or("");
+        let parts = normalized_parts(&Path::new(dir).join(file));
+        if parts.first().is_some_and(|p| p == "..") {
+            None
+        } else {
+            Some(parts)
+        }
+    }
+
+    fn segment() -> impl Strategy<Value = String> {
+        prop::sample::select(vec!["a", "b", "docs", "en", "img", "x1"]).prop_map(str::to_string)
+    }
+
+    fn dir() -> impl Strategy<Value = String> {
+        prop::collection::vec(segment(), 0..4).prop_map(|parts| parts.join("/"))
+    }
+
+    fn target() -> impl Strategy<Value = String> {
+        (
+            0usize..4,
+            prop::collection::vec(segment(), 0..3),
+            prop::sample::select(vec!["page.md", "view.svg", "readme.md"]),
+            prop::option::of(prop::sample::select(vec!["top", "s-1"])),
+        )
+            .prop_map(|(ups, mids, file, anchor)| {
+                let mut parts: Vec<String> = vec!["..".to_string(); ups];
+                parts.extend(mids);
+                parts.push(file.to_string());
+                let path = parts.join("/");
+                match anchor {
+                    Some(anchor) => format!("{path}#{anchor}"),
+                    None => path,
+                }
+            })
+    }
+
+    proptest! {
+        // arqix:no-requirement
+        #[test]
+        fn rebased_links_reach_the_same_file(from in dir(), root in dir(), target in target()) {
+            // Rule 1 (order does not matter): assembling moves a line from
+            // its unit into a page, and the rebased link must reach exactly
+            // the file the original link reached — for every in-repository
+            // link, not only the authored examples.
+            let original = resolved(&from, &target);
+            prop_assume!(original.is_some());
+            let rebased = rebased_target(&target, Path::new(&from), Path::new(&root));
+            let reresolved = resolved(&root, &rebased);
+            prop_assert_eq!(
+                reresolved,
+                original,
+                "target {} moved {} -> {} became {}",
+                &target,
+                &from,
+                &root,
+                &rebased
+            );
+            let anchor = target.split_once('#').map(|(_, a)| a.to_string());
+            let rebased_anchor = rebased.split_once('#').map(|(_, a)| a.to_string());
+            prop_assert_eq!(rebased_anchor, anchor);
+        }
+
+        // arqix:no-requirement
+        #[test]
+        fn external_targets_survive_rebasing_verbatim(from in dir(), root in dir()) {
+            for target in ["#anchor", "/abs/path.md", "https://arqix.dev/x", "mailto:a@b.c", "<raw>"] {
+                prop_assert_eq!(
+                    rebased_target(target, Path::new(&from), Path::new(&root)),
+                    target.to_string()
+                );
+            }
+        }
+    }
+}
+
+#[cfg(test)]
 mod tests {
     use super::sha256_hex;
 

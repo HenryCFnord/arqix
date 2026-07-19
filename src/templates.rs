@@ -113,9 +113,9 @@ fn template(
     sets: &[(String, String)],
     format: OutputFormat,
 ) -> Result<String, ExitCode> {
-    // A declared [kinds.<family>].template wins (REQ-08-01-26-01): the
+    // A declared [kinds.<family>].template wins (REQ-08-01-25-02): the
     // contract names the file directly, and only this path validates the
-    // placeholder vocabulary (REQ-08-01-26-02) — the directory and embedded
+    // placeholder vocabulary (REQ-08-01-25-03) — the directory and embedded
     // paths keep their present behaviour.
     if let Some(declared) = crate::config::kind_contracts(Path::new("."))
         .into_iter()
@@ -167,7 +167,7 @@ fn template(
     Ok(substitute(&text, id, kind, namespace, title, slug))
 }
 
-// arqix:implements REQ-08-01-32-01
+// arqix:implements REQ-08-01-27-02
 /// Fill the template's own placeholders from `--set key=value` pairs. A key
 /// the template does not use is a TPL-003 finding — a typo never vanishes
 /// silently.
@@ -349,7 +349,7 @@ pub struct NewOptions<'a> {
     /// wins over the declared kind dir and the default placement.
     pub dir: Option<&'a str>,
     pub dry_run: bool,
-    /// Raw `--set key=value` pairs (REQ-08-01-32-01); each fills the
+    /// Raw `--set key=value` pairs (REQ-08-01-27-02); each fills the
     /// template's own `{key}` placeholder.
     pub sets: &'a [String],
 }
@@ -391,7 +391,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 return ExitCode::from(2);
             }
             if let Some(holder) = docs.iter().find(|doc| doc.id.as_deref() == Some(explicit)) {
-                // arqix:implements REQ-08-01-39-01
+                // arqix:implements REQ-08-01-27-03
                 let diagnostic = Diagnostic::error(
                     "TPL-004",
                     format!("id {explicit} is already used by {}", holder.file),
@@ -402,7 +402,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             explicit.to_string()
         }
-        // arqix:implements REQ-08-01-33-01
+        // arqix:implements REQ-08-01-25-04
         None if contract.as_ref().is_some_and(|c| c.id_template.is_some()) => {
             let template = contract
                 .as_ref()
@@ -480,7 +480,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             PathBuf::from(explicit)
         }
-        // arqix:implements REQ-08-01-33-02
+        // arqix:implements REQ-08-01-25-05
         None if contract.as_ref().is_some_and(|c| c.dir_template.is_some()) => {
             let template = contract
                 .as_ref()

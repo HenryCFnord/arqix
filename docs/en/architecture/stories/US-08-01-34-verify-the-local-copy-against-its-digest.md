@@ -13,7 +13,7 @@ triples:
     object: arqix:personas/per-08
   - predicate: arqix:properties/has-requirement
     object:
-      - arqix:requirements/req-08-01-34-01
+      - arqix:requirements/req-08-01-28-04
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -24,7 +24,7 @@ properties:
 external-references: []
 
 meta:
-  lifecycle-status: draft
+  lifecycle-status: retired
   owner: hcf
   created: 2026-07-19
   updated: 2026-07-19

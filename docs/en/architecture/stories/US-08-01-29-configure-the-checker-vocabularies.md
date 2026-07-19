@@ -1,7 +1,7 @@
 ---
 id: US-08-01-29
-title: Configure the Frontmatter Vocabularies
-slug: configure-the-frontmatter-vocabularies
+title: Configure the Checker Vocabularies
+slug: configure-the-checker-vocabularies
 iri: arqix:user-stories/us-08-01-29
 
 rdf:
@@ -15,6 +15,7 @@ triples:
     object:
       - arqix:requirements/req-08-01-29-01
       - arqix:requirements/req-08-01-29-02
+      - arqix:requirements/req-08-01-29-03
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -34,15 +35,16 @@ meta:
   generated: false
 ---
 
-## Configure the Frontmatter Vocabularies
+## Configure the Checker Vocabularies
 
-As a repository owner, I want the section-kind vocabulary and the allowed external rdf types to be configuration, so that a project ontology can extend them without forking the checker.
+As a repository owner, I want the checker's vocabularies declared as configuration, so that a project ontology can extend them without forking the checker.
 
 ### Acceptance Criteria
 
 - [ ] `[frontmatter].section-kinds` in `arqix.toml` replaces the effective vocabulary behind FM-007: a configured value passes, a value outside the configured list is a finding.
 - [ ] `[frontmatter].allowed-external-types` replaces the effective vocabulary behind ONT-002 for non-arqix `rdf.type` entries.
 - [ ] Without configuration both checks gate against the built-in vocabularies, unchanged.
+- [ ] `[kinds.<family>.vocab]` maps a `properties` field name to its allowed values; a value outside the declared vocabulary is an FM-009 finding naming the field, the value, and the vocabulary.
 
 ### Notes
 

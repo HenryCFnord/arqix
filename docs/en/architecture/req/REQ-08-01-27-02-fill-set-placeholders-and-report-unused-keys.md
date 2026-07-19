@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-32-01
+id: REQ-08-01-27-02
 title: Fill Set Placeholders and Report Unused Keys
 slug: fill-set-placeholders-and-report-unused-keys
-iri: arqix:requirements/req-08-01-32-01
+iri: arqix:requirements/req-08-01-27-02
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-27
       - arqix:user-stories/us-08-01-32
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix doc new` runs with `--set key=value` arguments, arqix SHALL fill eac
 ### Notes
 
 Rule TPL-003 for the unused key; TPL-002 keeps covering placeholders nothing fills.
-Derived from US-08-01-32.
+Derived from US-08-01-27.

@@ -185,10 +185,10 @@ struct Contract {
     family_meta: HashMap<String, Vec<String>>,
     family_patterns: HashMap<String, String>,
     /// Declared vocabularies for named `properties` fields per family
-    /// (REQ-08-01-35-01): the domain-state axis next to the guarded
+    /// (REQ-08-01-29-03): the domain-state axis next to the guarded
     /// lifecycle.
     family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
-    /// Declared placement templates per family (REQ-08-01-38-01): the
+    /// Declared placement templates per family (REQ-08-01-30-04): the
     /// checker-side direction of the kind's dir-template.
     family_dir_templates: HashMap<String, String>,
 }
@@ -337,13 +337,13 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
                 .family_patterns
                 .insert(family.clone(), pattern.to_string());
         }
-        // arqix:implements REQ-08-01-38-01
+        // arqix:implements REQ-08-01-30-04
         if let Some(template) = entry.get("dir-template").and_then(|v| v.as_str()) {
             contract
                 .family_dir_templates
                 .insert(family.clone(), template.to_string());
         }
-        // arqix:implements REQ-08-01-35-01
+        // arqix:implements REQ-08-01-29-03
         if let Some(vocab) = entry.get("vocab").and_then(|v| v.as_table()) {
             let declared: Vec<(String, Vec<String>)> = vocab
                 .iter()
@@ -861,7 +861,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
         ));
     }
 
-    // arqix:implements REQ-08-01-38-01
+    // arqix:implements REQ-08-01-30-04
     // The placement contract: the parent directory must equal the kind's
     // dir-template rendered from the document's own properties.
     if let Some(template) = contract.family_dir_templates.get(&doc.family) {
@@ -904,7 +904,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
         }
     }
 
-    // arqix:implements REQ-08-01-35-01
+    // arqix:implements REQ-08-01-29-03
     if let Some(declared) = contract.family_vocab.get(&doc.family) {
         for (field, allowed) in declared {
             if let Some(value) = doc.properties.get(field)
@@ -1040,7 +1040,7 @@ fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
         }
     }
 
-    // arqix:implements REQ-08-01-34-01
+    // arqix:implements REQ-08-01-28-04
     // The digest pins what was read (SRC-006): with a clean path shape
     // (SRC-005) and a well-formed digest (SRC-004), the copy must exist and
     // its bytes must hash to the recorded value — one cause, one finding.
@@ -1235,7 +1235,7 @@ fn class_closure(start: &str, subclass: &HashMap<String, Vec<String>>) -> HashSe
 }
 
 /// Whether a class reaches itself through sub-class-of edges other than its
-/// own root self-reference (REQ-08-01-36-02).
+/// own root self-reference (REQ-08-01-30-03).
 fn in_subclass_cycle(start: &str, subclass: &HashMap<String, Vec<String>>) -> bool {
     let mut seen: HashSet<String> = HashSet::new();
     let mut stack: Vec<String> = subclass
@@ -1256,7 +1256,7 @@ fn in_subclass_cycle(start: &str, subclass: &HashMap<String, Vec<String>>) -> bo
     false
 }
 
-// arqix:implements REQ-08-01-36-01
+// arqix:implements REQ-08-01-30-02
 /// ONT-007: a triple whose predicate declares a domain or range must keep
 /// its subject and every resolvable object inside the declared classes,
 /// subclass closure included; declaring opts the property in.
@@ -1314,6 +1314,37 @@ fn check_graph_contract(
 /// The built-in confidence vocabulary for claim markers.
 const CLAIM_CONFIDENCE: [&str; 3] = ["high", "inferred", "estimated"];
 
+/// The built-in review vocabulary of the provenance layers (ADR-0019).
+const CLAIM_REVIEW: [&str; 3] = ["unreviewed", "confirmed", "rejected"];
+
+/// The claim marker's attribute vocabulary: the anchor attributes plus the
+/// shared provenance keys every carrier understands (ADR-0019).
+const CLAIM_KEYS: [&str; 11] = [
+    "supported-by",
+    "confidence",
+    "anchor",
+    "record",
+    "agent",
+    "activity",
+    "reviewed-by",
+    "reviewed",
+    "review-status",
+    "representation",
+    "representation-sha256",
+];
+
+// arqix:implements REQ-08-01-40-06
+/// The effective review vocabulary: the configured
+/// `[frontmatter].claim-review-status`, or the built-in default.
+fn effective_claim_review() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .claim_review
+            .unwrap_or_else(|| CLAIM_REVIEW.iter().map(|s| s.to_string()).collect())
+    })
+}
+
 // arqix:implements REQ-08-01-40-01
 /// The effective claim-confidence vocabulary: the configured
 /// `[frontmatter].claim-confidence`, or the built-in default.
@@ -1331,7 +1362,7 @@ fn effective_claim_confidence() -> &'static [String] {
 /// only known keys, and keeps its confidence inside the effective
 /// vocabulary. The marker grammar is validated here; the edge itself is the
 /// formatter's derived triple (ADR-0018).
-fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
+fn check_claim_markers(doc: &Doc, claim_ids: &HashSet<String>, findings: &mut Vec<Finding>) {
     let pair_re = Regex::new(r#"^([a-z-]+)=("[^"]*"|[^\s"]+)\s*"#).expect("static regex");
     for line in doc.text.lines() {
         let trimmed = line.trim_start();
@@ -1371,7 +1402,7 @@ fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
             continue;
         }
         for (key, _) in &keys {
-            if !["supported-by", "confidence", "anchor"].contains(&key.as_str()) {
+            if !CLAIM_KEYS.contains(&key.as_str()) {
                 findings.push(Finding::error(
                     &doc.path,
                     "CLM-001",
@@ -1396,6 +1427,33 @@ fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
                     "claim confidence {} is not in the vocabulary {}",
                     py_repr(confidence),
                     py_list_repr(effective_claim_confidence())
+                ),
+            ));
+        }
+        // arqix:implements REQ-08-01-40-06
+        if let Some((_, verdict)) = keys.iter().find(|(k, _)| k == "review-status")
+            && !effective_claim_review().iter().any(|v| v == verdict)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-003",
+                format!(
+                    "claim review-status {} is not in the vocabulary {}",
+                    py_repr(verdict),
+                    py_list_repr(effective_claim_review())
+                ),
+            ));
+        }
+        // arqix:implements REQ-08-01-40-07
+        if let Some((_, record)) = keys.iter().find(|(k, _)| k == "record")
+            && !claim_ids.contains(record)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-004",
+                format!(
+                    "claim record {} does not resolve to a claim document",
+                    py_repr(record)
                 ),
             ));
         }
@@ -1434,8 +1492,8 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         all_iris,
     };
 
-    // arqix:implements REQ-08-01-36-01
-    // arqix:implements REQ-08-01-36-02
+    // arqix:implements REQ-08-01-30-02
+    // arqix:implements REQ-08-01-30-03
     // The graph contract (ONT-007/ONT-008): declared domains and ranges,
     // and the sub-class-of hierarchy, validated over every document.
     let mut subclass: HashMap<String, Vec<String>> = HashMap::new();
@@ -1476,6 +1534,14 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         }
     }
 
+    // The claim documents the record= references resolve against
+    // (REQ-08-01-40-07).
+    let claim_ids: HashSet<String> = docs
+        .iter()
+        .filter(|doc| doc.rdf_types.iter().any(|t| t == "arqix:classes/claim"))
+        .filter_map(|doc| doc.scalars.get("id").cloned())
+        .collect();
+
     let roots = crate::config::roots(Path::new("."));
     let mut seen_ids: HashMap<String, String> = HashMap::new();
     let mut seen_iris: HashMap<String, String> = HashMap::new();
@@ -1494,7 +1560,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
             &types_by_iri,
             &mut findings,
         );
-        check_claim_markers(doc, &mut findings);
+        check_claim_markers(doc, &claim_ids, &mut findings);
         if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
             check_source(doc, &roots, &mut findings);
         }

@@ -290,7 +290,7 @@ const UNITS: [(&str, Unit); 11] = [
     ("evidence-coverage.md", unit_evidence_coverage),
 ];
 
-// arqix:implements REQ-08-01-37-01
+// arqix:implements REQ-08-01-28-05
 /// Q-11: one deterministic row per source document, provenance columns
 /// projected from the frontmatter (never hand-edited).
 fn unit_source_catalog(
@@ -391,36 +391,99 @@ fn csv_field(value: &str) -> String {
     }
 }
 
-// arqix:implements REQ-08-01-41-01
-/// The claims projection: one row per claim marker, in file order.
-fn claims_csv() -> String {
-    let mut lines = vec!["file,supported_by,confidence,anchor".to_string()];
+// arqix:implements REQ-08-01-40-04
+/// The claims projection: one row per claim marker, in file order. With
+/// `provenance` the history-computed columns are appended (REQ-08-01-40-08) —
+/// the caller has already established that a repository history exists.
+fn claims_csv(provenance: bool) -> String {
+    let header = if provenance {
+        "file,supported_by,confidence,anchor,author,date,commit,agent"
+    } else {
+        "file,supported_by,confidence,anchor"
+    };
+    let mut lines = vec![header.to_string()];
     for doc in crate::store::documents() {
         let Ok(text) = std::fs::read_to_string(&doc.file) else {
             continue;
         };
         let file = crate::util::to_posix_str(&doc.file);
-        for (target, confidence, anchor) in crate::rewriter::claim_annotations(&text) {
-            lines.push(format!(
+        for (target, confidence, anchor, line_no) in crate::rewriter::claim_annotations(&text) {
+            let mut row = format!(
                 "{},{},{},{}",
                 csv_field(&file),
                 csv_field(&target),
                 csv_field(&confidence),
                 csv_field(&anchor)
-            ));
+            );
+            if provenance {
+                let (author, date, commit, agent) = marker_history(&file, line_no);
+                row = format!(
+                    "{row},{},{},{},{}",
+                    csv_field(&author),
+                    csv_field(&date),
+                    csv_field(&commit),
+                    csv_field(&agent)
+                );
+            }
+            lines.push(row);
         }
     }
     lines.join("\n") + "\n"
 }
 
-// arqix:implements REQ-08-01-41-01
-/// `arqix report claims` — the claim markers as data.
-pub fn claims(_format: OutputFormat) -> ExitCode {
-    print!("{}", claims_csv());
+// arqix:implements REQ-08-01-40-08
+/// The computed provenance floor of one marker line (ADR-0019 carrier one):
+/// author, date, commit, and agent involvement, read from the repository
+/// history on demand. A line the history cannot answer for yields `-`
+/// placeholders — informational surface, never a gate.
+fn marker_history(file: &str, line: usize) -> (String, String, String, String) {
+    let unknown = || ("-".into(), "-".into(), "-".into(), "-".into());
+    let Ok(out) = std::process::Command::new("git")
+        .args([
+            "log",
+            "-1",
+            "-s",
+            &format!("-L{line},{line}:{file}"),
+            "--format=%an%x09%as%x09%h%x09%B",
+        ])
+        .output()
+    else {
+        return unknown();
+    };
+    if !out.status.success() {
+        return unknown();
+    }
+    let text = String::from_utf8_lossy(&out.stdout);
+    let mut parts = text.splitn(4, '\t');
+    let (Some(author), Some(date), Some(commit), Some(body)) =
+        (parts.next(), parts.next(), parts.next(), parts.next())
+    else {
+        return unknown();
+    };
+    let agent = if body.contains("Co-Authored-By:") {
+        "yes"
+    } else {
+        "no"
+    };
+    (
+        author.to_string(),
+        date.to_string(),
+        commit.to_string(),
+        agent.to_string(),
+    )
+}
+
+// arqix:implements REQ-08-01-40-04
+/// `arqix report claims` — the claim markers as data. `--provenance` appends
+/// the history-computed columns when a repository history exists; without one
+/// the plain projection prints unchanged (REQ-08-01-40-08).
+pub fn claims(provenance: bool, _format: OutputFormat) -> ExitCode {
+    let with_history = provenance && std::path::Path::new(".git").exists();
+    print!("{}", claims_csv(with_history));
     ExitCode::SUCCESS
 }
 
-// arqix:implements REQ-08-01-41-02
+// arqix:implements REQ-08-01-40-05
 /// Q-12: the evidence numbers — never a gate (ADR-0018).
 fn unit_evidence_coverage(
     _model: &Model,
@@ -441,7 +504,7 @@ fn unit_evidence_coverage(
         }
         claims += annotations.len();
         documents.insert(doc.file.clone());
-        sources.extend(annotations.into_iter().map(|(t, _, _)| t));
+        sources.extend(annotations.into_iter().map(|(t, _, _, _)| t));
     }
     let mut lines = vec![header(
         "How much of the corpus carries evidence claims?",
@@ -941,11 +1004,13 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
             }
         }
     }
-    // arqix:implements REQ-08-01-41-01
+    // arqix:implements REQ-08-01-40-04
     match std::fs::read_to_string(CLAIMS_PATH) {
         Err(_) => stale.push((CLAIMS_PATH.to_string(), "missing")),
         Ok(text) => {
-            if claims_csv() != text {
+            // The gated export is always the plain projection — the computed
+            // provenance columns never enter a snapshot (ADR-0019).
+            if claims_csv(false) != text {
                 stale.push((CLAIMS_PATH.to_string(), "stale"));
             }
         }

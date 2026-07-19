@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-37-01
+id: REQ-08-01-28-05
 title: Render the Source Catalog Unit
 slug: render-the-source-catalog-unit
-iri: arqix:requirements/req-08-01-37-01
+iri: arqix:requirements/req-08-01-28-05
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-28
       - arqix:user-stories/us-08-01-37
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix report snapshot` runs, arqix SHALL render the source-catalog unit wi
 ### Notes
 
 Question Q-11; the unit joins the snapshot freshness gate like every other unit.
-Derived from US-08-01-37.
+Derived from US-08-01-28.

@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-34-01
+id: REQ-08-01-28-04
 title: Verify Local Copy Bytes Against the Recorded Digest
 slug: verify-local-copy-bytes-against-the-recorded-digest
-iri: arqix:requirements/req-08-01-34-01
+iri: arqix:requirements/req-08-01-28-04
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-28
       - arqix:user-stories/us-08-01-34
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix lint frontmatter` checks a source record carrying a well-formed `loc
 ### Notes
 
 Rule SRC-006; it runs only when SRC-004 and SRC-005 are clean, so every defect has exactly one finding.
-Derived from US-08-01-34.
+Derived from US-08-01-28.

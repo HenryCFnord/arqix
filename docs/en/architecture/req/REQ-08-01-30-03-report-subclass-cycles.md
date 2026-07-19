@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-36-02
+id: REQ-08-01-30-03
 title: Report Subclass Cycles
 slug: report-subclass-cycles
-iri: arqix:requirements/req-08-01-36-02
+iri: arqix:requirements/req-08-01-30-03
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-30
       - arqix:user-stories/us-08-01-36
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix lint frontmatter` runs, arqix SHALL report every `sub-class-of` cycl
 ### Notes
 
 Rule ONT-008; the self-reference stays the hierarchy-root convention.
-Derived from US-08-01-36.
+Derived from US-08-01-30.

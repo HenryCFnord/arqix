@@ -247,6 +247,9 @@ Do not mix unrelated changes into the same task unless explicitly asked.
 
 When implementing stories, work on one story at a time and keep opportunistic refactors out of the change.
 
+A new feature attaches its requirements to the existing story whose goal it serves; a new story is created only for a genuinely new goal.
+One story per feature is the anti-pattern this rule exists to prevent: stories name goals, requirements name behaviours.
+
 ## Testing
 
 For behavioral changes:
