@@ -180,6 +180,9 @@ enum DocCommand {
         /// Report the planned ID and target path without writing
         #[arg(long)]
         dry_run: bool,
+        /// Fill a template placeholder (repeatable): --set key=value
+        #[arg(long = "set", value_name = "KEY=VALUE")]
+        set: Vec<String>,
     },
     /// List documents as a machine-readable catalog
     List {
@@ -246,6 +249,9 @@ enum AliasNewCommand {
         /// Plan the creation without writing the file
         #[arg(long)]
         dry_run: bool,
+        /// Fill a template placeholder (repeatable): --set key=value
+        #[arg(long = "set", value_name = "KEY=VALUE")]
+        set: Vec<String>,
     },
 }
 
@@ -393,11 +399,13 @@ fn main() -> ExitCode {
                 id,
                 dir,
                 dry_run,
+                set,
             } => templates::new_document(
                 &kind,
                 templates::NewOptions {
                     title: title.as_deref(),
                     id: id.as_deref(),
+                    sets: &set,
                     dir: dir.as_deref(),
                     dry_run,
                 },
@@ -489,6 +497,7 @@ fn alias_new(kind: &str, command: AliasNewCommand, format: OutputFormat) -> Exit
         id,
         dir,
         dry_run,
+        set,
     } = command;
     templates::new_document(
         kind,
@@ -497,6 +506,7 @@ fn alias_new(kind: &str, command: AliasNewCommand, format: OutputFormat) -> Exit
             id: id.as_deref(),
             dir: dir.as_deref(),
             dry_run,
+            sets: &set,
         },
         format,
     )

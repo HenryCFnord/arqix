@@ -110,6 +110,7 @@ fn template(
     namespace: &str,
     title: &str,
     slug: &str,
+    sets: &[(String, String)],
     format: OutputFormat,
 ) -> Result<String, ExitCode> {
     // A declared [kinds.<family>].template wins (REQ-08-01-26-01): the
@@ -130,6 +131,7 @@ fn template(
                 return Err(ExitCode::from(2));
             }
         };
+        let text = apply_sets(&text, sets, &declared, format)?;
         let rendered = substitute(&text, id, kind, namespace, title, slug);
         if let Some(unknown) = leftover_placeholder(&rendered) {
             // A typo in a placeholder must become a finding, never a silent
@@ -161,7 +163,35 @@ fn template(
         }
         Err(_) => default_template(kind, namespace),
     };
+    let text = apply_sets(&text, sets, &path.display().to_string(), format)?;
     Ok(substitute(&text, id, kind, namespace, title, slug))
+}
+
+// arqix:implements REQ-08-01-32-01
+/// Fill the template's own placeholders from `--set key=value` pairs. A key
+/// the template does not use is a TPL-003 finding — a typo never vanishes
+/// silently.
+fn apply_sets(
+    text: &str,
+    sets: &[(String, String)],
+    source: &str,
+    format: OutputFormat,
+) -> Result<String, ExitCode> {
+    let mut rendered = text.to_string();
+    for (key, value) in sets {
+        let placeholder = format!("{{{key}}}");
+        if !rendered.contains(&placeholder) {
+            let diagnostic = Diagnostic::error(
+                "TPL-003",
+                format!("--set {key}: template {source} does not use placeholder '{{{key}}}'"),
+            )
+            .at(source);
+            diag::emit(&[diagnostic], format);
+            return Err(ExitCode::from(1));
+        }
+        rendered = rendered.replace(&placeholder, value);
+    }
+    Ok(rendered)
 }
 
 /// The documented placeholder vocabulary, applied to any template source.
@@ -297,6 +327,9 @@ pub struct NewOptions<'a> {
     /// wins over the declared kind dir and the default placement.
     pub dir: Option<&'a str>,
     pub dry_run: bool,
+    /// Raw `--set key=value` pairs (REQ-08-01-32-01); each fills the
+    /// template's own `{key}` placeholder.
+    pub sets: &'a [String],
 }
 
 // arqix:implements REQ-00-00-00-05
@@ -400,7 +433,19 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             eprintln!("error: cannot create {}: {err}", dir.display());
             return ExitCode::from(2);
         }
-        let content = match template(&id, kind, &namespace, &title, &slug, format) {
+        let mut pairs: Vec<(String, String)> = Vec::new();
+        for raw in options.sets {
+            match raw.split_once('=') {
+                Some((key, value)) if !key.is_empty() => {
+                    pairs.push((key.to_string(), value.to_string()));
+                }
+                _ => {
+                    eprintln!("error: invalid --set '{raw}': expected key=value");
+                    return ExitCode::from(2);
+                }
+            }
+        }
+        let content = match template(&id, kind, &namespace, &title, &slug, &pairs, format) {
             Ok(content) => content,
             Err(code) => return code,
         };
