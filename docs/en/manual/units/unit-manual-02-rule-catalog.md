@@ -146,4 +146,3 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | CFG-001 | `arqix.toml` is not parseable, or a value has the wrong type. |
 | CFG-002 | An unknown configuration key (ignored under schema v1, warning). |
 | POL-001 | A changed file lies outside the declared change scope. |
-
