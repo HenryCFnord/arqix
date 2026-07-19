@@ -166,3 +166,37 @@ fn lint_frontmatter_resolves_the_configured_external_types() {
         "expected ONT-002 against the unlisted type: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-30-01
+#[test]
+fn lint_frontmatter_reports_dangling_triple_objects() {
+    // The frontmatter graph resolves like the body markers (LNT-003): an
+    // arqix-namespace triple object no document carries is ONT-007.
+    let repo = scratch_copy("minimal", "lint_frontmatter_reports_dangling_triple_objects");
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY.replace("lang: de", "lang: en").replace(
+        "triples: []",
+        "triples:\n  - predicate: arqix:properties/points-at\n    object: arqix:user-stories/us-99-99-99",
+    );
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &doc).unwrap();
+
+    // The dangling arqix-namespace object is a finding.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-007") && stdout.contains("arqix:user-stories/us-99-99-99"),
+        "expected ONT-007 naming the dangling object: {stdout}"
+    );
+
+    // A non-arqix object stays an opaque external reference.
+    std::fs::write(
+        dir.join("US-09-09-09-sample-story.md"),
+        doc.replace("arqix:user-stories/us-99-99-99", "skos:Concept"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+}
