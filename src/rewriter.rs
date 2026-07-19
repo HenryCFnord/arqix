@@ -210,6 +210,36 @@ fn claim_targets(body: &str) -> Vec<String> {
     targets
 }
 
+// arqix:implements REQ-08-01-41-01
+/// Every claim annotation of a body, line-anchored like `claim_targets`:
+/// (supported-by, confidence, anchor) in document order.
+pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String)> {
+    let attr = regex::Regex::new(r#"([a-z-]+)=("[^"]*"|[^\s"]+)"#).expect("static regex");
+    let mut out = Vec::new();
+    for line in text.lines() {
+        let trimmed = line.trim_start();
+        if !trimmed.starts_with("<!-- arqix:claim ") {
+            continue;
+        }
+        let mut target = String::new();
+        let mut confidence = String::new();
+        let mut anchor = String::new();
+        for caps in attr.captures_iter(trimmed) {
+            let value = caps[2].trim_matches('"').to_string();
+            match &caps[1] {
+                "supported-by" => target = value,
+                "confidence" => confidence = value,
+                "anchor" => anchor = value,
+                _ => {}
+            }
+        }
+        if !target.is_empty() {
+            out.push((target, confidence, anchor));
+        }
+    }
+    out
+}
+
 // arqix:implements REQ-08-01-40-02
 /// Own the `derived-triples` section (ADR-0018): drop whatever the document
 /// carries and re-derive it from the claim markers — inserted directly after

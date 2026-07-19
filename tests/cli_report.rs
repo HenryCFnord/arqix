@@ -301,7 +301,7 @@ fn report_snapshot_check_passes_on_fresh_snapshots() {
     assert_success(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("reports: fresh (10 units, 2 matrices, 1 export)"),
+        stdout.contains("reports: fresh (11 units, 2 matrices, 2 exports)"),
         "a freshly generated corpus is fresh: {stdout}"
     );
 }
@@ -395,6 +395,8 @@ fn write_statements(repo: &Path) {
         &statements.stdout,
     )
     .unwrap();
+    let claims = run_arqix_in(repo, &["report", "claims"]);
+    std::fs::write(repo.join("docs/en/reports/claims.csv"), &claims.stdout).unwrap();
 }
 
 // arqix:verifies REQ-07-01-08-01
@@ -672,13 +674,13 @@ fn report_claims_exports_markers_and_counts_coverage() {
     );
 
     // The committed export joins the freshness gate.
+    write_matrices(&repo);
+    write_statements(&repo);
     std::fs::write(
         repo.join("docs/en/reports/claims.csv"),
         "file,supported_by,confidence,anchor\nstale\n",
     )
     .unwrap();
-    write_matrices(&repo);
-    write_statements(&repo);
     let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
     assert!(
         out.status.code() != Some(0),

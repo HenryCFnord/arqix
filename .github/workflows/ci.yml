@@ -65,6 +65,7 @@ jobs:
           ./target/debug/arqix trace matrix > docs/en/reports/trace/matrix.csv
           ./target/debug/arqix trace matrix --type us-req > docs/en/reports/trace/matrix-us-req.csv
           ./target/debug/arqix report statements > docs/en/reports/requirements/normative-statements.csv
+          ./target/debug/arqix report claims > docs/en/reports/claims.csv
           # Q-10: the coverage unit is CI-generated, outside the snapshot gate.
           cargo llvm-cov --json --output-path /tmp/coverage.json
           ./target/debug/arqix report coverage --input /tmp/coverage.json --stamp "$(git rev-parse --short HEAD), $(date +%F)"
