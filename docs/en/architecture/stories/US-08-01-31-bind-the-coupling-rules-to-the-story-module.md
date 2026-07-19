@@ -14,6 +14,8 @@ triples:
   - predicate: arqix:properties/has-requirement
     object:
       - arqix:requirements/req-08-01-31-01
+      - arqix:requirements/req-08-01-31-02
+      - arqix:requirements/req-08-01-31-03
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -42,6 +44,8 @@ As a repository owner, I want the story-workflow coupling rules bound to the sto
 - [ ] `[process].modules` in `arqix.toml` selects the effective process modules.
 - [ ] Without a `[process]` section every module is effective — an unconfigured corpus gates exactly as before.
 - [ ] When `[process].modules` is configured without `story-driven`, the coupling rules (US-WF-001, US-PER-001) do not run; with `story-driven` listed they run unchanged.
+- [ ] The effective modules bring their shipped vocabulary: a corpus without `docs/ontology` validates `arqix:classes/user-story` exactly when `story-driven` is effective, and a corpus definition of a module IRI overrides the embedded one.
+- [ ] A corpus redefinition of a reserved-core IRI with different semantics is ONT-009; an identical re-declaration stays silent.
 
 ### Notes
 

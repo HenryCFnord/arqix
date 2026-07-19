@@ -13,6 +13,7 @@ mod diag;
 mod linter;
 mod markdown;
 mod mcp;
+mod modules;
 mod parser;
 mod policy;
 mod publisher;
