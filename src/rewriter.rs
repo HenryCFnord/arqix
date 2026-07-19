@@ -210,7 +210,7 @@ fn claim_targets(body: &str) -> Vec<String> {
     targets
 }
 
-// arqix:implements REQ-08-01-41-01
+// arqix:implements REQ-08-01-40-04
 /// Every claim annotation of a body, line-anchored like `claim_targets`:
 /// (supported-by, confidence, anchor) in document order.
 pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String)> {

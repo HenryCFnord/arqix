@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-41-01
+id: REQ-08-01-40-04
 title: Export Claims as Data
 slug: export-claims-as-data
-iri: arqix:requirements/req-08-01-41-01
+iri: arqix:requirements/req-08-01-40-04
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-40
       - arqix:user-stories/us-08-01-41
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix report claims` runs, arqix SHALL print one deterministic CSV row per
 ### Notes
 
 The export mirrors the normative-statements projection; empty stays the header-only file.
-Derived from US-08-01-41.
+Derived from US-08-01-40.

@@ -1,7 +1,7 @@
 ---
 id: US-08-01-40
-title: Anchor Evidence in the Text and Derive the Edge
-slug: anchor-evidence-in-the-text-and-derive-the-edge
+title: Anchor Derive and Account for Evidence
+slug: anchor-derive-and-account-for-evidence
 iri: arqix:user-stories/us-08-01-40
 
 rdf:
@@ -16,6 +16,8 @@ triples:
       - arqix:requirements/req-08-01-40-01
       - arqix:requirements/req-08-01-40-02
       - arqix:requirements/req-08-01-40-03
+      - arqix:requirements/req-08-01-40-04
+      - arqix:requirements/req-08-01-40-05
   - predicate: arqix:properties/is-part-of-workflow
     object: arqix:workflows/wf-08-01
 
@@ -35,9 +37,9 @@ meta:
   generated: false
 ---
 
-## Anchor Evidence in the Text and Derive the Edge
+## Anchor Derive and Account for Evidence
 
-As a knowledge engineer, I want a statement's evidence anchored in the text and its edge derived into the graph, so that a claim is both position-exact and queryable without maintaining the connection twice.
+As a knowledge engineer, I want evidence anchored in the text, derived into the graph, and accounted for as data, so that a claim is position-exact, queryable, and countable without maintaining anything twice.
 
 ### Acceptance Criteria
 
@@ -45,6 +47,7 @@ As a knowledge engineer, I want a statement's evidence anchored in the text and 
 - [ ] `arqix fmt` lifts the markers into the `derived-triples` frontmatter section (predicate `arqix:properties/supported-by`, targets deduplicated and sorted); the section is formatter-owned — absent without markers, hand edits do not survive, and `fmt --check` reports drift.
 - [ ] Derived triples take part in the graph checks like declared ones: ONT-003 resolves the target, ONT-007 checks it against the property's declared range.
 - [ ] A document without claim markers is byte-identical under `fmt`.
+- [ ] `report claims` prints one deterministic CSV row per claim marker under the snapshot drift gate; the evidence-coverage unit reports claim, document, and source counts — numbers, never a gate.
 
 ### Notes
 

@@ -391,7 +391,7 @@ fn csv_field(value: &str) -> String {
     }
 }
 
-// arqix:implements REQ-08-01-41-01
+// arqix:implements REQ-08-01-40-04
 /// The claims projection: one row per claim marker, in file order.
 fn claims_csv() -> String {
     let mut lines = vec!["file,supported_by,confidence,anchor".to_string()];
@@ -413,14 +413,14 @@ fn claims_csv() -> String {
     lines.join("\n") + "\n"
 }
 
-// arqix:implements REQ-08-01-41-01
+// arqix:implements REQ-08-01-40-04
 /// `arqix report claims` — the claim markers as data.
 pub fn claims(_format: OutputFormat) -> ExitCode {
     print!("{}", claims_csv());
     ExitCode::SUCCESS
 }
 
-// arqix:implements REQ-08-01-41-02
+// arqix:implements REQ-08-01-40-05
 /// Q-12: the evidence numbers — never a gate (ADR-0018).
 fn unit_evidence_coverage(
     _model: &Model,
@@ -941,7 +941,7 @@ fn snapshot_check(_format: OutputFormat) -> ExitCode {
             }
         }
     }
-    // arqix:implements REQ-08-01-41-01
+    // arqix:implements REQ-08-01-40-04
     match std::fs::read_to_string(CLAIMS_PATH) {
         Err(_) => stale.push((CLAIMS_PATH.to_string(), "missing")),
         Ok(text) => {

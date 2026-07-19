@@ -631,8 +631,8 @@ fn report_snapshot_renders_the_source_catalog() {
     );
 }
 
-// arqix:verifies REQ-08-01-41-01
-// arqix:verifies REQ-08-01-41-02
+// arqix:verifies REQ-08-01-40-04
+// arqix:verifies REQ-08-01-40-05
 #[test]
 fn report_claims_exports_markers_and_counts_coverage() {
     // ADR-0018 data side: the claims projection and the evidence numbers.
