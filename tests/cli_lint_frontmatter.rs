@@ -157,7 +157,11 @@ fn lint_frontmatter_resolves_the_configured_external_types() {
     common::assert_success(&out);
 
     // A built-in type outside the configured vocabulary is now a finding.
-    std::fs::write(dir.join("US-09-09-09-sample-story.md"), doc.replace("skos:Concept", "rdfs:Class")).unwrap();
+    std::fs::write(
+        dir.join("US-09-09-09-sample-story.md"),
+        doc.replace("skos:Concept", "rdfs:Class"),
+    )
+    .unwrap();
     let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
     assert_findings(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
@@ -173,7 +177,10 @@ fn lint_frontmatter_reports_dangling_triple_objects() {
     // The frontmatter graph resolves like the body markers (LNT-003): an
     // arqix-namespace triple object no document carries is ONT-003. The rule
     // predates this test; the test pins it against the FR-A1 reproduction.
-    let repo = scratch_copy("minimal", "lint_frontmatter_reports_dangling_triple_objects");
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_reports_dangling_triple_objects",
+    );
     let prop_dir = repo.join("docs/ontology/properties");
     std::fs::create_dir_all(&prop_dir).unwrap();
     std::fs::write(
@@ -280,9 +287,10 @@ fn lint_frontmatter_validates_declared_property_vocabularies() {
     .unwrap();
     let dir = repo.join("docs/terms");
     std::fs::create_dir_all(&dir).unwrap();
-    let doc = STORY
-        .replace("lang: de", "lang: en")
-        .replace("properties: {}", "properties:\n  extraction-status: proposed");
+    let doc = STORY.replace("lang: de", "lang: en").replace(
+        "properties: {}",
+        "properties:\n  extraction-status: proposed",
+    );
     std::fs::write(dir.join("sample.md"), &doc).unwrap();
 
     // A declared value passes.
@@ -299,7 +307,9 @@ fn lint_frontmatter_validates_declared_property_vocabularies() {
     assert_findings(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("FM-009") && stdout.contains("extraction-status") && stdout.contains("bogus"),
+        stdout.contains("FM-009")
+            && stdout.contains("extraction-status")
+            && stdout.contains("bogus"),
         "expected FM-009 naming field and value: {stdout}"
     );
 }

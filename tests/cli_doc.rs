@@ -783,7 +783,14 @@ fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
     let out = run_arqix_in(
         &repo,
         &[
-            "doc", "new", "term", "--title", "Intent", "--set", "context=tmforum", "--set",
+            "doc",
+            "new",
+            "term",
+            "--title",
+            "Intent",
+            "--set",
+            "context=tmforum",
+            "--set",
             "source_id=tr290",
         ],
     );
@@ -800,8 +807,17 @@ fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
     let out = run_arqix_in(
         &repo,
         &[
-            "doc", "new", "term", "--title", "Other", "--set", "context=x", "--set",
-            "source_id=y", "--set", "bogus=z",
+            "doc",
+            "new",
+            "term",
+            "--title",
+            "Other",
+            "--set",
+            "context=x",
+            "--set",
+            "source_id=y",
+            "--set",
+            "bogus=z",
         ],
     );
     assert_findings(&out);
@@ -814,7 +830,9 @@ fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
     // A malformed pair without '=' is a usage error.
     let out = run_arqix_in(
         &repo,
-        &["doc", "new", "term", "--title", "Third", "--set", "nonsense"],
+        &[
+            "doc", "new", "term", "--title", "Third", "--set", "nonsense",
+        ],
     );
     assert_eq!(out.status.code(), Some(2), "expected usage exit 2");
 }
@@ -845,7 +863,13 @@ fn doc_new_derives_id_and_placement_from_kind_templates() {
     let out = run_arqix_in(
         &repo,
         &[
-            "doc", "new", "term", "--title", "Intent", "--set", "context=tmforum",
+            "doc",
+            "new",
+            "term",
+            "--title",
+            "Intent",
+            "--set",
+            "context=tmforum",
         ],
     );
     assert_success(&out);
@@ -873,8 +897,17 @@ fn doc_new_derives_id_and_placement_from_kind_templates() {
     let out = run_arqix_in(
         &repo,
         &[
-            "doc", "new", "term", "--title", "Third", "--set", "context=itu", "--id",
-            "custom-id", "--dir", "docs/terms",
+            "doc",
+            "new",
+            "term",
+            "--title",
+            "Third",
+            "--set",
+            "context=itu",
+            "--id",
+            "custom-id",
+            "--dir",
+            "docs/terms",
         ],
     );
     assert_success(&out);

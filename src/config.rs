@@ -17,8 +17,14 @@ const CONFIG_FILE: &str = "arqix.toml";
 const SCHEMA_VERSION: u64 = 1;
 
 /// Known optional table sections accepted (and not yet validated) in v1.
-const KNOWN_SECTIONS: [&str; 6] =
-    ["kinds", "templates", "policies", "i18n", "frontmatter", "process"];
+const KNOWN_SECTIONS: [&str; 6] = [
+    "kinds",
+    "templates",
+    "policies",
+    "i18n",
+    "frontmatter",
+    "process",
+];
 
 // arqix:implements REQ-01-01-17-02
 /// Directories document discovery never descends into unless overridden by
@@ -471,7 +477,10 @@ pub struct FrontmatterVocab {
 /// The `[frontmatter]` section of the effective configuration.
 pub fn frontmatter_vocab(base: &Path) -> FrontmatterVocab {
     let (config, _) = resolve(base);
-    let section = config.sections.get("frontmatter").and_then(Value::as_object);
+    let section = config
+        .sections
+        .get("frontmatter")
+        .and_then(Value::as_object);
     FrontmatterVocab {
         section_kinds: section.and_then(|s| json_string_array(s.get("section-kinds"))),
         allowed_external_types: section
