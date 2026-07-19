@@ -15,6 +15,7 @@ The catalog is deliberately non-exhaustive — new questions are added here firs
 | Q-08 | Where is the documentation for a given piece of code? | needs a code→doc convention | [units/doc-to-code.md](units/doc-to-code.md) | partial — convention is an open design decision |
 | Q-09 | How large is the codebase (lines of code, by component)? | internal line counter | [units/lines-of-code.md](units/lines-of-code.md) | built |
 | Q-10 | What is the code coverage of the test suite? | cargo-llvm-cov via `arqix report coverage` | [units/test-coverage.md](units/test-coverage.md) | built (CI-generated, outside the snapshot gate) |
+| Q-11 | Which external sources does the corpus rest on? | source-record frontmatter | [units/source-catalog.md](units/source-catalog.md) | built |
 
 Regenerate all built units with:
 

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-01 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 08b96b9, 2026-07-16
+     Snapshot: e35165c, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # How far along is each user story?
@@ -93,5 +93,14 @@ A requirement counts for every story that demands it (`derived-from`), so shared
 | US-08-01-26 | Instantiate Declared Kind Templates | 2 | 0 | 0 | `██████████` 100% |
 | US-08-01-27 | Place Documents at an Explicit Target Directory | 1 | 0 | 0 | `██████████` 100% |
 | US-08-01-28 | Capture Sources as First-Class Records | 3 | 0 | 0 | `██████████` 100% |
+| US-08-01-29 | Configure the Frontmatter Vocabularies | 2 | 0 | 0 | `██████████` 100% |
+| US-08-01-30 | Resolve Every Declared Triple Target | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-31 | Bind the Coupling Rules to the Story Module | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-32 | Fill Template Placeholders at Creation | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-33 | Derive Placement and Id From Kind Templates | 2 | 0 | 0 | `██████████` 100% |
+| US-08-01-34 | Verify the Local Copy Against Its Digest | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-35 | Declare Vocabularies for Named Property Fields | 1 | 0 | 0 | `██████████` 100% |
+| US-08-01-36 | Validate the Ontology Against Itself | 2 | 0 | 0 | `██████████` 100% |
+| US-08-01-37 | Project the Source Catalog | 1 | 0 | 0 | `██████████` 100% |
 
 Retired stories excluded from this view (ADR-0010): 42.

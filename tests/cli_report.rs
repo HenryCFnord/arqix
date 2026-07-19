@@ -301,7 +301,7 @@ fn report_snapshot_check_passes_on_fresh_snapshots() {
     assert_success(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("reports: fresh (9 units, 2 matrices, 1 export)"),
+        stdout.contains("reports: fresh (10 units, 2 matrices, 1 export)"),
         "a freshly generated corpus is fresh: {stdout}"
     );
 }
