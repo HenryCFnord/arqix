@@ -301,7 +301,7 @@ fn report_snapshot_check_passes_on_fresh_snapshots() {
     assert_success(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("reports: fresh (11 units, 2 matrices, 2 exports)"),
+        stdout.contains("reports: fresh (12 units, 2 matrices, 2 exports)"),
         "a freshly generated corpus is fresh: {stdout}"
     );
 }
@@ -742,5 +742,33 @@ fn report_claims_projects_computed_provenance_on_demand() {
             && stdout.contains("Prov Tester")
             && stdout.contains(",yes"),
         "expected computed provenance columns: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-08-01-43-03
+#[test]
+fn report_snapshot_renders_the_crosswalk() {
+    // ADR-0022: one row per mapping edge — document, mapping property,
+    // external target — grouped by the target's namespace.
+    let repo = scratch_copy("minimal", "report_snapshot_renders_the_crosswalk");
+    let dir = repo.join("docs/en/entities");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("ENT-0001.md"),
+        "---\nid: ENT-0001\ntitle: A Term\nslug: a-term\niri: arqix:entities/ent-0001\n\nrdf:\n  type:\n    - arqix:classes/entity\n\ntriples:\n  - predicate: arqix:properties/exact-match\n    object: dcat:Dataset\n  - predicate: arqix:properties/maps-to\n    object: iso:19115\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## A Term\n\nA fixture entity.\n",
+    )
+    .unwrap();
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    let unit = repo.join("docs/en/reports/units/crosswalk.md");
+    let text = std::fs::read_to_string(&unit).expect("crosswalk.md rendered");
+    assert!(
+        text.contains("ENT-0001")
+            && text.contains("exact-match")
+            && text.contains("dcat:Dataset")
+            && text.contains("iso:19115"),
+        "expected one row per mapping edge: {text}"
     );
 }
