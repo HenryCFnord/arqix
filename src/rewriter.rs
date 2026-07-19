@@ -212,11 +212,13 @@ fn claim_targets(body: &str) -> Vec<String> {
 
 // arqix:implements REQ-08-01-40-04
 /// Every claim annotation of a body, line-anchored like `claim_targets`:
-/// (supported-by, confidence, anchor) in document order.
-pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String)> {
+/// (supported-by, confidence, anchor, 1-based marker line) in document
+/// order. The line number feeds the on-demand history projection
+/// (REQ-08-01-40-08); the gated consumers ignore it.
+pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String, usize)> {
     let attr = regex::Regex::new(r#"([a-z-]+)=("[^"]*"|[^\s"]+)"#).expect("static regex");
     let mut out = Vec::new();
-    for line in text.lines() {
+    for (idx, line) in text.lines().enumerate() {
         let trimmed = line.trim_start();
         if !trimmed.starts_with("<!-- arqix:claim ") {
             continue;
@@ -234,7 +236,7 @@ pub(crate) fn claim_annotations(text: &str) -> Vec<(String, String, String)> {
             }
         }
         if !target.is_empty() {
-            out.push((target, confidence, anchor));
+            out.push((target, confidence, anchor, idx + 1));
         }
     }
     out

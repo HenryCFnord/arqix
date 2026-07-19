@@ -42,6 +42,22 @@ dir = "docs/en/sources"
 template = "docs/en/templates/source.tpl.md"
 id-pattern = "^SRC-(?P<seq>\\d{4})$"
 
+# Claim records (ADR-0019): the fullest provenance carrier as documents of
+# arqix:classes/claim. A claim marker references its record via `record=`
+# (CLM-004); several markers may share one record. The record carries the
+# whole provenance vocabulary plus the analysis block; scaffolding one from
+# the marker and the history is `doc new claim` plus `--set` pre-fill.
+[kinds.claim]
+dir = "docs/en/claims"
+template = "docs/en/templates/claim.tpl.md"
+id-pattern = "^CLM-(?P<seq>\\d{4})$"
+
+# The record's review verdict is a declared domain state (ADR-0019),
+# validated by FM-009 like every other declared vocabulary; the same terms
+# bind the marker's inline `review-status=` key (CLM-003).
+[kinds.claim.vocab]
+review-status = ["unreviewed", "confirmed", "rejected"]
+
 [policies.render]
 # arqix orchestrates Pandoc; the render runs in the fat Pandoc/LaTeX/eisvogel
 # container so a local `just render-pdf` is byte-for-byte the pipeline render —

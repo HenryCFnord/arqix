@@ -1314,6 +1314,37 @@ fn check_graph_contract(
 /// The built-in confidence vocabulary for claim markers.
 const CLAIM_CONFIDENCE: [&str; 3] = ["high", "inferred", "estimated"];
 
+/// The built-in review vocabulary of the provenance layers (ADR-0019).
+const CLAIM_REVIEW: [&str; 3] = ["unreviewed", "confirmed", "rejected"];
+
+/// The claim marker's attribute vocabulary: the anchor attributes plus the
+/// shared provenance keys every carrier understands (ADR-0019).
+const CLAIM_KEYS: [&str; 11] = [
+    "supported-by",
+    "confidence",
+    "anchor",
+    "record",
+    "agent",
+    "activity",
+    "reviewed-by",
+    "reviewed",
+    "review-status",
+    "representation",
+    "representation-sha256",
+];
+
+// arqix:implements REQ-08-01-40-06
+/// The effective review vocabulary: the configured
+/// `[frontmatter].claim-review-status`, or the built-in default.
+fn effective_claim_review() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .claim_review
+            .unwrap_or_else(|| CLAIM_REVIEW.iter().map(|s| s.to_string()).collect())
+    })
+}
+
 // arqix:implements REQ-08-01-40-01
 /// The effective claim-confidence vocabulary: the configured
 /// `[frontmatter].claim-confidence`, or the built-in default.
@@ -1331,7 +1362,7 @@ fn effective_claim_confidence() -> &'static [String] {
 /// only known keys, and keeps its confidence inside the effective
 /// vocabulary. The marker grammar is validated here; the edge itself is the
 /// formatter's derived triple (ADR-0018).
-fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
+fn check_claim_markers(doc: &Doc, claim_ids: &HashSet<String>, findings: &mut Vec<Finding>) {
     let pair_re = Regex::new(r#"^([a-z-]+)=("[^"]*"|[^\s"]+)\s*"#).expect("static regex");
     for line in doc.text.lines() {
         let trimmed = line.trim_start();
@@ -1371,7 +1402,7 @@ fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
             continue;
         }
         for (key, _) in &keys {
-            if !["supported-by", "confidence", "anchor"].contains(&key.as_str()) {
+            if !CLAIM_KEYS.contains(&key.as_str()) {
                 findings.push(Finding::error(
                     &doc.path,
                     "CLM-001",
@@ -1396,6 +1427,33 @@ fn check_claim_markers(doc: &Doc, findings: &mut Vec<Finding>) {
                     "claim confidence {} is not in the vocabulary {}",
                     py_repr(confidence),
                     py_list_repr(effective_claim_confidence())
+                ),
+            ));
+        }
+        // arqix:implements REQ-08-01-40-06
+        if let Some((_, verdict)) = keys.iter().find(|(k, _)| k == "review-status")
+            && !effective_claim_review().iter().any(|v| v == verdict)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-003",
+                format!(
+                    "claim review-status {} is not in the vocabulary {}",
+                    py_repr(verdict),
+                    py_list_repr(effective_claim_review())
+                ),
+            ));
+        }
+        // arqix:implements REQ-08-01-40-07
+        if let Some((_, record)) = keys.iter().find(|(k, _)| k == "record")
+            && !claim_ids.contains(record)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "CLM-004",
+                format!(
+                    "claim record {} does not resolve to a claim document",
+                    py_repr(record)
                 ),
             ));
         }
@@ -1476,6 +1534,14 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         }
     }
 
+    // The claim documents the record= references resolve against
+    // (REQ-08-01-40-07).
+    let claim_ids: HashSet<String> = docs
+        .iter()
+        .filter(|doc| doc.rdf_types.iter().any(|t| t == "arqix:classes/claim"))
+        .filter_map(|doc| doc.scalars.get("id").cloned())
+        .collect();
+
     let roots = crate::config::roots(Path::new("."));
     let mut seen_ids: HashMap<String, String> = HashMap::new();
     let mut seen_iris: HashMap<String, String> = HashMap::new();
@@ -1494,7 +1560,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
             &types_by_iri,
             &mut findings,
         );
-        check_claim_markers(doc, &mut findings);
+        check_claim_markers(doc, &claim_ids, &mut findings);
         if doc.rdf_types.iter().any(|t| t == "arqix:classes/source") {
             check_source(doc, &roots, &mut findings);
         }

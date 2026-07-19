@@ -316,7 +316,12 @@ enum ReportCommand {
     /// Export every requirement's normative-sentence classification as CSV
     Statements,
     /// Export every claim marker as CSV (file, supported-by, confidence, anchor)
-    Claims,
+    Claims {
+        /// Append the history-computed provenance columns (author, date,
+        /// commit, agent) — on-demand projection, never part of a snapshot
+        #[arg(long)]
+        provenance: bool,
+    },
     /// Render the test-coverage unit from a cargo-llvm-cov JSON export
     Coverage {
         /// The cargo-llvm-cov JSON export to render from
@@ -455,7 +460,7 @@ fn main() -> ExitCode {
             }
             ReportCommand::Knowledge { out } => reporter::knowledge(out.as_deref(), cli.format),
             ReportCommand::Statements => reporter::statements(cli.format),
-            ReportCommand::Claims => reporter::claims(cli.format),
+            ReportCommand::Claims { provenance } => reporter::claims(provenance, cli.format),
             ReportCommand::Coverage { input, stamp, out } => {
                 reporter::coverage_unit(&input, &stamp, out.as_deref(), cli.format)
             }

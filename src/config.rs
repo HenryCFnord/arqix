@@ -473,6 +473,9 @@ pub struct FrontmatterVocab {
     /// The effective confidence vocabulary for claim markers
     /// (REQ-08-01-40-01); absent keeps the built-in default.
     pub claim_confidence: Option<Vec<String>>,
+    /// The effective review vocabulary for the provenance carriers
+    /// (REQ-08-01-40-06); absent keeps the built-in default.
+    pub claim_review: Option<Vec<String>>,
 }
 
 // arqix:implements REQ-08-01-29-01
@@ -489,6 +492,7 @@ pub fn frontmatter_vocab(base: &Path) -> FrontmatterVocab {
         allowed_external_types: section
             .and_then(|s| json_string_array(s.get("allowed-external-types"))),
         claim_confidence: section.and_then(|s| json_string_array(s.get("claim-confidence"))),
+        claim_review: section.and_then(|s| json_string_array(s.get("claim-review-status"))),
     }
 }
 
