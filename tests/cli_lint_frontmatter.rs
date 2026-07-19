@@ -316,7 +316,7 @@ fn lint_frontmatter_validates_declared_property_vocabularies() {
 
 const THING_CLASS: &str = "---\nid: class-thing\nlabel: thing\niri: arqix:classes/thing\n\nrdf:\n  type:\n    - rdfs:Class\n\nrdfs:\n  sub-class-of:\n    - arqix:classes/thing\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nowl: {}\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## Thing\n\nA fixture root class.\n";
 
-// arqix:verifies REQ-08-01-36-01
+// arqix:verifies REQ-08-01-30-02
 #[test]
 fn lint_frontmatter_checks_edges_against_domain_and_range() {
     // ONT-007: declaring rdfs.domain/range opts the property into the
@@ -384,7 +384,7 @@ fn lint_frontmatter_checks_edges_against_domain_and_range() {
     );
 }
 
-// arqix:verifies REQ-08-01-36-02
+// arqix:verifies REQ-08-01-30-03
 #[test]
 fn lint_frontmatter_reports_subclass_cycles() {
     // ONT-008: a sub-class-of cycle longer than the root self-reference.
@@ -427,7 +427,7 @@ fn lint_frontmatter_reports_subclass_cycles() {
     );
 }
 
-// arqix:verifies REQ-08-01-38-01
+// arqix:verifies REQ-08-01-30-04
 #[test]
 fn lint_frontmatter_checks_paths_against_the_dir_template() {
     // FM-010: the checker-side direction of the placement contract — the

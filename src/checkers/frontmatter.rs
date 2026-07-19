@@ -188,7 +188,7 @@ struct Contract {
     /// (REQ-08-01-29-03): the domain-state axis next to the guarded
     /// lifecycle.
     family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
-    /// Declared placement templates per family (REQ-08-01-38-01): the
+    /// Declared placement templates per family (REQ-08-01-30-04): the
     /// checker-side direction of the kind's dir-template.
     family_dir_templates: HashMap<String, String>,
 }
@@ -337,7 +337,7 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
                 .family_patterns
                 .insert(family.clone(), pattern.to_string());
         }
-        // arqix:implements REQ-08-01-38-01
+        // arqix:implements REQ-08-01-30-04
         if let Some(template) = entry.get("dir-template").and_then(|v| v.as_str()) {
             contract
                 .family_dir_templates
@@ -861,7 +861,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
         ));
     }
 
-    // arqix:implements REQ-08-01-38-01
+    // arqix:implements REQ-08-01-30-04
     // The placement contract: the parent directory must equal the kind's
     // dir-template rendered from the document's own properties.
     if let Some(template) = contract.family_dir_templates.get(&doc.family) {
@@ -1235,7 +1235,7 @@ fn class_closure(start: &str, subclass: &HashMap<String, Vec<String>>) -> HashSe
 }
 
 /// Whether a class reaches itself through sub-class-of edges other than its
-/// own root self-reference (REQ-08-01-36-02).
+/// own root self-reference (REQ-08-01-30-03).
 fn in_subclass_cycle(start: &str, subclass: &HashMap<String, Vec<String>>) -> bool {
     let mut seen: HashSet<String> = HashSet::new();
     let mut stack: Vec<String> = subclass
@@ -1256,7 +1256,7 @@ fn in_subclass_cycle(start: &str, subclass: &HashMap<String, Vec<String>>) -> bo
     false
 }
 
-// arqix:implements REQ-08-01-36-01
+// arqix:implements REQ-08-01-30-02
 /// ONT-007: a triple whose predicate declares a domain or range must keep
 /// its subject and every resolvable object inside the declared classes,
 /// subclass closure included; declaring opts the property in.
@@ -1434,8 +1434,8 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
         all_iris,
     };
 
-    // arqix:implements REQ-08-01-36-01
-    // arqix:implements REQ-08-01-36-02
+    // arqix:implements REQ-08-01-30-02
+    // arqix:implements REQ-08-01-30-03
     // The graph contract (ONT-007/ONT-008): declared domains and ranges,
     // and the sub-class-of hierarchy, validated over every document.
     let mut subclass: HashMap<String, Vec<String>> = HashMap::new();
