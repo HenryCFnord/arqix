@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-08 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 59ff9d4, 2026-07-19
+     Snapshot: 8f67f69, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Where is the documentation for a given piece of code?

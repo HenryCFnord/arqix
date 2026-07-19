@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-04 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 59ff9d4, 2026-07-19
+     Snapshot: 8f67f69, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which code implements which requirement?
@@ -28,13 +28,13 @@
 | `check_command` | src/trace.rs:939 | REQ-03-01-06-02 |
 | `check_command` | src/trace.rs:940 | REQ-03-01-06-03 |
 | `check_done_claims` | src/linter.rs:286 | REQ-03-01-09-01 |
-| `check_graph_contract` | src/checkers/frontmatter.rs:1200 | REQ-08-01-36-01 |
+| `check_graph_contract` | src/checkers/frontmatter.rs:1253 | REQ-08-01-36-01 |
 | `check_id_policy` | src/linter.rs:37 | REQ-01-01-18-01 |
 | `check_id_policy` | src/linter.rs:38 | REQ-01-01-18-04 |
 | `check_lifecycle_vocabulary` | src/linter.rs:257 | REQ-03-01-09-02 |
-| `check_source` | src/checkers/frontmatter.rs:894 | REQ-08-01-28-01 |
-| `check_source` | src/checkers/frontmatter.rs:895 | REQ-08-01-28-02 |
-| `check_source` | src/checkers/frontmatter.rs:896 | REQ-08-01-28-03 |
+| `check_source` | src/checkers/frontmatter.rs:947 | REQ-08-01-28-01 |
+| `check_source` | src/checkers/frontmatter.rs:948 | REQ-08-01-28-02 |
+| `check_source` | src/checkers/frontmatter.rs:949 | REQ-08-01-28-03 |
 | `coverage_command` | src/trace.rs:912 | REQ-01-01-08-01 |
 | `coverage_command` | src/trace.rs:913 | REQ-01-01-08-02 |
 | `coverage_command` | src/trace.rs:914 | REQ-01-01-08-03 |
@@ -61,8 +61,8 @@
 | `frontmatter_vocab` | src/config.rs:476 | REQ-08-01-29-02 |
 | `heading_ownership` | src/config.rs:401 | REQ-02-01-12-04 |
 | `id_pattern_for_kind` | src/config.rs:539 | REQ-01-01-18-01 |
-| `init` | src/templates.rs:574 | REQ-01-01-01-01 |
-| `init` | src/templates.rs:575 | REQ-01-01-01-02 |
+| `init` | src/templates.rs:575 | REQ-01-01-01-01 |
+| `init` | src/templates.rs:576 | REQ-01-01-01-02 |
 | `key_order` | src/rewriter.rs:64 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:491 | REQ-01-01-19-01 |
 | `kind_contracts` | src/config.rs:492 | REQ-01-01-19-02 |
@@ -70,7 +70,7 @@
 | `knowledge` | src/reporter.rs:126 | REQ-05-01-15-02 |
 | `knowledge` | src/reporter.rs:127 | REQ-05-01-15-03 |
 | `linked_targets` | src/publisher.rs:704 | REQ-04-01-07-03 |
-| `lint` | src/checkers/frontmatter.rs:1436 | REQ-01-01-11-07 |
+| `lint` | src/checkers/frontmatter.rs:1489 | REQ-01-01-11-07 |
 | `lint` | src/checkers/requirements.rs:994 | REQ-01-01-11-06 |
 | `list` | src/store.rs:127 | REQ-05-01-08-01 |
 | `list` | src/store.rs:128 | REQ-05-01-08-03 |
@@ -143,11 +143,13 @@
 | `verify` | src/verifier.rs:37 | REQ-03-01-11-03 |
 | `verify_policy` | src/config.rs:176 | REQ-04-01-14-01 |
 | `verify_policy` | src/config.rs:177 | REQ-04-01-14-03 |
-| — | src/checkers/frontmatter.rs:1287 | REQ-08-01-36-01 |
-| — | src/checkers/frontmatter.rs:1288 | REQ-08-01-36-02 |
-| — | src/checkers/frontmatter.rs:332 | REQ-08-01-35-01 |
-| — | src/checkers/frontmatter.rs:848 | REQ-08-01-35-01 |
-| — | src/checkers/frontmatter.rs:984 | REQ-08-01-34-01 |
+| — | src/checkers/frontmatter.rs:1037 | REQ-08-01-34-01 |
+| — | src/checkers/frontmatter.rs:1340 | REQ-08-01-36-01 |
+| — | src/checkers/frontmatter.rs:1341 | REQ-08-01-36-02 |
+| — | src/checkers/frontmatter.rs:336 | REQ-08-01-38-01 |
+| — | src/checkers/frontmatter.rs:342 | REQ-08-01-35-01 |
+| — | src/checkers/frontmatter.rs:858 | REQ-08-01-38-01 |
+| — | src/checkers/frontmatter.rs:901 | REQ-08-01-35-01 |
 | — | src/checkers/requirements.rs:357 | REQ-07-01-08-01 |
 | — | src/checkers/requirements.rs:923 | REQ-08-01-31-01 |
 | — | src/config.rs:195 | REQ-04-01-16-01 |
@@ -164,10 +166,11 @@
 | — | src/publisher.rs:58 | REQ-04-01-07-05 |
 | — | src/publisher.rs:86 | REQ-04-01-07-03 |
 | — | src/reporter.rs:861 | REQ-07-01-08-02 |
-| — | src/templates.rs:404 | REQ-08-01-33-01 |
-| — | src/templates.rs:438 | REQ-01-01-18-01 |
-| — | src/templates.rs:482 | REQ-08-01-33-02 |
-| — | src/templates.rs:604 | REQ-01-01-20-02 |
-| — | src/templates.rs:637 | REQ-08-01-24-01 |
-| — | src/templates.rs:638 | REQ-08-01-24-02 |
+| — | src/templates.rs:394 | REQ-08-01-39-01 |
+| — | src/templates.rs:405 | REQ-08-01-33-01 |
+| — | src/templates.rs:439 | REQ-01-01-18-01 |
+| — | src/templates.rs:483 | REQ-08-01-33-02 |
+| — | src/templates.rs:605 | REQ-01-01-20-02 |
+| — | src/templates.rs:638 | REQ-08-01-24-01 |
+| — | src/templates.rs:639 | REQ-08-01-24-02 |
 | — | src/trace.rs:1034 | REQ-04-01-16-01 |

@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-06 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 59ff9d4, 2026-07-19
+     Snapshot: 8f67f69, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which workflow belongs to which integration test?
@@ -157,6 +157,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `doc_new_rejects_a_kind_that_escapes_the_root` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_rejects_an_escaping_explicit_directory` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_rejects_unknown_template_placeholders` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `doc_new_reports_taken_ids_as_tpl_004` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `doc_new_substitutes_the_title_into_the_template` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `doc_new_substitutes_the_title_into_the_template` | WF-02-01 | Write Docs Alongside Implementation |
 | `doc_new_substitutes_the_title_into_the_template` | WF-05-01 | Use Documentation for Agents and RAG |
@@ -240,6 +241,7 @@ Joined test → requirement → story → workflow (`is-part-of-workflow`).
 | `lint_checks_encoded_groups_against_declared_triples` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | WF-03-01 | Validate Traceability and Coverage |
 | `lint_frontmatter_checks_edges_against_domain_and_range` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
+| `lint_frontmatter_checks_paths_against_the_dir_template` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_reports_contract_violations_as_json` | WF-01-01 | Establish Standards and Repository Hygiene |
 | `lint_frontmatter_reports_dangling_triple_objects` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |
 | `lint_frontmatter_reports_subclass_cycles` | WF-08-01 | Automation Agent: Story-by-story Implementation with arqix |

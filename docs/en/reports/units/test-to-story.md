@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 59ff9d4, 2026-07-19
+     Snapshot: 8f67f69, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
@@ -280,6 +280,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `doc_new_rejects_a_kind_that_escapes_the_root` | US-08-01-08 | Stay within Declared Change Scope |
 | `doc_new_rejects_an_escaping_explicit_directory` | US-08-01-27 | Place Documents at an Explicit Target Directory |
 | `doc_new_rejects_unknown_template_placeholders` | US-08-01-26 | Instantiate Declared Kind Templates |
+| `doc_new_reports_taken_ids_as_tpl_004` | US-08-01-39 | Name Each Creation Defect Distinctly |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-05 | Create Documents from Configured Templates |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-10 | Define Schema-Backed Metadata Contracts |
 | `doc_new_substitutes_the_title_into_the_template` | US-01-01-13 | Govern Deterministic Document Creation via Templates |
@@ -418,6 +419,7 @@ Joined test → requirement (`verifies`) → story (`derived-from`).
 | `lint_checks_encoded_groups_against_declared_triples` | US-01-01-18 | Configure the ID Policy |
 | `lint_flags_a_lifecycle_status_outside_the_natures_vocabulary` | US-03-01-09 | Machine-Check the Done Claim |
 | `lint_frontmatter_checks_edges_against_domain_and_range` | US-08-01-36 | Validate the Ontology Against Itself |
+| `lint_frontmatter_checks_paths_against_the_dir_template` | US-08-01-38 | Hold Documents to Their Kinds Placement Contract |
 | `lint_frontmatter_reports_contract_violations_as_json` | US-01-01-11 | Govern Architecture Documentation Standards |
 | `lint_frontmatter_reports_dangling_triple_objects` | US-08-01-30 | Resolve Every Declared Triple Target |
 | `lint_frontmatter_reports_subclass_cycles` | US-08-01-36 | Validate the Ontology Against Itself |
