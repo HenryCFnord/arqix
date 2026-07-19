@@ -171,9 +171,16 @@ fn lint_frontmatter_resolves_the_configured_external_types() {
 #[test]
 fn lint_frontmatter_reports_dangling_triple_objects() {
     // The frontmatter graph resolves like the body markers (LNT-003): an
-    // arqix-namespace triple object no document carries is ONT-007.
+    // arqix-namespace triple object no document carries is ONT-003. The rule
+    // predates this test; the test pins it against the FR-A1 reproduction.
     let repo = scratch_copy("minimal", "lint_frontmatter_reports_dangling_triple_objects");
-    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let prop_dir = repo.join("docs/ontology/properties");
+    std::fs::create_dir_all(&prop_dir).unwrap();
+    std::fs::write(
+        prop_dir.join("points-at.md"),
+        "---\nid: property-points-at\nlabel: points-at\niri: arqix:properties/points-at\n\nrdf:\n  type:\n    - rdf:Property\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## points-at\n\nA selftest property.\n",
+    )
+    .unwrap();
     let dir = repo.join("docs/en/architecture/stories");
     std::fs::create_dir_all(&dir).unwrap();
     let doc = STORY.replace("lang: de", "lang: en").replace(
@@ -187,8 +194,8 @@ fn lint_frontmatter_reports_dangling_triple_objects() {
     assert_findings(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(
-        stdout.contains("ONT-007") && stdout.contains("arqix:user-stories/us-99-99-99"),
-        "expected ONT-007 naming the dangling object: {stdout}"
+        stdout.contains("ONT-003") && stdout.contains("arqix:user-stories/us-99-99-99"),
+        "expected ONT-003 naming the dangling object: {stdout}"
     );
 
     // A non-arqix object stays an opaque external reference.

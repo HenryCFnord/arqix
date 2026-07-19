@@ -46,4 +46,4 @@ As a knowledge engineer, I want every declared triple object resolved against th
 ### Notes
 
 The graph's value is its edges; an edge into nothing is the one error class no gate reports today (ADR-0017, the checker validates the configured ontology).
-A second arqix-governed corpus demonstrated the gap by injecting a bogus reference that `verify` accepted (FR-A1 in `docs/en/plans/knowledge-repository-2026-07-15/FEEDBACK-2026-07-17-psi.md`).
+A second arqix-governed corpus reported the gap by injecting a bogus reference that `verify` accepted (FR-A1 in `docs/en/plans/knowledge-repository-2026-07-15/FEEDBACK-2026-07-17-psi.md`); the resolution rule turned out to exist (ONT-003) but reaches only documents inside a configured `[kinds.<family>].dir`, so the reproduction points at scanning scope, not at resolution.

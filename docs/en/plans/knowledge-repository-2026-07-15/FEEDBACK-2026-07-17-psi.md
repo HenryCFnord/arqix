@@ -105,7 +105,7 @@ Proposed: an optional, configurable `fmt` mode normalizing body prose to one sen
 
 ## Triage against what arqix has
 
-- FR-A1 is gap G6 (generalized reference-target resolution), now with a reproduction and a priority ranking from a real corpus; body markers already resolve (LNT-003), frontmatter triple objects do not.
+- FR-A1 is gap G6 (generalized reference-target resolution), now with a reproduction and a priority ranking from a real corpus; the engine resolves frontmatter triple objects (ONT-003) and body markers (LNT-003), but only for documents inside a configured `[kinds.<family>].dir` — the reproduction shows a corpus whose term directories are outside every configured family, so the fix is scanning scope (configuration plus its documentation), pinned by the US-08-01-30 test.
 - FR-A2 confirms the K3 direction and exposes its two limits: the SRC family is hardwired to this repository's `arqix:classes/source` and field set, and SRC-004 validates the digest's format, not the local copy's actual bytes.
 - FR-A3 generalizes the report-unit machinery (nine snapshot units exist, all hardcoded) into configurable projections.
 - FR-B1 extends K1: the placeholder vocabulary is validated (TPL-002), but only `id`/`title`/`slug` have values; user-supplied substitutions are new.

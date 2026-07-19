@@ -37,5 +37,6 @@ When `arqix lint frontmatter` runs, arqix SHALL report every declared triple who
 
 ### Notes
 
-Rule ONT-007; the frontmatter-graph counterpart of the body-marker resolution (LNT-003).
+Rule ONT-003; the frontmatter-graph counterpart of the body-marker resolution (LNT-003).
+The check covers the walked families — a directory joins the walk through its `[kinds.<family>].dir` entry, so a corpus whose documents live outside every configured family is not yet covered by this rule.
 Derived from US-08-01-30.
