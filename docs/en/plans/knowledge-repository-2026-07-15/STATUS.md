@@ -42,6 +42,9 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 
 ## Band 3 — post-v0.2.0
 
+- [x] A1 — process-profiles/layered-ontology ADR: ADR-0017 accepted 2026-07-19.
+- [x] R7 — frontmatter-vocab-config: US-08-01-29 + REQ-08-01-29-01/-02, spec-first red/green; `[frontmatter].section-kinds` and `.allowed-external-types` bind FM-007/ONT-002, built-in defaults unchanged — the first ADR-0017 implementation slice.
+
 Pending band 2; see the PLANS.md table (A1-A4 ontology/entity, B1-B2 evidence/provenance, C5 lifecycle, D6 crosswalk, D7 queries, X8 splitter consolidation).
 
 - Owner note (2026-07-15) for the A-slices: the story-workflow coupling lint (US-WF-001/US-PER-001, PR #94) hardcodes today's persona/workflow ontology; when the ontology becomes configuration, this linting must become configurable with it.
