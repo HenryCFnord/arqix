@@ -82,3 +82,59 @@ fn release_documents_stay_consistent_with_the_crate_version() {
         "the release process must reference the changelog it maintains"
     );
 }
+
+// arqix:verifies REQ-04-01-10-03
+#[test]
+fn findings_surfaces_speak_the_shared_diagnostics_contract() {
+    // The last command-specific findings shapes converge: every findings
+    // surface answers --format json with the one diagnostics payload.
+    let repo = common::scratch_copy(
+        "minimal",
+        "findings_surfaces_speak_the_shared_diagnostics_contract",
+    );
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let req_dir = repo.join("docs/en/architecture/req");
+    std::fs::create_dir_all(&req_dir).unwrap();
+    // One violation per surface: a forbidden keyword for lint requirements,
+    // a frontmatter contract breach for lint frontmatter, and a marker-less
+    // test function for trace markers.
+    std::fs::write(
+        req_dir.join("REQ-09-09-09-01-sample.md"),
+        "---\nid: REQ-09-09-09-01\ntitle: Sample\nslug: sample\niri: arqix:requirements/req-09-09-09-01\n\nrdf:\n  type:\n    - arqix:classes/functional-requirement\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: active\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  generated: false\n---\n\n## Requirement\n\nThe tool MUST reject unknown flags.\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("tests")).unwrap();
+    std::fs::write(
+        repo.join("tests/sample.rs"),
+        "#[test]\nfn needs_a_marker() {}\n",
+    )
+    .unwrap();
+
+    for command in [
+        vec!["lint", "frontmatter"],
+        vec!["lint", "requirements"],
+        vec!["trace", "markers"],
+    ] {
+        let mut args = command.clone();
+        args.extend(["--format", "json"]);
+        let out = common::run_arqix_in(&repo, &args);
+        let report = common::stdout_json(&out);
+        assert_eq!(
+            report["schema_version"], 1,
+            "{command:?} must version its payload: {report}"
+        );
+        let diagnostics = report["diagnostics"]
+            .as_array()
+            .unwrap_or_else(|| panic!("{command:?} must carry a diagnostics array: {report}"));
+        assert!(
+            diagnostics.iter().all(|d| d["severity"].is_string()
+                && d["code"].is_string()
+                && d["message"].is_string()),
+            "{command:?} entries carry severity, code, message: {report}"
+        );
+        assert!(
+            report.get("findings").is_none() && report.get("summary").is_none(),
+            "{command:?} must not keep a private findings shape: {report}"
+        );
+    }
+}

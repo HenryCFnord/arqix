@@ -90,28 +90,31 @@ fn lint_requirements_reports_authoring_violations_as_json() {
         )
     });
 
-    // The oracle's JSON shape: a `findings` array and a `summary` object.
-    for key in ["findings", "summary"] {
-        assert!(
-            report.get(key).is_some(),
-            "missing top-level key {key}: {report}"
-        );
-    }
-
-    let findings = report["findings"].as_array().expect("findings array");
+    // The shared diagnostics payload (REQ-04-01-10-03) — the oracle's
+    // findings/summary shape retired with its oracle.
+    assert_eq!(report["schema_version"], 1, "{report}");
+    let diagnostics = report["diagnostics"].as_array().expect("diagnostics array");
     // The representative finding: EARS-003 against the forbidden keyword, with
-    // the oracle's exact message string and the requirement's path.
+    // the exact message string and the requirement's path.
     assert!(
-        findings.iter().any(|f| f["rule"] == "EARS-003"
-            && f["level"] == "error"
-            && f["path"] == "docs/en/architecture/req/REQ-09-09-09-01-sample.md"
-            && f["message"] == "forbidden keyword 'MUST'; use the SHALL/SHOULD/MAY subset"),
+        diagnostics.iter().any(|d| d["code"] == "EARS-003"
+            && d["severity"] == "error"
+            && d["file"] == "docs/en/architecture/req/REQ-09-09-09-01-sample.md"
+            && d["message"] == "forbidden keyword 'MUST'; use the SHALL/SHOULD/MAY subset"),
         "expected the forbidden-keyword finding: {report}"
     );
     // The forbidden sentence also fails to classify (EARS-002) and carries no
     // allowed keyword (EARS-004): three error findings, no warnings.
-    assert_eq!(report["summary"]["errors"], 3, "{report}");
-    assert_eq!(report["summary"]["warnings"], 0, "{report}");
+    // The fixture yields exactly three errors, no warnings.
+    assert_eq!(
+        diagnostics
+            .iter()
+            .filter(|d| d["severity"] == "error")
+            .count(),
+        3,
+        "{report}"
+    );
+    assert_eq!(diagnostics.len(), 3, "{report}");
 }
 
 // arqix:verifies REQ-01-01-19-03
