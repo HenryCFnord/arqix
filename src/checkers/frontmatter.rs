@@ -1219,6 +1219,26 @@ fn load_docs(contract: &Contract) -> Vec<Doc> {
     docs
 }
 
+/// The semantic identity of an ontology definition, as ONT-009 compares it:
+/// declared types, subclass parents, domain, and range, order-insensitive.
+type OntSemantics = (Vec<String>, Vec<String>, Vec<String>, Vec<String>);
+
+fn ont_semantics(doc: &Doc) -> OntSemantics {
+    let mut types = doc.rdf_types.clone();
+    types.sort();
+    let sorted = |key: &str| {
+        let mut values = doc.rdfs.get(key).cloned().unwrap_or_default();
+        values.sort();
+        values
+    };
+    (
+        types,
+        sorted("sub-class-of"),
+        sorted("domain"),
+        sorted("range"),
+    )
+}
+
 /// The reflexive-transitive sub-class-of closure of one class.
 fn class_closure(start: &str, subclass: &HashMap<String, Vec<String>>) -> HashSet<String> {
     let mut seen: HashSet<String> = HashSet::new();
@@ -1464,11 +1484,54 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
     let mut findings = Vec::new();
     let docs = load_docs(contract);
 
+    // arqix:implements REQ-08-01-31-02
+    // The module layers (ADR-0021): the embedded ontology documents of the
+    // reserved core and the effective modules join the vocabulary tables
+    // below. A corpus definition of the same IRI overrides the embedded one
+    // (rising precedence), and embedded documents are definitions only —
+    // they never join the per-document checks.
+    let corpus_ont_iris: HashSet<String> = docs
+        .iter()
+        .filter(|d| d.family.starts_with("ont-"))
+        .filter_map(|d| d.scalars.get("iri").cloned())
+        .collect();
+    let embedded: Vec<Doc> =
+        crate::modules::embedded_ontology_docs(&crate::config::process_modules(Path::new(".")))
+            .into_iter()
+            .map(|(path, text)| {
+                let family = if path.contains("/classes/") {
+                    "ont-class"
+                } else if path.contains("/properties/") {
+                    "ont-property"
+                } else {
+                    "ont-individual"
+                };
+                Doc::new(path.to_string(), text.to_string(), family.to_string())
+            })
+            .collect();
+    // The shipped core semantics, captured before the override filter —
+    // ONT-009 compares against them (REQ-08-01-31-03).
+    let core_iris = crate::modules::core_iris();
+    let core_semantics: HashMap<String, OntSemantics> = embedded
+        .iter()
+        .filter_map(|d| d.scalars.get("iri").cloned().map(|iri| (iri, d)))
+        .filter(|(iri, _)| core_iris.contains(iri))
+        .map(|(iri, d)| (iri, ont_semantics(d)))
+        .collect();
+    let layered: Vec<&Doc> = embedded
+        .iter()
+        .filter(|d| {
+            d.scalars
+                .get("iri")
+                .is_none_or(|iri| !corpus_ont_iris.contains(iri))
+        })
+        .collect();
+
     let mut classes: HashSet<String> = HashSet::new();
     let mut properties: HashSet<String> = HashSet::new();
     let mut all_iris: HashSet<String> = HashSet::new();
     let mut classes_by_label: HashSet<String> = HashSet::new();
-    for doc in &docs {
+    for doc in docs.iter().chain(layered.iter().copied()) {
         if doc.family == "ont-class" {
             if let Some(iri) = doc.scalars.get("iri") {
                 classes.insert(iri.clone());
@@ -1500,7 +1563,7 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
     let mut domains: HashMap<String, Vec<String>> = HashMap::new();
     let mut ranges: HashMap<String, Vec<String>> = HashMap::new();
     let mut types_by_iri: HashMap<String, Vec<String>> = HashMap::new();
-    for doc in &docs {
+    for doc in docs.iter().chain(layered.iter().copied()) {
         if let Some(iri) = doc.scalars.get("iri") {
             types_by_iri.insert(iri.clone(), doc.rdf_types.clone());
             if doc.family == "ont-class"
@@ -1530,6 +1593,28 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
                 &doc.path,
                 "ONT-008",
                 format!("sub-class-of cycle through {iri}"),
+            ));
+        }
+    }
+
+    // arqix:implements REQ-08-01-31-03
+    // ONT-009: shadowing means changing (ADR-0021) — a corpus re-declaration
+    // of a reserved-core IRI is authorship when identical and a finding when
+    // its semantics diverge from the shipped definition.
+    for doc in &docs {
+        if !doc.family.starts_with("ont-") || !doc.fm_ok {
+            continue;
+        }
+        let Some(iri) = doc.scalars.get("iri") else {
+            continue;
+        };
+        if let Some(shipped) = core_semantics.get(iri)
+            && *shipped != ont_semantics(doc)
+        {
+            findings.push(Finding::error(
+                &doc.path,
+                "ONT-009",
+                format!("reserved core IRI {iri} redefined with different semantics"),
             ));
         }
     }
@@ -1654,10 +1739,8 @@ fn json_string(s: &str) -> String {
 /// `arqix lint frontmatter`.
 pub fn lint(format: OutputFormat, allow_undefined_inverse: bool) -> ExitCode {
     let contract = load_contract();
-    if !Path::new("docs/ontology").is_dir() {
-        eprintln!("error: docs/ontology not found under .");
-        return ExitCode::from(2);
-    }
+    // A corpus without docs/ontology is valid (ADR-0021): the reserved core
+    // and the effective module layers carry the vocabulary.
     let findings = run_checks(&contract, allow_undefined_inverse);
     report(&findings, format)
 }
