@@ -262,3 +262,44 @@ fn lint_frontmatter_verifies_the_local_copy_digest() {
         "expected SRC-006 for the missing copy: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-35-01
+#[test]
+fn lint_frontmatter_validates_declared_property_vocabularies() {
+    // FR-C1: the kind declares controlled vocabularies for named properties
+    // fields — the domain-state axis next to the guarded lifecycle.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_validates_declared_property_vocabularies",
+    );
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.term]\ndir = \"docs/terms\"\n\n[kinds.term.vocab]\nextraction-status = [\"extracted\", \"proposed\", \"decided\"]\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/terms");
+    std::fs::create_dir_all(&dir).unwrap();
+    let doc = STORY
+        .replace("lang: de", "lang: en")
+        .replace("properties: {}", "properties:\n  extraction-status: proposed");
+    std::fs::write(dir.join("sample.md"), &doc).unwrap();
+
+    // A declared value passes.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    common::assert_success(&out);
+
+    // A value outside the vocabulary is FM-009 naming field and value.
+    std::fs::write(
+        dir.join("sample.md"),
+        doc.replace("extraction-status: proposed", "extraction-status: bogus"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("FM-009") && stdout.contains("extraction-status") && stdout.contains("bogus"),
+        "expected FM-009 naming field and value: {stdout}"
+    );
+}
