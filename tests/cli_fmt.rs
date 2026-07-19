@@ -177,9 +177,9 @@ fn fmt_lifts_claim_markers_into_derived_triples() {
         "expected the sorted derived section: {text}"
     );
     assert_eq!(
-        text.matches("arqix:sources/src-0001").count(),
-        2,
-        "one derived entry plus the body marker, no duplicate: {text}"
+        text.matches("      - arqix:sources/src-0001").count(),
+        1,
+        "two markers on one source dedup to one derived entry: {text}"
     );
 
     // Idempotent: a second run changes nothing.
@@ -190,7 +190,10 @@ fn fmt_lifts_claim_markers_into_derived_triples() {
     // Drift: a hand edit fails check mode and does not survive fmt.
     std::fs::write(
         &path,
-        before.replace("arqix:sources/src-0002", "arqix:sources/src-0009"),
+        before.replace(
+            "      - arqix:sources/src-0002",
+            "      - arqix:sources/src-0009",
+        ),
     )
     .unwrap();
     let out = run_arqix_in(&repo, &["fmt", "--check"]);
