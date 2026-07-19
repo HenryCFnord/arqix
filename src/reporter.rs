@@ -276,7 +276,7 @@ const CLAIMS_PATH: &str = "docs/en/reports/claims.csv";
 /// it does not need.
 type Unit = fn(&Model, &Value, &str, &BTreeSet<String>) -> String;
 
-const UNITS: [(&str, Unit); 11] = [
+const UNITS: [(&str, Unit); 12] = [
     ("story-progress.md", unit_story_progress),
     ("scoreboard.md", unit_scoreboard),
     ("test-to-requirement.md", unit_test_to_requirement),
@@ -288,7 +288,111 @@ const UNITS: [(&str, Unit); 11] = [
     ("lines-of-code.md", unit_lines_of_code),
     ("source-catalog.md", unit_source_catalog),
     ("evidence-coverage.md", unit_evidence_coverage),
+    ("crosswalk.md", unit_crosswalk),
 ];
+
+/// The five mapping predicates of the crosswalk (ADR-0022), full IRIs.
+const MAPPING_PREDICATES: [&str; 5] = [
+    "arqix:properties/maps-to",
+    "arqix:properties/exact-match",
+    "arqix:properties/close-match",
+    "arqix:properties/broader-match",
+    "arqix:properties/narrower-match",
+];
+
+// arqix:implements REQ-08-01-43-03
+/// The mapping edges of one document's frontmatter, as (short mapping name,
+/// target IRI) pairs. Read from the raw lines because mapping targets are
+/// external IRIs, which the shared parser's arqix-scoped triple extraction
+/// deliberately leaves alone (its contract belongs to the trace engine).
+fn mapping_edges(frontmatter: &[String]) -> Vec<(String, String)> {
+    let mut edges = Vec::new();
+    let mut current: Option<String> = None;
+    for line in frontmatter {
+        if !line.starts_with(' ') && !line.starts_with('\t') {
+            // A new top-level key ends any triple scope.
+            current = None;
+            continue;
+        }
+        let trimmed = line.trim();
+        if let Some(rest) = trimmed.strip_prefix("- predicate:") {
+            let predicate = rest.trim();
+            current = MAPPING_PREDICATES
+                .iter()
+                .find(|p| **p == predicate)
+                .map(|p| p.rsplit('/').next().expect("non-empty IRI").to_string());
+        } else if let Some(rest) = trimmed.strip_prefix("object:") {
+            if let Some(mapping) = &current {
+                let value = rest.trim();
+                if !value.is_empty() {
+                    edges.push((mapping.clone(), value.to_string()));
+                }
+            }
+        } else if let (Some(mapping), Some(rest)) = (&current, trimmed.strip_prefix("- ")) {
+            let value = rest.trim();
+            if value.contains(':') {
+                edges.push((mapping.clone(), value.to_string()));
+            }
+        }
+    }
+    edges
+}
+
+// arqix:implements REQ-08-01-43-03
+/// Q-13: one row per mapping edge — the mapping document, the mapping
+/// property, and the external target — grouped by the target's namespace.
+fn unit_crosswalk(
+    _model: &Model,
+    _coverage: &Value,
+    snapshot: &str,
+    _retired: &BTreeSet<String>,
+) -> String {
+    // (namespace, target, document id, short mapping name) — sorted for
+    // deterministic output.
+    let mut rows: Vec<(String, String, String, String)> = Vec::new();
+    for doc in crate::store::documents() {
+        let Some(id) = doc.id.clone() else { continue };
+        for (mapping, target) in mapping_edges(&doc.frontmatter) {
+            let namespace = target
+                .split_once(':')
+                .map_or("(none)", |(ns, _)| ns)
+                .to_string();
+            rows.push((namespace, target, id.clone(), mapping));
+        }
+    }
+    rows.sort();
+    let mut lines = vec![header(
+        "How does the corpus map onto external standards?",
+        "Q-13",
+        snapshot,
+    )];
+    if rows.is_empty() {
+        lines.push("No mapping edges are declared.".to_string());
+    }
+    let mut current_ns: Option<&str> = None;
+    for (namespace, target, id, mapping) in &rows {
+        if current_ns != Some(namespace) {
+            lines.push(format!("## {namespace}"));
+            lines.push(String::new());
+            lines.push("| document | mapping | target |".to_string());
+            lines.push("| --- | --- | --- |".to_string());
+            current_ns = Some(namespace);
+        }
+        lines.push(format!(
+            "| {} | {} | `{}` |",
+            cell(id),
+            cell(mapping),
+            target
+        ));
+    }
+    lines.push(String::new());
+    lines.push(
+        "One row per mapping edge (ADR-0022), grouped by the target's \
+         namespace; the mapping vocabulary is the knowledge-base module's."
+            .to_string(),
+    );
+    lines.join("\n") + "\n"
+}
 
 // arqix:implements REQ-08-01-28-05
 /// Q-11: one deterministic row per source document, provenance columns

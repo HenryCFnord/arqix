@@ -103,3 +103,11 @@ assets = [
     "assets/arqix-logo-transparent.png",
     "docs/en/architecture/model/generated",
 ]
+
+# Domain entities (ADR-0022): first-class documents of arqix:classes/entity,
+# the shared identity several descriptions may reference via describes and
+# the canonical home of the mapping edges the crosswalk unit projects.
+[kinds.entity]
+dir = "docs/en/entities"
+template = "docs/en/templates/entity.tpl.md"
+id-pattern = "^ENT-(?P<seq>\\d{4})$"
