@@ -47,6 +47,9 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] FR-A1 close-out: US-08-01-30 + REQ-08-01-30-01 pin the existing ONT-003 triple-object resolution (both directions); the reported gap turned out to be scanning scope — documents outside every configured `[kinds.<family>].dir` are not walked — recorded in the spec and the intake triage.
 - [x] Module binding 1: US-08-01-31 + REQ-08-01-31-01, spec-first red/green; `[process].modules` selects the effective process modules, the coupling lint (US-WF-001/US-PER-001) runs exactly when story-driven is effective — the 2026-07-15 owner note on the A-slices is resolved.
 - [x] FR-B1: US-08-01-32 + REQ-08-01-32-01, spec-first red/green; repeatable `--set key=value` on `doc new` and the aliases fills template placeholders, TPL-003 for unused keys.
+- [x] FR-B2: US-08-01-33 + REQ-08-01-33-01/-02, spec-first red/green; `[kinds.<family>].id-template` and `dir-template` derive id and placement from `--set` values and the slug, `--id`/`--dir` stay overrides.
+- [x] FR-A2 (digest half): US-08-01-34 + REQ-08-01-34-01, spec-first red/green; SRC-006 verifies the local copy's bytes against the recorded sha256 (missing copy or stale digest, one finding each); the configurable field set stays with the ontology work.
+- [x] FR-B3 close-out by investigation: duplicate id and iri are corpus-wide findings (FM-006, linter duplicate-id) and `doc new` checks id uniqueness at creation; the missing slug-per-context check needs the bounded-context concept (FR-C3) and moves there.
 
 Band 2 is decided; the remaining PLANS.md table slices are A2-A4 (ontology/entity), B1-B2 (evidence/provenance), C5 (lifecycle), D6 (crosswalk), and D7 (queries).
 
