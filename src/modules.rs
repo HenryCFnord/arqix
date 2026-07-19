@@ -284,14 +284,42 @@ pub(crate) const STORY_DRIVEN: [(&str, &str); 34] = [
     ),
 ];
 
-pub(crate) const KNOWLEDGE_BASE: [(&str, &str); 3] = [
+pub(crate) const KNOWLEDGE_BASE: [(&str, &str); 10] = [
     (
         "docs/ontology/classes/claim.md",
         include_str!("../docs/ontology/classes/claim.md"),
     ),
     (
+        "docs/ontology/classes/entity.md",
+        include_str!("../docs/ontology/classes/entity.md"),
+    ),
+    (
         "docs/ontology/classes/source.md",
         include_str!("../docs/ontology/classes/source.md"),
+    ),
+    (
+        "docs/ontology/properties/broader-match.md",
+        include_str!("../docs/ontology/properties/broader-match.md"),
+    ),
+    (
+        "docs/ontology/properties/close-match.md",
+        include_str!("../docs/ontology/properties/close-match.md"),
+    ),
+    (
+        "docs/ontology/properties/describes.md",
+        include_str!("../docs/ontology/properties/describes.md"),
+    ),
+    (
+        "docs/ontology/properties/exact-match.md",
+        include_str!("../docs/ontology/properties/exact-match.md"),
+    ),
+    (
+        "docs/ontology/properties/maps-to.md",
+        include_str!("../docs/ontology/properties/maps-to.md"),
+    ),
+    (
+        "docs/ontology/properties/narrower-match.md",
+        include_str!("../docs/ontology/properties/narrower-match.md"),
     ),
     (
         "docs/ontology/properties/supported-by.md",

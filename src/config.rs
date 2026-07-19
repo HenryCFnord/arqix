@@ -476,6 +476,9 @@ pub struct FrontmatterVocab {
     /// The effective review vocabulary for the provenance carriers
     /// (REQ-08-01-40-06); absent keeps the built-in default.
     pub claim_review: Option<Vec<String>>,
+    /// The declared external predicates (REQ-08-01-43-02); absent means
+    /// none — an external predicate outside the list is ONT-010.
+    pub allowed_external_properties: Option<Vec<String>>,
 }
 
 // arqix:implements REQ-08-01-29-01
@@ -493,6 +496,8 @@ pub fn frontmatter_vocab(base: &Path) -> FrontmatterVocab {
             .and_then(|s| json_string_array(s.get("allowed-external-types"))),
         claim_confidence: section.and_then(|s| json_string_array(s.get("claim-confidence"))),
         claim_review: section.and_then(|s| json_string_array(s.get("claim-review-status"))),
+        allowed_external_properties: section
+            .and_then(|s| json_string_array(s.get("allowed-external-properties"))),
     }
 }
 

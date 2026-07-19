@@ -729,3 +729,79 @@ fn lint_frontmatter_guards_the_reserved_core() {
         "expected the divergent core redefinition to be reported: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-43-01
+#[test]
+fn lint_frontmatter_ships_the_entity_and_mapping_vocabulary() {
+    // ADR-0022: entity, describes, and the mapping properties are
+    // knowledge-base module vocabulary — present exactly when the module is.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_ships_the_entity_and_mapping_vocabulary",
+    );
+    let config =
+        "[process]\nmodules = [\"knowledge-base\"]\n\n[kinds.entity]\ndir = \"docs/en/entities\"\n";
+    std::fs::write(repo.join("arqix.toml"), config).unwrap();
+    let dir = repo.join("docs/en/entities");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("ENT-0001.md"),
+        "---\nid: ENT-0001\ntitle: A Term\nslug: a-term\niri: arqix:entities/ent-0001\n\nrdf:\n  type:\n    - arqix:classes/entity\n\ntriples:\n  - predicate: arqix:properties/exact-match\n    object: dcat:Dataset\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## A Term\n\nA fixture entity.\n",
+    )
+    .unwrap();
+
+    // With the module: class and mapping property resolve from the layer.
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+
+    // Without it, the same declarations are undefined vocabulary.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        config.replace("knowledge-base", "story-driven"),
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-002")
+            && stdout.contains("arqix:classes/entity")
+            && stdout.contains("ONT-001")
+            && stdout.contains("arqix:properties/exact-match"),
+        "expected class and property undefined without the module: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-08-01-43-02
+#[test]
+fn lint_frontmatter_holds_external_predicates_to_the_declared_list() {
+    // ADR-0022: the allowed-external-types discipline, extended to triple
+    // predicates as ONT-010.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_holds_external_predicates_to_the_declared_list",
+    );
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let story = STORY.replace("lang: de", "lang: en").replace(
+        "triples: []",
+        "triples:\n  - predicate: skos:exactMatch\n    object: dcat:Dataset",
+    );
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &story).unwrap();
+
+    // Undeclared external predicate: ONT-010.
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-010") && stdout.contains("skos:exactMatch"),
+        "expected the undeclared external predicate reported: {stdout}"
+    );
+
+    // Declared: silent.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[frontmatter]\nallowed-external-properties = [\"skos:exactMatch\"]\n",
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+}

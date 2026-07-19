@@ -78,6 +78,19 @@ fn effective_external_types() -> &'static [String] {
     })
 }
 
+// arqix:implements REQ-08-01-43-02
+/// The declared external predicates (`[frontmatter].allowed-external-properties`):
+/// an external predicate outside the list is ONT-010. The shipped default is
+/// empty — a corpus using only arqix vocabulary is unaffected.
+fn effective_external_properties() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .allowed_external_properties
+            .unwrap_or_default()
+    })
+}
+
 /// The canonical top-level key order and required keys shared by the
 /// architecture families.
 const ARCH_ORDER: [&str; 10] = [
@@ -1104,11 +1117,25 @@ fn check_vocabulary(
 ) {
     let path = &doc.path;
     for (predicate, objects) in &doc.triples {
-        if predicate.starts_with("arqix:") && !vocab.properties.contains(predicate) {
+        if predicate.starts_with("arqix:") {
+            if !vocab.properties.contains(predicate) {
+                findings.push(Finding::error(
+                    path,
+                    "ONT-001",
+                    format!("predicate {predicate} is not a defined ontology property"),
+                ));
+            }
+        } else if !effective_external_properties()
+            .iter()
+            .any(|p| p == predicate)
+        {
+            // arqix:implements REQ-08-01-43-02
             findings.push(Finding::error(
                 path,
-                "ONT-001",
-                format!("predicate {predicate} is not a defined ontology property"),
+                "ONT-010",
+                format!(
+                    "predicate {predicate} is neither an arqix property nor an allowed external property"
+                ),
             ));
         }
         for obj in objects {
