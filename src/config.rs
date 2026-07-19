@@ -437,6 +437,12 @@ pub struct KindContract {
     /// The family's required meta keys (REQ-01-01-19-03) — the one contract
     /// the formatter and both checkers validate against.
     pub required_meta: Option<Vec<String>>,
+    /// The family's id derivation (REQ-08-01-33-01): a template such as
+    /// `{context}-{slug}` filled from `--set` values and the derived slug.
+    pub id_template: Option<String>,
+    /// The family's placement derivation (REQ-08-01-33-02): a directory
+    /// template such as `contexts/{context}/terms`.
+    pub dir_template: Option<String>,
 }
 
 // arqix:implements REQ-08-01-31-01
@@ -504,6 +510,14 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
                             .and_then(Value::as_str)
                             .map(str::to_string),
                         required_meta: json_string_array(entry.get("required-meta")),
+                        id_template: entry
+                            .get("id-template")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                        dir_template: entry
+                            .get("dir-template")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
                     })
                 })
                 .collect()

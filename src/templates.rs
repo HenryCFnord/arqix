@@ -194,6 +194,28 @@ fn apply_sets(
     Ok(rendered)
 }
 
+/// Fill a kind's id/dir template from the `--set` pairs, the derived slug,
+/// and the kind name; the first uncovered placeholder is the error value.
+fn fill_kind_template(
+    template: &str,
+    pairs: &[(String, String)],
+    slug: Option<&str>,
+    kind: &str,
+) -> Result<String, String> {
+    let mut rendered = template.to_string();
+    for (key, value) in pairs {
+        rendered = rendered.replace(&format!("{{{key}}}"), value);
+    }
+    if let Some(slug) = slug {
+        rendered = rendered.replace("{slug}", slug);
+    }
+    rendered = rendered.replace("{kind}", kind);
+    match leftover_placeholder(&rendered) {
+        Some(placeholder) => Err(placeholder),
+        None => Ok(rendered),
+    }
+}
+
 /// The documented placeholder vocabulary, applied to any template source.
 fn substitute(
     text: &str,
@@ -346,6 +368,22 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
     }
     let (prefix, width, namespace) = scheme(kind);
     let docs = crate::store::documents();
+    let mut pairs: Vec<(String, String)> = Vec::new();
+    for raw in options.sets {
+        match raw.split_once('=') {
+            Some((key, value)) if !key.is_empty() => {
+                pairs.push((key.to_string(), value.to_string()));
+            }
+            _ => {
+                eprintln!("error: invalid --set '{raw}': expected key=value");
+                return ExitCode::from(2);
+            }
+        }
+    }
+    let contract = crate::config::kind_contracts(Path::new("."))
+        .into_iter()
+        .find(|contract| contract.family == kind);
+    let slug_opt = options.title.map(slugify);
     let id = match options.id {
         Some(explicit) => {
             if !valid_id(explicit) {
@@ -362,6 +400,36 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
                 return ExitCode::from(1);
             }
             explicit.to_string()
+        }
+        // arqix:implements REQ-08-01-33-01
+        None if contract.as_ref().is_some_and(|c| c.id_template.is_some()) => {
+            let template = contract
+                .as_ref()
+                .and_then(|c| c.id_template.as_deref())
+                .expect("guarded by the match arm");
+            let minted = match fill_kind_template(template, &pairs, slug_opt.as_deref(), kind) {
+                Ok(minted) => minted,
+                Err(placeholder) => {
+                    eprintln!(
+                        "error: id-template '{template}' placeholder '{{{placeholder}}}' has no value (pass --set {placeholder}=... or --title for slug)"
+                    );
+                    return ExitCode::from(2);
+                }
+            };
+            if !valid_id(&minted) {
+                eprintln!("error: invalid id '{minted}': expected an ID slug ([A-Za-z0-9-])");
+                return ExitCode::from(2);
+            }
+            if let Some(holder) = docs.iter().find(|doc| doc.id.as_deref() == Some(minted.as_str())) {
+                let diagnostic = Diagnostic::error(
+                    "TPL-002",
+                    format!("id {minted} is already used by {}", holder.file),
+                )
+                .at(&holder.file);
+                diag::emit(&[diagnostic], format);
+                return ExitCode::from(1);
+            }
+            minted
         }
         None => match crate::config::id_pattern_for_kind(Path::new("."), kind) {
             // arqix:implements REQ-01-01-18-01
@@ -384,10 +452,7 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
         Some(title) => title.to_string(),
         None => format!("New {}", capitalise(kind)),
     };
-    let slug = match options.title {
-        Some(title) => slugify(title),
-        None => id.to_lowercase(),
-    };
+    let slug = slug_opt.clone().unwrap_or_else(|| id.to_lowercase());
 
     let roots = crate::config::roots(Path::new("."));
     let root = roots.first().cloned().unwrap_or_else(|| "docs".to_string());
@@ -411,10 +476,37 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
             }
             PathBuf::from(explicit)
         }
-        None => crate::config::kind_contracts(Path::new("."))
-            .into_iter()
-            .find(|contract| contract.family == kind)
-            .map(|contract| PathBuf::from(contract.dir))
+        // arqix:implements REQ-08-01-33-02
+        None if contract.as_ref().is_some_and(|c| c.dir_template.is_some()) => {
+            let template = contract
+                .as_ref()
+                .and_then(|c| c.dir_template.as_deref())
+                .expect("guarded by the match arm");
+            let rendered = match fill_kind_template(template, &pairs, slug_opt.as_deref(), kind) {
+                Ok(rendered) => rendered,
+                Err(placeholder) => {
+                    eprintln!(
+                        "error: dir-template '{template}' placeholder '{{{placeholder}}}' has no value (pass --set {placeholder}=... or --title for slug)"
+                    );
+                    return ExitCode::from(2);
+                }
+            };
+            let path = Path::new(&rendered);
+            if path.is_absolute()
+                || path
+                    .components()
+                    .any(|c| matches!(c, std::path::Component::ParentDir))
+            {
+                eprintln!(
+                    "error: dir-template must render a repository-relative path without '..': {rendered}"
+                );
+                return ExitCode::from(2);
+            }
+            PathBuf::from(rendered)
+        }
+        None => contract
+            .as_ref()
+            .map(|contract| PathBuf::from(contract.dir.clone()))
             .unwrap_or_else(|| PathBuf::from(&root).join(kind)),
     };
     let path = dir.join(format!("{id}.md"));
@@ -432,18 +524,6 @@ pub fn new_document(kind: &str, options: NewOptions, format: OutputFormat) -> Ex
         if let Err(err) = std::fs::create_dir_all(&dir) {
             eprintln!("error: cannot create {}: {err}", dir.display());
             return ExitCode::from(2);
-        }
-        let mut pairs: Vec<(String, String)> = Vec::new();
-        for raw in options.sets {
-            match raw.split_once('=') {
-                Some((key, value)) if !key.is_empty() => {
-                    pairs.push((key.to_string(), value.to_string()));
-                }
-                _ => {
-                    eprintln!("error: invalid --set '{raw}': expected key=value");
-                    return ExitCode::from(2);
-                }
-            }
         }
         let content = match template(&id, kind, &namespace, &title, &slug, &pairs, format) {
             Ok(content) => content,
