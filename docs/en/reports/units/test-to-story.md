@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-05 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: 73256a2, 2026-07-19
+     Snapshot: 59ff9d4, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which user story belongs to which integration test?
