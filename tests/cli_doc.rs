@@ -757,3 +757,64 @@ fn doc_new_rejects_an_escaping_explicit_directory() {
         "nothing is written outside the repository"
     );
 }
+
+// arqix:verifies REQ-08-01-32-01
+#[test]
+fn doc_new_fills_set_placeholders_and_reports_unused_keys() {
+    // FR-B1: --set key=value fills the declared template's own placeholders;
+    // an unused key is an error, a malformed pair is a usage error.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_new_fills_set_placeholders_and_reports_unused_keys",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[kinds.term]\ndir = \"docs/terms\"\ntemplate = \"tpl/term.tpl.md\"\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(repo.join("tpl")).unwrap();
+    std::fs::write(
+        repo.join("tpl/term.tpl.md"),
+        "---\nid: {id}\ntitle: {title}\ncontext: {context}\n---\n\n## {title}\n\nDefined in {source_id}.\n",
+    )
+    .unwrap();
+
+    // Both template-own placeholders are filled from --set.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc", "new", "term", "--title", "Intent", "--set", "context=tmforum", "--set",
+            "source_id=tr290",
+        ],
+    );
+    assert_success(&out);
+    let dir = repo.join("docs/terms");
+    let entry = std::fs::read_dir(&dir).unwrap().next().unwrap().unwrap();
+    let text = std::fs::read_to_string(entry.path()).unwrap();
+    assert!(
+        text.contains("context: tmforum") && text.contains("Defined in tr290."),
+        "expected both placeholders filled: {text}"
+    );
+
+    // A key the template does not use is an error naming the key.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc", "new", "term", "--title", "Other", "--set", "context=x", "--set",
+            "source_id=y", "--set", "bogus=z",
+        ],
+    );
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("TPL-003") && stdout.contains("bogus"),
+        "expected TPL-003 naming the unused key: {stdout}"
+    );
+
+    // A malformed pair without '=' is a usage error.
+    let out = run_arqix_in(
+        &repo,
+        &["doc", "new", "term", "--title", "Third", "--set", "nonsense"],
+    );
+    assert_eq!(out.status.code(), Some(2), "expected usage exit 2");
+}
