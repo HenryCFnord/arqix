@@ -103,12 +103,13 @@ fn lint_frontmatter_resolves_the_configured_section_kinds() {
         "[frontmatter]\nsection-kinds = [\"term-page\"]\n",
     )
     .unwrap();
-    let dir = repo.join("docs/en/notes");
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
     std::fs::create_dir_all(&dir).unwrap();
     let doc = STORY
         .replace("lang: de", "lang: en")
         .replace("properties: {}", "properties:\n  section-kind: term-page");
-    std::fs::write(dir.join("sample.md"), &doc).unwrap();
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &doc).unwrap();
 
     // The configured kind passes.
     let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
@@ -116,7 +117,7 @@ fn lint_frontmatter_resolves_the_configured_section_kinds() {
 
     // A built-in kind outside the configured vocabulary is now a finding.
     std::fs::write(
-        dir.join("sample.md"),
+        dir.join("US-09-09-09-sample-story.md"),
         doc.replace("section-kind: term-page", "section-kind: arc42-chapter"),
     )
     .unwrap();
@@ -143,19 +144,20 @@ fn lint_frontmatter_resolves_the_configured_external_types() {
         "[frontmatter]\nallowed-external-types = [\"skos:Concept\"]\n",
     )
     .unwrap();
-    let dir = repo.join("docs/en/notes");
+    std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
     std::fs::create_dir_all(&dir).unwrap();
     let doc = STORY
         .replace("lang: de", "lang: en")
         .replace("rdfs:Class", "skos:Concept");
-    std::fs::write(dir.join("sample.md"), &doc).unwrap();
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &doc).unwrap();
 
     // The configured external type passes.
     let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
     common::assert_success(&out);
 
     // A built-in type outside the configured vocabulary is now a finding.
-    std::fs::write(dir.join("sample.md"), doc.replace("skos:Concept", "rdfs:Class")).unwrap();
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), doc.replace("skos:Concept", "rdfs:Class")).unwrap();
     let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
     assert_findings(&out);
     let stdout = String::from_utf8_lossy(&out.stdout);
