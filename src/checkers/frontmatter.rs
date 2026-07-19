@@ -185,7 +185,7 @@ struct Contract {
     family_meta: HashMap<String, Vec<String>>,
     family_patterns: HashMap<String, String>,
     /// Declared vocabularies for named `properties` fields per family
-    /// (REQ-08-01-35-01): the domain-state axis next to the guarded
+    /// (REQ-08-01-29-03): the domain-state axis next to the guarded
     /// lifecycle.
     family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
     /// Declared placement templates per family (REQ-08-01-38-01): the
@@ -343,7 +343,7 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
                 .family_dir_templates
                 .insert(family.clone(), template.to_string());
         }
-        // arqix:implements REQ-08-01-35-01
+        // arqix:implements REQ-08-01-29-03
         if let Some(vocab) = entry.get("vocab").and_then(|v| v.as_table()) {
             let declared: Vec<(String, Vec<String>)> = vocab
                 .iter()
@@ -904,7 +904,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
         }
     }
 
-    // arqix:implements REQ-08-01-35-01
+    // arqix:implements REQ-08-01-29-03
     if let Some(declared) = contract.family_vocab.get(&doc.family) {
         for (field, allowed) in declared {
             if let Some(value) = doc.properties.get(field)

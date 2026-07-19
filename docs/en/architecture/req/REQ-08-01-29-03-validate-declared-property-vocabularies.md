@@ -1,8 +1,8 @@
 ---
-id: REQ-08-01-35-01
+id: REQ-08-01-29-03
 title: Validate Declared Property Vocabularies
 slug: validate-declared-property-vocabularies
-iri: arqix:requirements/req-08-01-35-01
+iri: arqix:requirements/req-08-01-29-03
 
 rdf:
   type:
@@ -11,6 +11,7 @@ rdf:
 triples:
   - predicate: arqix:properties/derived-from
     object:
+      - arqix:user-stories/us-08-01-29
       - arqix:user-stories/us-08-01-35
   - predicate: arqix:properties/has-verification-method
     object:
@@ -38,4 +39,4 @@ When `arqix lint frontmatter` checks a document whose kind declares a vocabulary
 ### Notes
 
 Rule FM-009; the domain-state axis next to the guarded lifecycle (FM-008), per the two-axes rule.
-Derived from US-08-01-35.
+Derived from US-08-01-29.

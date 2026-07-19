@@ -270,7 +270,7 @@ fn lint_frontmatter_verifies_the_local_copy_digest() {
     );
 }
 
-// arqix:verifies REQ-08-01-35-01
+// arqix:verifies REQ-08-01-29-03
 #[test]
 fn lint_frontmatter_validates_declared_property_vocabularies() {
     // FR-C1: the kind declares controlled vocabularies for named properties
