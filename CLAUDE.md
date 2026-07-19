@@ -28,3 +28,5 @@ This is a mapping only; it introduces no new rules.
   - Requirement authoring rules (RFC 2119 subset + EARS patterns) are documented in `docs/en/processes/requirements-style-guide.md`.
   - Markdown authoring rules (markdownlint via `.markdownlint.jsonc`, one sentence per line, markers above their block) are documented in `docs/en/processes/markdown-style-guide.md`; run `npx markdownlint-cli2` on touched Markdown.
   - Refactoring follows the four-phase loop (assess, strengthen tests, refactor, tidy) documented in `docs/en/processes/refactoring-methodology.md`; the normative rules live in AGENTS.md `## Refactoring`.
+  - Corpus documents describe the thing itself — forces, decision, effect — never the decision process: no owner attribution, no dates as narrative, no plan codenames; process history belongs in `docs/en/plans/` and the roadmap.
+    The normative rule lives in AGENTS.md `## Documentation`.
