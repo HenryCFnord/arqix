@@ -183,6 +183,10 @@ struct Contract {
     families: Vec<FamilyDef>,
     family_meta: HashMap<String, Vec<String>>,
     family_patterns: HashMap<String, String>,
+    /// Declared vocabularies for named `properties` fields per family
+    /// (REQ-08-01-35-01): the domain-state axis next to the guarded
+    /// lifecycle.
+    family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
 }
 
 impl Contract {
@@ -257,6 +261,7 @@ impl Contract {
             families,
             family_meta: HashMap::new(),
             family_patterns: HashMap::new(),
+            family_vocab: HashMap::new(),
         }
     }
 
@@ -323,6 +328,16 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
             contract
                 .family_patterns
                 .insert(family.clone(), pattern.to_string());
+        }
+        // arqix:implements REQ-08-01-35-01
+        if let Some(vocab) = entry.get("vocab").and_then(|v| v.as_table()) {
+            let declared: Vec<(String, Vec<String>)> = vocab
+                .iter()
+                .filter_map(|(field, values)| {
+                    Some((field.clone(), toml_string_array(Some(values))?))
+                })
+                .collect();
+            contract.family_vocab.insert(family.clone(), declared);
         }
     }
 }
@@ -828,6 +843,25 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
                 py_repr(section_kind)
             ),
         ));
+    }
+
+    // arqix:implements REQ-08-01-35-01
+    if let Some(declared) = contract.family_vocab.get(&doc.family) {
+        for (field, allowed) in declared {
+            if let Some(value) = doc.properties.get(field)
+                && !allowed.contains(value)
+            {
+                findings.push(Finding::error(
+                    path,
+                    "FM-009",
+                    format!(
+                        "properties.{field} {} is not in the vocabulary {}",
+                        py_repr(value),
+                        py_list_repr(allowed)
+                    ),
+                ));
+            }
+        }
     }
 
     if let Some(lifecycle) = doc.meta.get("lifecycle-status") {
