@@ -628,3 +628,60 @@ fn report_snapshot_renders_the_source_catalog() {
         "expected the projected provenance row: {text}"
     );
 }
+
+// arqix:verifies REQ-08-01-41-01
+// arqix:verifies REQ-08-01-41-02
+#[test]
+fn report_claims_exports_markers_and_counts_coverage() {
+    // ADR-0018 data side: the claims projection and the evidence numbers.
+    let repo = scratch_copy(
+        "minimal",
+        "report_claims_exports_markers_and_counts_coverage",
+    );
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("US-09-09-09-sample-story.md"),
+        "---\nid: US-09-09-09\ntitle: Sample Story\nslug: sample-story\niri: arqix:user-stories/us-09-09-09\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples: []\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-13\n  updated: 2026-07-13\n  lang: en\n  generated: false\n---\n\n## Sample Story\n\n<!-- arqix:claim supported-by=arqix:sources/src-0001 confidence=high anchor=\"2.1\" -->\nA supported sentence.\n\n<!-- arqix:claim supported-by=arqix:sources/src-0002 -->\nAnother supported sentence.\n",
+    )
+    .unwrap();
+
+    // The deterministic projection: file, target, confidence, anchor.
+    let out = run_arqix_in(&repo, &["report", "claims"]);
+    assert_success(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.starts_with("file,supported_by,confidence,anchor")
+            && stdout.contains("arqix:sources/src-0001,high,2.1")
+            && stdout.contains("arqix:sources/src-0002,,"),
+        "expected the claim rows: {stdout}"
+    );
+
+    // The evidence unit counts claims, documents, and distinct sources.
+    assert_success(&run_arqix_in(
+        &repo,
+        &["report", "snapshot", "--stamp", "conformance, 2026-01-01"],
+    ));
+    let unit = repo.join("docs/en/reports/units/evidence-coverage.md");
+    let text = std::fs::read_to_string(&unit).expect("evidence-coverage.md rendered");
+    assert!(
+        text.contains("| claims | 2 |")
+            && text.contains("| documents with claims | 1 |")
+            && text.contains("| distinct sources cited | 2 |"),
+        "expected the evidence counts: {text}"
+    );
+
+    // The committed export joins the freshness gate.
+    std::fs::write(
+        repo.join("docs/en/reports/claims.csv"),
+        "file,supported_by,confidence,anchor\nstale\n",
+    )
+    .unwrap();
+    write_matrices(&repo);
+    write_statements(&repo);
+    let out = run_arqix_in(&repo, &["report", "snapshot", "--check"]);
+    assert!(
+        out.status.code() != Some(0),
+        "expected the stale claims export to fail the check"
+    );
+}
