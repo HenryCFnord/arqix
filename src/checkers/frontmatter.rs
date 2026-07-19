@@ -946,6 +946,55 @@ fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
             ));
         }
     }
+
+    // arqix:implements REQ-08-01-34-01
+    // The digest pins what was read (SRC-006): with a clean path shape
+    // (SRC-005) and a well-formed digest (SRC-004), the copy must exist and
+    // its bytes must hash to the recorded value — one cause, one finding.
+    if let (Some(copy), Some(digest)) = (
+        doc.properties.get("local-copy"),
+        doc.properties.get("sha256"),
+    ) {
+        let digest_ok = digest.len() == 64
+            && digest
+                .bytes()
+                .all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase());
+        let p = Path::new(copy);
+        let escapes = p.is_absolute()
+            || p.components()
+                .any(|c| matches!(c, std::path::Component::ParentDir));
+        let in_corpus = roots
+            .iter()
+            .any(|root| copy == root || copy.starts_with(&format!("{root}/")));
+        if digest_ok && !escapes && !in_corpus {
+            match std::fs::read(p) {
+                Ok(bytes) => {
+                    use sha2::Digest;
+                    let actual = sha2::Sha256::digest(&bytes)
+                        .iter()
+                        .map(|b| format!("{b:02x}"))
+                        .collect::<String>();
+                    if actual != *digest {
+                        findings.push(Finding::error(
+                            path,
+                            "SRC-006",
+                            format!(
+                                "properties.local-copy {} hashes to {actual}, not the recorded sha256",
+                                py_repr(copy)
+                            ),
+                        ));
+                    }
+                }
+                Err(_) => {
+                    findings.push(Finding::error(
+                        path,
+                        "SRC-006",
+                        format!("properties.local-copy {} does not exist", py_repr(copy)),
+                    ));
+                }
+            }
+        }
+    }
 }
 
 struct Vocab {
