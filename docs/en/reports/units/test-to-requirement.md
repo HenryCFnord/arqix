@@ -1,6 +1,6 @@
 <!-- GENERATED SNAPSHOT — do not edit by hand.
      Question: Q-02 (see docs/en/reports/QUESTIONS.md)
-     Snapshot: e35165c, 2026-07-19
+     Snapshot: 73256a2, 2026-07-19
      Regenerate: arqix report snapshot --stamp "<sha>, <date>" -->
 
 # Which tests verify which requirements?
@@ -37,7 +37,7 @@
 | `canonical_owner_fixture_is_clean_with_multiple_stories` | src/checkers/requirements.rs:1176 | REQ-01-01-11-06 | active |
 | `catalogue_entries_carry_anchors_and_coverage_status` | tests/cli_publish.rs:728 | REQ-04-01-17-02 | active |
 | `catalogue_pages_are_deterministic` | tests/cli_publish.rs:750 | REQ-04-01-17-03 | active |
-| `code_unit_lists_implements_markers_without_a_fn` | src/reporter.rs:1285 | REQ-04-01-12-04 | active |
+| `code_unit_lists_implements_markers_without_a_fn` | src/reporter.rs:1289 | REQ-04-01-12-04 | active |
 | `complete_final_source_is_clean` | src/checkers/frontmatter.rs:1909 | REQ-08-01-28-01 | active |
 | `complete_final_source_is_clean` | src/checkers/frontmatter.rs:1910 | REQ-08-01-28-02 | active |
 | `complete_final_source_is_clean` | src/checkers/frontmatter.rs:1911 | REQ-08-01-28-03 | active |
@@ -163,7 +163,7 @@
 | `mutating_commands_leave_files_outside_the_roots_untouched` | tests/cli_quality.rs:28 | REQ-00-00-00-07 | active |
 | `pdf_staging_collection_member_keeps_its_title_as_a_chapter` | src/publisher.rs:1252 | REQ-04-01-03-09 | active |
 | `pdf_staging_drops_the_leading_title_and_lifts_content_to_top_level` | src/publisher.rs:1199 | REQ-04-01-03-09 | active |
-| `percent_ties_round_to_even_like_python` | src/reporter.rs:1308 | REQ-04-01-12-04 | active |
+| `percent_ties_round_to_even_like_python` | src/reporter.rs:1312 | REQ-04-01-12-04 | active |
 | `persona_missing_from_the_workflow_is_reported` | src/checkers/requirements.rs:1453 | REQ-01-01-11-09 | active |
 | `policy_check_evaluates_changed_files_against_the_declared_scope` | tests/cli_policy.rs:38 | REQ-01-01-07-02 | active |
 | `policy_check_passes_when_no_policy_is_declared` | tests/cli_policy.rs:63 | REQ-01-01-07-02 | active |
@@ -218,23 +218,23 @@
 | `report_snapshot_regenerates_units_deterministically` | tests/cli_report.rs:249 | REQ-04-01-12-04 | active |
 | `report_snapshot_renders_the_source_catalog` | tests/cli_report.rs:605 | REQ-08-01-37-01 | active |
 | `report_statements_exports_the_classification` | tests/cli_report.rs:400 | REQ-07-01-08-01 | active |
-| `retired_ids_finds_the_retired_story` | src/reporter.rs:1221 | REQ-04-01-12-04 | active |
+| `retired_ids_finds_the_retired_story` | src/reporter.rs:1225 | REQ-04-01-12-04 | active |
 | `scaffolded_documents_satisfy_the_default_meta_contract` | tests/cli_fmt.rs:126 | REQ-01-01-19-03 | active |
-| `scoreboard_shows_full_verified_functional` | src/reporter.rs:1241 | REQ-04-01-12-04 | active |
+| `scoreboard_shows_full_verified_functional` | src/reporter.rs:1245 | REQ-04-01-12-04 | active |
 | `search_answers_within_a_second_on_a_thousand_documents` | tests/cli_quality.rs:194 | REQ-00-00-00-11 | active |
 | `selftest_cases_match_the_oracle` | src/checkers/frontmatter.rs:1525 | REQ-01-01-11-07 | active |
 | `sentence_checks_match_the_oracle_selftest_cases` | src/checkers/requirements.rs:1035 | REQ-01-01-11-06 | active |
 | `source_iri_outside_the_namespace_is_reported` | src/checkers/frontmatter.rs:1922 | REQ-08-01-28-01 | active |
 | `staged_pages_do_not_duplicate_the_title_heading` | tests/cli_publish.rs:764 | REQ-04-01-03-02 | active |
 | `story_in_a_workflow_its_id_does_not_encode_is_reported` | src/checkers/requirements.rs:1422 | REQ-01-01-11-08 | active |
-| `story_progress_counts_the_verified_requirement` | src/reporter.rs:1210 | REQ-04-01-12-04 | active |
-| `story_progress_excludes_retired_stories` | src/reporter.rs:1228 | REQ-04-01-12-04 | active |
+| `story_progress_counts_the_verified_requirement` | src/reporter.rs:1214 | REQ-04-01-12-04 | active |
+| `story_progress_excludes_retired_stories` | src/reporter.rs:1232 | REQ-04-01-12-04 | active |
 | `story_without_a_workflow_is_reported` | src/checkers/requirements.rs:1437 | REQ-01-01-11-08 | active |
-| `table_cells_escape_pipes` | src/reporter.rs:1302 | REQ-04-01-12-04 | active |
+| `table_cells_escape_pipes` | src/reporter.rs:1306 | REQ-04-01-12-04 | active |
 | `templates_and_validation_share_the_contract_source` | tests/cli_quality.rs:404 | REQ-01-01-10-03 | active |
-| `test_to_requirement_lists_the_active_test` | src/reporter.rs:1252 | REQ-04-01-12-04 | active |
-| `test_to_story_joins_through_the_requirement` | src/reporter.rs:1263 | REQ-04-01-12-04 | active |
-| `test_to_workflow_joins_through_the_story` | src/reporter.rs:1274 | REQ-04-01-12-04 | active |
+| `test_to_requirement_lists_the_active_test` | src/reporter.rs:1256 | REQ-04-01-12-04 | active |
+| `test_to_story_joins_through_the_requirement` | src/reporter.rs:1267 | REQ-04-01-12-04 | active |
+| `test_to_workflow_joins_through_the_story` | src/reporter.rs:1278 | REQ-04-01-12-04 | active |
 | `the_assembly_log_is_a_collectable_artefact` | tests/cli_quality.rs:326 | REQ-04-01-01-01 | active |
 | `the_verification_loop_completes_within_ten_seconds_on_a_thousand_documents` | tests/cli_quality.rs:207 | REQ-00-00-00-12 | active |
 | `tool_logic_answers_without_any_transport` | src/mcp.rs:205 | REQ-05-01-12-03 | active |
@@ -254,7 +254,7 @@
 | `trace_scan_outputs_the_trace_graph_as_json` | tests/cli_trace.rs:24 | REQ-03-01-05-04 | active |
 | `unit_new_creates_a_unit_from_the_configured_template` | tests/cli_unit.rs:8 | REQ-00-00-00-05 | active |
 | `unit_new_help_explains_location_metadata_and_ids` | tests/cli_quality.rs:222 | REQ-01-01-02-03 | active |
-| `units_are_deterministic` | src/reporter.rs:1293 | REQ-04-01-12-04 | active |
+| `units_are_deterministic` | src/reporter.rs:1297 | REQ-04-01-12-04 | active |
 | `unresolvable_workflow_reference_skips_the_persona_check` | src/checkers/requirements.rs:1491 | REQ-01-01-11-09 | active |
 | `unresolved_references_stay_visible_in_trace_outputs` | tests/cli_quality.rs:159 | REQ-03-01-05-05 | active |
 | `usage_error_exits_with_code_2` | tests/cli.rs:30 | REQ-00-00-00-02 | active |

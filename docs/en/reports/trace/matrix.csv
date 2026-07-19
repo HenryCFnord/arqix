@@ -158,7 +158,7 @@ REQ-04-01-10-02,functional,,,
 REQ-04-01-12-01,functional,tests/cli_report.rs:68,,src/reporter.rs:19
 REQ-04-01-12-02,functional,tests/cli_report.rs:95,,src/reporter.rs:20
 REQ-04-01-12-03,functional,tests/cli_report.rs:115,,src/reporter.rs:21
-REQ-04-01-12-04,functional,src/reporter.rs:1210;src/reporter.rs:1221;src/reporter.rs:1228;src/reporter.rs:1241;src/reporter.rs:1252;src/reporter.rs:1263;src/reporter.rs:1274;src/reporter.rs:1285;src/reporter.rs:1293;src/reporter.rs:1302;src/reporter.rs:1308;tests/cli_report.rs:249;tests/cli_report.rs:290;tests/cli_report.rs:309;tests/cli_report.rs:336;tests/cli_report.rs:362,,src/reporter.rs:893
+REQ-04-01-12-04,functional,src/reporter.rs:1214;src/reporter.rs:1225;src/reporter.rs:1232;src/reporter.rs:1245;src/reporter.rs:1256;src/reporter.rs:1267;src/reporter.rs:1278;src/reporter.rs:1289;src/reporter.rs:1297;src/reporter.rs:1306;src/reporter.rs:1312;tests/cli_report.rs:249;tests/cli_report.rs:290;tests/cli_report.rs:309;tests/cli_report.rs:336;tests/cli_report.rs:362,,src/reporter.rs:897
 REQ-04-01-13-01,functional,,,
 REQ-04-01-13-02,functional,,,
 REQ-04-01-13-03,functional,,,
@@ -191,10 +191,10 @@ REQ-05-01-15-01,functional,tests/cli_report.rs:146,,src/reporter.rs:125
 REQ-05-01-15-02,functional,tests/cli_report.rs:147,,src/reporter.rs:126
 REQ-05-01-15-03,functional,tests/cli_report.rs:188,,src/reporter.rs:127
 REQ-06-01-02-01,quality,tests/cli_quality.rs:348,,
-REQ-07-01-08-01,functional,src/checkers/requirements.rs:1355;tests/cli_report.rs:400,,src/checkers/requirements.rs:357;src/reporter.rs:1096
-REQ-07-01-08-02,functional,tests/cli_report.rs:433,,src/reporter.rs:857
-REQ-07-01-09-01,functional,tests/cli_report.rs:473;tests/cli_report.rs:569,,src/reporter.rs:918
-REQ-07-01-10-01,functional,tests/cli_report.rs:512,,src/reporter.rs:1026
+REQ-07-01-08-01,functional,src/checkers/requirements.rs:1355;tests/cli_report.rs:400,,src/checkers/requirements.rs:357;src/reporter.rs:1100
+REQ-07-01-08-02,functional,tests/cli_report.rs:433,,src/reporter.rs:861
+REQ-07-01-09-01,functional,tests/cli_report.rs:473;tests/cli_report.rs:569,,src/reporter.rs:922
+REQ-07-01-10-01,functional,tests/cli_report.rs:512,,src/reporter.rs:1030
 REQ-08-01-01-01,quality,tests/cli_quality.rs:364,,
 REQ-08-01-01-02,quality,tests/cli_quality.rs:391,,
 REQ-08-01-02-01,quality,tests/cli_quality.rs:349,,

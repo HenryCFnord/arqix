@@ -314,6 +314,11 @@ fn unit_source_catalog(
         let title = doc.title.clone().unwrap_or_default();
         let props = frontmatter_properties(&doc.file);
         let get = |key: &str| props.get(key).cloned().unwrap_or_else(|| "—".to_string());
+        // Angle brackets keep the generated table markdownlint-clean (MD034).
+        let uri = match props.get("uri") {
+            Some(uri) => format!("<{uri}>"),
+            None => "—".to_string(),
+        };
         let copy = match (props.get("local-copy"), props.get("sha256")) {
             (Some(copy), Some(digest)) => {
                 format!("`{copy}` ({})", &digest[..digest.len().min(12)])
@@ -323,8 +328,7 @@ fn unit_source_catalog(
         rows.push((
             id.clone(),
             format!(
-                "| {id} | {title} | {} | {} | {} | {copy} |",
-                get("uri"),
+                "| {id} | {title} | {uri} | {} | {} | {copy} |",
                 get("accessed"),
                 get("licence")
             ),
