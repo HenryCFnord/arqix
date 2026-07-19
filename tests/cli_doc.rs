@@ -916,3 +916,26 @@ fn doc_new_derives_id_and_placement_from_kind_templates() {
         "explicit --id/--dir win over the templates"
     );
 }
+
+// arqix:verifies REQ-08-01-39-01
+#[test]
+fn doc_new_reports_taken_ids_as_tpl_004() {
+    // One id, one meaning: a taken id is TPL-004, never the placeholder rule.
+    let repo = scratch_copy("minimal", "doc_new_reports_taken_ids_as_tpl_004");
+    assert_success(&run_arqix_in(
+        &repo,
+        &["doc", "new", "note", "--id", "taken-id", "--title", "First"],
+    ));
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc", "new", "note", "--id", "taken-id", "--title", "Second",
+        ],
+    );
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("TPL-004") && stdout.contains("taken-id"),
+        "expected TPL-004 naming the taken id: {stdout}"
+    );
+}
