@@ -29,6 +29,19 @@ impl Finding {
             message,
         }
     }
+
+    // arqix:implements REQ-04-01-10-03
+    /// The finding as a shared-contract diagnostic (REQ-00-00-00-03): the
+    /// checkers' JSON surface is the one diagnostics payload, not a private
+    /// findings shape.
+    pub(crate) fn to_diagnostic(&self) -> crate::diag::Diagnostic {
+        let diagnostic = if self.level == "error" {
+            crate::diag::Diagnostic::error(self.rule, self.message.clone())
+        } else {
+            crate::diag::Diagnostic::warning(self.rule, self.message.clone())
+        };
+        diagnostic.at(self.path.clone())
+    }
 }
 
 pub(crate) fn py_repr(s: &str) -> String {

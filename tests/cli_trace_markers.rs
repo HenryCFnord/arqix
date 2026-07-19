@@ -42,8 +42,10 @@ fn trace_markers_gates_test_functions_without_a_marker() {
     assert_findings(&out);
 
     let report = stdout_json(&out);
-    // The frozen JSON shape: sorted keys, the four top-level fields.
-    for key in ["findings", "warnings", "tests_files", "coverage_by_kind"] {
+    // The shared diagnostics payload (REQ-04-01-10-03) plus the additive
+    // coverage counters.
+    assert_eq!(report["schema_version"], 1, "{report}");
+    for key in ["diagnostics", "tests_files", "coverage_by_kind"] {
         assert!(
             report.get(key).is_some(),
             "missing top-level key {key}: {report}"
@@ -61,11 +63,12 @@ fn trace_markers_gates_test_functions_without_a_marker() {
     );
 
     // The representative finding: TRC-002 against the marker-less test.
-    let findings = report["findings"].as_array().expect("findings array");
+    let diagnostics = report["diagnostics"].as_array().expect("diagnostics array");
     assert!(
-        findings.iter().any(|f| f["rule"] == "TRC-002"
-            && f["file"] == "tests/sample.rs"
-            && f["message"] == "test has neither a verifies/plans marker nor an arqix:no-requirement annotation"),
+        diagnostics.iter().any(|d| d["code"] == "TRC-002"
+            && d["severity"] == "error"
+            && d["file"] == "tests/sample.rs"
+            && d["message"] == "test has neither a verifies/plans marker nor an arqix:no-requirement annotation"),
         "expected a TRC-002 finding for the marker-less test: {report}"
     );
 }

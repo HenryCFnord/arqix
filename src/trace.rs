@@ -1798,14 +1798,29 @@ pub fn markers_command(format: OutputFormat) -> ExitCode {
         .collect();
 
     match format {
+        // arqix:implements REQ-04-01-10-03
+        // The shared diagnostics payload (REQ-00-00-00-03) — findings as
+        // errors, kind warnings as warnings — with the coverage counters as
+        // additive keys.
         OutputFormat::Json => {
+            let diagnostics: Vec<Value> = findings
+                .iter()
+                .map(|(f, l, r, m)| {
+                    json!({
+                        "severity": "error", "code": r, "message": m,
+                        "file": f, "line": l,
+                    })
+                })
+                .chain(warnings.iter().map(|(f, r, m)| {
+                    json!({
+                        "severity": "warning", "code": r, "message": m,
+                        "file": f,
+                    })
+                }))
+                .collect();
             let payload = json!({
-                "findings": findings.iter().map(|(f, l, r, m)| json!({
-                    "file": f, "line": l, "rule": r, "message": m,
-                })).collect::<Vec<_>>(),
-                "warnings": warnings.iter().map(|(f, r, m)| json!({
-                    "file": f, "rule": r, "message": m,
-                })).collect::<Vec<_>>(),
+                "schema_version": SCHEMA_VERSION,
+                "diagnostics": diagnostics,
                 "tests_files": test_files.len(),
                 "coverage_by_kind": Value::Object(coverage),
             });

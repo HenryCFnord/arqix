@@ -66,27 +66,21 @@ fn lint_frontmatter_reports_contract_violations_as_json() {
         )
     });
 
-    // The oracle's JSON shape: a `findings` array and a `summary` object.
-    for key in ["findings", "summary"] {
-        assert!(
-            report.get(key).is_some(),
-            "missing top-level key {key}: {report}"
-        );
-    }
-
-    let findings = report["findings"].as_array().expect("findings array");
+    // The shared diagnostics payload (REQ-04-01-10-03) — the oracle's
+    // findings/summary shape retired with its oracle.
+    assert_eq!(report["schema_version"], 1, "{report}");
+    let diagnostics = report["diagnostics"].as_array().expect("diagnostics array");
     // The representative finding: FMT-006 against the non-`en` language, with
-    // the oracle's exact message string and the document's path.
+    // the exact message string and the document's path.
     assert!(
-        findings.iter().any(|f| f["rule"] == "FMT-006"
-            && f["level"] == "error"
-            && f["path"] == "docs/en/architecture/stories/US-09-09-09-sample-story.md"
-            && f["message"] == "meta.lang 'de', expected 'en'"),
+        diagnostics.iter().any(|d| d["code"] == "FMT-006"
+            && d["severity"] == "error"
+            && d["file"] == "docs/en/architecture/stories/US-09-09-09-sample-story.md"
+            && d["message"] == "meta.lang 'de', expected 'en'"),
         "expected the language-mismatch finding: {report}"
     );
     // The clean-but-for-language fixture yields exactly one error, no warnings.
-    assert_eq!(report["summary"]["errors"], 1, "{report}");
-    assert_eq!(report["summary"]["warnings"], 0, "{report}");
+    assert_eq!(diagnostics.len(), 1, "{report}");
 }
 
 // arqix:verifies REQ-08-01-29-01
