@@ -658,3 +658,74 @@ fn lint_frontmatter_validates_the_provenance_carriers() {
         "expected CLM-004 naming the dangling record: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-31-02
+#[test]
+fn lint_frontmatter_resolves_the_module_vocabulary_layers() {
+    // ADR-0021: a corpus without docs/ontology gets its vocabulary from the
+    // shipped layers of the effective modules.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_frontmatter_resolves_the_module_vocabulary_layers",
+    );
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[process]\nmodules = [\"story-driven\"]\n",
+    )
+    .unwrap();
+    let dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&dir).unwrap();
+    let story = STORY
+        .replace("lang: de", "lang: en")
+        .replace("rdfs:Class", "arqix:classes/user-story");
+    std::fs::write(dir.join("US-09-09-09-sample-story.md"), &story).unwrap();
+
+    // No docs/ontology anywhere: the story-driven layer defines the class.
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+
+    // Deselecting the module really removes the vocabulary.
+    std::fs::write(repo.join("arqix.toml"), "[process]\nmodules = []\n").unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-002") && stdout.contains("arqix:classes/user-story"),
+        "expected the class to be undefined without the module: {stdout}"
+    );
+}
+
+// arqix:verifies REQ-08-01-31-03
+#[test]
+fn lint_frontmatter_guards_the_reserved_core() {
+    // ADR-0021: shadowing means changing — a divergent redefinition of a
+    // reserved-core IRI is ONT-009, an identical re-declaration is authorship.
+    let repo = scratch_copy("minimal", "lint_frontmatter_guards_the_reserved_core");
+    let classes = repo.join("docs/ontology/classes");
+    std::fs::create_dir_all(&classes).unwrap();
+
+    // The shipped definition, re-declared verbatim: silent.
+    std::fs::write(
+        classes.join("artefact.md"),
+        include_str!("../docs/ontology/classes/artefact.md"),
+    )
+    .unwrap();
+    common::assert_success(&run_arqix_in(&repo, &["lint", "frontmatter"]));
+
+    // The same IRI with different subclass parents: ONT-009.
+    let divergent = include_str!("../docs/ontology/classes/artefact.md").replace(
+        "rdfs: {}",
+        "rdfs:\n  sub-class-of:\n    - arqix:classes/documentation",
+    );
+    assert!(
+        divergent.contains("arqix:classes/documentation"),
+        "the fixture rewrite must take effect"
+    );
+    std::fs::write(classes.join("artefact.md"), divergent).unwrap();
+    let out = run_arqix_in(&repo, &["lint", "frontmatter"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("ONT-009") && stdout.contains("arqix:classes/artefact"),
+        "expected the divergent core redefinition to be reported: {stdout}"
+    );
+}
