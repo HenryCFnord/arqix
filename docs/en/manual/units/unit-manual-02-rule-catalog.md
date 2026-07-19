@@ -66,6 +66,9 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | ONT-004 | An `rdfs` target (`sub-class-of`, `domain`, `range`) is not a defined class. |
 | ONT-005 | An `owl.inverse-of` names a property without a property document. |
 | ONT-006 | The ontology index lists a class or property that is not defined. |
+| ONT-007 | A declared edge violates its predicate's declared `rdfs.domain` or `rdfs.range` (subclass closure; declaration opts in). |
+| ONT-008 | A `sub-class-of` cycle beyond the root self-reference. |
+| ONT-009 | A corpus document redefines a reserved-core IRI with different semantics (type, subclass parents, domain, or range). |
 
 ### SRC — source provenance (`lint frontmatter`, keyed on `arqix:classes/source`)
 
