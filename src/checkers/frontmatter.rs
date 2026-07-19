@@ -1597,11 +1597,17 @@ fn run_checks(contract: &Contract, allow_undefined_inverse: bool) -> Vec<Finding
 
 // --- reporting ----------------------------------------------------------
 
+// arqix:implements REQ-04-01-10-03
 fn report(findings: &[Finding], format: OutputFormat) -> ExitCode {
     let errors = findings.iter().filter(|f| f.level == "error").count();
     let warnings = findings.len() - errors;
     match format {
-        OutputFormat::Json => emit_json(findings, errors, warnings),
+        // The shared diagnostics payload (REQ-00-00-00-03) — the oracle's
+        // findings/summary shape retired with its oracle.
+        OutputFormat::Json => {
+            let diagnostics: Vec<_> = findings.iter().map(Finding::to_diagnostic).collect();
+            crate::diag::emit(&diagnostics, format);
+        }
         OutputFormat::Text => {
             for f in findings {
                 println!("{}: [{}] {}: {}", f.level, f.rule, f.path, f.message);
@@ -1616,38 +1622,6 @@ fn report(findings: &[Finding], format: OutputFormat) -> ExitCode {
     } else {
         ExitCode::from(1)
     }
-}
-
-/// Emit the report in the oracle's `json.dumps(..., indent=2)` shape (keys in
-/// insertion order: findings → [path, rule, level, message], then summary), so
-/// the output is byte-identical for the ASCII corpus.
-fn emit_json(findings: &[Finding], errors: usize, warnings: usize) {
-    let mut out = String::from("{\n  \"findings\": ");
-    if findings.is_empty() {
-        out.push_str("[]");
-    } else {
-        out.push_str("[\n");
-        for (i, f) in findings.iter().enumerate() {
-            out.push_str("    {\n");
-            out.push_str(&format!("      \"path\": {},\n", json_string(&f.path)));
-            out.push_str(&format!("      \"rule\": {},\n", json_string(f.rule)));
-            out.push_str(&format!("      \"level\": {},\n", json_string(f.level)));
-            out.push_str(&format!("      \"message\": {}\n", json_string(&f.message)));
-            out.push_str("    }");
-            out.push_str(if i + 1 < findings.len() { ",\n" } else { "\n" });
-        }
-        out.push_str("  ]");
-    }
-    out.push_str(&format!(
-        ",\n  \"summary\": {{\n    \"errors\": {errors},\n    \"warnings\": {warnings}\n  }}\n}}"
-    ));
-    println!("{out}");
-}
-
-/// A JSON string literal with the standard escapes (`serde_json` matches
-/// CPython's `json.dumps` for ASCII input, which the corpus is).
-fn json_string(s: &str) -> String {
-    serde_json::to_string(s).expect("string serialises")
 }
 
 // arqix:implements REQ-01-01-11-07

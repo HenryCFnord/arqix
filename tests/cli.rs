@@ -93,6 +93,7 @@ fn findings_surfaces_speak_the_shared_diagnostics_contract() {
         "findings_surfaces_speak_the_shared_diagnostics_contract",
     );
     std::fs::create_dir_all(repo.join("docs/ontology")).unwrap();
+    std::fs::create_dir_all(repo.join("docs/en/architecture/stories")).unwrap();
     let req_dir = repo.join("docs/en/architecture/req");
     std::fs::create_dir_all(&req_dir).unwrap();
     // One violation per surface: a forbidden keyword for lint requirements,
