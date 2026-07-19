@@ -157,3 +157,50 @@ fn lint_requirements_resolves_the_configured_required_meta() {
         "the configured key is named: {stdout}"
     );
 }
+
+// arqix:verifies REQ-08-01-31-01
+#[test]
+fn lint_requirements_binds_coupling_rules_to_the_story_module() {
+    // ADR-0017 process profiles: the story-workflow coupling rules run
+    // exactly when the story-driven module is effective.
+    let repo = scratch_copy(
+        "minimal",
+        "lint_requirements_binds_coupling_rules_to_the_story_module",
+    );
+    let story_dir = repo.join("docs/en/architecture/stories");
+    std::fs::create_dir_all(&story_dir).unwrap();
+    std::fs::create_dir_all(repo.join("docs/en/architecture/workflows")).unwrap();
+    // The story's id encodes workflow 09-09 but it declares wf-01-01: US-WF-001.
+    let story = STORY.replace(
+        "triples: []",
+        "triples:\n  - predicate: arqix:properties/is-part-of-workflow\n    object: arqix:workflows/wf-01-01",
+    );
+    std::fs::write(story_dir.join("US-09-09-09-sample-story.md"), &story).unwrap();
+
+    // Unconfigured: every module is effective, the contradiction is a finding.
+    let out = run_arqix_in(&repo, &["lint", "requirements"]);
+    assert_findings(&out);
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(
+        stdout.contains("US-WF-001"),
+        "expected the coupling finding without configuration: {stdout}"
+    );
+
+    // Configured without story-driven: the coupling rules do not run.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[process]\nmodules = [\"knowledge-base\"]\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "requirements"]);
+    common::assert_success(&out);
+
+    // Configured with story-driven: the coupling rules run unchanged.
+    std::fs::write(
+        repo.join("arqix.toml"),
+        "[process]\nmodules = [\"story-driven\"]\n",
+    )
+    .unwrap();
+    let out = run_arqix_in(&repo, &["lint", "requirements"]);
+    assert_findings(&out);
+}
