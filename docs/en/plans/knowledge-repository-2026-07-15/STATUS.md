@@ -24,7 +24,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] K4 — normative-statement-export (P5): US-07-01-08 + REQ-07-01-08-01/-02, spec-first red/green; `arqix report statements` (CSV: id, kind, modality, EARS pattern, subject) with the committed export under the snapshot freshness gate.
 - [x] R5 — checker-internal-dedup (refactor slice 5): the byte-identical checker helpers (Finding, py_repr family, IO walkers) hoisted into `src/checkers/shared.rs`, both date validations consolidated into `src/date.rs` side by side (semantics deliberately unmerged); the trace engine's divergent `py_repr` untouched.
 - [x] R6 — required-meta-one-source (refactor slice 6): REQ-META-001 resolves the effective `[kinds.req].required-meta` contract (REQ-01-01-19-03, which the frontmatter checker and formatter already honoured) instead of the hardcoded six-key const — validation and configuration can no longer disagree.
-- [ ] R7 — frontmatter-vocab-config (refactor slice 7; may slip past the release).
+- [x] R7 — frontmatter-vocab-config (refactor slice 7): slipped past the release as planned and landed in band 3 below.
 - [x] Release v0.2.0 — tagged and published by the owner 2026-07-16; band 1 closes, band 2 (the owner decision gate D1-D4) is next.
 
 ## Band 2 — decision gate (owner)
@@ -48,7 +48,7 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] Module binding 1: US-08-01-31 + REQ-08-01-31-01, spec-first red/green; `[process].modules` selects the effective process modules, the coupling lint (US-WF-001/US-PER-001) runs exactly when story-driven is effective — the 2026-07-15 owner note on the A-slices is resolved.
 - [x] FR-B1: US-08-01-32 + REQ-08-01-32-01, spec-first red/green; repeatable `--set key=value` on `doc new` and the aliases fills template placeholders, TPL-003 for unused keys.
 
-Pending band 2; see the PLANS.md table (A1-A4 ontology/entity, B1-B2 evidence/provenance, C5 lifecycle, D6 crosswalk, D7 queries, X8 splitter consolidation).
+Band 2 is decided; the remaining PLANS.md table slices are A2-A4 (ontology/entity), B1-B2 (evidence/provenance), C5 (lifecycle), D6 (crosswalk), and D7 (queries).
 
 - Owner note (2026-07-15) for the A-slices: the story-workflow coupling lint (US-WF-001/US-PER-001, PR #94) hardcodes today's persona/workflow ontology; when the ontology becomes configuration, this linting must become configurable with it.
 - X8 (splitter consolidation) is removed from the planned slices per decision D3; the rationale lives in arc42 chapter 8 (line splitting and frontmatter parsing).
