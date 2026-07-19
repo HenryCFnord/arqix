@@ -12,6 +12,7 @@ triples:
   - predicate: arqix:properties/includes-unit
     object:
       - arqix:units/unit-manual-01
+      - arqix:units/unit-manual-02
 
 properties:
   output-kind: manual
@@ -34,3 +35,5 @@ This page assembles the arqix manual from one unit per chapter (ADR-0009's docum
 The first chapter onboards anyone — human or agent — into a repository governed by arqix; further chapters join as the command surface grows.
 
 <!-- arqix:include units/unit-manual-01-working-in-an-arqix-governed-repository.md -->
+
+<!-- arqix:include units/unit-manual-02-rule-catalog.md -->

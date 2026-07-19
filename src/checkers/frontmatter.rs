@@ -54,6 +54,30 @@ const SECTION_KINDS: [&str; 9] = [
     "manual-chapter",
 ];
 
+// arqix:implements REQ-08-01-29-01
+/// The effective section-kind vocabulary: the configured
+/// `[frontmatter].section-kinds`, or the built-in list.
+fn effective_section_kinds() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .section_kinds
+            .unwrap_or_else(|| SECTION_KINDS.iter().map(|s| s.to_string()).collect())
+    })
+}
+
+// arqix:implements REQ-08-01-29-02
+/// The effective external-type vocabulary: the configured
+/// `[frontmatter].allowed-external-types`, or the built-in list.
+fn effective_external_types() -> &'static [String] {
+    static VOCAB: std::sync::OnceLock<Vec<String>> = std::sync::OnceLock::new();
+    VOCAB.get_or_init(|| {
+        crate::config::frontmatter_vocab(Path::new("."))
+            .allowed_external_types
+            .unwrap_or_else(|| NON_ARQIX_TYPES.iter().map(|s| s.to_string()).collect())
+    })
+}
+
 /// The canonical top-level key order and required keys shared by the
 /// architecture families.
 const ARCH_ORDER: [&str; 9] = [
@@ -159,6 +183,10 @@ struct Contract {
     families: Vec<FamilyDef>,
     family_meta: HashMap<String, Vec<String>>,
     family_patterns: HashMap<String, String>,
+    /// Declared vocabularies for named `properties` fields per family
+    /// (REQ-08-01-35-01): the domain-state axis next to the guarded
+    /// lifecycle.
+    family_vocab: HashMap<String, Vec<(String, Vec<String>)>>,
 }
 
 impl Contract {
@@ -233,6 +261,7 @@ impl Contract {
             families,
             family_meta: HashMap::new(),
             family_patterns: HashMap::new(),
+            family_vocab: HashMap::new(),
         }
     }
 
@@ -299,6 +328,16 @@ fn apply_config(contract: &mut Contract, config: &toml::Table) {
             contract
                 .family_patterns
                 .insert(family.clone(), pattern.to_string());
+        }
+        // arqix:implements REQ-08-01-35-01
+        if let Some(vocab) = entry.get("vocab").and_then(|v| v.as_table()) {
+            let declared: Vec<(String, Vec<String>)> = vocab
+                .iter()
+                .filter_map(|(field, values)| {
+                    Some((field.clone(), toml_string_array(Some(values))?))
+                })
+                .collect();
+            contract.family_vocab.insert(family.clone(), declared);
         }
     }
 }
@@ -794,7 +833,7 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
     }
 
     if let Some(section_kind) = doc.properties.get("section-kind")
-        && !SECTION_KINDS.contains(&section_kind.as_str())
+        && !effective_section_kinds().iter().any(|k| k == section_kind)
     {
         findings.push(Finding::error(
             path,
@@ -804,6 +843,25 @@ fn check_frontmatter(doc: &Doc, contract: &Contract, findings: &mut Vec<Finding>
                 py_repr(section_kind)
             ),
         ));
+    }
+
+    // arqix:implements REQ-08-01-35-01
+    if let Some(declared) = contract.family_vocab.get(&doc.family) {
+        for (field, allowed) in declared {
+            if let Some(value) = doc.properties.get(field)
+                && !allowed.contains(value)
+            {
+                findings.push(Finding::error(
+                    path,
+                    "FM-009",
+                    format!(
+                        "properties.{field} {} is not in the vocabulary {}",
+                        py_repr(value),
+                        py_list_repr(allowed)
+                    ),
+                ));
+            }
+        }
     }
 
     if let Some(lifecycle) = doc.meta.get("lifecycle-status") {
@@ -922,6 +980,55 @@ fn check_source(doc: &Doc, roots: &[String], findings: &mut Vec<Finding>) {
             ));
         }
     }
+
+    // arqix:implements REQ-08-01-34-01
+    // The digest pins what was read (SRC-006): with a clean path shape
+    // (SRC-005) and a well-formed digest (SRC-004), the copy must exist and
+    // its bytes must hash to the recorded value — one cause, one finding.
+    if let (Some(copy), Some(digest)) = (
+        doc.properties.get("local-copy"),
+        doc.properties.get("sha256"),
+    ) {
+        let digest_ok = digest.len() == 64
+            && digest
+                .bytes()
+                .all(|b| b.is_ascii_hexdigit() && !b.is_ascii_uppercase());
+        let p = Path::new(copy);
+        let escapes = p.is_absolute()
+            || p.components()
+                .any(|c| matches!(c, std::path::Component::ParentDir));
+        let in_corpus = roots
+            .iter()
+            .any(|root| copy == root || copy.starts_with(&format!("{root}/")));
+        if digest_ok && !escapes && !in_corpus {
+            match std::fs::read(p) {
+                Ok(bytes) => {
+                    use sha2::Digest;
+                    let actual = sha2::Sha256::digest(&bytes)
+                        .iter()
+                        .map(|b| format!("{b:02x}"))
+                        .collect::<String>();
+                    if actual != *digest {
+                        findings.push(Finding::error(
+                            path,
+                            "SRC-006",
+                            format!(
+                                "properties.local-copy {} hashes to {actual}, not the recorded sha256",
+                                py_repr(copy)
+                            ),
+                        ));
+                    }
+                }
+                Err(_) => {
+                    findings.push(Finding::error(
+                        path,
+                        "SRC-006",
+                        format!("properties.local-copy {} does not exist", py_repr(copy)),
+                    ));
+                }
+            }
+        }
+    }
 }
 
 struct Vocab {
@@ -964,7 +1071,7 @@ fn check_vocabulary(
                     format!("rdf.type {rdf_type} is not a defined ontology class"),
                 ));
             }
-        } else if !NON_ARQIX_TYPES.contains(&rdf_type.as_str()) {
+        } else if !effective_external_types().iter().any(|t| t == rdf_type) {
             findings.push(Finding::error(
                 path,
                 "ONT-002",

@@ -17,7 +17,14 @@ const CONFIG_FILE: &str = "arqix.toml";
 const SCHEMA_VERSION: u64 = 1;
 
 /// Known optional table sections accepted (and not yet validated) in v1.
-const KNOWN_SECTIONS: [&str; 4] = ["kinds", "templates", "policies", "i18n"];
+const KNOWN_SECTIONS: [&str; 6] = [
+    "kinds",
+    "templates",
+    "policies",
+    "i18n",
+    "frontmatter",
+    "process",
+];
 
 // arqix:implements REQ-01-01-17-02
 /// Directories document discovery never descends into unless overridden by
@@ -436,6 +443,49 @@ pub struct KindContract {
     /// The family's required meta keys (REQ-01-01-19-03) — the one contract
     /// the formatter and both checkers validate against.
     pub required_meta: Option<Vec<String>>,
+    /// The family's id derivation (REQ-08-01-33-01): a template such as
+    /// `{context}-{slug}` filled from `--set` values and the derived slug.
+    pub id_template: Option<String>,
+    /// The family's placement derivation (REQ-08-01-33-02): a directory
+    /// template such as `contexts/{context}/terms`.
+    pub dir_template: Option<String>,
+}
+
+// arqix:implements REQ-08-01-31-01
+/// The configured process modules (`[process].modules`, ADR-0017): `None`
+/// means no selection was made and every module is effective.
+pub fn process_modules(base: &Path) -> Option<Vec<String>> {
+    let (config, _) = resolve(base);
+    config
+        .sections
+        .get("process")
+        .and_then(Value::as_object)
+        .and_then(|s| json_string_array(s.get("modules")))
+}
+
+/// The configured frontmatter vocabularies (`[frontmatter]`): the vocabulary
+/// binding of FM-007 and ONT-002 (ADR-0017 — the check's substance stays
+/// code, its vocabulary binding is configuration). Absent keys keep the
+/// built-in vocabularies.
+pub struct FrontmatterVocab {
+    pub section_kinds: Option<Vec<String>>,
+    pub allowed_external_types: Option<Vec<String>>,
+}
+
+// arqix:implements REQ-08-01-29-01
+// arqix:implements REQ-08-01-29-02
+/// The `[frontmatter]` section of the effective configuration.
+pub fn frontmatter_vocab(base: &Path) -> FrontmatterVocab {
+    let (config, _) = resolve(base);
+    let section = config
+        .sections
+        .get("frontmatter")
+        .and_then(Value::as_object);
+    FrontmatterVocab {
+        section_kinds: section.and_then(|s| json_string_array(s.get("section-kinds"))),
+        allowed_external_types: section
+            .and_then(|s| json_string_array(s.get("allowed-external-types"))),
+    }
 }
 
 // arqix:implements REQ-01-01-19-01
@@ -469,6 +519,14 @@ pub fn kind_contracts(base: &Path) -> Vec<KindContract> {
                             .and_then(Value::as_str)
                             .map(str::to_string),
                         required_meta: json_string_array(entry.get("required-meta")),
+                        id_template: entry
+                            .get("id-template")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
+                        dir_template: entry
+                            .get("dir-template")
+                            .and_then(Value::as_str)
+                            .map(str::to_string),
                     })
                 })
                 .collect()

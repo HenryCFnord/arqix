@@ -105,13 +105,13 @@ Proposed: an optional, configurable `fmt` mode normalizing body prose to one sen
 
 ## Triage against what arqix has
 
-- FR-A1 is gap G6 (generalized reference-target resolution), now with a reproduction and a priority ranking from a real corpus; body markers already resolve (LNT-003), frontmatter triple objects do not.
-- FR-A2 confirms the K3 direction and exposes its two limits: the SRC family is hardwired to this repository's `arqix:classes/source` and field set, and SRC-004 validates the digest's format, not the local copy's actual bytes.
+- FR-A1 is gap G6 (generalized reference-target resolution), now with a reproduction and a priority ranking from a real corpus; the engine resolves frontmatter triple objects (ONT-003) and body markers (LNT-003), but only for documents inside a configured `[kinds.<family>].dir` — the reproduction shows a corpus whose term directories are outside every configured family, so the fix is scanning scope (configuration plus its documentation), pinned by the US-08-01-30 test.
+- FR-A2 confirms the K3 direction and exposes its two limits: the SRC family is hardwired to this repository's `arqix:classes/source` and field set, and SRC-004 validated only the digest's format until SRC-006 (US-08-01-34) closed the byte-verification half; the configurable field set stays with the ontology work.
 - FR-A3 generalizes the report-unit machinery (nine snapshot units exist, all hardcoded) into configurable projections.
-- FR-B1 extends K1: the placeholder vocabulary is validated (TPL-002), but only `id`/`title`/`slug` have values; user-supplied substitutions are new.
-- FR-B2 extends K0 and the ADR-0012 id policy from flat dirs and sequential ids to path patterns and derived ids.
-- FR-B3 is covered corpus-wide at lint time (duplicate-id checks) but not at creation time and not per-context.
-- FR-C1 is R7 plus decision D2 — direct external demand for project vocabularies on named fields.
+- FR-B1 extends K1: the placeholder vocabulary is validated (TPL-002), but only `id`/`title`/`slug` have values; landed as repeatable `--set key=value` with TPL-003 for unused keys (US-08-01-32).
+- FR-B2 extends K0 and the ADR-0012 id policy from flat dirs and sequential ids to path patterns and derived ids; landed as `[kinds.<family>].id-template`/`dir-template` (US-08-01-33).
+- FR-B3 is covered corpus-wide at lint time (duplicate id and iri, FM-006) and at creation time for ids (`doc new` rejects a taken id, explicit or template-minted); the remaining slug-per-context check needs the bounded-context concept and moves to FR-C3.
+- FR-C1 is R7 plus decision D2 — direct external demand for project vocabularies on named fields; landed as `[kinds.<family>.vocab]` with FM-009 (US-08-01-35).
 - FR-C2 and FR-C3 are the layered-ontology core: project-defined, checker-validated properties and namespaces.
 - FR-E1 extends the diagnostics contract (REQ-00-00-00-03) to the creation and verify surfaces.
 - FR-E2 is the process-catalog thesis stated by a user: the configured `verify` steps should be able to express the whole project gate.

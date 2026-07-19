@@ -920,7 +920,10 @@ fn run_checks(allow_unlinked: bool) -> Option<Vec<Finding>> {
     }
 
     cross_file_checks(&requirements, &stories, allow_unlinked, &mut findings);
-    if Path::new(WORKFLOW_DIR).is_dir() {
+    // arqix:implements REQ-08-01-31-01
+    let story_module = crate::config::process_modules(Path::new("."))
+        .is_none_or(|modules| modules.iter().any(|m| m == "story-driven"));
+    if story_module && Path::new(WORKFLOW_DIR).is_dir() {
         let workflows = load_workflows(WORKFLOW_DIR);
         let consolidation = load_consolidation_personas(PERSONA_DIR);
         story_workflow_checks(&stories, &workflows, &consolidation, &mut findings);
