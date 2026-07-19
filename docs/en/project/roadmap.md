@@ -130,7 +130,7 @@ The full record is the second intake in the plan package (`docs/en/plans/knowled
 - Landed with the first band-3 slices: the frontmatter vocabularies as configuration (US-08-01-29), the ONT-003 resolution pinned with its scanning boundary recorded (US-08-01-30, FR-A1), the coupling rules bound to the story-driven module via `[process].modules` (US-08-01-31), `--set` placeholder filling (US-08-01-32, FR-B1), kind-declared id and dir templates (US-08-01-33, FR-B2), the local-copy digest verification SRC-006 (US-08-01-34, the FR-A2 integrity half), and declared property vocabularies with FM-009 (US-08-01-35, FR-C1).
 - Later bands: FR-A3 (configurable catalog projections) alongside crosswalks and queries; FR-D1/FR-D2 (semantic projections, competency-question traceability) after the evidence layer.
 
-Candidate for 0.3.0 (owner idea 2026-07-12): an interactive graph explorer over the trace graph — the corpus as a navigable node-link view with kind/status filters, in the spirit of Obsidian's graph view; likely a self-contained page generated into the published site from the `trace scan` JSON.
+Landed for 0.3.0 (owner idea 2026-07-12, decided as ADR-0020): the interactive graph explorer over the trace graph — `report graph` renders the corpus as a self-contained navigable node-link view with type and lifecycle filters, and `publish site` stages it with the site (US-08-01-42).
 
 ## What this roadmap is not
 
