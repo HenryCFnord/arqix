@@ -111,6 +111,8 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | --- | --- |
 | CLM-001 | A claim marker is unclosed, misses `supported-by`, or carries an unknown key. |
 | CLM-002 | A claim `confidence` is outside the effective vocabulary (`[frontmatter].claim-confidence` or the built-in default). |
+| CLM-003 | A claim `review-status` is outside the effective review vocabulary (`[frontmatter].claim-review-status` or the built-in default). |
+| CLM-004 | A claim `record` reference does not resolve to a document of `arqix:classes/claim`. |
 
 ### LNT — corpus linter (`lint run`)
 

@@ -59,6 +59,8 @@ Progress log for the knowledge-repository program (see PLANS.md; agents update t
 - [x] Story consolidation (owner approval 2026-07-19): the seventeen feature-per-story entries US-08-01-25..41 fold into seven thematic stories (25 kind contract, 27 creation, 28 sources, 29 vocabularies, 30 graph validation, 31 process modules, 40 evidence); ten stories retired, fourteen requirements renumbered into the surviving domains with origin stories as second derivation, every marker and reference followed.
   The AGENTS.md rule lands with it: a feature attaches requirements to the story whose goal it serves, a new story only for a new goal.
 - [x] FR-B3 close-out by investigation: duplicate id and iri are corpus-wide findings (FM-006, linter duplicate-id) and `doc new` checks id uniqueness at creation; the missing slug-per-context check needs the bounded-context concept (FR-C3) and moves there.
+- [x] B2 provenance layer: ADR-0019 (provenance layers) accepted 2026-07-19 on the owner's hybrid decision — git optional as the computed floor, the marker carries the same vocabulary as an inline dictionary, records (`arqix:classes/claim`) are derivable and the fullest form, several markers may share one record.
+  REQ-08-01-40-06/-07/-08 on US-08-01-40, spec-first red/green: CLM-003 (review verdict against the effective vocabulary), CLM-004 (`record=` must resolve to a claim document), and `report claims --provenance` appending the history-computed columns on demand (never in the gated export); the `[kinds.claim]` creation surface with template and declared review vocabulary lands alongside.
 
 Band 2 is decided; the remaining PLANS.md table slices are A2-A4 (ontology/entity), B1-B2 (evidence/provenance), C5 (lifecycle), D6 (crosswalk), and D7 (queries).
 
