@@ -338,3 +338,43 @@ fn mcp_trace_reports_an_unknown_id_as_a_tool_error() {
         "the error names the missing id: {result}"
     );
 }
+
+// arqix:verifies REQ-05-01-12-04
+#[test]
+fn mcp_query_tool_answers_like_the_cli() {
+    // ADR-0023: the query tool over the same store function as doc query.
+    let repo = scratch_copy("minimal", "mcp_query_tool_answers_like_the_cli");
+    let dir = repo.join("docs/en/entities");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("ENT-0001.md"),
+        "---\nid: ENT-0001\ntitle: A Term\nslug: a-term\niri: arqix:entities/ent-0001\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples:\n  - predicate: arqix:properties/exact-match\n    object: dcat:Dataset\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## A Term\n\nA fixture entity.\n",
+    )
+    .unwrap();
+
+    let responses = session(
+        &repo,
+        &[
+            r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}"#,
+            r#"{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}"#,
+            r#"{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"query","arguments":{"edges":[{"predicate":"exact-match","object":"dcat:*"}]}}}"#,
+        ],
+    );
+
+    let tools = responses[1]["result"]["tools"]
+        .as_array()
+        .expect("tool catalog");
+    assert!(
+        tools.iter().any(|t| t["name"] == "query"),
+        "tools/list must carry the query tool: {tools:?}"
+    );
+    let payload = responses[2]["result"]["content"][0]["text"]
+        .as_str()
+        .expect("query tool answers with a text payload");
+    let result: Value = serde_json::from_str(payload).expect("payload is the query JSON");
+    assert_eq!(result["schema_version"], 1, "{result}");
+    assert_eq!(
+        result["documents"][0]["id"], "ENT-0001",
+        "the same answer as the CLI: {result}"
+    );
+}
