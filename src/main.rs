@@ -194,6 +194,20 @@ enum DocCommand {
     Read { id: String },
     /// Search documents
     Search { query: String },
+    /// Query documents by structured, conjunctive filters
+    Query {
+        /// Keep only documents of this catalog kind
+        #[arg(long)]
+        kind: Option<String>,
+        /// Keep only documents with this declared lifecycle-status
+        #[arg(long)]
+        lifecycle: Option<String>,
+        /// Edge pattern `<predicate>=<target>` (bare arqix property name or
+        /// full IRI; a trailing `*` on the target matches as a prefix);
+        /// repeatable, all patterns must match
+        #[arg(long = "edge")]
+        edge: Vec<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -421,6 +435,11 @@ fn main() -> ExitCode {
             DocCommand::List { kind } => store::list(kind.as_deref(), cli.format),
             DocCommand::Read { id } => store::read(&id, cli.format),
             DocCommand::Search { query } => store::search(&query, cli.format),
+            DocCommand::Query {
+                kind,
+                lifecycle,
+                edge,
+            } => store::query(kind.as_deref(), lifecycle.as_deref(), &edge, cli.format),
         },
         Command::Unit { command } => match command {
             UnitCommand::New => {
