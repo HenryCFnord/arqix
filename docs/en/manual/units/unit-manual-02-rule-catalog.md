@@ -10,6 +10,12 @@ rdf:
 
 triples: []
 
+derived-triples:
+  - predicate: arqix:properties/supported-by
+    object:
+      - arqix:sources/src-0002
+      - arqix:sources/src-0003
+
 properties:
   section-kind: manual-chapter
 
@@ -83,6 +89,10 @@ This chapter lists each id and its meaning, grouped by family; the substance of 
 | SRC-006 | The local copy is missing, or its bytes do not hash to the recorded digest. |
 
 ### EARS and REQ — requirement style and linkage (`lint requirements`)
+
+<!-- arqix:claim supported-by=arqix:sources/src-0002 confidence=high anchor="key word definitions" record=CLM-0001 -->
+<!-- arqix:claim supported-by=arqix:sources/src-0003 confidence=high anchor="pattern set" -->
+The keyword subset behind EARS-003/EARS-004 is the RFC 2119 vocabulary, and the sentence patterns behind EARS-002/EARS-005 are the EARS set — the two captured sources this rule family rests on.
 
 | Rule | Meaning |
 | --- | --- |
