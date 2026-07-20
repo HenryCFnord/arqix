@@ -183,6 +183,152 @@ pub fn read(id: &str, format: OutputFormat) -> ExitCode {
     }
 }
 
+// arqix:implements REQ-02-01-06-04
+/// Every declared edge of a document's frontmatter, as (predicate, object)
+/// pairs with both sides verbatim. Read from the raw lines because targets
+/// may be external IRIs, which the shared parser's arqix-scoped triple
+/// extraction deliberately leaves alone (its contract belongs to the trace
+/// engine) — the query treats external targets as first-class (ADR-0023).
+fn declared_edges(frontmatter: &[String]) -> Vec<(String, String)> {
+    let mut edges = Vec::new();
+    let mut current: Option<String> = None;
+    for line in frontmatter {
+        if !line.starts_with(' ') && !line.starts_with('\t') {
+            // A new top-level key ends any triple scope.
+            current = None;
+            continue;
+        }
+        let trimmed = line.trim();
+        if let Some(rest) = trimmed.strip_prefix("- predicate:") {
+            let predicate = rest.trim();
+            current = (!predicate.is_empty()).then(|| predicate.to_string());
+        } else if let Some(rest) = trimmed.strip_prefix("object:") {
+            if let Some(predicate) = &current {
+                let value = rest.trim();
+                if !value.is_empty() {
+                    edges.push((predicate.clone(), value.to_string()));
+                }
+            }
+        } else if let (Some(predicate), Some(rest)) = (&current, trimmed.strip_prefix("- ")) {
+            let value = rest.trim();
+            if value.contains(':') {
+                edges.push((predicate.clone(), value.to_string()));
+            }
+        }
+    }
+    edges
+}
+
+/// Whether an edge target matches a pattern: exactly, or as a prefix when
+/// the pattern ends in `*`.
+fn target_matches(object: &str, pattern: &str) -> bool {
+    match pattern.strip_suffix('*') {
+        Some(prefix) => object.starts_with(prefix),
+        None => object == pattern,
+    }
+}
+
+// arqix:implements REQ-02-01-06-04
+/// The query as data, shared by the CLI (`doc query`) and the MCP `query`
+/// tool (REQ-05-01-12-03, REQ-05-01-12-04): the documents matching every
+/// given filter, each with its matching declared edges (ADR-0023).
+pub(crate) fn query_json(
+    kind: Option<&str>,
+    lifecycle: Option<&str>,
+    edges: &[(String, String)],
+) -> Value {
+    // A bare predicate name is arqix vocabulary shorthand.
+    let patterns: Vec<(String, &str)> = edges
+        .iter()
+        .map(|(predicate, target)| {
+            let predicate = if predicate.contains(':') {
+                predicate.clone()
+            } else {
+                format!("arqix:properties/{predicate}")
+            };
+            (predicate, target.as_str())
+        })
+        .collect();
+    let mut documents_out = Vec::new();
+    for d in &documents() {
+        if d.id.is_none()
+            || !kind.is_none_or(|k| d.kind() == k)
+            || !lifecycle.is_none_or(|l| lifecycle_status(d) == Some(l))
+        {
+            continue;
+        }
+        let declared = declared_edges(&d.frontmatter);
+        // Conjunction: every requested pattern must match at least one edge;
+        // the matching edges ride along in the result.
+        let mut matched = Vec::new();
+        let mut all_match = true;
+        for (predicate, pattern) in &patterns {
+            let hits: Vec<&(String, String)> = declared
+                .iter()
+                .filter(|(p, o)| p == predicate && target_matches(o, pattern))
+                .collect();
+            if hits.is_empty() {
+                all_match = false;
+                break;
+            }
+            matched.extend(hits);
+        }
+        if !all_match {
+            continue;
+        }
+        let mut entry = catalog_entry(d);
+        entry["lifecycle"] = json!(lifecycle_status(d));
+        entry["edges"] = json!(
+            matched
+                .iter()
+                .map(|(p, o)| json!({ "predicate": p, "object": o }))
+                .collect::<Vec<_>>()
+        );
+        documents_out.push(entry);
+    }
+    json!({ "schema_version": SCHEMA_VERSION, "documents": documents_out })
+}
+
+// arqix:implements REQ-02-01-06-04
+/// `arqix doc query [--kind <kind>] [--lifecycle <status>] [--edge <p>=<t>]...`
+pub fn query(
+    kind: Option<&str>,
+    lifecycle: Option<&str>,
+    edge_args: &[String],
+    format: OutputFormat,
+) -> ExitCode {
+    let mut edges = Vec::new();
+    for arg in edge_args {
+        let Some((predicate, target)) = arg.split_once('=') else {
+            eprintln!("error: --edge expects <predicate>=<target>, got '{arg}'");
+            return ExitCode::from(2);
+        };
+        edges.push((predicate.to_string(), target.to_string()));
+    }
+    let result = query_json(kind, lifecycle, &edges);
+    match format {
+        OutputFormat::Json => println!(
+            "{}",
+            serde_json::to_string_pretty(&result).expect("valid JSON")
+        ),
+        OutputFormat::Text => {
+            for entry in result["documents"]
+                .as_array()
+                .map(Vec::as_slice)
+                .unwrap_or(&[])
+            {
+                println!(
+                    "{}\t{}\t{}",
+                    entry["id"].as_str().unwrap_or("?"),
+                    entry["kind"].as_str().unwrap_or("?"),
+                    entry["file"].as_str().unwrap_or("?"),
+                );
+            }
+        }
+    }
+    ExitCode::SUCCESS
+}
+
 // arqix:implements REQ-02-01-06-01
 /// `arqix doc search <query>`
 pub fn search(query: &str, format: OutputFormat) -> ExitCode {

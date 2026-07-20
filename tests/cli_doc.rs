@@ -939,3 +939,77 @@ fn doc_new_reports_taken_ids_as_tpl_004() {
         "expected TPL-004 naming the taken id: {stdout}"
     );
 }
+
+// arqix:verifies REQ-02-01-06-04
+#[test]
+fn doc_query_filters_documents_by_structured_filters() {
+    // ADR-0023: conjunctive filters — kind, lifecycle, edge patterns with
+    // prefix targets — over the declared triples including external targets.
+    let repo = scratch_copy(
+        "minimal",
+        "doc_query_filters_documents_by_structured_filters",
+    );
+    let dir = repo.join("docs/en/entities");
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("ENT-0001.md"),
+        "---\nid: ENT-0001\ntitle: A Term\nslug: a-term\niri: arqix:entities/ent-0001\n\nrdf:\n  type:\n    - rdfs:Class\n\ntriples:\n  - predicate: arqix:properties/exact-match\n    object: dcat:Dataset\n\nproperties: {}\n\nexternal-references: []\n\nmeta:\n  lifecycle-status: draft\n  owner: hcf\n  created: 2026-07-19\n  updated: 2026-07-19\n  lang: en\n  generated: false\n---\n\n## A Term\n\nA fixture entity.\n",
+    )
+    .unwrap();
+
+    // The edge filter with a prefix target finds exactly the mapping document.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc",
+            "query",
+            "--edge",
+            "exact-match=dcat:*",
+            "--format",
+            "json",
+        ],
+    );
+    assert_success(&out);
+    let result = stdout_json(&out);
+    assert_eq!(result["schema_version"], 1, "{result}");
+    let docs = result["documents"].as_array().expect("documents array");
+    assert_eq!(docs.len(), 1, "exactly the mapping document: {result}");
+    assert_eq!(docs[0]["id"], "ENT-0001", "{result}");
+    assert!(
+        docs[0]["edges"]
+            .as_array()
+            .is_some_and(|edges| edges.iter().any(|e| e["object"] == "dcat:Dataset")),
+        "the matching edge rides along: {result}"
+    );
+
+    // Conjunction: adding a lifecycle the document does not carry empties
+    // the result.
+    let out = run_arqix_in(
+        &repo,
+        &[
+            "doc",
+            "query",
+            "--edge",
+            "exact-match=dcat:*",
+            "--lifecycle",
+            "final",
+            "--format",
+            "json",
+        ],
+    );
+    assert_success(&out);
+    let result = stdout_json(&out);
+    assert_eq!(
+        result["documents"].as_array().map(Vec::len),
+        Some(0),
+        "conjunction must hold: {result}"
+    );
+
+    // A malformed edge filter is a usage error.
+    let out = run_arqix_in(&repo, &["doc", "query", "--edge", "no-equals-sign"]);
+    assert_eq!(
+        out.status.code(),
+        Some(2),
+        "malformed --edge must be a usage error"
+    );
+}

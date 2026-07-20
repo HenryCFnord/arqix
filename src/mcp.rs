@@ -127,6 +127,30 @@ fn tool_catalog() -> Value {
             },
         },
         {
+            "name": "query",
+            "description": "Query documents by structured, conjunctive filters: kind, lifecycle, and edge patterns over the declared triples (external targets included); answers exactly like `arqix doc query`.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "kind": { "type": "string", "description": "Optional kind filter, e.g. entity" },
+                    "lifecycle": { "type": "string", "description": "Optional filter: only documents whose declared lifecycle-status equals this value" },
+                    "edges": {
+                        "type": "array",
+                        "description": "Edge patterns; every pattern must match. Predicate is a bare arqix property name or a full IRI; a trailing * on the object matches as a prefix, e.g. exact-match / dcat:*",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "predicate": { "type": "string" },
+                                "object": { "type": "string" },
+                            },
+                            "required": ["predicate", "object"],
+                        },
+                    },
+                },
+                "required": [],
+            },
+        },
+        {
             "name": "trace",
             "description": "Coverage from the trace graph for one id: a requirement id answers with its coverage row (status verified/planned/uncovered plus the verifying, planned, and implementing marker locations), a story id with the rows of the requirements derived from it.",
             "inputSchema": {
@@ -173,6 +197,28 @@ fn tool_result(name: &str, arguments: &Value) -> Result<Value, (i64, String)> {
         }
         "list" => {
             crate::store::catalog_json(arguments["kind"].as_str(), arguments["lifecycle"].as_str())
+        }
+        // arqix:implements REQ-05-01-12-04
+        "query" => {
+            let mut edges = Vec::new();
+            if let Some(items) = arguments["edges"].as_array() {
+                for item in items {
+                    let (Some(predicate), Some(object)) =
+                        (item["predicate"].as_str(), item["object"].as_str())
+                    else {
+                        return Err((
+                            -32602,
+                            "query edges require string 'predicate' and 'object'".to_string(),
+                        ));
+                    };
+                    edges.push((predicate.to_string(), object.to_string()));
+                }
+            }
+            crate::store::query_json(
+                arguments["kind"].as_str(),
+                arguments["lifecycle"].as_str(),
+                &edges,
+            )
         }
         "trace" => {
             let id = arguments["id"]

@@ -35,6 +35,7 @@ Every object key is sorted (the JSON is emitted from a sorted map), so byte outp
 - **`doc list`** — `{"schema_version", "documents": [{"id", "title", "kind", "file", "lang"}]}`.
 - **`doc read`** — `{"schema_version", "id", "title", "iri", "kind", "lang", "file", "body"}`.
 - **`doc search`** — `{"schema_version", "query", "hits": [{"id", "file", "line"}]}`.
+- **`doc query`** — `{"schema_version", "documents": [{"id", "title", "kind", "file", "lang", "lifecycle", "edges": [{"predicate", "object"}]}]}`; conjunctive filters, the MCP `query` tool answers identically (ADR-0023).
 - **`trace scan`** — the graph: `{"schema_version", "nodes": [...], "edges": [...]}` (ADR-0006 layer 1).
 - **`trace coverage`** — coverage by requirement kind with `TRC-*` diagnostics.
 - **`trace matrix`** — CSV, not JSON (ADR-0006 layer 3).
